@@ -103,12 +103,16 @@ private fun MusicHomeFeed(
     val heroShelf = state.shelves.firstOrNull { it.items.isNotEmpty() }
     val heroItem = heroShelf?.items?.firstOrNull()
     val compact = LocalConfiguration.current.screenWidthDp < 600
+    val short = LocalConfiguration.current.screenHeightDp < 560
 
     LazyColumn(
         state = listState,
         modifier = modifier.fillMaxSize(),
-        contentPadding = PaddingValues(top = if (compact) 12.dp else 22.dp, bottom = 18.dp),
-        verticalArrangement = Arrangement.spacedBy(if (compact) 14.dp else 18.dp)
+        contentPadding = PaddingValues(
+            top = if (compact || short) 12.dp else 22.dp,
+            bottom = 18.dp
+        ),
+        verticalArrangement = Arrangement.spacedBy(if (compact || short) 14.dp else 18.dp)
     ) {
         if (heroShelf != null && heroItem != null) {
             item(key = "hero") {
@@ -116,6 +120,7 @@ private fun MusicHomeFeed(
                     shelf = heroShelf,
                     item = heroItem,
                     compact = compact,
+                    short = short,
                     onClick = { onHeroDetails(heroItem) },
                     onPlay = {
                         if (heroItem.videoId != null) onPlayShelfItem(heroShelf, 0)
@@ -153,6 +158,7 @@ private fun MusicHero(
     shelf: HomeShelf,
     item: ShelfItem,
     compact: Boolean,
+    short: Boolean,
     onClick: () -> Unit,
     onPlay: () -> Unit
 ) {
@@ -176,7 +182,7 @@ private fun MusicHero(
                 )
             )
             .border(1.dp, Color.White.copy(alpha = 0.08f), RoundedCornerShape(19.dp))
-            .padding(horizontal = 18.dp, vertical = 18.dp)
+            .padding(horizontal = 18.dp, vertical = if (short) 10.dp else 18.dp)
     ) {
         if (compact) {
             // A phone stacks the artwork above the copy, like the concept's narrow layout.
@@ -205,17 +211,17 @@ private fun MusicHero(
         } else {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(21.dp)
+                horizontalArrangement = Arrangement.spacedBy(if (short) 12.dp else 21.dp)
             ) {
                 // The mockup splits the hero 1.02fr / 0.98fr, with the record centred in the
                 // artwork column instead of hugging the left edge.
                 HeroArtwork(
                     colors = colors,
                     item = item,
-                    artSize = 212.dp,
-                    vinylSize = 187.dp,
-                    vinylOffsetX = 55.dp,
-                    vinylOffsetY = 7.dp,
+                    artSize = if (short) 140.dp else 212.dp,
+                    vinylSize = if (short) 124.dp else 187.dp,
+                    vinylOffsetX = if (short) 34.dp else 55.dp,
+                    vinylOffsetY = if (short) 5.dp else 7.dp,
                     cornerRadius = 14.dp,
                     modifier = Modifier.weight(1.02f)
                 )
@@ -223,8 +229,8 @@ private fun MusicHero(
                     item = item,
                     shelfSubtitle = shelfSubtitle,
                     heroSubtitle = heroSubtitle,
-                    titleSize = 44.sp,
-                    titleLineHeight = 42.sp,
+                    titleSize = if (short) 30.sp else 44.sp,
+                    titleLineHeight = if (short) 32.sp else 42.sp,
                     onPlay = onPlay,
                     onClick = onClick,
                     modifier = Modifier.weight(0.98f)
