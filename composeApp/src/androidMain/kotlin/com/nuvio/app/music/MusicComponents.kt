@@ -13,6 +13,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.focusable
+import androidx.compose.foundation.gestures.awaitEachGesture
+import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -49,6 +51,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.graphics.Brush
@@ -61,6 +64,8 @@ import androidx.compose.ui.input.key.KeyEventType
 import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.input.key.type
+import androidx.compose.ui.input.pointer.PointerEventPass
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.TextStyle
@@ -867,6 +872,7 @@ internal fun MusicTextField(
 ) {
     val keyboard = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
+    val fieldFocus = remember { FocusRequester() }
     var focused by remember { mutableStateOf(false) }
     var editing by remember { mutableStateOf(false) }
 
@@ -889,6 +895,21 @@ internal fun MusicTextField(
                     if (focused) MusicPalette.accent else MusicPalette.border,
                     RoundedCornerShape(10.dp)
                 )
+                .pointerInput(Unit) {
+                    awaitEachGesture {
+                        // A tap should start editing on phones and tablets. The D-pad path
+                        // below still waits for Center/Enter so focus alone doesn't open
+                        // the keyboard when using a remote.
+                        awaitFirstDown(requireUnconsumed = false, pass = PointerEventPass.Initial)
+                        if (!editing) {
+                            editing = true
+                            runCatching { fieldFocus.requestFocus() }
+                        }
+                        // Tapping the field again after dismissing the keyboard should
+                        // bring it back even though the field is still focused.
+                        keyboard?.show()
+                    }
+                }
                 .padding(horizontal = 12.dp, vertical = 11.dp)
         ) {
             BasicTextField(
@@ -915,9 +936,12 @@ internal fun MusicTextField(
                 }),
                 modifier = Modifier
                     .fillMaxWidth()
+                    .focusRequester(fieldFocus)
                     .onFocusChanged {
                         focused = it.isFocused
-                        if (!it.isFocused) {
+                        if (it.isFocused) {
+                            if (editing) keyboard?.show()
+                        } else {
                             editing = false
                             keyboard?.hide()
                         }
