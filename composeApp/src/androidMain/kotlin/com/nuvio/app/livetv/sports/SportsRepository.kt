@@ -317,7 +317,11 @@ class SportsRepository(
         var lastKick = -1
         var lastFixtures = 0L
         while (true) {
-            val active = foreground.value && (settings.value.showInSidebar || viewers.value > 0)
+            val s = settings.value
+            val f = follows.value
+            // Goal alerts need scores kept fresh even when Sports isn't on screen or in the sidebar.
+            val wantsScoring = s.scoringAlerts && (f.teams.isNotEmpty() || f.leagues.isNotEmpty())
+            val active = foreground.value && (s.showInSidebar || viewers.value > 0 || wantsScoring)
             if (active) runCatching { updateOnce(System.currentTimeMillis()) }.onFailure { Log.w(TAG, "Sports update failed", it) }
             if (active) {
                 val force = forceExtras.also { forceExtras = false }

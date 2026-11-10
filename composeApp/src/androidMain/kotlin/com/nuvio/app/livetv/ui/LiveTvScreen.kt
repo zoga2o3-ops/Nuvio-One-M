@@ -131,14 +131,8 @@ fun LiveTvScreen(modifier: Modifier, onPlay: (LiveTvPlayRequest) -> Unit) {
         }
     }
     val scope = androidx.compose.runtime.rememberCoroutineScope()
-    val notificationPermission = androidx.activity.compose.rememberLauncherForActivityResult(
-        androidx.activity.result.contract.ActivityResultContracts.RequestPermission()
-    ) { }
-    fun askNotifications() {
-        if (!com.nuvio.app.livetv.reminders.LiveTvReminders.canNotify(context)) {
-            notificationPermission.launch(android.Manifest.permission.POST_NOTIFICATIONS)
-        }
-    }
+    val notifications = rememberLiveTvNotificationPermission()
+    fun askNotifications() = notifications.ask()
 
     // Locked groups stay out of every list until you've opened them with the PIN.
     // With a PIN set, groups you locked and groups with an adult name (when that's on) need it.
