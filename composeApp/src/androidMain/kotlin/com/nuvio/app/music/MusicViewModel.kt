@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nuvio.app.music.engine.data.YtMusicRepository
+import com.nuvio.app.music.engine.data.model.BrowseItem
 import com.nuvio.app.music.engine.data.model.BrowseType
 import com.nuvio.app.music.engine.data.model.HomeShelf
 import com.nuvio.app.music.engine.data.model.MoodGenre
@@ -552,6 +553,86 @@ class MusicViewModel(
                         )
                     }
                 }
+            )
+        }
+    }
+
+    /** Opens the album page for a track whose row didn't carry an album id. */
+    fun openAlbumByQuery(title: String, artist: String, thumbnailUrl: String?) {
+        val query = listOf(title, artist)
+            .filter { it.isNotBlank() }
+            .joinToString(" ")
+            .trim()
+        if (query.isBlank()) return
+        viewModelScope.launch {
+            val album = withContext(Dispatchers.IO) {
+                runCatching {
+                    fun findAlbum(results: List<SearchResult>?) =
+                        results?.filterIsInstance<SearchResult.Browse>()
+                            ?.firstOrNull { it.item.type == BrowseType.ALBUM }
+                    fun songOf(result: SearchResult): Song? = when (result) {
+                        is SearchResult.TopTrack -> result.song
+                        is SearchResult.Track -> result.song
+                        is SearchResult.Browse -> null
+                    }
+
+                    // The exact track's row is a better source than an album search: it names
+                    // the release the song actually belongs to.
+                    val exactSong = YtMusicRepository.search(query, SearchFilter.SONGS)
+                        .getOrNull()
+                        ?.mapNotNull(::songOf)
+                        ?.firstOrNull {
+                            it.title.equals(title, ignoreCase = true) &&
+                                (artist.isBlank() || it.artist.contains(artist, ignoreCase = true))
+                        }
+                    val exactAlbumId = exactSong?.albumId?.takeIf { it.isNotBlank() }
+                    if (exactAlbumId != null) {
+                        BrowseItem(
+                            browseId = exactAlbumId,
+                            title = exactSong.albumName?.takeIf { it.isNotBlank() } ?: title,
+                            subtitle = exactSong.artist,
+                            thumbnailUrl = exactSong.thumbnailUrl ?: thumbnailUrl,
+                            type = BrowseType.ALBUM
+                        )
+                    } else {
+                        (
+                            findAlbum(YtMusicRepository.search(query, SearchFilter.ALBUMS).getOrNull())
+                                ?: findAlbum(YtMusicRepository.search(query, SearchFilter.ALL).getOrNull())
+                            )?.item
+                    }
+                }.getOrNull()
+            } ?: return@launch
+            openDetail(
+                browseId = album.browseId,
+                title = album.title,
+                subtitle = album.subtitle,
+                thumbnailUrl = album.thumbnailUrl ?: thumbnailUrl,
+                type = BrowseType.ALBUM
+            )
+        }
+    }
+
+    /** Opens the artist page for a track whose row didn't carry a channel id. */
+    fun openArtistByQuery(name: String, thumbnailUrl: String?) {
+        val query = name.trim()
+        if (query.isBlank()) return
+        viewModelScope.launch {
+            val item = withContext(Dispatchers.IO) {
+                runCatching {
+                    fun findArtist(results: List<SearchResult>?) =
+                        results?.filterIsInstance<SearchResult.Browse>()
+                            ?.firstOrNull { it.item.type == BrowseType.ARTIST }
+
+                    findArtist(YtMusicRepository.search(query, SearchFilter.ARTISTS).getOrNull())
+                        ?: findArtist(YtMusicRepository.search(query, SearchFilter.ALL).getOrNull())
+                }.getOrNull()
+            } ?: return@launch
+            openDetail(
+                browseId = item.item.browseId,
+                title = item.item.title,
+                subtitle = item.item.subtitle,
+                thumbnailUrl = item.item.thumbnailUrl ?: thumbnailUrl,
+                type = BrowseType.ARTIST
             )
         }
     }

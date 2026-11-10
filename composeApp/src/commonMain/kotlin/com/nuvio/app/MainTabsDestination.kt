@@ -1,5 +1,7 @@
 package com.nuvio.app
 
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.runtime.collectAsState
 import com.nuvio.app.core.ui.NativeTabBridge
 import androidx.compose.foundation.layout.Box
@@ -178,7 +180,16 @@ internal fun MainTabsDestination(
                 }
 
                 if (floatingBarVisible && !floatingBarOnTop) {
-                    val pillBottom = floatingNavigationBarPadding().calculateBottomPadding() + 56.dp
+                    // The pill rises with the navigation bar when its labels open, so the
+                    // expanded bar never sits on top of it.
+                    val navLabelFraction by animateFloatAsState(
+                        targetValue = navBarScrollState.labelVisibility,
+                        animationSpec = tween(220),
+                        label = "musicPillNavOffset",
+                    )
+                    val navLabelHeight = if (isTabletLayout) 4.dp else 16.dp
+                    val pillBottom = floatingNavigationBarPadding().calculateBottomPadding() +
+                        48.dp + navLabelHeight * navLabelFraction + 8.dp
                     MusicHost.nowPlayingPill?.invoke(
                         Modifier
                             .align(Alignment.BottomCenter)
