@@ -34,7 +34,7 @@ internal class NoChannelReleaseException : IllegalStateException()
 
 internal const val GITHUB_API_BASE = "https://api.github.com"
 internal const val GITHUB_OWNER = "zoga2o3-ops"
-internal const val GITHUB_REPO = "NuvioM-IPTV-1T"
+internal const val GITHUB_REPO = "Nuvio-One-M"
 
 internal object AppUpdaterRepository {
     private val json = Json {

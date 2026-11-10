@@ -1,11 +1,11 @@
 <div align="center">
 
-# NuvioM + IPTV + 1Tube
+# Nuvio One M
 
-**Movies and shows, live TV, sports and YouTube in one app for Android phones and tablets, with casting.**
+**Movies and shows, music, live TV, sports and OneTube in one app for Android phones and tablets, with casting.**
 
-[![Latest release](https://img.shields.io/github/v/release/zoga2o3-ops/NuvioMPlusIPTV-1Tube?include_prereleases&label=latest&style=for-the-badge)](https://github.com/zoga2o3-ops/NuvioMPlusIPTV-1Tube/releases)
-[![Downloads](https://img.shields.io/github/downloads/zoga2o3-ops/NuvioMPlusIPTV-1Tube/total?style=for-the-badge)](https://github.com/zoga2o3-ops/NuvioMPlusIPTV-1Tube/releases)
+[![Latest release](https://img.shields.io/github/v/release/zoga2o3-ops/Nuvio-One-M?include_prereleases&label=latest&style=for-the-badge)](https://github.com/zoga2o3-ops/Nuvio-One-M/releases)
+[![Downloads](https://img.shields.io/github/downloads/zoga2o3-ops/Nuvio-One-M/total?style=for-the-badge)](https://github.com/zoga2o3-ops/Nuvio-One-M/releases)
 [![License](https://img.shields.io/badge/license-GPL--3.0-blue?style=for-the-badge)](LICENSE)
 <a href="https://www.buymeacoffee.com/zoga2o3m"><img src="https://img.shields.io/badge/Buy%20me%20a%20coffee-5F7FFF?style=for-the-badge&logo=buymeacoffee&logoColor=white" alt="Buy me a coffee" /></a>
 
@@ -19,15 +19,23 @@
 
 ## What is it
 
-NuvioM + IPTV + 1Tube puts three things in one phone and tablet app:
+Nuvio One M puts four things in one phone and tablet app:
 
 1. **[Nuvio Mobile](https://github.com/NuvioMedia/NuvioMobile):** the home screen, addons, Trakt and Simkl, your Nuvio account and Nuvio's player.
-2. **IPTV:** Live TV, Sports, Calendar, recordings and On Demand, from [NuvioPlusIPTV](https://github.com/homelessbrian/NuvioPlusIPTV) by homelessbrian, brought over to the phone.
-3. **1Tube:** a YouTube section of its own, played in the same player.
+2. **Music:** Home, Explore, Library, Local, Search, Party and integrations, with background playback.
+3. **IPTV:** Live TV, Sports, Calendar, recordings and On Demand, from [NuvioPlusIPTV](https://github.com/homelessbrian/NuvioPlusIPTV) by homelessbrian, brought over to the phone.
+4. **OneTube:** a YouTube section of its own, played in the same player.
 
 It's the phone companion to the **[Nuvio + IPTV + 1Tube TV app](https://github.com/zoga2o3-ops/NuvioPlusIPTV-1T)**, and the two share your Live TV setup through Google Drive. It has its own package name, so it installs next to the official Nuvio app.
 
 ## What you get
+
+**Music**
+- Home, Explore, Library, Local and Search, with background playback that keeps going when you leave the app.
+- Queue, lyrics, Up Next, likes, playlists, radio and downloads.
+- WebDAV and Navidrome servers, local and USB music, plus Google Drive uploads.
+- Party mode with a guest QR, Last.fm and Spotify integrations.
+- Layouts for phone portrait, phone landscape and tablet.
 
 **Live TV**
 - M3U links, Xtream logins and Stalker portals (portal address and MAC), XMLTV guides, several at once, each one editable and switchable.
@@ -52,8 +60,8 @@ It's the phone companion to the **[Nuvio + IPTV + 1Tube TV app](https://github.c
 **Calendar**
 - Upcoming, recently aired, airing today and Following, movie release dates for your Library, "On my TV" (where your channels carry a show), a bell on a show's page, and a New episodes row on Home.
 
-**YouTube**
-- A tab that needs no account: browse, search, captions, chat and SponsorBlock, with sound tracks that start on the original language.
+**OneTube**
+- A YouTube tab that needs no account: browse, search, captions, chat and SponsorBlock, with sound tracks that start on the original language.
 
 **Casting**
 - Google Cast from the shared player: movies, series, live channels and YouTube.
@@ -72,17 +80,17 @@ It's the phone companion to the **[Nuvio + IPTV + 1Tube TV app](https://github.c
 
 ## Install
 
-Download the APK for your phone from the [Releases](https://github.com/zoga2o3-ops/NuvioMPlusIPTV-1Tube/releases) page. Most phones need `arm64-v8a`. After that the app updates itself (Settings → About).
+Download the APK for your phone from the [Releases](https://github.com/zoga2o3-ops/Nuvio-One-M/releases) page. Most phones need `arm64-v8a`. After that the app updates itself (Settings → About).
 
 ## Getting started
 
 1. Open the app and sign in with your Nuvio account, or continue without one.
 2. Go to **Live TV → Sources** and add an M3U link or Xtream login, plus a guide if you have one.
-3. The YouTube tab works straight away. To cast, press the Cast button in the player.
+3. The OneTube tab works straight away. To cast, press the Cast button in the player.
 
 ## Reporting bugs and asking for features
 
-Please check the [existing issues](https://github.com/zoga2o3-ops/NuvioMPlusIPTV-1Tube/issues) first, then open a new one with your phone model, the app version and what you did. Problems that also happen in the official app belong with [Nuvio](https://github.com/NuvioMedia/NuvioMobile/issues).
+Please check the [existing issues](https://github.com/zoga2o3-ops/Nuvio-One-M/issues) first, then open a new one with your phone model, the app version and what you did. Problems that also happen in the official app belong with [Nuvio](https://github.com/NuvioMedia/NuvioMobile/issues).
 
 ## FAQ
 
@@ -133,12 +141,10 @@ Licensed under the **GNU General Public License v3.0**, like upstream Nuvio. See
 You need JDK 17 or newer and the Android SDK.
 
 ```bash
-git clone --recurse-submodules https://github.com/zoga2o3-ops/NuvioMPlusIPTV-1Tube.git
-cd NuvioMPlusIPTV-1Tube
+git clone --recurse-submodules https://github.com/zoga2o3-ops/Nuvio-One-M.git
+cd Nuvio-One-M
 ./gradlew :androidApp:assembleFullDebug
 ```
-
-The debug build installs as `app.onetube.mobile.debug`.
 
 <details>
 <summary><code>local.properties</code> keys (optional, not committed)</summary>
