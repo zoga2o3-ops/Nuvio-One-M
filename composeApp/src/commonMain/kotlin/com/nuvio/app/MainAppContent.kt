@@ -996,7 +996,7 @@ internal fun MainAppContent(
                 sourceUrl = request.url,
                 poster = request.poster,
                 streamTitle = request.title,
-                providerName = "YouTube",
+                providerName = "OneTube",
                 contentType = "youtube",
                 videoId = request.videoId,
                 parentMetaId = "youtube:" + request.videoId,

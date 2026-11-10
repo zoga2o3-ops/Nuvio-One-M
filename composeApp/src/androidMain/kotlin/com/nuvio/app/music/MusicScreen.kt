@@ -232,6 +232,11 @@ fun MusicScreen() {
             runCatching { topNavFocus.requestFocus() }
         }
     }
+    // Tapping the art (or artist) in Now Playing opens a detail page; close Now Playing
+    // once that page is actually open.
+    LaunchedEffect(state.detail.open) {
+        if (state.detail.open) showNowPlaying = false
+    }
 
     BackHandler(
         enabled = showNowPlaying || state.detail.open ||
@@ -266,6 +271,8 @@ fun MusicScreen() {
                 accountName = account.accountName,
                 accountAvatar = account.accounts.firstOrNull { it.selected }?.avatar,
                 partyRunning = party.running,
+                partyOpen = showParty,
+                integrationsOpen = showIntegrations,
                 onOpenNowPlaying = { showNowPlaying = true },
                 onOpenAccount = { showAccount = true },
                 onOpenSettings = { showSettings = true },
@@ -496,6 +503,34 @@ fun MusicScreen() {
                     MusicPlayer.pause()
                     musicVideo = MusicVideoRequest(video, startPositionMs)
                     showNowPlaying = false
+                },
+                onOpenAlbum = { browseId, title, artist, thumbnailUrl ->
+                    showNowPlaying = false
+                    if (!browseId.isNullOrBlank()) {
+                        viewModel.openDetail(
+                            browseId = browseId,
+                            title = title,
+                            subtitle = artist.ifBlank { "Album" },
+                            thumbnailUrl = thumbnailUrl,
+                            type = BrowseType.ALBUM
+                        )
+                    } else {
+                        viewModel.openAlbumByQuery(title, artist, thumbnailUrl)
+                    }
+                },
+                onOpenArtist = { browseId, name, thumbnailUrl ->
+                    showNowPlaying = false
+                    if (!browseId.isNullOrBlank()) {
+                        viewModel.openDetail(
+                            browseId = browseId,
+                            title = name,
+                            subtitle = "Artist",
+                            thumbnailUrl = thumbnailUrl,
+                            type = BrowseType.ARTIST
+                        )
+                    } else {
+                        viewModel.openArtistByQuery(name, thumbnailUrl)
+                    }
                 }
             )
         }
@@ -607,6 +642,8 @@ private fun MusicTopNavigation(
     accountName: String?,
     accountAvatar: String?,
     partyRunning: Boolean,
+    partyOpen: Boolean,
+    integrationsOpen: Boolean,
     onOpenNowPlaying: () -> Unit,
     onOpenAccount: () -> Unit,
     onOpenSettings: () -> Unit,
@@ -652,12 +689,14 @@ private fun MusicTopNavigation(
                     selectedTab = selectedTab,
                     onTabSelected = onTabSelected,
                     partyRunning = partyRunning,
+                    partyOpen = partyOpen,
+                    integrationsOpen = integrationsOpen,
                     onOpenParty = onOpenParty,
                     onOpenIntegrations = onOpenIntegrations,
                     onOpenNuvioMenu = onOpenNuvioMenu,
                     initialFocus = initialFocus,
                     scrollable = true,
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
                 )
             }
         } else {
@@ -672,6 +711,8 @@ private fun MusicTopNavigation(
                     selectedTab = selectedTab,
                     onTabSelected = onTabSelected,
                     partyRunning = partyRunning,
+                    partyOpen = partyOpen,
+                    integrationsOpen = integrationsOpen,
                     onOpenParty = onOpenParty,
                     onOpenIntegrations = onOpenIntegrations,
                     onOpenNuvioMenu = onOpenNuvioMenu,
@@ -700,6 +741,8 @@ private fun MusicNavigationPill(
     selectedTab: MusicTab,
     onTabSelected: (MusicTab) -> Unit,
     partyRunning: Boolean,
+    partyOpen: Boolean,
+    integrationsOpen: Boolean,
     onOpenParty: () -> Unit,
     onOpenIntegrations: () -> Unit,
     onOpenNuvioMenu: () -> Unit,
@@ -720,9 +763,7 @@ private fun MusicNavigationPill(
     ) {
         if (scrollable) {
             Row(
-                Modifier
-                    .fillMaxWidth()
-                    .horizontalScroll(rememberScrollState()),
+                Modifier.horizontalScroll(rememberScrollState()),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(2.dp)
             ) {
@@ -730,6 +771,8 @@ private fun MusicNavigationPill(
                     selectedTab = selectedTab,
                     onTabSelected = onTabSelected,
                     partyRunning = partyRunning,
+                    partyOpen = partyOpen,
+                    integrationsOpen = integrationsOpen,
                     onOpenParty = onOpenParty,
                     onOpenIntegrations = onOpenIntegrations,
                     onOpenNuvioMenu = onOpenNuvioMenu,
@@ -741,6 +784,8 @@ private fun MusicNavigationPill(
                 selectedTab = selectedTab,
                 onTabSelected = onTabSelected,
                 partyRunning = partyRunning,
+                partyOpen = partyOpen,
+                integrationsOpen = integrationsOpen,
                 onOpenParty = onOpenParty,
                 onOpenIntegrations = onOpenIntegrations,
                 onOpenNuvioMenu = onOpenNuvioMenu,
@@ -755,15 +800,18 @@ private fun RowScope.MusicNavItems(
     selectedTab: MusicTab,
     onTabSelected: (MusicTab) -> Unit,
     partyRunning: Boolean,
+    partyOpen: Boolean,
+    integrationsOpen: Boolean,
     onOpenParty: () -> Unit,
     onOpenIntegrations: () -> Unit,
     onOpenNuvioMenu: () -> Unit,
     initialFocus: FocusRequester
 ) {
+        val overlayOpen = partyOpen || integrationsOpen
         MusicTopNavItem(
             label = "Home",
-            selected = selectedTab == MusicTab.HOME,
-            modifier = if (selectedTab == MusicTab.HOME) {
+            selected = !overlayOpen && selectedTab == MusicTab.HOME,
+            modifier = if (!overlayOpen && selectedTab == MusicTab.HOME) {
                 Modifier.focusRequester(initialFocus)
             } else {
                 Modifier
@@ -773,8 +821,8 @@ private fun RowScope.MusicNavItems(
         )
         MusicTopNavItem(
             label = "Explore",
-            selected = selectedTab == MusicTab.EXPLORE,
-            modifier = if (selectedTab == MusicTab.EXPLORE) {
+            selected = !overlayOpen && selectedTab == MusicTab.EXPLORE,
+            modifier = if (!overlayOpen && selectedTab == MusicTab.EXPLORE) {
                 Modifier.focusRequester(initialFocus)
             } else {
                 Modifier
@@ -783,8 +831,8 @@ private fun RowScope.MusicNavItems(
         )
         MusicTopNavItem(
             label = "Library",
-            selected = selectedTab == MusicTab.LIBRARY,
-            modifier = if (selectedTab == MusicTab.LIBRARY) {
+            selected = !overlayOpen && selectedTab == MusicTab.LIBRARY,
+            modifier = if (!overlayOpen && selectedTab == MusicTab.LIBRARY) {
                 Modifier.focusRequester(initialFocus)
             } else {
                 Modifier
@@ -793,8 +841,8 @@ private fun RowScope.MusicNavItems(
         )
         MusicTopNavItem(
             label = "Local",
-            selected = selectedTab == MusicTab.LOCAL,
-            modifier = if (selectedTab == MusicTab.LOCAL) {
+            selected = !overlayOpen && selectedTab == MusicTab.LOCAL,
+            modifier = if (!overlayOpen && selectedTab == MusicTab.LOCAL) {
                 Modifier.focusRequester(initialFocus)
             } else {
                 Modifier
@@ -803,8 +851,8 @@ private fun RowScope.MusicNavItems(
         )
         MusicTopNavItem(
             label = "Search",
-            selected = selectedTab == MusicTab.SEARCH,
-            modifier = if (selectedTab == MusicTab.SEARCH) {
+            selected = !overlayOpen && selectedTab == MusicTab.SEARCH,
+            modifier = if (!overlayOpen && selectedTab == MusicTab.SEARCH) {
                 Modifier.focusRequester(initialFocus)
             } else {
                 Modifier
@@ -813,13 +861,13 @@ private fun RowScope.MusicNavItems(
         )
         MusicTopNavItem(
             label = "Party",
-            selected = false,
+            selected = partyOpen || partyRunning,
             live = partyRunning,
             onClick = onOpenParty
         )
         MusicTopNavItem(
             label = "Integrations",
-            selected = false,
+            selected = integrationsOpen,
             onClick = onOpenIntegrations
         )
 }

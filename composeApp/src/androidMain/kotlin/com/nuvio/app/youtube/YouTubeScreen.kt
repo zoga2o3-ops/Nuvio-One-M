@@ -177,7 +177,7 @@ fun YouTubeScreen(modifier: Modifier = Modifier, onPlay: (YouTubePlayRequest) ->
             // Phone: the title and actions on one line, the search box and tabs below.
             Column(Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                    Text("YouTube", style = MaterialTheme.typography.titleLarge, modifier = Modifier.weight(1f))
+                    Text("OneTube", style = MaterialTheme.typography.titleLarge, modifier = Modifier.weight(1f))
                     topActions()
                 }
                 if (searchOpen) searchField(Modifier.fillMaxWidth())
@@ -189,7 +189,7 @@ fun YouTubeScreen(modifier: Modifier = Modifier, onPlay: (YouTubePlayRequest) ->
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(12.dp),
             ) {
-                Text("YouTube", style = MaterialTheme.typography.titleLarge)
+                Text("OneTube", style = MaterialTheme.typography.titleLarge)
                 Box(Modifier.weight(1f)) { tabRow() }
                 topActions()
             }
@@ -231,7 +231,7 @@ fun YouTubeScreen(modifier: Modifier = Modifier, onPlay: (YouTubePlayRequest) ->
                     text = when {
                         state.error != null -> state.error!!
                         state.tab == YtTab.HOME && !state.signedIn ->
-                            "Home is picked for you. YouTube only fills it once you sign in. Try Live, Music or Gaming above, or sign in."
+                            "Home is picked for you. OneTube only fills it once you sign in. Try Live, Music or Gaming above, or sign in."
                         state.tab.needsSignIn && !state.signedIn -> "Sign in to see your ${state.tab.title.lowercase()}."
                         else -> "Nothing here yet."
                     },

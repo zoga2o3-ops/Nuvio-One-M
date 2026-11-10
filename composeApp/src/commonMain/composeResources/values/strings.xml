@@ -542,7 +542,7 @@
     <string name="settings_appearance_section_detail_page">DETAIL PAGE</string>
     <string name="compose_settings_page_notifications">Notifications</string>
     <string name="compose_settings_page_playback">Playback</string>
-    <string name="compose_settings_page_youtube">YouTube</string>
+    <string name="compose_settings_page_youtube">OneTube</string>
     <string name="compose_settings_page_live_tv">Live TV</string>
     <string name="compose_settings_root_live_tv_description">Channel order, guide, reconnecting, catch-up and parental PIN.</string>
     <string name="compose_settings_root_youtube_description">Autoplay, quality, SponsorBlock, feeds and hidden channels.</string>

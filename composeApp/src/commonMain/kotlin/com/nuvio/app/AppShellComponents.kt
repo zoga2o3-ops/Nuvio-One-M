@@ -31,6 +31,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.LibraryMusic
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.PlayCircle
 import androidx.compose.material.icons.filled.Tv
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -380,6 +381,25 @@ internal fun TabletFloatingTopBar(
                                 contentDescription = "Music",
                                 modifier = Modifier.size(18.dp),
                                 tint = if (selectedTab == AppScreenTab.Music) {
+                                    MaterialTheme.colorScheme.onPrimaryContainer
+                                } else {
+                                    MaterialTheme.colorScheme.onSurfaceVariant
+                                },
+                            )
+                        },
+                    )
+                }
+                if (com.nuvio.app.features.youtube.YouTubeHost.available) {
+                    TabletTopPillItem(
+                        label = "OneTube",
+                        selected = selectedTab == AppScreenTab.YouTube,
+                        onClick = { onTabSelected(AppScreenTab.YouTube) },
+                        icon = {
+                            Icon(
+                                imageVector = Icons.Filled.PlayCircle,
+                                contentDescription = "OneTube",
+                                modifier = Modifier.size(18.dp),
+                                tint = if (selectedTab == AppScreenTab.YouTube) {
                                     MaterialTheme.colorScheme.onPrimaryContainer
                                 } else {
                                     MaterialTheme.colorScheme.onSurfaceVariant

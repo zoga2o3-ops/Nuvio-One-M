@@ -125,6 +125,8 @@ internal fun MusicNowPlayingScreen(
     onClose: () -> Unit,
     onOpenSettings: () -> Unit,
     onOpenMusicVideo: (Song, Long) -> Unit,
+    onOpenAlbum: (browseId: String?, title: String, artist: String, thumbnailUrl: String?) -> Unit,
+    onOpenArtist: (browseId: String?, name: String, thumbnailUrl: String?) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val state by MusicPlayer.state.collectAsState()
@@ -135,6 +137,26 @@ internal fun MusicNowPlayingScreen(
     val lyricsViewModel: MusicLyricsViewModel = viewModel { MusicLyricsViewModel() }
     val lyricsState by lyricsViewModel.state.collectAsState()
     val song = state.song
+    val albumId = song?.albumId?.takeIf { it.isNotBlank() }
+    val artistId = song?.artistId?.takeIf { it.isNotBlank() }
+        ?: song?.artists?.firstOrNull { !it.browseId.isNullOrBlank() }?.browseId
+    val albumTitle = song?.albumName?.takeIf { it.isNotBlank() }
+        ?: song?.title?.takeIf { it.isNotBlank() }
+    val artistName = song?.artist?.takeIf { it.isNotBlank() }
+    val openAlbum: (() -> Unit)? = albumTitle?.let { title ->
+        {
+            onOpenAlbum(
+                albumId,
+                title,
+                artistName.orEmpty(),
+                song?.thumbnailUrl
+            )
+        }
+    }
+    val openArtist: (() -> Unit)? = artistName?.let { name ->
+        { onOpenArtist(artistId, name, song?.thumbnailUrl) }
+    }
+    val artOpen = openAlbum ?: openArtist
     val isLiked = song?.videoId?.let { id -> liked.any { it.videoId == id } } == true
     val downloadEntry = song?.videoId?.let { downloads.entry(it) }
     val downloadStarting = song?.videoId?.let { downloads.starting.containsKey(it) } == true
@@ -346,7 +368,12 @@ internal fun MusicNowPlayingScreen(
                             color = Color.White.copy(alpha = 0.78f),
                             fontSize = if (compact) 14.sp else 16.sp,
                             maxLines = 1,
-                            overflow = TextOverflow.Ellipsis
+                            overflow = TextOverflow.Ellipsis,
+                            modifier = if (openArtist != null) {
+                                Modifier.clickable(onClick = openArtist)
+                            } else {
+                                Modifier
+                            }
                         )
                         if (!song?.albumName.isNullOrBlank()) {
                             Spacer(Modifier.height(3.dp))
@@ -355,7 +382,12 @@ internal fun MusicNowPlayingScreen(
                                 color = Color.White.copy(alpha = 0.44f),
                                 fontSize = 11.5.sp,
                                 maxLines = 1,
-                                overflow = TextOverflow.Ellipsis
+                                overflow = TextOverflow.Ellipsis,
+                                modifier = if (openAlbum != null) {
+                                    Modifier.clickable(onClick = openAlbum)
+                                } else {
+                                    Modifier
+                                }
                             )
                         }
                         Spacer(Modifier.height(10.dp))
@@ -610,7 +642,17 @@ internal fun MusicNowPlayingScreen(
                                 )
                                 MusicArtwork(
                                     url = song?.thumbnailUrl,
-                                    modifier = Modifier.size(artSize),
+                                    modifier = Modifier
+                                        .size(artSize)
+                                        .then(
+                                            if (artOpen != null) {
+                                                Modifier
+                                                    .clip(RoundedCornerShape(20.dp))
+                                                    .clickable(onClick = artOpen)
+                                            } else {
+                                                Modifier
+                                            }
+                                        ),
                                     cornerRadius = 20.dp,
                                     iconSize = 72.dp,
                                     artworkPx = 1200
@@ -644,7 +686,17 @@ internal fun MusicNowPlayingScreen(
                                 )
                                 MusicArtwork(
                                     url = song?.thumbnailUrl,
-                                    modifier = Modifier.size(300.dp),
+                                    modifier = Modifier
+                                        .size(300.dp)
+                                        .then(
+                                            if (artOpen != null) {
+                                                Modifier
+                                                    .clip(RoundedCornerShape(20.dp))
+                                                    .clickable(onClick = artOpen)
+                                            } else {
+                                                Modifier
+                                            }
+                                        ),
                                     cornerRadius = 20.dp,
                                     iconSize = 72.dp,
                                     artworkPx = 1200

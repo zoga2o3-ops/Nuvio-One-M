@@ -56,7 +56,7 @@ fun YouTubeSettingsSheet(onClose: () -> Unit) {
             CompositionLocalProvider(LocalContentColor provides Color.White) {
                 Column(Modifier.fillMaxSize().statusBarsPadding().navigationBarsPadding()) {
                     Row(Modifier.fillMaxWidth().padding(16.dp, 8.dp), verticalAlignment = Alignment.CenterVertically) {
-                        Text("YouTube settings", style = MaterialTheme.typography.titleLarge, modifier = Modifier.weight(1f))
+                        Text("OneTube settings", style = MaterialTheme.typography.titleLarge, modifier = Modifier.weight(1f))
                         TextButton(onClick = onClose) { Text("Done") }
                     }
                     Column(Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(horizontal = 16.dp)) {
