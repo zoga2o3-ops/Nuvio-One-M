@@ -219,21 +219,17 @@ internal open class BrowseService2 {
         return RetrofitHelper.get(result)?.let {
             BrowseMediaGroupTV(it, options)
         }
+    }
 
-        //return RetrofitHelper.get(result)?.let {
-        //    if (it.getItems()?.firstOrNull { it?.getPlaylistId().equals(BrowseApiHelper.WATCH_LATER_PLAYLIST) } != null) {
-        //        BrowseMediaGroupTV(it, options)
-        //    } else { // No Watch Later (moved to the dedicated subsection)
-        //        val library = mBrowseApi.getBrowseResultTV(BrowseApiHelper.getMyLibraryQuery(options.clientTV))
-        //
-        //        val outer = it
-        //
-        //        RetrofitHelper.get(library)?.let {
-        //            val watchLater = it.getItems()?.getOrNull(1) // Watch Later subsection
-        //            BrowseMediaGroupTV(outer, options, watchLater?.let { outer.getItems()?.toMutableList()?.apply { add(0, it) } })
-        //        }
-        //    }
-        //}
+    /** Opens a playlist by its id, for cards that carry no continuation key of their own. */
+    fun getPlaylist(playlistId: String): MediaGroup? {
+        val options = MediaGroupOptions.create(MediaGroup.TYPE_CHANNEL_UPLOADS)
+        val webResult = mBrowseApi.getBrowseResult(BrowseApiHelper.getPlaylistQuery(AppClient.WEB, playlistId))
+        val webGroup = RetrofitHelper.get(webResult)?.let { BrowseMediaGroup(it, options) }
+        if (webGroup?.mediaItems?.isNotEmpty() == true) return webGroup
+
+        val tvResult = mBrowseApi.getBrowseResultTV(BrowseApiHelper.getPlaylistQuery(options.clientTV, playlistId))
+        return RetrofitHelper.get(tvResult)?.let { BrowseMediaGroupTV(it, options) } ?: webGroup
     }
 
     private fun continueShortsWeb(continuationKey: String?, auth: Boolean = false): MediaGroup? {

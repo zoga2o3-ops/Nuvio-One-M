@@ -13,6 +13,7 @@ public interface ServiceManager {
     void refreshCacheIfNeeded();
     void switchNextClient();
     void switchNextClientNow();
+    void resetPlaybackClient();
     void switchNextSubsFormat();
     void reloadPlayerResponse(String videoId, String reloadPlaybackToken);
 }

@@ -2,6 +2,8 @@ package com.nuvio.app
 
 import android.app.Application
 import android.os.Build
+import androidx.compose.foundation.layout.Box
+import androidx.compose.ui.Modifier
 import coil3.ImageLoader
 import coil3.SingletonImageLoader
 import coil3.gif.AnimatedImageDecoder
@@ -89,6 +91,9 @@ class NuvioApplication : Application(), SingletonImageLoader.Factory {
         }
         com.nuvio.app.features.youtube.YouTubeHost.screen = { modifier, onPlay ->
             com.nuvio.app.youtube.YouTubeScreen(modifier, onPlay)
+        }
+        com.nuvio.app.features.music.MusicHost.screen = { modifier ->
+            Box(modifier) { com.nuvio.app.music.MusicScreen() }
         }
         DnsPlatform.initialize(this)
     }

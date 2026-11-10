@@ -43,8 +43,7 @@ internal object PlayerPlaybackNetworking {
         }
     }
 
-    private val playbackHttpClient: OkHttpClient by lazy {
-        OkHttpClient.Builder()
+    private val playbackHttpClient: OkHttpClient by lazy {        OkHttpClient.Builder()
             .dns(IPv4FirstDns())
             .sslSocketFactory(sslContext.socketFactory, trustAllManager)
             .hostnameVerifier(playbackHostnameVerifier)
@@ -71,6 +70,9 @@ internal object PlayerPlaybackNetworking {
             }
             .build()
     }
+
+    fun createHttpClient(useLongReadTimeout: Boolean = false): OkHttpClient =
+        if (useLongReadTimeout) loopbackPlaybackHttpClient else playbackHttpClient
 
     fun createHttpDataSourceFactory(
         defaultHeaders: Map<String, String> = emptyMap(),

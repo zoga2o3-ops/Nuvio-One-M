@@ -227,6 +227,22 @@ abstract class GenerateRuntimeConfigsTask : DefaultTask() {
                 """.trimMargin()
             )
         }
+
+        outDir.resolve("com/nuvio/app/music").apply {
+            mkdirs()
+            resolve("MusicBuildConfig.kt").writeText(
+                """
+                |package com.nuvio.app.music
+                |
+                |object MusicBuildConfig {
+                |    const val LASTFM_API_KEY = "${props.getProperty("LASTFM_API_KEY", "")}" 
+                |    const val LASTFM_SECRET = "${props.getProperty("LASTFM_SECRET", "")}" 
+                |    const val GOOGLE_DRIVE_CLIENT_ID = "${props.getProperty("GOOGLE_DRIVE_CLIENT_ID", "")}" 
+                |    const val GOOGLE_DRIVE_CLIENT_SECRET = "${props.getProperty("GOOGLE_DRIVE_CLIENT_SECRET", "")}" 
+                |}
+                """.trimMargin()
+            )
+        }
     }
 }
 
@@ -498,6 +514,9 @@ kotlin {
                 implementation(libs.androidx.browser)
                 implementation("androidx.annotation:annotation-experimental:1.3.1")
                 implementation(libs.mpv.android.lib)
+                implementation("com.google.zxing:core:3.5.3")
+                implementation("org.nanohttpd:nanohttpd:2.3.1")
+                implementation("androidx.security:security-crypto:1.1.0-alpha06")
                 // 1Tube: SmartTube's YouTube engine (MediaServiceCore), Android only
                 implementation(project(":mediaservicecore:youtubeapi"))
                 implementation(project(":mediaservicecore:mediaserviceinterfaces"))

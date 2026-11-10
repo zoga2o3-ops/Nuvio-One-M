@@ -320,6 +320,7 @@ internal fun MainAppContent(
         }
         // Live TV is plugged in by the Android app (see LiveTvHost).
         val showLiveTvInNavigation = com.nuvio.app.features.livetv.LiveTvHost.available
+        val showMusicInNavigation = com.nuvio.app.features.music.MusicHost.available
         val authState by AuthRepository.state.collectAsStateWithLifecycle()
         val openPosterActions: (PosterActionTarget) -> Unit = { target ->
             hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
@@ -426,7 +427,10 @@ internal fun MainAppContent(
     }
 
     fun activateTab(tab: AppScreenTab) {
-        val destination = if (tab == AppScreenTab.LiveTv && !showLiveTvInNavigation) {
+        val destination = if (
+            (tab == AppScreenTab.LiveTv && !showLiveTvInNavigation) ||
+            (tab == AppScreenTab.Music && !showMusicInNavigation)
+        ) {
             AppScreenTab.Home
         } else {
             tab
@@ -460,13 +464,17 @@ internal fun MainAppContent(
             }
             AppScreenTab.Library -> libraryScrollToTopRequests.tryEmit(Unit)
             AppScreenTab.YouTube -> Unit
+            AppScreenTab.Music -> Unit
             AppScreenTab.LiveTv -> Unit
             AppScreenTab.Settings -> settingsRootActionRequests.tryEmit(Unit)
         }
     }
 
-    LaunchedEffect(showLiveTvInNavigation, selectedTab) {
-        if (!showLiveTvInNavigation && selectedTab == AppScreenTab.LiveTv) {
+    LaunchedEffect(showLiveTvInNavigation, showMusicInNavigation, selectedTab) {
+        if (
+            (!showLiveTvInNavigation && selectedTab == AppScreenTab.LiveTv) ||
+            (!showMusicInNavigation && selectedTab == AppScreenTab.Music)
+        ) {
             activateTab(AppScreenTab.Home)
         }
     }
@@ -480,10 +488,14 @@ internal fun MainAppContent(
         currentRoute,
         selectedTab,
         showLiveTvInNavigation,
+        showMusicInNavigation,
     ) {
         NativeTabBridge.requestedTabs.collectLatest { requestedTab ->
             val requestedAppTab = requestedTab.toAppScreenTab()
-            if (requestedAppTab == AppScreenTab.LiveTv && !showLiveTvInNavigation) {
+            if (
+                (requestedAppTab == AppScreenTab.LiveTv && !showLiveTvInNavigation) ||
+                (requestedAppTab == AppScreenTab.Music && !showMusicInNavigation)
+            ) {
                 return@collectLatest
             }
             if (
