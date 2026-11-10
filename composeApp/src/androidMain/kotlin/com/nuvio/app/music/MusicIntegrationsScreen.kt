@@ -137,7 +137,7 @@ internal fun MusicIntegrationsScreen(
                     .fillMaxWidth()
                     .weight(1f)
                     .verticalScroll(rememberScrollState())
-                    .padding(bottom = 104.dp),
+                    .padding(bottom = 24.dp),
                 verticalArrangement = Arrangement.spacedBy(14.dp)
             ) {
                 IntegrationCard(

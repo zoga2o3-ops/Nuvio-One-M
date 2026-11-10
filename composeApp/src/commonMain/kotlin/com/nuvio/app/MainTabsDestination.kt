@@ -152,9 +152,8 @@ internal fun MainTabsDestination(
                 CompositionLocalProvider(
                     LocalNuvioBottomNavigationOverlayPadding provides when {
                         tabsRouteActive && useNativeBottomTabs -> 49.dp
-                        // A top pill floats over the content like the tablet CLASSIC bar, so
-                        // nothing needs to be kept clear at the bottom.
-                        tabsRouteActive && navBarStyleSetting != NavBarStyle.CLASSIC && !floatingBarOnTop -> 72.dp
+                        // Floating pills are overlays: content runs underneath them instead of
+                        // leaving a background strip behind the navigation.
                         else -> 0.dp
                     },
                     LocalNuvioNavBarScrollState provides navBarScrollState,

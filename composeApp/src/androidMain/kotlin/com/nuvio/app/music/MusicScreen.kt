@@ -48,7 +48,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEventType
@@ -302,15 +301,11 @@ fun MusicScreen() {
                 }
             }
             val navBottomPadding = LocalNuvioBottomNavigationOverlayPadding.current
-            // Leave room for the floating now-playing pill on the tab pages. Full-screen
-            // overlays handle their own bottom spacing.
-            val nowPlayingPillPadding =
-                if (playback.song != null && !musicOverlayOpen) 80.dp else 0.dp
             Box(
                 Modifier
                     .weight(1f)
                     .fillMaxWidth()
-                    .padding(bottom = navBottomPadding + 24.dp + nowPlayingPillPadding)
+                    .padding(bottom = navBottomPadding + 24.dp)
             ) {
                 when {
                     showWebDav -> MusicWebDavScreen(
@@ -652,19 +647,7 @@ private fun MusicTopNavigation(
     onOpenNuvioMenu: () -> Unit,
     initialFocus: FocusRequester
 ) {
-    BoxWithConstraints(
-        Modifier
-            .fillMaxWidth()
-            .background(
-                Brush.verticalGradient(
-                    listOf(
-                        MusicPalette.backgroundTop,
-                        MusicPalette.backgroundTop.copy(alpha = 0.82f),
-                        MusicPalette.background.copy(alpha = 0f)
-                    )
-                )
-            )
-    ) {
+    BoxWithConstraints(Modifier.fillMaxWidth()) {
         // A phone has no room for the brand, the page tabs and the account controls on one line.
         // Stack them into two rows there, with the tabs scrolling sideways like the concept.
         // TVs keep the original single-row layout.
@@ -940,7 +923,7 @@ private fun MusicTopNavItem(
             )
             .onFocusChanged { focused = it.isFocused }
             .clickable(onClick = onClick)
-            .padding(horizontal = 10.dp),
+            .padding(horizontal = 8.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(5.dp)
     ) {
