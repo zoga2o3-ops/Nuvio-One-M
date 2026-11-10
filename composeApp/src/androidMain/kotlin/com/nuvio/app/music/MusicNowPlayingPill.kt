@@ -72,17 +72,18 @@ fun MusicNowPlayingPill(
                 alpha = 1f - dragged.coerceIn(0f, 0.45f)
             }
             .clip(shape)
-            // A translucent glass, not a solid black bar, so the content stays visible underneath.
+            // Readable over bright content: the pill itself stays nearly opaque, with a soft
+            // edge so it still reads as a floating overlay.
             .background(
                 Brush.horizontalGradient(
                     listOf(
-                        MusicPalette.surface.copy(alpha = 0.44f),
-                        MusicPalette.surface.copy(alpha = 0.26f),
+                        MusicPalette.surfaceRaised.copy(alpha = 0.98f),
+                        MusicPalette.surface.copy(alpha = 0.94f),
                     )
                 ),
                 shape
             )
-            .border(1.dp, Color.White.copy(alpha = 0.14f), shape)
+            .border(1.dp, Color.White.copy(alpha = 0.18f), shape)
             .pointerInput(widthPx) {
                 detectHorizontalDragGestures(
                     onDragEnd = {
