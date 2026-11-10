@@ -45,6 +45,9 @@ object YouTubeSession {
     /** The captions picker is open over the player. */
     var showCaptions by mutableStateOf(false)
 
+    /** The video's panel should open straight to its comments. */
+    var showComments by mutableStateOf(false)
+
     /** The live chat is showing over the player. */
     var chatOn by mutableStateOf(false)
 }

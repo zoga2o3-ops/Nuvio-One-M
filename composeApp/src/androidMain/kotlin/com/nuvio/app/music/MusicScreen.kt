@@ -110,6 +110,8 @@ fun MusicScreen() {
     val party by MusicPartyManager.state.collectAsState()
     val accountViewModel: YouTubeAccountViewModel = viewModel { YouTubeAccountViewModel(context) }
     val account by accountViewModel.state.collectAsState()
+    val profileState by com.nuvio.app.features.profiles.ProfileRepository.state.collectAsState()
+    val profileName = profileState.activeProfile?.name
     var showNowPlaying by remember { mutableStateOf(false) }
     LaunchedEffect(MusicHost.openNowPlayingRequest) {
         if (MusicHost.openNowPlayingRequest > 0 && playback.song != null) {
@@ -293,11 +295,15 @@ fun MusicScreen() {
                 }
             }
             val navBottomPadding = LocalNuvioBottomNavigationOverlayPadding.current
+            // Leave room for the floating now-playing pill on the tab pages. Full-screen
+            // overlays handle their own bottom spacing.
+            val nowPlayingPillPadding =
+                if (playback.song != null && !musicOverlayOpen) 80.dp else 0.dp
             Box(
                 Modifier
                     .weight(1f)
                     .fillMaxWidth()
-                    .padding(bottom = navBottomPadding + 24.dp)
+                    .padding(bottom = navBottomPadding + 24.dp + nowPlayingPillPadding)
             ) {
                 when {
                     showWebDav -> MusicWebDavScreen(
@@ -537,6 +543,7 @@ fun MusicScreen() {
         MusicOverlayDialog(onDismiss = { showAccount = false }) {
             MusicAccountScreen(
                 account = account,
+                profileName = profileName,
                 onClose = { showAccount = false },
                 onSignIn = { accountViewModel.startSignIn() },
                 onCancelSignIn = { accountViewModel.cancelSignIn() },
@@ -546,7 +553,8 @@ fun MusicScreen() {
                 onAddAccount = { accountViewModel.startSignIn() },
                 onSignOut = {
                     accountViewModel.signOut { viewModel.reloadForAccount() }
-                }
+                },
+                onLinkToNuvioOne = accountViewModel::linkToNuvioOne
             )
         }
     }

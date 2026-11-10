@@ -52,6 +52,8 @@ import androidx.compose.material.icons.rounded.RepeatOne
 import androidx.compose.material.icons.rounded.Star
 import androidx.compose.material.icons.rounded.StarBorder
 import androidx.compose.material.icons.rounded.SwapHoriz
+import androidx.compose.material.icons.rounded.ThumbDown
+import androidx.compose.material.icons.rounded.ThumbUp
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -449,7 +451,7 @@ internal fun playerContextActions(): List<PlayerControlAction> {
             PlayerControlAction("Sleep timer", it, icon = Icons.Rounded.Timer)
         },
         youTube?.let {
-            PlayerControlAction("YouTube", it.onClick, icon = Icons.Rounded.PlayCircle)
+            PlayerControlAction("OneTube", it.onClick, icon = Icons.Rounded.PlayCircle)
         },
         youTube?.onCaptions?.let {
             PlayerControlAction("Captions", it, icon = Icons.Rounded.ClosedCaption)
@@ -460,6 +462,23 @@ internal fun playerContextActions(): List<PlayerControlAction> {
                 icon = if (youTube.subscribed) Icons.Rounded.NotificationsActive else Icons.Rounded.PersonAdd,
                 active = youTube.subscribed,
             )
+        },
+        youTube?.onLike?.let {
+            PlayerControlAction(
+                if (youTube.liked) "Remove like" else "Like", it,
+                icon = Icons.Rounded.ThumbUp,
+                active = youTube.liked,
+            )
+        },
+        youTube?.onDislike?.let {
+            PlayerControlAction(
+                if (youTube.disliked) "Remove dislike" else "Dislike", it,
+                icon = Icons.Rounded.ThumbDown,
+                active = youTube.disliked,
+            )
+        },
+        youTube?.onComments?.let {
+            PlayerControlAction("Comments", it, icon = Icons.Rounded.Forum)
         },
         youTube?.onLoop?.let {
             PlayerControlAction(
@@ -523,7 +542,7 @@ internal fun playerControlActions(
             PlayerControlAction("Sleep timer", it, icon = Icons.Rounded.Timer)
         },
         youTube?.let {
-            PlayerControlAction("YouTube", it.onClick, icon = Icons.Rounded.PlayCircle)
+            PlayerControlAction("OneTube", it.onClick, icon = Icons.Rounded.PlayCircle)
         },
         youTube?.onCaptions?.let {
             PlayerControlAction("Captions", it, icon = Icons.Rounded.ClosedCaption)
@@ -534,6 +553,23 @@ internal fun playerControlActions(
                 icon = if (youTube.subscribed) Icons.Rounded.NotificationsActive else Icons.Rounded.PersonAdd,
                 active = youTube.subscribed,
             )
+        },
+        youTube?.onLike?.let {
+            PlayerControlAction(
+                if (youTube.liked) "Remove like" else "Like", it,
+                icon = Icons.Rounded.ThumbUp,
+                active = youTube.liked,
+            )
+        },
+        youTube?.onDislike?.let {
+            PlayerControlAction(
+                if (youTube.disliked) "Remove dislike" else "Dislike", it,
+                icon = Icons.Rounded.ThumbDown,
+                active = youTube.disliked,
+            )
+        },
+        youTube?.onComments?.let {
+            PlayerControlAction("Comments", it, icon = Icons.Rounded.Forum)
         },
         youTube?.onLoop?.let {
             PlayerControlAction(

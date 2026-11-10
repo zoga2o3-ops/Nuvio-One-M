@@ -34,6 +34,7 @@ import com.nuvio.app.features.trakt.TraktCommentsStorage
 import com.nuvio.app.features.trakt.TraktCommentsSettings
 import com.nuvio.app.features.trakt.TraktSettingsStorage
 import com.nuvio.app.features.tracking.TrackingSettingsRepository
+import com.nuvio.app.features.youtube.YouTubeAccountLinkHost
 import com.nuvio.app.features.watchprogress.ContinueWatchingPreferencesStorage
 import com.nuvio.app.features.watchprogress.ContinueWatchingPreferencesRepository
 import io.github.jan.supabase.postgrest.postgrest
@@ -270,6 +271,7 @@ object ProfileSettingsSync {
                 notificationsSettings = NotificationsSettingsPayload(
                     episodeReleaseAlertsEnabled = EpisodeReleaseNotificationsRepository.uiState.value.isEnabled,
                 ),
+                youtubeAccountLink = YouTubeAccountLinkHost.export?.invoke().orEmpty(),
             ),
         )
     }
@@ -353,6 +355,11 @@ object ProfileSettingsSync {
         TraktCommentsSettings.onProfileChanged()
 
         EpisodeReleaseNotificationsRepository.applyFromSyncEnabled(blob.features.notificationsSettings.episodeReleaseAlertsEnabled)
+
+        // An older blob has no YouTube link in it; keeping the local one avoids unlinking on upgrade.
+        blob.features.youtubeAccountLink
+            .takeIf { it.isNotBlank() }
+            ?.let { YouTubeAccountLinkHost.apply?.invoke(it) }
     }
 
     private fun ensureRepositoriesLoaded() {
@@ -404,6 +411,7 @@ private data class MobileProfileSettingsFeatures(
     @SerialName("trakt_settings_payload") val traktSettingsPayload: String = "",
     @SerialName("trakt_comments_settings") val traktCommentsSettings: JsonObject = JsonObject(emptyMap()),
     @SerialName("notifications_settings") val notificationsSettings: NotificationsSettingsPayload = NotificationsSettingsPayload(),
+    @SerialName("youtube_account_link") val youtubeAccountLink: String = "",
 )
 
 @Serializable

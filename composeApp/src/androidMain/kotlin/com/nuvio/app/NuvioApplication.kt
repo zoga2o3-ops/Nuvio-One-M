@@ -92,6 +92,16 @@ class NuvioApplication : Application(), SingletonImageLoader.Factory {
         com.nuvio.app.features.youtube.YouTubeHost.screen = { modifier, onPlay ->
             com.nuvio.app.youtube.YouTubeScreen(modifier, onPlay)
         }
+        // The YouTube account linked to the active Nuvio One profile travels in its synced settings.
+        com.nuvio.app.features.youtube.YouTubeAccountLinkHost.export = {
+            com.nuvio.app.youtube.YouTubeAccountLink.exportRaw(this)
+        }
+        com.nuvio.app.features.youtube.YouTubeAccountLinkHost.apply = { raw ->
+            com.nuvio.app.youtube.YouTubeAccountLink.applyRaw(this, raw)
+        }
+        com.nuvio.app.features.youtube.YouTubeAccountLinkHost.clear = {
+            com.nuvio.app.youtube.YouTubeAccountLink.clearAll(this)
+        }
         com.nuvio.app.features.music.MusicHost.screen = { modifier ->
             Box(modifier) { com.nuvio.app.music.MusicScreen() }
         }

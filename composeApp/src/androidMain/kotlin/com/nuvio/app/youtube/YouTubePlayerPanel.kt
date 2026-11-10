@@ -61,7 +61,10 @@ fun YouTubePlayerPanel(videoId: String, onDismiss: () -> Unit) {
     val context = LocalContext.current.applicationContext
     val vm: YouTubePlayerViewModel = viewModel(key = "yt-player-$videoId") { YouTubePlayerViewModel(context) }
     val state by vm.state.collectAsStateWithLifecycle()
-    var mode by remember { mutableStateOf(PanelMode.MAIN) }
+    var mode by remember {
+        mutableStateOf(if (YouTubeSession.showComments) PanelMode.COMMENTS else PanelMode.MAIN)
+    }
+    LaunchedEffect(Unit) { YouTubeSession.showComments = false }
 
     LaunchedEffect(videoId) { vm.load(videoId) }
     LaunchedEffect(mode) {

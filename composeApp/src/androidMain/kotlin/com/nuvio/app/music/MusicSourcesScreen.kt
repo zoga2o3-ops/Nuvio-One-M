@@ -204,7 +204,7 @@ internal fun MusicSourcesScreen(onClose: () -> Unit) {
                     Spacer(Modifier.height(8.dp))
                     Text(
                         text = "The addon must answer /manifest.json, /search?q= and /stream/{id} " +
-                            "with JSON. No addon code runs on this TV.",
+                            "with JSON. No addon code runs on this device.",
                         color = MusicPalette.textMuted,
                         fontSize = 10.sp,
                         lineHeight = 14.sp

@@ -1,8 +1,6 @@
 package com.nuvio.app.music
 
-import android.graphics.Bitmap
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -37,7 +35,6 @@ import androidx.compose.material.icons.filled.Logout
 import androidx.compose.material.icons.filled.MusicNote
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.PlaylistPlay
-import androidx.compose.material.icons.filled.QrCode2
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Save
 import androidx.compose.material.icons.filled.Settings
@@ -60,8 +57,6 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -75,8 +70,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
-import com.google.zxing.BarcodeFormat
-import com.google.zxing.MultiFormatWriter
 import com.nuvio.app.music.engine.data.model.Song
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -85,8 +78,8 @@ import kotlinx.coroutines.withContext
 private enum class NavidromeSection { ALBUMS, PLAYLISTS }
 
 /**
- * Navidrome / Subsonic browser. Linking supports both a phone QR page and the TV's own
- * on-screen form, because remotes are a bad place to type a server URL.
+ * Navidrome / Subsonic browser. Server details are typed directly into the on-screen form,
+ * so no phone or TV remote is needed.
  */
 @Composable
 internal fun MusicNavidromeScreen(
@@ -95,7 +88,6 @@ internal fun MusicNavidromeScreen(
 ) {
     val context = LocalContext.current
     val config by MusicNavidrome.config.collectAsState()
-    val setup by MusicNavidromeSetup.state.collectAsState()
     val playback by MusicPlayer.state.collectAsState()
     val scope = rememberCoroutineScope()
 
@@ -116,21 +108,12 @@ internal fun MusicNavidromeScreen(
 
     LaunchedEffect(Unit) {
         MusicNavidrome.init(context)
-        if (!MusicNavidrome.config.value.configured) {
-            MusicNavidromeSetup.start(context)
-        }
         withFrameNanos { }
         runCatching { closeFocus.requestFocus() }
     }
 
     LaunchedEffect(config.configured) {
-        if (config.configured) {
-            MusicNavidromeSetup.stop()
-            showServerSetup = false
-        } else {
-            showServerSetup = true
-            MusicNavidromeSetup.start(context)
-        }
+        showServerSetup = !config.configured
     }
 
     LaunchedEffect(config.configured, reload) {
@@ -240,13 +223,8 @@ internal fun MusicNavidromeScreen(
 
             when {
                 showServerSetup || !config.configured -> NavidromeSetupContent(
-                    setup = setup,
                     config = config,
                     modifier = Modifier.weight(1f).fillMaxWidth(),
-                    onStartSetup = {
-                        MusicNavidromeSetup.stop()
-                        MusicNavidromeSetup.start(context)
-                    },
                     onCancel = if (config.configured) {
                         { showServerSetup = false }
                     } else {
@@ -259,7 +237,6 @@ internal fun MusicNavidromeScreen(
                             }
                             result.fold(
                                 onSuccess = {
-                                    MusicNavidromeSetup.stop()
                                     showServerSetup = false
                                     done()
                                 },
@@ -319,115 +296,18 @@ internal fun MusicNavidromeScreen(
 
 @Composable
 private fun NavidromeSetupContent(
-    setup: NavidromeSetupState,
     config: NavidromeConfig,
     modifier: Modifier = Modifier,
-    onStartSetup: () -> Unit,
     onCancel: (() -> Unit)?,
     onConnect: (String, String, String, () -> Unit, (String) -> Unit) -> Unit
 ) {
-    // Mobile users type the server details directly; the phone-link QR is only useful on a TV.
+    // Mobile users type the server details directly.
     NavidromeManualCard(
         config = config,
         modifier = modifier,
         onCancel = onCancel,
         onConnect = onConnect
     )
-}
-
-@Composable
-private fun NavidromePhoneCard(
-    setup: NavidromeSetupState,
-    modifier: Modifier = Modifier,
-    onStartSetup: () -> Unit
-) {
-    val bitmap = rememberNavidromeQr(setup.url)
-    Column(
-        modifier
-            .fillMaxSize()
-            .clip(RoundedCornerShape(20.dp))
-            .background(MusicPalette.surface)
-            .border(1.dp, MusicPalette.border, RoundedCornerShape(20.dp))
-            .padding(20.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Icon(
-                Icons.Default.QrCode2,
-                contentDescription = null,
-                tint = MusicPalette.accent,
-                modifier = Modifier.size(24.dp)
-            )
-            Spacer(Modifier.width(9.dp))
-            Text(
-                text = "Link with phone",
-                color = MusicPalette.text,
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold
-            )
-        }
-        Spacer(Modifier.height(6.dp))
-        Text(
-            text = "Scan this code and type your server details on your phone. No app needed.",
-            color = MusicPalette.textSecondary,
-            fontSize = 12.sp,
-            lineHeight = 17.sp,
-            textAlign = androidx.compose.ui.text.style.TextAlign.Center
-        )
-        Spacer(Modifier.height(14.dp))
-        Box(
-            Modifier
-                .size(230.dp)
-                .clip(RoundedCornerShape(16.dp))
-                .background(Color.White)
-                .padding(12.dp),
-            contentAlignment = Alignment.Center
-        ) {
-            if (bitmap != null) {
-                Image(
-                    bitmap = bitmap.asImageBitmap(),
-                    contentDescription = "Navidrome phone link QR code",
-                    contentScale = ContentScale.Fit,
-                    modifier = Modifier.fillMaxSize()
-                )
-            } else {
-                Icon(
-                    Icons.Default.QrCode2,
-                    contentDescription = null,
-                    tint = MusicPalette.background,
-                    modifier = Modifier.size(86.dp)
-                )
-            }
-        }
-        Spacer(Modifier.height(10.dp))
-        Text(
-            text = setup.url ?: setup.error ?: "Starting the phone link…",
-            color = if (setup.error != null) MusicPalette.error else MusicPalette.textMuted,
-            fontSize = 9.sp,
-            maxLines = 2,
-            overflow = TextOverflow.Ellipsis,
-            textAlign = androidx.compose.ui.text.style.TextAlign.Center
-        )
-        setup.message?.let {
-            Spacer(Modifier.height(6.dp))
-            Text(text = it, color = MusicPalette.accentTeal, fontSize = 11.sp)
-        }
-        Spacer(Modifier.weight(1f))
-        if (setup.error != null || setup.url == null || setup.connected) {
-            NavidromePill(
-                icon = Icons.Default.CloudDone,
-                label = if (setup.connected) "Connected" else "Show new QR",
-                primary = true,
-                onClick = onStartSetup
-            )
-        } else {
-            Text(
-                text = "Waiting for your phone…",
-                color = MusicPalette.textMuted,
-                fontSize = 11.sp
-            )
-        }
-    }
 }
 
 @Composable
@@ -468,7 +348,7 @@ private fun NavidromeManualCard(
         }
         Spacer(Modifier.height(6.dp))
         Text(
-            text = "Use the TV remote if you prefer. Only a token derived from your password is stored.",
+            text = "Use the on-screen keyboard if you prefer. Only a token derived from your password is stored.",
             color = MusicPalette.textSecondary,
             fontSize = 12.sp,
             lineHeight = 17.sp
@@ -1024,21 +904,5 @@ private fun NavidromeCloseButton(modifier: Modifier = Modifier, onClick: () -> U
 private fun NavidromeEmpty(text: String) {
     Box(Modifier.fillMaxWidth().height(220.dp), contentAlignment = Alignment.Center) {
         Text(text = text, color = MusicPalette.textSecondary, fontSize = 13.sp)
-    }
-}
-
-@Composable
-private fun rememberNavidromeQr(content: String?): Bitmap? = remember(content) {
-    content?.let { value ->
-        runCatching {
-            val matrix = MultiFormatWriter().encode(value, BarcodeFormat.QR_CODE, 640, 640)
-            val width = matrix.width
-            val height = matrix.height
-            val pixels = IntArray(width * height) { index ->
-                if (matrix.get(index % width, index / width)) 0xFF000000.toInt()
-                else 0xFFFFFFFF.toInt()
-            }
-            Bitmap.createBitmap(pixels, width, height, Bitmap.Config.ARGB_8888)
-        }.getOrNull()
     }
 }

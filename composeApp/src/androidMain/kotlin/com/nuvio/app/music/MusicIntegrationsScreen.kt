@@ -28,7 +28,6 @@ import androidx.compose.material.icons.filled.Album
 import androidx.compose.material.icons.filled.Cloud
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.MusicNote
-import androidx.compose.material.icons.filled.QrCode2
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -138,7 +137,7 @@ internal fun MusicIntegrationsScreen(
                     .fillMaxWidth()
                     .weight(1f)
                     .verticalScroll(rememberScrollState())
-                    .padding(bottom = 24.dp),
+                    .padding(bottom = 104.dp),
                 verticalArrangement = Arrangement.spacedBy(14.dp)
             ) {
                 IntegrationCard(
@@ -226,7 +225,7 @@ internal fun MusicIntegrationsScreen(
                         Spacer(Modifier.height(8.dp))
                         Text(
                             text = "Your password is sent once to Last.fm and never stored. " +
-                                "Only the session key stays on this TV.",
+                                "Only the session key stays on this device.",
                             color = MusicPalette.textMuted,
                             fontSize = 10.sp,
                             lineHeight = 14.sp

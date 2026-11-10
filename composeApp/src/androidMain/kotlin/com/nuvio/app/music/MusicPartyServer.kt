@@ -86,7 +86,7 @@ object MusicPartyManager {
             if (ip.isNullOrBlank()) {
                 _state.value = MusicPartyState(
                     running = true,
-                    error = "No network address found. Connect the TV to Wi-Fi or Ethernet."
+                    error = "No network address found. Connect this device to Wi-Fi or Ethernet."
                 )
             } else {
                 val url = "http://$ip:${candidate.listeningPort}/party/$token/"
@@ -254,7 +254,7 @@ private class MusicPartyServer(
             put("locked", MusicPartyManager.isLocked)
             put("requireApproval", MusicPartyManager.needsApproval)
             put("pendingCount", MusicPartyManager.state.value.pending.size)
-            put("device", Build.MODEL?.takeIf { it.isNotBlank() } ?: "this TV")
+            put("device", Build.MODEL?.takeIf { it.isNotBlank() } ?: "this device")
             put("additions", MusicPartyManager.state.value.additions)
             put("now", current?.let { songJson(it, guestId) } ?: JSONObject.NULL)
             put("positionMs", s.positionMs)

@@ -87,6 +87,8 @@ fun YouTubeScreen(modifier: Modifier = Modifier, onPlay: (YouTubePlayRequest) ->
     val state by vm.state.collectAsStateWithLifecycle()
     val error by vm.error.collectAsStateWithLifecycle()
     val account by accounts.state.collectAsStateWithLifecycle()
+    val profileState by com.nuvio.app.features.profiles.ProfileRepository.state.collectAsStateWithLifecycle()
+    val profileName = profileState.activeProfile?.name
     var query by remember { mutableStateOf("") }
     var showSettings by remember { mutableStateOf(false) }
     var showAccounts by remember { mutableStateOf(false) }
@@ -284,6 +286,8 @@ fun YouTubeScreen(modifier: Modifier = Modifier, onPlay: (YouTubePlayRequest) ->
             onAdd = { showAccounts = false; accounts.startSignIn() },
             onSignOut = { showAccounts = false; accounts.signOut { vm.selectTab(state.tab) } },
             onDismiss = { showAccounts = false },
+            profileName = profileName,
+            onLinkToNuvioOne = accounts::linkToNuvioOne,
         )
     }
 }

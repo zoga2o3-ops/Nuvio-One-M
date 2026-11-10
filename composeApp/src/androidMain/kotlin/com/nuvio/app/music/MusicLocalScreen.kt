@@ -1,10 +1,8 @@
 package com.nuvio.app.music
 
 import android.Manifest
-import android.graphics.Bitmap
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -48,16 +46,14 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
-import com.google.zxing.BarcodeFormat
-import com.google.zxing.MultiFormatWriter
 import com.nuvio.app.music.engine.data.model.Song
 
 @Composable
@@ -114,7 +110,7 @@ internal fun MusicLocalScreen(
                     )
                     Spacer(Modifier.height(5.dp))
                     Text(
-                        text = "Music on this TV, USB drives and your network share.",
+                        text = "Music on this device, USB drives and your network share.",
                         color = MusicPalette.textSecondary,
                         fontSize = if (compact) 13.sp else 14.sp
                     )
@@ -320,8 +316,6 @@ private fun LocalSharePanel(
     onStart: () -> Unit,
     onStop: () -> Unit
 ) {
-    val qrBitmap = rememberQrBitmap(share.url)
-
     Column(
         Modifier
             .fillMaxWidth()
@@ -370,15 +364,6 @@ private fun LocalSharePanel(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(20.dp)
             ) {
-                if (qrBitmap != null) {
-                    Image(
-                        bitmap = qrBitmap.asImageBitmap(),
-                        contentDescription = "Share page QR code",
-                        modifier = Modifier
-                            .size(160.dp)
-                            .clip(RoundedCornerShape(10.dp))
-                    )
-                }
                 Column(Modifier.weight(1f)) {
                     Text(
                         text = "On your computer, open:",
@@ -386,13 +371,13 @@ private fun LocalSharePanel(
                         fontSize = 13.sp
                     )
                     Text(
-                        text = share.url ?: "Finding the TV's network address…",
+                        text = share.url ?: "Finding this device's network address…",
                         color = MusicPalette.accent,
                         fontSize = 21.sp,
                         fontWeight = FontWeight.Bold
                     )
                     Text(
-                        text = "The page lists every local track with individual download links and a Download all (.zip) button. Keep the TV on this screen while transferring.",
+                        text = "The page lists every local track with individual download links and a Download all (.zip) button. Keep this screen open while transferring.",
                         color = MusicPalette.textMuted,
                         fontSize = 12.sp
                     )
@@ -430,7 +415,7 @@ private fun LocalDrivePanel(
     onUpload: () -> Unit,
     onDisconnect: () -> Unit
 ) {
-    val signInQr = rememberQrBitmap(state.signIn?.qrUrl)
+    val uri = LocalUriHandler.current
     Column(
         Modifier
             .fillMaxWidth()
@@ -489,20 +474,20 @@ private fun LocalDrivePanel(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(18.dp)
             ) {
-                if (signInQr != null) {
-                    Image(
-                        bitmap = signInQr.asImageBitmap(),
-                        contentDescription = "Google sign-in QR code",
-                        modifier = Modifier
-                            .size(140.dp)
-                            .clip(RoundedCornerShape(10.dp))
-                    )
-                }
                 Column(Modifier.weight(1f)) {
                     Text(
-                        text = "On your phone, open ${prompt.url}",
+                        text = "Open this address to sign in:",
                         color = MusicPalette.textSecondary,
                         fontSize = 13.sp
+                    )
+                    Text(
+                        text = prompt.url,
+                        color = MusicPalette.accent,
+                        fontSize = 13.sp,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.clickable {
+                            runCatching { uri.openUri(prompt.qrUrl) }
+                        }
                     )
                     Text(
                         text = prompt.userCode,
@@ -565,25 +550,6 @@ private fun LocalDrivePanel(
                 fontSize = 12.sp
             )
         }
-    }
-}
-
-@Composable
-private fun rememberQrBitmap(content: String?): Bitmap? = remember(content) {
-    content?.let { value ->
-        runCatching {
-            val matrix = MultiFormatWriter().encode(value, BarcodeFormat.QR_CODE, 320, 320)
-            val width = matrix.width
-            val height = matrix.height
-            val pixels = IntArray(width * height) { index ->
-                if (matrix.get(index % width, index / width)) {
-                    0xFF000000.toInt()
-                } else {
-                    0xFFFFFFFF.toInt()
-                }
-            }
-            Bitmap.createBitmap(pixels, width, height, Bitmap.Config.ARGB_8888)
-        }.getOrNull()
     }
 }
 

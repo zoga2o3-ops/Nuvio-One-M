@@ -51,7 +51,7 @@ object MusicShareServerManager {
                 _state.value = MusicShareState(
                     running = true,
                     url = null,
-                    error = "No network address was found. Connect the TV to Wi-Fi or Ethernet."
+                    error = "No network address was found. Connect this device to Wi-Fi or Ethernet."
                 )
             } else {
                 _state.value = MusicShareState(
@@ -174,12 +174,12 @@ private class MusicShareServer(
                   ${if (tracks.isNotEmpty()) "<a class=\"zip\" href=\"zip\">Download all (.zip)</a>" else ""}
                 </header>
                 ${if (tracks.isEmpty()) {
-                    "<p class=\"empty\">No local music found. Scan again on the TV after plugging in a drive.</p>"
+                    "<p class=\"empty\">No local music found. Scan again on this device after plugging in a drive.</p>"
                 } else {
                     "<ul>$rows</ul>"
                 }}
                 <footer>
-                  Only devices on this network can open this page. Stop sharing from the TV to close it.
+                  Only devices on this network can open this page. Stop sharing from this device to close it.
                 </footer>
               </main>
             </body>
@@ -307,7 +307,7 @@ private class MusicShareServer(
                 <div id="nowArt" class="nowArt"><span class="note">&#9834;</span></div>
                 <div class="nowMeta">
                   <div id="nowTitle">Choose a track</div>
-                  <div id="nowArtist">Your music, streamed from the TV</div>
+                  <div id="nowArtist">Your music, streamed from this device</div>
                 </div>
                 <div class="controls">
                   <button id="shuffle" title="Shuffle">&#128256;</button>
@@ -395,7 +395,7 @@ private class MusicShareServer(
                 function updateBar() {
                   var t = currentId === null ? null : trackById(currentId);
                   nowTitle.textContent = t ? t.title : 'Choose a track';
-                  nowArtist.textContent = t ? t.artist : 'Your music, streamed from the TV';
+                  nowArtist.textContent = t ? t.artist : 'Your music, streamed from this device';
                   nowArt.innerHTML = t ? art(t) : '<span class="note">&#9834;</span>';
                   playBtn.innerHTML = playing ? '&#10074;&#10074;' : '&#9654;';
                   if (t) {
