@@ -45,6 +45,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import com.nuvio.app.features.profiles.ProfileRepository
 import java.util.Locale
 
 /** The YouTube settings, full screen over the YouTube page. [onClose] reloads the feed. */
@@ -93,6 +94,8 @@ private fun YouTubeSettingsBody() {
 
     val accounts: YouTubeAccountViewModel = viewModel { YouTubeAccountViewModel(context) }
     val account by accounts.state.collectAsStateWithLifecycle()
+    val profileState by ProfileRepository.state.collectAsStateWithLifecycle()
+    val profileName = profileState.activeProfile?.name
     var showAccounts by remember { mutableStateOf(false) }
     var showRegion by remember { mutableStateOf(false) }
     LaunchedEffect(Unit) { accounts.refresh() }
@@ -101,8 +104,26 @@ private fun YouTubeSettingsBody() {
         Section("Account")
         if (account.signedIn) {
             Choice("Signed in as ${account.accountName ?: "your account"}", "Switch or sign out") { showAccounts = true }
+            if (account.linkedAccount != null) {
+                Text(
+                    "Linked to Nuvio One · ${profileName ?: "this profile"}",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = secondary(),
+                    modifier = Modifier.padding(vertical = 4.dp),
+                )
+            } else {
+                TextButton(onClick = accounts::linkToNuvioOne) { Text("Link to Nuvio One") }
+            }
         } else if (account.checked) {
             Choice("Sign in", "See your subscriptions and history") { accounts.startSignIn() }
+            account.linkedAccount?.let { linked ->
+                Text(
+                    "Linked to Nuvio One · ${profileName ?: "this profile"} as ${linked.name}. Sign in on this device to use it.",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = secondary(),
+                    modifier = Modifier.padding(vertical = 4.dp),
+                )
+            }
         }
 
         Section("Playback")
@@ -224,6 +245,8 @@ private fun YouTubeSettingsBody() {
             onAdd = { showAccounts = false; accounts.startSignIn() },
             onSignOut = { showAccounts = false; accounts.signOut { YouTubeSession.settingsVersion++ } },
             onDismiss = { showAccounts = false },
+            profileName = profileName,
+            onLinkToNuvioOne = accounts::linkToNuvioOne,
         )
     }
     // Signing in finishes on another device, so the feeds are refreshed when it does.

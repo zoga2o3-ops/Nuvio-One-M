@@ -23,6 +23,12 @@ class YouTubePlayerAction(
     val subscribed: Boolean = false,
     val onSubscribe: (() -> Unit)? = null,
     val onChannel: (() -> Unit)? = null,
+    val liked: Boolean = false,
+    val onLike: (() -> Unit)? = null,
+    val disliked: Boolean = false,
+    val onDislike: (() -> Unit)? = null,
+    /** Opens the video's comments; null when comments are off. */
+    val onComments: (() -> Unit)? = null,
     val looping: Boolean = false,
     val onLoop: (() -> Unit)? = null,
     /** The captions button; null leaves Nuvio's own subtitle button in charge. */

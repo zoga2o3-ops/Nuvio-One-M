@@ -84,6 +84,7 @@ internal object LocalAccountDataCleaner {
         SyncManager.cancelAccountSync()
         WatchProgressSourceCoordinator.clearLocalState()
         ProfileSettingsSync.clearAccountState()
+        com.nuvio.app.features.youtube.YouTubeAccountLinkHost.clear?.invoke()
         ContinueWatchingEnrichmentCache.clearLocalState()
         WatchProgressRepository.clearLocalState()
         WatchedRepository.clearLocalState()

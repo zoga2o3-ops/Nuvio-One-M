@@ -219,7 +219,7 @@ private fun PartyStartContent(
             Spacer(Modifier.height(8.dp))
             Text(
                 text = "Guests scan one QR code, search the music catalogue on their phone, " +
-                    "and add songs to this TV's queue. No app or account needed.",
+                    "and add songs to this device's queue. No app or account needed.",
                 color = MusicPalette.textSecondary,
                 fontSize = if (compact) 13.sp else 14.sp,
                 lineHeight = if (compact) 18.sp else 20.sp,
@@ -231,13 +231,13 @@ private fun PartyStartContent(
                     Modifier.fillMaxWidth(),
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    PartyStep("1", "Scan", "Point a phone camera at the TV.", fillWidth = true)
+                    PartyStep("1", "Scan", "Point a phone camera at the screen.", fillWidth = true)
                     PartyStep("2", "Search", "Find a song, artist or album.", fillWidth = true)
                     PartyStep("3", "Add", "It lands in the shared queue.", fillWidth = true)
                 }
             } else {
                 Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                    PartyStep("1", "Scan", "Point a phone camera at the TV.")
+                    PartyStep("1", "Scan", "Point a phone camera at the screen.")
                     PartyStep("2", "Search", "Find a song, artist or album.")
                     PartyStep("3", "Add", "It lands in the shared queue.")
                 }
@@ -557,7 +557,7 @@ private fun PartyQrCard(url: String?) {
         )
         Spacer(Modifier.height(4.dp))
         Text(
-            text = url ?: "Connect the TV to Wi-Fi or Ethernet.",
+            text = url ?: "Connect this device to Wi-Fi or Ethernet.",
             color = if (url == null) MusicPalette.error else MusicPalette.textMuted,
             fontSize = 10.sp,
             maxLines = 2,

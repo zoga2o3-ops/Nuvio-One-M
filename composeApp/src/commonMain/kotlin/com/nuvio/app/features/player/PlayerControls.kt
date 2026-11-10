@@ -636,15 +636,6 @@ private fun PlayerHeader(
                     horizontalArrangement = Arrangement.spacedBy(10.dp),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    com.nuvio.app.features.youtube.LocalYouTubePlayerAction.current?.let { action ->
-                        PlayerHeaderIconButton(
-                            icon = Icons.Filled.PlayCircle,
-                            contentDescription = "YouTube",
-                            buttonSize = metrics.headerIconSize + 16.dp,
-                            iconSize = metrics.headerIconSize,
-                            onClick = action.onClick,
-                        )
-                    }
                     val topButtons = PlayerSettingsRepository.uiState.collectAsState().value.legacyTopButtons
                     topButtons.visibleButtons.forEach { button ->
                         key(button) {
@@ -1104,7 +1095,7 @@ private fun ProgressControls(
                 ) {
                     com.nuvio.app.features.youtube.LocalYouTubePlayerAction.current?.let { action ->
                         PlayerActionPillButton(
-                            label = "YouTube",
+                            label = "OneTube",
                             icon = Icons.Filled.PlayCircle,
                             onClick = action.onClick,
                         )

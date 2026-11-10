@@ -1,7 +1,6 @@
 package com.nuvio.app.music
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -28,8 +27,11 @@ import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.ContentCopy
 import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.Link
 import androidx.compose.material.icons.filled.Logout
+import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -45,33 +47,38 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEventType
 import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.input.key.type
+import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
-import com.nuvio.app.music.QrCodeGenerator
+import androidx.compose.material3.TextButton
 import com.nuvio.app.youtube.YouTubeAccountState
+import com.nuvio.app.youtube.YouTubeSignInReturn
 
 /** The Music section's YouTube account panel, using the same TV device-code sign-in as YouTube. */
 @Composable
 internal fun MusicAccountScreen(
     account: YouTubeAccountState,
+    profileName: String?,
     onClose: () -> Unit,
     onSignIn: () -> Unit,
     onCancelSignIn: () -> Unit,
     onSelectAccount: (Int) -> Unit,
     onAddAccount: () -> Unit,
-    onSignOut: () -> Unit
+    onSignOut: () -> Unit,
+    onLinkToNuvioOne: () -> Unit
 ) {
     BackHandler(onBack = onClose)
 
@@ -111,7 +118,11 @@ internal fun MusicAccountScreen(
                     Text(
                         text = when {
                             account.code != null -> "Waiting for sign-in approval"
+                            account.signedIn && account.linkedAccount != null ->
+                                "${account.accountName ?: "Account"} · Linked to Nuvio One (${profileName ?: "this profile"})"
                             account.signedIn -> account.accountName ?: "Account"
+                            account.linkedAccount != null ->
+                                "Linked to Nuvio One as ${account.linkedAccount.name}"
                             else -> "Not signed in"
                         },
                         color = MusicPalette.textMuted,
@@ -123,15 +134,17 @@ internal fun MusicAccountScreen(
             Spacer(Modifier.height(18.dp))
 
             when {
-                account.code != null -> SignInCodePanel(account, onCancelSignIn, firstActionFocus)
+                account.code != null -> SignInCodePanel(account, profileName, onCancelSignIn, firstActionFocus)
                 account.signedIn -> AccountsPanel(
                     account = account,
+                    profileName = profileName,
                     onSelectAccount = onSelectAccount,
                     onAddAccount = onAddAccount,
                     onSignOut = onSignOut,
+                    onLinkToNuvioOne = onLinkToNuvioOne,
                     firstActionFocus = firstActionFocus
                 )
-                else -> SignedOutPanel(account.error, onSignIn, firstActionFocus)
+                else -> SignedOutPanel(account, profileName, onSignIn, firstActionFocus)
             }
         }
     }
@@ -140,66 +153,64 @@ internal fun MusicAccountScreen(
 @Composable
 private fun SignInCodePanel(
     account: YouTubeAccountState,
+    profileName: String?,
     onCancel: () -> Unit,
     firstActionFocus: FocusRequester
 ) {
-    val qr = remember(account.activateLink) {
-        account.activateLink?.let { link ->
-            runCatching {
-                QrCodeGenerator.generate(link, 480, margin = 1).asImageBitmap()
-            }.getOrNull()
-        }
-    }
+    val context = LocalContext.current
+    val clipboard = LocalClipboardManager.current
+    val link = account.activateLink
+    val code = account.code.orEmpty()
+
     LaunchedEffect(Unit) {
         withFrameNanos { }
         runCatching { firstActionFocus.requestFocus() }
     }
 
-    Row(
+    Column(
         Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(48.dp),
-        verticalAlignment = Alignment.CenterVertically
+        verticalArrangement = Arrangement.spacedBy(14.dp)
     ) {
-        qr?.let {
-            Image(
-                bitmap = it,
-                contentDescription = "QR code to sign in",
-                modifier = Modifier.size(260.dp).clip(RoundedCornerShape(12.dp))
-            )
-        }
-        Column(verticalArrangement = Arrangement.spacedBy(14.dp)) {
-            Text(
-                text = "Sign in to YouTube Music",
-                color = MusicPalette.text,
-                fontSize = 22.sp,
-                fontWeight = FontWeight.SemiBold
-            )
-            Text(
-                text = if (qr != null) {
-                    "Scan the code with your phone, or go to ${account.url} and enter:"
-                } else {
-                    "On your phone or computer, go to ${account.url} and enter:"
-                },
-                color = MusicPalette.textSecondary,
-                fontSize = 15.sp
-            )
-            Text(
-                text = account.code.orEmpty(),
-                color = MusicPalette.text,
-                fontSize = 40.sp,
-                fontWeight = FontWeight.Bold
-            )
-            Text(
-                text = "Waiting for you to approve it…",
-                color = MusicPalette.textMuted,
-                fontSize = 14.sp
-            )
-            AccountAction(
-                icon = Icons.Default.Close,
-                label = "Cancel",
-                firstFocus = firstActionFocus,
-                onClick = onCancel
-            )
+        Text(
+            text = "Sign in to YouTube Music",
+            color = MusicPalette.text,
+            fontSize = 22.sp,
+            fontWeight = FontWeight.SemiBold
+        )
+        Text(
+            text = "We opened YouTube in your browser. Enter this code to sign in. " +
+                "It links the account to your Nuvio One profile, ${profileName ?: "this profile"}.",
+            color = MusicPalette.textSecondary,
+            fontSize = 15.sp
+        )
+        Text(
+            text = code,
+            color = MusicPalette.text,
+            fontSize = 40.sp,
+            fontWeight = FontWeight.Bold
+        )
+        Text(
+            text = "Waiting for you to approve it…",
+            color = MusicPalette.textMuted,
+            fontSize = 14.sp
+        )
+        AccountAction(
+            icon = Icons.Default.PlayArrow,
+            label = "Open YouTube",
+            firstFocus = firstActionFocus,
+            onClick = { link?.let { YouTubeSignInReturn.openActivatePage(context, it) } }
+        )
+        Row(
+            Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            TextButton(onClick = { clipboard.setText(AnnotatedString(code)) }) {
+                Icon(Icons.Default.ContentCopy, contentDescription = null, modifier = Modifier.size(18.dp))
+                Spacer(Modifier.width(6.dp))
+                Text("Copy code")
+            }
+            TextButton(onClick = onCancel) { Text("Cancel") }
         }
     }
 }
@@ -207,9 +218,11 @@ private fun SignInCodePanel(
 @Composable
 private fun AccountsPanel(
     account: YouTubeAccountState,
+    profileName: String?,
     onSelectAccount: (Int) -> Unit,
     onAddAccount: () -> Unit,
     onSignOut: () -> Unit,
+    onLinkToNuvioOne: () -> Unit,
     firstActionFocus: FocusRequester
 ) {
     LaunchedEffect(account.accounts.size, account.accountName) {
@@ -221,6 +234,13 @@ private fun AccountsPanel(
         Modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
+        Text(
+            text = account.linkedAccount?.let {
+                "Linked to Nuvio One · ${profileName ?: "this profile"} as ${it.name}"
+            } ?: "Not linked to Nuvio One",
+            color = MusicPalette.textMuted,
+            fontSize = 13.sp
+        )
         account.accounts.forEachIndexed { index, item ->
             AccountAction(
                 icon = if (item.selected) Icons.Default.Check else Icons.Default.AccountCircle,
@@ -238,6 +258,13 @@ private fun AccountsPanel(
             firstFocus = if (account.accounts.isEmpty()) firstActionFocus else null,
             onClick = onAddAccount
         )
+        if (account.linkedAccount == null) {
+            AccountAction(
+                icon = Icons.Default.Link,
+                label = "Link to Nuvio One",
+                onClick = onLinkToNuvioOne
+            )
+        }
         AccountAction(
             icon = Icons.Default.Logout,
             label = "Sign out of YouTube Music",
@@ -248,7 +275,8 @@ private fun AccountsPanel(
 
 @Composable
 private fun SignedOutPanel(
-    error: String?,
+    account: YouTubeAccountState,
+    profileName: String?,
     onSignIn: () -> Unit,
     firstActionFocus: FocusRequester
 ) {
@@ -268,18 +296,26 @@ private fun SignedOutPanel(
             fontWeight = FontWeight.Bold
         )
         Text(
-            text = "Your likes, playlists and personalised Home will follow the same Google " +
-                "account you use for YouTube on this TV.",
+            text = "Your likes, playlists and personalised Home follow the Google account you " +
+                "use for YouTube and OneTube. Signing in links it to your Nuvio One profile, " +
+                "${profileName ?: "this profile"}.",
             color = MusicPalette.textSecondary,
             fontSize = 15.sp
         )
-        error?.let {
+        account.linkedAccount?.let { linked ->
+            Text(
+                text = "Linked to Nuvio One as ${linked.name}. Sign in on this device to use it.",
+                color = MusicPalette.textMuted,
+                fontSize = 13.sp
+            )
+        }
+        account.error?.let {
             Text(it, color = MusicPalette.error, fontSize = 13.sp)
         }
         Spacer(Modifier.height(4.dp))
         AccountAction(
             icon = Icons.Default.AccountCircle,
-            label = "Sign in with a TV code",
+            label = "Sign in with YouTube",
             firstFocus = firstActionFocus,
             onClick = onSignIn
         )

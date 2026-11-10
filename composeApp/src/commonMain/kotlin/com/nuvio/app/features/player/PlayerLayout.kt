@@ -144,7 +144,9 @@ internal fun playerTextCutoutPadding(metrics: PlayerLayoutMetrics): Dp {
 @Composable
 internal fun playerToolbarTopInsets(metrics: PlayerLayoutMetrics): WindowInsets {
     val safeInsets = WindowInsets.displayCutout.union(WindowInsets.statusBars).only(WindowInsetsSides.Top)
-    val contentInsets = WindowInsets(top = metrics.sliderBottomOffset / 2)
+    // The status bar can still be drawn over the player on some devices, with its clock on the
+    // right, so keep the top controls below it even when the system reports no top inset.
+    val contentInsets = WindowInsets(top = metrics.sliderBottomOffset / 2 + 24.dp)
     return if (isIos) safeInsets.union(contentInsets) else safeInsets.add(contentInsets)
 }
 

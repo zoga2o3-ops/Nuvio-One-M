@@ -54,6 +54,16 @@ fun rememberYouTubePlayerAction(videoId: String, openPanel: () -> Unit): YouTube
                 YouTubeHost.closePlayer?.invoke()
             }
         },
+        liked = info?.liked == true,
+        onLike = vm::toggleLike,
+        disliked = info?.disliked == true,
+        onDislike = vm::toggleDislike,
+        onComments = if (!info?.commentsKey.isNullOrBlank() || !info?.newestCommentsKey.isNullOrBlank()) {
+            {
+                YouTubeSession.showComments = true
+                openPanel()
+            }
+        } else null,
         looping = looping,
         onLoop = {
             looping = !looping

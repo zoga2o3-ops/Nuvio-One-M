@@ -17,36 +17,58 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
+import com.nuvio.app.features.profiles.ProfileRepository
 
-/** The code to enter at youtube.com/activate while a sign-in waits. Shown whenever [account] has a code. */
+/**
+ * The code YouTube is waiting for. The activate page is opened automatically as soon as the code
+ * arrives, so signing in starts on YouTube's own site and comes back to Nuvio One when approved.
+ */
 @Composable
 fun YouTubeSignInDialog(accounts: YouTubeAccountViewModel, account: YouTubeAccountState) {
     val code = account.code ?: return
-    val uri = LocalUriHandler.current
     val context = LocalContext.current
+    val clipboard = LocalClipboardManager.current
+    val link = account.activateLink
+    val profileState by ProfileRepository.state.collectAsStateWithLifecycle()
+    val profileName = profileState.activeProfile?.name ?: "this Nuvio One profile"
+
     AlertDialog(
         onDismissRequest = accounts::cancelSignIn,
-        title = { Text("Sign in to YouTube") },
+        title = { Text("Link YouTube to Nuvio One") },
         text = {
-            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                Text("Open youtube.com/activate on your phone or computer and enter this code:")
-                Text(code, style = MaterialTheme.typography.headlineMedium)
+            Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                Text(
+                    "Enter this code on the YouTube page we opened. Signing in links the account " +
+                        "to your Nuvio One profile, $profileName.",
+                )
+                Text(code, style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
             }
         },
         confirmButton = {
-            Button(onClick = { account.activateLink?.let { link -> YouTubeSignInReturn.openActivatePage(context, link) { uri.openUri(link) } } }) { Text("Open youtube.com/activate") }
+            Button(onClick = { link?.let { YouTubeSignInReturn.openActivatePage(context, it) } }) {
+                Text("Open YouTube")
+            }
         },
-        dismissButton = { TextButton(onClick = accounts::cancelSignIn) { Text("Cancel") } },
+        dismissButton = {
+            Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                TextButton(onClick = { clipboard.setText(AnnotatedString(code)) }) { Text("Copy code") }
+                TextButton(onClick = accounts::cancelSignIn) { Text("Cancel") }
+            }
+        },
     )
 }
 
@@ -58,12 +80,22 @@ fun YouTubeAccountsDialog(
     onAdd: () -> Unit,
     onSignOut: () -> Unit,
     onDismiss: () -> Unit,
+    profileName: String? = null,
+    onLinkToNuvioOne: (() -> Unit)? = null,
 ) {
     AlertDialog(
         onDismissRequest = onDismiss,
         title = { Text("Who's watching?") },
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                account.linkedAccount?.let { linked ->
+                    Text(
+                        "Linked to Nuvio One · ${profileName ?: "this profile"}",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = LocalContentColor.current.copy(alpha = 0.7f),
+                    )
+                    Text(linked.name, style = MaterialTheme.typography.bodySmall, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                }
                 account.accounts.forEach { a ->
                     Row(
                         Modifier.fillMaxWidth().clip(RoundedCornerShape(12.dp)).clickable { onSelect(a.id) }.padding(vertical = 8.dp, horizontal = 4.dp),
@@ -91,6 +123,9 @@ fun YouTubeAccountsDialog(
                     }
                 }
                 TextButton(onClick = onAdd) { Text("Add another account") }
+                if (account.linkedAccount == null && onLinkToNuvioOne != null) {
+                    TextButton(onClick = onLinkToNuvioOne) { Text("Link to Nuvio One") }
+                }
                 TextButton(onClick = onSignOut) { Text("Sign out of ${account.accountName ?: "this account"}") }
             }
         },
