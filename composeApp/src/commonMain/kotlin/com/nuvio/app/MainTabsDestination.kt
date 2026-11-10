@@ -9,7 +9,9 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.LibraryMusic
@@ -40,6 +42,7 @@ import com.nuvio.app.core.ui.NuvioClassicNavigationBar
 import com.nuvio.app.core.ui.PlatformBackHandler
 import com.nuvio.app.core.ui.LocalNuvioTabletNavLayout
 import com.nuvio.app.core.ui.floatingNavigationBarPadding
+import com.nuvio.app.features.music.MusicHost
 import com.nuvio.app.features.settings.NavBarPosition
 import com.nuvio.app.core.ui.rememberNuvioNavBarScrollState
 import com.nuvio.app.features.profiles.NuvioProfile
@@ -174,6 +177,21 @@ internal fun MainTabsDestination(
                     )
                 }
 
+                if (floatingBarVisible && !floatingBarOnTop) {
+                    val pillBottom = floatingNavigationBarPadding().calculateBottomPadding() + 56.dp
+                    MusicHost.nowPlayingPill?.invoke(
+                        Modifier
+                            .align(Alignment.BottomCenter)
+                            .padding(start = 16.dp, end = 16.dp, bottom = pillBottom)
+                            .widthIn(max = 520.dp)
+                            .fillMaxWidth(),
+                        {
+                            onTabSelected(AppScreenTab.Music)
+                            MusicHost.openNowPlayingRequest++
+                        }
+                    )
+                }
+
                 // CLASSIC keeps the previous per-form-factor chrome: a top rail on
                 // tablet/landscape and the solid bottom bar on phones. Every other
                 // style now uses the floating pill at the bottom on all sizes.
@@ -291,7 +309,7 @@ internal fun mainFloatingNavigationItems(
                 selected = highlightedTab == AppScreenTab.YouTube,
                 onClick = { onTabSelected(AppScreenTab.YouTube) },
                 icon = Icons.Filled.PlayCircle,
-                label = "YouTube",
+                label = "OneTube",
             ),
         )
     }
@@ -368,7 +386,7 @@ internal fun MainClassicNavigationBar(
                 selected = highlightedTab == AppScreenTab.YouTube,
                 onClick = { onTabSelected(AppScreenTab.YouTube) },
                 icon = Icons.Filled.PlayCircle,
-                contentDescription = "YouTube",
+                contentDescription = "OneTube",
             )
         }
         if (com.nuvio.app.features.music.MusicHost.available) {

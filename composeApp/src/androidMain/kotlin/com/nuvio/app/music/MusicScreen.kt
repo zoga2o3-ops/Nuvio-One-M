@@ -77,6 +77,7 @@ import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
 import coil3.compose.AsyncImage
 import com.nuvio.app.core.ui.LocalNuvioBottomNavigationOverlayPadding
+import com.nuvio.app.features.music.MusicHost
 import com.nuvio.app.music.engine.data.model.BrowseType
 import com.nuvio.app.R
 import com.nuvio.app.music.engine.data.model.HomeShelf
@@ -110,6 +111,11 @@ fun MusicScreen() {
     val accountViewModel: YouTubeAccountViewModel = viewModel { YouTubeAccountViewModel(context) }
     val account by accountViewModel.state.collectAsState()
     var showNowPlaying by remember { mutableStateOf(false) }
+    LaunchedEffect(MusicHost.openNowPlayingRequest) {
+        if (MusicHost.openNowPlayingRequest > 0 && playback.song != null) {
+            showNowPlaying = true
+        }
+    }
     var musicVideo by remember { mutableStateOf<MusicVideoRequest?>(null) }
     var showSettings by remember { mutableStateOf(false) }
     var showDownloads by remember { mutableStateOf(false) }
@@ -625,13 +631,6 @@ private fun MusicTopNavigation(
                 ) {
                     MusicBrand(compact = true)
                     Spacer(Modifier.weight(1f))
-                    if (playback.song != null) {
-                        NowPlayingMiniButton(
-                            playback = playback,
-                            onClick = onOpenNowPlaying
-                        )
-                        Spacer(Modifier.width(7.dp))
-                    }
                     MusicAccountButton(
                         name = accountName,
                         avatar = accountAvatar,
@@ -676,12 +675,6 @@ private fun MusicTopNavigation(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(7.dp)
                 ) {
-                    if (playback.song != null) {
-                        NowPlayingChip(
-                            playback = playback,
-                            onClick = onOpenNowPlaying
-                        )
-                    }
                     MusicAccountButton(
                         name = accountName,
                         avatar = accountAvatar,
