@@ -641,6 +641,11 @@ class YouTubeContentService implements ContentService {
         return RxHelper.fromCallable(this::getPlaylists);
     }
 
+    @Override
+    public MediaGroup getPlaylist(String playlistId) {
+        return getBrowseService2().getPlaylist(playlistId);
+    }
+
     private MediaGroup getPlaylists() {
         checkSigned();
 

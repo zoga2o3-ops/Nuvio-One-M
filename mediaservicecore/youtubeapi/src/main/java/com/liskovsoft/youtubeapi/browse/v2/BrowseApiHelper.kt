@@ -207,6 +207,10 @@ internal object BrowseApiHelper {
         return PostDataHelper.createQuery(client.browseTemplate, MY_PLAYLISTS)
     }
 
+    fun getPlaylistQuery(client: AppClient, playlistId: String): String {
+        return PostDataHelper.createQuery(client.browseTemplate, "\"browseId\":\"VL$playlistId\"")
+    }
+
     private fun createQuery(client: AppClient, browseId: String, params: String? = null): String {
         return QueryBuilder(client)
             .setType(PostDataType.Browse)

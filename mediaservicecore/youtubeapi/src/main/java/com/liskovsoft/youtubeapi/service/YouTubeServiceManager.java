@@ -109,6 +109,11 @@ public class YouTubeServiceManager implements ServiceManager {
     }
 
     @Override
+    public void resetPlaybackClient() {
+        FormatInfoWrapper.resetClient();
+    }
+
+    @Override
     public void switchNextSubsFormat() {
         FormatInfoWrapper.invalidateCache();
         getVideoInfoService().switchNextSubtitle();

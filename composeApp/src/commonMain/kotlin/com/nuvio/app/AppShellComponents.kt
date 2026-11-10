@@ -29,6 +29,7 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.LibraryMusic
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Tv
 import androidx.compose.material3.Icon
@@ -245,6 +246,10 @@ internal fun AppTabHost(
                 )
             }
 
+            AppScreenTab.Music -> {
+                com.nuvio.app.features.music.MusicHost.screen?.invoke(Modifier.fillMaxSize())
+            }
+
             AppScreenTab.LiveTv -> {
                 com.nuvio.app.features.livetv.LiveTvHost.screen?.invoke(
                     Modifier.fillMaxSize(),
@@ -364,6 +369,25 @@ internal fun TabletFloatingTopBar(
                         )
                     },
                 )
+                if (com.nuvio.app.features.music.MusicHost.available) {
+                    TabletTopPillItem(
+                        label = "Music",
+                        selected = selectedTab == AppScreenTab.Music,
+                        onClick = { onTabSelected(AppScreenTab.Music) },
+                        icon = {
+                            Icon(
+                                imageVector = Icons.Filled.LibraryMusic,
+                                contentDescription = "Music",
+                                modifier = Modifier.size(18.dp),
+                                tint = if (selectedTab == AppScreenTab.Music) {
+                                    MaterialTheme.colorScheme.onPrimaryContainer
+                                } else {
+                                    MaterialTheme.colorScheme.onSurfaceVariant
+                                },
+                            )
+                        },
+                    )
+                }
                 if (showLiveTv) {
                     TabletTopPillItem(
                         label = stringResource(Res.string.compose_nav_live_tv),

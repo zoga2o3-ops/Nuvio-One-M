@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.LibraryMusic
 import androidx.compose.material.icons.filled.LiveTv
 import androidx.compose.material.icons.filled.PlayCircle
 import com.nuvio.app.features.livetv.LiveTvHost
@@ -294,6 +295,16 @@ internal fun mainFloatingNavigationItems(
             ),
         )
     }
+    if (com.nuvio.app.features.music.MusicHost.available) {
+        add(
+            FloatingNavigationItem(
+                selected = highlightedTab == AppScreenTab.Music,
+                onClick = { onTabSelected(AppScreenTab.Music) },
+                icon = Icons.Filled.LibraryMusic,
+                label = "Music",
+            ),
+        )
+    }
     if (showLiveTv) {
         add(
             FloatingNavigationItem(
@@ -358,6 +369,14 @@ internal fun MainClassicNavigationBar(
                 onClick = { onTabSelected(AppScreenTab.YouTube) },
                 icon = Icons.Filled.PlayCircle,
                 contentDescription = "YouTube",
+            )
+        }
+        if (com.nuvio.app.features.music.MusicHost.available) {
+            NavItem(
+                selected = highlightedTab == AppScreenTab.Music,
+                onClick = { onTabSelected(AppScreenTab.Music) },
+                icon = Icons.Filled.LibraryMusic,
+                contentDescription = "Music",
             )
         }
         if (showLiveTv) {
