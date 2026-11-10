@@ -97,6 +97,7 @@ fun SportsPage(
     var fixFor by remember { mutableStateOf<SportsEvent?>(null) }
     var windowChannel by remember { mutableStateOf<LiveChannel?>(null) }
     val context = androidx.compose.ui.platform.LocalContext.current
+    val notifications = rememberLiveTvNotificationPermission()
 
     val from = remember(day) { repo.dayStart(day) }
     val to = remember(day) { repo.dayStart(day + 1) }
@@ -230,7 +231,7 @@ fun SportsPage(
             onDismiss = { opened = null },
         )
     }
-    if (pickTeams) PickTeamsDialog(repo) { pickTeams = false }
+    if (pickTeams) PickTeamsDialog(repo, onFollowed = notifications.ask) { pickTeams = false }
     details?.let { GameDetailsDialog(repo, it) { details = null } }
     fixFor?.let { ev ->
         FixChannelDialog(

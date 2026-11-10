@@ -9,12 +9,14 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import com.nuvio.app.livetv.model.Reminder
 
 /** Reminders for shows you asked about: a notification a couple of minutes before they start. */
 object LiveTvReminders {
     private const val CHANNEL_ID = "live_tv_reminders"
+    private const val SCORING_CHANNEL_ID = "live_tv_scoring"
     private const val LEAD_MS = 2 * 60_000L
     internal const val EXTRA_CHANNEL = "channel"
     internal const val EXTRA_TITLE = "title"
@@ -49,18 +51,33 @@ object LiveTvReminders {
         reminders.forEach { schedule(context, it) }
     }
 
-    internal fun notify(context: Context, channel: String, title: String, startMs: Long) {
-        val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+    /** Creates the notification channels again if the system dropped them (a reinstall, a clear). */
+    fun ensureChannels(context: Context) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return
+        val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as? NotificationManager ?: return
+        fun channel(id: String, name: String, description: String) {
+            if (manager.getNotificationChannel(id) != null) return
             manager.createNotificationChannel(
-                NotificationChannel(CHANNEL_ID, "Live TV reminders", NotificationManager.IMPORTANCE_HIGH)
+                NotificationChannel(id, name, NotificationManager.IMPORTANCE_HIGH).apply {
+                    this.description = description
+                    enableVibration(true)
+                    enableLights(true)
+                }
             )
         }
+        channel(CHANNEL_ID, "Live TV reminders", "A notification before a show or game you asked about starts.")
+        channel(SCORING_CHANNEL_ID, "Scoring alerts", "A notification when a team you follow scores.")
+    }
+
+    internal fun notify(context: Context, channel: String, title: String, startMs: Long) {
+        if (!canNotify(context)) return
+        ensureChannels(context)
+        val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val open = context.packageManager.getLaunchIntentForPackage(context.packageName)
         val tap = open?.let { PendingIntent.getActivity(context, 0, it, PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT) }
         val text = if (startMs - System.currentTimeMillis() > 60_000L) "Starting soon on $channel" else "Starting now on $channel"
         val n = NotificationCompat.Builder(context, CHANNEL_ID)
-            .setSmallIcon(context.applicationInfo.icon)
+            .setSmallIcon(com.nuvio.app.R.drawable.ic_notification_small)
             .setContentTitle(title)
             .setContentText(text)
             .setAutoCancel(true)
@@ -73,24 +90,36 @@ object LiveTvReminders {
     /** A plain notification, for scoring alerts and the like. */
     fun alert(context: Context, title: String, text: String) {
         if (!canNotify(context)) return
+        ensureChannels(context)
         val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            manager.createNotificationChannel(NotificationChannel(CHANNEL_ID, "Live TV reminders", NotificationManager.IMPORTANCE_HIGH))
-        }
-        val n = NotificationCompat.Builder(context, CHANNEL_ID)
-            .setSmallIcon(context.applicationInfo.icon)
+        val open = context.packageManager.getLaunchIntentForPackage(context.packageName)
+        val tap = open?.let { PendingIntent.getActivity(context, 0, it, PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT) }
+        val n = NotificationCompat.Builder(context, SCORING_CHANNEL_ID)
+            .setSmallIcon(com.nuvio.app.R.drawable.ic_notification_small)
             .setContentTitle(title)
             .setContentText(text)
             .setAutoCancel(true)
+            .setContentIntent(tap)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setCategory(NotificationCompat.CATEGORY_EVENT)
             .build()
         manager.notify((title + text).hashCode(), n)
     }
 
-    fun canNotify(context: Context): Boolean =
-        Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU ||
-            ContextCompat.checkSelfPermission(context, android.Manifest.permission.POST_NOTIFICATIONS) ==
-            android.content.pm.PackageManager.PERMISSION_GRANTED
+    /**
+     * Whether the app may post notifications at all: the Android 13 permission and the app's own
+     * notification switch. Scoring alerts and reminders both check this before posting.
+     */
+    fun canNotify(context: Context): Boolean {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            val granted = ContextCompat.checkSelfPermission(
+                context,
+                android.Manifest.permission.POST_NOTIFICATIONS
+            ) == android.content.pm.PackageManager.PERMISSION_GRANTED
+            if (!granted) return false
+        }
+        return NotificationManagerCompat.from(context).areNotificationsEnabled()
+    }
 }
 
 class LiveTvReminderReceiver : BroadcastReceiver() {

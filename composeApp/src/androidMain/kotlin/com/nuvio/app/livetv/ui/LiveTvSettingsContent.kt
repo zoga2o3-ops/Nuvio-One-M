@@ -36,6 +36,7 @@ fun LiveTvSettingsContent() {
     val context = LocalContext.current.applicationContext
     val live = remember { LiveTv.get(context) }
     val settings by live.prefs.settings.collectAsStateWithLifecycle(initialValue = LiveTvSettings())
+    val notifications = rememberLiveTvNotificationPermission()
     val scope = rememberCoroutineScope()
     fun change(transform: (LiveTvSettings) -> LiveTvSettings) {
         scope.launch { live.prefs.updateSettings(transform) }
@@ -139,6 +140,13 @@ fun LiveTvSettingsContent() {
             Section("Sports")
             val sports = remember { live.sports }
             val sportsSettings by sports.settings.collectAsStateWithLifecycle()
+            if (!notifications.canNotify) {
+                ActionLine(
+                    "Turn on notifications",
+                    "Scoring alerts and team reminders need notification permission.",
+                    notifications.ask,
+                )
+            }
             ChoiceRow(
                 "Your region",
                 com.nuvio.app.livetv.sports.SportsCatalog.regionName(com.nuvio.app.livetv.sports.SportsCatalog.regionOf(sportsSettings)),
@@ -151,8 +159,14 @@ fun LiveTvSettingsContent() {
             ) { v -> sports.updateSettings { it.copy(channelRegion = v) } }
             SwitchRow("Video window", "Watch games in a window at the top of the Sports page. Off: games open full screen.", sportsSettings.videoWindow) { v -> sports.updateSettings { it.copy(videoWindow = v) } }
             SwitchRow("Hide scores", "Keep results off the screen until you're ready.", sportsSettings.hideScores) { v -> sports.updateSettings { it.copy(hideScores = v) } }
-            SwitchRow("Scoring alerts", "A notification when a team you follow scores.", sportsSettings.scoringAlerts) { v -> sports.updateSettings { it.copy(scoringAlerts = v) } }
-            SwitchRow("Remind me about my teams", "A notification before every game of a team you follow, without asking for each one.", sportsSettings.remindMyTeams) { v -> sports.updateSettings { it.copy(remindMyTeams = v) } }
+            SwitchRow("Scoring alerts", "A notification when a team you follow scores.", sportsSettings.scoringAlerts) { v ->
+                if (v) notifications.ask()
+                sports.updateSettings { it.copy(scoringAlerts = v) }
+            }
+            SwitchRow("Remind me about my teams", "A notification before every game of a team you follow, without asking for each one.", sportsSettings.remindMyTeams) { v ->
+                if (v) notifications.ask()
+                sports.updateSettings { it.copy(remindMyTeams = v) }
+            }
             SwitchRow("Switch to the game", "Open the game's channel by itself a minute before it starts, with a few seconds to cancel. Needs the app open.", sportsSettings.autoSwitch) { v -> sports.updateSettings { it.copy(autoSwitch = v) } }
             StepperRow("Remind me before a game", "${sportsSettings.remindMinutes} minutes",
                 onMinus = { sports.updateSettings { it.copy(remindMinutes = (it.remindMinutes - 5).coerceAtLeast(0)) } },

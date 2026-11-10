@@ -139,7 +139,7 @@ private fun GameChip(ev: SportsEvent, clock: SimpleDateFormat, hideScore: Boolea
 
 /** Pick your teams: choose a league, then the teams (and the league itself) to follow. */
 @Composable
-internal fun PickTeamsDialog(repo: SportsRepository, onDismiss: () -> Unit) {
+internal fun PickTeamsDialog(repo: SportsRepository, onFollowed: () -> Unit = {}, onDismiss: () -> Unit) {
     val follows by repo.follows.collectAsStateWithLifecycle()
     var league by remember { mutableStateOf<League?>(null) }
     var teams by remember { mutableStateOf<List<TeamInfo>?>(null) }
@@ -168,7 +168,11 @@ internal fun PickTeamsDialog(repo: SportsRepository, onDismiss: () -> Unit) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         TextButton(onClick = { league = null; query = "" }) { Text("‹ Leagues") }
                         Spacer1()
-                        TextButton(onClick = { repo.toggleLeague(l.id) }) {
+                        TextButton(onClick = {
+                            val following = l.id in follows.leagues
+                            repo.toggleLeague(l.id)
+                            if (!following) onFollowed()
+                        }) {
                             Text(if (l.id in follows.leagues) "Unfollow the league" else "Follow the whole league")
                         }
                     }
@@ -180,7 +184,10 @@ internal fun PickTeamsDialog(repo: SportsRepository, onDismiss: () -> Unit) {
                             else -> LazyColumn(Modifier.height(300.dp)) {
                                 items(list.filter { query.isBlank() || it.name.contains(query, true) || it.fullName.contains(query, true) }, key = { it.key }) { t ->
                                     val on = follows.followedTeam(t) != null
-                                    Row(Modifier.fillMaxWidth().clickable { repo.toggleTeam(t) }.padding(vertical = 8.dp), verticalAlignment = Alignment.CenterVertically) {
+                                    Row(Modifier.fillMaxWidth().clickable {
+                                        repo.toggleTeam(t)
+                                        if (!on) onFollowed()
+                                    }.padding(vertical = 8.dp), verticalAlignment = Alignment.CenterVertically) {
                                         if (!t.logo.isNullOrBlank()) AsyncImage(t.logo, null, Modifier.size(28.dp), contentScale = ContentScale.Fit)
                                         else Box(Modifier.size(28.dp))
                                         Text(t.fullName.ifBlank { t.name }, Modifier.weight(1f).padding(start = 12.dp), maxLines = 1, overflow = TextOverflow.Ellipsis)
