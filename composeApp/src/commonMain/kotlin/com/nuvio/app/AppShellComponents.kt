@@ -83,7 +83,6 @@ import com.nuvio.app.features.profiles.parseHexColor
 import com.nuvio.app.features.profiles.profileAvatarImageUrl
 import com.nuvio.app.features.search.SearchScreen
 import com.nuvio.app.features.settings.AppBrandWordmark
-import com.nuvio.app.features.settings.AppIconOption
 import com.nuvio.app.features.settings.SettingsScreen
 import com.nuvio.app.features.watchprogress.ContinueWatchingItem
 import com.nuvio.app.navigation.AppRoute
@@ -665,9 +664,6 @@ internal fun AppLoadingContent(
                 } else {
                     AppBrandWordmark(
                         contentDescription = stringResource(Res.string.app_brand_name),
-                        // The launch banner uses the Arctic Blue Nuvio One wordmark; the app icon
-                        // setting still controls the launcher icon and its own preview.
-                        icon = AppIconOption.ARCTIC_BLUE,
                         modifier = emblemModifier
                             .width(160.dp)
                             .height(44.dp),
