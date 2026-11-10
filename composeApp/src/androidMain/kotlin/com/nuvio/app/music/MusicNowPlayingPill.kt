@@ -128,7 +128,7 @@ fun MusicNowPlayingPill(
             )
             Text(
                 text = song.artist,
-                color = MusicPalette.textMuted,
+                color = MusicPalette.textSecondary,
                 fontSize = 11.sp,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
