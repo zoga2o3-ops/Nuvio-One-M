@@ -95,6 +95,9 @@ class NuvioApplication : Application(), SingletonImageLoader.Factory {
         com.nuvio.app.features.music.MusicHost.screen = { modifier ->
             Box(modifier) { com.nuvio.app.music.MusicScreen() }
         }
+        com.nuvio.app.features.music.MusicHost.nowPlayingPill = { modifier, onOpen ->
+            com.nuvio.app.music.MusicNowPlayingPill(modifier, onOpen)
+        }
         DnsPlatform.initialize(this)
     }
 
