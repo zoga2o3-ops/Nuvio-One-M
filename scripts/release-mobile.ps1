@@ -3,6 +3,7 @@
 #   .\scripts\release-mobile.ps1 -Version 0.6.6-beta1                 build only; APKs go to build\releases\0.6.6-beta1
 #   .\scripts\release-mobile.ps1 -Version 0.6.6-beta2 -Build 2        a later build (the build number must go up each time)
 #   .\scripts\release-mobile.ps1 -Version 0.6.6-beta2 -Build 2 -Beta -Publish -Notes "What changed"
+#   .\scripts\release-mobile.ps1 -Version 0.6.6-beta7 -Build 10 -Beta -Publish -NotesFile Docs\RELEASE_NOTES-NEXT.md
 #
 # The in-app updater (Settings > About) looks at the releases of $UpdateRepo.
 #
@@ -18,8 +19,9 @@
 param(
     [Parameter(Mandatory = $true)] [string]$Version,
     [int]$Build = 1,
-    [string]$UpdateRepo = "zoga2o3-ops/NuvioMPlusIPTV-1Tube",
+    [string]$UpdateRepo = "zoga2o3-ops/Nuvio-One-M",
     [string]$Notes = "",
+    [string]$NotesFile = "",
     [string]$Branch = "main",
     [switch]$Publish,
     [switch]$Beta
@@ -54,14 +56,20 @@ New-Item -ItemType Directory -Force $out | Out-Null
 $files = @()
 Get-ChildItem "$repo\androidApp\build\outputs\apk\full\release\*.apk" | ForEach-Object {
     $abi = ($_.Name -replace '^androidApp-full-', '' -replace '-release\.apk$', '')
-    $dest = "$out\1Tube-Mobile-$Version-$abi.apk"
+    $dest = "$out\Nuvio-One-M-$Version-$abi.apk"
     Copy-Item $_.FullName $dest -Force
     $files += $dest
     Write-Host "Built $dest"
 }
 
 if ($Publish) {
-    $flags = @("--repo", $UpdateRepo, "--title", "NuvioM + IPTV + 1Tube $Version", "--target", $Branch, "--notes", $(if ($Notes) { $Notes } else { "NuvioM + IPTV + 1Tube $Version" }))
+    $flags = @("--repo", $UpdateRepo, "--title", "Nuvio One M $Version", "--target", $Branch)
+    if ($NotesFile) {
+        if (-not (Test-Path $NotesFile)) { throw "Release notes file not found: $NotesFile" }
+        $flags += @("--notes-file", $NotesFile)
+    } else {
+        $flags += @("--notes", $(if ($Notes) { $Notes } else { "Nuvio One M $Version" }))
+    }
     if ($Beta) { $flags += "--prerelease" }
     & gh release create $Version @flags @files
     if ($LASTEXITCODE -ne 0) { throw "Publishing failed (exit $LASTEXITCODE)" }
