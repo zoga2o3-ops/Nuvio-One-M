@@ -7,9 +7,8 @@
 [![Latest release](https://img.shields.io/github/v/release/zoga2o3-ops/Nuvio-One-M?include_prereleases&label=latest&style=for-the-badge)](https://github.com/zoga2o3-ops/Nuvio-One-M/releases)
 [![Downloads](https://img.shields.io/github/downloads/zoga2o3-ops/Nuvio-One-M/total?style=for-the-badge)](https://github.com/zoga2o3-ops/Nuvio-One-M/releases)
 [![License](https://img.shields.io/badge/license-GPL--3.0-blue?style=for-the-badge)](LICENSE)
-<a href="https://www.buymeacoffee.com/zoga2o3m"><img src="https://img.shields.io/badge/Buy%20me%20a%20coffee-5F7FFF?style=for-the-badge&logo=buymeacoffee&logoColor=white" alt="Buy me a coffee" /></a>
 
-[What is it](#what-is-it) · [What you get](#what-you-get) · [Install](#install) · [Getting started](#getting-started) · [Bugs](#reporting-bugs-and-asking-for-features) · [Support](#support-the-project) · [Credits](#credits)
+[What is it](#what-is-it) · [What you get](#what-you-get) · [Install](#install) · [Getting started](#getting-started) · [Bugs](#reporting-bugs-and-asking-for-features) · [Credits](#credits)
 
 </div>
 
@@ -111,12 +110,6 @@ No. It has its own package name and installs next to it.
 
 Your Live TV setup, in a file in your own Google Drive.
 </details>
-
-## Support the project
-
-If you like it, a coffee keeps the updates coming. Totally optional.
-
-<a href="https://www.buymeacoffee.com/zoga2o3m"><img src="https://img.shields.io/badge/Buy%20me%20a%20coffee-5F7FFF?style=for-the-badge&logo=buymeacoffee&logoColor=white" alt="Buy me a coffee" /></a>
 
 ## Credits
 
