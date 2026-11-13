@@ -68,6 +68,7 @@ fun LiveTvSettingsContent() {
             SwitchRow("Number channels in order", "1, 2, 3 down the list you see, whatever the playlist says.", settings.sequentialNumbers) { v -> change { it.copy(sequentialNumbers = v) } }
             var editNames by remember { mutableStateOf(false) }
             ActionLine("Clean up channel names", if (settings.nameRemovals.isBlank()) "Remove tags like \"US:\" or \"HD\" from names." else "Removing: ${settings.nameRemovals}") { editNames = true }
+            SwitchRow("Also clean group names", "Take the same words off group names too.", settings.cleanGroupNames) { v -> change { it.copy(cleanGroupNames = v) } }
             if (editNames) {
                 TextPromptDialog(
                     title = "Words to remove from names",
@@ -158,6 +159,7 @@ fun LiveTvSettingsContent() {
                 com.nuvio.app.livetv.sports.ChannelRegions.all.map { (code, name) -> name to code },
             ) { v -> sports.updateSettings { it.copy(channelRegion = v) } }
             SwitchRow("Video window", "Watch games in a window at the top of the Sports page. Off: games open full screen.", sportsSettings.videoWindow) { v -> sports.updateSettings { it.copy(videoWindow = v) } }
+            SwitchRow("Games in the Calendar", "Show games of the teams you follow on the Calendar.", settings.calendarSports) { v -> change { it.copy(calendarSports = v) } }
             SwitchRow("Hide scores", "Keep results off the screen until you're ready.", sportsSettings.hideScores) { v -> sports.updateSettings { it.copy(hideScores = v) } }
             SwitchRow("Scoring alerts", "A notification when a team you follow scores.", sportsSettings.scoringAlerts) { v ->
                 if (v) notifications.ask()
@@ -225,6 +227,7 @@ fun LiveTvSettingsContent() {
             ) { v -> LiveTvStart.setStartPage(context, v); startPage = v }
             SwitchRow("Play the last channel", "When Live TV opens, start the channel you watched last.", settings.autoPlayLastChannel) { v -> change { it.copy(autoPlayLastChannel = v) } }
 
+            AccountSyncSection(live)
             DriveSyncSection(live)
 
             Section("Parental controls")
@@ -365,6 +368,68 @@ private fun <T> ChoiceRow(title: String, current: String, options: List<Pair<Str
 }
 
 /** Syncs your Live TV setup through your own Google Drive, shared with the TV app. */
+@Composable
+private fun AccountSyncSection(live: LiveTv) {
+    val sync = remember { live.cloudSync }
+    val state by sync.state.collectAsStateWithLifecycle()
+    var confirmDelete by remember { mutableStateOf(false) }
+
+    Section("Sync with your Nuvio account")
+    if (!state.available) {
+        Text(
+            "Setup Sync works with the official Nuvio server. It isn't available on a custom server.",
+            style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.padding(vertical = 4.dp),
+        )
+        return
+    }
+    if (!state.signedIn) {
+        Text(
+            "Sign in to your Nuvio account (Profile → Account) to keep your Live TV setup on all your devices.",
+            style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.padding(vertical = 4.dp),
+        )
+        return
+    }
+    Text(
+        "Signed in as ${state.email ?: "your Nuvio account"}.",
+        style = MaterialTheme.typography.bodyMedium, modifier = Modifier.padding(vertical = 4.dp),
+    )
+    SwitchRow(
+        "Setup Sync",
+        "Keep playlists, guides, favorites, Sports and Calendar choices and Live TV settings the same on all your devices. The same saved copy the TV app uses. Use either this or Google Drive sync, not both.",
+        state.enabled,
+    ) { v -> if (v) sync.turnOn() else sync.turnOff() }
+    if (state.enabled) {
+        Text(
+            if (state.lastSyncMs > 0) {
+                "Last synced " + java.text.DateFormat.getDateTimeInstance(
+                    java.text.DateFormat.MEDIUM, java.text.DateFormat.SHORT
+                ).format(java.util.Date(state.lastSyncMs)) + "."
+            } else "Not synced yet.",
+            style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.padding(vertical = 4.dp),
+        )
+        ActionLine("Sync now", "Check for changes from your other devices.") { sync.syncNow() }
+        ActionLine("Restore the previous copy", "Bring back the saved setup from before the last sync.") { sync.restorePrevious() }
+        ActionLine("Delete the saved copy", "This device keeps its setup. Other devices stop receiving it.") { confirmDelete = true }
+    }
+    if (state.busy) Text("Working…", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+    state.message?.let {
+        Text(it, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(vertical = 4.dp))
+    }
+
+    if (confirmDelete) {
+        AlertDialog(
+            onDismissRequest = { confirmDelete = false },
+            title = { Text("Delete the saved Live TV setup?") },
+            text = { Text("Your Nuvio account's saved copy is removed. This device keeps its own setup; other devices keep theirs but stop receiving changes.") },
+            confirmButton = { TextButton(onClick = { confirmDelete = false; sync.deleteCloudCopy() }) { Text("Delete") } },
+            dismissButton = { TextButton(onClick = { confirmDelete = false }) { Text("Cancel") } },
+        )
+    }
+}
+
 @Composable
 private fun DriveSyncSection(live: LiveTv) {
     val sync = live.driveSync

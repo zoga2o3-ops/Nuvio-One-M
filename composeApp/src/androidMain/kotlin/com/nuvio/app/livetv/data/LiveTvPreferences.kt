@@ -148,6 +148,7 @@ class LiveTvPreferences(
         /** This TV only: ids of playlists and guides removed here, not yet passed on by sync. */
         val removedSources = stringSetPreferencesKey("removed_sources")
         val nameRemovals = stringPreferencesKey("name_removals")
+        val cleanGroupNames = booleanPreferencesKey("clean_group_names")
         val developerTools = booleanPreferencesKey("developer_tools")
         val browseByChannelName = booleanPreferencesKey("browse_by_channel_name")
         val showPlaylistInInfo = booleanPreferencesKey("show_playlist_in_info")
@@ -197,6 +198,7 @@ class LiveTvPreferences(
         val reminders = stringPreferencesKey("reminders")
         val channelQuality = stringPreferencesKey("channel_quality")
         val channelAudio = stringPreferencesKey("channel_audio")
+        val channelCaptions = stringPreferencesKey("channel_captions")
         val vodHiddenCategories = stringSetPreferencesKey("vod_hidden_categories")
         val vodGroupOrder = stringPreferencesKey("vod_group_order")
         val vodGroupNames = stringPreferencesKey("vod_group_names")
@@ -400,6 +402,7 @@ class LiveTvPreferences(
             onDemandAddonPosters = p[Keys.onDemandAddonPosters] ?: d.onDemandAddonPosters,
             groupPlaylistHeadings = p[Keys.groupPlaylistHeadings] ?: d.groupPlaylistHeadings,
             nameRemovals = p[Keys.nameRemovals] ?: d.nameRemovals,
+            cleanGroupNames = p[Keys.cleanGroupNames] ?: d.cleanGroupNames,
             developerTools = p[Keys.developerTools] ?: d.developerTools,
             browseByChannelName = p[Keys.browseByChannelName] ?: d.browseByChannelName,
             showPlaylistInInfo = p[Keys.showPlaylistInInfo] ?: d.showPlaylistInInfo,
@@ -501,6 +504,7 @@ class LiveTvPreferences(
             reminders = decodeReminders(p[Keys.reminders]),
             channelQuality = decodeStringMap(d[Keys.channelQuality] ?: p[Keys.channelQuality]),
             channelAudio = decodeStringMap(p[Keys.channelAudio]),
+            channelCaptions = decodeStringMap(p[Keys.channelCaptions]),
             vodHiddenCategories = p[Keys.vodHiddenCategories] ?: emptySet(),
             vodGroupOrder = decodeStringList(p[Keys.vodGroupOrder]),
             vodGroupNames = decodeStringMap(p[Keys.vodGroupNames]),
@@ -671,6 +675,7 @@ class LiveTvPreferences(
         p[Keys.onDemandAddonPosters] = s.onDemandAddonPosters
         p[Keys.groupPlaylistHeadings] = s.groupPlaylistHeadings
         p[Keys.nameRemovals] = s.nameRemovals
+        p[Keys.cleanGroupNames] = s.cleanGroupNames
         p[Keys.developerTools] = s.developerTools
         p[Keys.browseByChannelName] = s.browseByChannelName
         p[Keys.showPlaylistInInfo] = s.showPlaylistInInfo
@@ -877,6 +882,15 @@ class LiveTvPreferences(
             val m = decodeStringMap(p[Keys.channelAudio]).toMutableMap()
             if (audio == null) m.remove(key) else m[key] = audio
             p[Keys.channelAudio] = encodeStringMap(m)
+        }
+    }
+
+    /** Captions on or off, remembered for the channel it was chosen on (null forgets it). */
+    suspend fun setChannelCaptions(key: String, captions: String?) {
+        store.edit { p ->
+            val m = decodeStringMap(p[Keys.channelCaptions]).toMutableMap()
+            if (captions == null) m.remove(key) else m[key] = captions
+            p[Keys.channelCaptions] = encodeStringMap(m)
         }
     }
 

@@ -1268,12 +1268,14 @@ private fun ExoPlayerSurface(
                     Log.d(TAG, "selectSubtitleTrack: index=$index")
                     sidecarController.stopSidecarAddonSubtitle(clearView = true)
                     aiostreamsAss?.clearExternal()
+                    val liveChannel = com.nuvio.app.livetv.player.LiveTvReconnect.isLive(sourceUrl)
                     if (index < 0) {
                         Log.d(TAG, "selectSubtitleTrack: disabling text tracks")
                         exoPlayer.trackSelectionParameters = exoPlayer.trackSelectionParameters
                             .buildUpon()
                             .setTrackTypeDisabled(C.TRACK_TYPE_TEXT, true)
                             .build()
+                        if (liveChannel) com.nuvio.app.livetv.player.LivePlayback.saveCaptions(context, false)
                         return
                     }
                     exoPlayer.trackSelectionParameters = exoPlayer.trackSelectionParameters
@@ -1281,6 +1283,7 @@ private fun ExoPlayerSurface(
                         .setTrackTypeDisabled(C.TRACK_TYPE_TEXT, false)
                         .build()
                     exoPlayer.selectTrackByIndex(C.TRACK_TYPE_TEXT, index)
+                    if (liveChannel) com.nuvio.app.livetv.player.LivePlayback.saveCaptions(context, true)
                     Log.d(TAG, "selectSubtitleTrack: after selection, textDisabled=${exoPlayer.trackSelectionParameters.disabledTrackTypes.contains(C.TRACK_TYPE_TEXT)}")
                     exoPlayer.logCurrentTracks("after selectSubtitleTrack")
                 }
@@ -4242,17 +4245,43 @@ private fun applyLiveTrackChoices(context: Context, player: ExoPlayer, tracks: a
     player.videoChangeFrameRateStrategy =
         if (live.frameRateMode == "OFF") C.VIDEO_CHANGE_FRAME_RATE_STRATEGY_OFF else C.VIDEO_CHANGE_FRAME_RATE_STRATEGY_ONLY_IF_SEAMLESS
     val gen = com.nuvio.app.livetv.player.LiveCaptions.generation
-    if (live.captionsByDefault && live.captionGen != gen) {
-        val cc1 = com.nuvio.app.livetv.player.LiveCaptions.CC1
-        val hasCc = tracks.groups.any { g ->
-            g.type == C.TRACK_TYPE_TEXT && com.nuvio.app.livetv.player.LiveCaptions.kindOf(g.mediaTrackGroup.getFormat(0)) == cc1
-        }
-        if (hasCc) {
+    // What you chose on this channel last time comes first; otherwise "captions on by default".
+    val savedCaptions = live.savedCaptions(context)
+    if (live.captionGen != gen && (savedCaptions != null || live.captionsByDefault)) {
+        val wantOn = savedCaptions?.startsWith("on") == true || (savedCaptions == null && live.captionsByDefault)
+        if (!wantOn) {
             live.captionGen = gen
             player.trackSelectionParameters = player.trackSelectionParameters.buildUpon()
-                .setTrackTypeDisabled(C.TRACK_TYPE_TEXT, false).build()
-            player.selectTrackByPredicate(C.TRACK_TYPE_TEXT, "closed captions") { _, f ->
-                com.nuvio.app.livetv.player.LiveCaptions.kindOf(f) == cc1
+                .setTrackTypeDisabled(C.TRACK_TYPE_TEXT, true).build()
+        } else {
+            val cc1 = com.nuvio.app.livetv.player.LiveCaptions.CC1
+            val hasCc = tracks.groups.any { g ->
+                g.type == C.TRACK_TYPE_TEXT && com.nuvio.app.livetv.player.LiveCaptions.kindOf(g.mediaTrackGroup.getFormat(0)) == cc1
+            }
+            if (hasCc) {
+                live.captionGen = gen
+                player.trackSelectionParameters = player.trackSelectionParameters.buildUpon()
+                    .setTrackTypeDisabled(C.TRACK_TYPE_TEXT, false).build()
+                player.selectTrackByPredicate(C.TRACK_TYPE_TEXT, "closed captions") { _, f ->
+                    com.nuvio.app.livetv.player.LiveCaptions.kindOf(f) == cc1
+                }
+            } else if (savedCaptions != null) {
+                // No CEA captions on this channel: turn on its first ordinary subtitle track.
+                var textIndex = 0
+                var subtitleIndex = -1
+                for (g in tracks.groups) {
+                    if (g.type != C.TRACK_TYPE_TEXT || g.length == 0) continue
+                    if (subtitleIndex < 0 && com.nuvio.app.livetv.player.LiveCaptions.kindOf(g.mediaTrackGroup.getFormat(0)) == null) {
+                        subtitleIndex = textIndex
+                    }
+                    textIndex++
+                }
+                if (subtitleIndex >= 0) {
+                    live.captionGen = gen
+                    player.trackSelectionParameters = player.trackSelectionParameters.buildUpon()
+                        .setTrackTypeDisabled(C.TRACK_TYPE_TEXT, false).build()
+                    player.selectTrackByIndex(C.TRACK_TYPE_TEXT, subtitleIndex)
+                }
             }
         }
     }

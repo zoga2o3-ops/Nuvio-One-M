@@ -126,7 +126,7 @@ fun SportsPage(
         ) {
             Row(
                 Modifier.weight(1f).horizontalScroll(rememberScrollState()),
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                horizontalArrangement = Arrangement.spacedBy(6.dp),
             ) {
                 Pill("Games", mode == "games") { mode = "games" }
                 Pill("My Teams", mode == "mine") { mode = "mine" }
@@ -250,7 +250,7 @@ private fun Pill(label: String, selected: Boolean, onClick: () -> Unit) {
             .background(if (selected) MaterialTheme.colorScheme.secondaryContainer else Color.Transparent)
             .border(1.dp, MaterialTheme.colorScheme.outlineVariant, shape)
             .clickable(onClick = onClick)
-            .padding(horizontal = 12.dp, vertical = 8.dp),
+            .padding(horizontal = 10.dp, vertical = 8.dp),
     ) { Text(label, maxLines = 1, style = MaterialTheme.typography.labelLarge) }
 }
 
@@ -276,18 +276,26 @@ private fun DaySwitcher(day: Int, onDay: (Int) -> Unit, dayFmt: SimpleDateFormat
         else -> dayFmt.format(Date(repo.dayStart(day)))
     }
     Row(verticalAlignment = Alignment.CenterVertically) {
-        IconButton(enabled = day > MIN_DAY, onClick = { onDay(day - 1) }) {
-            Icon(Icons.Default.KeyboardArrowLeft, contentDescription = "Previous day")
+        IconButton(
+            enabled = day > MIN_DAY,
+            onClick = { onDay(day - 1) },
+            modifier = Modifier.size(40.dp),
+        ) {
+            Icon(Icons.Default.KeyboardArrowLeft, contentDescription = "Previous day", modifier = Modifier.size(22.dp))
         }
         Text(
             label,
             maxLines = 1,
             style = MaterialTheme.typography.labelLarge,
-            modifier = Modifier.widthIn(min = 84.dp),
+            modifier = Modifier.widthIn(min = 52.dp),
             textAlign = TextAlign.Center,
         )
-        IconButton(enabled = day < MAX_DAY, onClick = { onDay(day + 1) }) {
-            Icon(Icons.Default.KeyboardArrowRight, contentDescription = "Next day")
+        IconButton(
+            enabled = day < MAX_DAY,
+            onClick = { onDay(day + 1) },
+            modifier = Modifier.size(40.dp),
+        ) {
+            Icon(Icons.Default.KeyboardArrowRight, contentDescription = "Next day", modifier = Modifier.size(22.dp))
         }
     }
 }

@@ -199,6 +199,9 @@ class LiveTvViewModel(context: Context) : ViewModel() {
     fun resumeOf(rec: com.nuvio.app.livetv.record.LiveTvRecording): Pair<Long, Long>? =
         com.nuvio.app.livetv.record.RecordingResume.load(appContext, com.nuvio.app.livetv.record.RecordingResume.contentIdFor(rec.id))
 
+    fun isRecordingWatched(rec: com.nuvio.app.livetv.record.LiveTvRecording): Boolean =
+        com.nuvio.app.livetv.record.RecordingResume.isWatched(appContext, rec.id)
+
     val recordings = live.recorder.recordings
     val schedules = live.scheduler.schedules
     fun freeBytes(): Long = live.recorder.freeBytes()

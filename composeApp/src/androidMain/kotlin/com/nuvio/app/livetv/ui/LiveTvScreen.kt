@@ -65,6 +65,7 @@ import com.nuvio.app.features.livetv.LiveTvPlayRequest
 import com.nuvio.app.livetv.model.ChannelGroup
 import com.nuvio.app.livetv.model.EpgProgram
 import com.nuvio.app.livetv.model.LiveChannel
+import com.nuvio.app.livetv.model.PlaylistGroupOrder
 
 private val CardBg = Color(0xFF1B1B1F)
 private val Accent = Color(0xFFE53935)
@@ -74,6 +75,7 @@ private val Accent = Color(0xFFE53935)
 fun LiveTvScreen(modifier: Modifier, onPlay: (LiveTvPlayRequest) -> Unit) {
     val context = LocalContext.current.applicationContext
     val vm: LiveTvViewModel = viewModel { LiveTvViewModel(context) }
+    LiveTvCloudPrompt()
     val allChannels by vm.channels.collectAsStateWithLifecycle()
     val user by vm.user.collectAsStateWithLifecycle()
     val playlists by vm.playlists.collectAsStateWithLifecycle()
@@ -155,7 +157,11 @@ fun LiveTvScreen(modifier: Modifier, onPlay: (LiveTvPlayRequest) -> Unit) {
             val existing = seen[c.groupId]
             seen[c.groupId] = if (existing == null) LiveGroup(c.groupId, title, 1) else existing.copy(count = existing.count + 1)
         }
-        seen.values.toList()
+        seen.values.toList().let { list ->
+            // An Xtream provider's own category order first, where it gave one.
+            val ranks = PlaylistGroupOrder.ranks
+            if (ranks.isEmpty()) list else list.sortedBy { ranks[it.id] ?: Int.MAX_VALUE }
+        }
     }
     // Locked groups with no visible channels still need a chip, so they can be opened.
     val lockedChips = remember(allChannels, user, unlocked, isLockedGroup) {
@@ -316,7 +322,7 @@ fun LiveTvScreen(modifier: Modifier, onPlay: (LiveTvPlayRequest) -> Unit) {
                     }
                     StatusLine(status)
                     if (showCalendar) {
-                        CalendarPage(calendar = vm.calendar, use24Hour = settings.use24HourClock, onPlay = { r -> onPlay(r) })
+                        CalendarPage(calendar = vm.calendar, use24Hour = settings.use24HourClock, now = now, onPlay = { r -> onPlay(r) })
                     } else if (showSports) {
                         SportsPage(
                             repo = vm.sports,
@@ -359,6 +365,7 @@ fun LiveTvScreen(modifier: Modifier, onPlay: (LiveTvPlayRequest) -> Unit) {
                             onRemoveSeries = { vm.removeSeries(it.id) },
                             onKeepLast = { r, n -> vm.setKeepLast(r.id, n) },
                             resumeOf = vm::resumeOf,
+                            watchedOf = vm::isRecordingWatched,
                         )
                     } else if (shown.isEmpty()) {
                         Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {

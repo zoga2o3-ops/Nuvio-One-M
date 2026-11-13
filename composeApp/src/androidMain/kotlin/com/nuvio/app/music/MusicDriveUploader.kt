@@ -60,6 +60,7 @@ object MusicDriveUploader {
     private const val TAG = "MusicDrive"
     private const val PREFS = "nuvio_music_drive"
     private const val KEY_REFRESH = "refresh_token"
+    private const val KEY_CLIENT_ID = "client_id"
     private const val KEY_EMAIL = "email"
     private const val KEY_FOLDER = "folder_id"
     private const val KEY_UPLOADED = "uploaded"
@@ -88,6 +89,14 @@ object MusicDriveUploader {
         val app = context.applicationContext
         appContext = app
         val prefs = prefs(app)
+        // A new OAuth client invalidates old tokens and can't see old folders/files: reconnect once.
+        val clientId = MusicBuildConfig.GOOGLE_DRIVE_CLIENT_ID
+        if (prefs.getString(KEY_CLIENT_ID, null) != clientId) {
+            prefs.edit()
+                .remove(KEY_REFRESH).remove(KEY_EMAIL).remove(KEY_FOLDER).remove(KEY_UPLOADED)
+                .putString(KEY_CLIENT_ID, clientId)
+                .apply()
+        }
         val refresh = prefs.getString(KEY_REFRESH, null)
         val folderId = prefs.getString(KEY_FOLDER, null)
         _state.value = MusicDriveState(

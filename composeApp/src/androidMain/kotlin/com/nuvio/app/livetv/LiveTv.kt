@@ -31,6 +31,12 @@ class LiveTv private constructor(context: Context) {
     private val driveSyncLazy = lazy { com.nuvio.app.livetv.sync.LiveTvDriveSync(appContext, prefs, repository).also { it.start() } }
     val driveSync by driveSyncLazy
 
+    private val cloudSyncLazy = lazy {
+        com.nuvio.app.livetv.sync.LiveTvCloudSync(appContext, prefs, driveSync).also { it.start() }
+    }
+    /** Live TV setup sync through the signed-in Nuvio account (the same copy the TV app uses). */
+    val cloudSync by cloudSyncLazy
+
     /**
      * Forgets everything Live TV was set up with on this device: the playlists and guides (and the channels,
      * programmes and On Demand titles made from them), groups, edits, favorites, PIN, reminders and the
@@ -76,6 +82,8 @@ class LiveTv private constructor(context: Context) {
     init {
         // A Google account that's connected: check Drive for a newer setup, and back up changes.
         CoroutineScope(SupervisorJob() + Dispatchers.Default).launch { kotlinx.coroutines.delay(5_000); runCatching { driveSync } }
+        // The Nuvio account's saved setup: restored on a new device and kept up to date.
+        CoroutineScope(SupervisorJob() + Dispatchers.Default).launch { kotlinx.coroutines.delay(6_000); runCatching { cloudSync } }
         // Scheduled recordings get their alarms set as soon as Live TV is touched.
         CoroutineScope(SupervisorJob() + Dispatchers.Default).launch { runCatching { scheduler.start() } }
         CoroutineScope(SupervisorJob() + Dispatchers.Default).launch {

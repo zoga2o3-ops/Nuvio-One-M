@@ -68,6 +68,7 @@ fun RecordingsList(
     onRemoveSeries: (com.nuvio.app.livetv.record.SeriesRule) -> Unit = {},
     onKeepLast: (com.nuvio.app.livetv.record.SeriesRule, Int) -> Unit = { _, _ -> },
     resumeOf: (LiveTvRecording) -> Pair<Long, Long>? = { null },
+    watchedOf: (LiveTvRecording) -> Boolean = { false },
 ) {
     var confirmDelete by remember { mutableStateOf<LiveTvRecording?>(null) }
     val now = System.currentTimeMillis()
@@ -154,6 +155,7 @@ fun RecordingsList(
                     r, detail,
                     primary = if (r.status == RecordingStatus.FAILED) null else "Play" to { onPlay(r) },
                     secondary = "Delete" to { confirmDelete = r },
+                    watched = watchedOf(r),
                 )
             }
         }
@@ -180,6 +182,7 @@ private fun RecordingCard(
     detail: String,
     primary: Pair<String, () -> Unit>?,
     secondary: Pair<String, () -> Unit>,
+    watched: Boolean = false,
 ) {
     Row(
         Modifier.fillMaxWidth().clip(RoundedCornerShape(14.dp)).background(CardBg).padding(12.dp),
@@ -187,9 +190,13 @@ private fun RecordingCard(
     ) {
         Column(Modifier.weight(1f)) {
             Text(
-                (if (r.isRecording) "● " else "") + r.title,
+                (if (watched) "\u2713 " else if (r.isRecording) "\u25CF " else "") + r.title,
                 style = MaterialTheme.typography.titleSmall, maxLines = 1, overflow = TextOverflow.Ellipsis,
-                color = if (r.isRecording) Accent else LocalContentColor.current,
+                color = when {
+                    r.isRecording -> Accent
+                    watched -> MaterialTheme.colorScheme.primary
+                    else -> LocalContentColor.current
+                },
             )
             Text(r.channelName, style = MaterialTheme.typography.bodySmall, color = LocalContentColor.current.copy(alpha = 0.6f), maxLines = 1)
             Text(detail, style = MaterialTheme.typography.bodySmall, color = LocalContentColor.current.copy(alpha = 0.6f))

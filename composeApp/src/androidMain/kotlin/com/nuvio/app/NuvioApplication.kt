@@ -29,6 +29,12 @@ class NuvioApplication : Application(), SingletonImageLoader.Factory {
 
     override fun onCreate() {
         super.onCreate()
+        // The same debug report the TV app sends, through the same Discord webhook.
+        com.nuvio.app.core.diagnostics.DebugReportHost.available =
+            com.nuvio.app.core.diagnostics.DebugReportConfig.DISCORD_WEBHOOK.isNotBlank()
+        com.nuvio.app.core.diagnostics.DebugReportHost.send = {
+            runCatching { com.nuvio.app.core.diagnostics.DebugReportBuilder.buildAndUpload(this) }
+        }
         com.nuvio.app.cast.CastController.install(this)
         // 1Tube: apply the chosen YouTube content region before the first feed request.
         com.nuvio.app.youtube.YouTubeContentRegion.apply(this)
