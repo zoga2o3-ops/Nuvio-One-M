@@ -80,6 +80,18 @@ object LivePlayback {
         val key = LiveTvReconnect.armedChannel ?: return null
         return LiveTv.get(context).userState.value.channelAudio[key]
     }
+
+    /** Captions on or off, remembered for the channel playing ("on" / "off"). */
+    fun saveCaptions(context: Context, on: Boolean) {
+        val key = LiveTvReconnect.armedChannel ?: return
+        val live = LiveTv.get(context)
+        scope.launch { runCatching { live.prefs.setChannelCaptions(key, if (on) "on" else "off") } }
+    }
+
+    fun savedCaptions(context: Context): String? {
+        val key = LiveTvReconnect.armedChannel ?: return null
+        return LiveTv.get(context).userState.value.channelCaptions[key]
+    }
 }
 
 /** A channel that won't play: another channel with the same name (from another group or playlist) takes over. */

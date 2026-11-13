@@ -91,7 +91,7 @@ object MusicAccountRepository {
     }
 
     fun playlistSongs(playlistId: String): Result<List<Song>> = runCatching {
-        val group = service().contentService.getPlaylist(playlistId)
+        val group = service().contentService.getPlaylist(normalizePlaylistId(playlistId))
             ?: error("This playlist couldn't be opened.")
         loadAllGroupItems(group).mapNotNull { it.toSong() }
     }
@@ -181,7 +181,7 @@ object MusicAccountRepository {
         }
         return items
             .mapNotNull { item ->
-                val id = item.playlistId?.takeIf { it.isNotBlank() } ?: return@mapNotNull null
+                val id = item.accountPlaylistId() ?: return@mapNotNull null
                 if (item.title.orEmpty().contains("liked", ignoreCase = true)) {
                     return@mapNotNull null
                 }
@@ -193,6 +193,20 @@ object MusicAccountRepository {
             }
             .distinctBy { it.id }
     }
+
+    /**
+     * A playlist's plain id (`PL…`, `OLAK5uy_…`), however the card carries it: some Music
+     * playlist tiles only expose the `VL…` browse id, which must not be fed back in.
+     */
+    private fun MediaItem.accountPlaylistId(): String? {
+        val direct = playlistId?.takeIf { it.isNotBlank() }
+        if (direct != null) return normalizePlaylistId(direct)
+        val browse = reloadPageKey?.takeIf { it.isNotBlank() } ?: channelId?.takeIf { it.isNotBlank() }
+        return browse?.takeIf { it.startsWith("VL") }?.removePrefix("VL")?.takeIf { it.isNotBlank() }
+    }
+
+    private fun normalizePlaylistId(id: String): String =
+        if (id.startsWith("VL") && id.length > 2) id.removePrefix("VL") else id
 
     private fun MediaGroup.isLikedGroup(): Boolean =
         title.orEmpty().contains("liked", ignoreCase = true)
@@ -220,7 +234,7 @@ object MusicAccountRepository {
         val browseKey = if (id != null) {
             null
         } else {
-            val playlist = playlistId?.takeIf { it.isNotBlank() }
+            val playlist = accountPlaylistId()
             val key = if (playlist != null) {
                 "account:playlist:$playlist"
             } else {

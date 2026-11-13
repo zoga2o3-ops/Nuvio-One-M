@@ -76,10 +76,10 @@ class SportsRepository(
     private val aheadData = MutableStateFlow<Map<String, LeagueData>>(emptyMap())
     /** Followed teams' whole seasons from ESPN, by followed team key. */
     private val scheduleData = MutableStateFlow<Map<String, LeagueData>>(emptyMap())
-    /** Non-league football (nuvio-data files): whole seasons, by league id. */
+    /** Non-league football (shared sports data files): whole seasons, by league id. */
     private val tsdbData = MutableStateFlow<Map<String, LeagueData>>(emptyMap())
     private val tsdbTeams = java.util.concurrent.ConcurrentHashMap<String, List<TeamInfo>>()
-    /** The app's own leagues filled from the nuvio-data files (WWE, MotoGP…): league id -> TheSportsDB id. */
+    /** The app's own leagues filled from the shared sports data files (WWE, MotoGP…): league id -> TheSportsDB id. */
     @Volatile private var tsdbAlias: Map<String, String> = emptyMap()
     private fun fromTsdb(id: String) = id.startsWith("tsdb/") || id in tsdbAlias
     private fun tsdbFileId(id: String) = tsdbAlias[id] ?: id.removePrefix("tsdb/")
@@ -328,7 +328,9 @@ class SportsRepository(
                 runCatching { updateWeek(System.currentTimeMillis(), force) }.onFailure { Log.w(TAG, "Sports week update failed", it) }
                 runCatching { updateAhead(System.currentTimeMillis(), force) }.onFailure { Log.w(TAG, "Sports weeks-ahead update failed", it) }
                 runCatching { updatePast(System.currentTimeMillis()) }.onFailure { Log.w(TAG, "Sports past days update failed", it) }
-                runCatching { updateTsdb(System.currentTimeMillis(), force) }.onFailure { Log.w(TAG, "Non-league update failed", it) }
+                if (SportsFeeds.SHARED_FILES_ENABLED) {
+                    runCatching { updateTsdb(System.currentTimeMillis(), force) }.onFailure { Log.w(TAG, "Non-league update failed", it) }
+                }
                 runCatching { updateSchedules(System.currentTimeMillis(), force) }.onFailure { Log.w(TAG, "Team schedules update failed", it) }
             }
             if (active && System.currentTimeMillis() - lastFixtures > 12 * HOUR) {
@@ -355,7 +357,7 @@ class SportsRepository(
         // whose game is on screen, or one on the Hub's default view while you're looking at it.
         // Fast leagues are asked directly, exactly as before. Every other league — including
         // every one outside your region, which used never to be fetched at all — is kept warm
-        // through the shared cache in nuvio-data instead, so "every league, not just your
+        // through the shared cache in shared sports data instead, so "every league, not just your
         // region's" costs nothing extra against ESPN itself (see fetchViaSharedCache below).
         fun fastLeague(l: League) = isMine(l, f) || l.id in playingLeagues || SportsCatalog.shown(l, s)
         val due = allEspnLeagues().filter { l ->
@@ -624,7 +626,7 @@ class SportsRepository(
             } ?: run { tsdbIndexAt = now - 11 * HOUR }
         }
         // Every one of these (non-league football, rugby league and cricket outside the big
-        // competitions...), not just your region's: they're nuvio-data's own files, already
+        // competitions...), not just your region's: they're shared sports data's own files, already
         // fetched once a day by its shared job, so reading one more of them costs nothing extra
         // against TheSportsDB itself — the region gate here was only ever about tidiness.
         val wanted = (followedLeagueIds(f) + SportsCatalog.all.map { it.id }).distinct().filter { fromTsdb(it) }
@@ -673,7 +675,7 @@ class SportsRepository(
      */
     private fun fetchScoreboard(l: League, @Suppress("UNUSED_PARAMETER") from: String, @Suppress("UNUSED_PARAMETER") to: String, days: List<String>): List<String> {
         // ESPN turns down a range of days ("20261019-20261021": HTTP 400, in every league), so
-        // a day at a time (the ESPN check in nuvio-data showed it).
+        // a day at a time (the ESPN check in shared sports data showed it).
         var firstError: Throwable? = null
         val singles = days.mapNotNull { d ->
             runCatching { feeds.scoreboardDayRaw(l, d) }.onFailure { if (firstError == null) firstError = it }.getOrNull()
@@ -684,7 +686,7 @@ class SportsRepository(
     }
 
     /**
-     * [l]'s scoreboard for [days], from the shared cache nuvio-data's own job keeps (one GitHub
+     * [l]'s scoreboard for [days], from the shared cache shared sports data's own job keeps (one GitHub
      * file, read by every TV, instead of every TV asking ESPN itself): yesterday, today and
      * tomorrow for every built-in league that isn't being followed, played, or shown right now.
      * Falls back to asking ESPN directly only for a day the cache hasn't reached yet, and only
@@ -751,18 +753,19 @@ class SportsRepository(
             val list = runCatching { SportsFeeds.parseFixtures(l, raw) }.getOrDefault(emptyList())
             fixtureData.update { it + (l.id to LeagueData(list, System.currentTimeMillis(), null)) }
         }
-        // Wrestling's schedule (from TheSportsDB, through a file a GitHub job keeps up to date).
-        // (Boxing's fight cards come in the same file.) One request total, whoever asks for it.
-        val wrestling = SportsCatalog.all.filter { (it.sport == Sport.WRESTLING || it.id == "guide/boxing") && it.id !in tsdbAlias }.map { it.id }.toSet()
-        if (wrestling.isNotEmpty()) {
-            val file = File(dir, "fx_wrestling.json")
-            val raw = runCatching { feeds.wrestlingRaw() }.onSuccess { runCatching { file.writeText(it) } }.getOrNull()
-                ?: runCatching { file.readText() }.getOrNull()
-            if (raw != null) {
-                val byLeague = runCatching { SportsFeeds.parseWrestling(raw) }.getOrDefault(emptyMap())
-                val at = System.currentTimeMillis()
-                fixtureData.update { cur ->
-                    cur + byLeague.filterKeys { it in wrestling }.mapValues { (_, list) -> LeagueData(list, at, null) }
+        // Wrestling's schedule comes from the shared sports files. Off until our own data job is live.
+        if (SportsFeeds.SHARED_FILES_ENABLED) {
+            val wrestling = SportsCatalog.all.filter { (it.sport == Sport.WRESTLING || it.id == "guide/boxing") && it.id !in tsdbAlias }.map { it.id }.toSet()
+            if (wrestling.isNotEmpty()) {
+                val file = File(dir, "fx_wrestling.json")
+                val raw = runCatching { feeds.wrestlingRaw() }.onSuccess { runCatching { file.writeText(it) } }.getOrNull()
+                    ?: runCatching { file.readText() }.getOrNull()
+                if (raw != null) {
+                    val byLeague = runCatching { SportsFeeds.parseWrestling(raw) }.getOrDefault(emptyMap())
+                    val at = System.currentTimeMillis()
+                    fixtureData.update { cur ->
+                        cur + byLeague.filterKeys { it in wrestling }.mapValues { (_, list) -> LeagueData(list, at, null) }
+                    }
                 }
             }
         }
@@ -1107,7 +1110,7 @@ class SportsRepository(
 
     /**
      * [leagueId]'s table: from memory when it's under an hour old ([force]: fetched again),
-     * otherwise from ESPN or the nuvio-data file, with recent form and places moved since the
+     * otherwise from ESPN or the shared sports data file, with recent form and places moved since the
      * last round. Null when the league has no table (or it can't be had right now).
      */
     suspend fun standings(leagueId: String, force: Boolean = false): Standings? = withContext(Dispatchers.IO) {
@@ -1276,7 +1279,7 @@ class SportsRepository(
     private suspend fun summaryFor(ev: SportsEvent): GameSummary? = withContext(Dispatchers.IO) {
         val league = SportsCatalog.league(ev.leagueId) ?: return@withContext null
         if (league.kind != LeagueKind.TEAMS) return@withContext null
-        // TheSportsDB's games: the details the nuvio-data job keeps (finished and live games).
+        // TheSportsDB's games: the details the shared sports data job keeps (finished and live games).
         val tsdbId = if (league.espnPath == null && ev.id.startsWith("tsdb:") && ev.home != null) ev.id.substringAfterLast(':') else null
         val id = ev.espnId ?: tsdbId ?: return@withContext null
         if (league.espnPath == null && tsdbId == null) return@withContext null

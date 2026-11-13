@@ -6,7 +6,7 @@ import org.json.JSONObject
 /**
  * League tables ("standings"): ESPN's for the leagues it covers (any sport with a table, and
  * the F1 / NASCAR / IndyCar driver standings), TheSportsDB's for the non-league ones (from the
- * nuvio-data files). Fetched when a table is looked at and kept for an hour.
+ * shared sports data files). Fetched when a table is looked at and kept for an hour.
  */
 
 /** A column of the table: [key] picks the value from a row, [label] heads it ("W", "GD", "PTS"). */
@@ -292,9 +292,9 @@ data class Standings(
             )
         }
 
-        // ------------------------------------------------------------------ TheSportsDB (nuvio-data)
+        // ------------------------------------------------------------------ TheSportsDB (shared sports data)
 
-        /** The "table" a nuvio-data league file carries (written once a day), or null. */
+        /** The "table" a shared sports data league file carries (written once a day), or null. */
         fun parseTsdb(league: League, raw: String, now: Long = System.currentTimeMillis()): Standings? {
             val root = JSONObject(raw)
             val arr = root.optJSONArray("table") ?: return null

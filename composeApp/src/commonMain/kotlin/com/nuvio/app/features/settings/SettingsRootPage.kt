@@ -15,11 +15,15 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.automirrored.rounded.KeyboardArrowRight
+import androidx.compose.material.icons.filled.BugReport
 import androidx.compose.material.icons.rounded.People
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -27,6 +31,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.nuvio.app.AppLoadingProfileAvatar
+import com.nuvio.app.core.diagnostics.DebugReportHost
 import com.nuvio.app.core.ui.accentBrush
 import com.nuvio.app.core.ui.nuvio
 import com.nuvio.app.core.ui.themePalette
@@ -53,6 +58,7 @@ internal fun LazyListScope.settingsRootContent(
     }
     SettingsCategory.entries.filter { category == null || it == category }.forEach { group ->
         item(key = group.name) {
+            var showReport by rememberSaveable { mutableStateOf(false) }
             SettingsGroup(isTablet = isTablet) {
                 when (group) {
                     SettingsCategory.You -> {
@@ -157,9 +163,20 @@ internal fun LazyListScope.settingsRootContent(
                             isTablet = isTablet,
                             onPageClick = onPageClick,
                         )
+                        if (DebugReportHost.available) {
+                            SettingsGroupDivider(isTablet = isTablet)
+                            SettingsNavigationRow(
+                                title = stringResource(Res.string.settings_advanced_debug_report),
+                                description = stringResource(Res.string.settings_advanced_debug_report_description),
+                                icon = Icons.Default.BugReport,
+                                isTablet = isTablet,
+                                onClick = { showReport = true },
+                            )
+                        }
                     }
                 }
             }
+            if (showReport) DebugReportDialog(onDismiss = { showReport = false })
         }
     }
     settingsFooterContent(isTablet = isTablet)

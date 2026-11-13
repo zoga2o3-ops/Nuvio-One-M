@@ -84,7 +84,10 @@ object YouTubeMpdServer {
         val urls = ArrayList<String>()
         val rewritten = Regex("<BaseURL>([^<]*timedtext[^<]*)</BaseURL>").replace(String(mpd, Charsets.UTF_8)) { m ->
             val url = m.groupValues[1].replace("&amp;", "&")
-            if ("tlang=" !in url) m.value
+            // Translated captions are fetched and translated here; automatic ones (their lines roll
+            // up, the old one staying above the new) are tidied here. Written-by-people captions
+            // go straight to YouTube.
+            if ("tlang=" !in url && !isAutomatic(url)) m.value
             else {
                 urls += url
                 "<BaseURL>http://127.0.0.1:$port/yt/cap/$videoId/${urls.size - 1}</BaseURL>"
@@ -94,6 +97,9 @@ object YouTubeMpdServer {
         if (translatedCache.size > 12) translatedCache.clear()
         return withLanguageCodes(rewritten).toByteArray(Charsets.UTF_8)
     }
+
+    /** YouTube's speech-recognition captions ("kind=asr"). */
+    private fun isAutomatic(address: String) = Regex("[?&]kind=asr(&|$)").containsMatchIn(address)
 
     /** English language name (lower case) -> its code, for the names YouTube's manifest uses in place of codes. */
     private val languageCodes: Map<String, String> by lazy {
@@ -131,9 +137,19 @@ object YouTubeMpdServer {
             if (code != null) "lang=\"$code${if (raw.endsWith("*")) "-x-tr" else ""}\"" else m.value
         }
 
-    private fun fetchTranslatedCaption(videoId: String, index: Int): Pair<ByteArray, String>? {
+    private fun fetchCaption(videoId: String, index: Int): Pair<ByteArray, String>? {
         val address = captionUrls[videoId]?.getOrNull(index) ?: return null
-        val language = Regex("[?&]tlang=([^&]+)").find(address)?.groupValues?.get(1) ?: return null
+        val language = Regex("[?&]tlang=([^&]+)").find(address)?.groupValues?.get(1)
+        if (language == null) {
+            // Automatic captions: fetched here so the rolling duplicate line can be removed.
+            val key = "$videoId/asr/${address.hashCode()}"
+            translatedCache[key]?.let { return it to typeOf(it) }
+            val source = get(address) ?: return null
+            val bytes = YouTubeAutoCaptions.tidy(source).toByteArray(Charsets.UTF_8)
+            if (translatedCache.size > 12) translatedCache.clear()
+            translatedCache[key] = bytes
+            return bytes to typeOf(bytes)
+        }
         val key = "$videoId/$language"
         translatedCache[key]?.let { return it to typeOf(it) }
         val began = System.currentTimeMillis()
@@ -374,7 +390,7 @@ object YouTubeMpdServer {
         val out = c.getOutputStream()
         val caption = Regex("""GET /yt/cap/([^/ ]+)/(\d+)""").find(request)
         if (caption != null) {
-            val result = fetchTranslatedCaption(caption.groupValues[1], caption.groupValues[2].toInt())
+            val result = fetchCaption(caption.groupValues[1], caption.groupValues[2].toInt())
             if (result == null) reply(out, "404 Not Found", null, null) else reply(out, "200 OK", result.second, result.first)
             return@use
         }

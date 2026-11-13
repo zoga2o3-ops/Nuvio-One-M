@@ -371,6 +371,8 @@ data class LiveTvSettings(
     val groupPlaylistHeadings: Boolean = true,
     /** Channel name editor (TiviMate style): prefixes/suffixes to remove, comma-separated. */
     val nameRemovals: String = "",
+    /** Also take those prefixes/suffixes off group names (off by default). */
+    val cleanGroupNames: Boolean = false,
     /** Hidden developer tools (Test poster lookup). Turned on with a secret word. */
     val developerTools: Boolean = false,
     /** Satellite-box style: picking a group lands on the channel names (OK plays, Right opens the schedule). */
@@ -488,6 +490,8 @@ data class LiveUserState(
     val channelQuality: Map<String, String> = emptyMap(),
     /** Channel key -> the audio track you picked there ("language|label|channels"). */
     val channelAudio: Map<String, String> = emptyMap(),
+    /** Channel key -> captions on or off the last time you watched it ("on" / "off"). */
+    val channelCaptions: Map<String, String> = emptyMap(),
     /** On Demand categories you hid ("movie:<playlist>:<category>" / "series:…"). */
     val vodHiddenCategories: Set<String> = emptySet(),
     /** On Demand page: your order of the provider's groups (category uids), and your names for them. */
@@ -536,6 +540,18 @@ data class EpgChannelEntry(
 }
 
 /** A row in the TiviMate-style group panel. */
+/**
+ * The provider's own group order (Xtream logins list their categories in the order the provider
+ * set). Group id -> place; groups it doesn't name keep the order their channels come in.
+ */
+object PlaylistGroupOrder {
+    /** Snapshot state, so the group list recomputes when a provider's order is loaded. */
+    private val ranksState = androidx.compose.runtime.mutableStateOf<Map<String, Int>>(emptyMap())
+    var ranks: Map<String, Int>
+        get() = ranksState.value
+        set(value) { ranksState.value = value }
+}
+
 data class ChannelGroup(
     val id: String,
     val title: String,

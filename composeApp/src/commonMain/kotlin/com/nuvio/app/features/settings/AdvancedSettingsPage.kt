@@ -15,6 +15,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.font.FontWeight
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.nuvio.app.core.diagnostics.DebugReportHost
 import com.nuvio.app.core.network.DnsProvider
 import com.nuvio.app.core.network.DnsSettingsRepository
 import com.nuvio.app.core.ui.DialogButton
@@ -36,6 +37,7 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import nuvio.composeapp.generated.resources.Res
 import nuvio.composeapp.generated.resources.action_cancel
+import nuvio.composeapp.generated.resources.action_close
 import nuvio.composeapp.generated.resources.settings_advanced_dns
 import nuvio.composeapp.generated.resources.settings_advanced_dns_doh_format
 import nuvio.composeapp.generated.resources.settings_advanced_dns_note
@@ -49,6 +51,13 @@ import nuvio.composeapp.generated.resources.settings_advanced_clear_metadata_cac
 import nuvio.composeapp.generated.resources.settings_advanced_clear_metadata_cache_subtitle
 import nuvio.composeapp.generated.resources.settings_advanced_debug_logs
 import nuvio.composeapp.generated.resources.settings_advanced_debug_logs_description
+import nuvio.composeapp.generated.resources.settings_advanced_remember_last_profile
+import nuvio.composeapp.generated.resources.debug_report_dialog_body
+import nuvio.composeapp.generated.resources.debug_report_dialog_send
+import nuvio.composeapp.generated.resources.debug_report_dialog_title
+import nuvio.composeapp.generated.resources.debug_report_failed
+import nuvio.composeapp.generated.resources.debug_report_sending
+import nuvio.composeapp.generated.resources.debug_report_sent_with_id
 import nuvio.composeapp.generated.resources.settings_advanced_remember_last_profile
 import nuvio.composeapp.generated.resources.settings_advanced_remember_last_profile_description
 import nuvio.composeapp.generated.resources.settings_advanced_section_cache
@@ -382,6 +391,66 @@ private fun DnsProviderDialog(
                 text = stringResource(Res.string.action_cancel),
                 onClick = onDismiss,
             )
+        }
+    }
+}
+
+@Composable
+internal fun DebugReportDialog(onDismiss: () -> Unit) {
+    val tokens = MaterialTheme.nuvio
+    val scope = rememberCoroutineScope()
+    var sending by remember { mutableStateOf(false) }
+    var sentId by remember { mutableStateOf<String?>(null) }
+    var failed by remember { mutableStateOf(false) }
+
+    DialogSurface(
+        onDismissRequest = { if (!sending) onDismiss() },
+        title = stringResource(Res.string.debug_report_dialog_title),
+    ) {
+        Text(
+            text = when {
+                sentId != null -> stringResource(Res.string.debug_report_sent_with_id, sentId!!)
+                failed -> stringResource(Res.string.debug_report_failed)
+                sending -> stringResource(Res.string.debug_report_sending)
+                else -> stringResource(Res.string.debug_report_dialog_body)
+            },
+            style = MaterialTheme.typography.bodyLarge,
+            color = tokens.colors.textMuted,
+        )
+        DialogButtons {
+            if (sentId != null) {
+                DialogButton(
+                    text = stringResource(Res.string.action_close),
+                    onClick = onDismiss,
+                    style = DialogButtonStyle.Primary,
+                )
+            } else {
+                DialogButton(
+                    text = stringResource(Res.string.action_cancel),
+                    onClick = onDismiss,
+                    enabled = !sending,
+                )
+                DialogButton(
+                    text = stringResource(Res.string.debug_report_dialog_send),
+                    onClick = {
+                        if (sending) return@DialogButton
+                        sending = true
+                        failed = false
+                        scope.launch {
+                            val result = DebugReportHost.send?.invoke()
+                            sending = false
+                            if (result == null) failed = true
+                            else result.fold(
+                                onSuccess = { sentId = it },
+                                onFailure = { failed = true },
+                            )
+                        }
+                    },
+                    style = DialogButtonStyle.Primary,
+                    enabled = !sending,
+                    loading = sending,
+                )
+            }
         }
     }
 }

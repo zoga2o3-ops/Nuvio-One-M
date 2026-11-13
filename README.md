@@ -116,12 +116,13 @@ Your Live TV setup, in a file in your own Google Drive.
 - **Nuvio** by the NuvioMedia team, which this app is built on.
 - **NuvioMobile-Enhanced** by [luqmanfadlli](https://github.com/luqmanfadlli/NuvioMobile-Enhanced) (GPLv3): the customizable player, night mode, pinned streams, extra trackers and many other improvements in this app come from their fork.
 - **NuvioPlusIPTV** by homelessbrian: the Live TV guide, Sports, recordings and On Demand.
+- **BitChord** by [kushagrasinghx](https://github.com/kushagrasinghx/BitChord) (GPLv3): the Music section and its YouTube Music engine, ported to this app.
 - **SmartTube / MediaServiceCore** by Yurii Liskov (MIT licence): the YouTube engine.
 - **SponsorBlock** by Ajay Ramachandran and its community.
 - Sports data from ESPN's public feed and TheSportsDB. Guide design inspired by TiviMate.
 - This product uses the TMDB API but is not endorsed or certified by TMDB.
 
-This is an unofficial fork. It is **not affiliated with or endorsed by NuvioMedia, NuvioMobile-Enhanced, NuvioPlusIPTV, SmartTube, SponsorBlock, TiviMate, Google or YouTube.**
+This is an unofficial fork. It is **not affiliated with or endorsed by NuvioMedia, NuvioMobile-Enhanced, NuvioPlusIPTV, BitChord, SmartTube, SponsorBlock, TiviMate, Google or YouTube.**
 
 ## Legal
 

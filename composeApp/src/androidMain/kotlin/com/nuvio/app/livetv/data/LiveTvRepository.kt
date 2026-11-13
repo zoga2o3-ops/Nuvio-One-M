@@ -13,6 +13,7 @@ import com.nuvio.app.livetv.model.CatchupInfo
 import com.nuvio.app.livetv.model.LiveTvSettings
 import com.nuvio.app.livetv.model.PlaylistSource
 import com.nuvio.app.livetv.model.PlaylistAccount
+import com.nuvio.app.livetv.model.PlaylistGroupOrder
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -237,6 +238,7 @@ class LiveTvRepository(
     suspend fun removePlaylist(id: String) {
         prefs.updatePlaylists { list -> list.filterNot { it.id == id } }
         File(playlistDir, "$id.m3u").delete()
+        groupOrderFile(id).delete()
         embeddedEpgUrls.remove(id)
         dropPlaylistNow(id)
         scope.launch { rebuild() }
@@ -686,6 +688,7 @@ class LiveTvRepository(
         } else {
             LIVE_REPORT.add("Saved channel list used: ${_channels.value.size} channels in ${System.currentTimeMillis() - t0} ms")
         }
+        loadGroupOrder()
         val targets = collectEpgTargets()
         val settings = prefs.currentSettings()
         // The guide as it was last matched, if nothing it depends on has changed: the guide
@@ -1654,6 +1657,7 @@ class LiveTvRepository(
     private val embeddedEpgUrls = HashMap<String, List<String>>()
 
     private suspend fun buildChannels() = withContext(Dispatchers.IO) {
+        loadGroupOrder()
         val playlists = prefs.currentPlaylists().filter { it.liveEnabled }
         val multi = playlists.size > 1
         val out = ArrayList<LiveChannel>()
@@ -2267,6 +2271,26 @@ class LiveTvRepository(
     // ---------------------------------------------------------------- IO helpers
 
     private fun playlistFile(id: String) = File(playlistDir, "$id.m3u")
+
+    /** An Xtream login's group names in the provider's order (see [PlaylistGroupOrder]). */
+    private fun groupOrderFile(id: String) = File(playlistDir, "$id.groups")
+
+    /** The providers' own group order, for the guide's group list. */
+    private suspend fun loadGroupOrder() {
+        PlaylistGroupOrder.ranks = runCatching {
+            val playlists = prefs.currentPlaylists().filter { it.liveEnabled }
+            val multi = playlists.size > 1
+            val ranks = HashMap<String, Int>()
+            for (pl in playlists) {
+                val f = groupOrderFile(pl.id)
+                if (!f.exists()) continue
+                f.readLines().filter { it.isNotBlank() }.forEachIndexed { i, name ->
+                    ranks.putIfAbsent(if (multi) "${pl.id}::$name" else name, i)
+                }
+            }
+            ranks
+        }.getOrDefault(emptyMap())
+    }
     private fun epgFile(id: String) = File(epgDir, "$id.xml")
 
     /**
@@ -2448,12 +2472,20 @@ class LiveTvRepository(
                 (0 until arr.length()).map { arr.optString(it).lowercase() }.toSet()
             } ?: emptySet()
             // Catch-up links are in the server's local time. When the server's time zone differs
-            // from the TV's (say the server runs on UTC and the TV is in London in summer),
+            // from the phone's (say the server runs on UTC and the phone is in London in summer),
             // every replay started an hour off. Remember the server's zone for catch-up.
-            info.optJSONObject("server_info")?.optString("timezone")?.takeIf { it.isNotBlank() }?.let { tz ->
+            val zone = ZoneFinder.fromServerInfo(info.optJSONObject("server_info"))
+                ?: runCatching {
+                    // The server names no zone: read it from the provider's own guide instead.
+                    val login = "username=" + java.net.URLEncoder.encode(pl.xtreamUsername.trim(), "UTF-8") +
+                        "&password=" + java.net.URLEncoder.encode(pl.xtreamPassword.trim(), "UTF-8")
+                    probeText("${pl.xtreamBase()}/xmltv.php?$login", pl.userAgent)?.let { ZoneFinder.fromGuide(it) }
+                }.getOrNull()
+            zone?.let { (tz, why) ->
                 if (tz != pl.serverTimezone) {
                     prefs.updatePlaylists { list -> list.map { if (it.id == pl.id) it.copy(serverTimezone = tz) else it } }
                 }
+                LIVE_REPORT.add("Server time zone for \"${pl.name}\": $tz ($why)")
             }
             info.optJSONObject("user_info")?.let { ui ->
                 accountOf(ui)?.let { saveAccount(pl, it) }
@@ -2470,14 +2502,19 @@ class LiveTvRepository(
                 }
             } ?: if (info.has("user_info")) Unit else error("Not an Xtream API response")
 
-            // 2. Categories
+            // 2. Categories (in the provider's order, kept for the guide's group list)
             val categories = HashMap<String, String>()
+            val categoryOrder = ArrayList<String>()
             runCatching {
                 val arr = org.json.JSONArray(getText("$api&action=get_live_categories", pl.userAgent))
                 for (i in 0 until arr.length()) {
                     val c = arr.optJSONObject(i) ?: continue
                     categories[c.optString("category_id")] = c.optString("category_name")
+                    c.optString("category_name").ifBlank { null }?.let { categoryOrder += it }
                 }
+            }
+            if (categoryOrder.isNotEmpty()) runCatching {
+                groupOrderFile(pl.id).writeText(categoryOrder.joinToString("\n") { it.replace("\n", " ").replace("\"", "'").trim() })
             }
 
             // 3. Live streams, streamed straight into an M3U file
@@ -2660,12 +2697,20 @@ class LiveTvRepository(
         val m = Regex("""^(https?://[^/]+)/(?:live/)?([^/]+)/([^/]+)/(\d+)(\.[a-z0-9]+)?(\?.*)?$""", RegexOption.IGNORE_CASE)
             .find(channel.url) ?: return@withContext null
         val (host, user, pass) = m.destructured
-        val tz = runCatching {
+        var tz = runCatching {
             val url = "$host/player_api.php?username=" + java.net.URLEncoder.encode(user, "UTF-8") +
                 "&password=" + java.net.URLEncoder.encode(pass, "UTF-8")
-            JSONObject(getText(url, pl.userAgent.ifBlank { DEFAULT_UA }))
-                .optJSONObject("server_info")?.optString("timezone")?.takeIf { it.isNotBlank() }
+            ZoneFinder.fromServerInfo(JSONObject(getText(url, pl.userAgent.ifBlank { DEFAULT_UA })).optJSONObject("server_info"))
+                ?.first
         }.getOrNull()
+        if (tz == null) {
+            // The server names no zone: work it out from the provider's own guide.
+            tz = runCatching {
+                val guide = "$host/xmltv.php?username=" + java.net.URLEncoder.encode(user, "UTF-8") +
+                    "&password=" + java.net.URLEncoder.encode(pass, "UTF-8")
+                probeText(guide, pl.userAgent.ifBlank { DEFAULT_UA })?.let { ZoneFinder.fromGuide(it)?.first }
+            }.getOrNull()
+        }
         LIVE_REPORT.add(if (tz != null) "Server time zone for \"${pl.name}\": $tz" else "Server time zone for \"${pl.name}\": unknown")
         if (tz != null) prefs.updatePlaylists { list -> list.map { if (it.id == pl.id) it.copy(serverTimezone = tz) else it } }
         tz
@@ -2735,6 +2780,26 @@ class LiveTvRepository(
             return response.body?.string() ?: error("Empty response")
         }
     }
+
+    /** The first [maxBytes] of [url], for a quick look at a big guide without downloading it all. */
+    private fun probeText(url: String, userAgent: String, maxBytes: Int = 16 * 1024): String? = runCatching {
+        val request = Request.Builder().url(url)
+            .header("User-Agent", userAgent.ifBlank { DEFAULT_UA })
+            .header("Range", "bytes=0-${maxBytes - 1}")
+            .build()
+        http.newCall(request).execute().use { response ->
+            if (!response.isSuccessful) return@use null
+            val body = response.body?.byteStream() ?: return@use null
+            val buf = ByteArray(maxBytes)
+            var n = 0
+            while (n < maxBytes) {
+                val k = body.read(buf, n, maxBytes - n)
+                if (k <= 0) break
+                n += k
+            }
+            String(buf, 0, n, Charsets.UTF_8)
+        }
+    }.getOrNull()
 
     /** Plain-English reasons for the HTTP errors people actually hit. */
     private fun httpError(code: Int): String = when (code) {

@@ -461,52 +461,90 @@ class LiveTvRecordingScheduler(
             val shift = settings.epgOffsetMinutes * 60_000L - settings.catchupShiftMinutes * 60_000L
             val url = catchup?.let {
                 CatchupUrlBuilder.build(channel.url, it, s.startMs - s.pre - shift, s.stopMs + s.post - shift, now,
-                    preferHls = false, serverTimezone = zone)
+                    preferHls = settings.catchupPreferHls, serverTimezone = zone)
             }
             if (url == null) {
                 // No catch-up link after all: nothing to download.
                 drop(s, "\"${s.title}\" couldn't be saved: this channel's catch-up isn't available")
                 return@launch
             }
-            remove(s)
-            markSeen(s)
-            recorder.start(
-                channel, url, s.title, s.episode, s.description, s.startMs, s.stopMs,
-                stopAtMs = now + (s.stopMs - s.startMs) * 3 + 30 * 60_000L,
-                finite = true,
-                fallbacks = CatchupUrlBuilder.alternatives(url, zone),
-                seriesId = s.seriesId,
-                // Cut off part way: the rest of the show, from a little before where it got to
-                // (catch-up links often go by the minute, so a few seconds may repeat).
-                resumeFrom = { doneMs ->
-                    catchup?.let {
-                        val from = s.startMs - s.pre - shift + doneMs - 30_000L
-                        CatchupUrlBuilder.build(channel.url, it, from, s.stopMs + s.post - shift, System.currentTimeMillis(),
-                            preferHls = false, serverTimezone = zone)
-                    }
-                },
-                onFinished = { rec ->
-                    if (rec.status != RecordingStatus.FAILED) s.seriesId?.let { keepOnlyNewest(it) }
-                    // No connection (the box asleep in standby, Wi-Fi off overnight): that's not the
-                    // show's fault, so it doesn't use up a try. It's tried again while the provider
-                    // still keeps the show, and straight away once the connection is back.
-                    val offline = rec.status == RecordingStatus.FAILED && (!online() || looksOffline(rec.problem))
-                    val keptUntil = s.stopMs + (catchup?.days ?: 1).coerceAtLeast(1) * 24 * 60 * 60_000L - 60 * 60_000L
-                    val retryable = offline || s.attempts < MAX_TRIES
-                    if (rec.status == RecordingStatus.FAILED && retryable && System.currentTimeMillis() < keptUntil) {
-                        // Not ready at the provider yet (or a hiccup): try again in a while.
-                        recorder.delete(rec.id)
-                        if (offline) com.nuvio.app.livetv.model.LiveTvLoadReport.add("\"${s.title}\": no connection, so it's saved once the connection is back")
-                        val retry = s.copy(attempts = if (offline) s.attempts else s.attempts + 1, nextTryMs = System.currentTimeMillis() + RETRY_MS)
-                        scope.launch {
-                            mutex.withLock { _schedules.value = (_schedules.value + retry).sortedBy { it.startMs }; save() }
-                            arm(retry)
+            // One catch-up download per provider at a time, oldest show first: most accounts allow
+            // one connection, and a second download made the provider close the first part way.
+            val sourceId = channel.sourceId
+            val proceed = synchronized(catchupStarting) {
+                val now2 = System.currentTimeMillis()
+                val earlierWaiting = _schedules.value.any { o ->
+                    o.id != s.id && o.useCatchup && o.channel.sourceId == sourceId &&
+                        o.startMs < s.startMs && o.stopMs + CATCHUP_DELAY_MS <= now2 &&
+                        fireTime(o) <= now2 + QUEUE_WAIT_MS
+                }
+                if (recorder.catchupBusy(sourceId) || (sourceId != null && sourceId in catchupStarting) || earlierWaiting) {
+                    false
+                } else {
+                    if (sourceId != null) catchupStarting += sourceId
+                    true
+                }
+            }
+            if (!proceed) {
+                // Another download from this provider first: check again in a minute (not a try used up).
+                val wait = s.copy(nextTryMs = System.currentTimeMillis() + QUEUE_WAIT_MS)
+                mutex.withLock {
+                    _schedules.value = _schedules.value.map { if (it.id == s.id) wait else it }
+                    save()
+                }
+                arm(wait)
+                recorder.stopServiceIfIdle()
+                return@launch
+            }
+            try {
+                remove(s)
+                markSeen(s)
+                recorder.start(
+                    channel, url, s.title, s.episode, s.description, s.startMs, s.stopMs,
+                    stopAtMs = now + (s.stopMs - s.startMs) * 3 + 30 * 60_000L,
+                    finite = true,
+                    fallbacks = CatchupUrlBuilder.alternatives(url, zone),
+                    seriesId = s.seriesId,
+                    // Cut off part way: the rest of the show, from a little before where it got to
+                    // (catch-up links often go by the minute, so a few seconds may repeat).
+                    resumeFrom = { doneMs ->
+                        catchup?.let {
+                            val from = s.startMs - s.pre - shift + doneMs - 30_000L
+                            CatchupUrlBuilder.build(channel.url, it, from, s.stopMs + s.post - shift, System.currentTimeMillis(),
+                                preferHls = false, serverTimezone = zone)
+                                // Carrying on happens in the TS download: an m3u8 channel's link in its TS form.
+                                ?.let { link -> CatchupUrlBuilder.tsFallback(link) ?: link }
+                        }
+                    },
+                    expectedSec = (s.stopMs + s.post - (s.startMs - s.pre)) / 1000.0,
+                    onFinished = { rec ->
+                        if (rec.status != RecordingStatus.FAILED) s.seriesId?.let { keepOnlyNewest(it) }
+                        // No connection (the box asleep in standby, Wi-Fi off overnight): that's not the
+                        // show's fault, so it doesn't use up a try. It's tried again while the provider
+                        // still keeps the show, and straight away once the connection is back.
+                        val offline = rec.status == RecordingStatus.FAILED && (!online() || looksOffline(rec.problem))
+                        val keptUntil = s.stopMs + (catchup?.days ?: 1).coerceAtLeast(1) * 24 * 60 * 60_000L - 60 * 60_000L
+                        val retryable = offline || s.attempts < MAX_TRIES
+                        if (rec.status == RecordingStatus.FAILED && retryable && System.currentTimeMillis() < keptUntil) {
+                            // Not ready at the provider yet (or a hiccup): try again in a while.
+                            recorder.delete(rec.id)
+                            if (offline) com.nuvio.app.livetv.model.LiveTvLoadReport.add("\"${s.title}\": no connection, so it's saved once the connection is back")
+                            val retry = s.copy(attempts = if (offline) s.attempts else s.attempts + 1, nextTryMs = System.currentTimeMillis() + RETRY_MS)
+                            scope.launch {
+                                mutex.withLock { _schedules.value = (_schedules.value + retry).sortedBy { it.startMs }; save() }
+                                arm(retry)
+                            }
                         }
                     }
-                }
-            )
+                )
+            } finally {
+                if (sourceId != null) synchronized(catchupStarting) { catchupStarting -= sourceId }
+            }
         }
     }
+
+    /** Providers whose catch-up download is just being started (before the recorder reports it). */
+    private val catchupStarting = java.util.Collections.synchronizedSet(HashSet<String>())
 
     // ------------------------------------------------------------------ connection
 
@@ -635,6 +673,8 @@ class LiveTvRecordingScheduler(
         const val POST_MS = 5 * 60_000L
         /** Catch-up downloads start this long after the show ends (providers need a moment). */
         const val CATCHUP_DELAY_MS = 10 * 60_000L
+        /** A catch-up download waiting for another from the same provider checks again this often. */
+        const val QUEUE_WAIT_MS = 60_000L
         const val RETRY_MS = 30 * 60_000L
         const val MAX_TRIES = 3
 

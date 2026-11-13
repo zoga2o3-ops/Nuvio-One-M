@@ -84,7 +84,7 @@ private class CompatAssSubtitleParserFactory(
     }
 
     override fun create(format: Format): SubtitleParser {
-        return delegate.create(normalizeSsaFormat(format))
+        return AssDialogueDedupeParser(delegate.create(normalizeSsaFormat(format)))
     }
 
     private fun normalizeSsaFormat(format: Format): Format {

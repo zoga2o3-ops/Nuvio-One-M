@@ -8,6 +8,7 @@ import com.liskovsoft.mediaserviceinterfaces.ContentService
 import com.liskovsoft.mediaserviceinterfaces.data.MediaGroup
 import com.liskovsoft.mediaserviceinterfaces.data.MediaItem
 import com.liskovsoft.mediaserviceinterfaces.data.MediaItemFormatInfo
+import com.liskovsoft.mediaserviceinterfaces.data.SearchOptions
 import com.liskovsoft.sharedutils.prefs.GlobalPreferences
 import com.liskovsoft.youtubeapi.service.YouTubeServiceManager
 import kotlinx.coroutines.CompletableDeferred
@@ -190,7 +191,24 @@ class YouTubeViewModel (private val context: Context) : ViewModel() {
             it.copy(loading = true, error = null, rows = emptyList(), grid = emptyList(), canLoadMore = false,
                 subTitle = "Results for \"${query.trim()}\"")
         }
-        loadRows(query) { content.getSearchObserve(query) }
+        loadRows(query) {
+            io.reactivex.Observable.fromCallable {
+                val mixed = content.getSearchObserve(query).blockingFirst()
+                val hasChannel = mixed.any { group ->
+                    group.mediaItems.orEmpty().any { it.type == MediaItem.TYPE_CHANNEL }
+                }
+                if (hasChannel) {
+                    mixed
+                } else {
+                    // YouTube's default search answer often contains only videos. Ask for the
+                    // channel filter as well so an unsubscribed channel still gets a card.
+                    val channels = runCatching {
+                        content.getSearchObserve(query, SearchOptions.TYPE_CHANNEL).blockingFirst()
+                    }.getOrDefault(emptyList())
+                    channels + mixed
+                }
+            }
+        }
     }
 
     /** Opens a channel or playlist on top of the current page. */

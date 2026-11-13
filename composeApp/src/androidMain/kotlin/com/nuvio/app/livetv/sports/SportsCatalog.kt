@@ -402,7 +402,7 @@ object SportsCatalog {
 
     /**
      * Leagues that arrive with the data rather than being built in: non-league football from
-     * the nuvio-data files (ids "tsdb/<TheSportsDB id>"). Set when that data loads.
+     * the shared sports data files (ids "tsdb/<TheSportsDB id>"). Set when that data loads.
      */
     @Volatile var extra: List<League> = emptyList()
         private set

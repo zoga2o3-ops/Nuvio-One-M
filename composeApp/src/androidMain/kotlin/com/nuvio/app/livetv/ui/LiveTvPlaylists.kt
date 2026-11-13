@@ -279,6 +279,7 @@ private fun PlaylistEditDialog(
 ) {
     var name by remember { mutableStateOf(playlist.name) }
     var agent by remember { mutableStateOf(playlist.userAgent) }
+    var zone by remember { mutableStateOf(playlist.serverTimezone) }
     var live by remember { mutableStateOf(playlist.importLive) }
     var vod by remember { mutableStateOf(playlist.importVod) }
     var embedded by remember { mutableStateOf(playlist.useEmbeddedEpg) }
@@ -295,6 +296,9 @@ private fun PlaylistEditDialog(
                 OutlinedTextField(
                     value = agent, onValueChange = { agent = it }, singleLine = true,
                     label = { Text("User agent (leave empty for the default)") }, colors = fieldColors())
+                OutlinedTextField(
+                    value = zone, onValueChange = { zone = it }, singleLine = true,
+                    label = { Text("Server time zone (optional, e.g. Europe/London)") }, colors = fieldColors())
                 if (playlist.isStalker) {
                     OutlinedTextField(
                         value = portal, onValueChange = { portal = it }, singleLine = true, label = { Text("Portal address") }, colors = fieldColors(),
@@ -347,6 +351,7 @@ private fun PlaylistEditDialog(
                 onSave(
                     playlist.copy(
                         name = name.trim().ifBlank { playlist.name }, userAgent = agent.trim(),
+                        serverTimezone = zone.trim(),
                         importLive = live, importVod = vod, useEmbeddedEpg = embedded, streamFormat = format, logoSource = logos,
                         stalkerPortal = if (playlist.isStalker) portal.trim().ifBlank { playlist.stalkerPortal } else playlist.stalkerPortal,
                         stalkerMac = if (playlist.isStalker) mac.trim().ifBlank { playlist.stalkerMac } else playlist.stalkerMac,

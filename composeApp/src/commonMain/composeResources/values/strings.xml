@@ -591,6 +591,15 @@
     <string name="settings_advanced_section_debugging">DEBUGGING</string>
     <string name="settings_advanced_debug_logs">Debug Logs</string>
     <string name="settings_advanced_debug_logs_description">View, copy, or clear in-app debug logs</string>
+    <string name="settings_advanced_debug_report">Send debug report</string>
+    <string name="settings_advanced_debug_report_description">Upload app, device, Live TV and recent log details for support</string>
+    <string name="debug_report_dialog_title">Send debug report?</string>
+    <string name="debug_report_dialog_body">This sends your app and device details, the Live TV start-up report and recent logs. Tokens, passwords, emails, IP addresses and full URLs are removed before sending.</string>
+    <string name="debug_report_dialog_send">Send report</string>
+    <string name="debug_report_sending">Sending report…</string>
+    <string name="debug_report_sent">Report sent. Thanks!</string>
+    <string name="debug_report_sent_with_id">Report sent (ID: %1$s). Thanks!</string>
+    <string name="debug_report_failed">Couldn\'t send the report. Try again later.</string>
     <string name="settings_advanced_debugging_copy_logs">Copy Logs to Clipboard</string>
     <string name="settings_advanced_debugging_copy_logs_description">Copy %1$d in-app log lines</string>
     <string name="settings_advanced_debugging_clear_logs">Clear Logs</string>

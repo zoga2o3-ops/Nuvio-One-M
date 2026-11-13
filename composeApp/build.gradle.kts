@@ -52,6 +52,15 @@ abstract class GenerateRuntimeConfigsTask : DefaultTask() {
     @get:Input
     abstract val driveClientSecret: Property<String>
 
+    @get:Input
+    abstract val syncUrl: Property<String>
+
+    @get:Input
+    abstract val sportsDataUrl: Property<String>
+
+    @get:Input
+    abstract val sportsDataFallbackUrl: Property<String>
+
     @TaskAction
     fun generate() {
         val props = Properties()
@@ -96,6 +105,29 @@ abstract class GenerateRuntimeConfigsTask : DefaultTask() {
                 |object DriveConfig {
                 |    const val CLIENT_ID = "${driveClientId.get()}"
                 |    const val CLIENT_SECRET = "${driveClientSecret.get()}"
+                |}
+                """.trimMargin()
+            )
+            resolve("SyncBuildConfig.kt").writeText(
+                """
+                |package com.nuvio.app.livetv.sync
+                |
+                |object SyncBuildConfig {
+                |    const val LIVETV_SYNC_URL = "${syncUrl.get()}"
+                |}
+                """.trimMargin()
+            )
+        }
+
+        outDir.resolve("com/nuvio/app/livetv/sports").apply {
+            mkdirs()
+            resolve("SportsDataConfig.kt").writeText(
+                """
+                |package com.nuvio.app.livetv.sports
+                |
+                |object SportsDataConfig {
+                |    const val ESPN_DATA_URL = "${sportsDataUrl.get()}"
+                |    const val ESPN_FALLBACK_URL = "${sportsDataFallbackUrl.get()}"
                 |}
                 """.trimMargin()
             )
@@ -243,6 +275,22 @@ abstract class GenerateRuntimeConfigsTask : DefaultTask() {
                 """.trimMargin()
             )
         }
+
+        outDir.resolve("com/nuvio/app/core/diagnostics").apply {
+            mkdirs()
+            val hook = props.getProperty("DEBUG_REPORT_DISCORD_WEBHOOK", "")
+                .replace("\\", "\\\\")
+                .replace("\"", "\\\"")
+            resolve("DebugReportConfig.kt").writeText(
+                """
+                |package com.nuvio.app.core.diagnostics
+                |
+                |object DebugReportConfig {
+                |    const val DISCORD_WEBHOOK = "$hook"
+                |}
+                """.trimMargin()
+            )
+        }
     }
 }
 
@@ -352,6 +400,19 @@ fun runtimeConfigBoolean(key: String, default: Boolean): Boolean =
         else -> default
     }
 
+val livetvSyncUrl = providers.gradleProperty("livetvSyncUrl").orNull
+    ?.trim()?.takeIf { it.isNotBlank() }
+    ?: "https://nuvioone-sync.nuviotv-sync.workers.dev"
+
+val sportsDataUrlValue = providers.gradleProperty("sportsDataUrl").orNull
+    ?.trim()?.takeIf { it.isNotBlank() }
+    // Our own data repo isn't live yet; the shared ESPN cache is off for now.
+    ?: ""
+
+val sportsDataFallbackUrlValue = providers.gradleProperty("sportsDataFallbackUrl").orNull
+    ?.trim()?.takeIf { it.isNotBlank() }
+    ?: ""
+
 val generateRuntimeConfigs = tasks.register<GenerateRuntimeConfigsTask>("generateRuntimeConfigs") {
     outputDir.set(generatedRuntimeConfigDir)
     localPropertiesFile.set(rootProject.layout.projectDirectory.file("local.properties"))
@@ -364,6 +425,9 @@ val generateRuntimeConfigs = tasks.register<GenerateRuntimeConfigsTask>("generat
     tmdbApiKey.set(runtimeConfigValue("TMDB_API_KEY"))
     driveClientId.set(runtimeConfigValue("GOOGLE_DRIVE_CLIENT_ID"))
     driveClientSecret.set(runtimeConfigValue("GOOGLE_DRIVE_CLIENT_SECRET"))
+    syncUrl.set(livetvSyncUrl)
+    sportsDataUrl.set(sportsDataUrlValue)
+    sportsDataFallbackUrl.set(sportsDataFallbackUrlValue)
     sentryEnvironment.set(
         when {
             requestedGradleTasks.any { "benchmark" in it } -> "benchmark"

@@ -78,6 +78,18 @@ class LiveTvDriveSync(
     private val _state = MutableStateFlow(loadState())
     val state: StateFlow<DriveSyncState> = _state.asStateFlow()
 
+    init {
+        // A new OAuth client invalidates old tokens: reconnect once instead of failing every sync.
+        if (store.getString(KEY_CLIENT_ID, null) != clientId) {
+            store.edit()
+                .remove(KEY_REFRESH).remove(KEY_EMAIL).remove(KEY_FILE_ID)
+                .remove(KEY_LAST_HASH).remove(KEY_MODE)
+                .putString(KEY_CLIENT_ID, clientId)
+                .apply()
+            _state.value = loadState()
+        }
+    }
+
     private var started = false
     private var signInJob: Job? = null
     private var accessToken: String? = null
@@ -402,7 +414,7 @@ class LiveTvDriveSync(
 
     // ------------------------------------------------------------------ merging
 
-    private suspend fun applyLocally(data: JSONObject) {
+    internal suspend fun applyLocally(data: JSONObject) {
         applying = true
         appliedAtMs = System.currentTimeMillis()
         try {
@@ -447,7 +459,7 @@ class LiveTvDriveSync(
      * ([base]) is kept, everything else comes from the other TV. Without a base, [localWinsWithoutBase]
      * decides.
      */
-    private fun merge(
+    internal fun merge(
         base: JSONObject?,
         local: JSONObject,
         remote: JSONObject,
@@ -694,6 +706,7 @@ class LiveTvDriveSync(
         const val FILE_NAME = "Nuvio Live TV backup.json"
         val JSON = "application/json; charset=UTF-8".toMediaType()
         const val KEY_REFRESH = "refresh_token"
+        const val KEY_CLIENT_ID = "client_id"
         const val KEY_EMAIL = "email"
         const val KEY_AUTO = "auto_sync"
         const val KEY_FILE_ID = "file_id"

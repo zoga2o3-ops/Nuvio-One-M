@@ -154,15 +154,27 @@ object RecordingResume {
         val done = durationMs > 0 && positionMs >= durationMs - 60_000L
         runCatching {
             prefs(context).edit().apply {
-                if (done) remove(id) else putString(id, "$positionMs,$durationMs")
+                if (done) putString(id, WATCHED) else putString(id, "$positionMs,$durationMs")
             }.apply()
         }
+    }
+
+    /** The saved value that means "watched to the end" (reads as no position, so it plays from the start). */
+    private const val WATCHED = "W"
+
+    /** Watched to the end (or marked as watched). */
+    fun isWatched(context: Context, recordingId: String): Boolean =
+        runCatching { prefs(context).getString(recordingId, null) == WATCHED }.getOrDefault(false)
+
+    fun markWatched(context: Context, recordingId: String) {
+        runCatching { prefs(context).edit().putString(recordingId, WATCHED).apply() }
     }
 
     /** Position and length, or null if not started (or finished). */
     fun load(context: Context, contentId: String?): Pair<Long, Long>? {
         val id = contentId?.removePrefix(PREFIX) ?: return null
         val v = runCatching { prefs(context).getString(id, null) }.getOrNull() ?: return null
+        if (v == WATCHED) return null
         val p = v.split(',')
         val pos = p.getOrNull(0)?.toLongOrNull() ?: return null
         return pos to (p.getOrNull(1)?.toLongOrNull() ?: 0L)

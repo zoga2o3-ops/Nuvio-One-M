@@ -18,14 +18,18 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ThumbUp
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.FilterChip
+import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -294,7 +298,7 @@ private fun Comments(state: YtPlayerState, vm: YouTubePlayerViewModel, onReplies
                 Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { CircularProgressIndicator() }
             state.comments.isEmpty() -> Centered("No comments to show.")
             else -> LazyColumn(contentPadding = PaddingValues(16.dp), verticalArrangement = Arrangement.spacedBy(14.dp)) {
-                items(state.comments) { c -> CommentRow(c, onReplies) }
+                items(state.comments) { c -> CommentRow(c, onLike = { vm.toggleCommentLike(c) }, onReplies = onReplies) }
                 if (state.canLoadMoreComments) {
                     item {
                         LaunchedEffect(state.comments.size) { vm.loadMoreComments() }
@@ -313,7 +317,7 @@ private fun Replies(state: YtPlayerState, vm: YouTubePlayerViewModel) {
             Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { CircularProgressIndicator() }
         state.replies.isEmpty() -> Centered("No replies to show.")
         else -> LazyColumn(contentPadding = PaddingValues(16.dp), verticalArrangement = Arrangement.spacedBy(14.dp)) {
-            items(state.replies) { c -> CommentRow(c, null) }
+            items(state.replies) { c -> CommentRow(c, onLike = { vm.toggleCommentLike(c) }, onReplies = null) }
             if (state.canLoadMoreReplies) {
                 item {
                     LaunchedEffect(state.replies.size) { vm.loadMoreReplies() }
@@ -325,13 +329,35 @@ private fun Replies(state: YtPlayerState, vm: YouTubePlayerViewModel) {
 }
 
 @Composable
-private fun CommentRow(c: YtComment, onReplies: ((String) -> Unit)?) {
+private fun CommentRow(c: YtComment, onLike: () -> Unit, onReplies: ((String) -> Unit)?) {
     Column {
         Text(c.author, style = MaterialTheme.typography.labelMedium, color = Color(0xFFB0B0B0))
         Spacer(Modifier.height(2.dp))
         Text(c.text, style = MaterialTheme.typography.bodyMedium)
         val meta = listOfNotNull(c.published, c.likes?.let { "$it likes" }).joinToString("  ·  ")
-        if (meta.isNotEmpty()) Text(meta, style = MaterialTheme.typography.bodySmall, color = Color(0xFF909090))
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            if (meta.isNotEmpty()) {
+                Text(meta, style = MaterialTheme.typography.bodySmall, color = Color(0xFF909090))
+            }
+            Spacer(Modifier.width(8.dp))
+            TextButton(
+                onClick = onLike,
+                contentPadding = PaddingValues(horizontal = 8.dp, vertical = 0.dp),
+            ) {
+                Icon(
+                    Icons.Filled.ThumbUp,
+                    contentDescription = if (c.liked) "Unlike comment" else "Like comment",
+                    modifier = Modifier.size(14.dp),
+                    tint = if (c.liked) MaterialTheme.colorScheme.primary else Color(0xFF909090),
+                )
+                Spacer(Modifier.width(4.dp))
+                Text(
+                    if (c.liked) "Liked" else "Like",
+                    style = MaterialTheme.typography.labelSmall,
+                    color = if (c.liked) MaterialTheme.colorScheme.primary else Color(0xFF909090),
+                )
+            }
+        }
         val key = c.replyKey
         if (key != null && onReplies != null) {
             val label = c.replyCount?.let { if (it.any(Char::isLetter)) it else "$it replies" } ?: "Replies"
