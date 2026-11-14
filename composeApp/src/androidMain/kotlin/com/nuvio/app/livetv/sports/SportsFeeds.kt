@@ -89,12 +89,12 @@ internal class SportsFeeds {
     fun fixturesRaw(slug: String): String = get("https://sporting-events.org/data/$slug.json")
 
     /**
-     * The wrestling schedule (WWE, AEW…), compiled with the shared sports files. Off until our
-     * own data job is live; the Sports page still gets everything ESPN carries.
+     * The wrestling schedule (WWE, AEW…), built by our own data job from the promotions'
+     * public event pages. It feeds the Sports page and the guide matching.
      */
     fun wrestlingRaw(): String {
-        if (!SHARED_FILES_ENABLED) error("Shared sports data is being rebuilt")
-        return get(DATA_URL_PLACEHOLDER + "wrestling.json")
+        if (!WRESTLING_FILES_ENABLED) error("Shared sports data is being rebuilt")
+        return get(SportsDataConfig.ESPN_DATA_URL + "wrestling.json")
     }
 
     /**
@@ -102,22 +102,22 @@ internal class SportsFeeds {
      * Off until our own data job is live.
      */
     fun footballIndexRaw(): String {
-        if (!SHARED_FILES_ENABLED) error("Shared sports data is being rebuilt")
-        return get(DATA_URL_PLACEHOLDER + "sportsdb/index.json").also { tsdbFolder = "sportsdb/" }
+        if (!TSDB_FILES_ENABLED) error("Shared sports data is being rebuilt")
+        return get(SportsDataConfig.ESPN_DATA_URL + "sportsdb/index.json").also { tsdbFolder = "sportsdb/" }
     }
 
     /** One league's games or events (a few weeks back to the end of the season). */
     fun footballLeagueRaw(tsdbId: String): String {
-        if (!SHARED_FILES_ENABLED) error("Shared sports data is being rebuilt")
-        return get(DATA_URL_PLACEHOLDER + tsdbFolder + "$tsdbId.json")
+        if (!TSDB_FILES_ENABLED) error("Shared sports data is being rebuilt")
+        return get(SportsDataConfig.ESPN_DATA_URL + tsdbFolder + "$tsdbId.json")
     }
 
     @Volatile private var tsdbFolder = "sportsdb/"
 
     /** A TheSportsDB game's goals, cards, stats and line-ups. Off with the shared files. */
     fun tsdbGameRaw(tsdbEventId: String): String {
-        if (!SHARED_FILES_ENABLED) error("Shared sports data is being rebuilt")
-        return get(DATA_URL_PLACEHOLDER + "sportsdb/games/$tsdbEventId.json")
+        if (!TSDB_FILES_ENABLED) error("Shared sports data is being rebuilt")
+        return get(SportsDataConfig.ESPN_DATA_URL + "sportsdb/games/$tsdbEventId.json")
     }
 
     // ------------------------------------------------------------------ the shared ESPN schedule cache
@@ -127,7 +127,7 @@ internal class SportsFeeds {
      * to. Null when the job hasn't reached this league yet, or the cache can't be reached.
      */
     fun espnSharedRaw(leagueId: String): String? {
-        if (!SHARED_FILES_ENABLED) return null
+        if (!ESPN_SHARED_CACHE_ENABLED) return null
         val file = "espn/" + safeFileId(leagueId) + ".json"
         val primary = SportsDataConfig.ESPN_DATA_URL
         runCatching { get(primary + file) }.getOrNull()?.let { return it }
@@ -151,9 +151,12 @@ internal class SportsFeeds {
 
     companion object {
         private const val ESPN = "https://site.api.espn.com/apis/site/v2/sports/"
-        /** Our own compiled files are not live yet: use ESPN directly and skip TheSportsDB files. */
-        const val SHARED_FILES_ENABLED = false
-        private const val DATA_URL_PLACEHOLDER = ""
+        /** Our own ESPN scoreboard cache is live. */
+        const val ESPN_SHARED_CACHE_ENABLED = true
+        /** TheSportsDB-compatible index/league files, built from FotMob. */
+        const val TSDB_FILES_ENABLED = true
+        /** Our own wrestling schedule file is live. */
+        const val WRESTLING_FILES_ENABLED = true
 
         /** A league id as the shared ESPN cache file is named ("football/nfl" -> "football_nfl"). */
         fun safeFileId(id: String): String = id.replace(Regex("[^a-zA-Z0-9]+"), "_")
@@ -388,6 +391,7 @@ internal class SportsFeeds {
         private fun wrestlingLeague(key: String?): String = when (key) {
             "wwe" -> "guide/wwe"
             "aew" -> "guide/aew"
+            "tna" -> "guide/tna"
             "boxing" -> "guide/boxing"
             else -> "guide/wrestling"
         }
