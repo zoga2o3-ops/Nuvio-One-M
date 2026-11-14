@@ -328,7 +328,7 @@ class SportsRepository(
                 runCatching { updateWeek(System.currentTimeMillis(), force) }.onFailure { Log.w(TAG, "Sports week update failed", it) }
                 runCatching { updateAhead(System.currentTimeMillis(), force) }.onFailure { Log.w(TAG, "Sports weeks-ahead update failed", it) }
                 runCatching { updatePast(System.currentTimeMillis()) }.onFailure { Log.w(TAG, "Sports past days update failed", it) }
-                if (SportsFeeds.SHARED_FILES_ENABLED) {
+                if (SportsFeeds.TSDB_FILES_ENABLED) {
                     runCatching { updateTsdb(System.currentTimeMillis(), force) }.onFailure { Log.w(TAG, "Non-league update failed", it) }
                 }
                 runCatching { updateSchedules(System.currentTimeMillis(), force) }.onFailure { Log.w(TAG, "Team schedules update failed", it) }
@@ -753,8 +753,8 @@ class SportsRepository(
             val list = runCatching { SportsFeeds.parseFixtures(l, raw) }.getOrDefault(emptyList())
             fixtureData.update { it + (l.id to LeagueData(list, System.currentTimeMillis(), null)) }
         }
-        // Wrestling's schedule comes from the shared sports files. Off until our own data job is live.
-        if (SportsFeeds.SHARED_FILES_ENABLED) {
+        // Wrestling's schedule comes from our own data job (WWE.com and AEW's event pages).
+        if (SportsFeeds.WRESTLING_FILES_ENABLED) {
             val wrestling = SportsCatalog.all.filter { (it.sport == Sport.WRESTLING || it.id == "guide/boxing") && it.id !in tsdbAlias }.map { it.id }.toSet()
             if (wrestling.isNotEmpty()) {
                 val file = File(dir, "fx_wrestling.json")

@@ -119,7 +119,7 @@ Your Live TV setup, in a file in your own Google Drive.
 - **BitChord** by [kushagrasinghx](https://github.com/kushagrasinghx/BitChord) (GPLv3): the Music section and its YouTube Music engine, ported to this app.
 - **SmartTube / MediaServiceCore** by Yurii Liskov (MIT licence): the YouTube engine.
 - **SponsorBlock** by Ajay Ramachandran and its community.
-- Sports data from ESPN's public feed and TheSportsDB. Guide design inspired by TiviMate.
+- Sports data from ESPN and FotMob, using TheSportsDB-compatible files; wrestling schedule from WWE.com, All Elite Wrestling and TNA; boxing schedule from Box.live. Guide design inspired by TiviMate.
 - This product uses the TMDB API but is not endorsed or certified by TMDB.
 
 This is an unofficial fork. It is **not affiliated with or endorsed by NuvioMedia, NuvioMobile-Enhanced, NuvioPlusIPTV, BitChord, SmartTube, SponsorBlock, TiviMate, Google or YouTube.**

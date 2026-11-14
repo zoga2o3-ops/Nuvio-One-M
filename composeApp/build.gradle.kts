@@ -406,8 +406,7 @@ val livetvSyncUrl = providers.gradleProperty("livetvSyncUrl").orNull
 
 val sportsDataUrlValue = providers.gradleProperty("sportsDataUrl").orNull
     ?.trim()?.takeIf { it.isNotBlank() }
-    // Our own data repo isn't live yet; the shared ESPN cache is off for now.
-    ?: ""
+    ?: "https://raw.githubusercontent.com/zoga2o3-ops/nuvioone-sports-data/data/"
 
 val sportsDataFallbackUrlValue = providers.gradleProperty("sportsDataFallbackUrl").orNull
     ?.trim()?.takeIf { it.isNotBlank() }
