@@ -1,0 +1,20 @@
+<resources>
+    <string name="settings_backup_section">CADANGAN</string>
+    <string name="settings_backup_include_sensitive">Sertakan Info Sensitif</string>
+    <string name="settings_backup_include_sensitive_description">Tambahkan kunci API, kunci debrid, add-on, TV Langsung, dan ID aplikasi Discord ke file yang diekspor. Jaga kerahasiaan file itu</string>
+    <string name="settings_backup_export">Pengaturan Ekspor</string>
+    <string name="settings_backup_export_description">Simpan pengaturan dan plugin ke file. Koleksi, pelacak, dan akun Nuvio Anda tidak pernah disertakan</string>
+    <string name="settings_backup_export_done">Pengaturan diekspor</string>
+    <string name="settings_backup_export_failed">Tidak dapat mengekspor setelan</string>
+    <string name="settings_backup_import">Pengaturan Impor</string>
+    <string name="settings_backup_import_description">Pulihkan pengaturan dari file yang diekspor</string>
+    <string name="settings_backup_importing">Mengimpor pengaturan…</string>
+    <string name="settings_backup_import_confirm_title">Impor Pengaturan?</string>
+    <string name="settings_backup_import_confirm_message">Pengaturan dari file ini akan menggantikan pengaturan profil ini saat ini. Plugin yang hilang akan ditambahkan. Kunci API, add-on, dan TV Langsung Anda tetap tidak berubah.</string>
+    <string name="settings_backup_import_confirm_message_sensitive">Setelan dari file ini akan menggantikan setelan profil ini saat ini, termasuk kunci API dan kunci debrid. Add-on, plugin, dan sumber TV Langsung yang hilang akan ditambahkan.</string>
+    <string name="settings_backup_import_confirm_action">Impor</string>
+    <string name="settings_backup_import_done">Pengaturan diimpor</string>
+    <string name="settings_backup_import_partial">Setelan diimpor, namun beberapa bagian tidak dapat diterapkan</string>
+    <string name="settings_backup_import_failed">Tidak dapat mengimpor setelan</string>
+    <string name="settings_backup_import_invalid">File ini bukan ekspor pengaturan Nuvio</string>
+</resources>

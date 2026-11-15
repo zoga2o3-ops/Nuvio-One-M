@@ -1,0 +1,36 @@
+<resources>
+    <string name="tracking_source_publicmetadb">PublicMetaDB</string>
+    <string name="settings_publicmetadb_library_description">Vaš PublicMetaDB popis za praćenje i prilagođeni popisi.</string>
+    <string name="settings_publicmetadb_progress_description">Nastavite s gledanjem i Sljedeće iz vaših PublicMetaDB točaka nastavka i povijesti gledanja.</string>
+    <string name="library_publicmetadb_title">PublicMetaDB biblioteka</string>
+    <string name="library_publicmetadb_load_failed">Nije moguće učitati vašu PublicMetaDB biblioteku</string>
+    <string name="library_publicmetadb_empty_title">Vaša PublicMetaDB biblioteka je prazna</string>
+    <string name="library_publicmetadb_empty_message">Dodajte filmove i emisije na svoje popise PublicMetaDB da biste ih vidjeli ovdje.</string>
+    <string name="settings_publicmetadb_connect">Povežite PublicMetaDB</string>
+    <string name="settings_publicmetadb_connected_as">Povezano s završetkom ključa %1$s</string>
+    <string name="settings_publicmetadb_connected_description">Sinkronizirajte svoje popise, povijest gledanja, ocjene, škrabanje i nastavite gledati s PublicMetaDB.</string>
+    <string name="settings_publicmetadb_sign_in_description">Povežite PublicMetaDB s API ključem za sinkronizaciju vaših popisa, povijesti gledanja, ocjena, skroblova i nastavka gledanja.</string>
+    <string name="settings_publicmetadb_finish_sign_in">Završite povezivanje</string>
+    <string name="settings_publicmetadb_approval_description">Unesite svoj PublicMetaDB API ključ da završite povezivanje.</string>
+    <string name="settings_publicmetadb_open_login">Unesite API ključ</string>
+    <string name="settings_publicmetadb_disconnect">Odspojite PublicMetaDB</string>
+    <string name="settings_publicmetadb_missing_credentials">PublicMetaDB veza nije dostupna u ovoj verziji.</string>
+    <string name="settings_publicmetadb_sync_now">Sinkroniziraj sada</string>
+    <string name="settings_publicmetadb_visit">Posjetite PublicMetaDB</string>
+    <string name="settings_publicmetadb_disconnect_description">Prestanite slati ažuriranja sata s ovog profila i zaboravite API ključ. Vaši PublicMetaDB popisi i povijest se čuvaju.</string>
+    <string name="settings_publicmetadb_account_fallback">vaš API ključ</string>
+    <string name="settings_publicmetadb_syncing">Sinkronizacija vaših PublicMetaDB popisa…</string>
+    <string name="settings_publicmetadb_last_synced">Zadnja sinkronizacija %1$s</string>
+    <string name="settings_publicmetadb_api_key_title">Povežite PublicMetaDB</string>
+    <string name="settings_publicmetadb_api_key_description">Stvorite API ključ na PublicMetaDB pod Postavke → API, zatim ga zalijepite ovdje. Ključevi obično počinju s pm-.</string>
+    <string name="settings_publicmetadb_api_key_label">API ključ</string>
+    <string name="settings_publicmetadb_get_api_key">Nabavite API ključ</string>
+    <string name="settings_publicmetadb_connect_action">Poveži se</string>
+    <string name="settings_publicmetadb_missing_key">Unesite svoj PublicMetaDB API ključ.</string>
+    <string name="settings_publicmetadb_invalid_key">PublicMetaDB nije prihvatio ovaj API ključ. Provjerite i pokušajte ponovno.</string>
+    <string name="settings_publicmetadb_request_failed">Nije moguće pristupiti PublicMetaDB. Molimo pokušajte ponovo.</string>
+    <string name="settings_publicmetadb_rate_limited">Dosegnuto je ograničenje zahtjeva PublicMetaDB-a. Pokušajte ponovo uskoro.</string>
+    <string name="settings_publicmetadb_blocked">PublicMetaDB je blokirao ovaj zahtjev. Pokušajte ponovno kasnije.</string>
+    <string name="settings_publicmetadb_auth_revoked">Vaš API ključ PublicMetaDB više nije valjan. Povežite se ponovno s novim ključem.</string>
+    <string name="settings_publicmetadb_unavailable">Nije moguće sinkronizirati s PublicMetaDB. Molimo pokušajte ponovo.</string>
+</resources>

@@ -1,0 +1,6 @@
+<resources>
+    <string name="autosync_toast_failed">הסנכרון נכשל: הסנכרון האוטומטי לא הצליח להתאים את הכתובית הזו לסרטון.</string>
+    <string name="autosync_toast_failed_no_reference">הסנכרון נכשל: אין כתוביות משובצות שמישות להשוואה.</string>
+    <string name="autosync_toast_failed_unsupported">סנכרון נכשל: פורמט כתוביות זה אינו נתמך.</string>
+    <string name="autosync_label_synced">סנכרון אוטומטי</string>
+</resources>

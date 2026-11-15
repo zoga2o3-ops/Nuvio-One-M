@@ -12,6 +12,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.nuvio.app.livetv.LiveTv
 import com.nuvio.app.livetv.sync.CloudChoice
 import com.nuvio.app.livetv.sync.CloudPrompt
+import nuvio.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 
 /**
  * The one-time Setup Sync question, shown over Live TV when a Nuvio account is signed in.
@@ -26,30 +28,30 @@ fun LiveTvCloudPrompt() {
     when (state.prompt) {
         CloudPrompt.BACK_UP -> AlertDialog(
             onDismissRequest = { sync.answerBackUp(false) },
-            title = { Text("Save your Live TV setup?") },
+            title = { Text(stringResource(Res.string.live_tv_ui_save_your_live_tv_setup)) },
             text = {
-                Text("Keep your playlists, guides, favorites, Sports and Calendar choices and settings on every device signed in to your Nuvio account.")
+                Text(stringResource(Res.string.live_tv_ui_keep_your_playlists_guides_favorites_sports_and_calendar_cho))
             },
             confirmButton = {
-                TextButton(onClick = { sync.answerBackUp(true) }) { Text("Save my setup") }
+                TextButton(onClick = { sync.answerBackUp(true) }) { Text(stringResource(Res.string.live_tv_ui_save_my_setup)) }
             },
             dismissButton = {
-                TextButton(onClick = { sync.answerBackUp(false) }) { Text("Not now") }
+                TextButton(onClick = { sync.answerBackUp(false) }) { Text(stringResource(Res.string.live_tv_ui_not_now)) }
             },
         )
         CloudPrompt.CHOOSE -> AlertDialog(
             onDismissRequest = { sync.answerChoose(CloudChoice.LATER) },
-            title = { Text("You have a saved Live TV setup") },
+            title = { Text(stringResource(Res.string.live_tv_ui_you_have_a_saved_live_tv_setup)) },
             text = {
-                Text("This device has its own setup too. Combine keeps the playlists and guides from both; using the saved setup replaces this device's.")
+                Text(stringResource(Res.string.live_tv_ui_this_device_has_its_own_setup_too_combine_keeps_the_playlist))
             },
             confirmButton = {
-                TextButton(onClick = { sync.answerChoose(CloudChoice.COMBINE) }) { Text("Combine both") }
+                TextButton(onClick = { sync.answerChoose(CloudChoice.COMBINE) }) { Text(stringResource(Res.string.live_tv_ui_combine_both)) }
             },
             dismissButton = {
                 Row {
-                    TextButton(onClick = { sync.answerChoose(CloudChoice.LATER) }) { Text("Not now") }
-                    TextButton(onClick = { sync.answerChoose(CloudChoice.USE_SAVED) }) { Text("Use saved") }
+                    TextButton(onClick = { sync.answerChoose(CloudChoice.LATER) }) { Text(stringResource(Res.string.live_tv_ui_not_now)) }
+                    TextButton(onClick = { sync.answerChoose(CloudChoice.USE_SAVED) }) { Text(stringResource(Res.string.live_tv_ui_use_saved)) }
                 }
             },
         )

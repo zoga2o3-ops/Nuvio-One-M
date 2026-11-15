@@ -1,0 +1,36 @@
+<resources>
+    <string name="tracking_source_publicmetadb">PublicMetaDB</string>
+    <string name="settings_publicmetadb_library_description">רשימת המעקב שלך ב-PublicMetaDB ורשימות מותאמות אישית.</string>
+    <string name="settings_publicmetadb_progress_description">המשך בצפייה ובהמשך מנקודות קורות החיים של PublicMetaDB והיסטוריית הצפייה שלך.</string>
+    <string name="library_publicmetadb_title">ספריית PublicMetaDB</string>
+    <string name="library_publicmetadb_load_failed">לא ניתן לטעון את ספריית PublicMetaDB שלך</string>
+    <string name="library_publicmetadb_empty_title">ספריית PublicMetaDB שלך ריקה</string>
+    <string name="library_publicmetadb_empty_message">הוסף סרטים ותוכניות לרשימות PublicMetaDB שלך כדי לראות אותם כאן.</string>
+    <string name="settings_publicmetadb_connect">חבר את PublicMetaDB</string>
+    <string name="settings_publicmetadb_connected_as">מחובר עם מפתח המסתיים %1$s</string>
+    <string name="settings_publicmetadb_connected_description">סנכרן את הרשימות שלך, היסטוריית הצפייה, דירוגים, סרבול והמשך צפייה עם PublicMetaDB.</string>
+    <string name="settings_publicmetadb_sign_in_description">חבר את PublicMetaDB עם מפתח API כדי לסנכרן את הרשימות שלך, היסטוריית הצפייה, הדירוגים, הסקרים והמשך צפייה.</string>
+    <string name="settings_publicmetadb_finish_sign_in">סיים את החיבור</string>
+    <string name="settings_publicmetadb_approval_description">הזן את מפתח ה-API של PublicMetaDB שלך כדי לסיים את החיבור.</string>
+    <string name="settings_publicmetadb_open_login">הזן מפתח API</string>
+    <string name="settings_publicmetadb_disconnect">נתק את PublicMetaDB</string>
+    <string name="settings_publicmetadb_missing_credentials">חיבור PublicMetaDB אינו זמין בגירסה זו.</string>
+    <string name="settings_publicmetadb_sync_now">סנכרן עכשיו</string>
+    <string name="settings_publicmetadb_visit">בקר ב-PublicMetaDB</string>
+    <string name="settings_publicmetadb_disconnect_description">הפסק לשלוח עדכוני שעון מהפרופיל הזה ושכח את מפתח ה-API. הרשימות וההיסטוריה של PublicMetaDB שלך נשמרים.</string>
+    <string name="settings_publicmetadb_account_fallback">מפתח ה-API שלך</string>
+    <string name="settings_publicmetadb_syncing">מסנכרן את רשימות PublicMetaDB שלך...</string>
+    <string name="settings_publicmetadb_last_synced">סנכרון אחרון %1$s</string>
+    <string name="settings_publicmetadb_api_key_title">חבר את PublicMetaDB</string>
+    <string name="settings_publicmetadb_api_key_description">צור מפתח API ב- PublicMetaDB תחת הגדרות → API, ולאחר מכן הדבק אותו כאן. מפתחות מתחילים בדרך כלל ב-pm-.</string>
+    <string name="settings_publicmetadb_api_key_label">מפתח API</string>
+    <string name="settings_publicmetadb_get_api_key">קבל מפתח API</string>
+    <string name="settings_publicmetadb_connect_action">לְחַבֵּר</string>
+    <string name="settings_publicmetadb_missing_key">הזן את מפתח ה-API של PublicMetaDB.</string>
+    <string name="settings_publicmetadb_invalid_key">PublicMetaDB לא קיבל מפתח API זה. בדוק ונסה שוב.</string>
+    <string name="settings_publicmetadb_request_failed">לא ניתן להגיע ל-PublicMetaDB. אנא נסה שוב.</string>
+    <string name="settings_publicmetadb_rate_limited">הגעת למגבלת הבקשות של PublicMetaDB. נסה שוב בקרוב.</string>
+    <string name="settings_publicmetadb_blocked">PublicMetaDB חסם בקשה זו. אנא נסה שוב מאוחר יותר.</string>
+    <string name="settings_publicmetadb_auth_revoked">מפתח ה-API של PublicMetaDB שלך כבר לא חוקי. התחבר שוב עם מפתח חדש.</string>
+    <string name="settings_publicmetadb_unavailable">לא ניתן היה לסנכרן עם PublicMetaDB. אנא נסה שוב.</string>
+</resources>

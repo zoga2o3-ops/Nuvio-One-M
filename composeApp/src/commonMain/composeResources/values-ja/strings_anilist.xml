@@ -1,0 +1,30 @@
+<resources>
+    <string name="tracking_source_anilist">アニリスト</string>
+    <string name="settings_anilist_anime_section">アニメ</string>
+    <string name="settings_anilist_library_description">AniList のアニメ リスト: 視聴中、計画中、完了済み、一時停止中、ドロップ済み、再視聴中。</string>
+    <string name="settings_anilist_progress_description">AniList 視聴リストから視聴を続けて次へ進みます。</string>
+    <string name="library_anilist_title">アニリストライブラリ</string>
+    <string name="library_anilist_load_failed">AniList ライブラリをロードできませんでした</string>
+    <string name="library_anilist_empty_title">AniList ライブラリが空です</string>
+    <string name="library_anilist_empty_message">アニメを AniList リストに追加すると、ここで表示されます。</string>
+    <string name="settings_anilist_connect">アニリストを接続する</string>
+    <string name="settings_anilist_connected_as">%1$s として接続されています</string>
+    <string name="settings_anilist_connected_description">アニメリスト、エピソードの進行状況、スコアを同期し、AniList で視聴を続けます。</string>
+    <string name="settings_anilist_sign_in_description">AniList に接続して、アニメ リスト、エピソードの進行状況、スコアを同期し、視聴を続けます。</string>
+    <string name="settings_anilist_finish_sign_in">サインインを終了する</string>
+    <string name="settings_anilist_approval_description">ブラウザで Nuvio を承認します。自動的にアプリに戻ります。</string>
+    <string name="settings_anilist_open_login">サインインページを開く</string>
+    <string name="settings_anilist_disconnect">アニリストを切断する</string>
+    <string name="settings_anilist_missing_credentials">このビルドでは AniList 接続は利用できません。</string>
+    <string name="settings_anilist_sync_now">今すぐ同期する</string>
+    <string name="settings_anilist_visit">アニリストにアクセス</string>
+    <string name="settings_anilist_disconnect_description">このプロファイルからの時計の更新の送信を停止します。 AniList リストは保存されます。</string>
+    <string name="settings_anilist_account_fallback">アニリストユーザー</string>
+    <string name="settings_anilist_syncing">AniList リストを同期しています…</string>
+    <string name="settings_anilist_last_synced">最後に同期したのは %1$s</string>
+    <string name="settings_anilist_auth_denied">接続が拒否されました。アカウントの接続をもう一度試してください。</string>
+    <string name="settings_anilist_auth_invalid">AniList が無効なサインイン応答を返しました。もう一度試してください。</string>
+    <string name="settings_anilist_auth_revoked">AniList 接続の有効期限が切れたか、取り消されました。再度接続して同期を再開します。</string>
+    <string name="settings_anilist_unavailable">AniListと同期できませんでした。もう一度試してください。</string>
+    <string name="settings_anilist_rate_limited">AniList のリクエスト制限に達しました。同期はすぐに再開されます。</string>
+</resources>

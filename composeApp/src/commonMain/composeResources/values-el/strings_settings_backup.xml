@@ -1,0 +1,20 @@
+<resources>
+    <string name="settings_backup_section">ΕΦΕΔΡΙΚΟΣ</string>
+    <string name="settings_backup_include_sensitive">Συμπεριλάβετε ευαίσθητες πληροφορίες</string>
+    <string name="settings_backup_include_sensitive_description">Προσθέστε κλειδιά API, κλειδιά debrid, πρόσθετα, Live TV και το αναγνωριστικό εφαρμογής Discord στο εξαγόμενο αρχείο. Κρατήστε αυτό το αρχείο ιδιωτικό</string>
+    <string name="settings_backup_export">Εξαγωγή ρυθμίσεων</string>
+    <string name="settings_backup_export_description">Αποθηκεύστε ρυθμίσεις και πρόσθετα σε ένα αρχείο. Οι συλλογές, οι ιχνηλάτες και ο λογαριασμός Nuvio σας δεν περιλαμβάνονται ποτέ</string>
+    <string name="settings_backup_export_done">Εξάγονται οι ρυθμίσεις</string>
+    <string name="settings_backup_export_failed">Δεν ήταν δυνατή η εξαγωγή ρυθμίσεων</string>
+    <string name="settings_backup_import">Εισαγωγή ρυθμίσεων</string>
+    <string name="settings_backup_import_description">Επαναφέρετε τις ρυθμίσεις από ένα εξαγόμενο αρχείο</string>
+    <string name="settings_backup_importing">Εισαγωγή ρυθμίσεων…</string>
+    <string name="settings_backup_import_confirm_title">Εισαγωγή ρυθμίσεων;</string>
+    <string name="settings_backup_import_confirm_message">Οι ρυθμίσεις από αυτό το αρχείο θα αντικαταστήσουν τις τρέχουσες ρυθμίσεις αυτού του προφίλ. Θα προστεθούν πρόσθετα που λείπουν. Τα κλειδιά API, τα πρόσθετα και η ζωντανή τηλεόραση παραμένουν αμετάβλητα.</string>
+    <string name="settings_backup_import_confirm_message_sensitive">Οι ρυθμίσεις από αυτό το αρχείο θα αντικαταστήσουν τις τρέχουσες ρυθμίσεις αυτού του προφίλ, συμπεριλαμβανομένων των κλειδιών API και των κλειδιών debrid. Θα προστεθούν πρόσθετα, προσθήκες και πηγές ζωντανής τηλεόρασης που λείπουν.</string>
+    <string name="settings_backup_import_confirm_action">Εισαγωγή</string>
+    <string name="settings_backup_import_done">Οι ρυθμίσεις εισήχθησαν</string>
+    <string name="settings_backup_import_partial">Οι ρυθμίσεις εισήχθησαν, αλλά δεν ήταν δυνατή η εφαρμογή ορισμένων ενοτήτων</string>
+    <string name="settings_backup_import_failed">Δεν ήταν δυνατή η εισαγωγή ρυθμίσεων</string>
+    <string name="settings_backup_import_invalid">Αυτό το αρχείο δεν είναι εξαγωγή ρυθμίσεων Nuvio</string>
+</resources>

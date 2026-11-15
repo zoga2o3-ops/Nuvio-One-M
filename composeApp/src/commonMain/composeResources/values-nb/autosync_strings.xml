@@ -1,0 +1,12 @@
+<resources>
+    <string name="settings_playback_subtitle_auto_sync">Auto Sync undertekst</string>
+    <string name="settings_playback_subtitle_auto_sync_description">Synkroniser automatisk den foretrukne tilleggsteksten når avspillingen starter. Krever et foretrukket undertekstspråk.</string>
+    <string name="settings_playback_auto_sync_mode_aggressive">Autosynkroniseringssøk: Grundig</string>
+    <string name="settings_playback_auto_sync_mode_aggressive_description">Fortsetter å sammenligne andre undertekster og innebygde spor for en nærmere match før synkronisering. Bare trygge kamper blir brukt.</string>
+    <string name="settings_playback_auto_sync_mode_passive">Auto Sync Search: Rask</string>
+    <string name="settings_playback_auto_sync_mode_passive_description">Bruker den første sterke kampen tidligere. Bare trygge kamper blir brukt, som med Thorough.</string>
+    <string name="settings_playback_auto_sync_tolerance">Autosynkroniseringstoleranse: %1$s</string>
+    <string name="settings_playback_auto_sync_tolerance_description">Behold den opprinnelige underteksttimingen når synkroniseringen ikke flytter den med mer enn dette. Trykk for å endre.</string>
+    <string name="settings_playback_auto_sync_tolerance_off">Av</string>
+    <string name="settings_playback_auto_sync_tolerance_value">%1$d ms</string>
+</resources>

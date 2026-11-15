@@ -1,0 +1,20 @@
+<resources>
+    <string name="settings_backup_section">BACK-UP</string>
+    <string name="settings_backup_include_sensitive">Voeg gevoelige informatie toe</string>
+    <string name="settings_backup_include_sensitive_description">Voeg API-sleutels, debrid-sleutels, add-ons, Live TV en de Discord applicatie-ID toe aan het geëxporteerde bestand. Houd dat bestand privé</string>
+    <string name="settings_backup_export">Instellingen exporteren</string>
+    <string name="settings_backup_export_description">Sla instellingen en plug-ins op in een bestand. Incasso's, trackers en uw Nuvio account zijn nooit inbegrepen</string>
+    <string name="settings_backup_export_done">Instellingen geëxporteerd</string>
+    <string name="settings_backup_export_failed">Kan instellingen niet exporteren</string>
+    <string name="settings_backup_import">Instellingen importeren</string>
+    <string name="settings_backup_import_description">Instellingen herstellen vanuit een geëxporteerd bestand</string>
+    <string name="settings_backup_importing">Instellingen importeren…</string>
+    <string name="settings_backup_import_confirm_title">Instellingen importeren?</string>
+    <string name="settings_backup_import_confirm_message">Instellingen uit dit bestand vervangen de huidige instellingen van dit profiel. Ontbrekende plug-ins worden toegevoegd. Uw API-sleutels, add-ons en Live TV blijven ongewijzigd.</string>
+    <string name="settings_backup_import_confirm_message_sensitive">Instellingen uit dit bestand vervangen de huidige instellingen van dit profiel, inclusief API-sleutels en debrid-sleutels. Ontbrekende add-ons, plug-ins en Live TV-bronnen worden toegevoegd.</string>
+    <string name="settings_backup_import_confirm_action">Importeren</string>
+    <string name="settings_backup_import_done">Instellingen geïmporteerd</string>
+    <string name="settings_backup_import_partial">Instellingen geïmporteerd, maar sommige secties kunnen niet worden toegepast</string>
+    <string name="settings_backup_import_failed">Kan instellingen niet importeren</string>
+    <string name="settings_backup_import_invalid">Dit bestand is geen Nuvio instellingenexport</string>
+</resources>

@@ -1,0 +1,12 @@
+<resources>
+    <string name="settings_playback_subtitle_auto_sync">অটো সিঙ্ক সাবটাইটেল</string>
+    <string name="settings_playback_subtitle_auto_sync_description">প্লেব্যাক শুরু হলে স্বয়ংক্রিয়ভাবে পছন্দের অ্যাড-অন সাবটাইটেল সিঙ্ক করুন। একটি পছন্দের সাবটাইটেল ভাষা প্রয়োজন।</string>
+    <string name="settings_playback_auto_sync_mode_aggressive">স্বয়ংক্রিয় সিঙ্ক অনুসন্ধান: পুঙ্খানুপুঙ্খ</string>
+    <string name="settings_playback_auto_sync_mode_aggressive_description">সিঙ্ক করার আগে আরও কাছাকাছি মিলের জন্য অন্যান্য সাবটাইটেল এবং এমবেডেড ট্র্যাকগুলির তুলনা করে। শুধুমাত্র আত্মবিশ্বাসী ম্যাচ কখনও প্রয়োগ করা হয়.</string>
+    <string name="settings_playback_auto_sync_mode_passive">স্বয়ংক্রিয় সিঙ্ক অনুসন্ধান: দ্রুত</string>
+    <string name="settings_playback_auto_sync_mode_passive_description">শীঘ্রই প্রথম শক্তিশালী ম্যাচ ব্যবহার করে। শুধুমাত্র আত্মবিশ্বাসী ম্যাচগুলিই প্রয়োগ করা হয়, যেমন Thorough এর সাথে।</string>
+    <string name="settings_playback_auto_sync_tolerance">স্বয়ংক্রিয় সিঙ্ক সহনশীলতা: %1$s</string>
+    <string name="settings_playback_auto_sync_tolerance_description">মূল সাবটাইটেল টাইমিং রাখুন যখন সিঙ্ক এটিকে এর থেকে বেশি না সরিয়ে দেবে। পরিবর্তন করতে আলতো চাপুন।</string>
+    <string name="settings_playback_auto_sync_tolerance_off">বন্ধ</string>
+    <string name="settings_playback_auto_sync_tolerance_value">%1$d মি.সে</string>
+</resources>

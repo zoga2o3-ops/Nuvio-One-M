@@ -64,7 +64,10 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import com.nuvio.app.music.engine.data.model.Song
+import nuvio.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 
+import org.jetbrains.compose.resources.getString
 /** Browse and stream a WebDAV music collection. */
 @Composable
 internal fun MusicWebDavScreen(
@@ -79,6 +82,7 @@ internal fun MusicWebDavScreen(
     var entries by remember { mutableStateOf<List<WebDavEntry>>(emptyList()) }
     var loading by remember { mutableStateOf(false) }
     var error by remember { mutableStateOf<String?>(null) }
+    val serverUrlError = stringResource(Res.string.music_ui_the_server_url_must_start_with_http_or_https)
     var reload by remember { mutableIntStateOf(0) }
 
     LaunchedEffect(Unit) {
@@ -103,7 +107,7 @@ internal fun MusicWebDavScreen(
         error = null
         MusicWebDav.list(context, browseUrl).fold(
             onSuccess = { entries = it },
-            onFailure = { error = it.message ?: "Couldn't read that folder." }
+            onFailure = { error = it.message ?: getString(Res.string.music_ui_couldn_t_read_that_folder) }
         )
         loading = false
     }
@@ -137,7 +141,7 @@ internal fun MusicWebDavScreen(
                     )
                     Spacer(Modifier.height(2.dp))
                     Text(
-                        text = "Stream music from your own server.",
+                        text = stringResource(Res.string.music_ui_stream_music_from_your_own_server),
                         color = MusicPalette.textMuted,
                         fontSize = 13.sp
                     )
@@ -145,12 +149,12 @@ internal fun MusicWebDavScreen(
                 if (config.configured && !editing) {
                     WebDavPill(
                         icon = Icons.Default.Refresh,
-                        label = "Refresh",
+                        label = stringResource(Res.string.profile_insights_refresh),
                         onClick = { reload++ }
                     )
                     WebDavPill(
                         icon = Icons.Default.Settings,
-                        label = "Server",
+                        label = stringResource(Res.string.stream_info_server),
                         onClick = { editing = true }
                     )
                 }
@@ -212,6 +216,7 @@ private fun WebDavConnectForm(
     var user by remember(current.username) { mutableStateOf(current.username) }
     var password by remember(current.password) { mutableStateOf(current.password) }
     var error by remember { mutableStateOf<String?>(null) }
+    val serverUrlError = stringResource(Res.string.music_ui_the_server_url_must_start_with_http_or_https)
 
     Column(
         Modifier.fillMaxSize(),
@@ -235,7 +240,7 @@ private fun WebDavConnectForm(
                 )
                 Spacer(Modifier.width(12.dp))
                 Text(
-                    text = "Connect your server",
+                    text = stringResource(Res.string.music_ui_connect_your_server),
                     color = MusicPalette.text,
                     fontSize = 22.sp,
                     fontWeight = FontWeight.Bold
@@ -243,7 +248,7 @@ private fun WebDavConnectForm(
             }
             Spacer(Modifier.height(6.dp))
             Text(
-                text = "Enter the collection URL and credentials. Files stream directly from " +
+                text = stringResource(Res.string.music_ui_enter_the_collection_url_and_credentials_files_stream_direct) +
                     "the server; nothing is uploaded.",
                 color = MusicPalette.textSecondary,
                 fontSize = 12.sp,
@@ -251,26 +256,26 @@ private fun WebDavConnectForm(
             )
             Spacer(Modifier.height(18.dp))
             WebDavField(
-                label = "Server URL",
+                label = stringResource(Res.string.live_tv_xtream_server),
                 value = url,
-                placeholder = "https://example.com/music/",
+                placeholder = stringResource(Res.string.music_ui_https_example_com_music),
                 onValueChange = { url = it },
                 onDone = { keyboard?.hide() }
             )
             Spacer(Modifier.height(12.dp))
             Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                 WebDavField(
-                    label = "Username",
+                    label = stringResource(Res.string.live_tv_username),
                     value = user,
-                    placeholder = "optional",
+                    placeholder = stringResource(Res.string.music_ui_optional),
                     onValueChange = { user = it },
                     onDone = { keyboard?.hide() },
                     modifier = Modifier.weight(1f)
                 )
                 WebDavField(
-                    label = "Password",
+                    label = stringResource(Res.string.compose_auth_password),
                     value = password,
-                    placeholder = "optional",
+                    placeholder = stringResource(Res.string.music_ui_optional),
                     onValueChange = { password = it },
                     onDone = { keyboard?.hide() },
                     password = true,
@@ -285,14 +290,14 @@ private fun WebDavConnectForm(
             Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                 WebDavPill(
                     icon = Icons.Default.Cloud,
-                    label = if (current.configured) "Save changes" else "Connect",
+                    label = if (current.configured) stringResource(Res.string.music_ui_save_changes) else stringResource(Res.string.live_tv_connect),
                     primary = true,
                     onClick = {
                         keyboard?.hide()
                         if (!url.trim().startsWith("http://") &&
                             !url.trim().startsWith("https://")
                         ) {
-                            error = "The server URL must start with http:// or https://."
+                            error = serverUrlError
                         } else {
                             error = null
                             onSave(url, user, password)
@@ -302,7 +307,7 @@ private fun WebDavConnectForm(
                 if (onCancel != null) {
                     WebDavPill(
                         icon = Icons.AutoMirrored.Filled.ArrowBack,
-                        label = "Cancel",
+                        label = stringResource(Res.string.action_cancel),
                         onClick = {
                             keyboard?.hide()
                             onCancel()
@@ -360,7 +365,7 @@ private fun WebDavBrowser(
         if (browseUrl != rootUrl) {
             WebDavPill(
                 icon = Icons.AutoMirrored.Filled.ArrowBack,
-                label = "Back",
+                label = stringResource(Res.string.action_back),
                 onClick = onBack
             )
         }
@@ -382,7 +387,7 @@ private fun WebDavBrowser(
         if (audio.isNotEmpty()) {
             WebDavPill(
                 icon = Icons.Default.PlayArrow,
-                label = "Play folder",
+                label = stringResource(Res.string.music_ui_play_folder),
                 primary = true,
                 onClick = onPlayAll
             )
@@ -401,7 +406,7 @@ private fun WebDavBrowser(
             contentAlignment = Alignment.Center
         ) {
             Text(
-                text = "No music files in this folder.",
+                text = stringResource(Res.string.music_ui_no_music_files_in_this_folder),
                 color = MusicPalette.textSecondary,
                 fontSize = 13.sp
             )
@@ -463,13 +468,13 @@ private fun WebDavRow(entry: WebDavEntry, onClick: () -> Unit) {
                 overflow = TextOverflow.Ellipsis
             )
             Text(
-                text = if (entry.isDirectory) "Folder" else formatDownloadBytes(entry.size),
+                text = if (entry.isDirectory) stringResource(Res.string.music_ui_folder) else formatDownloadBytes(entry.size),
                 color = MusicPalette.textMuted,
                 fontSize = 10.sp
             )
         }
         Text(
-            text = if (entry.isDirectory) "Open" else "Play",
+            text = if (entry.isDirectory) stringResource(Res.string.youtube_ui_open) else stringResource(Res.string.action_play),
             color = MusicPalette.textSecondary,
             fontSize = 10.sp,
             fontWeight = FontWeight.SemiBold
@@ -549,7 +554,7 @@ private fun WebDavCloseButton(modifier: Modifier = Modifier, onClick: () -> Unit
     ) {
         Icon(
             Icons.AutoMirrored.Filled.ArrowBack,
-            contentDescription = "Close WebDAV",
+            contentDescription = stringResource(Res.string.music_ui_close_webdav),
             tint = if (focused) MusicPalette.background else MusicPalette.text,
             modifier = Modifier.size(20.dp)
         )
@@ -565,9 +570,9 @@ private fun webDavSong(entry: WebDavEntry): Song = Song(
 )
 
 private fun folderLabel(url: String, rootUrl: String): String {
-    if (url == rootUrl) return "Music library"
+    if (url == rootUrl) return kotlinx.coroutines.runBlocking { getString(Res.string.music_ui_music_library) }
     val decoded = runCatching { java.net.URLDecoder.decode(url, "UTF-8") }.getOrDefault(url)
-    return decoded.trimEnd('/').substringAfterLast('/').ifBlank { "Folder" }
+    return decoded.trimEnd('/').substringAfterLast('/').ifBlank { kotlinx.coroutines.runBlocking { getString(Res.string.music_ui_folder) } }
 }
 
 private fun parentUrl(url: String): String {

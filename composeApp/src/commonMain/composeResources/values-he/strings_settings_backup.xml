@@ -1,0 +1,20 @@
+<resources>
+    <string name="settings_backup_section">גיבוי</string>
+    <string name="settings_backup_include_sensitive">כלול מידע רגיש</string>
+    <string name="settings_backup_include_sensitive_description">הוסף מפתחות API, מפתחות חיסול, תוספות, Live TV ומזהה היישום Discord לקובץ המיוצא. שמור את הקובץ הזה פרטי</string>
+    <string name="settings_backup_export">ייצוא הגדרות</string>
+    <string name="settings_backup_export_description">שמור הגדרות ותוספים לקובץ. אוספים, עוקבים וחשבון Nuvio שלך לעולם אינם כלולים</string>
+    <string name="settings_backup_export_done">הגדרות יוצאו</string>
+    <string name="settings_backup_export_failed">לא ניתן היה לייצא הגדרות</string>
+    <string name="settings_backup_import">הגדרות ייבוא</string>
+    <string name="settings_backup_import_description">שחזר הגדרות מקובץ מיוצא</string>
+    <string name="settings_backup_importing">מייבא הגדרות...</string>
+    <string name="settings_backup_import_confirm_title">לייבא הגדרות?</string>
+    <string name="settings_backup_import_confirm_message">הגדרות מקובץ זה יחליפו את ההגדרות הנוכחיות של פרופיל זה. יתווספו תוספים חסרים. מפתחות ה-API, התוספות והטלוויזיה בשידור חי נשארים ללא שינוי.</string>
+    <string name="settings_backup_import_confirm_message_sensitive">הגדרות מקובץ זה יחליפו את ההגדרות הנוכחיות של פרופיל זה, כולל מפתחות API ומפתחות פירוק. תוספות חסרות, תוספים ומקורות טלוויזיה בשידור חי יתווספו.</string>
+    <string name="settings_backup_import_confirm_action">יְבוּא</string>
+    <string name="settings_backup_import_done">הגדרות יובאו</string>
+    <string name="settings_backup_import_partial">ההגדרות יובאו, אך חלק מהקטעים לא ניתן להחיל</string>
+    <string name="settings_backup_import_failed">לא ניתן לייבא הגדרות</string>
+    <string name="settings_backup_import_invalid">קובץ זה אינו ייצוא הגדרות Nuvio</string>
+</resources>

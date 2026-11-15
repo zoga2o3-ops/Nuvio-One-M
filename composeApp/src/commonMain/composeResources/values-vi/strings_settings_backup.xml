@@ -1,0 +1,20 @@
+<resources>
+    <string name="settings_backup_section">HỖ TRỢ</string>
+    <string name="settings_backup_include_sensitive">Bao gồm thông tin nhạy cảm</string>
+    <string name="settings_backup_include_sensitive_description">Thêm khóa API, khóa gỡ lỗi, tiện ích bổ sung, Live TV và ID ứng dụng Discord vào tệp đã xuất. Giữ tập tin đó ở chế độ riêng tư</string>
+    <string name="settings_backup_export">Xuất cài đặt</string>
+    <string name="settings_backup_export_description">Lưu cài đặt và plugin vào một tập tin. Bộ sưu tập, trình theo dõi và tài khoản Nuvio của bạn không bao giờ được đưa vào</string>
+    <string name="settings_backup_export_done">Đã xuất cài đặt</string>
+    <string name="settings_backup_export_failed">Không thể xuất cài đặt</string>
+    <string name="settings_backup_import">Cài đặt nhập</string>
+    <string name="settings_backup_import_description">Khôi phục cài đặt từ tệp đã xuất</string>
+    <string name="settings_backup_importing">Đang nhập cài đặt…</string>
+    <string name="settings_backup_import_confirm_title">Nhập cài đặt?</string>
+    <string name="settings_backup_import_confirm_message">Cài đặt từ tệp này sẽ thay thế cài đặt hiện tại của cấu hình này. Các plugin còn thiếu sẽ được bổ sung. Khóa API, tiện ích bổ sung và Truyền hình trực tiếp của bạn không thay đổi.</string>
+    <string name="settings_backup_import_confirm_message_sensitive">Cài đặt từ tệp này sẽ thay thế cài đặt hiện tại của cấu hình này, bao gồm khóa API và khóa gỡ lỗi. Các tiện ích bổ sung, plugin và nguồn Live TV bị thiếu sẽ được thêm vào.</string>
+    <string name="settings_backup_import_confirm_action">Nhập khẩu</string>
+    <string name="settings_backup_import_done">Đã nhập cài đặt</string>
+    <string name="settings_backup_import_partial">Đã nhập cài đặt nhưng không thể áp dụng một số phần</string>
+    <string name="settings_backup_import_failed">Không thể nhập cài đặt</string>
+    <string name="settings_backup_import_invalid">Tệp này không phải là tệp xuất cài đặt Nuvio</string>
+</resources>

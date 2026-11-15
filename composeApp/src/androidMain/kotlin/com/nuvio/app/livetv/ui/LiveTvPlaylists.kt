@@ -40,6 +40,8 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.nuvio.app.livetv.model.EpgSource
 import com.nuvio.app.livetv.model.PlaylistSource
+import nuvio.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 
 /** Your playlists: switch one off, remove it, update everything, or add another. */
 @Composable
@@ -65,8 +67,8 @@ fun PlaylistsDialog(
             CompositionLocalProvider(LocalContentColor provides Color.White) {
                 Column(Modifier.fillMaxSize().statusBarsPadding().navigationBarsPadding()) {
                     Row(Modifier.fillMaxWidth().padding(16.dp, 8.dp), verticalAlignment = Alignment.CenterVertically) {
-                        Text("Playlists and guide", style = MaterialTheme.typography.titleLarge, modifier = Modifier.weight(1f))
-                        TextButton(onClick = onDismiss) { Text("Done") }
+                        Text(stringResource(Res.string.live_tv_ui_playlists_and_guide), style = MaterialTheme.typography.titleLarge, modifier = Modifier.weight(1f))
+                        TextButton(onClick = onDismiss) { Text(stringResource(Res.string.action_done)) }
                     }
                     Column(Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(horizontal = 16.dp)) {
                         playlists.forEach { p ->
@@ -75,7 +77,7 @@ fun PlaylistsDialog(
                                     Text(p.name, style = MaterialTheme.typography.bodyLarge, maxLines = 1, overflow = TextOverflow.Ellipsis)
                                     Text(
                                         listOfNotNull(
-                                            if (p.isStalker) "Stalker portal" else if (p.isXtream) "Xtream" else "M3U",
+                                            if (p.isStalker) stringResource(Res.string.live_tv_ui_stalker_portal) else if (p.isXtream) "Xtream" else "M3U",
                                             "${p.channelCount} channels".takeIf { p.channelCount > 0 },
                                             accounts[p.id]?.expiryLabel()?.let { "expires $it" },
                                             p.lastError,
@@ -85,18 +87,18 @@ fun PlaylistsDialog(
                                         maxLines = 2, overflow = TextOverflow.Ellipsis,
                                     )
                                 }
-                                TextButton(onClick = { editing = p }) { Text("Edit") }
+                                TextButton(onClick = { editing = p }) { Text(stringResource(Res.string.action_edit)) }
                                 Switch(checked = p.enabled, onCheckedChange = { onEnabled(p.id, it) })
                             }
                             HorizontalDivider(color = Color(0x22FFFFFF))
                         }
                         Row(Modifier.padding(vertical = 16.dp), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                            Button(onClick = onAdd) { Text("Add a playlist") }
-                            if (playlists.isNotEmpty()) TextButton(onClick = onRefresh) { Text("Update all") }
+                            Button(onClick = onAdd) { Text(stringResource(Res.string.live_tv_ui_add_a_playlist)) }
+                            if (playlists.isNotEmpty()) TextButton(onClick = onRefresh) { Text(stringResource(Res.string.live_tv_ui_update_all)) }
                         }
-                        Text("Guide sources", style = MaterialTheme.typography.titleMedium, modifier = Modifier.padding(top = 12.dp, bottom = 2.dp))
+                        Text(stringResource(Res.string.live_tv_ui_guide_sources), style = MaterialTheme.typography.titleMedium, modifier = Modifier.padding(top = 12.dp, bottom = 2.dp))
                         Text(
-                            "Playlists with a guide link bring their own. Add an XMLTV link here for the rest.",
+                            stringResource(Res.string.live_tv_ui_playlists_with_a_guide_link_bring_their_own_add_an_xmltv_lin),
                             style = MaterialTheme.typography.bodySmall, color = Color(0xFFB0B0B0),
                         )
                         epgs.forEach { g ->
@@ -107,19 +109,19 @@ fun PlaylistsDialog(
                                         listOfNotNull(
                                             "${g.programCount} programmes".takeIf { g.programCount > 0 },
                                             g.lastError,
-                                        ).joinToString("  ·  ").ifBlank { "Waiting for the first update" },
+                                        ).joinToString("  ·  ").ifBlank { stringResource(Res.string.live_tv_ui_waiting_for_the_first_update) },
                                         style = MaterialTheme.typography.bodySmall,
                                         color = if (g.lastError != null) Color(0xFFFF6B6B) else Color(0xFFB0B0B0),
                                         maxLines = 2, overflow = TextOverflow.Ellipsis,
                                     )
                                 }
-                                TextButton(onClick = { confirmRemoveEpg = g }) { Text("Remove") }
+                                TextButton(onClick = { confirmRemoveEpg = g }) { Text(stringResource(Res.string.action_remove)) }
                                 Switch(checked = g.enabled, onCheckedChange = { onEpgEnabled(g.id, it) })
                             }
                             HorizontalDivider(color = Color(0x22FFFFFF))
                         }
                         Row(Modifier.padding(vertical = 16.dp)) {
-                            Button(onClick = onAddEpg) { Text("Add a guide") }
+                            Button(onClick = onAddEpg) { Text(stringResource(Res.string.live_tv_ui_add_a_guide)) }
                         }
                     }
                 }
@@ -138,19 +140,19 @@ fun PlaylistsDialog(
     confirmRemoveEpg?.let { g ->
         AlertDialog(
             onDismissRequest = { confirmRemoveEpg = null },
-            title = { Text("Remove \"${g.name}\"?") },
-            text = { Text("Channels using it lose their programme listings.") },
-            confirmButton = { TextButton(onClick = { onRemoveEpg(g.id); confirmRemoveEpg = null }) { Text("Remove") } },
-            dismissButton = { TextButton(onClick = { confirmRemoveEpg = null }) { Text("Cancel") } },
+            title = { Text(stringResource(Res.string.live_tv_ui_remove_named, g.name)) },
+            text = { Text(stringResource(Res.string.live_tv_ui_channels_using_it_lose_their_programme_listings)) },
+            confirmButton = { TextButton(onClick = { onRemoveEpg(g.id); confirmRemoveEpg = null }) { Text(stringResource(Res.string.action_remove)) } },
+            dismissButton = { TextButton(onClick = { confirmRemoveEpg = null }) { Text(stringResource(Res.string.action_cancel)) } },
         )
     }
     confirmRemove?.let { p ->
         AlertDialog(
             onDismissRequest = { confirmRemove = null },
-            title = { Text("Remove \"${p.name}\"?") },
-            text = { Text("Its channels leave your list. You can add it again later.") },
-            confirmButton = { TextButton(onClick = { onRemove(p.id); confirmRemove = null }) { Text("Remove") } },
-            dismissButton = { TextButton(onClick = { confirmRemove = null }) { Text("Cancel") } },
+            title = { Text(stringResource(Res.string.live_tv_ui_remove_named, p.name)) },
+            text = { Text(stringResource(Res.string.live_tv_ui_its_channels_leave_your_list_you_can_add_it_again_later)) },
+            confirmButton = { TextButton(onClick = { onRemove(p.id); confirmRemove = null }) { Text(stringResource(Res.string.action_remove)) } },
+            dismissButton = { TextButton(onClick = { confirmRemove = null }) { Text(stringResource(Res.string.action_cancel)) } },
         )
     }
 }
@@ -162,18 +164,18 @@ fun AddEpgDialog(onDismiss: () -> Unit, onAdd: (name: String, url: String) -> Un
     var url by remember { mutableStateOf("") }
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Add a guide") },
+        title = { Text(stringResource(Res.string.live_tv_ui_add_a_guide)) },
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                OutlinedTextField(name, { name = it }, singleLine = true, label = { Text("Name (optional)") }, modifier = Modifier.fillMaxWidth(), colors = fieldColors())
+                OutlinedTextField(name, { name = it }, singleLine = true, label = { Text(stringResource(Res.string.live_tv_ui_name_optional)) }, modifier = Modifier.fillMaxWidth(), colors = fieldColors())
                 OutlinedTextField(
-                    url, { url = it }, label = { Text("XMLTV link") }, modifier = Modifier.fillMaxWidth(), colors = fieldColors(),
+                    url, { url = it }, label = { Text(stringResource(Res.string.live_tv_ui_xmltv_link)) }, modifier = Modifier.fillMaxWidth(), colors = fieldColors(),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Uri), maxLines = 3,
                 )
             }
         },
-        confirmButton = { TextButton(enabled = url.isNotBlank(), onClick = { onAdd(name, url) }) { Text("Add") } },
-        dismissButton = { TextButton(onClick = onDismiss) { Text("Cancel") } },
+        confirmButton = { TextButton(enabled = url.isNotBlank(), onClick = { onAdd(name, url) }) { Text(stringResource(Res.string.youtube_settings_add)) } },
+        dismissButton = { TextButton(onClick = onDismiss) { Text(stringResource(Res.string.action_cancel)) } },
     )
 }
 
@@ -204,40 +206,40 @@ fun AddPlaylistDialog(
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Add a playlist") },
+        title = { Text(stringResource(Res.string.live_tv_ui_add_a_playlist)) },
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(10.dp), modifier = Modifier.verticalScroll(rememberScrollState())) {
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    FilterChip(selected = mode == 0, onClick = { mode = 0 }, label = { Text("M3U link") })
+                    FilterChip(selected = mode == 0, onClick = { mode = 0 }, label = { Text(stringResource(Res.string.live_tv_ui_m3u_link)) })
                     FilterChip(selected = mode == 1, onClick = { mode = 1 }, label = { Text("Xtream") })
                     FilterChip(selected = mode == 2, onClick = { mode = 2 }, label = { Text("Stalker", maxLines = 1) })
                 }
-                OutlinedTextField(name, { name = it }, singleLine = true, label = { Text("Name (optional)") }, modifier = Modifier.fillMaxWidth(), colors = fieldColors())
+                OutlinedTextField(name, { name = it }, singleLine = true, label = { Text(stringResource(Res.string.live_tv_ui_name_optional)) }, modifier = Modifier.fillMaxWidth(), colors = fieldColors())
                 if (stalker) {
                     OutlinedTextField(
-                        portal, { portal = it }, singleLine = true, label = { Text("Portal address") }, modifier = Modifier.fillMaxWidth(), colors = fieldColors(),
-                        placeholder = { Text("http://host/c/", color = Color(0xFF808080)) },
+                        portal, { portal = it }, singleLine = true, label = { Text(stringResource(Res.string.live_tv_ui_portal_address)) }, modifier = Modifier.fillMaxWidth(), colors = fieldColors(),
+                        placeholder = { Text(stringResource(Res.string.live_tv_ui_http_host_c), color = Color(0xFF808080)) },
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Uri),
                     )
                     OutlinedTextField(
-                        mac, { mac = it }, singleLine = true, label = { Text("MAC address") }, modifier = Modifier.fillMaxWidth(), colors = fieldColors(),
-                        placeholder = { Text("00:1A:79:AB:CD:EF", color = Color(0xFF808080)) },
+                        mac, { mac = it }, singleLine = true, label = { Text(stringResource(Res.string.live_tv_stalker_mac)) }, modifier = Modifier.fillMaxWidth(), colors = fieldColors(),
+                        placeholder = { Text(stringResource(Res.string.live_tv_ui_00_1a_79_ab_cd_ef), color = Color(0xFF808080)) },
                         isError = mac.isNotBlank() && !com.nuvio.app.livetv.data.StalkerClient.isValidMac(mac),
                     )
-                    Text("Use the MAC address your provider registered for you.", style = MaterialTheme.typography.bodySmall, color = Color(0xFFB0B0B0))
+                    Text(stringResource(Res.string.live_tv_ui_use_the_mac_address_your_provider_registered_for_you), style = MaterialTheme.typography.bodySmall, color = Color(0xFFB0B0B0))
                 } else if (!xtream) {
                     OutlinedTextField(
-                        url, { url = it }, label = { Text("Playlist link") }, modifier = Modifier.fillMaxWidth(), colors = fieldColors(),
+                        url, { url = it }, label = { Text(stringResource(Res.string.live_tv_ui_playlist_link)) }, modifier = Modifier.fillMaxWidth(), colors = fieldColors(),
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Uri), maxLines = 3,
                     )
                 } else {
                     OutlinedTextField(
-                        server, { server = it }, singleLine = true, label = { Text("Server, like http://host:port") }, modifier = Modifier.fillMaxWidth(), colors = fieldColors(),
+                        server, { server = it }, singleLine = true, label = { Text(stringResource(Res.string.live_tv_ui_server_like_http_host_port)) }, modifier = Modifier.fillMaxWidth(), colors = fieldColors(),
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Uri),
                     )
-                    OutlinedTextField(user, { user = it }, singleLine = true, label = { Text("Username") }, modifier = Modifier.fillMaxWidth(), colors = fieldColors())
+                    OutlinedTextField(user, { user = it }, singleLine = true, label = { Text(stringResource(Res.string.live_tv_username)) }, modifier = Modifier.fillMaxWidth(), colors = fieldColors())
                     OutlinedTextField(
-                        pass, { pass = it }, singleLine = true, label = { Text("Password") }, modifier = Modifier.fillMaxWidth(), colors = fieldColors(),
+                        pass, { pass = it }, singleLine = true, label = { Text(stringResource(Res.string.compose_auth_password)) }, modifier = Modifier.fillMaxWidth(), colors = fieldColors(),
                         visualTransformation = PasswordVisualTransformation(),
                     )
                 }
@@ -253,9 +255,9 @@ fun AddPlaylistDialog(
                         else -> onM3u(name, url)
                     }
                 },
-            ) { Text("Add") }
+            ) { Text(stringResource(Res.string.youtube_settings_add)) }
         },
-        dismissButton = { TextButton(onClick = onDismiss) { Text("Cancel") } },
+        dismissButton = { TextButton(onClick = onDismiss) { Text(stringResource(Res.string.action_cancel)) } },
     )
 }
 
@@ -292,33 +294,33 @@ private fun PlaylistEditDialog(
         title = { Text(playlist.name, maxLines = 1) },
         text = {
             Column(Modifier.verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                OutlinedTextField(value = name, onValueChange = { name = it }, singleLine = true, label = { Text("Name") }, colors = fieldColors())
+                OutlinedTextField(value = name, onValueChange = { name = it }, singleLine = true, label = { Text(stringResource(Res.string.stream_info_name)) }, colors = fieldColors())
                 OutlinedTextField(
                     value = agent, onValueChange = { agent = it }, singleLine = true,
-                    label = { Text("User agent (leave empty for the default)") }, colors = fieldColors())
+                    label = { Text(stringResource(Res.string.live_tv_ui_user_agent_leave_empty_for_the_default)) }, colors = fieldColors())
                 OutlinedTextField(
                     value = zone, onValueChange = { zone = it }, singleLine = true,
-                    label = { Text("Server time zone (optional, e.g. Europe/London)") }, colors = fieldColors())
+                    label = { Text(stringResource(Res.string.live_tv_ui_server_time_zone_optional_e_g_europe_london)) }, colors = fieldColors())
                 if (playlist.isStalker) {
                     OutlinedTextField(
-                        value = portal, onValueChange = { portal = it }, singleLine = true, label = { Text("Portal address") }, colors = fieldColors(),
+                        value = portal, onValueChange = { portal = it }, singleLine = true, label = { Text(stringResource(Res.string.live_tv_ui_portal_address)) }, colors = fieldColors(),
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Uri),
                     )
                     OutlinedTextField(
-                        value = mac, onValueChange = { mac = it }, singleLine = true, label = { Text("MAC address") }, colors = fieldColors(),
+                        value = mac, onValueChange = { mac = it }, singleLine = true, label = { Text(stringResource(Res.string.live_tv_stalker_mac)) }, colors = fieldColors(),
                         isError = mac.isNotBlank() && !com.nuvio.app.livetv.data.StalkerClient.isValidMac(mac),
                     )
                 }
                 if (playlist.isXtream) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text("Live TV channels", Modifier.weight(1f)); Switch(checked = live, onCheckedChange = { live = it })
+                        Text(stringResource(Res.string.live_tv_ui_live_tv_channels), Modifier.weight(1f)); Switch(checked = live, onCheckedChange = { live = it })
                     }
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text("Movies and series (On Demand)", Modifier.weight(1f)); Switch(checked = vod, onCheckedChange = { vod = it })
+                        Text(stringResource(Res.string.live_tv_ui_movies_and_series_on_demand), Modifier.weight(1f)); Switch(checked = vod, onCheckedChange = { vod = it })
                     }
-                    Text("Stream format", style = MaterialTheme.typography.labelMedium)
+                    Text(stringResource(Res.string.live_tv_ui_stream_format), style = MaterialTheme.typography.labelMedium)
                     Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-                        listOf("auto" to "Auto", "ts" to "TS", "m3u8" to "HLS").forEach { (v, l) ->
+                        listOf("auto" to stringResource(Res.string.youtube_settings_auto), "ts" to "TS", "m3u8" to "HLS").forEach { (v, l) ->
                             TextButton(onClick = { format = v }) {
                                 Text(l, color = if (format == v) Color(0xFFE53935) else LocalContentColor.current)
                             }
@@ -326,9 +328,9 @@ private fun PlaylistEditDialog(
                     }
                 }
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text("Use the guide the playlist points to", Modifier.weight(1f)); Switch(checked = embedded, onCheckedChange = { embedded = it })
+                    Text(stringResource(Res.string.live_tv_ui_use_the_guide_the_playlist_points_to), Modifier.weight(1f)); Switch(checked = embedded, onCheckedChange = { embedded = it })
                 }
-                Text("Channel logos from", style = MaterialTheme.typography.labelMedium)
+                Text(stringResource(Res.string.live_tv_ui_channel_logos_from), style = MaterialTheme.typography.labelMedium)
                 Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
                     listOf("playlist" to "The playlist", "epg" to "The guide").forEach { (v, l) ->
                         TextButton(onClick = { logos = v }) {
@@ -338,12 +340,12 @@ private fun PlaylistEditDialog(
                 }
                 if (account != null && (account.expiresAtMs > 0 || account.status.isNotBlank() || account.maxConnections > 0)) {
                     HorizontalDivider()
-                    Text("Account", style = MaterialTheme.typography.titleSmall)
-                    account.expiryLabel()?.let { Text("Expires $it", color = if (account.expiringSoon()) Color(0xFFFF6B6B) else LocalContentColor.current) }
-                    if (account.status.isNotBlank()) Text("Status: ${account.status}")
-                    if (account.maxConnections > 0) Text("Connections: ${account.activeConnections} of ${account.maxConnections} in use")
+                    Text(stringResource(Res.string.compose_settings_page_account), style = MaterialTheme.typography.titleSmall)
+                    account.expiryLabel()?.let { Text(stringResource(Res.string.live_tv_ui_expires, it), color = if (account.expiringSoon()) Color(0xFFFF6B6B) else LocalContentColor.current) }
+                    if (account.status.isNotBlank()) Text(stringResource(Res.string.live_tv_ui_status, account.status))
+                    if (account.maxConnections > 0) Text(stringResource(Res.string.live_tv_ui_connections_in_use, account.activeConnections, account.maxConnections))
                 }
-                TextButton(onClick = onRemove) { Text("Remove this playlist", color = Color(0xFFFF6B6B)) }
+                TextButton(onClick = onRemove) { Text(stringResource(Res.string.live_tv_ui_remove_this_playlist), color = Color(0xFFFF6B6B)) }
             }
         },
         confirmButton = {
@@ -357,8 +359,8 @@ private fun PlaylistEditDialog(
                         stalkerMac = if (playlist.isStalker) mac.trim().ifBlank { playlist.stalkerMac } else playlist.stalkerMac,
                     )
                 )
-            }) { Text("Save") }
+            }) { Text(stringResource(Res.string.action_save)) }
         },
-        dismissButton = { TextButton(onClick = onDismiss) { Text("Cancel") } },
+        dismissButton = { TextButton(onClick = onDismiss) { Text(stringResource(Res.string.action_cancel)) } },
     )
 }

@@ -1,0 +1,20 @@
+<resources>
+    <string name="settings_backup_section">BACKUP</string>
+    <string name="settings_backup_include_sensitive">Includi informazioni sensibili</string>
+    <string name="settings_backup_include_sensitive_description">Aggiungi chiavi API, chiavi di debrid, componenti aggiuntivi, TV in diretta e ID applicazione Discord al file esportato. Mantieni quel file privato</string>
+    <string name="settings_backup_export">Impostazioni di esportazione</string>
+    <string name="settings_backup_export_description">Salva impostazioni e plugin in un file. Raccolte, tracker e il tuo account Nuvio non vengono mai inclusi</string>
+    <string name="settings_backup_export_done">Impostazioni esportate</string>
+    <string name="settings_backup_export_failed">Impossibile esportare le impostazioni</string>
+    <string name="settings_backup_import">Importa impostazioni</string>
+    <string name="settings_backup_import_description">Ripristina le impostazioni da un file esportato</string>
+    <string name="settings_backup_importing">Importazione delle impostazioni…</string>
+    <string name="settings_backup_import_confirm_title">Importare impostazioni?</string>
+    <string name="settings_backup_import_confirm_message">Le impostazioni di questo file sostituiranno le impostazioni correnti di questo profilo. Verranno aggiunti i plugin mancanti. Le tue chiavi API, i componenti aggiuntivi e la TV in diretta rimangono invariati.</string>
+    <string name="settings_backup_import_confirm_message_sensitive">Le impostazioni di questo file sostituiranno le impostazioni correnti di questo profilo, incluse le chiavi API e le chiavi di debrid. Verranno aggiunti componenti aggiuntivi, plug-in e sorgenti TV in diretta mancanti.</string>
+    <string name="settings_backup_import_confirm_action">Importare</string>
+    <string name="settings_backup_import_done">Impostazioni importate</string>
+    <string name="settings_backup_import_partial">Impostazioni importate, ma non è stato possibile applicare alcune sezioni</string>
+    <string name="settings_backup_import_failed">Impossibile importare le impostazioni</string>
+    <string name="settings_backup_import_invalid">Questo file non è un'esportazione delle impostazioni Nuvio</string>
+</resources>

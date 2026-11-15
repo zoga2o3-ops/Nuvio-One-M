@@ -1,0 +1,19 @@
+<resources>
+    <string name="episode_navigator_search_hint">Tìm kiếm tiêu đề, cốt truyện hoặc số</string>
+    <string name="episode_navigator_clear_search">Xóa tìm kiếm</string>
+    <string name="episode_navigator_go_to">đi đến</string>
+    <string name="episode_navigator_sort">Loại</string>
+    <string name="episode_navigator_count">%1$d trong số %2$d tập</string>
+    <string name="episode_navigator_no_match">Không có tập nào khớp với ‘%1$s’</string>
+    <string name="episode_navigator_go_to_title">Chuyển đến tập</string>
+    <string name="episode_navigator_episode_number">Số tập</string>
+    <string name="episode_navigator_go">Đi</string>
+    <string name="episode_navigator_go_to_help">Nhập một số hoặc chọn một số bên dưới. Gạch chân = đã xem, phác thảo = tiếp theo.</string>
+    <string name="episode_navigator_out_of_range">%1$s có các tập %2$d–%3$d</string>
+    <string name="episode_navigator_sort_title">Sắp xếp các tập</string>
+    <string name="episode_navigator_sort_first_to_last">Tập: đầu tiên đến cuối cùng</string>
+    <string name="episode_navigator_sort_last_to_first">Tập: từ cuối đến đầu</string>
+    <string name="episode_navigator_sort_highest_rated">Đánh giá cao nhất</string>
+    <string name="episode_navigator_sort_newest_aired">Mới nhất phát sóng</string>
+    <string name="episode_navigator_sort_unwatched_first">Chưa xem đầu tiên</string>
+</resources>

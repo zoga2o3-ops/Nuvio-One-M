@@ -1,0 +1,33 @@
+<resources>
+    <string name="tracking_source_wetrakr">WeTrakr</string>
+    <string name="settings_wetrakr_library_description">آپ کے WeTrakr کی فہرستیں: منصوبہ بندی کرنا، دیکھنا، انتظار کرنا، دیکھا، روکا اور چھوڑا گیا۔</string>
+    <string name="settings_wetrakr_progress_description">اپنے WeTrakr پلے بیک اور دیکھی گئی اقساط سے دیکھنا اور آگے بڑھنا جاری رکھیں۔</string>
+    <string name="library_wetrakr_title">WeTrakr لائبریری</string>
+    <string name="library_wetrakr_load_failed">آپ کی WeTrakr لائبریری لوڈ نہیں ہو سکی</string>
+    <string name="library_wetrakr_empty_title">آپ کی WeTrakr لائبریری خالی ہے۔</string>
+    <string name="library_wetrakr_empty_message">موویز اور شوز کو یہاں دیکھنے کے لیے اپنی WeTrakr فہرستوں میں شامل کریں۔</string>
+    <string name="settings_wetrakr_connect">WeTrakr کو مربوط کریں۔</string>
+    <string name="settings_wetrakr_connected_as">%1$s کے بطور منسلک</string>
+    <string name="settings_wetrakr_connected_description">WeTrakr کے ساتھ اپنی فہرستیں، دیکھنے کی تاریخ، درجہ بندی، سکروبلز اور دیکھنا جاری رکھیں۔</string>
+    <string name="settings_wetrakr_sign_in_description">اپنی فہرستوں کو مطابقت پذیر بنانے، دیکھنے کی تاریخ، درجہ بندی، اسکروبلز اور دیکھنا جاری رکھنے کے لیے WeTrakr کو مربوط کریں۔</string>
+    <string name="settings_wetrakr_finish_sign_in">سائن ان مکمل کریں۔</string>
+    <string name="settings_wetrakr_approval_description">WeTrakr ایکٹیویشن صفحہ کھولیں اور یہ کوڈ درج کریں۔ آپ کی منظوری کے بعد Nuvio خود بخود جڑ جاتا ہے۔</string>
+    <string name="settings_wetrakr_open_login">ایکٹیویشن پیج کھولیں۔</string>
+    <string name="settings_wetrakr_disconnect">WeTrakr کو منقطع کریں۔</string>
+    <string name="settings_wetrakr_missing_credentials">اس تعمیر میں WeTrakr کنکشن دستیاب نہیں ہے۔</string>
+    <string name="settings_wetrakr_sync_now">ابھی مطابقت پذیری کریں۔</string>
+    <string name="settings_wetrakr_visit">WeTrakr ملاحظہ کریں۔</string>
+    <string name="settings_wetrakr_disconnect_description">اس پروفائل سے گھڑی کی اپ ڈیٹس بھیجنا بند کریں۔ آپ کی WeTrakr کی فہرستیں اور تاریخ رکھی جاتی ہے۔</string>
+    <string name="settings_wetrakr_account_fallback">WeTrakr صارف</string>
+    <string name="settings_wetrakr_syncing">آپ کی WeTrakr فہرستوں کو ہم آہنگ کیا جا رہا ہے…</string>
+    <string name="settings_wetrakr_last_synced">آخری بار مطابقت پذیری %1$s</string>
+    <string name="settings_wetrakr_auth_denied">کنکشن مسترد کر دیا گیا تھا۔ اپنا اکاؤنٹ منسلک کرنے کے لیے دوبارہ کوشش کریں۔</string>
+    <string name="settings_wetrakr_auth_expired">ایکٹیویشن کوڈ کی میعاد ختم ہو گئی۔ نیا کوڈ حاصل کرنے کے لیے دوبارہ کوشش کریں۔</string>
+    <string name="settings_wetrakr_auth_failed">سائن ان شروع کرنے کے لیے WeTrakr تک نہیں پہنچ سکا۔ براہ کرم دوبارہ کوشش کریں۔</string>
+    <string name="settings_wetrakr_auth_rate_limited">سائن ان کرنے کی بہت زیادہ کوششیں۔ 15 منٹ انتظار کریں اور دوبارہ کوشش کریں۔</string>
+    <string name="settings_wetrakr_app_suspended">WeTrakr نے اس ایپ کو معطل کر دیا ہے۔ براہ کرم بعد میں دوبارہ کوشش کریں۔</string>
+    <string name="settings_wetrakr_auth_revoked">آپ کے WeTrakr کنکشن کی میعاد ختم ہو گئی ہے یا اسے منسوخ کر دیا گیا ہے۔ مطابقت پذیری دوبارہ شروع کرنے کے لیے دوبارہ جڑیں۔</string>
+    <string name="settings_wetrakr_unavailable">WeTrakr کے ساتھ مطابقت پذیری نہیں ہو سکی۔ براہ کرم دوبارہ کوشش کریں۔</string>
+    <string name="settings_wetrakr_rate_limited">WeTrakr کی درخواست کی حد پوری ہو گئی ہے۔ مطابقت پذیری جلد ہی دوبارہ شروع ہو جائے گی۔</string>
+    <string name="settings_wetrakr_plan_limit">اس کے لیے WeTrakr VIP کی ضرورت ہے یا آپ کے پلان کی حد سے زیادہ ہے۔</string>
+</resources>

@@ -1,0 +1,33 @@
+<resources>
+    <string name="tracking_source_wetrakr">ويتراكر</string>
+    <string name="settings_wetrakr_library_description">قوائم WeTrakr الخاصة بك: التخطيط، والمراقبة، والانتظار، والمراقبة، والإيقاف المؤقت، والإسقاط.</string>
+    <string name="settings_wetrakr_progress_description">تابع المشاهدة والمتابعة من تشغيل WeTrakr والحلقات التي شاهدتها.</string>
+    <string name="library_wetrakr_title">مكتبة ويتراكر</string>
+    <string name="library_wetrakr_load_failed">تعذر تحميل مكتبة WeTrakr الخاصة بك</string>
+    <string name="library_wetrakr_empty_title">مكتبة WeTrakr الخاصة بك فارغة</string>
+    <string name="library_wetrakr_empty_message">أضف الأفلام والعروض إلى قوائم WeTrakr الخاصة بك لمشاهدتها هنا.</string>
+    <string name="settings_wetrakr_connect">ربط ويتراكر</string>
+    <string name="settings_wetrakr_connected_as">متصل كـ %1$s</string>
+    <string name="settings_wetrakr_connected_description">قم بمزامنة قوائمك وسجل المشاهدة والتقييمات والتمرير ومتابعة المشاهدة باستخدام WeTrakr.</string>
+    <string name="settings_wetrakr_sign_in_description">قم بتوصيل WeTrakr لمزامنة قوائمك وسجل المشاهدة والتقييمات والتمرير ومتابعة المشاهدة.</string>
+    <string name="settings_wetrakr_finish_sign_in">إنهاء تسجيل الدخول</string>
+    <string name="settings_wetrakr_approval_description">افتح صفحة تفعيل WeTrakr وأدخل هذا الرمز. Nuvio يتصل تلقائيًا بمجرد الموافقة.</string>
+    <string name="settings_wetrakr_open_login">فتح صفحة التنشيط</string>
+    <string name="settings_wetrakr_disconnect">افصل WeTrakr</string>
+    <string name="settings_wetrakr_missing_credentials">اتصال WeTrakr غير متوفر في هذا الإصدار.</string>
+    <string name="settings_wetrakr_sync_now">مزامنة الآن</string>
+    <string name="settings_wetrakr_visit">قم بزيارة ويتراكر</string>
+    <string name="settings_wetrakr_disconnect_description">توقف عن إرسال تحديثات الساعة من هذا الملف الشخصي. يتم الاحتفاظ بقوائم WeTrakr وتاريخها.</string>
+    <string name="settings_wetrakr_account_fallback">مستخدم وي تراكر</string>
+    <string name="settings_wetrakr_syncing">جارٍ مزامنة قوائم WeTrakr الخاصة بك...</string>
+    <string name="settings_wetrakr_last_synced">آخر مزامنة %1$s</string>
+    <string name="settings_wetrakr_auth_denied">تم رفض الاتصال. حاول مرة أخرى ربط حسابك.</string>
+    <string name="settings_wetrakr_auth_expired">انتهت صلاحية رمز التفعيل. حاول مرة أخرى للحصول على رمز جديد.</string>
+    <string name="settings_wetrakr_auth_failed">تعذر الوصول إلى WeTrakr لبدء تسجيل الدخول. يرجى المحاولة مرة أخرى.</string>
+    <string name="settings_wetrakr_auth_rate_limited">هناك عدد كبير جدًا من محاولات تسجيل الدخول. انتظر 15 دقيقة وحاول مرة أخرى.</string>
+    <string name="settings_wetrakr_app_suspended">لقد قام WeTrakr بتعليق هذا التطبيق. يرجى المحاولة مرة أخرى لاحقا.</string>
+    <string name="settings_wetrakr_auth_revoked">لقد انتهت صلاحية اتصال WeTrakr الخاص بك أو تم إبطاله. اتصل مرة أخرى لاستئناف المزامنة.</string>
+    <string name="settings_wetrakr_unavailable">لا يمكن المزامنة مع WeTrakr. يرجى المحاولة مرة أخرى.</string>
+    <string name="settings_wetrakr_rate_limited">تم الوصول إلى الحد الأقصى لطلبات WeTrakr. سيتم استئناف المزامنة قريبًا.</string>
+    <string name="settings_wetrakr_plan_limit">يحتاج هذا إلى WeTrakr VIP أو أنه يتجاوز حدود خطتك.</string>
+</resources>

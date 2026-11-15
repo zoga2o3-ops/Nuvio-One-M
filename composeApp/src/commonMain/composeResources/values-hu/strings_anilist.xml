@@ -1,0 +1,30 @@
+<resources>
+    <string name="tracking_source_anilist">AniList</string>
+    <string name="settings_anilist_anime_section">Anime</string>
+    <string name="settings_anilist_library_description">Az Ön AniList animelistái: Megtekintés, Tervezés, Befejezett, Szüneteltetve, Eldobott és Újranézés.</string>
+    <string name="settings_anilist_progress_description">Folytassa a nézést, és lépjen a következőre az AniList figyelőlistájáról.</string>
+    <string name="library_anilist_title">AniList könyvtár</string>
+    <string name="library_anilist_load_failed">Nem sikerült betölteni az AniList könyvtárat</string>
+    <string name="library_anilist_empty_title">Az AniList könyvtára üres</string>
+    <string name="library_anilist_empty_message">Adja hozzá animéket az AniList listáihoz, hogy itt megtekinthesse őket.</string>
+    <string name="settings_anilist_connect">Csatlakoztassa az AniList-et</string>
+    <string name="settings_anilist_connected_as">Csatlakozva mint %1$s</string>
+    <string name="settings_anilist_connected_description">Szinkronizálja animelistáit, az epizódok előrehaladását, a pontszámokat, és folytassa a nézést az AniList segítségével.</string>
+    <string name="settings_anilist_sign_in_description">Az AniList csatlakoztatásával szinkronizálhatja animelistáit, az epizódok előrehaladását, pontszámait és a nézés folytatását.</string>
+    <string name="settings_anilist_finish_sign_in">A bejelentkezés befejezése</string>
+    <string name="settings_anilist_approval_description">A Nuvio jóváhagyása a böngészőben. A rendszer automatikusan visszaküldi az alkalmazáshoz.</string>
+    <string name="settings_anilist_open_login">Nyissa meg a bejelentkezési oldalt</string>
+    <string name="settings_anilist_disconnect">Az AniList leválasztása</string>
+    <string name="settings_anilist_missing_credentials">Az AniList kapcsolat nem érhető el ebben a buildben.</string>
+    <string name="settings_anilist_sync_now">Szinkronizálás most</string>
+    <string name="settings_anilist_visit">Látogassa meg az AniList oldalt</string>
+    <string name="settings_anilist_disconnect_description">Az órafrissítések küldésének leállítása ebből a profilból. Az AniList listáit a rendszer megőrzi.</string>
+    <string name="settings_anilist_account_fallback">AniList felhasználó</string>
+    <string name="settings_anilist_syncing">Az AniList listák szinkronizálása…</string>
+    <string name="settings_anilist_last_synced">Utolsó szinkronizálás: %1$s</string>
+    <string name="settings_anilist_auth_denied">A kapcsolat elutasítva. Próbálja újra összekapcsolni fiókját.</string>
+    <string name="settings_anilist_auth_invalid">Az AniList érvénytelen bejelentkezési választ adott vissza. Kérjük, próbálja újra.</string>
+    <string name="settings_anilist_auth_revoked">AniList kapcsolata lejárt vagy visszavonták. A szinkronizálás folytatásához csatlakozzon újra.</string>
+    <string name="settings_anilist_unavailable">Nem sikerült szinkronizálni az AniListtel. Kérjük, próbálja újra.</string>
+    <string name="settings_anilist_rate_limited">Elérte az AniList kéréskorlátját. A szinkronizálás hamarosan folytatódik.</string>
+</resources>

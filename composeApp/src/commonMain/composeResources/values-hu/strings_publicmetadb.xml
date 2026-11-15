@@ -1,0 +1,36 @@
+<resources>
+    <string name="tracking_source_publicmetadb">PublicMetaDB</string>
+    <string name="settings_publicmetadb_library_description">PublicMetaDB figyelőlistája és egyéni listái.</string>
+    <string name="settings_publicmetadb_progress_description">Folytassa a megtekintést és a Következő elemet a PublicMetaDB önéletrajzi pontjaiból és megtekintési előzményeiből.</string>
+    <string name="library_publicmetadb_title">PublicMetaDB könyvtár</string>
+    <string name="library_publicmetadb_load_failed">Nem sikerült betölteni a PublicMetaDB könyvtárát</string>
+    <string name="library_publicmetadb_empty_title">A PublicMetaDB könyvtára üres</string>
+    <string name="library_publicmetadb_empty_message">Adjon hozzá filmeket és műsorokat PublicMetaDB-listáihoz, hogy itt megtekinthesse őket.</string>
+    <string name="settings_publicmetadb_connect">Csatlakoztassa a PublicMetaDB-t</string>
+    <string name="settings_publicmetadb_connected_as">Csatlakozva a kulcsvégződéshez %1$s</string>
+    <string name="settings_publicmetadb_connected_description">Szinkronizálja listáit, megtekintési előzményeit, értékeléseit, scrobbleit, és folytassa a nézést a PublicMetaDB segítségével.</string>
+    <string name="settings_publicmetadb_sign_in_description">Csatlakoztassa a PublicMetaDB-t egy API-kulccsal a listák, a megtekintési előzmények, az értékelések, a scrobblek és a Continue Watching szinkronizálásához.</string>
+    <string name="settings_publicmetadb_finish_sign_in">Fejezd be a csatlakozást</string>
+    <string name="settings_publicmetadb_approval_description">A csatlakozás befejezéséhez adja meg PublicMetaDB API-kulcsát.</string>
+    <string name="settings_publicmetadb_open_login">Írja be az API kulcsot</string>
+    <string name="settings_publicmetadb_disconnect">A PublicMetaDB leválasztása</string>
+    <string name="settings_publicmetadb_missing_credentials">A PublicMetaDB kapcsolat nem érhető el ebben a buildben.</string>
+    <string name="settings_publicmetadb_sync_now">Szinkronizálás most</string>
+    <string name="settings_publicmetadb_visit">Látogassa meg a PublicMetaDB webhelyet</string>
+    <string name="settings_publicmetadb_disconnect_description">Hagyja abba az órafrissítések küldését ebből a profilból, és felejtse el az API-kulcsot. A PublicMetaDB listái és előzményei megőrződnek.</string>
+    <string name="settings_publicmetadb_account_fallback">az API-kulcsát</string>
+    <string name="settings_publicmetadb_syncing">PublicMetaDB-listák szinkronizálása…</string>
+    <string name="settings_publicmetadb_last_synced">Utolsó szinkronizálás: %1$s</string>
+    <string name="settings_publicmetadb_api_key_title">Csatlakoztassa a PublicMetaDB-t</string>
+    <string name="settings_publicmetadb_api_key_description">Hozzon létre egy API-kulcsot a PublicMetaDB-n a Beállítások → API alatt, majd illessze be ide. A billentyűk általában pm-vel kezdődnek.</string>
+    <string name="settings_publicmetadb_api_key_label">API kulcs</string>
+    <string name="settings_publicmetadb_get_api_key">Szerezzen be egy API-kulcsot</string>
+    <string name="settings_publicmetadb_connect_action">Csatlakozás</string>
+    <string name="settings_publicmetadb_missing_key">Adja meg PublicMetaDB API-kulcsát.</string>
+    <string name="settings_publicmetadb_invalid_key">A PublicMetaDB nem fogadta el ezt az API-kulcsot. Ellenőrizze, és próbálja újra.</string>
+    <string name="settings_publicmetadb_request_failed">Nem sikerült elérni a PublicMetaDB-t. Kérjük, próbálja újra.</string>
+    <string name="settings_publicmetadb_rate_limited">Elérte a PublicMetaDB kéréskorlátját. Próbálja újra rövidesen.</string>
+    <string name="settings_publicmetadb_blocked">A PublicMetaDB blokkolta ezt a kérést. Kérjük, próbálja újra később.</string>
+    <string name="settings_publicmetadb_auth_revoked">PublicMetaDB API-kulcsa már nem érvényes. Csatlakoztassa újra egy új kulccsal.</string>
+    <string name="settings_publicmetadb_unavailable">Nem sikerült szinkronizálni a PublicMetaDB-vel. Kérjük, próbálja újra.</string>
+</resources>

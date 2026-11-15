@@ -18,7 +18,10 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
+import nuvio.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.getString
 
 data class YtVideoInfo(
     val videoId: String,
@@ -128,7 +131,7 @@ class YouTubePlayerViewModel (private val context: Context) : ViewModel() {
                 onSuccess = { (meta, signed) -> _state.update { it.copy(info = toInfo(id, meta), loading = false, signedIn = signed) } },
                 onFailure = {
                     Log.e(TAG, "couldn't load details for $id", it)
-                    _state.update { s -> s.copy(loading = false, message = "Couldn't load this video's details.") }
+                    _state.update { s -> s.copy(loading = false, message = runBlocking { getString(Res.string.youtube_ui_video_details_failed) }) }
                 }
             )
         }
@@ -157,7 +160,7 @@ class YouTubePlayerViewModel (private val context: Context) : ViewModel() {
     private fun act(okMessage: String, call: (YtVideoInfo) -> Observable<Void>, apply: (YtVideoInfo) -> YtVideoInfo) {
         val info = _state.value.info ?: return
         if (!_state.value.signedIn) {
-            _state.update { it.copy(message = "Sign in to YouTube first, with the account button on the YouTube page.") }
+            _state.update { it.copy(message = runBlocking { getString(Res.string.youtube_ui_sign_in_first) }) }
             return
         }
         viewModelScope.launch {
@@ -166,7 +169,7 @@ class YouTubePlayerViewModel (private val context: Context) : ViewModel() {
                 onSuccess = { _state.update { s -> s.copy(info = s.info?.let(apply), message = okMessage) } },
                 onFailure = {
                     Log.e(TAG, "action failed", it)
-                    _state.update { s -> s.copy(message = "That didn't go through. Try again.") }
+                    _state.update { s -> s.copy(message = runBlocking { getString(Res.string.youtube_ui_try_again) }) }
                 }
             )
         }
@@ -174,14 +177,14 @@ class YouTubePlayerViewModel (private val context: Context) : ViewModel() {
 
     fun toggleLike() {
         val liked = _state.value.info?.liked == true
-        act(if (liked) "Like removed" else "Liked",
+        act(if (liked) runBlocking { getString(Res.string.youtube_ui_like_removed) } else runBlocking { getString(Res.string.youtube_ui_liked) },
             { if (liked) media.removeLikeObserve(item(it)) else media.setLikeObserve(item(it)) },
             { it.copy(liked = !liked, disliked = false) })
     }
 
     fun toggleDislike() {
         val disliked = _state.value.info?.disliked == true
-        act(if (disliked) "Dislike removed" else "Disliked",
+        act(if (disliked) runBlocking { getString(Res.string.youtube_ui_dislike_removed) } else runBlocking { getString(Res.string.youtube_ui_disliked) },
             { if (disliked) media.removeDislikeObserve(item(it)) else media.setDislikeObserve(item(it)) },
             { it.copy(disliked = !disliked, liked = false) })
     }
@@ -190,10 +193,10 @@ class YouTubePlayerViewModel (private val context: Context) : ViewModel() {
         val subscribed = _state.value.info?.subscribed == true
         val channel = _state.value.info?.channelId
         if (channel == null) {
-            _state.update { it.copy(message = "This video has no channel to subscribe to.") }
+            _state.update { it.copy(message = runBlocking { getString(Res.string.youtube_ui_no_channel_subscribe) }) }
             return
         }
-        act(if (subscribed) "Unsubscribed" else "Subscribed",
+        act(if (subscribed) runBlocking { getString(Res.string.youtube_ui_unsubscribed) } else runBlocking { getString(Res.string.youtube_ui_subscribed) },
             { if (subscribed) media.unsubscribeObserve(channel) else media.subscribeObserve(channel) },
             { it.copy(subscribed = !subscribed) })
     }
@@ -203,11 +206,11 @@ class YouTubePlayerViewModel (private val context: Context) : ViewModel() {
         val info = _state.value.info ?: return
         val id = info.channelId
         if (id == null) {
-            _state.update { it.copy(message = "This video has no channel to hide.") }
+            _state.update { it.copy(message = runBlocking { getString(Res.string.youtube_ui_no_channel_hide) }) }
             return
         }
-        YouTubeSettings.hideChannel(context, id, info.author.ifBlank { "This channel" })
-        _state.update { it.copy(message = "Hidden: ${info.author}. Bring it back in Settings, then YouTube.") }
+        YouTubeSettings.hideChannel(context, id, info.author.ifBlank { runBlocking { getString(Res.string.youtube_ui_this_channel) } })
+        _state.update { it.copy(message = runBlocking { getString(Res.string.youtube_ui_hidden_channel, info.author) }) }
     }
 
     // ---- playlists ----
@@ -215,7 +218,7 @@ class YouTubePlayerViewModel (private val context: Context) : ViewModel() {
     fun loadPlaylists() {
         val info = _state.value.info ?: return
         if (!_state.value.signedIn) {
-            _state.update { it.copy(message = "Sign in to YouTube first, with the account button on the YouTube page.") }
+            _state.update { it.copy(message = runBlocking { getString(Res.string.youtube_ui_sign_in_first) }) }
             return
         }
         _state.update { it.copy(playlists = null, loading = true, message = null) }
@@ -247,7 +250,7 @@ class YouTubePlayerViewModel (private val context: Context) : ViewModel() {
                         playlists = s.playlists?.map { if (it.id == row.id) it.copy(contains = !row.contains) else it },
                         message = if (row.contains) "Removed from ${row.title}" else "Saved to ${row.title}"
                     )
-                } else s.copy(message = "That didn't go through. Try again.")
+                } else s.copy(message = runBlocking { getString(Res.string.youtube_ui_try_again) })
             }
         }
     }
@@ -270,12 +273,12 @@ class YouTubePlayerViewModel (private val context: Context) : ViewModel() {
      */
     fun toggleCommentLike(comment: YtComment) {
         if (!_state.value.signedIn) {
-            _state.update { it.copy(message = "Sign in to YouTube first, with the account button on the YouTube page.") }
+            _state.update { it.copy(message = runBlocking { getString(Res.string.youtube_ui_sign_in_first) }) }
             return
         }
         val key = comment.replyKey
         if (key == null) {
-            _state.update { it.copy(message = "This comment can't be liked from here.") }
+            _state.update { it.copy(message = runBlocking { getString(Res.string.youtube_ui_comment_like_unavailable) }) }
             return
         }
         viewModelScope.launch {
@@ -288,13 +291,13 @@ class YouTubePlayerViewModel (private val context: Context) : ViewModel() {
                         s.copy(
                             comments = s.comments.map { if (it.replyKey == key) it.withLikeFlipped() else it },
                             replies = s.replies.map { if (it.replyKey == key) it.withLikeFlipped() else it },
-                            message = if (comment.liked) "Like removed" else "Liked"
+                            message = if (comment.liked) runBlocking { getString(Res.string.youtube_ui_like_removed) } else runBlocking { getString(Res.string.youtube_ui_liked) }
                         )
                     }
                 },
                 onFailure = {
                     Log.e(TAG, "comment like failed", it)
-                    _state.update { s -> s.copy(message = "That didn't go through. Try again.") }
+                    _state.update { s -> s.copy(message = runBlocking { getString(Res.string.youtube_ui_try_again) }) }
                 }
             )
         }

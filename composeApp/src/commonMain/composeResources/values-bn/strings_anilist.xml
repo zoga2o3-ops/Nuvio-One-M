@@ -1,0 +1,30 @@
+<resources>
+    <string name="tracking_source_anilist">অ্যানিলিস্ট</string>
+    <string name="settings_anilist_anime_section">এনিমে</string>
+    <string name="settings_anilist_library_description">আপনার অ্যানিলিস্ট অ্যানিমে তালিকা: দেখা, পরিকল্পনা করা, সম্পূর্ণ, বিরতি দেওয়া, বাদ দেওয়া এবং পুনরায় দেখা।</string>
+    <string name="settings_anilist_progress_description">আপনার অ্যানিলিস্ট দেখার তালিকা থেকে দেখা চালিয়ে যান এবং পরবর্তীতে দেখুন।</string>
+    <string name="library_anilist_title">অ্যানিলিস্ট লাইব্রেরি</string>
+    <string name="library_anilist_load_failed">আপনার অ্যানিলিস্ট লাইব্রেরি লোড করা যায়নি</string>
+    <string name="library_anilist_empty_title">আপনার অ্যানিলিস্ট লাইব্রেরি খালি</string>
+    <string name="library_anilist_empty_message">এখানে দেখতে আপনার অ্যানিলিস্ট তালিকায় অ্যানিমে যোগ করুন।</string>
+    <string name="settings_anilist_connect">অ্যানিলিস্ট সংযোগ করুন</string>
+    <string name="settings_anilist_connected_as">%1$s হিসাবে সংযুক্ত</string>
+    <string name="settings_anilist_connected_description">আপনার অ্যানিমে তালিকা, পর্বের অগ্রগতি, স্কোর সিঙ্ক করুন এবং অ্যানিলিস্টের সাথে দেখা চালিয়ে যান।</string>
+    <string name="settings_anilist_sign_in_description">আপনার অ্যানিমে তালিকা, পর্বের অগ্রগতি, স্কোর এবং দেখা চালিয়ে যেতে সিঙ্ক করতে অ্যানিলিস্টকে সংযুক্ত করুন।</string>
+    <string name="settings_anilist_finish_sign_in">সাইন-ইন শেষ করুন</string>
+    <string name="settings_anilist_approval_description">আপনার ব্রাউজারে Nuvio অনুমোদন করুন। আপনাকে স্বয়ংক্রিয়ভাবে অ্যাপে ফেরত পাঠানো হবে।</string>
+    <string name="settings_anilist_open_login">সাইন-ইন পৃষ্ঠা খুলুন</string>
+    <string name="settings_anilist_disconnect">AniList সংযোগ বিচ্ছিন্ন করুন</string>
+    <string name="settings_anilist_missing_credentials">এই বিল্ডে অ্যানিলিস্ট সংযোগ অনুপলব্ধ৷</string>
+    <string name="settings_anilist_sync_now">এখন সিঙ্ক করুন</string>
+    <string name="settings_anilist_visit">অ্যানিলিস্টে যান</string>
+    <string name="settings_anilist_disconnect_description">এই প্রোফাইল থেকে ঘড়ি আপডেট পাঠানো বন্ধ করুন. আপনার AniList তালিকা রাখা হয়.</string>
+    <string name="settings_anilist_account_fallback">অ্যানিলিস্ট ব্যবহারকারী</string>
+    <string name="settings_anilist_syncing">আপনার অ্যানিলিস্ট তালিকাগুলি সিঙ্ক করা হচ্ছে...</string>
+    <string name="settings_anilist_last_synced">সর্বশেষ সিঙ্ক হয়েছে %1$s</string>
+    <string name="settings_anilist_auth_denied">সংযোগ প্রত্যাখ্যান করা হয়েছে. আপনার অ্যাকাউন্ট সংযোগ করার জন্য আবার চেষ্টা করুন.</string>
+    <string name="settings_anilist_auth_invalid">অ্যানিলিস্ট একটি অবৈধ সাইন-ইন প্রতিক্রিয়া ফিরিয়ে দিয়েছে৷ আবার চেষ্টা করুন.</string>
+    <string name="settings_anilist_auth_revoked">আপনার অ্যানিলিস্ট সংযোগের মেয়াদ শেষ হয়েছে বা প্রত্যাহার করা হয়েছে৷ সিঙ্কিং পুনরায় শুরু করতে আবার সংযোগ করুন৷</string>
+    <string name="settings_anilist_unavailable">AniList এর সাথে সিঙ্ক করা যায়নি। আবার চেষ্টা করুন.</string>
+    <string name="settings_anilist_rate_limited">অ্যানিলিস্টের অনুরোধের সীমা পৌঁছে গেছে। শীঘ্রই সিঙ্ক করা আবার শুরু হবে।</string>
+</resources>

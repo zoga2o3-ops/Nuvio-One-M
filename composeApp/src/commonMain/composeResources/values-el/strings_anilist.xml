@@ -1,0 +1,30 @@
+<resources>
+    <string name="tracking_source_anilist">AniList</string>
+    <string name="settings_anilist_anime_section">Anime</string>
+    <string name="settings_anilist_library_description">Οι λίστες anime του AniList: Παρακολούθηση, Σχεδιασμός, Ολοκληρώθηκε, Σε Παύση, Απορριπτόταν και Επαναπαρακολούθηση.</string>
+    <string name="settings_anilist_progress_description">Συνεχίστε την παρακολούθηση και Επόμενο από τη λίστα παρακολούθησης του AniList.</string>
+    <string name="library_anilist_title">Βιβλιοθήκη AniList</string>
+    <string name="library_anilist_load_failed">Δεν ήταν δυνατή η φόρτωση της βιβλιοθήκης σας AniList</string>
+    <string name="library_anilist_empty_title">Η βιβλιοθήκη σας AniList είναι άδεια</string>
+    <string name="library_anilist_empty_message">Προσθέστε anime στις λίστες σας AniList για να τα δείτε εδώ.</string>
+    <string name="settings_anilist_connect">Συνδέστε το AniList</string>
+    <string name="settings_anilist_connected_as">Συνδεδεμένο ως %1$s</string>
+    <string name="settings_anilist_connected_description">Συγχρονίστε τις λίστες anime, την πρόοδο των επεισοδίων, τις βαθμολογίες και συνεχίστε την παρακολούθηση με το AniList.</string>
+    <string name="settings_anilist_sign_in_description">Συνδέστε το AniList για να συγχρονίσετε τις λίστες anime, την πρόοδο των επεισοδίων, τις βαθμολογίες και τη Συνέχεια παρακολούθησης.</string>
+    <string name="settings_anilist_finish_sign_in">Ολοκληρώστε τη σύνδεση</string>
+    <string name="settings_anilist_approval_description">Έγκριση Nuvio στο πρόγραμμα περιήγησής σας. Θα επιστρέψετε αυτόματα στην εφαρμογή.</string>
+    <string name="settings_anilist_open_login">Ανοίξτε τη σελίδα σύνδεσης</string>
+    <string name="settings_anilist_disconnect">Αποσυνδέστε το AniList</string>
+    <string name="settings_anilist_missing_credentials">Η σύνδεση AniList δεν είναι διαθέσιμη σε αυτήν την έκδοση.</string>
+    <string name="settings_anilist_sync_now">Συγχρονισμός τώρα</string>
+    <string name="settings_anilist_visit">Επισκεφτείτε το AniList</string>
+    <string name="settings_anilist_disconnect_description">Διακοπή αποστολής ενημερώσεων ρολογιού από αυτό το προφίλ. Οι λίστες σας AniList διατηρούνται.</string>
+    <string name="settings_anilist_account_fallback">Χρήστης AniList</string>
+    <string name="settings_anilist_syncing">Συγχρονισμός των λιστών σας AniList…</string>
+    <string name="settings_anilist_last_synced">Τελευταίος συγχρονισμός %1$s</string>
+    <string name="settings_anilist_auth_denied">Η σύνδεση απορρίφθηκε. Προσπαθήστε ξανά να συνδέσετε τον λογαριασμό σας.</string>
+    <string name="settings_anilist_auth_invalid">Το AniList επέστρεψε μια μη έγκυρη απάντηση σύνδεσης. Δοκιμάστε ξανά.</string>
+    <string name="settings_anilist_auth_revoked">Η σύνδεσή σας στο AniList έχει λήξει ή έχει ανακληθεί. Συνδεθείτε ξανά για να συνεχιστεί ο συγχρονισμός.</string>
+    <string name="settings_anilist_unavailable">Δεν ήταν δυνατός ο συγχρονισμός με το AniList. Δοκιμάστε ξανά.</string>
+    <string name="settings_anilist_rate_limited">Το όριο αιτημάτων της AniList έχει συμπληρωθεί. Ο συγχρονισμός θα συνεχιστεί σύντομα.</string>
+</resources>

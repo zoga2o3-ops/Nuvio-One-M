@@ -1,0 +1,20 @@
+<resources>
+    <string name="settings_backup_section">SIGURNOSNO KOPIRANJE</string>
+    <string name="settings_backup_include_sensitive">Uključi osjetljive informacije</string>
+    <string name="settings_backup_include_sensitive_description">Dodajte API ključeve, debrid ključeve, dodatke, TV uživo i ID aplikacije Discord u izvezenu datoteku. Držite tu datoteku privatnom</string>
+    <string name="settings_backup_export">Postavke izvoza</string>
+    <string name="settings_backup_export_description">Spremite postavke i dodatke u datoteku. Zbirke, alati za praćenje i vaš Nuvio račun nikada nisu uključeni</string>
+    <string name="settings_backup_export_done">Postavke su izvezene</string>
+    <string name="settings_backup_export_failed">Nije moguće izvesti postavke</string>
+    <string name="settings_backup_import">Postavke uvoza</string>
+    <string name="settings_backup_import_description">Vratite postavke iz izvezene datoteke</string>
+    <string name="settings_backup_importing">Uvoz postavki…</string>
+    <string name="settings_backup_import_confirm_title">Uvesti postavke?</string>
+    <string name="settings_backup_import_confirm_message">Postavke iz ove datoteke zamijenit će trenutne postavke ovog profila. Dodat će se dodaci koji nedostaju. Vaši API ključevi, dodaci i TV uživo ostaju nepromijenjeni.</string>
+    <string name="settings_backup_import_confirm_message_sensitive">Postavke iz ove datoteke zamijenit će trenutne postavke ovog profila, uključujući API ključeve i debrid ključeve. Dodat će se nedostajući dodaci, dodaci i TV izvori uživo.</string>
+    <string name="settings_backup_import_confirm_action">Uvoz</string>
+    <string name="settings_backup_import_done">Postavke su uvezene</string>
+    <string name="settings_backup_import_partial">Postavke su uvezene, ali neke se odjeljke nije moglo primijeniti</string>
+    <string name="settings_backup_import_failed">Nije moguće uvesti postavke</string>
+    <string name="settings_backup_import_invalid">Ova datoteka nije izvoz postavki Nuvio</string>
+</resources>

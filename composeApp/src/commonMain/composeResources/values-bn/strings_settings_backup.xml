@@ -1,0 +1,20 @@
+<resources>
+    <string name="settings_backup_section">ব্যাকআপ</string>
+    <string name="settings_backup_include_sensitive">সংবেদনশীল তথ্য অন্তর্ভুক্ত করুন</string>
+    <string name="settings_backup_include_sensitive_description">এক্সপোর্ট করা ফাইলে API কী, ডেব্রিড কী, অ্যাডঅন, লাইভ টিভি এবং Discord অ্যাপ্লিকেশন আইডি যোগ করুন। সেই ফাইলটি ব্যক্তিগত রাখুন</string>
+    <string name="settings_backup_export">রপ্তানি সেটিংস</string>
+    <string name="settings_backup_export_description">একটি ফাইলে সেটিংস এবং প্লাগইনগুলি সংরক্ষণ করুন৷ সংগ্রহ, ট্র্যাকার এবং আপনার Nuvio অ্যাকাউন্ট কখনই অন্তর্ভুক্ত করা হয় না</string>
+    <string name="settings_backup_export_done">সেটিংস এক্সপোর্ট করা হয়েছে</string>
+    <string name="settings_backup_export_failed">সেটিংস রপ্তানি করা যায়নি</string>
+    <string name="settings_backup_import">আমদানি সেটিংস</string>
+    <string name="settings_backup_import_description">রপ্তানি করা ফাইল থেকে সেটিংস পুনরুদ্ধার করুন</string>
+    <string name="settings_backup_importing">সেটিংস আমদানি করা হচ্ছে...</string>
+    <string name="settings_backup_import_confirm_title">সেটিংস আমদানি করবেন?</string>
+    <string name="settings_backup_import_confirm_message">এই ফাইলের সেটিংস এই প্রোফাইলের বর্তমান সেটিংস প্রতিস্থাপন করবে৷ অনুপস্থিত প্লাগইন যোগ করা হবে. আপনার API কী, অ্যাডঅন এবং লাইভ টিভি অপরিবর্তিত থাকবে।</string>
+    <string name="settings_backup_import_confirm_message_sensitive">এই ফাইলের সেটিংস এপিআই কী এবং ডেব্রিড কী সহ এই প্রোফাইলের বর্তমান সেটিংস প্রতিস্থাপন করবে। অনুপস্থিত অ্যাডঅন, প্লাগইন এবং লাইভ টিভি উৎস যোগ করা হবে।</string>
+    <string name="settings_backup_import_confirm_action">আমদানি</string>
+    <string name="settings_backup_import_done">সেটিংস আমদানি করা হয়েছে৷</string>
+    <string name="settings_backup_import_partial">সেটিংস আমদানি করা হয়েছে, কিন্তু কিছু বিভাগ প্রয়োগ করা যায়নি৷</string>
+    <string name="settings_backup_import_failed">সেটিংস আমদানি করা যায়নি৷</string>
+    <string name="settings_backup_import_invalid">এই ফাইলটি একটি Nuvio সেটিংস এক্সপোর্ট নয়৷</string>
+</resources>

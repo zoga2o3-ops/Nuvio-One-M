@@ -1,0 +1,12 @@
+<resources>
+    <string name="settings_playback_subtitle_auto_sync">Automatická synchronizace titulků</string>
+    <string name="settings_playback_subtitle_auto_sync_description">Automaticky synchronizovat preferované doplňkové titulky při zahájení přehrávání. Vyžaduje preferovaný jazyk titulků.</string>
+    <string name="settings_playback_auto_sync_mode_aggressive">Vyhledávání automatické synchronizace: Důkladné</string>
+    <string name="settings_playback_auto_sync_mode_aggressive_description">Před synchronizací neustále porovnává další titulky a vložené stopy pro bližší shodu. Vždy se používají pouze sebevědomé shody.</string>
+    <string name="settings_playback_auto_sync_mode_passive">Automatické vyhledávání synchronizace: Rychlé</string>
+    <string name="settings_playback_auto_sync_mode_passive_description">Použije první silnou shodu dříve. Vždy se používají pouze spolehlivé shody, jako u Thorough.</string>
+    <string name="settings_playback_auto_sync_tolerance">Tolerance automatické synchronizace: %1$s</string>
+    <string name="settings_playback_auto_sync_tolerance_description">Zachovat původní časování titulků, když by je synchronizace neposunula o více než toto. Klepnutím změníte.</string>
+    <string name="settings_playback_auto_sync_tolerance_off">Vypnuto</string>
+    <string name="settings_playback_auto_sync_tolerance_value">%1$d ms</string>
+</resources>

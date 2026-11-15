@@ -66,6 +66,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import com.nuvio.app.music.engine.data.model.Song
 import java.util.Locale
+import nuvio.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.resources.getString
 
 /**
  * The viewer's downloaded music: what is on the device, what is still arriving and what
@@ -115,7 +118,7 @@ internal fun MusicDownloadsScreen(
             ) {
                 DownloadsCircleButton(
                     icon = Icons.AutoMirrored.Filled.ArrowBack,
-                    label = "Back",
+                    label = stringResource(Res.string.action_back),
                     modifier = Modifier.focusRequester(closeFocus),
                     onDown = { runCatching { firstRowFocus.requestFocus() } },
                     onClick = onClose
@@ -123,7 +126,7 @@ internal fun MusicDownloadsScreen(
                 Spacer(Modifier.width(16.dp))
                 Column(Modifier.weight(1f)) {
                     Text(
-                        text = "Downloads",
+                        text = stringResource(Res.string.compose_settings_root_downloads_title),
                         color = MusicPalette.text,
                         fontFamily = MusicDisplay,
                         fontSize = 34.sp,
@@ -149,7 +152,7 @@ internal fun MusicDownloadsScreen(
                 if (active.isNotEmpty()) {
                     DownloadsPillButton(
                         icon = if (downloads.paused) Icons.Default.PlayArrow else Icons.Default.Pause,
-                        label = if (downloads.paused) "Resume all" else "Pause all",
+                        label = if (downloads.paused) stringResource(Res.string.music_ui_resume_all) else stringResource(Res.string.music_ui_pause_all),
                         onClick = {
                             if (downloads.paused) MusicDownloads.resumeAll()
                             else MusicDownloads.pauseAll()
@@ -160,7 +163,7 @@ internal fun MusicDownloadsScreen(
                 if (completed.isNotEmpty() || failed.isNotEmpty()) {
                     DownloadsPillButton(
                         icon = Icons.Default.Delete,
-                        label = "Clear finished",
+                        label = stringResource(Res.string.music_ui_clear_finished),
                         onClick = { MusicDownloads.clearCompleted() }
                     )
                 }
@@ -170,7 +173,7 @@ internal fun MusicDownloadsScreen(
                 Spacer(Modifier.height(14.dp))
                 DownloadsNotice(
                     icon = Icons.Default.WifiOff,
-                    text = "Waiting for Wi-Fi. Downloads resume on an unmetered network."
+                    text = stringResource(Res.string.music_ui_waiting_for_wi_fi_downloads_resume_on_an_unmetered_network)
                 )
             }
 
@@ -202,7 +205,7 @@ internal fun MusicDownloadsScreen(
                         item(key = "downloads-active-header") {
                             DownloadsSectionHeader(
                                 icon = Icons.Default.Download,
-                                title = "Downloading"
+                                title = stringResource(Res.string.music_ui_downloading)
                             )
                         }
                         items(
@@ -229,7 +232,7 @@ internal fun MusicDownloadsScreen(
                         item(key = "downloads-failed-header") {
                             DownloadsSectionHeader(
                                 icon = Icons.Default.Refresh,
-                                title = "Needs attention"
+                                title = stringResource(Res.string.music_ui_needs_attention)
                             )
                         }
                         items(
@@ -256,7 +259,7 @@ internal fun MusicDownloadsScreen(
                         item(key = "downloads-complete-header") {
                             DownloadsSectionHeader(
                                 icon = Icons.Default.DownloadDone,
-                                title = "On this device"
+                                title = stringResource(Res.string.music_ui_on_this_device)
                             )
                         }
                         itemsIndexed(
@@ -381,7 +384,7 @@ private fun DownloadRow(
         if (onDelete != null) {
             DownloadsRowAction(
                 icon = Icons.Default.Delete,
-                label = "Remove download",
+                label = stringResource(Res.string.music_ui_remove_download),
                 onClick = onDelete
             )
         }
@@ -487,14 +490,14 @@ private fun DownloadsEmptyState(modifier: Modifier = Modifier) {
         )
         Spacer(Modifier.height(14.dp))
         Text(
-            text = "No downloads yet",
+            text = stringResource(Res.string.downloads_empty_title),
             color = MusicPalette.text,
             fontSize = 22.sp,
             fontWeight = FontWeight.Bold
         )
         Spacer(Modifier.height(6.dp))
         Text(
-            text = "Choose Download on an album, playlist or track to keep it offline.",
+            text = stringResource(Res.string.music_ui_choose_download_on_an_album_playlist_or_track_to_keep_it_off),
             color = MusicPalette.textSecondary,
             fontSize = 13.sp
         )
@@ -619,8 +622,8 @@ private fun MusicDownloadItem.statusLabel(): String = when (status) {
             "Downloading · ${(progress * 100).toInt()}%"
         }
     MusicDownloadStatus.PAUSED -> "Paused · ${(progress * 100).toInt()}%"
-    MusicDownloadStatus.COMPLETE -> "Downloaded · plays offline"
-    MusicDownloadStatus.FAILED -> "Download failed · choose to retry"
+    MusicDownloadStatus.COMPLETE -> kotlinx.coroutines.runBlocking { getString(Res.string.music_ui_downloaded_offline) }
+    MusicDownloadStatus.FAILED -> kotlinx.coroutines.runBlocking { getString(Res.string.music_ui_download_failed_retry) }
 }
 
 internal fun formatDownloadBytes(bytes: Long): String {

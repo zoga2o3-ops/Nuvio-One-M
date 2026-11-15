@@ -47,6 +47,8 @@ import coil3.compose.AsyncImage
 import kotlinx.coroutines.launch
 import com.nuvio.app.features.livetv.LiveTvHost
 import com.nuvio.app.livetv.LiveTv
+import nuvio.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 
 /** Pick another channel without leaving the video: the same list as Live TV, with what's on now. */
 @Composable
@@ -104,15 +106,15 @@ fun LiveTvPlayerChannelsPanel(currentKey: String, onDismiss: () -> Unit) {
             CompositionLocalProvider(LocalContentColor provides Color.White) {
                 Column(Modifier.fillMaxSize().then(if (wide) Modifier.statusBarsPadding() else Modifier).navigationBarsPadding()) {
                     Row(Modifier.padding(16.dp, 14.dp, 16.dp, 6.dp), verticalAlignment = Alignment.CenterVertically) {
-                        Text("Channels", style = MaterialTheme.typography.titleMedium, modifier = Modifier.weight(1f))
+                        Text(stringResource(Res.string.live_tv_section_channels), style = MaterialTheme.typography.titleMedium, modifier = Modifier.weight(1f))
                         Text(
-                            if (recentOnly) "\u25CF Recent" else "\u25CB Recent",
+                            if (recentOnly) stringResource(Res.string.live_tv_ui_u25cf_recent) else stringResource(Res.string.live_tv_ui_u25cb_recent),
                             style = MaterialTheme.typography.labelLarge,
                             modifier = Modifier.clip(RoundedCornerShape(8.dp)).clickable { recentOnly = !recentOnly; favoritesOnly = false }.padding(8.dp),
                         )
                         if (user.favorites.isNotEmpty()) {
                             Text(
-                                if (favoritesOnly) "★ Favorites" else "☆ Favorites",
+                                if (favoritesOnly) stringResource(Res.string.live_tv_ui_favorites) else stringResource(Res.string.live_tv_ui_favorites_2),
                                 style = MaterialTheme.typography.labelLarge,
                                 modifier = Modifier.clip(RoundedCornerShape(8.dp)).clickable { favoritesOnly = !favoritesOnly; recentOnly = false }.padding(8.dp),
                             )
@@ -120,7 +122,7 @@ fun LiveTvPlayerChannelsPanel(currentKey: String, onDismiss: () -> Unit) {
                     }
                     OutlinedTextField(
                         value = query, onValueChange = { query = it }, singleLine = true,
-                        placeholder = { Text("Search channels") },
+                        placeholder = { Text(stringResource(Res.string.live_tv_search_placeholder)) },
                         modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
                         shape = RoundedCornerShape(12.dp), colors = fieldColors())
                     LazyColumn(state = listState, modifier = Modifier.weight(1f).padding(top = 8.dp)) {

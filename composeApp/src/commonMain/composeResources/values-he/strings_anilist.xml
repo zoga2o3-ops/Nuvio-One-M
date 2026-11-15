@@ -1,0 +1,30 @@
+<resources>
+    <string name="tracking_source_anilist">אני ליסט</string>
+    <string name="settings_anilist_anime_section">אנימה</string>
+    <string name="settings_anilist_library_description">רשימות האנימה שלך ב-AniList: צפייה, תכנון, הושלמה, מושהית, נשמטה וצפייה חוזרת.</string>
+    <string name="settings_anilist_progress_description">המשך בצפייה ובהמשך מרשימת הצפייה ב-AniList שלך.</string>
+    <string name="library_anilist_title">ספריית אניליסט</string>
+    <string name="library_anilist_load_failed">לא ניתן לטעון את ספריית ה-AniList שלך</string>
+    <string name="library_anilist_empty_title">ספריית ה-AniList שלך ריקה</string>
+    <string name="library_anilist_empty_message">הוסף אנימה לרשימות ה-AniList שלך כדי לראות אותן כאן.</string>
+    <string name="settings_anilist_connect">חבר את AniList</string>
+    <string name="settings_anilist_connected_as">מחובר כ- %1$s</string>
+    <string name="settings_anilist_connected_description">סנכרן את רשימות האנימה שלך, התקדמות הפרקים, התוצאות והמשך לצפות עם AniList.</string>
+    <string name="settings_anilist_sign_in_description">חבר את AniList כדי לסנכרן את רשימות האנימה שלך, התקדמות הפרקים, התוצאות והמשך צפייה.</string>
+    <string name="settings_anilist_finish_sign_in">סיים את הכניסה</string>
+    <string name="settings_anilist_approval_description">אשר את Nuvio בדפדפן שלך. אתה תישלח בחזרה לאפליקציה באופן אוטומטי.</string>
+    <string name="settings_anilist_open_login">פתח את דף הכניסה</string>
+    <string name="settings_anilist_disconnect">נתק את AniList</string>
+    <string name="settings_anilist_missing_credentials">חיבור AniList אינו זמין בגירסה זו.</string>
+    <string name="settings_anilist_sync_now">סנכרן עכשיו</string>
+    <string name="settings_anilist_visit">בקר ב-AniList</string>
+    <string name="settings_anilist_disconnect_description">הפסק לשלוח עדכוני שעון מהפרופיל הזה. רשימות ה-AniList שלך נשמרות.</string>
+    <string name="settings_anilist_account_fallback">משתמש ב-AniList</string>
+    <string name="settings_anilist_syncing">מסנכרן את רשימות ה-AniList שלך...</string>
+    <string name="settings_anilist_last_synced">סנכרון אחרון %1$s</string>
+    <string name="settings_anilist_auth_denied">החיבור נדחה. נסה שוב לחבר את החשבון שלך.</string>
+    <string name="settings_anilist_auth_invalid">AniList החזירה תגובת כניסה לא חוקית. אנא נסה שוב.</string>
+    <string name="settings_anilist_auth_revoked">פג תוקפו של חיבור ה-AniList שלך או בוטל. התחבר שוב כדי לחדש את הסנכרון.</string>
+    <string name="settings_anilist_unavailable">לא ניתן היה לסנכרן עם AniList. אנא נסה שוב.</string>
+    <string name="settings_anilist_rate_limited">הגעת למגבלת הבקשות של AniList. הסנכרון יתחדש בקרוב.</string>
+</resources>

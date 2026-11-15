@@ -55,6 +55,8 @@ import com.nuvio.app.music.engine.data.model.BrowseItem
 import com.nuvio.app.music.engine.data.model.SearchFilter
 import com.nuvio.app.music.engine.data.model.SearchResult
 import com.nuvio.app.music.engine.data.model.Song
+import nuvio.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 internal fun MusicSearchScreen(
@@ -158,7 +160,7 @@ internal fun MusicSearchScreen(
                     decorationBox = { inner ->
                         if (state.query.isEmpty()) {
                             Text(
-                                text = "Search songs, albums, artists and playlists",
+                                text = stringResource(Res.string.music_ui_search_songs_albums_artists_and_playlists),
                                 color = MusicPalette.textMuted,
                                 fontSize = 16.sp
                             )
@@ -219,8 +221,8 @@ internal fun MusicSearchScreen(
             // Addon answers can arrive before YouTube's; show them instead of hiding the list.
             state.loading && state.rows.isEmpty() -> MusicLoading(Modifier.weight(1f).fillMaxWidth())
             !state.submitted -> MusicEmptyState(
-                title = "Search music",
-                message = "Find a song, an album, an artist or a playlist.",
+                title = stringResource(Res.string.music_ui_search_music),
+                message = stringResource(Res.string.music_ui_find_a_song_an_album_an_artist_or_a_playlist),
                 modifier = Modifier.weight(1f)
             )
             state.error != null && state.rows.isEmpty() -> MusicErrorState(
@@ -229,8 +231,8 @@ internal fun MusicSearchScreen(
                 modifier = Modifier.weight(1f)
             )
             state.rows.isEmpty() -> MusicEmptyState(
-                title = "No results",
-                message = "Nothing matched \"${state.query}\". Try another spelling.",
+                title = stringResource(Res.string.music_ui_no_results),
+                message = stringResource(Res.string.music_ui_nothing_matched, state.query),
                 modifier = Modifier.weight(1f)
             )
             else -> {
@@ -242,7 +244,7 @@ internal fun MusicSearchScreen(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            text = "Results",
+                            text = stringResource(Res.string.music_ui_results),
                             color = MusicPalette.text,
                             fontFamily = MusicDisplay,
                             fontSize = 21.sp,

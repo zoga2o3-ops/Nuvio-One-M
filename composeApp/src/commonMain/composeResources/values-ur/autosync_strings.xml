@@ -1,0 +1,12 @@
+<resources>
+    <string name="settings_playback_subtitle_auto_sync">آٹو سنک سب ٹائٹل</string>
+    <string name="settings_playback_subtitle_auto_sync_description">پلے بیک شروع ہونے پر ترجیحی ایڈ آن سب ٹائٹل کو خودکار طور پر مطابقت پذیر بنائیں۔ ایک ترجیحی ذیلی عنوان کی زبان درکار ہے۔</string>
+    <string name="settings_playback_auto_sync_mode_aggressive">خودکار مطابقت پذیری کی تلاش: مکمل</string>
+    <string name="settings_playback_auto_sync_mode_aggressive_description">مطابقت پذیری سے پہلے قریبی میچ کے لیے دوسرے سب ٹائٹلز اور ایمبیڈڈ ٹریکس کا موازنہ کرتا رہتا ہے۔ صرف پراعتماد میچز ہی لاگو ہوتے ہیں۔</string>
+    <string name="settings_playback_auto_sync_mode_passive">خودکار مطابقت پذیری تلاش: فوری</string>
+    <string name="settings_playback_auto_sync_mode_passive_description">پہلا مضبوط میچ جلد استعمال کرتا ہے۔ صرف پراعتماد میچز ہی لاگو ہوتے ہیں، جیسا کہ Thorough کے ساتھ۔</string>
+    <string name="settings_playback_auto_sync_tolerance">خودکار مطابقت پذیری رواداری: %1$s</string>
+    <string name="settings_playback_auto_sync_tolerance_description">اصل سب ٹائٹل ٹائمنگ کو برقرار رکھیں جب مطابقت پذیری اسے اس سے زیادہ نہیں لے جائے گی۔ تبدیل کرنے کے لیے تھپتھپائیں۔</string>
+    <string name="settings_playback_auto_sync_tolerance_off">آف</string>
+    <string name="settings_playback_auto_sync_tolerance_value">%1$d ms</string>
+</resources>

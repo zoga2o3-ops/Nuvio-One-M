@@ -1,0 +1,20 @@
+<resources>
+    <string name="settings_backup_section">بیک اپ</string>
+    <string name="settings_backup_include_sensitive">حساس معلومات شامل کریں۔</string>
+    <string name="settings_backup_include_sensitive_description">برآمد شدہ فائل میں API کیز، ڈیبرڈ کیز، ایڈونز، لائیو ٹی وی اور Discord ایپلیکیشن ID شامل کریں۔ اس فائل کو پرائیویٹ رکھیں</string>
+    <string name="settings_backup_export">ترتیبات برآمد کریں۔</string>
+    <string name="settings_backup_export_description">سیٹنگز اور پلگ انز کو فائل میں محفوظ کریں۔ مجموعے، ٹریکرز اور آپ کا Nuvio اکاؤنٹ کبھی شامل نہیں ہوتا ہے۔</string>
+    <string name="settings_backup_export_done">ترتیبات برآمد کی گئیں۔</string>
+    <string name="settings_backup_export_failed">ترتیبات کو برآمد نہیں کیا جا سکا</string>
+    <string name="settings_backup_import">ترتیبات درآمد کریں۔</string>
+    <string name="settings_backup_import_description">برآمد شدہ فائل سے ترتیبات کو بحال کریں۔</string>
+    <string name="settings_backup_importing">ترتیبات درآمد کی جا رہی ہیں…</string>
+    <string name="settings_backup_import_confirm_title">ترتیبات درآمد کریں؟</string>
+    <string name="settings_backup_import_confirm_message">اس فائل کی ترتیبات اس پروفائل کی موجودہ ترتیبات کو بدل دیں گی۔ گمشدہ پلگ انز کو شامل کیا جائے گا۔ آپ کی API کیز، ایڈونز اور لائیو ٹی وی میں کوئی تبدیلی نہیں ہوتی۔</string>
+    <string name="settings_backup_import_confirm_message_sensitive">اس فائل کی ترتیبات اس پروفائل کی موجودہ ترتیبات کو بدل دیں گی، بشمول API کیز اور debrid کیز۔ غائب ایڈونز، پلگ انز اور لائیو ٹی وی کے ذرائع شامل کیے جائیں گے۔</string>
+    <string name="settings_backup_import_confirm_action">درآمد کریں۔</string>
+    <string name="settings_backup_import_done">ترتیبات درآمد کی گئیں۔</string>
+    <string name="settings_backup_import_partial">ترتیبات درآمد کی گئیں، لیکن کچھ حصے لاگو نہیں کیے جا سکے۔</string>
+    <string name="settings_backup_import_failed">ترتیبات کو درآمد نہیں کیا جا سکا</string>
+    <string name="settings_backup_import_invalid">یہ فائل Nuvio ترتیبات کی برآمد نہیں ہے۔</string>
+</resources>

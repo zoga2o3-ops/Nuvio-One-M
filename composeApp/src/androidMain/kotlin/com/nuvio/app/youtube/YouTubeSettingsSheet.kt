@@ -46,6 +46,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.nuvio.app.features.profiles.ProfileRepository
+import nuvio.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 import java.util.Locale
 
 /** The YouTube settings, full screen over the YouTube page. [onClose] reloads the feed. */
@@ -56,8 +58,8 @@ fun YouTubeSettingsSheet(onClose: () -> Unit) {
             CompositionLocalProvider(LocalContentColor provides Color.White) {
                 Column(Modifier.fillMaxSize().statusBarsPadding().navigationBarsPadding()) {
                     Row(Modifier.fillMaxWidth().padding(16.dp, 8.dp), verticalAlignment = Alignment.CenterVertically) {
-                        Text("OneTube settings", style = MaterialTheme.typography.titleLarge, modifier = Modifier.weight(1f))
-                        TextButton(onClick = onClose) { Text("Done") }
+                        Text(stringResource(Res.string.youtube_settings_title), style = MaterialTheme.typography.titleLarge, modifier = Modifier.weight(1f))
+                        TextButton(onClick = onClose) { Text(stringResource(Res.string.action_done)) }
                     }
                     Column(Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(horizontal = 16.dp)) {
                         YouTubeSettingsContent()
@@ -101,24 +103,31 @@ private fun YouTubeSettingsBody() {
     LaunchedEffect(Unit) { accounts.refresh() }
 
     Column(Modifier.fillMaxWidth()) {
-        Section("Account")
+        Section(stringResource(Res.string.compose_settings_page_account))
         if (account.signedIn) {
-            Choice("Signed in as ${account.accountName ?: "your account"}", "Switch or sign out") { showAccounts = true }
+            Choice(
+                stringResource(Res.string.youtube_settings_signed_in_as, account.accountName ?: stringResource(Res.string.youtube_settings_your_account)),
+                stringResource(Res.string.youtube_settings_switch_or_sign_out),
+            ) { showAccounts = true }
             if (account.linkedAccount != null) {
                 Text(
-                    "Linked to Nuvio One · ${profileName ?: "this profile"}",
+                    stringResource(Res.string.youtube_settings_linked_to, profileName ?: stringResource(Res.string.youtube_settings_this_profile)),
                     style = MaterialTheme.typography.bodySmall,
                     color = secondary(),
                     modifier = Modifier.padding(vertical = 4.dp),
                 )
             } else {
-                TextButton(onClick = accounts::linkToNuvioOne) { Text("Link to Nuvio One") }
+                TextButton(onClick = accounts::linkToNuvioOne) { Text(stringResource(Res.string.youtube_settings_link_to_nuvio)) }
             }
         } else if (account.checked) {
-            Choice("Sign in", "See your subscriptions and history") { accounts.startSignIn() }
+            Choice(stringResource(Res.string.compose_auth_sign_in), stringResource(Res.string.youtube_settings_sign_in_description)) { accounts.startSignIn() }
             account.linkedAccount?.let { linked ->
                 Text(
-                    "Linked to Nuvio One · ${profileName ?: "this profile"} as ${linked.name}. Sign in on this device to use it.",
+                    stringResource(
+                        Res.string.youtube_settings_linked_elsewhere,
+                        profileName ?: stringResource(Res.string.youtube_settings_this_profile),
+                        linked.name,
+                    ),
                     style = MaterialTheme.typography.bodySmall,
                     color = secondary(),
                     modifier = Modifier.padding(vertical = 4.dp),
@@ -126,72 +135,72 @@ private fun YouTubeSettingsBody() {
             }
         }
 
-        Section("Playback")
-        Toggle("Autoplay next video", "When a video ends, play the next one", YouTubeSettings.autoplayNext(context)) {
+        Section(stringResource(Res.string.compose_settings_page_playback))
+        Toggle(stringResource(Res.string.youtube_settings_autoplay), stringResource(Res.string.youtube_settings_autoplay_description), YouTubeSettings.autoplayNext(context)) {
             changed { YouTubeSettings.setAutoplayNext(context, it) }
         }
-        Choice("Start at", YouTubeSettings.qualityLabel(YouTubeSettings.preferredHeight(context))) {
+        Choice(stringResource(Res.string.youtube_settings_start_at), YouTubeSettings.qualityLabel(YouTubeSettings.preferredHeight(context))) {
             val c = YouTubeSettings.qualityChoices
             changed { YouTubeSettings.setPreferredHeight(context, c[(c.indexOf(YouTubeSettings.preferredHeight(context)) + 1) % c.size]) }
         }
-        Choice("Preferred codec", YouTubeSettings.codecLabel(YouTubeSettings.codecPreference(context))) {
+        Choice(stringResource(Res.string.youtube_settings_preferred_codec), YouTubeSettings.codecLabel(YouTubeSettings.codecPreference(context))) {
             val c = YouTubeSettings.codecChoices
             changed { YouTubeSettings.setCodecPreference(context, c[(c.indexOf(YouTubeSettings.codecPreference(context)) + 1) % c.size]) }
         }
-        Toggle("Open on the last tab", "Otherwise the page always starts on Home", YouTubeSettings.rememberLastTab(context)) {
+        Toggle(stringResource(Res.string.youtube_settings_remember_tab), stringResource(Res.string.youtube_settings_remember_tab_description), YouTubeSettings.rememberLastTab(context)) {
             changed { YouTubeSettings.setRememberLastTab(context, it) }
         }
 
-        Section("SponsorBlock")
-        Toggle("Skip marked parts", "Sponsors, intros and other parts the community has marked", YouTubeSettings.sponsorBlockEnabled(context)) {
+        Section(stringResource(Res.string.youtube_settings_section_sponsorblock))
+        Toggle(stringResource(Res.string.youtube_settings_skip_marked), stringResource(Res.string.youtube_settings_skip_marked_description), YouTubeSettings.sponsorBlockEnabled(context)) {
             changed { YouTubeSettings.setSponsorBlockEnabled(context, it) }
         }
-        Toggle("Ask before skipping", "Show a Skip button instead of skipping on its own", YouTubeSettings.sponsorAsk(context)) {
+        Toggle(stringResource(Res.string.youtube_settings_ask_before_skipping), stringResource(Res.string.youtube_settings_ask_before_skipping_description), YouTubeSettings.sponsorAsk(context)) {
             changed { YouTubeSettings.setSponsorAsk(context, it) }
         }
-        Toggle("Show a notice when skipping", null, YouTubeSettings.sponsorNotice(context)) {
+        Toggle(stringResource(Res.string.youtube_settings_show_notice), null, YouTubeSettings.sponsorNotice(context)) {
             changed { YouTubeSettings.setSponsorNotice(context, it) }
         }
         val on = YouTubeSettings.sponsorCategoriesOn(context)
-        YouTubeSettings.sponsorCategories.forEach { (id, label) ->
-            Toggle(label, null, id in on) { changed { YouTubeSettings.setSponsorCategory(context, id, it) } }
+        YouTubeSettings.sponsorCategories.forEach { (id, labelRes) ->
+            Toggle(stringResource(labelRes), null, id in on) { changed { YouTubeSettings.setSponsorCategory(context, id, it) } }
         }
 
-        Section("Feeds")
-        Toggle("Preview videos in feeds", "Plays a short muted preview of the video in view. Turn off to save data and battery.", YouTubeSettings.feedPreview(context)) { changed { YouTubeSettings.setFeedPreview(context, it) } }
-        Choice("Content region", contentRegionLabel(YouTubeSettings.contentRegion(context))) { showRegion = true }
-        Toggle("Hide Shorts", null, YouTubeSettings.hideShorts(context)) { changed { YouTubeSettings.setHideShorts(context, it) } }
-        Toggle("Hide videos you've watched", null, YouTubeSettings.hideWatched(context)) { changed { YouTubeSettings.setHideWatched(context, it) } }
-        Toggle("Hide upcoming videos", "Premieres that haven't started", YouTubeSettings.hideUpcoming(context)) { changed { YouTubeSettings.setHideUpcoming(context, it) } }
-        Toggle("Better titles", "Community-written titles in place of clickbait (DeArrow)", YouTubeSettings.deArrowTitles(context)) { changed { YouTubeSettings.setDeArrowTitles(context, it) } }
-        Toggle("Better thumbnails", "Thumbnails picked from the video itself (DeArrow)", YouTubeSettings.deArrowThumbnails(context)) { changed { YouTubeSettings.setDeArrowThumbnails(context, it) } }
+        Section(stringResource(Res.string.youtube_settings_section_feeds))
+        Toggle(stringResource(Res.string.youtube_settings_feed_preview), stringResource(Res.string.youtube_settings_feed_preview_description), YouTubeSettings.feedPreview(context)) { changed { YouTubeSettings.setFeedPreview(context, it) } }
+        Choice(stringResource(Res.string.youtube_settings_content_region), contentRegionLabel(YouTubeSettings.contentRegion(context))) { showRegion = true }
+        Toggle(stringResource(Res.string.youtube_settings_hide_shorts), null, YouTubeSettings.hideShorts(context)) { changed { YouTubeSettings.setHideShorts(context, it) } }
+        Toggle(stringResource(Res.string.youtube_settings_hide_watched), null, YouTubeSettings.hideWatched(context)) { changed { YouTubeSettings.setHideWatched(context, it) } }
+        Toggle(stringResource(Res.string.youtube_settings_hide_upcoming), stringResource(Res.string.youtube_settings_hide_upcoming_description), YouTubeSettings.hideUpcoming(context)) { changed { YouTubeSettings.setHideUpcoming(context, it) } }
+        Toggle(stringResource(Res.string.youtube_settings_dearrow_titles), stringResource(Res.string.youtube_settings_dearrow_titles_description), YouTubeSettings.deArrowTitles(context)) { changed { YouTubeSettings.setDeArrowTitles(context, it) } }
+        Toggle(stringResource(Res.string.youtube_settings_dearrow_thumbnails), stringResource(Res.string.youtube_settings_dearrow_thumbnails_description), YouTubeSettings.deArrowThumbnails(context)) { changed { YouTubeSettings.setDeArrowThumbnails(context, it) } }
 
-        Section("Tabs")
+        Section(stringResource(Res.string.youtube_settings_section_tabs))
         val hidden = YouTubeSettings.hiddenTabs(context)
         val order = YouTubeSettings.tabOrder(context)
         order.forEachIndexed { i, tab ->
             Row(Modifier.fillMaxWidth().padding(vertical = 2.dp), verticalAlignment = Alignment.CenterVertically) {
-                Text(tab.title, Modifier.weight(1f), style = MaterialTheme.typography.bodyLarge)
+                Text(stringResource(tab.titleRes), Modifier.weight(1f), style = MaterialTheme.typography.bodyLarge)
                 IconButton(enabled = i > 0, onClick = {
                     changed { YouTubeSettings.setTabOrder(context, order.toMutableList().also { it.add(i - 1, it.removeAt(i)) }) }
-                }) { Icon(Icons.Filled.KeyboardArrowUp, contentDescription = "Move up") }
+                }) { Icon(Icons.Filled.KeyboardArrowUp, contentDescription = stringResource(Res.string.settings_playback_toolbar_move_up)) }
                 IconButton(enabled = i < order.lastIndex, onClick = {
                     changed { YouTubeSettings.setTabOrder(context, order.toMutableList().also { it.add(i + 1, it.removeAt(i)) }) }
-                }) { Icon(Icons.Filled.KeyboardArrowDown, contentDescription = "Move down") }
+                }) { Icon(Icons.Filled.KeyboardArrowDown, contentDescription = stringResource(Res.string.settings_playback_toolbar_move_down)) }
                 Switch(checked = tab.name !in hidden, onCheckedChange = { changed { YouTubeSettings.setTabVisible(context, tab, it) } })
             }
         }
 
-        Section("Hidden words")
+        Section(stringResource(Res.string.youtube_settings_section_hidden_words))
         var word by remember { mutableStateOf("") }
         Text(
-            "Videos with these words in the title are left out of the feeds.",
+            stringResource(Res.string.youtube_settings_hidden_words_description),
             style = MaterialTheme.typography.bodySmall, color = secondary(),
         )
         Row(Modifier.fillMaxWidth().padding(vertical = 8.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             OutlinedTextField(
                 value = word, onValueChange = { word = it }, singleLine = true,
-                modifier = Modifier.weight(1f), placeholder = { Text("A word or phrase") },
+                modifier = Modifier.weight(1f), placeholder = { Text(stringResource(Res.string.youtube_settings_hidden_word_placeholder)) },
                 keyboardOptions = androidx.compose.foundation.text.KeyboardOptions(imeAction = ImeAction.Done),
                 keyboardActions = androidx.compose.foundation.text.KeyboardActions(onDone = {
                     if (word.isNotBlank()) changed { YouTubeSettings.addHiddenKeyword(context, word.trim()) }
@@ -201,24 +210,24 @@ private fun YouTubeSettingsBody() {
             Button(onClick = {
                 if (word.isNotBlank()) changed { YouTubeSettings.addHiddenKeyword(context, word.trim()) }
                 word = ""
-            }) { Text("Add") }
+            }) { Text(stringResource(Res.string.youtube_settings_add)) }
         }
         YouTubeSettings.hiddenKeywords(context).forEach { kw ->
             Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
                 Text(kw, Modifier.weight(1f))
-                TextButton(onClick = { changed { YouTubeSettings.removeHiddenKeyword(context, kw) } }) { Text("Remove") }
+                TextButton(onClick = { changed { YouTubeSettings.removeHiddenKeyword(context, kw) } }) { Text(stringResource(Res.string.action_remove)) }
             }
         }
 
-        Section("Hidden channels")
+        Section(stringResource(Res.string.youtube_settings_section_hidden_channels))
         val channels = YouTubeSettings.hiddenChannels(context)
         if (channels.isEmpty()) {
-            Text("None. Hide a channel from the panel in the player.", style = MaterialTheme.typography.bodySmall, color = secondary())
+            Text(stringResource(Res.string.youtube_settings_no_hidden_channels), style = MaterialTheme.typography.bodySmall, color = secondary())
         }
         channels.forEach { (id, name) ->
             Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
                 Text(name, Modifier.weight(1f))
-                TextButton(onClick = { changed { YouTubeSettings.unhideChannel(context, id) } }) { Text("Show again") }
+                TextButton(onClick = { changed { YouTubeSettings.unhideChannel(context, id) } }) { Text(stringResource(Res.string.youtube_settings_show_again)) }
             }
         }
         Text("", Modifier.padding(24.dp))
@@ -289,13 +298,14 @@ private fun Toggle(label: String, detail: String?, checked: Boolean, onChange: (
 
 @Composable
 private fun ContentRegionDialog(current: String, onSelect: (String) -> Unit, onDismiss: () -> Unit) {
-    val options = remember { contentRegionChoices() }
+    val defaultLabel = stringResource(Res.string.youtube_settings_region_device)
+    val options = remember(defaultLabel) { contentRegionChoices(defaultLabel) }
     Dialog(onDismissRequest = onDismiss, properties = DialogProperties(usePlatformDefaultWidth = false)) {
         Surface(Modifier.fillMaxSize(), color = Color(0xFF0E0E0E)) {
             Column(Modifier.fillMaxSize().statusBarsPadding().navigationBarsPadding()) {
                 Row(Modifier.fillMaxWidth().padding(16.dp, 8.dp), verticalAlignment = Alignment.CenterVertically) {
-                    Text("Content region", style = MaterialTheme.typography.titleLarge, modifier = Modifier.weight(1f))
-                    TextButton(onClick = onDismiss) { Text("Cancel") }
+                    Text(stringResource(Res.string.youtube_settings_content_region), style = MaterialTheme.typography.titleLarge, modifier = Modifier.weight(1f))
+                    TextButton(onClick = onDismiss) { Text(stringResource(Res.string.action_cancel)) }
                 }
                 LazyColumn(Modifier.weight(1f).padding(horizontal = 16.dp)) {
                     items(options, key = { it.first }) { (code, name) ->
@@ -313,16 +323,17 @@ private fun ContentRegionDialog(current: String, onSelect: (String) -> Unit, onD
     }
 }
 
-private fun contentRegionChoices(): List<Pair<String, String>> =
-    listOf("" to "Device (automatic)") +
+private fun contentRegionChoices(defaultLabel: String): List<Pair<String, String>> =
+    listOf("" to defaultLabel) +
         Locale.getISOCountries().map { code ->
             code to (runCatching {
                 Locale.Builder().setRegion(code).build().getDisplayCountry(Locale.getDefault())
             }.getOrNull()?.takeIf { it.isNotBlank() } ?: code)
         }.sortedBy { it.second }
 
+@Composable
 private fun contentRegionLabel(region: String): String =
-    if (region.isBlank()) "Device (automatic)"
+    if (region.isBlank()) stringResource(Res.string.youtube_settings_region_device)
     else runCatching {
         Locale.Builder().setRegion(region).build().getDisplayCountry(Locale.getDefault())
     }.getOrNull()?.takeIf { it.isNotBlank() } ?: region

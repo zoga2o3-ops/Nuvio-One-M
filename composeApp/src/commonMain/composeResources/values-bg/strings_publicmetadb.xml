@@ -1,0 +1,36 @@
+<resources>
+    <string name="tracking_source_publicmetadb">PublicMetaDB</string>
+    <string name="settings_publicmetadb_library_description">Вашият списък за наблюдение на PublicMetaDB и персонализирани списъци.</string>
+    <string name="settings_publicmetadb_progress_description">Продължаване на гледането и напред напред от вашите точки за възобновяване на PublicMetaDB и хронология на гледане.</string>
+    <string name="library_publicmetadb_title">PublicMetaDB библиотека</string>
+    <string name="library_publicmetadb_load_failed">Вашата библиотека PublicMetaDB не можа да се зареди</string>
+    <string name="library_publicmetadb_empty_title">Вашата библиотека PublicMetaDB е празна</string>
+    <string name="library_publicmetadb_empty_message">Добавете филми и предавания към вашите списъци с PublicMetaDB, за да ги видите тук.</string>
+    <string name="settings_publicmetadb_connect">Свържете PublicMetaDB</string>
+    <string name="settings_publicmetadb_connected_as">Свързан с ключ, завършващ %1$s</string>
+    <string name="settings_publicmetadb_connected_description">Синхронизирайте вашите списъци, хронология на гледане, оценки, скроббули и продължете да гледате с PublicMetaDB.</string>
+    <string name="settings_publicmetadb_sign_in_description">Свържете PublicMetaDB с API ключ, за да синхронизирате вашите списъци, хронология на гледане, оценки, скроббули и продължите да гледате.</string>
+    <string name="settings_publicmetadb_finish_sign_in">Завършете свързването</string>
+    <string name="settings_publicmetadb_approval_description">Въведете своя API ключ за PublicMetaDB, за да завършите свързването.</string>
+    <string name="settings_publicmetadb_open_login">Въведете API ключ</string>
+    <string name="settings_publicmetadb_disconnect">Прекъснете връзката с PublicMetaDB</string>
+    <string name="settings_publicmetadb_missing_credentials">Връзката с PublicMetaDB не е налична в тази компилация.</string>
+    <string name="settings_publicmetadb_sync_now">Синхронизиране сега</string>
+    <string name="settings_publicmetadb_visit">Посетете PublicMetaDB</string>
+    <string name="settings_publicmetadb_disconnect_description">Спрете да изпращате актуализации на часовника от този профил и забравете ключа за API. Вашите списъци и история на PublicMetaDB се съхраняват.</string>
+    <string name="settings_publicmetadb_account_fallback">вашия API ключ</string>
+    <string name="settings_publicmetadb_syncing">Синхронизиране на вашите списъци с PublicMetaDB...</string>
+    <string name="settings_publicmetadb_last_synced">Последно синхронизирано %1$s</string>
+    <string name="settings_publicmetadb_api_key_title">Свържете PublicMetaDB</string>
+    <string name="settings_publicmetadb_api_key_description">Създайте ключ за API в PublicMetaDB в Настройки → API, след което го поставете тук. Ключовете обикновено започват с pm-.</string>
+    <string name="settings_publicmetadb_api_key_label">API ключ</string>
+    <string name="settings_publicmetadb_get_api_key">Вземете API ключ</string>
+    <string name="settings_publicmetadb_connect_action">Свържете се</string>
+    <string name="settings_publicmetadb_missing_key">Въведете своя API ключ за PublicMetaDB.</string>
+    <string name="settings_publicmetadb_invalid_key">PublicMetaDB не прие този API ключ. Проверете го и опитайте отново.</string>
+    <string name="settings_publicmetadb_request_failed">Не можа да се достигне до PublicMetaDB. Моля, опитайте отново.</string>
+    <string name="settings_publicmetadb_rate_limited">Лимитът на заявките на PublicMetaDB е достигнат. Опитайте отново след малко.</string>
+    <string name="settings_publicmetadb_blocked">PublicMetaDB блокира тази заявка. Моля, опитайте отново по-късно.</string>
+    <string name="settings_publicmetadb_auth_revoked">Вашият API ключ за PublicMetaDB вече не е валиден. Свържете отново с нов ключ.</string>
+    <string name="settings_publicmetadb_unavailable">Не може да се синхронизира с PublicMetaDB. Моля, опитайте отново.</string>
+</resources>

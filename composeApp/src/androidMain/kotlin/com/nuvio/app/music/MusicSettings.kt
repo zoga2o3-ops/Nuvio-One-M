@@ -5,25 +5,43 @@ import android.content.SharedPreferences
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import nuvio.composeapp.generated.resources.Res
+import nuvio.composeapp.generated.resources.compose_action_off
+import nuvio.composeapp.generated.resources.music_equalizer_bass
+import nuvio.composeapp.generated.resources.music_equalizer_flat
+import nuvio.composeapp.generated.resources.music_equalizer_rock
+import nuvio.composeapp.generated.resources.music_equalizer_vocal
+import nuvio.composeapp.generated.resources.music_quality_high
+import nuvio.composeapp.generated.resources.music_quality_high_detail
+import nuvio.composeapp.generated.resources.music_quality_low
+import nuvio.composeapp.generated.resources.music_quality_low_detail
+import nuvio.composeapp.generated.resources.music_quality_medium
+import nuvio.composeapp.generated.resources.music_quality_medium_detail
+import org.jetbrains.compose.resources.StringResource
 
 /** Bitrate ceiling applied to the audio track selected from the stream. */
 enum class MusicAudioQuality(
     val label: String,
+    val labelRes: StringResource,
     val detail: String,
+    val detailRes: StringResource,
     val maxKbps: Int
 ) {
-    LOW("Low", "~96 kbps · saves data", 96),
-    MEDIUM("Medium", "~192 kbps", 192),
-    HIGH("High", "Best available", 320)
+    LOW("Low", Res.string.music_quality_low, "~96 kbps · saves data", Res.string.music_quality_low_detail, 96),
+    MEDIUM("Medium", Res.string.music_quality_medium, "~192 kbps", Res.string.music_quality_medium_detail, 192),
+    HIGH("High", Res.string.music_quality_high, "Best available", Res.string.music_quality_high_detail, 320)
 }
 
 /** The equalizer curves the music player can apply. */
-enum class MusicEqualizerPreset(val label: String) {
-    OFF("Off"),
-    FLAT("Flat"),
-    BASS("Bass"),
-    VOCAL("Vocal"),
-    ROCK("Rock")
+enum class MusicEqualizerPreset(
+    val label: String,
+    val labelRes: StringResource,
+) {
+    OFF("Off", Res.string.compose_action_off),
+    FLAT("Flat", Res.string.music_equalizer_flat),
+    BASS("Bass", Res.string.music_equalizer_bass),
+    VOCAL("Vocal", Res.string.music_equalizer_vocal),
+    ROCK("Rock", Res.string.music_equalizer_rock)
 }
 
 /**

@@ -53,6 +53,8 @@ import kotlinx.coroutines.flow.first
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import nuvio.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 
 private const val HOUR = 3_600_000L
 private const val HALF_HOUR = 1_800_000L
@@ -162,7 +164,7 @@ fun LiveTvGuideGrid(
                         !CatchupUrlBuilder.isAvailable(channel.catchup, program.startMs, System.currentTimeMillis())
                     ) {
                         Text(
-                            "This channel can't replay it.",
+                            stringResource(Res.string.live_tv_ui_this_channel_cant_replay),
                             style = MaterialTheme.typography.bodySmall,
                             color = LocalContentColor.current.copy(alpha = 0.6f),
                             modifier = Modifier.padding(top = 10.dp),
@@ -177,21 +179,21 @@ fun LiveTvGuideGrid(
                 val recordSet = isRecordSet(channel, program)
                 Row {
                     if (program.stopMs > System.currentTimeMillis()) {
-                        TextButton(onClick = { selected = null; onRecordSeries(channel, program) }) { Text("Record series") }
+                        TextButton(onClick = { selected = null; onRecordSeries(channel, program) }) { Text(stringResource(Res.string.live_tv_ui_record_series)) }
                         TextButton(onClick = { selected = null; onRecord(channel, program, !recordSet) }) {
-                            Text(if (recordSet) "Cancel recording" else "Record")
+                            Text(if (recordSet) stringResource(Res.string.live_tv_ui_cancel_recording) else stringResource(Res.string.live_tv_ui_record))
                         }
                     }
                     if (program.startMs > System.currentTimeMillis()) {
                         TextButton(onClick = { selected = null; onRemind(channel, program, !reminded) }) {
-                            Text(if (reminded) "Remove reminder" else "Remind me")
+                            Text(if (reminded) stringResource(Res.string.live_tv_ui_remove_reminder) else stringResource(Res.string.live_tv_ui_remind_me))
                         }
                     }
-                    if (replay) TextButton(onClick = { selected = null; onCatchup(channel, program) }) { Text("From the start") }
-                    TextButton(onClick = { selected = null; onPlay(channel) }) { Text(if (aired) "Watch channel" else "Watch live") }
+                    if (replay) TextButton(onClick = { selected = null; onCatchup(channel, program) }) { Text(stringResource(Res.string.live_tv_ui_from_the_start)) }
+                    TextButton(onClick = { selected = null; onPlay(channel) }) { Text(if (aired) stringResource(Res.string.live_tv_ui_watch_channel) else stringResource(Res.string.live_tv_ui_watch_live)) }
                 }
             },
-            dismissButton = { TextButton(onClick = { selected = null }) { Text("Close") } },
+            dismissButton = { TextButton(onClick = { selected = null }) { Text(stringResource(Res.string.action_close)) } },
         )
     }
 }
@@ -248,7 +250,7 @@ private fun GuideRow(
                 val visible = programs.filter { it.stopMs > windowStart && it.startMs < windowEnd }
                 if (visible.isEmpty()) {
                     Text(
-                        "No guide for this channel",
+                        stringResource(Res.string.live_tv_ui_no_guide_for_this_channel),
                         modifier = Modifier.padding(start = 16.dp).align(Alignment.CenterStart),
                         style = MaterialTheme.typography.bodySmall,
                         color = LocalContentColor.current.copy(alpha = 0.4f),

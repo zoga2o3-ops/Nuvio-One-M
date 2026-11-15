@@ -40,6 +40,8 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
+import nuvio.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 
 private val CardBg = Color(0xFF1B1B1F)
 private val Accent = Color(0xFFE53935)
@@ -78,7 +80,7 @@ fun RecordingsList(
     if (recordings.isEmpty() && schedules.isEmpty()) {
         androidx.compose.foundation.layout.Box(Modifier.fillMaxWidth().padding(24.dp), contentAlignment = Alignment.Center) {
             Text(
-                "Nothing recorded yet. Long-press a channel to record it, or tap a show in the guide.",
+                stringResource(Res.string.live_tv_ui_nothing_recorded_yet),
                 color = LocalContentColor.current.copy(alpha = 0.65f),
             )
         }
@@ -95,16 +97,16 @@ fun RecordingsList(
             )
         }
         if (active.isNotEmpty()) {
-            item { SectionTitle("Recording now") }
+            item { SectionTitle(stringResource(Res.string.live_tv_ui_recording_now)) }
             items(active, key = { it.id }) { r ->
                 RecordingCard(
                     r, "Until ${SimpleDateFormat("h:mm a", Locale.getDefault()).format(Date(r.stopAtMs))}",
-                    primary = "Watch" to { onPlay(r) }, secondary = "Stop" to { onStop(r) },
+                    primary = stringResource(Res.string.live_tv_ui_watch) to { onPlay(r) }, secondary = "Stop" to { onStop(r) },
                 )
             }
         }
         if (series.isNotEmpty()) {
-            item { SectionTitle("Series") }
+            item { SectionTitle(stringResource(Res.string.profile_insights_type_series)) }
             items(series, key = { it.id }) { r ->
                 Row(
                     Modifier.fillMaxWidth().clip(RoundedCornerShape(14.dp)).background(CardBg).padding(12.dp),
@@ -133,28 +135,28 @@ fun RecordingsList(
                     Column(Modifier.weight(1f)) {
                         Text(s.title, style = MaterialTheme.typography.titleSmall, maxLines = 1, overflow = TextOverflow.Ellipsis)
                         Text(
-                            "${s.channel.name} · ${whenText(s.startMs)}" + if (s.useCatchup) " · saved from catch-up" else "",
+                            "${s.channel.name} · ${whenText(s.startMs)}" + if (s.useCatchup) " · " + stringResource(Res.string.live_tv_ui_saved_from_catchup) else "",
                             style = MaterialTheme.typography.bodySmall,
                             color = LocalContentColor.current.copy(alpha = 0.6f),
                         )
                     }
-                    TextButton(onClick = { onCancelSchedule(s) }) { Text("Cancel") }
+                    TextButton(onClick = { onCancelSchedule(s) }) { Text(stringResource(Res.string.action_cancel)) }
                 }
             }
         }
         if (saved.isNotEmpty()) {
-            item { SectionTitle("Saved") }
+            item { SectionTitle(stringResource(Res.string.profile_insights_hero_library)) }
             items(saved, key = { it.id }) { r ->
                 val detail = when (r.status) {
-                    RecordingStatus.FAILED -> r.problem ?: "It couldn't be recorded"
+                    RecordingStatus.FAILED -> r.problem ?: stringResource(Res.string.live_tv_ui_couldnt_be_recorded)
                     else -> "${whenText(r.startedAtMs)} · ${lengthText(r.durationSec)} · ${RecordingStorage.sizeLabel(r.sizeBytes)}" +
-                        (resumeOf(r)?.let { (pos, _) -> if (pos > 5_000L) "\nContinue from ${lengthText(pos / 1000.0)}" else null } ?: "") +
+                        (resumeOf(r)?.let { (pos, _) -> if (pos > 5_000L) "\n" + stringResource(Res.string.live_tv_ui_continue_from, lengthText(pos / 1000.0)) else null } ?: "") +
                         (r.problem?.let { "\n$it" } ?: "")
                 }
                 RecordingCard(
                     r, detail,
-                    primary = if (r.status == RecordingStatus.FAILED) null else "Play" to { onPlay(r) },
-                    secondary = "Delete" to { confirmDelete = r },
+                    primary = if (r.status == RecordingStatus.FAILED) null else stringResource(Res.string.action_play) to { onPlay(r) },
+                    secondary = stringResource(Res.string.action_delete) to { confirmDelete = r },
                     watched = watchedOf(r),
                 )
             }
@@ -163,10 +165,10 @@ fun RecordingsList(
     confirmDelete?.let { r ->
         AlertDialog(
             onDismissRequest = { confirmDelete = null },
-            title = { Text("Delete this recording?") },
-            text = { Text("\"${r.title}\" will be removed from this device.") },
-            confirmButton = { TextButton(onClick = { onDelete(r); confirmDelete = null }) { Text("Delete") } },
-            dismissButton = { TextButton(onClick = { confirmDelete = null }) { Text("Cancel") } },
+            title = { Text(stringResource(Res.string.live_tv_ui_delete_this_recording)) },
+            text = { Text(stringResource(Res.string.live_tv_ui_recording_will_be_removed, r.title)) },
+            confirmButton = { TextButton(onClick = { onDelete(r); confirmDelete = null }) { Text(stringResource(Res.string.action_delete)) } },
+            dismissButton = { TextButton(onClick = { confirmDelete = null }) { Text(stringResource(Res.string.action_cancel)) } },
         )
     }
 }
@@ -222,27 +224,27 @@ fun RecordChannelDialog(
     var minutes by remember { mutableStateOf(60) }
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Record ${channel.name}") },
+        title = { Text(stringResource(Res.string.live_tv_ui_record_channel, channel.name)) },
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                OutlinedTextField(value = title, onValueChange = { title = it }, singleLine = true, label = { Text("Name") })
-                Text("How long", style = MaterialTheme.typography.labelMedium)
+                OutlinedTextField(value = title, onValueChange = { title = it }, singleLine = true, label = { Text(stringResource(Res.string.stream_info_name)) })
+                Text(stringResource(Res.string.live_tv_ui_how_long), style = MaterialTheme.typography.labelMedium)
                 Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
                     listOf(30, 60, 120, 180).forEach { m ->
                         TextButton(onClick = { minutes = m }) {
-                            Text(if (m < 60) "$m min" else "${m / 60} h", color = if (minutes == m) Accent else LocalContentColor.current)
+                            Text(if (m < 60) stringResource(Res.string.live_tv_ui_minutes_short, m) else stringResource(Res.string.live_tv_ui_hours_value, m / 60), color = if (minutes == m) Accent else LocalContentColor.current)
                         }
                     }
                 }
                 if (minutesLeftInShow != null && minutesLeftInShow > 0) {
-                    TextButton(onClick = { minutes = minutesLeftInShow }) { Text("Until the show ends ($minutesLeftInShow min)") }
+                    TextButton(onClick = { minutes = minutesLeftInShow }) { Text(stringResource(Res.string.live_tv_ui_until_show_ends, minutesLeftInShow)) }
                 }
                 Text(
-                    if (startMs == 0L) "Starts now" else "Starts ${whenText(startMs)}",
+                    if (startMs == 0L) stringResource(Res.string.live_tv_ui_starts_now) else stringResource(Res.string.live_tv_ui_starts_at, whenText(startMs)),
                     style = MaterialTheme.typography.bodyMedium,
                 )
                 Row {
-                    TextButton(onClick = { startMs = 0L }) { Text("Now") }
+                    TextButton(onClick = { startMs = 0L }) { Text(stringResource(Res.string.live_tv_epg_now)) }
                     TextButton(onClick = {
                         val cal = Calendar.getInstance().apply { timeInMillis = if (startMs > 0) startMs else System.currentTimeMillis() + 3_600_000L }
                         DatePickerDialog(context, { _, y, mo, d ->
@@ -251,7 +253,7 @@ fun RecordChannelDialog(
                                 startMs = picked.timeInMillis
                             }, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), false).show()
                         }, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH)).show()
-                    }) { Text("Pick a time") }
+                    }) { Text(stringResource(Res.string.live_tv_ui_pick_a_time)) }
                 }
             }
         },
@@ -261,8 +263,8 @@ fun RecordChannelDialog(
                 if (startMs == 0L || startMs <= System.currentTimeMillis()) onRecordNow(minutes, name)
                 else onSchedule(name, startMs, startMs + minutes * 60_000L)
                 onDismiss()
-            }) { Text(if (startMs == 0L) "Record" else "Schedule") }
+            }) { Text(if (startMs == 0L) stringResource(Res.string.live_tv_ui_record) else "Schedule") }
         },
-        dismissButton = { TextButton(onClick = onDismiss) { Text("Cancel") } },
+        dismissButton = { TextButton(onClick = onDismiss) { Text(stringResource(Res.string.action_cancel)) } },
     )
 }

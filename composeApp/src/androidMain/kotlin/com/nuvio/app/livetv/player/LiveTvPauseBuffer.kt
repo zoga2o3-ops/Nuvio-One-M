@@ -5,10 +5,12 @@ import com.nuvio.app.features.livetv.LiveTvHost
 import com.nuvio.app.features.livetv.LiveTvPlayRequest
 import com.nuvio.app.livetv.LiveTv
 import com.nuvio.app.livetv.ui.liveTvRequest
+import nuvio.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.getString
 
 /**
  * Pause and rewind live TV. A channel is recorded to the device: from when you pause it, or, with
- * "Rewind anytime", all the time while you watch (the last few minutes are kept). Playing again
+ * kotlinx.coroutines.runBlocking { getString(Res.string.live_tv_ui_rewind_anytime) }, all the time while you watch (the last few minutes are kept). Playing again
  * carries on from where you paused, behind live, with the usual seek bar; Rewind jumps back a
  * little. "Go live" drops the recording. Nothing is kept once you go live, change channel or the
  * app starts again.
@@ -50,7 +52,7 @@ object LiveTvPauseBuffer {
         if (channel.drm != null) return false
         val ts = shift(context)
         if (!ts.hasRoomFor(keepMinutes)) return false
-        val session = ts.start(channel.url, channel.headers, keepMinutes = keepMinutes, label = "Pause buffer") ?: return false
+        val session = ts.start(channel.url, channel.headers, keepMinutes = keepMinutes, label = kotlinx.coroutines.runBlocking { getString(Res.string.live_tv_ui_pause_buffer) }) ?: return false
         bufferKey = key
         startedAt = session.startedAtMs
         sessionUri = session.playUri.toString()
@@ -65,7 +67,7 @@ object LiveTvPauseBuffer {
     }
 
     /**
-     * A live channel has just opened. With "Rewind anytime" on, it starts being kept from now,
+     * A live channel has just opened. With kotlinx.coroutines.runBlocking { getString(Res.string.live_tv_ui_rewind_anytime) } on, it starts being kept from now,
      * so there's something to rewind in (and a pause is free: it's already recording).
      */
     fun onLiveOpened(channelKey: String) {
@@ -111,7 +113,7 @@ object LiveTvPauseBuffer {
                 title = channel.name,
                 poster = channel.logo,
                 channelKey = PREFIX + key,
-                subtitle = "Behind live",
+                subtitle = kotlinx.coroutines.runBlocking { getString(Res.string.live_tv_ui_behind_live) },
                 catchup = true,
                 startPositionMs = positionMs,
             )

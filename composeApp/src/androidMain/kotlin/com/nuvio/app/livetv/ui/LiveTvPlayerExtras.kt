@@ -37,6 +37,8 @@ import kotlinx.coroutines.delay
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import nuvio.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 
 /** The sleep timer: when it runs out the player closes. */
 object LiveTvSleep {
@@ -114,7 +116,7 @@ fun LiveTvPlayerExtras(channelKey: String) {
     if (LiveTvSleep.asking) {
         AlertDialog(
             onDismissRequest = { LiveTvSleep.asking = false },
-            title = { Text("Sleep timer") },
+            title = { Text(stringResource(Res.string.music_settings_sleep_timer)) },
             text = {
                 Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
                     listOf(15, 30, 45, 60, 90, 120).forEach { m ->
@@ -128,14 +130,14 @@ fun LiveTvPlayerExtras(channelKey: String) {
                     }
                     if (LiveTvSleep.endsAt > 0L) {
                         Text(
-                            "Turn the timer off",
+                            stringResource(Res.string.live_tv_ui_turn_the_timer_off),
                             style = MaterialTheme.typography.bodyLarge,
                             modifier = Modifier.fillMaxWidth().clickable { LiveTvSleep.cancel(); LiveTvSleep.asking = false }.padding(vertical = 12.dp),
                         )
                     }
                 }
             },
-            confirmButton = { TextButton(onClick = { LiveTvSleep.asking = false }) { Text("Cancel") } },
+            confirmButton = { TextButton(onClick = { LiveTvSleep.asking = false }) { Text(stringResource(Res.string.action_cancel)) } },
         )
     }
 }

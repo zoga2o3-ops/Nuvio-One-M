@@ -74,6 +74,9 @@ import com.nuvio.app.music.engine.data.model.Song
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import nuvio.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.resources.getString
 
 private enum class NavidromeSection { ALBUMS, PLAYLISTS }
 
@@ -136,7 +139,7 @@ internal fun MusicNavidromeScreen(
         detailError = null
         withContext(Dispatchers.IO) { MusicNavidrome.album(album.id) }.fold(
             onSuccess = { albumDetail = it },
-            onFailure = { detailError = it.message ?: "Couldn't load that album." }
+            onFailure = { detailError = it.message ?: kotlinx.coroutines.runBlocking { getString(Res.string.music_ui_couldn_t_load_that_album) } }
         )
         detailLoading = false
     }
@@ -148,7 +151,7 @@ internal fun MusicNavidromeScreen(
         detailError = null
         withContext(Dispatchers.IO) { MusicNavidrome.playlist(playlist.id) }.fold(
             onSuccess = { playlistDetail = it },
-            onFailure = { detailError = it.message ?: "Couldn't load that playlist." }
+            onFailure = { detailError = it.message ?: kotlinx.coroutines.runBlocking { getString(Res.string.music_ui_couldn_t_load_that_playlist) } }
         )
         detailLoading = false
     }
@@ -208,12 +211,12 @@ internal fun MusicNavidromeScreen(
                 if (config.configured && albumDetail == null && playlistDetail == null) {
                     NavidromePill(
                         icon = Icons.Default.Refresh,
-                        label = "Refresh",
+                        label = stringResource(Res.string.profile_insights_refresh),
                         onClick = { reload++ }
                     )
                     NavidromePill(
                         icon = Icons.Default.Settings,
-                        label = "Server",
+                        label = stringResource(Res.string.stream_info_server),
                         onClick = { showServerSetup = true }
                     )
                 }
@@ -240,7 +243,7 @@ internal fun MusicNavidromeScreen(
                                     showServerSetup = false
                                     done()
                                 },
-                                onFailure = { failed(it.message ?: "Couldn't connect.") }
+                                onFailure = { failed(it.message ?: kotlinx.coroutines.runBlocking { getString(Res.string.music_ui_couldn_t_connect) }) }
                             )
                         }
                     }
@@ -340,7 +343,7 @@ private fun NavidromeManualCard(
             )
             Spacer(Modifier.width(9.dp))
             Text(
-                text = "Or type it here",
+                text = stringResource(Res.string.music_ui_or_type_it_here),
                 color = MusicPalette.text,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold
@@ -348,30 +351,30 @@ private fun NavidromeManualCard(
         }
         Spacer(Modifier.height(6.dp))
         Text(
-            text = "Use the on-screen keyboard if you prefer. Only a token derived from your password is stored.",
+            text = stringResource(Res.string.music_ui_use_the_on_screen_keyboard_if_you_prefer_only_a_token_derive),
             color = MusicPalette.textSecondary,
             fontSize = 12.sp,
             lineHeight = 17.sp
         )
         Spacer(Modifier.height(14.dp))
         NavidromeField(
-            label = "Server URL",
+            label = stringResource(Res.string.live_tv_xtream_server),
             value = url,
-            placeholder = "https://music.example.com",
+            placeholder = stringResource(Res.string.music_ui_https_music_example_com),
             onValueChange = { url = it }
         )
         Spacer(Modifier.height(10.dp))
         NavidromeField(
-            label = "Username",
+            label = stringResource(Res.string.live_tv_username),
             value = username,
-            placeholder = "Your Navidrome user",
+            placeholder = stringResource(Res.string.music_ui_your_navidrome_user),
             onValueChange = { username = it }
         )
         Spacer(Modifier.height(10.dp))
         NavidromeField(
-            label = "Password",
+            label = stringResource(Res.string.compose_auth_password),
             value = password,
-            placeholder = "Your Navidrome password",
+            placeholder = stringResource(Res.string.music_ui_your_navidrome_password),
             onValueChange = { password = it },
             password = true
         )
@@ -383,7 +386,7 @@ private fun NavidromeManualCard(
         Row(horizontalArrangement = Arrangement.spacedBy(9.dp)) {
             NavidromePill(
                 icon = Icons.Default.CloudDone,
-                label = if (busy) "Connecting…" else "Connect",
+                label = if (busy) stringResource(Res.string.servers_connecting) else stringResource(Res.string.live_tv_connect),
                 primary = true,
                 enabled = !busy,
                 onClick = {
@@ -400,7 +403,7 @@ private fun NavidromeManualCard(
             if (onCancel != null) {
                 NavidromePill(
                     icon = Icons.AutoMirrored.Filled.ArrowBack,
-                    label = "Cancel",
+                    label = stringResource(Res.string.action_cancel),
                     onClick = onCancel
                 )
             }
@@ -429,14 +432,14 @@ private fun MusicLibraryContent(
     ) {
         NavidromeSectionPill(
             icon = Icons.Default.Album,
-            label = "Albums",
+            label = stringResource(Res.string.music_ui_albums),
             selected = section == NavidromeSection.ALBUMS,
             count = albums.size,
             onClick = { onSection(NavidromeSection.ALBUMS) }
         )
         NavidromeSectionPill(
             icon = Icons.Default.PlaylistPlay,
-            label = "Playlists",
+            label = stringResource(Res.string.yt_tab_playlists),
             selected = section == NavidromeSection.PLAYLISTS,
             count = playlists.size,
             onClick = { onSection(NavidromeSection.PLAYLISTS) }
@@ -451,10 +454,10 @@ private fun MusicLibraryContent(
             modifier = Modifier.fillMaxWidth().height(260.dp)
         )
         section == NavidromeSection.ALBUMS && albums.isEmpty() -> NavidromeEmpty(
-            "No albums on this server yet."
+            stringResource(Res.string.music_ui_no_albums_on_this_server_yet)
         )
         section == NavidromeSection.PLAYLISTS && playlists.isEmpty() -> NavidromeEmpty(
-            "No playlists on this server yet."
+            stringResource(Res.string.music_ui_no_playlists_on_this_server_yet)
         )
         section == NavidromeSection.ALBUMS -> LazyColumn(
             Modifier.fillMaxWidth().weight(1f),
@@ -482,7 +485,7 @@ private fun MusicLibraryContent(
             itemsIndexed(playlists, key = { _, playlist -> playlist.id }) { _, playlist ->
                 NavidromeBrowseRow(
                     title = playlist.name,
-                    subtitle = playlist.owner ?: "Navidrome playlist",
+                    subtitle = playlist.owner ?: stringResource(Res.string.music_ui_navidrome_playlist),
                     coverArt = MusicNavidrome.coverUrl(
                         MusicNavidrome.config.value,
                         playlist.coverArt
@@ -542,7 +545,7 @@ private fun AlbumDetailContent(
         }
         NavidromePill(
             icon = Icons.Default.PlayArrow,
-            label = "Play album",
+            label = stringResource(Res.string.music_ui_play_album),
             primary = true,
             onClick = { if (detail.songs.isNotEmpty()) onPlay(detail.songs, 0) }
         )
@@ -595,7 +598,7 @@ private fun PlaylistDetailContent(
                 overflow = TextOverflow.Ellipsis
             )
             Text(
-                text = detail.playlist.owner ?: "Navidrome playlist",
+                text = detail.playlist.owner ?: stringResource(Res.string.music_ui_navidrome_playlist),
                 color = MusicPalette.textSecondary,
                 fontSize = 12.sp,
                 maxLines = 1,
@@ -612,14 +615,14 @@ private fun PlaylistDetailContent(
         }
         NavidromePill(
             icon = Icons.Default.PlayArrow,
-            label = "Play",
+            label = stringResource(Res.string.action_play),
             primary = true,
             onClick = { if (detail.songs.isNotEmpty()) onPlay(detail.songs, 0) }
         )
         Spacer(Modifier.width(8.dp))
         NavidromePill(
             icon = Icons.Default.Save,
-            label = "Save to Library",
+            label = stringResource(Res.string.music_ui_save_to_library),
             onClick = onSave
         )
     }
@@ -653,7 +656,7 @@ private fun NavidromeSongList(
         )
         songs.isEmpty() -> Box(modifier, contentAlignment = Alignment.Center) {
             Text(
-                text = "This collection is empty.",
+                text = stringResource(Res.string.music_ui_this_collection_is_empty),
                 color = MusicPalette.textSecondary,
                 fontSize = 13.sp
             )
@@ -871,7 +874,7 @@ private fun NavidromeBackButton(onClick: () -> Unit) {
     ) {
         Icon(
             Icons.AutoMirrored.Filled.ArrowBack,
-            contentDescription = "Back",
+            contentDescription = stringResource(Res.string.action_back),
             tint = if (focused) MusicPalette.background else MusicPalette.text,
             modifier = Modifier.size(19.dp)
         )
@@ -893,7 +896,7 @@ private fun NavidromeCloseButton(modifier: Modifier = Modifier, onClick: () -> U
     ) {
         Icon(
             Icons.AutoMirrored.Filled.ArrowBack,
-            contentDescription = "Close Navidrome",
+            contentDescription = stringResource(Res.string.music_ui_close_navidrome),
             tint = if (focused) MusicPalette.background else MusicPalette.text,
             modifier = Modifier.size(20.dp)
         )

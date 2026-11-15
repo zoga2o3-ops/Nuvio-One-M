@@ -1,0 +1,30 @@
+<resources>
+    <string name="tracking_source_anilist">அனிலிஸ்ட்</string>
+    <string name="settings_anilist_anime_section">அசையும்</string>
+    <string name="settings_anilist_library_description">உங்கள் அனிலிஸ்ட் அனிம் பட்டியல்கள்: பார்த்தல், திட்டமிடுதல், முடிக்கப்பட்டது, இடைநிறுத்தப்பட்டது, கைவிடப்பட்டது மற்றும் மீண்டும் பார்த்தல்.</string>
+    <string name="settings_anilist_progress_description">உங்கள் அனிலிஸ்ட் கண்காணிப்பு பட்டியலிலிருந்து தொடர்ந்து பார்க்கவும் மற்றும் அடுத்தது.</string>
+    <string name="library_anilist_title">அனிலிஸ்ட் நூலகம்</string>
+    <string name="library_anilist_load_failed">உங்கள் அனிலிஸ்ட் நூலகத்தை ஏற்ற முடியவில்லை</string>
+    <string name="library_anilist_empty_title">உங்கள் அனிலிஸ்ட் நூலகம் காலியாக உள்ளது</string>
+    <string name="library_anilist_empty_message">உங்கள் அனிலிஸ்ட் பட்டியல்களை இங்கே பார்க்க, அனிமேஷைச் சேர்க்கவும்.</string>
+    <string name="settings_anilist_connect">அனிலிஸ்ட்டை இணைக்கவும்</string>
+    <string name="settings_anilist_connected_as">%1$s ஆக இணைக்கப்பட்டது</string>
+    <string name="settings_anilist_connected_description">உங்கள் அனிம் பட்டியல்கள், எபிசோட் முன்னேற்றம், மதிப்பெண்கள் ஆகியவற்றை ஒத்திசைக்கவும் மற்றும் அனிலிஸ்டுடன் தொடர்ந்து பார்க்கவும்.</string>
+    <string name="settings_anilist_sign_in_description">உங்கள் அனிம் பட்டியல்கள், எபிசோட் முன்னேற்றம், மதிப்பெண்களை ஒத்திசைக்க மற்றும் தொடர்ந்து பார்க்க அனிலிஸ்ட்டை இணைக்கவும்.</string>
+    <string name="settings_anilist_finish_sign_in">உள்நுழைவை முடிக்கவும்</string>
+    <string name="settings_anilist_approval_description">உங்கள் உலாவியில் Nuvio ஐ அங்கீகரிக்கவும். நீங்கள் தானாகவே பயன்பாட்டிற்கு திருப்பி அனுப்பப்படுவீர்கள்.</string>
+    <string name="settings_anilist_open_login">உள்நுழைவு பக்கத்தைத் திறக்கவும்</string>
+    <string name="settings_anilist_disconnect">அனிலிஸ்ட்டைத் துண்டிக்கவும்</string>
+    <string name="settings_anilist_missing_credentials">இந்த கட்டமைப்பில் அனிலிஸ்ட் இணைப்பு கிடைக்கவில்லை.</string>
+    <string name="settings_anilist_sync_now">இப்போது ஒத்திசைக்கவும்</string>
+    <string name="settings_anilist_visit">அனிலிஸ்ட்டைப் பார்வையிடவும்</string>
+    <string name="settings_anilist_disconnect_description">இந்தச் சுயவிவரத்திலிருந்து வாட்ச் புதுப்பிப்புகளை அனுப்புவதை நிறுத்துங்கள். உங்கள் அனிலிஸ்ட் பட்டியல்கள் வைக்கப்பட்டுள்ளன.</string>
+    <string name="settings_anilist_account_fallback">அனிலிஸ்ட் பயனர்</string>
+    <string name="settings_anilist_syncing">உங்கள் அனிலிஸ்ட் பட்டியல்களை ஒத்திசைக்கிறது…</string>
+    <string name="settings_anilist_last_synced">கடைசியாக ஒத்திசைத்தது %1$s</string>
+    <string name="settings_anilist_auth_denied">இணைப்பு நிராகரிக்கப்பட்டது. உங்கள் கணக்கை இணைக்க மீண்டும் முயற்சிக்கவும்.</string>
+    <string name="settings_anilist_auth_invalid">அனிலிஸ்ட் தவறான உள்நுழைவு பதிலை அளித்துள்ளது. மீண்டும் முயற்சிக்கவும்.</string>
+    <string name="settings_anilist_auth_revoked">உங்கள் அனிலிஸ்ட் இணைப்பு காலாவதியாகிவிட்டது அல்லது ரத்து செய்யப்பட்டது. ஒத்திசைவை மீண்டும் தொடங்க மீண்டும் இணைக்கவும்.</string>
+    <string name="settings_anilist_unavailable">AniList உடன் ஒத்திசைக்க முடியவில்லை. மீண்டும் முயற்சிக்கவும்.</string>
+    <string name="settings_anilist_rate_limited">அனிலிஸ்ட்டின் கோரிக்கை வரம்பை அடைந்துவிட்டது. ஒத்திசைவு விரைவில் மீண்டும் தொடங்கும்.</string>
+</resources>

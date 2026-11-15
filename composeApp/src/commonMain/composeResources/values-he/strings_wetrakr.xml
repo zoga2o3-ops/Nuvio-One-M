@@ -1,0 +1,33 @@
+<resources>
+    <string name="tracking_source_wetrakr">WeTrakr</string>
+    <string name="settings_wetrakr_library_description">רשימות ה-WeTrakr שלך: תכנון, צפייה, ממתין, נצפה, הושהה והורדה.</string>
+    <string name="settings_wetrakr_progress_description">המשך בצפייה ובהמשך מההשמעה שלך ב-WeTrakr ומפרקים שצפית.</string>
+    <string name="library_wetrakr_title">ספריית WeTrakr</string>
+    <string name="library_wetrakr_load_failed">לא ניתן לטעון את ספריית WeTrakr שלך</string>
+    <string name="library_wetrakr_empty_title">ספריית WeTrakr שלך ריקה</string>
+    <string name="library_wetrakr_empty_message">הוסף סרטים ותוכניות לרשימות WeTrakr שלך כדי לראות אותם כאן.</string>
+    <string name="settings_wetrakr_connect">חבר את WeTrakr</string>
+    <string name="settings_wetrakr_connected_as">מחובר כ- %1$s</string>
+    <string name="settings_wetrakr_connected_description">סנכרן את הרשימות שלך, היסטוריית הצפייה, דירוגים, סרבולים והמשך צפייה עם WeTrakr.</string>
+    <string name="settings_wetrakr_sign_in_description">חבר את WeTrakr כדי לסנכרן את הרשימות שלך, היסטוריית הצפייה, דירוגים, סרבול והמשך צפייה.</string>
+    <string name="settings_wetrakr_finish_sign_in">סיים את הכניסה</string>
+    <string name="settings_wetrakr_approval_description">פתח את דף ההפעלה של WeTrakr והזן קוד זה. Nuvio מתחבר אוטומטית ברגע שאתה מאשר.</string>
+    <string name="settings_wetrakr_open_login">פתח את דף ההפעלה</string>
+    <string name="settings_wetrakr_disconnect">נתק את WeTrakr</string>
+    <string name="settings_wetrakr_missing_credentials">חיבור WeTrakr אינו זמין בגירסה זו.</string>
+    <string name="settings_wetrakr_sync_now">סנכרן עכשיו</string>
+    <string name="settings_wetrakr_visit">בקר ב-WeTrakr</string>
+    <string name="settings_wetrakr_disconnect_description">הפסק לשלוח עדכוני שעון מהפרופיל הזה. רשימות ה-WeTrakr וההיסטוריה שלך נשמרים.</string>
+    <string name="settings_wetrakr_account_fallback">משתמש WeTrakr</string>
+    <string name="settings_wetrakr_syncing">מסנכרן את רשימות ה-WeTrakr שלך...</string>
+    <string name="settings_wetrakr_last_synced">סנכרון אחרון %1$s</string>
+    <string name="settings_wetrakr_auth_denied">החיבור נדחה. נסה שוב לחבר את החשבון שלך.</string>
+    <string name="settings_wetrakr_auth_expired">תוקף קוד ההפעלה פג. נסה שוב לקבל קוד חדש.</string>
+    <string name="settings_wetrakr_auth_failed">לא ניתן היה להגיע ל-WeTrakr כדי להתחיל בכניסה. אנא נסה שוב.</string>
+    <string name="settings_wetrakr_auth_rate_limited">יותר מדי ניסיונות כניסה. המתן 15 דקות ונסה שוב.</string>
+    <string name="settings_wetrakr_app_suspended">WeTrakr השעתה את האפליקציה הזו. אנא נסה שוב מאוחר יותר.</string>
+    <string name="settings_wetrakr_auth_revoked">פג תוקף חיבור ה-WeTrakr שלך או בוטל. התחבר שוב כדי לחדש את הסנכרון.</string>
+    <string name="settings_wetrakr_unavailable">לא ניתן היה לסנכרן עם WeTrakr. אנא נסה שוב.</string>
+    <string name="settings_wetrakr_rate_limited">הגעת למגבלת הבקשות של WeTrakr. הסנכרון יתחדש בקרוב.</string>
+    <string name="settings_wetrakr_plan_limit">זה צריך WeTrakr VIP או שהוא מעבר למגבלות התוכנית שלך.</string>
+</resources>

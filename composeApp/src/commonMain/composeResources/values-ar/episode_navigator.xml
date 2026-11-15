@@ -1,0 +1,19 @@
+<resources>
+    <string name="episode_navigator_search_hint">البحث عن عنوان أو قطعة أرض أو رقم</string>
+    <string name="episode_navigator_clear_search">مسح البحث</string>
+    <string name="episode_navigator_go_to">اذهب الى</string>
+    <string name="episode_navigator_sort">نوع</string>
+    <string name="episode_navigator_count">%1$d من %2$d الحلقات</string>
+    <string name="episode_navigator_no_match">لا توجد حلقات تطابق "%1$s"</string>
+    <string name="episode_navigator_go_to_title">انتقل إلى الحلقة</string>
+    <string name="episode_navigator_episode_number">رقم الحلقة</string>
+    <string name="episode_navigator_go">يذهب</string>
+    <string name="episode_navigator_go_to_help">اكتب رقمًا، أو اختر واحدًا أدناه. تحته خط = شاهده، موضح = التالي.</string>
+    <string name="episode_navigator_out_of_range">%1$s به حلقات %2$d–%3$d</string>
+    <string name="episode_navigator_sort_title">فرز الحلقات</string>
+    <string name="episode_navigator_sort_first_to_last">الحلقة: الأولى إلى الأخيرة</string>
+    <string name="episode_navigator_sort_last_to_first">الحلقة: من الأخيرة إلى الأولى</string>
+    <string name="episode_navigator_sort_highest_rated">أعلى تصنيف</string>
+    <string name="episode_navigator_sort_newest_aired">تم بث الأحدث</string>
+    <string name="episode_navigator_sort_unwatched_first">غير مراقب أولا</string>
+</resources>

@@ -66,6 +66,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import com.nuvio.app.youtube.YouTubeAccountState
 import com.nuvio.app.youtube.YouTubeSignInReturn
+import nuvio.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.resources.getString
 
 /** The Music section's YouTube account panel, using the same TV device-code sign-in as YouTube. */
 @Composable
@@ -117,13 +120,13 @@ internal fun MusicAccountScreen(
                     Spacer(Modifier.height(2.dp))
                     Text(
                         text = when {
-                            account.code != null -> "Waiting for sign-in approval"
+                            account.code != null -> kotlinx.coroutines.runBlocking { getString(Res.string.music_ui_waiting_for_sign_in_approval) }
                             account.signedIn && account.linkedAccount != null ->
-                                "${account.accountName ?: "Account"} · Linked to Nuvio One (${profileName ?: "this profile"})"
-                            account.signedIn -> account.accountName ?: "Account"
+                                "${account.accountName ?: stringResource(Res.string.compose_settings_page_account)} · Linked to Nuvio One (${profileName ?: "this profile"})"
+                            account.signedIn -> account.accountName ?: stringResource(Res.string.compose_settings_page_account)
                             account.linkedAccount != null ->
                                 "Linked to Nuvio One as ${account.linkedAccount.name}"
-                            else -> "Not signed in"
+                            else -> kotlinx.coroutines.runBlocking { getString(Res.string.music_ui_not_signed_in) }
                         },
                         color = MusicPalette.textMuted,
                         fontSize = 13.sp
@@ -172,13 +175,13 @@ private fun SignInCodePanel(
         verticalArrangement = Arrangement.spacedBy(14.dp)
     ) {
         Text(
-            text = "Sign in to YouTube Music",
+            text = stringResource(Res.string.music_ui_sign_in_to_youtube_music),
             color = MusicPalette.text,
             fontSize = 22.sp,
             fontWeight = FontWeight.SemiBold
         )
         Text(
-            text = "We opened YouTube in your browser. Enter this code to sign in. " +
+            text = stringResource(Res.string.music_ui_we_opened_youtube_in_your_browser_enter_this_code_to_sign_in) +
                 "It links the account to your Nuvio One profile, ${profileName ?: "this profile"}.",
             color = MusicPalette.textSecondary,
             fontSize = 15.sp
@@ -190,13 +193,13 @@ private fun SignInCodePanel(
             fontWeight = FontWeight.Bold
         )
         Text(
-            text = "Waiting for you to approve it…",
+            text = stringResource(Res.string.music_ui_waiting_for_you_to_approve_it),
             color = MusicPalette.textMuted,
             fontSize = 14.sp
         )
         AccountAction(
             icon = Icons.Default.PlayArrow,
-            label = "Open YouTube",
+            label = stringResource(Res.string.music_ui_open_youtube),
             firstFocus = firstActionFocus,
             onClick = { link?.let { YouTubeSignInReturn.openActivatePage(context, it) } }
         )
@@ -208,9 +211,9 @@ private fun SignInCodePanel(
             TextButton(onClick = { clipboard.setText(AnnotatedString(code)) }) {
                 Icon(Icons.Default.ContentCopy, contentDescription = null, modifier = Modifier.size(18.dp))
                 Spacer(Modifier.width(6.dp))
-                Text("Copy code")
+                Text(stringResource(Res.string.settings_tracking_device_code_copy))
             }
-            TextButton(onClick = onCancel) { Text("Cancel") }
+            TextButton(onClick = onCancel) { Text(stringResource(Res.string.action_cancel)) }
         }
     }
 }
@@ -237,7 +240,7 @@ private fun AccountsPanel(
         Text(
             text = account.linkedAccount?.let {
                 "Linked to Nuvio One · ${profileName ?: "this profile"} as ${it.name}"
-            } ?: "Not linked to Nuvio One",
+            } ?: stringResource(Res.string.music_ui_not_linked_to_nuvio_one),
             color = MusicPalette.textMuted,
             fontSize = 13.sp
         )
@@ -254,20 +257,20 @@ private fun AccountsPanel(
         Spacer(Modifier.height(8.dp))
         AccountAction(
             icon = Icons.Default.Add,
-            label = "Add another account",
+            label = stringResource(Res.string.music_ui_add_another_account),
             firstFocus = if (account.accounts.isEmpty()) firstActionFocus else null,
             onClick = onAddAccount
         )
         if (account.linkedAccount == null) {
             AccountAction(
                 icon = Icons.Default.Link,
-                label = "Link to Nuvio One",
+                label = stringResource(Res.string.youtube_settings_link_to_nuvio),
                 onClick = onLinkToNuvioOne
             )
         }
         AccountAction(
             icon = Icons.Default.Logout,
-            label = "Sign out of YouTube Music",
+            label = stringResource(Res.string.music_ui_sign_out_of_youtube_music),
             onClick = onSignOut
         )
     }
@@ -290,14 +293,14 @@ private fun SignedOutPanel(
         verticalArrangement = Arrangement.spacedBy(14.dp)
     ) {
         Text(
-            text = "Sign in to YouTube Music",
+            text = stringResource(Res.string.music_ui_sign_in_to_youtube_music),
             color = MusicPalette.text,
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold
         )
         Text(
-            text = "Your likes, playlists and personalised Home follow the Google account you " +
-                "use for YouTube and OneTube. Signing in links it to your Nuvio One profile, " +
+            text = stringResource(Res.string.music_ui_your_likes_playlists_and_personalised_home_follow_the_google) +
+                stringResource(Res.string.music_ui_use_for_youtube_and_onetube_signing_in_links_it_to_your_nuvi) +
                 "${profileName ?: "this profile"}.",
             color = MusicPalette.textSecondary,
             fontSize = 15.sp
@@ -315,7 +318,7 @@ private fun SignedOutPanel(
         Spacer(Modifier.height(4.dp))
         AccountAction(
             icon = Icons.Default.AccountCircle,
-            label = "Sign in with YouTube",
+            label = stringResource(Res.string.music_ui_sign_in_with_youtube),
             firstFocus = firstActionFocus,
             onClick = onSignIn
         )
@@ -404,7 +407,7 @@ private fun AccountAction(
         }
         if (selected) {
             Text(
-                text = "Current",
+                text = stringResource(Res.string.series_status_current),
                 color = MusicPalette.accent,
                 fontSize = 12.sp,
                 fontWeight = FontWeight.SemiBold
@@ -446,7 +449,7 @@ private fun AccountCloseButton(onClick: () -> Unit, onDown: () -> Unit) {
     ) {
         Icon(
             Icons.Default.KeyboardArrowDown,
-            contentDescription = "Close account panel",
+            contentDescription = stringResource(Res.string.music_ui_close_account_panel),
             tint = if (focused) MusicPalette.background else Color.White,
             modifier = Modifier.size(26.dp)
         )

@@ -1,0 +1,33 @@
+<resources>
+    <string name="tracking_source_wetrakr">WeTrakr</string>
+    <string name="settings_wetrakr_library_description">Vaše WeTrakr liste: Planiranje, Gledanje, Čekanje, Gledano, Pauzirano i Odbačeno.</string>
+    <string name="settings_wetrakr_progress_description">Nastavite s gledanjem i Sljedeće s WeTrakr reprodukcije i gledanih epizoda.</string>
+    <string name="library_wetrakr_title">Knjižnica WeTrakr</string>
+    <string name="library_wetrakr_load_failed">Nije moguće učitati vašu WeTrakr knjižnicu</string>
+    <string name="library_wetrakr_empty_title">Vaša WeTrakr biblioteka je prazna</string>
+    <string name="library_wetrakr_empty_message">Dodajte filmove i emisije na svoje WeTrakr popise da biste ih vidjeli ovdje.</string>
+    <string name="settings_wetrakr_connect">Povežite WeTrakr</string>
+    <string name="settings_wetrakr_connected_as">Povezan kao %1$s</string>
+    <string name="settings_wetrakr_connected_description">Sinkronizirajte svoje popise, povijest gledanja, ocjene, škrabanje i nastavite gledati uz WeTrakr.</string>
+    <string name="settings_wetrakr_sign_in_description">Povežite WeTrakr za sinkronizaciju popisa, povijesti gledanja, ocjena, skroblova i nastavka gledanja.</string>
+    <string name="settings_wetrakr_finish_sign_in">Završite prijavu</string>
+    <string name="settings_wetrakr_approval_description">Otvorite stranicu za aktivaciju WeTrakr-a i unesite ovaj kod. Nuvio se povezuje automatski nakon što odobrite.</string>
+    <string name="settings_wetrakr_open_login">Otvori aktivacijsku stranicu</string>
+    <string name="settings_wetrakr_disconnect">Odspojite WeTrakr</string>
+    <string name="settings_wetrakr_missing_credentials">WeTrakr veza nije dostupna u ovoj verziji.</string>
+    <string name="settings_wetrakr_sync_now">Sinkroniziraj sada</string>
+    <string name="settings_wetrakr_visit">Posjetite WeTrakr</string>
+    <string name="settings_wetrakr_disconnect_description">Prestani slati ažuriranja sata s ovog profila. Vaši WeTrakr popisi i povijest se čuvaju.</string>
+    <string name="settings_wetrakr_account_fallback">WeTrakr korisnik</string>
+    <string name="settings_wetrakr_syncing">Sinkronizacija vaših WeTrakr popisa…</string>
+    <string name="settings_wetrakr_last_synced">Zadnja sinkronizacija %1$s</string>
+    <string name="settings_wetrakr_auth_denied">Veza je odbijena. Pokušajte ponovno povezati svoj račun.</string>
+    <string name="settings_wetrakr_auth_expired">Aktivacijski kod je istekao. Pokušajte ponovo da biste dobili novi kod.</string>
+    <string name="settings_wetrakr_auth_failed">Nije moguće doći do WeTrakra za početak prijave. Molimo pokušajte ponovo.</string>
+    <string name="settings_wetrakr_auth_rate_limited">Previše pokušaja prijave. Pričekajte 15 minuta i pokušajte ponovno.</string>
+    <string name="settings_wetrakr_app_suspended">WeTrakr je obustavio ovu aplikaciju. Pokušajte ponovno kasnije.</string>
+    <string name="settings_wetrakr_auth_revoked">Vaša WeTrakr veza je istekla ili je opozvana. Ponovno se povežite za nastavak sinkronizacije.</string>
+    <string name="settings_wetrakr_unavailable">Nije moguće sinkronizirati s WeTrakrom. Molimo pokušajte ponovo.</string>
+    <string name="settings_wetrakr_rate_limited">WeTrakr-ovo ograničenje zahtjeva je dosegnuto. Sinkronizacija će se uskoro nastaviti.</string>
+    <string name="settings_wetrakr_plan_limit">Ovo zahtijeva WeTrakr VIP ili premašuje ograničenja vašeg plana.</string>
+</resources>

@@ -30,6 +30,8 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
 import com.nuvio.app.features.youtube.YouTubePlayRequest
+import nuvio.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 
 /** The YouTube page's own view model, kept so the player can ask it what comes after the video that's playing. */
 object YouTubeSession {
@@ -117,7 +119,7 @@ fun YouTubePlayerOverlay(
                 )
             }
             Column(Modifier.padding(horizontal = 9.dp, vertical = 7.dp)) {
-                Text("Up next in $seconds", color = Color(0xFFBBBBBB), fontSize = 11.sp, fontWeight = FontWeight.SemiBold)
+                Text(stringResource(Res.string.youtube_ui_up_next_in, seconds), color = Color(0xFFBBBBBB), fontSize = 11.sp, fontWeight = FontWeight.SemiBold)
                 Text(item.title, color = Color.White, fontSize = 12.sp, maxLines = 2, overflow = TextOverflow.Ellipsis)
             }
         }

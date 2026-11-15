@@ -59,6 +59,9 @@ import androidx.compose.material3.Text
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import nuvio.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.resources.getString
 
 /** Last.fm scrobbling, Spotify playlist import and WebDAV in one place. */
 @Composable
@@ -114,7 +117,7 @@ internal fun MusicIntegrationsScreen(
                 )
                 Column(Modifier.weight(1f)) {
                     Text(
-                        text = "Integrations",
+                        text = stringResource(Res.string.compose_settings_page_integrations),
                         color = MusicPalette.text,
                         fontFamily = MusicDisplay,
                         fontSize = 34.sp,
@@ -147,12 +150,12 @@ internal fun MusicIntegrationsScreen(
                     subtitle = if (navidrome.configured) {
                         "Connected to ${navidrome.url}"
                     } else {
-                        "Link a Navidrome / Subsonic music server."
+                        stringResource(Res.string.music_ui_link_a_navidrome_subsonic_music_server)
                     }
                 ) {
                     IntegrationPill(
                         icon = Icons.Default.Album,
-                        label = if (navidrome.configured) "Open Navidrome" else "Link Navidrome",
+                        label = if (navidrome.configured) stringResource(Res.string.music_ui_open_navidrome) else stringResource(Res.string.music_ui_link_navidrome),
                         primary = !navidrome.configured,
                         onClick = onOpenNavidrome
                     )
@@ -179,25 +182,25 @@ internal fun MusicIntegrationsScreen(
                         Row(horizontalArrangement = Arrangement.spacedBy(9.dp)) {
                             IntegrationPill(
                                 icon = Icons.Default.Favorite,
-                                label = if (lastFm.enabled) "Turn scrobbling off" else "Turn scrobbling on",
+                                label = if (lastFm.enabled) stringResource(Res.string.music_ui_turn_scrobbling_off) else stringResource(Res.string.music_ui_turn_scrobbling_on),
                                 primary = !lastFm.enabled,
                                 onClick = {
                                     MusicScrobbler.setEnabled(context, !lastFm.enabled)
                                     lastFmMessage = if (lastFm.enabled) {
-                                        "Scrobbling paused."
+                                        kotlinx.coroutines.runBlocking { getString(Res.string.music_ui_scrobbling_paused) }
                                     } else {
-                                        "Scrobbling is on."
+                                        kotlinx.coroutines.runBlocking { getString(Res.string.music_ui_scrobbling_is_on) }
                                     }
                                 }
                             )
                             IntegrationPill(
                                 icon = Icons.Default.Favorite,
-                                label = "Sign out",
+                                label = stringResource(Res.string.music_ui_sign_out),
                                 onClick = {
                                     MusicScrobbler.logout(context)
                                     lastFmUsername = ""
                                     lastFmPassword = ""
-                                    lastFmMessage = "Signed out of Last.fm."
+                                    lastFmMessage = kotlinx.coroutines.runBlocking { getString(Res.string.music_ui_signed_out_of_last_fm) }
                                     lastFmError = null
                                 }
                             )
@@ -205,17 +208,17 @@ internal fun MusicIntegrationsScreen(
                     } else {
                         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                             IntegrationField(
-                                label = "Username",
+                                label = stringResource(Res.string.live_tv_username),
                                 value = lastFmUsername,
-                                placeholder = "Last.fm username",
+                                placeholder = stringResource(Res.string.music_ui_last_fm_username),
                                 onValueChange = { lastFmUsername = it },
                                 modifier = Modifier.weight(1f),
                                 downFocus = lastFmLoginFocus
                             )
                             IntegrationField(
-                                label = "Password",
+                                label = stringResource(Res.string.compose_auth_password),
                                 value = lastFmPassword,
-                                placeholder = "Last.fm password",
+                                placeholder = stringResource(Res.string.music_ui_last_fm_password),
                                 onValueChange = { lastFmPassword = it },
                                 password = true,
                                 modifier = Modifier.weight(1f),
@@ -224,8 +227,8 @@ internal fun MusicIntegrationsScreen(
                         }
                         Spacer(Modifier.height(8.dp))
                         Text(
-                            text = "Your password is sent once to Last.fm and never stored. " +
-                                "Only the session key stays on this device.",
+                            text = stringResource(Res.string.music_ui_your_password_is_sent_once_to_last_fm_and_never_stored) +
+                                stringResource(Res.string.music_ui_only_the_session_key_stays_on_this_device),
                             color = MusicPalette.textMuted,
                             fontSize = 10.sp,
                             lineHeight = 14.sp
@@ -234,7 +237,7 @@ internal fun MusicIntegrationsScreen(
                         Row(horizontalArrangement = Arrangement.spacedBy(9.dp)) {
                             IntegrationPill(
                                 icon = Icons.Default.Favorite,
-                                label = if (lastFmSigningIn) "Signing in..." else "Log in",
+                                label = if (lastFmSigningIn) stringResource(Res.string.music_ui_signing_in) else stringResource(Res.string.music_ui_log_in),
                                 modifier = Modifier.focusRequester(lastFmLoginFocus),
                                 primary = true,
                                 enabled = !lastFmSigningIn && lastFm.available,
@@ -253,7 +256,7 @@ internal fun MusicIntegrationsScreen(
                                                     },
                                                     onFailure = { error ->
                                                         lastFmError = error.message
-                                                            ?: "Last.fm rejected the sign-in."
+                                                            ?: kotlinx.coroutines.runBlocking { getString(Res.string.music_ui_last_fm_rejected_the_sign_in) }
                                                         lastFmSigningIn = false
                                                     }
                                                 )
@@ -276,7 +279,7 @@ internal fun MusicIntegrationsScreen(
                 IntegrationCard(
                     icon = Icons.Default.Cloud,
                     tint = MusicPalette.accent,
-                    title = "Music sources",
+                    title = stringResource(Res.string.music_ui_music_sources),
                     subtitle = when {
                         addons.isEmpty() -> "Add BitChord-style addons to search their catalogues."
                         addons.count { it.enabled } == 0 -> "${addons.size} addon(s), all turned off."
@@ -285,7 +288,7 @@ internal fun MusicIntegrationsScreen(
                 ) {
                     IntegrationPill(
                         icon = Icons.Default.Cloud,
-                        label = if (addons.isEmpty()) "Add a source" else "Manage sources",
+                        label = if (addons.isEmpty()) stringResource(Res.string.music_ui_add_a_source) else stringResource(Res.string.music_ui_manage_sources),
                         primary = addons.isEmpty(),
                         onClick = onOpenSources
                     )
@@ -294,13 +297,13 @@ internal fun MusicIntegrationsScreen(
                 IntegrationCard(
                     icon = Icons.Default.MusicNote,
                     tint = MusicPalette.accentTeal,
-                    title = "Spotify playlists",
-                    subtitle = "Import a public playlist by link; tracks are matched in the music catalogue."
+                    title = stringResource(Res.string.music_ui_spotify_playlists),
+                    subtitle = stringResource(Res.string.music_ui_import_a_public_playlist_by_link_tracks_are_matched_in_the_m)
                 ) {
                     IntegrationField(
-                        label = "Playlist link",
+                        label = stringResource(Res.string.live_tv_ui_playlist_link),
                         value = spotifyUrl,
-                        placeholder = "https://open.spotify.com/playlist/…",
+                        placeholder = stringResource(Res.string.music_ui_https_open_spotify_com_playlist),
                         onValueChange = { spotifyUrl = it },
                         downFocus = spotifyImportFocus
                     )
@@ -311,16 +314,16 @@ internal fun MusicIntegrationsScreen(
                     ) {
                         IntegrationPill(
                             icon = Icons.Default.MusicNote,
-                            label = if (importing) "Importing…" else "Import playlist",
+                            label = if (importing) stringResource(Res.string.music_ui_importing) else stringResource(Res.string.music_ui_import_playlist),
                             modifier = Modifier.focusRequester(spotifyImportFocus),
                             primary = true,
                             enabled = !importing,
                             onClick = {
                                 if (spotifyUrl.isBlank()) {
-                                    importError = "Paste a Spotify playlist link first."
+                                    importError = kotlinx.coroutines.runBlocking { getString(Res.string.music_ui_paste_a_spotify_playlist_link_first) }
                                 } else if (!importing) {
                                     importing = true
-                                    importProgress = "Reading playlist…"
+                                    importProgress = kotlinx.coroutines.runBlocking { getString(Res.string.music_ui_reading_playlist) }
                                     importResult = null
                                     importError = null
                                     scope.launch {
@@ -343,7 +346,7 @@ internal fun MusicIntegrationsScreen(
                                             onFailure = { error ->
                                                 importProgress = null
                                                 importError = error.message
-                                                    ?: "The playlist couldn't be imported."
+                                                    ?: kotlinx.coroutines.runBlocking { getString(Res.string.music_ui_the_playlist_couldn_t_be_imported) }
                                                 importing = false
                                             }
                                         )
@@ -373,12 +376,12 @@ internal fun MusicIntegrationsScreen(
                     subtitle = if (webDav.configured) {
                         "Connected to ${webDav.url}"
                     } else {
-                        "Stream a music folder from your own server."
+                        stringResource(Res.string.music_ui_stream_a_music_folder_from_your_own_server)
                     }
                 ) {
                     IntegrationPill(
                         icon = Icons.Default.Cloud,
-                        label = if (webDav.configured) "Open WebDAV" else "Set up WebDAV",
+                        label = if (webDav.configured) stringResource(Res.string.music_ui_open_webdav) else stringResource(Res.string.music_ui_set_up_webdav),
                         onClick = onOpenWebDav
                     )
                 }
@@ -525,7 +528,7 @@ private fun IntegrationCloseButton(modifier: Modifier = Modifier, onClick: () ->
     ) {
         Icon(
             Icons.AutoMirrored.Filled.ArrowBack,
-            contentDescription = "Close integrations",
+            contentDescription = stringResource(Res.string.music_ui_close_integrations),
             tint = if (focused) MusicPalette.background else MusicPalette.text,
             modifier = Modifier.size(20.dp)
         )

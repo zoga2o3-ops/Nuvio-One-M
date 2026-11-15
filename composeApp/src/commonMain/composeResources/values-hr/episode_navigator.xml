@@ -1,0 +1,19 @@
+<resources>
+    <string name="episode_navigator_search_hint">Traži naslov, parcelu ili broj</string>
+    <string name="episode_navigator_clear_search">Očisti pretragu</string>
+    <string name="episode_navigator_go_to">Idi na</string>
+    <string name="episode_navigator_sort">Vrsta</string>
+    <string name="episode_navigator_count">%1$d od %2$d epizoda</string>
+    <string name="episode_navigator_no_match">Nijedna epizoda ne odgovara '%1$s'</string>
+    <string name="episode_navigator_go_to_title">Skoči na epizodu</string>
+    <string name="episode_navigator_episode_number">Broj epizode</string>
+    <string name="episode_navigator_go">Ići</string>
+    <string name="episode_navigator_go_to_help">Upišite broj ili odaberite jedan ispod. Podcrtano = gledano, označeno = sljedeće.</string>
+    <string name="episode_navigator_out_of_range">%1$s ima epizode %2$d–%3$d</string>
+    <string name="episode_navigator_sort_title">Poredaj epizode</string>
+    <string name="episode_navigator_sort_first_to_last">Epizoda: od prve do posljednje</string>
+    <string name="episode_navigator_sort_last_to_first">Epizoda: od posljednje do prve</string>
+    <string name="episode_navigator_sort_highest_rated">Najviša ocjena</string>
+    <string name="episode_navigator_sort_newest_aired">Najnovije emitirano</string>
+    <string name="episode_navigator_sort_unwatched_first">Prvo negledano</string>
+</resources>

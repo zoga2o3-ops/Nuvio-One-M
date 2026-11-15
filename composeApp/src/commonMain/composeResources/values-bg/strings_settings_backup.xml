@@ -1,0 +1,20 @@
+<resources>
+    <string name="settings_backup_section">РЕЗЕРВНО КОПИРАНЕ</string>
+    <string name="settings_backup_include_sensitive">Включете чувствителна информация</string>
+    <string name="settings_backup_include_sensitive_description">Добавете API ключове, ключове за дебрид, добавки, телевизия на живо и идентификатора на приложението Discord към експортирания файл. Запазете този файл личен</string>
+    <string name="settings_backup_export">Експортиране на настройки</string>
+    <string name="settings_backup_export_description">Запазете настройките и добавките във файл. Колекциите, тракерите и вашият Nuvio акаунт никога не се включват</string>
+    <string name="settings_backup_export_done">Настройките са експортирани</string>
+    <string name="settings_backup_export_failed">Настройките не можаха да се експортират</string>
+    <string name="settings_backup_import">Настройки за импортиране</string>
+    <string name="settings_backup_import_description">Възстановете настройките от експортиран файл</string>
+    <string name="settings_backup_importing">Настройките се импортират...</string>
+    <string name="settings_backup_import_confirm_title">Импортиране на настройки?</string>
+    <string name="settings_backup_import_confirm_message">Настройките от този файл ще заменят текущите настройки на този профил. Липсващите добавки ще бъдат добавени. Вашите API ключове, добавки и телевизия на живо остават непроменени.</string>
+    <string name="settings_backup_import_confirm_message_sensitive">Настройките от този файл ще заменят текущите настройки на този профил, включително API ключове и ключове за дебрид. Ще бъдат добавени липсващи добавки, плъгини и източници на телевизия на живо.</string>
+    <string name="settings_backup_import_confirm_action">Импортиране</string>
+    <string name="settings_backup_import_done">Настройките са импортирани</string>
+    <string name="settings_backup_import_partial">Настройките са импортирани, но някои секции не могат да бъдат приложени</string>
+    <string name="settings_backup_import_failed">Настройките не можаха да се импортират</string>
+    <string name="settings_backup_import_invalid">Този файл не е експортиране на настройки на Nuvio</string>
+</resources>

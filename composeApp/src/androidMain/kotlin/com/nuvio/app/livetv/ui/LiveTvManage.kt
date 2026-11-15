@@ -28,6 +28,8 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import com.nuvio.app.livetv.model.LiveChannel
 import com.nuvio.app.livetv.player.PictureShape
+import nuvio.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 
 /** One tappable line in an actions list. */
 @Composable
@@ -72,8 +74,8 @@ internal fun TextPromptDialog(
                 if (hint != null) Text(hint, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
         },
-        confirmButton = { TextButton(onClick = { onOk(text.trim()) }) { Text("Save") } },
-        dismissButton = { TextButton(onClick = onDismiss) { Text("Cancel") } },
+        confirmButton = { TextButton(onClick = { onOk(text.trim()) }) { Text(stringResource(Res.string.action_save)) } },
+        dismissButton = { TextButton(onClick = onDismiss) { Text(stringResource(Res.string.action_cancel)) } },
     )
 }
 
@@ -102,9 +104,9 @@ internal fun ChannelActionsDialog(
     var numbering by remember { mutableStateOf(false) }
     if (renaming) {
         TextPromptDialog(
-            title = "Rename channel",
+            title = stringResource(Res.string.live_tv_ui_rename_channel),
             initial = channel.name,
-            hint = "Leave it empty to go back to the playlist's name.",
+            hint = stringResource(Res.string.live_tv_ui_leave_it_empty_to_go_back_to_the_playlist_s_name),
             onOk = { onRename(it.ifBlank { null }); renaming = false; onDismiss() },
             onDismiss = { renaming = false },
         )
@@ -112,9 +114,9 @@ internal fun ChannelActionsDialog(
     }
     if (numbering) {
         TextPromptDialog(
-            title = "Channel number",
+            title = stringResource(Res.string.live_tv_ui_channel_number),
             initial = if (channel.number > 0) channel.number.toString() else "",
-            hint = "Leave it empty to use the playlist's number.",
+            hint = stringResource(Res.string.live_tv_ui_leave_it_empty_to_use_the_playlist_s_number),
             numeric = true,
             onOk = { onNumber(it.toIntOrNull()); numbering = false; onDismiss() },
             onDismiss = { numbering = false },
@@ -126,28 +128,28 @@ internal fun ChannelActionsDialog(
         title = { Text(channel.name, maxLines = 1) },
         text = {
             Column {
-                ActionRow(if (favorite) "Remove from favorites" else "Add to favorites") { onFavorite(); onDismiss() }
-                if (onRecord != null) ActionRow("Record\u2026") { onRecord(); onDismiss() }
+                ActionRow(if (favorite) stringResource(Res.string.live_tv_ui_remove_from_favorites) else stringResource(Res.string.live_tv_ui_add_to_favorites)) { onFavorite(); onDismiss() }
+                if (onRecord != null) ActionRow(stringResource(Res.string.live_tv_ui_record_u2026)) { onRecord(); onDismiss() }
                 if (onMove != null) {
-                    ActionRow("Move earlier in this list") { onMove(-1) }
-                    ActionRow("Move later in this list") { onMove(1) }
+                    ActionRow(stringResource(Res.string.live_tv_ui_move_earlier_in_this_list)) { onMove(-1) }
+                    ActionRow(stringResource(Res.string.live_tv_ui_move_later_in_this_list)) { onMove(1) }
                 }
-                if (onAddToGroup != null) ActionRow("Add to my group\u2026") { onAddToGroup(); onDismiss() }
-                if (onCopyToGroup != null) ActionRow("Copy to another group\u2026") { onCopyToGroup(); onDismiss() }
-                if (onRemoveFromGroup != null) ActionRow("Remove from this group") { onRemoveFromGroup(); onDismiss() }
-                if (onGuide != null) ActionRow("Choose its guide\u2026") { onGuide(); onDismiss() }
-                ActionRow("Rename") { renaming = true }
-                if (onLogo != null) ActionRow("Change logo\u2026") { onLogo(); onDismiss() }
-                ActionRow("Set channel number") { numbering = true }
-                ActionRow("Picture shape", shape.label) {
+                if (onAddToGroup != null) ActionRow(stringResource(Res.string.live_tv_ui_add_to_my_group_u2026)) { onAddToGroup(); onDismiss() }
+                if (onCopyToGroup != null) ActionRow(stringResource(Res.string.live_tv_ui_copy_to_another_group_u2026)) { onCopyToGroup(); onDismiss() }
+                if (onRemoveFromGroup != null) ActionRow(stringResource(Res.string.live_tv_ui_remove_from_this_group)) { onRemoveFromGroup(); onDismiss() }
+                if (onGuide != null) ActionRow(stringResource(Res.string.live_tv_ui_choose_its_guide_u2026)) { onGuide(); onDismiss() }
+                ActionRow(stringResource(Res.string.live_tv_ui_rename)) { renaming = true }
+                if (onLogo != null) ActionRow(stringResource(Res.string.live_tv_ui_change_logo_u2026)) { onLogo(); onDismiss() }
+                ActionRow(stringResource(Res.string.live_tv_ui_set_channel_number)) { numbering = true }
+                ActionRow(stringResource(Res.string.live_tv_ui_picture_shape), shape.label) {
                     val all = PictureShape.entries
                     onShape(all[(all.indexOf(shape) + 1) % all.size])
                 }
-                if (onRemind != null) ActionRow("Remind me when the next show starts") { onRemind(); onDismiss() }
-                ActionRow("Hide channel") { onHide(); onDismiss() }
+                if (onRemind != null) ActionRow(stringResource(Res.string.live_tv_ui_remind_me_when_the_next_show_starts)) { onRemind(); onDismiss() }
+                ActionRow(stringResource(Res.string.live_tv_ui_hide_channel)) { onHide(); onDismiss() }
             }
         },
-        confirmButton = { TextButton(onClick = onDismiss) { Text("Done") } },
+        confirmButton = { TextButton(onClick = onDismiss) { Text(stringResource(Res.string.action_done)) } },
     )
 }
 
@@ -166,9 +168,9 @@ internal fun GroupActionsDialog(
     var renaming by remember { mutableStateOf(false) }
     if (renaming) {
         TextPromptDialog(
-            title = "Rename group",
+            title = stringResource(Res.string.live_tv_ui_rename_group),
             initial = title,
-            hint = "Leave it empty to go back to the playlist's name.",
+            hint = stringResource(Res.string.live_tv_ui_leave_it_empty_to_go_back_to_the_playlist_s_name),
             onOk = { onRename(it.ifBlank { null }); renaming = false; onDismiss() },
             onDismiss = { renaming = false },
         )
@@ -179,15 +181,15 @@ internal fun GroupActionsDialog(
         title = { Text(title, maxLines = 1) },
         text = {
             Column {
-                ActionRow("Rename") { renaming = true }
-                ActionRow("Move earlier") { onMove(-1) }
-                ActionRow("Move later") { onMove(1) }
-                ActionRow(if (locked) "Remove PIN lock" else "Lock with PIN") { onLock(); onDismiss() }
-                if (onDelete != null) ActionRow("Delete this group") { onDelete(); onDismiss() }
-                else ActionRow("Hide group") { onHide(); onDismiss() }
+                ActionRow(stringResource(Res.string.live_tv_ui_rename)) { renaming = true }
+                ActionRow(stringResource(Res.string.live_tv_ui_move_earlier)) { onMove(-1) }
+                ActionRow(stringResource(Res.string.live_tv_ui_move_later)) { onMove(1) }
+                ActionRow(if (locked) stringResource(Res.string.live_tv_ui_remove_pin_lock) else stringResource(Res.string.live_tv_ui_lock_with_pin)) { onLock(); onDismiss() }
+                if (onDelete != null) ActionRow(stringResource(Res.string.live_tv_ui_delete_this_group)) { onDelete(); onDismiss() }
+                else ActionRow(stringResource(Res.string.live_tv_ui_hide_group)) { onHide(); onDismiss() }
             }
         },
-        confirmButton = { TextButton(onClick = onDismiss) { Text("Done") } },
+        confirmButton = { TextButton(onClick = onDismiss) { Text(stringResource(Res.string.action_done)) } },
     )
 }
 
@@ -214,9 +216,9 @@ internal fun PinDialog(
                     visualTransformation = PasswordVisualTransformation(),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.NumberPassword),
                     isError = wrong,
-                    supportingText = if (wrong) ({ Text("That PIN is wrong.") }) else null, colors = fieldColors())
+                    supportingText = if (wrong) ({ Text(stringResource(Res.string.live_tv_ui_that_pin_is_wrong)) }) else null, colors = fieldColors())
                 if (setting) Text(
-                    "Choose four digits. You'll need them to open locked groups.",
+                    stringResource(Res.string.live_tv_ui_choose_four_digits_you_ll_need_them_to_open_locked_groups),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
@@ -226,9 +228,9 @@ internal fun PinDialog(
             TextButton(
                 enabled = pin.length == 4,
                 onClick = { if (expected != null && pin != expected) wrong = true else onPin(pin) },
-            ) { Text(if (setting) "Set PIN" else "Unlock") }
+            ) { Text(if (setting) stringResource(Res.string.live_tv_ui_set_pin) else stringResource(Res.string.live_tv_ui_unlock)) }
         },
-        dismissButton = { TextButton(onClick = onDismiss) { Text("Cancel") } },
+        dismissButton = { TextButton(onClick = onDismiss) { Text(stringResource(Res.string.action_cancel)) } },
     )
 }
 
@@ -244,23 +246,23 @@ internal fun HiddenDialog(
 ) {
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Hidden") },
+        title = { Text(stringResource(Res.string.settings_homescreen_hidden)) },
         text = {
             if (groups.isEmpty() && channels.isEmpty()) {
-                Text("Nothing is hidden.")
+                Text(stringResource(Res.string.live_tv_ui_nothing_is_hidden))
             } else {
                 LazyColumn(Modifier.fillMaxWidth()) {
                     items(groups, key = { "g" + it.first }) { (id, title) ->
-                        ActionRow("$title  (group)", "Show") { onShowGroup(id) }
+                        ActionRow("$title  (group)", stringResource(Res.string.layout_ratings_show)) { onShowGroup(id) }
                     }
                     items(channels, key = { "c" + it.key }) { c ->
-                        ActionRow(c.name, "Show") { onShowChannel(c.key) }
+                        ActionRow(c.name, stringResource(Res.string.layout_ratings_show)) { onShowChannel(c.key) }
                     }
                 }
             }
         },
-        confirmButton = { TextButton(onClick = onDismiss) { Text("Close") } },
-        dismissButton = { if (groups.isNotEmpty() || channels.isNotEmpty()) TextButton(onClick = onShowAll) { Text("Show all") } },
+        confirmButton = { TextButton(onClick = onDismiss) { Text(stringResource(Res.string.action_close)) } },
+        dismissButton = { if (groups.isNotEmpty() || channels.isNotEmpty()) TextButton(onClick = onShowAll) { Text(stringResource(Res.string.live_tv_ui_show_all)) } },
     )
 }
 
@@ -269,7 +271,7 @@ internal fun HiddenDialog(
 internal fun PickDialog(
     title: String,
     options: List<Pair<String, String>>,
-    emptyText: String = "Nothing to pick.",
+    emptyText: String = stringResource(Res.string.live_tv_ui_nothing_to_pick),
     extra: Pair<String, () -> Unit>? = null,
     onPick: (String) -> Unit,
     onDismiss: () -> Unit,
@@ -284,7 +286,7 @@ internal fun PickDialog(
                 items(options, key = { it.first }) { (id, label) -> ActionRow(label) { onPick(id) } }
             }
         },
-        confirmButton = { TextButton(onClick = onDismiss) { Text("Cancel") } },
+        confirmButton = { TextButton(onClick = onDismiss) { Text(stringResource(Res.string.action_cancel)) } },
     )
 }
 
@@ -306,12 +308,12 @@ internal fun GuidePickerDialog(
     }
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Guide for $channelName", maxLines = 1) },
+        title = { Text(stringResource(Res.string.live_tv_ui_guide_for, channelName), maxLines = 1) },
         text = {
             Column {
-                OutlinedTextField(value = query, onValueChange = { query = it }, singleLine = true, label = { Text("Search the guide") }, colors = fieldColors())
-                ActionRow("Automatic (let the app match it)") { onPick(null) }
-                ActionRow("No guide for this channel") { onPick(com.nuvio.app.livetv.model.EpgAssignment.None) }
+                OutlinedTextField(value = query, onValueChange = { query = it }, singleLine = true, label = { Text(stringResource(Res.string.live_tv_ui_search_the_guide)) }, colors = fieldColors())
+                ActionRow(stringResource(Res.string.live_tv_ui_automatic_let_the_app_match_it)) { onPick(null) }
+                ActionRow(stringResource(Res.string.live_tv_ui_no_guide_for_this_channel)) { onPick(com.nuvio.app.livetv.model.EpgAssignment.None) }
                 LazyColumn(Modifier.fillMaxWidth().padding(top = 4.dp)) {
                     items(results, key = { it.first + "|" + it.second }) { (src, id, label) ->
                         ActionRow(label) { onPick(com.nuvio.app.livetv.model.EpgAssignment(src, id)) }
@@ -319,6 +321,6 @@ internal fun GuidePickerDialog(
                 }
             }
         },
-        confirmButton = { TextButton(onClick = onDismiss) { Text("Cancel") } },
+        confirmButton = { TextButton(onClick = onDismiss) { Text(stringResource(Res.string.action_cancel)) } },
     )
 }

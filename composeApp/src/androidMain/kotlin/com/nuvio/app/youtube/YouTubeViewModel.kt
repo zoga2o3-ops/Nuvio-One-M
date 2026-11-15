@@ -23,6 +23,19 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import nuvio.composeapp.generated.resources.Res
+import nuvio.composeapp.generated.resources.yt_tab_channels
+import nuvio.composeapp.generated.resources.yt_tab_gaming
+import nuvio.composeapp.generated.resources.yt_tab_history
+import nuvio.composeapp.generated.resources.yt_tab_home
+import nuvio.composeapp.generated.resources.yt_tab_live
+import nuvio.composeapp.generated.resources.yt_tab_music
+import nuvio.composeapp.generated.resources.yt_tab_news
+import nuvio.composeapp.generated.resources.yt_tab_playlists
+import nuvio.composeapp.generated.resources.yt_tab_shorts
+import nuvio.composeapp.generated.resources.yt_tab_sports
+import nuvio.composeapp.generated.resources.yt_tab_subscriptions
+import org.jetbrains.compose.resources.StringResource
 
 enum class YtKind { VIDEO, CHANNEL, PLAYLIST }
 
@@ -52,19 +65,24 @@ data class YtRow(
 )
 
 /** The feeds along the top. Grid feeds are one long list; the others are rows of videos. */
-enum class YtTab(val title: String, val needsSignIn: Boolean = false, val grid: Boolean = false) {
+enum class YtTab(
+    val title: String,
+    val titleRes: StringResource,
+    val needsSignIn: Boolean = false,
+    val grid: Boolean = false,
+) {
     // No Trending: YouTube retired that page, and its requests are now refused.
-    HOME("Home"),
-    SUBSCRIPTIONS("Subscriptions", needsSignIn = true, grid = true),
-    HISTORY("History", needsSignIn = true, grid = true),
-    PLAYLISTS("Playlists", needsSignIn = true, grid = true),
-    LIVE("Live"),
-    MUSIC("Music"),
-    GAMING("Gaming"),
-    NEWS("News"),
-    SPORTS("Sports"),
-    SHORTS("Shorts", grid = true),
-    CHANNELS("Channels", needsSignIn = true, grid = true)
+    HOME("Home", Res.string.yt_tab_home),
+    SUBSCRIPTIONS("Subscriptions", Res.string.yt_tab_subscriptions, needsSignIn = true, grid = true),
+    HISTORY("History", Res.string.yt_tab_history, needsSignIn = true, grid = true),
+    PLAYLISTS("Playlists", Res.string.yt_tab_playlists, needsSignIn = true, grid = true),
+    LIVE("Live", Res.string.yt_tab_live),
+    MUSIC("Music", Res.string.yt_tab_music),
+    GAMING("Gaming", Res.string.yt_tab_gaming),
+    NEWS("News", Res.string.yt_tab_news),
+    SPORTS("Sports", Res.string.yt_tab_sports),
+    SHORTS("Shorts", Res.string.yt_tab_shorts, grid = true),
+    CHANNELS("Channels", Res.string.yt_tab_channels, needsSignIn = true, grid = true)
 }
 
 data class YtUiState(

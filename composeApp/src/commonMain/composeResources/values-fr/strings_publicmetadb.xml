@@ -1,0 +1,36 @@
+<resources>
+    <string name="tracking_source_publicmetadb">PublicMetaDB</string>
+    <string name="settings_publicmetadb_library_description">Votre liste de surveillance PublicMetaDB et vos listes personnalisées.</string>
+    <string name="settings_publicmetadb_progress_description">Continuez à regarder et Up Next à partir de vos points de reprise PublicMetaDB et de votre historique de surveillance.</string>
+    <string name="library_publicmetadb_title">Bibliothèque PublicMetaDB</string>
+    <string name="library_publicmetadb_load_failed">Impossible de charger votre bibliothèque PublicMetaDB</string>
+    <string name="library_publicmetadb_empty_title">Votre bibliothèque PublicMetaDB est vide</string>
+    <string name="library_publicmetadb_empty_message">Ajoutez des films et des émissions à vos listes PublicMetaDB pour les voir ici.</string>
+    <string name="settings_publicmetadb_connect">Connecter PublicMetaDB</string>
+    <string name="settings_publicmetadb_connected_as">Connecté avec la clé se terminant par %1$s</string>
+    <string name="settings_publicmetadb_connected_description">Synchronisez vos listes, votre historique de surveillance, vos notes, vos scrobbles et continuez à regarder avec PublicMetaDB.</string>
+    <string name="settings_publicmetadb_sign_in_description">Connectez PublicMetaDB avec une clé API pour synchroniser vos listes, votre historique de surveillance, vos notes, vos scrobbles et continuer à regarder.</string>
+    <string name="settings_publicmetadb_finish_sign_in">Terminer la connexion</string>
+    <string name="settings_publicmetadb_approval_description">Entrez votre clé API PublicMetaDB pour terminer la connexion.</string>
+    <string name="settings_publicmetadb_open_login">Saisissez la clé API</string>
+    <string name="settings_publicmetadb_disconnect">Déconnecter PublicMetaDB</string>
+    <string name="settings_publicmetadb_missing_credentials">La connexion PublicMetaDB n'est pas disponible dans cette version.</string>
+    <string name="settings_publicmetadb_sync_now">Synchronisez maintenant</string>
+    <string name="settings_publicmetadb_visit">Visitez PublicMetaDB</string>
+    <string name="settings_publicmetadb_disconnect_description">Arrêtez d'envoyer des mises à jour de montre à partir de ce profil et oubliez la clé API. Vos listes et votre historique PublicMetaDB sont conservés.</string>
+    <string name="settings_publicmetadb_account_fallback">votre clé API</string>
+    <string name="settings_publicmetadb_syncing">Synchronisation de vos listes PublicMetaDB…</string>
+    <string name="settings_publicmetadb_last_synced">Dernière synchronisation %1$s</string>
+    <string name="settings_publicmetadb_api_key_title">Connecter PublicMetaDB</string>
+    <string name="settings_publicmetadb_api_key_description">Créez une clé API sur PublicMetaDB sous Paramètres → API, puis collez-la ici. Les clés commencent généralement par pm-.</string>
+    <string name="settings_publicmetadb_api_key_label">Clé API</string>
+    <string name="settings_publicmetadb_get_api_key">Obtenez une clé API</string>
+    <string name="settings_publicmetadb_connect_action">Connecter</string>
+    <string name="settings_publicmetadb_missing_key">Entrez votre clé API PublicMetaDB.</string>
+    <string name="settings_publicmetadb_invalid_key">PublicMetaDB n'a pas accepté cette clé API. Vérifiez-le et réessayez.</string>
+    <string name="settings_publicmetadb_request_failed">Impossible d'atteindre PublicMetaDB. Veuillez réessayer.</string>
+    <string name="settings_publicmetadb_rate_limited">La limite de requêtes de PublicMetaDB a été atteinte. Réessayez sous peu.</string>
+    <string name="settings_publicmetadb_blocked">PublicMetaDB a bloqué cette demande. Veuillez réessayer plus tard.</string>
+    <string name="settings_publicmetadb_auth_revoked">Votre clé API PublicMetaDB n'est plus valide. Connectez-vous à nouveau avec une nouvelle clé.</string>
+    <string name="settings_publicmetadb_unavailable">Impossible de synchroniser avec PublicMetaDB. Veuillez réessayer.</string>
+</resources>

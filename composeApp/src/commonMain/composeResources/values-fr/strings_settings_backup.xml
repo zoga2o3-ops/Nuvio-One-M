@@ -1,0 +1,20 @@
+<resources>
+    <string name="settings_backup_section">SAUVEGARDE</string>
+    <string name="settings_backup_include_sensitive">Inclure des informations sensibles</string>
+    <string name="settings_backup_include_sensitive_description">Ajoutez des clés API, des clés de débridage, des modules complémentaires, Live TV et l'ID d'application Discord au fichier exporté. Gardez ce fichier privé</string>
+    <string name="settings_backup_export">Paramètres d'exportation</string>
+    <string name="settings_backup_export_description">Enregistrez les paramètres et les plugins dans un fichier. Les collections, les trackers et votre compte Nuvio ne sont jamais inclus</string>
+    <string name="settings_backup_export_done">Paramètres exportés</string>
+    <string name="settings_backup_export_failed">Impossible d'exporter les paramètres</string>
+    <string name="settings_backup_import">Paramètres d'importation</string>
+    <string name="settings_backup_import_description">Restaurer les paramètres à partir d'un fichier exporté</string>
+    <string name="settings_backup_importing">Importation des paramètres…</string>
+    <string name="settings_backup_import_confirm_title">Importer les paramètres ?</string>
+    <string name="settings_backup_import_confirm_message">Les paramètres de ce fichier remplaceront les paramètres actuels de ce profil. Les plugins manquants seront ajoutés. Vos clés API, add-ons et Live TV restent inchangés.</string>
+    <string name="settings_backup_import_confirm_message_sensitive">Les paramètres de ce fichier remplaceront les paramètres actuels de ce profil, y compris les clés API et les clés de débridage. Les addons, plugins et sources Live TV manquants seront ajoutés.</string>
+    <string name="settings_backup_import_confirm_action">Importer</string>
+    <string name="settings_backup_import_done">Paramètres importés</string>
+    <string name="settings_backup_import_partial">Paramètres importés, mais certaines sections n'ont pas pu être appliquées</string>
+    <string name="settings_backup_import_failed">Impossible d'importer les paramètres</string>
+    <string name="settings_backup_import_invalid">Ce fichier n'est pas une exportation de paramètres Nuvio</string>
+</resources>

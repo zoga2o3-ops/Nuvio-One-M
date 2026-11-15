@@ -1,0 +1,12 @@
+<resources>
+    <string name="settings_playback_subtitle_auto_sync">自動同期字幕</string>
+    <string name="settings_playback_subtitle_auto_sync_description">再生開始時に、優先されるアドオン字幕を自動的に同期します。優先する字幕言語が必要です。</string>
+    <string name="settings_playback_auto_sync_mode_aggressive">自動同期検索: 徹底</string>
+    <string name="settings_playback_auto_sync_mode_aggressive_description">同期する前に、他の字幕と埋め込みトラックを比較し、より近い一致を探し続けます。信頼できる一致のみが適用されます。</string>
+    <string name="settings_playback_auto_sync_mode_passive">自動同期検索: クイック</string>
+    <string name="settings_playback_auto_sync_mode_passive_description">最初の強力な一致をより早く使用します。徹底の場合と同様、信頼できる一致のみが適用されます。</string>
+    <string name="settings_playback_auto_sync_tolerance">自動同期許容値: %1$s</string>
+    <string name="settings_playback_auto_sync_tolerance_description">同期によりこれを超えて移動しない場合は、元の字幕のタイミングを維持します。タップして変更します。</string>
+    <string name="settings_playback_auto_sync_tolerance_off">オフ</string>
+    <string name="settings_playback_auto_sync_tolerance_value">%1$d ミリ秒</string>
+</resources>

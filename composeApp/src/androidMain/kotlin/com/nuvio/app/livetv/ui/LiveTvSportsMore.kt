@@ -58,6 +58,8 @@ import com.nuvio.app.livetv.sports.TeamInfo
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import nuvio.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 
 private val CardBg = Color(0xFF1B1B1F)
 
@@ -77,15 +79,15 @@ internal fun MySportsList(repo: SportsRepository, clock: SimpleDateFormat, hideS
     Column(Modifier.fillMaxSize()) {
         Row(Modifier.padding(horizontal = 16.dp), verticalAlignment = Alignment.CenterVertically) {
             Text(
-                if (follows.isEmpty) "Follow teams and leagues to see them here." else "${follows.teams.size} teams, ${follows.leagues.size} leagues",
+                if (follows.isEmpty) stringResource(Res.string.live_tv_ui_follow_teams_and_leagues_to_see_them_here) else "${follows.teams.size} teams, ${follows.leagues.size} leagues",
                 style = MaterialTheme.typography.bodySmall, color = LocalContentColor.current.copy(alpha = 0.6f), modifier = Modifier.weight(1f),
             )
-            TextButton(onClick = onPick) { Text(if (follows.isEmpty) "Pick teams" else "Edit") }
+            TextButton(onClick = onPick) { Text(if (follows.isEmpty) "Pick teams" else stringResource(Res.string.action_edit)) }
         }
         if (page.rows.isEmpty()) {
             Box(Modifier.fillMaxSize().padding(24.dp), contentAlignment = Alignment.Center) {
                 Text(
-                    if (follows.isEmpty) "Nothing followed yet." else "No games found for what you follow right now.",
+                    if (follows.isEmpty) stringResource(Res.string.live_tv_ui_nothing_followed_yet) else stringResource(Res.string.live_tv_ui_no_games_found_for_what_you_follow_right_now),
                     color = LocalContentColor.current.copy(alpha = 0.6f),
                 )
             }
@@ -127,8 +129,8 @@ private fun GameChip(ev: SportsEvent, clock: SimpleDateFormat, hideScore: Boolea
         if (ev.state == GameState.LIVE) LiveBadge()
         Text(
             when (ev.state) {
-                GameState.LIVE -> ev.status?.takeIf { it.isNotBlank() } ?: "LIVE"
-                GameState.POST -> ev.status?.takeIf { it.isNotBlank() } ?: "Final"
+                GameState.LIVE -> ev.status?.takeIf { it.isNotBlank() } ?: stringResource(Res.string.live_tv_ui_live)
+                GameState.POST -> ev.status?.takeIf { it.isNotBlank() } ?: stringResource(Res.string.live_tv_ui_final)
                 else -> SimpleDateFormat("EEE d MMM", Locale.getDefault()).format(Date(ev.startMs)) + (if (ev.hasTime) "  " + clock.format(Date(ev.startMs)) else "")
             },
             style = MaterialTheme.typography.labelSmall,
@@ -166,18 +168,18 @@ internal fun PickTeamsDialog(repo: SportsRepository, onFollowed: () -> Unit = {}
             } else {
                 Column {
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        TextButton(onClick = { league = null; query = "" }) { Text("‹ Leagues") }
+                        TextButton(onClick = { league = null; query = "" }) { Text(stringResource(Res.string.live_tv_ui_leagues)) }
                         Spacer1()
                         TextButton(onClick = {
                             val following = l.id in follows.leagues
                             repo.toggleLeague(l.id)
                             if (!following) onFollowed()
                         }) {
-                            Text(if (l.id in follows.leagues) "Unfollow the league" else "Follow the whole league")
+                            Text(if (l.id in follows.leagues) stringResource(Res.string.live_tv_ui_unfollow_the_league) else stringResource(Res.string.live_tv_ui_follow_the_whole_league))
                         }
                     }
                     if (l.kind == LeagueKind.TEAMS) {
-                        OutlinedTextField(value = query, onValueChange = { query = it }, singleLine = true, label = { Text("Search teams") })
+                        OutlinedTextField(value = query, onValueChange = { query = it }, singleLine = true, label = { Text(stringResource(Res.string.live_tv_ui_search_teams)) })
                         val list = teams
                         when {
                             list == null -> Box(Modifier.fillMaxWidth().padding(24.dp), contentAlignment = Alignment.Center) { CircularProgressIndicator() }
@@ -196,11 +198,11 @@ internal fun PickTeamsDialog(repo: SportsRepository, onFollowed: () -> Unit = {}
                                 }
                             }
                         }
-                    } else Text("This is a competition with no teams. Follow the whole league to see its events.", Modifier.padding(top = 8.dp))
+                    } else Text(stringResource(Res.string.live_tv_ui_this_is_a_competition_with_no_teams_follow_the_whole_league_), Modifier.padding(top = 8.dp))
                 }
             }
         },
-        confirmButton = { TextButton(onClick = onDismiss) { Text("Done") } },
+        confirmButton = { TextButton(onClick = onDismiss) { Text(stringResource(Res.string.action_done)) } },
     )
 }
 
@@ -227,7 +229,7 @@ internal fun SportsTables(repo: SportsRepository) {
     }
     Column(Modifier.fillMaxSize()) {
         if (leagues.isEmpty()) {
-            Box(Modifier.fillMaxSize().padding(24.dp), contentAlignment = Alignment.Center) { Text("No tables for your leagues yet.") }
+            Box(Modifier.fillMaxSize().padding(24.dp), contentAlignment = Alignment.Center) { Text(stringResource(Res.string.live_tv_ui_no_tables_for_your_leagues_yet)) }
             return@Column
         }
         LazyRow(contentPadding = PaddingValues(horizontal = 16.dp), horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.padding(bottom = 8.dp)) {
@@ -243,7 +245,7 @@ internal fun SportsTables(repo: SportsRepository) {
         Box(Modifier.weight(1f).fillMaxWidth()) {
             when {
                 loading -> CircularProgressIndicator(Modifier.align(Alignment.Center))
-                t == null -> Text("No table for this competition.", Modifier.align(Alignment.Center), color = LocalContentColor.current.copy(alpha = 0.6f))
+                t == null -> Text(stringResource(Res.string.live_tv_ui_no_table_for_this_competition), Modifier.align(Alignment.Center), color = LocalContentColor.current.copy(alpha = 0.6f))
                 else -> {
                     val cols = t.columns.take(5)
                     LazyColumn(contentPadding = PaddingValues(16.dp, 0.dp, 16.dp, 96.dp)) {
@@ -300,12 +302,12 @@ internal fun GameDetailsDialog(repo: SportsRepository, ev: SportsEvent, onDismis
                 }
                 if (x != null && x.hasOdds) item {
                     Text(
-                        "Win chance: " + listOfNotNull(x.homeWin?.let { "home ${it.toInt()}%" }, x.draw?.let { "draw ${it.toInt()}%" }, x.awayWin?.let { "away ${it.toInt()}%" }).joinToString(", "),
+                        stringResource(Res.string.live_tv_ui_win_chance) + listOfNotNull(x.homeWin?.let { "home ${it.toInt()}%" }, x.draw?.let { "draw ${it.toInt()}%" }, x.awayWin?.let { "away ${it.toInt()}%" }).joinToString(", "),
                         style = MaterialTheme.typography.bodySmall, modifier = Modifier.padding(bottom = 8.dp),
                     )
                 }
                 if (x != null && x.stats.isNotEmpty()) {
-                    item { Text("Team stats", style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.primary) }
+                    item { Text(stringResource(Res.string.live_tv_ui_team_stats), style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.primary) }
                     items(x.stats, key = { it.label }) { s ->
                         Row(Modifier.fillMaxWidth().padding(vertical = 3.dp)) {
                             Text(s.away, Modifier.width(56.dp)); Text(s.label, Modifier.weight(1f), fontSize = 12.sp); Text(s.home, Modifier.width(56.dp))
@@ -315,9 +317,9 @@ internal fun GameDetailsDialog(repo: SportsRepository, ev: SportsEvent, onDismis
                 val p = plays
                 when {
                     p == null -> item { CircularProgressIndicator(Modifier.padding(24.dp)) }
-                    p.isEmpty() -> item { Text("No scoring plays yet.", color = LocalContentColor.current.copy(alpha = 0.6f), modifier = Modifier.padding(top = 8.dp)) }
+                    p.isEmpty() -> item { Text(stringResource(Res.string.live_tv_ui_no_scoring_plays_yet), color = LocalContentColor.current.copy(alpha = 0.6f), modifier = Modifier.padding(top = 8.dp)) }
                     else -> {
-                        item { Text("Scoring", style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.primary, modifier = Modifier.padding(top = 8.dp)) }
+                        item { Text(stringResource(Res.string.live_tv_ui_scoring), style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.primary, modifier = Modifier.padding(top = 8.dp)) }
                         items(p.size) { i ->
                             val s = p[i]
                             Column(Modifier.padding(vertical = 4.dp)) {
@@ -330,7 +332,7 @@ internal fun GameDetailsDialog(repo: SportsRepository, ev: SportsEvent, onDismis
                 }
             }
         },
-        confirmButton = { TextButton(onClick = onDismiss) { Text("Close") } },
+        confirmButton = { TextButton(onClick = onDismiss) { Text(stringResource(Res.string.action_close)) } },
     )
 }
 
@@ -351,7 +353,7 @@ internal fun FixChannelDialog(repo: SportsRepository, ev: SportsEvent, onDone: (
         text = {
             if (c == null) {
                 Column {
-                    OutlinedTextField(value = query, onValueChange = { query = it }, singleLine = true, label = { Text("Search your channels") })
+                    OutlinedTextField(value = query, onValueChange = { query = it }, singleLine = true, label = { Text(stringResource(Res.string.live_tv_ui_search_your_channels)) })
                     LazyColumn(Modifier.height(300.dp)) {
                         items(results, key = { it.key }) { ch ->
                             Text(ch.name, Modifier.fillMaxWidth().clickable { chosen = ch }.padding(vertical = 12.dp), maxLines = 1, overflow = TextOverflow.Ellipsis)
@@ -360,15 +362,15 @@ internal fun FixChannelDialog(repo: SportsRepository, ev: SportsEvent, onDone: (
                 }
             } else {
                 Column {
-                    Text("Use it for:")
-                    TextButton(onClick = { repo.pickChannel(ev, c.key, forNetworks = false); onDone("Saved for this game.") }) { Text("Just this game") }
+                    Text(stringResource(Res.string.live_tv_ui_use_it_for))
+                    TextButton(onClick = { repo.pickChannel(ev, c.key, forNetworks = false); onDone("Saved for this game.") }) { Text(stringResource(Res.string.live_tv_ui_just_this_game)) }
                     if (ev.broadcasts.isNotEmpty()) TextButton(onClick = { repo.pickChannel(ev, c.key, forNetworks = true); onDone("Saved for games on ${ev.broadcasts.first()}.") }) {
-                        Text("Every game on ${ev.broadcasts.first()}")
+                        Text(stringResource(Res.string.live_tv_ui_every_game_on, ev.broadcasts.first()))
                     }
-                    TextButton(onClick = { repo.blockChannel(ev, c.key); onDone("Got it. It won't be offered for this game.") }) { Text("It isn't showing this game") }
+                    TextButton(onClick = { repo.blockChannel(ev, c.key); onDone("Got it. It won't be offered for this game.") }) { Text(stringResource(Res.string.live_tv_ui_it_isn_t_showing_this_game)) }
                 }
             }
         },
-        confirmButton = { TextButton(onClick = { if (chosen != null) chosen = null else onDismiss() }) { Text(if (c != null) "Back" else "Cancel") } },
+        confirmButton = { TextButton(onClick = { if (chosen != null) chosen = null else onDismiss() }) { Text(if (c != null) stringResource(Res.string.action_back) else stringResource(Res.string.action_cancel)) } },
     )
 }

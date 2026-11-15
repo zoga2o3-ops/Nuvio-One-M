@@ -1,0 +1,20 @@
+<resources>
+    <string name="settings_backup_section">BACKUP</string>
+    <string name="settings_backup_include_sensitive">Includeți informații sensibile</string>
+    <string name="settings_backup_include_sensitive_description">Adăugați chei API, chei de debridare, suplimente, Live TV și ID-ul aplicației Discord la fișierul exportat. Păstrează acel fișier privat</string>
+    <string name="settings_backup_export">Setări de export</string>
+    <string name="settings_backup_export_description">Salvați setările și pluginurile într-un fișier. Colecțiile, instrumentele de urmărire și contul dvs. Nuvio nu sunt niciodată incluse</string>
+    <string name="settings_backup_export_done">Setările au fost exportate</string>
+    <string name="settings_backup_export_failed">Nu s-au putut exporta setările</string>
+    <string name="settings_backup_import">Setări de import</string>
+    <string name="settings_backup_import_description">Restabiliți setările dintr-un fișier exportat</string>
+    <string name="settings_backup_importing">Se importă setările...</string>
+    <string name="settings_backup_import_confirm_title">Import setări?</string>
+    <string name="settings_backup_import_confirm_message">Setările din acest fișier vor înlocui setările curente ale acestui profil. Pluginurile lipsă vor fi adăugate. Cheile API, suplimentele și TV în direct rămân neschimbate.</string>
+    <string name="settings_backup_import_confirm_message_sensitive">Setările din acest fișier vor înlocui setările curente ale acestui profil, inclusiv cheile API și cheile de debrid. Vor fi adăugate suplimente, pluginuri și surse Live TV lipsă.</string>
+    <string name="settings_backup_import_confirm_action">Import</string>
+    <string name="settings_backup_import_done">Setări importate</string>
+    <string name="settings_backup_import_partial">Setările au fost importate, dar unele secțiuni nu au putut fi aplicate</string>
+    <string name="settings_backup_import_failed">Nu s-au putut importa setările</string>
+    <string name="settings_backup_import_invalid">Acest fișier nu este un export de setări Nuvio</string>
+</resources>

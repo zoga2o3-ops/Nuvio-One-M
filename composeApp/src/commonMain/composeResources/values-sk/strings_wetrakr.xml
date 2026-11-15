@@ -1,0 +1,33 @@
+<resources>
+    <string name="tracking_source_wetrakr">WeTrakr</string>
+    <string name="settings_wetrakr_library_description">Vaše zoznamy WeTrakr: Plánovanie, Sledovanie, Čakanie, Sledované, Pozastavené a Vypustené.</string>
+    <string name="settings_wetrakr_progress_description">Pokračovať v sledovaní a ďalej z prehrávania WeTrakr a sledovaných epizód.</string>
+    <string name="library_wetrakr_title">Knižnica WeTrakr</string>
+    <string name="library_wetrakr_load_failed">Nepodarilo sa načítať vašu knižnicu WeTrakr</string>
+    <string name="library_wetrakr_empty_title">Vaša knižnica WeTrakr je prázdna</string>
+    <string name="library_wetrakr_empty_message">Pridajte filmy a relácie do svojich zoznamov WeTrakr a pozrite si ich tu.</string>
+    <string name="settings_wetrakr_connect">Pripojte WeTrakr</string>
+    <string name="settings_wetrakr_connected_as">Pripojené ako %1$s</string>
+    <string name="settings_wetrakr_connected_description">Synchronizujte svoje zoznamy, históriu pozerania, hodnotenia, scrobbles a pokračujte v sledovaní s WeTrakrom.</string>
+    <string name="settings_wetrakr_sign_in_description">Pripojte WeTrakr a synchronizujte svoje zoznamy, históriu pozerania, hodnotenia, scrobbles a pokračujte v sledovaní.</string>
+    <string name="settings_wetrakr_finish_sign_in">Dokončiť prihlásenie</string>
+    <string name="settings_wetrakr_approval_description">Otvorte aktivačnú stránku WeTrakr a zadajte tento kód. Nuvio sa po schválení automaticky pripojí.</string>
+    <string name="settings_wetrakr_open_login">Otvorte aktivačnú stránku</string>
+    <string name="settings_wetrakr_disconnect">Odpojte WeTrakr</string>
+    <string name="settings_wetrakr_missing_credentials">Pripojenie WeTrakr nie je v tejto zostave k dispozícii.</string>
+    <string name="settings_wetrakr_sync_now">Synchronizovať teraz</string>
+    <string name="settings_wetrakr_visit">Navštívte WeTrakr</string>
+    <string name="settings_wetrakr_disconnect_description">Zastaviť odosielanie aktualizácií hodiniek z tohto profilu. Vaše zoznamy a história WeTrakr sa uchovávajú.</string>
+    <string name="settings_wetrakr_account_fallback">Používateľ WeTrakr</string>
+    <string name="settings_wetrakr_syncing">Synchronizujú sa vaše zoznamy WeTrakr…</string>
+    <string name="settings_wetrakr_last_synced">Posledná synchronizácia %1$s</string>
+    <string name="settings_wetrakr_auth_denied">Spojenie bolo odmietnuté. Skúste znova pripojiť svoj účet.</string>
+    <string name="settings_wetrakr_auth_expired">Platnosť aktivačného kódu vypršala. Skúste znova získať nový kód.</string>
+    <string name="settings_wetrakr_auth_failed">Nepodarilo sa spojiť so službou WeTrakr a začať sa prihlasovať. Skúste to znova.</string>
+    <string name="settings_wetrakr_auth_rate_limited">Príliš veľa pokusov o prihlásenie. Počkajte 15 minút a skúste to znova.</string>
+    <string name="settings_wetrakr_app_suspended">WeTrakr pozastavil túto aplikáciu. Skúste to znova neskôr.</string>
+    <string name="settings_wetrakr_auth_revoked">Platnosť vášho pripojenia WeTrakr vypršala alebo bolo zrušené. Ak chcete obnoviť synchronizáciu, znova sa pripojte.</string>
+    <string name="settings_wetrakr_unavailable">Nepodarilo sa synchronizovať s WeTrakrom. Skúste to znova.</string>
+    <string name="settings_wetrakr_rate_limited">Limit žiadostí WeTrakr bol dosiahnutý. Synchronizácia sa čoskoro obnoví.</string>
+    <string name="settings_wetrakr_plan_limit">Vyžaduje si to WeTrakr VIP alebo prekračuje limity vášho plánu.</string>
+</resources>

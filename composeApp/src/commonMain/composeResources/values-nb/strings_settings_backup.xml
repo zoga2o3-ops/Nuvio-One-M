@@ -1,0 +1,20 @@
+<resources>
+    <string name="settings_backup_section">SIKKERHETSKOPI</string>
+    <string name="settings_backup_include_sensitive">Inkluder sensitiv informasjon</string>
+    <string name="settings_backup_include_sensitive_description">Legg til API-nøkler, debrid-nøkler, tillegg, Live TV og Discord-applikasjons-IDen til den eksporterte filen. Hold den filen privat</string>
+    <string name="settings_backup_export">Eksportinnstillinger</string>
+    <string name="settings_backup_export_description">Lagre innstillinger og plugins til en fil. Samlinger, sporere og Nuvio-kontoen din er aldri inkludert</string>
+    <string name="settings_backup_export_done">Innstillinger eksportert</string>
+    <string name="settings_backup_export_failed">Kunne ikke eksportere innstillingene</string>
+    <string name="settings_backup_import">Importer innstillinger</string>
+    <string name="settings_backup_import_description">Gjenopprett innstillinger fra en eksportert fil</string>
+    <string name="settings_backup_importing">Importerer innstillinger …</string>
+    <string name="settings_backup_import_confirm_title">Importere innstillinger?</string>
+    <string name="settings_backup_import_confirm_message">Innstillinger fra denne filen vil erstatte gjeldende innstillinger for denne profilen. Manglende plugins vil bli lagt til. API-nøkler, tillegg og Live TV forblir uendret.</string>
+    <string name="settings_backup_import_confirm_message_sensitive">Innstillinger fra denne filen vil erstatte gjeldende innstillinger for denne profilen, inkludert API-nøkler og debrid-nøkler. Manglende tillegg, plugins og Live TV-kilder vil bli lagt til.</string>
+    <string name="settings_backup_import_confirm_action">Import</string>
+    <string name="settings_backup_import_done">Innstillinger importert</string>
+    <string name="settings_backup_import_partial">Innstillinger importert, men enkelte deler kunne ikke brukes</string>
+    <string name="settings_backup_import_failed">Kunne ikke importere innstillinger</string>
+    <string name="settings_backup_import_invalid">Denne filen er ikke en Nuvio-innstillingseksport</string>
+</resources>

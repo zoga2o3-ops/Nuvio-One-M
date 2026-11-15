@@ -1,0 +1,33 @@
+<resources>
+    <string name="tracking_source_wetrakr">WeTrakr</string>
+    <string name="settings_wetrakr_library_description">Danh sách WeTrakr của bạn: Lập kế hoạch, Đang xem, Đang chờ, Đã xem, Đã tạm dừng và Đã bỏ.</string>
+    <string name="settings_wetrakr_progress_description">Tiếp tục xem và tiếp theo từ quá trình phát lại WeTrakr và các tập đã xem của bạn.</string>
+    <string name="library_wetrakr_title">Thư viện WeTrakr</string>
+    <string name="library_wetrakr_load_failed">Không thể tải thư viện WeTrakr của bạn</string>
+    <string name="library_wetrakr_empty_title">Thư viện WeTrakr của bạn trống</string>
+    <string name="library_wetrakr_empty_message">Thêm phim và chương trình vào danh sách WeTrakr của bạn để xem chúng tại đây.</string>
+    <string name="settings_wetrakr_connect">Kết nối WeTrakr</string>
+    <string name="settings_wetrakr_connected_as">Đã kết nối với tên %1$s</string>
+    <string name="settings_wetrakr_connected_description">Đồng bộ hóa danh sách của bạn, lịch sử xem, xếp hạng, tìm kiếm và Tiếp tục xem với WeTrakr.</string>
+    <string name="settings_wetrakr_sign_in_description">Kết nối WeTrakr để đồng bộ hóa danh sách, lịch sử xem, xếp hạng, tìm kiếm và Tiếp tục xem của bạn.</string>
+    <string name="settings_wetrakr_finish_sign_in">Hoàn tất đăng nhập</string>
+    <string name="settings_wetrakr_approval_description">Mở trang kích hoạt WeTrakr và nhập mã này. Nuvio kết nối tự động sau khi bạn phê duyệt.</string>
+    <string name="settings_wetrakr_open_login">Mở trang kích hoạt</string>
+    <string name="settings_wetrakr_disconnect">Ngắt kết nối WeTrakr</string>
+    <string name="settings_wetrakr_missing_credentials">Kết nối WeTrakr không khả dụng trong bản dựng này.</string>
+    <string name="settings_wetrakr_sync_now">Đồng bộ hóa ngay bây giờ</string>
+    <string name="settings_wetrakr_visit">Ghé thăm WeTrakr</string>
+    <string name="settings_wetrakr_disconnect_description">Dừng gửi thông tin cập nhật về đồng hồ từ hồ sơ này. Danh sách và lịch sử WeTrakr của bạn được lưu giữ.</string>
+    <string name="settings_wetrakr_account_fallback">Người dùng WeTrakr</string>
+    <string name="settings_wetrakr_syncing">Đang đồng bộ hóa danh sách WeTrakr của bạn…</string>
+    <string name="settings_wetrakr_last_synced">Đồng bộ hóa lần cuối %1$s</string>
+    <string name="settings_wetrakr_auth_denied">Kết nối đã bị từ chối. Hãy thử lại để kết nối tài khoản của bạn.</string>
+    <string name="settings_wetrakr_auth_expired">Mã kích hoạt đã hết hạn. Hãy thử lại để nhận mã mới.</string>
+    <string name="settings_wetrakr_auth_failed">Không thể truy cập WeTrakr để bắt đầu đăng nhập. Vui lòng thử lại.</string>
+    <string name="settings_wetrakr_auth_rate_limited">Quá nhiều lần đăng nhập. Đợi 15 phút và thử lại.</string>
+    <string name="settings_wetrakr_app_suspended">WeTrakr đã đình chỉ ứng dụng này. Vui lòng thử lại sau.</string>
+    <string name="settings_wetrakr_auth_revoked">Kết nối WeTrakr của bạn đã hết hạn hoặc đã bị thu hồi. Kết nối lại để tiếp tục đồng bộ hóa.</string>
+    <string name="settings_wetrakr_unavailable">Không thể đồng bộ hóa với WeTrakr. Vui lòng thử lại.</string>
+    <string name="settings_wetrakr_rate_limited">Đã đạt đến giới hạn yêu cầu của WeTrakr. Quá trình đồng bộ hóa sẽ sớm tiếp tục.</string>
+    <string name="settings_wetrakr_plan_limit">Điều này cần WeTrakr VIP hoặc vượt quá giới hạn gói của bạn.</string>
+</resources>

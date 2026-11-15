@@ -1,0 +1,12 @@
+<resources>
+    <string name="settings_playback_subtitle_auto_sync">Napisy automatycznej synchronizacji</string>
+    <string name="settings_playback_subtitle_auto_sync_description">Automatycznie synchronizuj preferowane napisy dodatkowe po rozpoczęciu odtwarzania. Wymaga preferowanego języka napisów.</string>
+    <string name="settings_playback_auto_sync_mode_aggressive">Wyszukiwanie automatycznej synchronizacji: dokładne</string>
+    <string name="settings_playback_auto_sync_mode_aggressive_description">Przed synchronizacją porównuje inne napisy i osadzone ścieżki w celu lepszego dopasowania. Stosowane są tylko pewne dopasowania.</string>
+    <string name="settings_playback_auto_sync_mode_passive">Wyszukiwanie automatycznej synchronizacji: szybkie</string>
+    <string name="settings_playback_auto_sync_mode_passive_description">Używa pierwszego silnego dopasowania wcześniej. Stosowane są tylko pewne dopasowania, tak jak w przypadku Thorough.</string>
+    <string name="settings_playback_auto_sync_tolerance">Tolerancja automatycznej synchronizacji: %1$s</string>
+    <string name="settings_playback_auto_sync_tolerance_description">Zachowaj oryginalne taktowanie napisów, jeśli synchronizacja nie przesunęłaby ich o więcej. Kliknij, aby zmienić.</string>
+    <string name="settings_playback_auto_sync_tolerance_off">Wyłączony</string>
+    <string name="settings_playback_auto_sync_tolerance_value">%1$d ms</string>
+</resources>

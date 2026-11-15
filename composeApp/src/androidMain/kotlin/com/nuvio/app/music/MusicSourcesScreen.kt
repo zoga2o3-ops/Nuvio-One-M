@@ -54,7 +54,10 @@ import androidx.compose.material3.Text
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import nuvio.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 
+import org.jetbrains.compose.resources.getString
 /**
  * Settings → Music sources.
  *
@@ -110,7 +113,7 @@ internal fun MusicSourcesScreen(onClose: () -> Unit) {
                 )
                 Column(Modifier.weight(1f)) {
                     Text(
-                        text = "Music sources",
+                        text = stringResource(Res.string.music_ui_music_sources),
                         color = MusicPalette.text,
                         fontFamily = MusicDisplay,
                         fontSize = 34.sp,
@@ -119,13 +122,13 @@ internal fun MusicSourcesScreen(onClose: () -> Unit) {
                     )
                     Spacer(Modifier.height(2.dp))
                     Text(
-                        text = "Add BitChord-style addons to search their catalogues here.",
+                        text = stringResource(Res.string.music_ui_add_bitchord_style_addons_to_search_their_catalogues_here),
                         color = MusicPalette.textMuted,
                         fontSize = 13.sp
                     )
                 }
                 Text(
-                    text = if (addons.isEmpty()) "None added" else "${addons.size} added",
+                    text = if (addons.isEmpty()) stringResource(Res.string.music_ui_none_added) else "${addons.size} added",
                     color = MusicPalette.textMuted,
                     fontSize = 12.sp
                 )
@@ -152,30 +155,30 @@ internal fun MusicSourcesScreen(onClose: () -> Unit) {
                 SourceCard(
                     icon = Icons.Default.Add,
                     tint = MusicPalette.accent,
-                    title = "Add an addon",
-                    subtitle = "Paste the address the addon's own page gives you."
+                    title = stringResource(Res.string.music_ui_add_an_addon),
+                    subtitle = stringResource(Res.string.music_ui_paste_the_address_the_addon_s_own_page_gives_you)
                 ) {
                     Row(
                         verticalAlignment = Alignment.Bottom,
                         horizontalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
                         MusicTextField(
-                            label = "Addon URL",
+                            label = stringResource(Res.string.addons_appstore_input_placeholder),
                             value = url,
-                            placeholder = "https://example.com/addon/",
+                            placeholder = stringResource(Res.string.music_ui_https_example_com_addon),
                             onValueChange = { url = it },
                             modifier = Modifier.weight(1f),
                             downFocus = addFocus
                         )
                         SourcePill(
                             icon = Icons.Default.Add,
-                            label = if (working) "Checking..." else "Test & add",
+                            label = if (working) stringResource(Res.string.music_ui_checking) else stringResource(Res.string.music_ui_test_add),
                             modifier = Modifier.focusRequester(addFocus),
                             primary = true,
                             enabled = !working,
                             onClick = {
                                 if (url.isBlank()) {
-                                    report("Paste the addon URL first.", error = true)
+                                    report(kotlinx.coroutines.runBlocking { getString(Res.string.music_ui_paste_the_addon_url_first) }, error = true)
                                 } else if (!working) {
                                     working = true
                                     report("")
@@ -190,7 +193,7 @@ internal fun MusicSourcesScreen(onClose: () -> Unit) {
                                             },
                                             onFailure = { error ->
                                                 report(
-                                                    error.message ?: "That addon couldn't be added.",
+                                                    error.message ?: kotlinx.coroutines.runBlocking { getString(Res.string.music_ui_that_addon_couldn_t_be_added) },
                                                     error = true
                                                 )
                                             }
@@ -204,7 +207,7 @@ internal fun MusicSourcesScreen(onClose: () -> Unit) {
                     Spacer(Modifier.height(8.dp))
                     Text(
                         text = "The addon must answer /manifest.json, /search?q= and /stream/{id} " +
-                            "with JSON. No addon code runs on this device.",
+                            stringResource(Res.string.music_ui_with_json_no_addon_code_runs_on_this_device),
                         color = MusicPalette.textMuted,
                         fontSize = 10.sp,
                         lineHeight = 14.sp
@@ -214,30 +217,30 @@ internal fun MusicSourcesScreen(onClose: () -> Unit) {
                 SourceCard(
                     icon = Icons.Default.PlayArrow,
                     tint = MusicPalette.accentTeal,
-                    title = "Prefer addon playback",
+                    title = stringResource(Res.string.music_ui_prefer_addon_playback),
                     subtitle = if (preferAddons) {
-                        "Addons are checked first for YouTube tracks."
+                        stringResource(Res.string.music_ui_addons_are_checked_first_for_youtube_tracks)
                     } else {
                         "YouTube plays first; addons are only used in search results."
                     }
                 ) {
                     SourcePill(
                         icon = Icons.Default.PlayArrow,
-                        label = if (preferAddons) "On" else "Off",
+                        label = if (preferAddons) stringResource(Res.string.compose_action_on) else stringResource(Res.string.settings_playback_auto_sync_tolerance_off),
                         primary = preferAddons,
                         onClick = {
                             MusicSettings.setPreferAddonSources(!preferAddons)
                             report(
-                                if (preferAddons) "Addon substitution is off."
-                                else "Addon substitution is on."
+                                if (preferAddons) kotlinx.coroutines.runBlocking { getString(Res.string.music_ui_addon_substitution_is_off) }
+                                else kotlinx.coroutines.runBlocking { getString(Res.string.music_ui_addon_substitution_is_on) }
                             )
                         }
                     )
                     Spacer(Modifier.height(8.dp))
                     Text(
-                        text = "When a YouTube track starts, Nuvio looks for the same title, " +
-                            "artist and length in your addons. If there is no confident match, " +
-                            "YouTube plays normally.",
+                        text = stringResource(Res.string.music_ui_when_a_youtube_track_starts_nuvio_looks_for_the_same_title) +
+                            stringResource(Res.string.music_ui_artist_and_length_in_your_addons_if_there_is_no_confident_ma) +
+                            stringResource(Res.string.music_ui_youtube_plays_normally),
                         color = MusicPalette.textMuted,
                         fontSize = 10.sp,
                         lineHeight = 14.sp
@@ -248,12 +251,12 @@ internal fun MusicSourcesScreen(onClose: () -> Unit) {
                     SourceCard(
                         icon = Icons.Default.Cloud,
                         tint = MusicPalette.accentTeal,
-                        title = "No sources yet",
-                        subtitle = "Search still works through YouTube Music."
+                        title = stringResource(Res.string.music_ui_no_sources_yet),
+                        subtitle = stringResource(Res.string.music_ui_search_still_works_through_youtube_music)
                     ) {
                         Text(
-                            text = "Add a catalogue that speaks the BitChord addon protocol and " +
-                                "its tracks will appear first in Music search.",
+                            text = stringResource(Res.string.music_ui_add_a_catalogue_that_speaks_the_bitchord_addon_protocol_and) +
+                                stringResource(Res.string.music_ui_its_tracks_will_appear_first_in_music_search),
                             color = MusicPalette.textSecondary,
                             fontSize = 12.sp,
                             lineHeight = 17.sp
@@ -277,7 +280,7 @@ internal fun MusicSourcesScreen(onClose: () -> Unit) {
                                         .coerceAtLeast(0)
                                     SourcePill(
                                         icon = Icons.Default.MusicNote,
-                                        label = "Quality: ${options[currentIndex].label}",
+                                        label = stringResource(Res.string.music_ui_quality_value, options[currentIndex].label),
                                         onClick = {
                                             val next = options[(currentIndex + 1) % options.size]
                                             MusicAddonRegistry.setQuality(addon.id, next.value)
@@ -289,7 +292,7 @@ internal fun MusicSourcesScreen(onClose: () -> Unit) {
                                 }
                                 SourcePill(
                                     icon = Icons.Default.Cloud,
-                                    label = if (testingId == addon.id) "Testing..." else "Test",
+                                    label = if (testingId == addon.id) stringResource(Res.string.music_ui_testing) else stringResource(Res.string.music_ui_test),
                                     enabled = testingId == null,
                                     onClick = {
                                         testingId = addon.id
@@ -308,7 +311,7 @@ internal fun MusicSourcesScreen(onClose: () -> Unit) {
                                                 },
                                                 onFailure = { error ->
                                                     report(
-                                                        error.message ?: "The addon didn't answer.",
+                                                        error.message ?: kotlinx.coroutines.runBlocking { getString(Res.string.music_ui_the_addon_didn_t_answer) },
                                                         error = true
                                                     )
                                                 }
@@ -319,7 +322,7 @@ internal fun MusicSourcesScreen(onClose: () -> Unit) {
                                 )
                                 SourcePill(
                                     icon = Icons.Default.MusicNote,
-                                    label = if (addon.enabled) "Turn off" else "Turn on",
+                                    label = if (addon.enabled) stringResource(Res.string.sentry_turn_off) else stringResource(Res.string.sentry_turn_on),
                                     primary = !addon.enabled,
                                     onClick = {
                                         MusicAddonRegistry.setEnabled(addon.id, !addon.enabled)
@@ -331,7 +334,7 @@ internal fun MusicSourcesScreen(onClose: () -> Unit) {
                                 )
                                 SourcePill(
                                     icon = Icons.Default.Delete,
-                                    label = "Remove",
+                                    label = stringResource(Res.string.action_remove),
                                     onClick = {
                                         MusicAddonRegistry.remove(addon.id)
                                         report("Removed ${addon.name}.")
@@ -341,7 +344,7 @@ internal fun MusicSourcesScreen(onClose: () -> Unit) {
                             if (!addon.enabled) {
                                 Spacer(Modifier.height(8.dp))
                                 Text(
-                                    text = "This source is skipped in search and playback.",
+                                    text = stringResource(Res.string.music_ui_this_source_is_skipped_in_search_and_playback),
                                     color = MusicPalette.textMuted,
                                     fontSize = 10.sp
                                 )
@@ -350,9 +353,9 @@ internal fun MusicSourcesScreen(onClose: () -> Unit) {
                                 Spacer(Modifier.height(8.dp))
                                 Text(
                                     text = if (lossless.capable) {
-                                        "This source is only used on a lossless-capable output."
+                                        stringResource(Res.string.music_ui_this_source_is_only_used_on_a_lossless_capable_output)
                                     } else {
-                                        "Skipped: this source needs HDMI, USB or wired output."
+                                        stringResource(Res.string.music_ui_skipped_this_source_needs_hdmi_usb_or_wired_output)
                                     },
                                     color = if (lossless.capable) MusicPalette.textMuted
                                     else MusicPalette.error,
@@ -498,7 +501,7 @@ private fun SourceCloseButton(modifier: Modifier = Modifier, onClick: () -> Unit
     ) {
         Icon(
             Icons.AutoMirrored.Filled.ArrowBack,
-            contentDescription = "Close music sources",
+            contentDescription = stringResource(Res.string.music_ui_close_music_sources),
             tint = if (focused) MusicPalette.background else MusicPalette.text,
             modifier = Modifier.size(20.dp)
         )

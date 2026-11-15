@@ -1,0 +1,36 @@
+<resources>
+    <string name="tracking_source_publicmetadb">PublicMetaDB</string>
+    <string name="settings_publicmetadb_library_description">Η λίστα παρακολούθησης PublicMetaDB και οι προσαρμοσμένες λίστες σας.</string>
+    <string name="settings_publicmetadb_progress_description">Συνεχίστε την παρακολούθηση και Επόμενο από τα σημεία βιογραφικού και το ιστορικό παρακολούθησης του PublicMetaDB.</string>
+    <string name="library_publicmetadb_title">PublicMetaDB Library</string>
+    <string name="library_publicmetadb_load_failed">Δεν ήταν δυνατή η φόρτωση της βιβλιοθήκης PublicMetaDB σας</string>
+    <string name="library_publicmetadb_empty_title">Η βιβλιοθήκη PublicMetaDB σας είναι άδεια</string>
+    <string name="library_publicmetadb_empty_message">Προσθέστε ταινίες και εκπομπές στις λίστες PublicMetaDB για να τις δείτε εδώ.</string>
+    <string name="settings_publicmetadb_connect">Συνδέστε το PublicMetaDB</string>
+    <string name="settings_publicmetadb_connected_as">Συνδέθηκε με κατάληξη κλειδιού %1$s</string>
+    <string name="settings_publicmetadb_connected_description">Συγχρονίστε τις λίστες σας, το ιστορικό παρακολούθησης, τις αξιολογήσεις, τα scrobbles και συνεχίστε την παρακολούθηση με το PublicMetaDB.</string>
+    <string name="settings_publicmetadb_sign_in_description">Συνδέστε το PublicMetaDB με ένα κλειδί API για να συγχρονίσετε τις λίστες, το ιστορικό παρακολούθησης, τις αξιολογήσεις, τα scrobbles και τη Συνέχεια παρακολούθησης.</string>
+    <string name="settings_publicmetadb_finish_sign_in">Ολοκληρώστε τη σύνδεση</string>
+    <string name="settings_publicmetadb_approval_description">Εισαγάγετε το κλειδί του PublicMetaDB API για να ολοκληρώσετε τη σύνδεση.</string>
+    <string name="settings_publicmetadb_open_login">Εισαγάγετε το κλειδί API</string>
+    <string name="settings_publicmetadb_disconnect">Αποσυνδέστε το PublicMetaDB</string>
+    <string name="settings_publicmetadb_missing_credentials">Η σύνδεση PublicMetaDB δεν είναι διαθέσιμη σε αυτήν την έκδοση.</string>
+    <string name="settings_publicmetadb_sync_now">Συγχρονισμός τώρα</string>
+    <string name="settings_publicmetadb_visit">Επισκεφτείτε το PublicMetaDB</string>
+    <string name="settings_publicmetadb_disconnect_description">Σταματήστε να στέλνετε ενημερώσεις ρολογιού από αυτό το προφίλ και ξεχάστε το κλειδί API. Οι λίστες PublicMetaDB και το ιστορικό σας διατηρούνται.</string>
+    <string name="settings_publicmetadb_account_fallback">κλειδί API σας</string>
+    <string name="settings_publicmetadb_syncing">Συγχρονισμός των λιστών σας PublicMetaDB…</string>
+    <string name="settings_publicmetadb_last_synced">Τελευταίος συγχρονισμός %1$s</string>
+    <string name="settings_publicmetadb_api_key_title">Συνδέστε το PublicMetaDB</string>
+    <string name="settings_publicmetadb_api_key_description">Δημιουργήστε ένα κλειδί API στο PublicMetaDB στις Ρυθμίσεις → API και, στη συνέχεια, επικολλήστε το εδώ. Τα πλήκτρα συνήθως ξεκινούν με pm-.</string>
+    <string name="settings_publicmetadb_api_key_label">Κλειδί API</string>
+    <string name="settings_publicmetadb_get_api_key">Λάβετε ένα κλειδί API</string>
+    <string name="settings_publicmetadb_connect_action">Συνδέω</string>
+    <string name="settings_publicmetadb_missing_key">Εισαγάγετε το κλειδί PublicMetaDB API σας.</string>
+    <string name="settings_publicmetadb_invalid_key">Το PublicMetaDB δεν αποδέχτηκε αυτό το κλειδί API. Ελέγξτε το και δοκιμάστε ξανά.</string>
+    <string name="settings_publicmetadb_request_failed">Δεν ήταν δυνατή η πρόσβαση στο PublicMetaDB. Δοκιμάστε ξανά.</string>
+    <string name="settings_publicmetadb_rate_limited">Το όριο αιτημάτων του PublicMetaDB έχει συμπληρωθεί. Προσπαθήστε ξανά σύντομα.</string>
+    <string name="settings_publicmetadb_blocked">Το PublicMetaDB απέκλεισε αυτό το αίτημα. Δοκιμάστε ξανά αργότερα.</string>
+    <string name="settings_publicmetadb_auth_revoked">Το κλειδί σας PublicMetaDB API δεν είναι πλέον έγκυρο. Συνδεθείτε ξανά με νέο κλειδί.</string>
+    <string name="settings_publicmetadb_unavailable">Δεν ήταν δυνατός ο συγχρονισμός με το PublicMetaDB. Δοκιμάστε ξανά.</string>
+</resources>

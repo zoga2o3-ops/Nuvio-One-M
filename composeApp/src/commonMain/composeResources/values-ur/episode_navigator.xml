@@ -1,0 +1,19 @@
+<resources>
+    <string name="episode_navigator_search_hint">عنوان، پلاٹ یا نمبر تلاش کریں۔</string>
+    <string name="episode_navigator_clear_search">تلاش صاف کریں۔</string>
+    <string name="episode_navigator_go_to">پر جائیں۔</string>
+    <string name="episode_navigator_sort">چھانٹنا</string>
+    <string name="episode_navigator_count">%1$d از %2$d ایپی سوڈز</string>
+    <string name="episode_navigator_no_match">کوئی ایپی سوڈ '%1$s' سے مماثل نہیں ہے</string>
+    <string name="episode_navigator_go_to_title">ایپی سوڈ پر جائیں۔</string>
+    <string name="episode_navigator_episode_number">قسط نمبر</string>
+    <string name="episode_navigator_go">جاؤ</string>
+    <string name="episode_navigator_go_to_help">ایک نمبر ٹائپ کریں، یا نیچے سے ایک منتخب کریں۔ زیر لائن = دیکھا گیا، خاکہ = اگلا۔</string>
+    <string name="episode_navigator_out_of_range">%1$s میں اقساط %2$d–%3$d ہیں</string>
+    <string name="episode_navigator_sort_title">اقساط ترتیب دیں۔</string>
+    <string name="episode_navigator_sort_first_to_last">قسط: پہلے سے آخر تک</string>
+    <string name="episode_navigator_sort_last_to_first">قسط: آخری سے پہلے تک</string>
+    <string name="episode_navigator_sort_highest_rated">سب سے زیادہ درجہ بندی</string>
+    <string name="episode_navigator_sort_newest_aired">تازہ ترین نشر ہوا۔</string>
+    <string name="episode_navigator_sort_unwatched_first">سب سے پہلے دیکھے نہیں گئے۔</string>
+</resources>

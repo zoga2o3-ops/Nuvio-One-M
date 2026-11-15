@@ -1,0 +1,33 @@
+<resources>
+    <string name="tracking_source_wetrakr">WeTrakr</string>
+    <string name="settings_wetrakr_library_description">Dine WeTrakr-lister: Planlegger, ser på, venter, har sett, satt på pause og droppet.</string>
+    <string name="settings_wetrakr_progress_description">Fortsett å se og opp neste fra WeTrakr-avspillingen og de så episodene.</string>
+    <string name="library_wetrakr_title">WeTrakr bibliotek</string>
+    <string name="library_wetrakr_load_failed">Kunne ikke laste inn WeTrakr-biblioteket</string>
+    <string name="library_wetrakr_empty_title">WeTrakr-biblioteket ditt er tomt</string>
+    <string name="library_wetrakr_empty_message">Legg til filmer og serier til WeTrakr-listene dine for å se dem her.</string>
+    <string name="settings_wetrakr_connect">Koble til WeTrakr</string>
+    <string name="settings_wetrakr_connected_as">Tilkoblet som %1$s</string>
+    <string name="settings_wetrakr_connected_description">Synkroniser lister, seerhistorikk, rangeringer, scrobbles og Fortsett å se med WeTrakr.</string>
+    <string name="settings_wetrakr_sign_in_description">Koble til WeTrakr for å synkronisere lister, seerhistorikk, rangeringer, scrobbles og Fortsett å se.</string>
+    <string name="settings_wetrakr_finish_sign_in">Fullfør påloggingen</string>
+    <string name="settings_wetrakr_approval_description">Åpne WeTrakr-aktiveringssiden og skriv inn denne koden. Nuvio kobles til automatisk når du har godkjent.</string>
+    <string name="settings_wetrakr_open_login">Åpne aktiveringssiden</string>
+    <string name="settings_wetrakr_disconnect">Koble fra WeTrakr</string>
+    <string name="settings_wetrakr_missing_credentials">WeTrakr-tilkobling er utilgjengelig i denne versjonen.</string>
+    <string name="settings_wetrakr_sync_now">Synkroniser nå</string>
+    <string name="settings_wetrakr_visit">Besøk WeTrakr</string>
+    <string name="settings_wetrakr_disconnect_description">Slutt å sende klokkeoppdateringer fra denne profilen. Dine WeTrakr-lister og historikk beholdes.</string>
+    <string name="settings_wetrakr_account_fallback">WeTrakr-bruker</string>
+    <string name="settings_wetrakr_syncing">Synkroniserer WeTrakr-listene dine …</string>
+    <string name="settings_wetrakr_last_synced">Sist synkronisert %1$s</string>
+    <string name="settings_wetrakr_auth_denied">Tilkoblingen ble avvist. Prøv igjen å koble til kontoen din.</string>
+    <string name="settings_wetrakr_auth_expired">Aktiveringskoden utløp. Prøv igjen for å få en ny kode.</string>
+    <string name="settings_wetrakr_auth_failed">Kunne ikke nå WeTrakr for å starte pålogging. Vennligst prøv igjen.</string>
+    <string name="settings_wetrakr_auth_rate_limited">For mange påloggingsforsøk. Vent 15 minutter og prøv igjen.</string>
+    <string name="settings_wetrakr_app_suspended">WeTrakr har suspendert denne appen. Vennligst prøv igjen senere.</string>
+    <string name="settings_wetrakr_auth_revoked">WeTrakr-tilkoblingen din har utløpt eller blitt opphevet. Koble til igjen for å gjenoppta synkroniseringen.</string>
+    <string name="settings_wetrakr_unavailable">Kunne ikke synkronisere med WeTrakr. Vennligst prøv igjen.</string>
+    <string name="settings_wetrakr_rate_limited">WeTrakrs forespørselsgrense er nådd. Synkroniseringen gjenopptas snart.</string>
+    <string name="settings_wetrakr_plan_limit">Dette trenger WeTrakr VIP eller er over planens grenser.</string>
+</resources>

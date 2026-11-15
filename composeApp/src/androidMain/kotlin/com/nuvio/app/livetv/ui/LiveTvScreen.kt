@@ -47,6 +47,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -60,12 +61,17 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil3.compose.AsyncImage
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import com.nuvio.app.features.livetv.LiveTvPlayRequest
 import com.nuvio.app.livetv.model.ChannelGroup
 import com.nuvio.app.livetv.model.EpgProgram
 import com.nuvio.app.livetv.model.LiveChannel
 import com.nuvio.app.livetv.model.PlaylistGroupOrder
+import nuvio.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.getString
+import org.jetbrains.compose.resources.stringResource
 
 private val CardBg = Color(0xFF1B1B1F)
 private val Accent = Color(0xFFE53935)
@@ -144,46 +150,64 @@ fun LiveTvScreen(modifier: Modifier, onPlay: (LiveTvPlayRequest) -> Unit) {
                 (settings.parentalPin.length >= 4 && settings.lockAdultContent && com.nuvio.app.livetv.parental.ParentalControls.isAdult(title))
         }
     }
-    val channels = remember(allChannels, user, unlocked, isLockedGroup) {
-        allChannels.filter {
-            it.key !in user.hiddenChannels && it.groupId !in user.hiddenGroups &&
-                (!isLockedGroup(it.groupId, it.group) || it.groupId in unlocked)
+    // Filtering and grouping a big playlist (tens of thousands of channels) is too much for the
+    // frame that opens Live TV. It runs on a worker thread and the list appears as soon as it's
+    // ready, keeping the previous result while a new one is worked out.
+    val index by produceState(
+        initialValue = ChannelIndex(),
+        allChannels, user, unlocked, isLockedGroup,
+    ) {
+        value = withContext(Dispatchers.Default) {
+            val visible = allChannels.filter {
+                it.key !in user.hiddenChannels && it.groupId !in user.hiddenGroups &&
+                    (!isLockedGroup(it.groupId, it.group) || it.groupId in unlocked)
+            }
+            val seen = LinkedHashMap<String, LiveGroup>()
+            visible.forEach { c ->
+                val title = user.groupNames[c.groupId] ?: c.group
+                val existing = seen[c.groupId]
+                seen[c.groupId] = if (existing == null) LiveGroup(c.groupId, title, 1) else existing.copy(count = existing.count + 1)
+            }
+            val groups = seen.values.toList().let { list ->
+                // An Xtream provider's own category order first, where it gave one.
+                val ranks = PlaylistGroupOrder.ranks
+                if (ranks.isEmpty()) list else list.sortedBy { ranks[it.id] ?: Int.MAX_VALUE }
+            }
+            // Locked groups with no visible channels still need a chip, so they can be opened.
+            val lockedChips = allChannels
+                .filter { isLockedGroup(it.groupId, it.group) && it.groupId !in unlocked && it.groupId !in user.hiddenGroups }
+                .groupBy { it.groupId }
+                .map { (id, list) -> LiveGroup(id, user.groupNames[id] ?: list.first().group, list.size) }
+            ChannelIndex(
+                ready = true,
+                channels = visible,
+                groups = groups,
+                lockedChips = lockedChips,
+                byKey = visible.associateBy { it.key },
+                byGroup = visible.groupBy { it.groupId },
+            )
         }
     }
-    val groups = remember(channels, user) {
-        val seen = LinkedHashMap<String, LiveGroup>()
-        channels.forEach { c ->
-            val title = user.groupNames[c.groupId] ?: c.group
-            val existing = seen[c.groupId]
-            seen[c.groupId] = if (existing == null) LiveGroup(c.groupId, title, 1) else existing.copy(count = existing.count + 1)
-        }
-        seen.values.toList().let { list ->
-            // An Xtream provider's own category order first, where it gave one.
-            val ranks = PlaylistGroupOrder.ranks
-            if (ranks.isEmpty()) list else list.sortedBy { ranks[it.id] ?: Int.MAX_VALUE }
-        }
-    }
-    // Locked groups with no visible channels still need a chip, so they can be opened.
-    val lockedChips = remember(allChannels, user, unlocked, isLockedGroup) {
-        allChannels.filter { isLockedGroup(it.groupId, it.group) && it.groupId !in unlocked && it.groupId !in user.hiddenGroups }
-            .groupBy { it.groupId }
-            .map { (id, list) -> LiveGroup(id, user.groupNames[id] ?: list.first().group, list.size) }
-    }
-    val byKey = remember(channels) { channels.associateBy { it.key } }
-    // Your own groups, then the playlists' groups.
-    val ownGroups = remember(user.customGroups, byKey) {
-        user.customGroups.map { g -> LiveGroup(g.id, g.name, g.channelKeys.count { it in byKey }) }
-    }
-    val chips = remember(groups, lockedChips, ownGroups, settings.groupSort, user.groupOrder) {
-        val all = ownGroups + groups.map { g ->
-            // A channel copied into a group counts there too.
-            val extra = user.channelCopies[g.id].orEmpty().count { it in byKey }
-            if (extra > 0) g.copy(count = g.count + extra) else g
-        } + lockedChips.filter { l -> groups.none { it.id == l.id } }
-        when (settings.groupSort) {
-            "playlist" -> all
-            "name" -> all.sortedBy { it.title.lowercase() }
-            else -> all.sortedBy { g -> user.groupOrder.indexOf(g.id).let { if (it < 0) Int.MAX_VALUE else it } }
+    val channels = index.channels
+    val groups = index.groups
+    val chips by produceState(
+        initialValue = emptyList<LiveGroup>(),
+        index, user.customGroups, user.channelCopies, settings.groupSort, user.groupOrder,
+    ) {
+        if (!index.ready) return@produceState
+        value = withContext(Dispatchers.Default) {
+            // Your own groups, then the playlists' groups.
+            val ownGroups = user.customGroups.map { g -> LiveGroup(g.id, g.name, g.channelKeys.count { it in index.byKey }) }
+            val all = ownGroups + index.groups.map { g ->
+                // A channel copied into a group counts there too.
+                val extra = user.channelCopies[g.id].orEmpty().count { it in index.byKey }
+                if (extra > 0) g.copy(count = g.count + extra) else g
+            } + index.lockedChips.filter { l -> index.groups.none { it.id == l.id } }
+            when (settings.groupSort) {
+                "playlist" -> all
+                "name" -> all.sortedBy { it.title.lowercase() }
+                else -> all.sortedBy { g -> user.groupOrder.indexOf(g.id).let { if (it < 0) Int.MAX_VALUE else it } }
+            }
         }
     }
     // A group that is locked (the PIN was set or removed while on it) is left for All.
@@ -194,39 +218,48 @@ fun LiveTvScreen(modifier: Modifier, onPlay: (LiveTvPlayRequest) -> Unit) {
         }
     }
     val favorites = remember(user) { user.favorites.toSet() }
-    val shown = remember(channels, group, query, favorites, user) {
-        val base = when (group) {
-            ChannelGroup.ALL -> channels
-            ChannelGroup.FAVORITES -> user.favorites.mapNotNull { k -> channels.firstOrNull { it.key == k } }
-            ChannelGroup.RECENT -> user.recent.mapNotNull { k -> channels.firstOrNull { it.key == k } }
-            else -> if (group.startsWith(ChannelGroup.CUSTOM_PREFIX)) {
-                val keys = user.customGroups.firstOrNull { it.id == group }?.channelKeys.orEmpty()
-                keys.mapNotNull { byKey[it] }
-            } else {
-                val inGroup = channels.filter { it.groupId == group } +
-                    user.channelCopies[group].orEmpty().mapNotNull { byKey[it] }.filter { c -> channels.none { it.key == c.key && it.groupId == group } }
-                // Your own order for this group wins over the sort.
-                val mine = user.channelOrder[group]
-                if (mine.isNullOrEmpty()) inGroup
-                else inGroup.sortedBy { c -> mine.indexOf(c.key).let { if (it < 0) Int.MAX_VALUE else it } }
+    val shown by produceState(
+        initialValue = emptyList<LiveChannel>(),
+        index, group, query, favorites,
+        settings.channelSort, settings.sequentialNumbers,
+        user.favorites, user.recent, user.customGroups, user.channelCopies, user.channelOrder,
+    ) {
+        if (!index.ready) return@produceState
+        value = withContext(Dispatchers.Default) {
+            val base = when (group) {
+                ChannelGroup.ALL -> index.channels
+                ChannelGroup.FAVORITES -> user.favorites.mapNotNull { k -> index.byKey[k] }
+                ChannelGroup.RECENT -> user.recent.mapNotNull { k -> index.byKey[k] }
+                else -> if (group.startsWith(ChannelGroup.CUSTOM_PREFIX)) {
+                    val keys = user.customGroups.firstOrNull { it.id == group }?.channelKeys.orEmpty()
+                    keys.mapNotNull { index.byKey[it] }
+                } else {
+                    val inGroup = index.byGroup[group].orEmpty() +
+                        user.channelCopies[group].orEmpty().mapNotNull { index.byKey[it] }
+                            .filter { c -> index.byGroup[group].orEmpty().none { it.key == c.key } }
+                    // Your own order for this group wins over the sort.
+                    val mine = user.channelOrder[group]
+                    if (mine.isNullOrEmpty()) inGroup
+                    else inGroup.sortedBy { c -> mine.indexOf(c.key).let { if (it < 0) Int.MAX_VALUE else it } }
+                }
             }
+            val sorted = when {
+                group == ChannelGroup.FAVORITES || group == ChannelGroup.RECENT -> base
+                group != ChannelGroup.ALL && group.startsWith(ChannelGroup.CUSTOM_PREFIX) -> base
+                group != ChannelGroup.ALL && !user.channelOrder[group].isNullOrEmpty() -> base
+                settings.channelSort == com.nuvio.app.livetv.model.ChannelSort.NUMBER ->
+                    base.sortedWith(compareBy({ if (it.number > 0) it.number else Int.MAX_VALUE }, { it.name.lowercase() }))
+                settings.channelSort == com.nuvio.app.livetv.model.ChannelSort.NAME -> base.sortedBy { it.name.lowercase() }
+                else -> base
+            }
+            val q = query.trim()
+            val found = if (q.isEmpty()) sorted else sorted.filter { it.name.contains(q, ignoreCase = true) }
+            // stringResource(Res.string.live_tv_ui_number_channels_in_order): 1, 2, 3 down the list shown.
+            if (settings.sequentialNumbers) found.mapIndexed { i, c -> c.copy(number = i + 1) } else found
         }
-        val sorted = when {
-            group == ChannelGroup.FAVORITES || group == ChannelGroup.RECENT -> base
-            group != ChannelGroup.ALL && group.startsWith(ChannelGroup.CUSTOM_PREFIX) -> base
-            group != ChannelGroup.ALL && !user.channelOrder[group].isNullOrEmpty() -> base
-            settings.channelSort == com.nuvio.app.livetv.model.ChannelSort.NUMBER ->
-                base.sortedWith(compareBy({ if (it.number > 0) it.number else Int.MAX_VALUE }, { it.name.lowercase() }))
-            settings.channelSort == com.nuvio.app.livetv.model.ChannelSort.NAME -> base.sortedBy { it.name.lowercase() }
-            else -> base
-        }
-        val q = query.trim()
-        val found = if (q.isEmpty()) sorted else sorted.filter { it.name.contains(q, ignoreCase = true) }
-        // "Number channels in order": 1, 2, 3 down the list shown.
-        if (settings.sequentialNumbers) found.mapIndexed { i, c -> c.copy(number = i + 1) } else found
     }
 
-    // "Play the last channel": when Live TV first opens in this run of the app, it starts the one you watched last.
+    // stringResource(Res.string.live_tv_ui_play_the_last_channel): when Live TV first opens in this run of the app, it starts the one you watched last.
     LaunchedEffect(user.lastChannelKey, allChannels.size, settings.autoPlayLastChannel) {
         val key = user.lastChannelKey
         if (settings.autoPlayLastChannel && !LiveTvStart.autoPlayedThisRun && key != null && allChannels.isNotEmpty()) {
@@ -238,9 +271,9 @@ fun LiveTvScreen(modifier: Modifier, onPlay: (LiveTvPlayRequest) -> Unit) {
     }
 
     // Open on the group you were last in.
-    LaunchedEffect(user.lastGroupId, settings.rememberLastGroup) {
+    LaunchedEffect(user.lastGroupId, settings.rememberLastGroup, chips) {
         val last = user.lastGroupId
-        if (!restoredGroup && last != null && settings.rememberLastGroup) {
+        if (!restoredGroup && last != null && settings.rememberLastGroup && chips.isNotEmpty()) {
             restoredGroup = true
             if (last in setOf(ChannelGroup.ALL, ChannelGroup.FAVORITES, ChannelGroup.RECENT) || chips.any { it.id == last }) group = last
         }
@@ -268,13 +301,13 @@ fun LiveTvScreen(modifier: Modifier, onPlay: (LiveTvPlayRequest) -> Unit) {
                             Modifier.horizontalScroll(androidx.compose.foundation.rememberScrollState()),
                             horizontalArrangement = Arrangement.spacedBy(8.dp),
                         ) {
-                            TabChip("Channels", !showGuide && !showRecordings && !showOnDemand && !showSports && !showCalendar) { showGuide = false; showRecordings = false; showOnDemand = false; showSports = false; showCalendar = false }
-                            TabChip("Guide", showGuide) { showGuide = true; showRecordings = false; showOnDemand = false; showSports = false; showCalendar = false }
-                            TabChip("Calendar", showCalendar) { showCalendar = true; showGuide = false; showRecordings = false; showOnDemand = false; showSports = false }
-                            TabChip("Sports", showSports) { showSports = true; showGuide = false; showRecordings = false; showOnDemand = false; showCalendar = false }
-                            TabChip("On Demand", showOnDemand) { showOnDemand = true; showGuide = false; showRecordings = false; showSports = false; showCalendar = false }
+                            TabChip(stringResource(Res.string.live_tv_section_channels), !showGuide && !showRecordings && !showOnDemand && !showSports && !showCalendar) { showGuide = false; showRecordings = false; showOnDemand = false; showSports = false; showCalendar = false }
+                            TabChip(stringResource(Res.string.live_tv_ui_guide), showGuide) { showGuide = true; showRecordings = false; showOnDemand = false; showSports = false; showCalendar = false }
+                            TabChip(stringResource(Res.string.library_calendar_title), showCalendar) { showCalendar = true; showGuide = false; showRecordings = false; showOnDemand = false; showSports = false }
+                            TabChip(stringResource(Res.string.yt_tab_sports), showSports) { showSports = true; showGuide = false; showRecordings = false; showOnDemand = false; showCalendar = false }
+                            TabChip(stringResource(Res.string.live_tv_ui_on_demand), showOnDemand) { showOnDemand = true; showGuide = false; showRecordings = false; showSports = false; showCalendar = false }
                             TabChip(
-                                if (recordings.any { it.isRecording }) "\u25CF Recordings" else "Recordings",
+                                if (recordings.any { it.isRecording }) stringResource(Res.string.live_tv_ui_u25cf_recordings) else stringResource(Res.string.live_tv_ui_recordings),
                                 showRecordings,
                             ) { showRecordings = true; showGuide = false; showOnDemand = false; showSports = false; showCalendar = false }
                         }
@@ -306,9 +339,9 @@ fun LiveTvScreen(modifier: Modifier, onPlay: (LiveTvPlayRequest) -> Unit) {
                         modifier = Modifier.padding(bottom = 8.dp),
                     ) {
                         fun pick(id: String) { group = id; vm.setLastGroup(id) }
-                        if (settings.showAllChannelsGroup) item { GroupChip("All", group == ChannelGroup.ALL) { pick(ChannelGroup.ALL) } }
-                        if (favorites.isNotEmpty() && settings.showFavoritesGroup) item { GroupChip("Favorites", group == ChannelGroup.FAVORITES) { pick(ChannelGroup.FAVORITES) } }
-                        if (user.recent.isNotEmpty() && settings.showRecentGroup) item { GroupChip("Recent", group == ChannelGroup.RECENT) { pick(ChannelGroup.RECENT) } }
+                        if (settings.showAllChannelsGroup) item { GroupChip(stringResource(Res.string.collections_tab_all), group == ChannelGroup.ALL) { pick(ChannelGroup.ALL) } }
+                        if (favorites.isNotEmpty() && settings.showFavoritesGroup) item { GroupChip(stringResource(Res.string.live_tv_filter_favorites), group == ChannelGroup.FAVORITES) { pick(ChannelGroup.FAVORITES) } }
+                        if (user.recent.isNotEmpty() && settings.showRecentGroup) item { GroupChip(stringResource(Res.string.collections_editor_tmdb_sort_recent), group == ChannelGroup.RECENT) { pick(ChannelGroup.RECENT) } }
                         items(chips, key = { it.id }) { g ->
                             val locked = isLockedGroup(g.id, g.title) && g.id !in unlocked
                             GroupChip(
@@ -369,16 +402,16 @@ fun LiveTvScreen(modifier: Modifier, onPlay: (LiveTvPlayRequest) -> Unit) {
                         )
                     } else if (shown.isEmpty()) {
                         Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                            if (status.loading && channels.isEmpty()) CircularProgressIndicator()
+                            if (!index.ready || (status.loading && channels.isEmpty())) CircularProgressIndicator()
                             else Text(
-                                if (query.isNotBlank()) "No channels match." else "No channels yet.",
+                                if (query.isNotBlank()) stringResource(Res.string.live_tv_ui_no_channels_match) else stringResource(Res.string.live_tv_ui_no_channels_yet_2),
                                 color = LocalContentColor.current.copy(alpha = 0.65f),
                             )
                         }
                     } else if (showGuide) {
                         if (programs.isEmpty() && !status.loading) {
                             Text(
-                                "No guide yet. Open Sources and add a guide link, or use a playlist that includes one.",
+                                stringResource(Res.string.live_tv_ui_no_guide_yet_open_sources_and_add_a_guide_link_or_use_a_play),
                                 style = MaterialTheme.typography.bodySmall,
                                 color = LocalContentColor.current.copy(alpha = 0.65f),
                                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
@@ -405,7 +438,7 @@ fun LiveTvScreen(modifier: Modifier, onPlay: (LiveTvPlayRequest) -> Unit) {
                                 scope.launch {
                                     val request = vm.catchupRequest(c, p)
                                     if (request != null) { com.nuvio.app.livetv.player.LiveTvReconnect.arm(request.url, request.channelKey); onPlay(request) }
-                                    else android.widget.Toast.makeText(context, "That programme can't be replayed.", android.widget.Toast.LENGTH_SHORT).show()
+                                    else android.widget.Toast.makeText(context, getString(Res.string.live_tv_ui_that_programme_can_t_be_replayed), android.widget.Toast.LENGTH_SHORT).show()
                                 }
                             },
                         )
@@ -489,16 +522,16 @@ fun LiveTvScreen(modifier: Modifier, onPlay: (LiveTvPlayRequest) -> Unit) {
     }
     pickGroupFor?.let { c ->
         PickDialog(
-            title = "Add \"${c.name}\" to a group",
+            title = stringResource(Res.string.live_tv_ui_add_channel_to_group, c.name),
             options = user.customGroups.map { it.id to it.name },
-            extra = "New group\u2026" to { newGroup = c.key; askNewGroup = true; pickGroupFor = null },
+            extra = stringResource(Res.string.live_tv_ui_new_group_u2026) to { newGroup = c.key; askNewGroup = true; pickGroupFor = null },
             onPick = { id -> vm.addToGroup(id, c.key); pickGroupFor = null },
             onDismiss = { pickGroupFor = null },
         )
     }
     copyGroupFor?.let { c ->
         PickDialog(
-            title = "Copy \"${c.name}\" to",
+            title = stringResource(Res.string.live_tv_ui_copy_channel_to, c.name),
             options = groups.filter { it.id != c.groupId }.map { it.id to it.title },
             onPick = { id -> vm.copyToGroup(id, c.key); copyGroupFor = null },
             onDismiss = { copyGroupFor = null },
@@ -515,7 +548,7 @@ fun LiveTvScreen(modifier: Modifier, onPlay: (LiveTvPlayRequest) -> Unit) {
     }
     if (askNewGroup) {
         TextPromptDialog(
-            title = "New group",
+            title = stringResource(Res.string.live_tv_ui_new_group),
             initial = "",
             onOk = { name -> if (name.isNotBlank()) vm.createGroup(name, newGroup); newGroup = null; askNewGroup = false },
             onDismiss = { newGroup = null; askNewGroup = false },
@@ -545,7 +578,7 @@ fun LiveTvScreen(modifier: Modifier, onPlay: (LiveTvPlayRequest) -> Unit) {
             minutesLeftInShow = current?.let { ((it.stopMs - now) / 60_000L).toInt() },
             onRecordNow = { minutes, title ->
                 vm.recordNow(c, title, minutes)
-                android.widget.Toast.makeText(context, "Recording \"$title\"", android.widget.Toast.LENGTH_SHORT).show()
+                android.widget.Toast.makeText(context, kotlinx.coroutines.runBlocking { getString(Res.string.live_tv_ui_recording_named, title) }, android.widget.Toast.LENGTH_SHORT).show()
             },
             onSchedule = { title, start, stop ->
                 android.widget.Toast.makeText(context, vm.scheduleManual(c, title, start, stop), android.widget.Toast.LENGTH_LONG).show()
@@ -555,7 +588,7 @@ fun LiveTvScreen(modifier: Modifier, onPlay: (LiveTvPlayRequest) -> Unit) {
     }
     askPinFor?.let { id ->
         PinDialog(
-            title = "Enter your PIN",
+            title = stringResource(Res.string.live_tv_ui_enter_your_pin),
             expected = settings.parentalPin,
             onPin = { com.nuvio.app.livetv.parental.LiveTvUnlocks.unlock(id); unlockTick++; group = id; vm.setLastGroup(id); askPinFor = null },
             onDismiss = { askPinFor = null },
@@ -563,7 +596,7 @@ fun LiveTvScreen(modifier: Modifier, onPlay: (LiveTvPlayRequest) -> Unit) {
     }
     setPinFor?.let { id ->
         PinDialog(
-            title = "Set a PIN",
+            title = stringResource(Res.string.live_tv_ui_set_a_pin),
             setting = true,
             onPin = { pin -> vm.setPin(pin); vm.setGroupLocked(id, true); if (group == id) group = ChannelGroup.ALL; setPinFor = null },
             onDismiss = { setPinFor = null },
@@ -612,6 +645,16 @@ fun LiveTvScreen(modifier: Modifier, onPlay: (LiveTvPlayRequest) -> Unit) {
     }
 }
 
+/** The channel list's filtered, grouped and indexed form, worked out away from the UI thread. */
+private data class ChannelIndex(
+    val ready: Boolean = false,
+    val channels: List<LiveChannel> = emptyList(),
+    val groups: List<LiveGroup> = emptyList(),
+    val lockedChips: List<LiveGroup> = emptyList(),
+    val byKey: Map<String, LiveChannel> = emptyMap(),
+    val byGroup: Map<String, List<LiveChannel>> = emptyMap(),
+)
+
 private fun LiveChannel.toRequest(programs: List<EpgProgram>?, now: Long) = liveTvRequest(this, programs, now)
 
 @Composable
@@ -634,7 +677,7 @@ private fun Header(
     val viewControls: @Composable () -> Unit = {
         if (showViewControls) {
             Row(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalAlignment = Alignment.CenterVertically) {
-                GroupChip(if (grid) (if (compact) "\u2630" else "\u2630 List") else (if (compact) "\u25A6" else "\u25A6 Grid"), false, onClick = onToggleGrid)
+                GroupChip(if (grid) (if (compact) "\u2630" else stringResource(Res.string.live_tv_ui_u2630_list)) else (if (compact) "\u25A6" else stringResource(Res.string.live_tv_ui_u25a6_grid)), false, onClick = onToggleGrid)
                 GroupChip(if (compact) "+" else "+ Group", false, onClick = onAddGroup)
             }
         }
@@ -642,7 +685,7 @@ private fun Header(
     val search: @Composable (Modifier) -> Unit = { m ->
         OutlinedTextField(
             value = query, onValueChange = onQuery, singleLine = true,
-            modifier = m, placeholder = { Text("Search channels") },
+            modifier = m, placeholder = { Text(stringResource(Res.string.live_tv_search_placeholder)) },
             shape = RoundedCornerShape(12.dp), colors = fieldColors())
     }
     Column(Modifier.padding(16.dp, 12.dp, 16.dp, 8.dp)) {
@@ -654,16 +697,16 @@ private fun Header(
             viewControls()
             if (compact) Spacer(Modifier.weight(1f))
             if (lastChannel != null) TextButton(onClick = onLast) {
-                Text(if (compact) "Last" else "Last: $lastChannel", maxLines = 1)
+                Text(if (compact) stringResource(Res.string.live_tv_ui_last) else "Last: $lastChannel", maxLines = 1)
             }
-            if (hasHidden) TextButton(onClick = onHidden) { Text("Hidden") }
+            if (hasHidden) TextButton(onClick = onHidden) { Text(stringResource(Res.string.settings_homescreen_hidden)) }
             IconButton(onClick = {
                 searchOpen = !searchOpen
                 if (!searchOpen) onQuery("")
             }) {
-                Icon(Icons.Default.Search, contentDescription = if (searchOpen) "Hide search" else "Search channels")
+                Icon(Icons.Default.Search, contentDescription = if (searchOpen) stringResource(Res.string.live_tv_ui_hide_search) else stringResource(Res.string.live_tv_search_placeholder))
             }
-            TextButton(onClick = onPlaylists) { Text("Sources") }
+            TextButton(onClick = onPlaylists) { Text(stringResource(Res.string.compose_player_panel_sources)) }
         }
         if (compact) {
             Spacer(Modifier.height(6.dp))
@@ -723,13 +766,13 @@ private fun StatusLine(status: com.nuvio.app.livetv.data.LiveTvStatus) {
 private fun EmptyState(onAdd: () -> Unit) {
     Box(Modifier.fillMaxSize().padding(24.dp), contentAlignment = Alignment.Center) {
         Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(12.dp)) {
-            Text("No channels yet", style = MaterialTheme.typography.titleLarge)
+            Text(stringResource(Res.string.live_tv_ui_no_channels_yet), style = MaterialTheme.typography.titleLarge)
             Text(
-                "Add a playlist link (M3U) or an Xtream login to get your channels and guide.",
+                stringResource(Res.string.live_tv_ui_add_a_playlist_link_m3u_or_an_xtream_login_to_get_your_chann),
                 color = LocalContentColor.current.copy(alpha = 0.7f),
                 style = MaterialTheme.typography.bodyMedium,
             )
-            Button(onClick = onAdd) { Text("Add a playlist") }
+            Button(onClick = onAdd) { Text(stringResource(Res.string.live_tv_ui_add_a_playlist)) }
         }
     }
 }
@@ -806,7 +849,7 @@ private fun ChannelRow(
         IconButton(onClick = { onFavorite(channel.key) }) {
             Icon(
                 if (favorite) Icons.Filled.Star else Icons.Outlined.StarBorder,
-                contentDescription = if (favorite) "Remove from favorites" else "Add to favorites",
+                contentDescription = if (favorite) stringResource(Res.string.live_tv_ui_remove_from_favorites) else stringResource(Res.string.live_tv_ui_add_to_favorites),
                 tint = if (favorite) Color(0xFFFFC107) else LocalContentColor.current.copy(alpha = 0.6f),
             )
         }
@@ -819,7 +862,7 @@ private fun playLive(onPlay: (LiveTvPlayRequest) -> Unit, request: LiveTvPlayReq
     onPlay(request)
 }
 
-/** "4K", "FHD", "HD" or "SD", small, next to a channel's name. */
+/** "4K", stringResource(Res.string.live_tv_ui_fhd), "HD" or "SD", small, next to a channel's name. */
 @Composable
 internal fun QualityBadge(label: String) {
     Text(

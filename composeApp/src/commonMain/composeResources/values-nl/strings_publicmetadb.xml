@@ -1,0 +1,36 @@
+<resources>
+    <string name="tracking_source_publicmetadb">PubliekeMetaDB</string>
+    <string name="settings_publicmetadb_library_description">Uw PublicMetaDB-volglijst en aangepaste lijsten.</string>
+    <string name="settings_publicmetadb_progress_description">Ga door met kijken en Volgende vanaf uw PublicMetaDB-cv-punten en kijkgeschiedenis.</string>
+    <string name="library_publicmetadb_title">PublicMetaDB-bibliotheek</string>
+    <string name="library_publicmetadb_load_failed">Kan uw PublicMetaDB-bibliotheek niet laden</string>
+    <string name="library_publicmetadb_empty_title">Uw PublicMetaDB-bibliotheek is leeg</string>
+    <string name="library_publicmetadb_empty_message">Voeg films en programma's toe aan uw PublicMetaDB-lijsten om ze hier te bekijken.</string>
+    <string name="settings_publicmetadb_connect">Sluit PublicMetaDB aan</string>
+    <string name="settings_publicmetadb_connected_as">Verbonden met sleuteluitgang %1$s</string>
+    <string name="settings_publicmetadb_connected_description">Synchroniseer uw lijsten, kijkgeschiedenis, beoordelingen, scrobbles en blijf kijken met PublicMetaDB.</string>
+    <string name="settings_publicmetadb_sign_in_description">Verbind PublicMetaDB met een API-sleutel om uw lijsten, kijkgeschiedenis, beoordelingen, scrobbles en doorgaan met kijken te synchroniseren.</string>
+    <string name="settings_publicmetadb_finish_sign_in">Sluit het verbinden af</string>
+    <string name="settings_publicmetadb_approval_description">Voer uw PublicMetaDB API-sleutel in om de verbinding te voltooien.</string>
+    <string name="settings_publicmetadb_open_login">Voer de API-sleutel in</string>
+    <string name="settings_publicmetadb_disconnect">Ontkoppel PublicMetaDB</string>
+    <string name="settings_publicmetadb_missing_credentials">PublicMetaDB-verbinding is niet beschikbaar in deze build.</string>
+    <string name="settings_publicmetadb_sync_now">Synchroniseer nu</string>
+    <string name="settings_publicmetadb_visit">Bezoek PublicMetaDB</string>
+    <string name="settings_publicmetadb_disconnect_description">Stop met het verzenden van horloge-updates vanuit dit profiel en vergeet de API-sleutel. Uw PublicMetaDB-lijsten en geschiedenis worden bewaard.</string>
+    <string name="settings_publicmetadb_account_fallback">uw API-sleutel</string>
+    <string name="settings_publicmetadb_syncing">Uw PublicMetaDB-lijsten synchroniseren…</string>
+    <string name="settings_publicmetadb_last_synced">Laatst gesynchroniseerd %1$s</string>
+    <string name="settings_publicmetadb_api_key_title">Sluit PublicMetaDB aan</string>
+    <string name="settings_publicmetadb_api_key_description">Maak een API-sleutel op PublicMetaDB onder Instellingen → API en plak deze hier. Toetsen beginnen meestal met pm-.</string>
+    <string name="settings_publicmetadb_api_key_label">API-sleutel</string>
+    <string name="settings_publicmetadb_get_api_key">Vraag een API-sleutel aan</string>
+    <string name="settings_publicmetadb_connect_action">Verbinden</string>
+    <string name="settings_publicmetadb_missing_key">Voer uw PublicMetaDB API-sleutel in.</string>
+    <string name="settings_publicmetadb_invalid_key">PublicMetaDB heeft deze API-sleutel niet geaccepteerd. Controleer het en probeer het opnieuw.</string>
+    <string name="settings_publicmetadb_request_failed">Kan PublicMetaDB niet bereiken. Probeer het opnieuw.</string>
+    <string name="settings_publicmetadb_rate_limited">De verzoeklimiet van PublicMetaDB is bereikt. Probeer het binnenkort opnieuw.</string>
+    <string name="settings_publicmetadb_blocked">PublicMetaDB heeft dit verzoek geblokkeerd. Probeer het later opnieuw.</string>
+    <string name="settings_publicmetadb_auth_revoked">Uw PublicMetaDB API-sleutel is niet langer geldig. Maak opnieuw verbinding met een nieuwe sleutel.</string>
+    <string name="settings_publicmetadb_unavailable">Kan niet synchroniseren met PublicMetaDB. Probeer het opnieuw.</string>
+</resources>

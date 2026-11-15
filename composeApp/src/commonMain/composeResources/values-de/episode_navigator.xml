@@ -1,0 +1,19 @@
+<resources>
+    <string name="episode_navigator_search_hint">Suchen Sie nach Titel, Handlung oder Nummer</string>
+    <string name="episode_navigator_clear_search">Suche löschen</string>
+    <string name="episode_navigator_go_to">Gehe zu</string>
+    <string name="episode_navigator_sort">Sortieren</string>
+    <string name="episode_navigator_count">%1$d von %2$d Folgen</string>
+    <string name="episode_navigator_no_match">Keine Episoden stimmen mit „%1$s“ überein.</string>
+    <string name="episode_navigator_go_to_title">Zur Folge springen</string>
+    <string name="episode_navigator_episode_number">Episodennummer</string>
+    <string name="episode_navigator_go">Gehen</string>
+    <string name="episode_navigator_go_to_help">Geben Sie eine Zahl ein oder wählen Sie unten eine aus. Unterstrichen = angesehen, umrandet = weiter oben.</string>
+    <string name="episode_navigator_out_of_range">%1$s hat Episoden %2$d–%3$d</string>
+    <string name="episode_navigator_sort_title">Episoden sortieren</string>
+    <string name="episode_navigator_sort_first_to_last">Folge: vom ersten bis zum letzten</string>
+    <string name="episode_navigator_sort_last_to_first">Folge: von der letzten bis zur ersten</string>
+    <string name="episode_navigator_sort_highest_rated">Höchste Bewertung</string>
+    <string name="episode_navigator_sort_newest_aired">Neueste Ausstrahlung</string>
+    <string name="episode_navigator_sort_unwatched_first">Zuerst unbeobachtet</string>
+</resources>

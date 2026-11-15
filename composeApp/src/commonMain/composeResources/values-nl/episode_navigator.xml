@@ -1,0 +1,19 @@
+<resources>
+    <string name="episode_navigator_search_hint">Zoek titel, plot of nummer</string>
+    <string name="episode_navigator_clear_search">Duidelijke zoekopdracht</string>
+    <string name="episode_navigator_go_to">Ga naar</string>
+    <string name="episode_navigator_sort">Soort</string>
+    <string name="episode_navigator_count">%1$d van %2$d afleveringen</string>
+    <string name="episode_navigator_no_match">Er zijn geen afleveringen die overeenkomen met ‘%1$s’</string>
+    <string name="episode_navigator_go_to_title">Ga naar aflevering</string>
+    <string name="episode_navigator_episode_number">Afleveringsnummer</string>
+    <string name="episode_navigator_go">Gaan</string>
+    <string name="episode_navigator_go_to_help">Typ een getal of kies er hieronder een. Onderstreept = bekeken, omlijnd = volgende.</string>
+    <string name="episode_navigator_out_of_range">%1$s heeft afleveringen %2$d–%3$d</string>
+    <string name="episode_navigator_sort_title">Sorteer afleveringen</string>
+    <string name="episode_navigator_sort_first_to_last">Aflevering: van eerste tot laatste</string>
+    <string name="episode_navigator_sort_last_to_first">Aflevering: laatste naar eerste</string>
+    <string name="episode_navigator_sort_highest_rated">Hoogst gewaardeerd</string>
+    <string name="episode_navigator_sort_newest_aired">Nieuwste uitgezonden</string>
+    <string name="episode_navigator_sort_unwatched_first">Eerst niet bekeken</string>
+</resources>

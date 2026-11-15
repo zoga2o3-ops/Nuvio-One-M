@@ -1,0 +1,30 @@
+<resources>
+    <string name="tracking_source_anilist">AniList</string>
+    <string name="settings_anilist_anime_section">Anime</string>
+    <string name="settings_anilist_library_description">AniList-animelistene dine: ser på, planlegger, fullført, satt på pause, droppet og ser på nytt.</string>
+    <string name="settings_anilist_progress_description">Fortsett å se og opp neste fra AniList-overvåkingslisten.</string>
+    <string name="library_anilist_title">AniList bibliotek</string>
+    <string name="library_anilist_load_failed">Kunne ikke laste inn AniList-biblioteket ditt</string>
+    <string name="library_anilist_empty_title">AniList-biblioteket ditt er tomt</string>
+    <string name="library_anilist_empty_message">Legg til anime i AniList-listene dine for å se dem her.</string>
+    <string name="settings_anilist_connect">Koble til AniList</string>
+    <string name="settings_anilist_connected_as">Tilkoblet som %1$s</string>
+    <string name="settings_anilist_connected_description">Synkroniser animelistene dine, episodefremgang, poengsum og fortsett å se med AniList.</string>
+    <string name="settings_anilist_sign_in_description">Koble til AniList for å synkronisere animelistene dine, episodefremgang, poengsum og Fortsett å se.</string>
+    <string name="settings_anilist_finish_sign_in">Fullfør påloggingen</string>
+    <string name="settings_anilist_approval_description">Godkjenn Nuvio i nettleseren din. Du vil automatisk bli sendt tilbake til appen.</string>
+    <string name="settings_anilist_open_login">Åpne påloggingssiden</string>
+    <string name="settings_anilist_disconnect">Koble fra AniList</string>
+    <string name="settings_anilist_missing_credentials">AniList-tilkobling er utilgjengelig i denne versjonen.</string>
+    <string name="settings_anilist_sync_now">Synkroniser nå</string>
+    <string name="settings_anilist_visit">Besøk AniList</string>
+    <string name="settings_anilist_disconnect_description">Slutt å sende klokkeoppdateringer fra denne profilen. AniList-listene dine beholdes.</string>
+    <string name="settings_anilist_account_fallback">AniList bruker</string>
+    <string name="settings_anilist_syncing">Synkroniserer AniList-listene dine …</string>
+    <string name="settings_anilist_last_synced">Sist synkronisert %1$s</string>
+    <string name="settings_anilist_auth_denied">Tilkoblingen ble avvist. Prøv igjen å koble til kontoen din.</string>
+    <string name="settings_anilist_auth_invalid">AniList returnerte et ugyldig påloggingssvar. Vennligst prøv igjen.</string>
+    <string name="settings_anilist_auth_revoked">AniList-tilkoblingen din har utløpt eller blitt opphevet. Koble til igjen for å gjenoppta synkroniseringen.</string>
+    <string name="settings_anilist_unavailable">Kunne ikke synkronisere med AniList. Vennligst prøv igjen.</string>
+    <string name="settings_anilist_rate_limited">AniLists forespørselsgrense er nådd. Synkroniseringen gjenopptas snart.</string>
+</resources>

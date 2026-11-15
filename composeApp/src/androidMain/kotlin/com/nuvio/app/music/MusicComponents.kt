@@ -91,6 +91,8 @@ import com.nuvio.app.music.engine.data.model.artworkAt
 import com.nuvio.app.R
 import kotlin.math.abs
 import kotlin.math.max
+import nuvio.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 
 /** Nuvio One's Music palette: an ink canvas with album-derived violet/cyan light. */
 internal object MusicPalette {
@@ -144,7 +146,7 @@ internal fun MusicVinyl(
     modifier: Modifier = Modifier,
     spinning: Boolean = true
 ) {
-    val transition = rememberInfiniteTransition(label = "musicVinyl")
+    val transition = rememberInfiniteTransition(label = stringResource(Res.string.music_ui_musicvinyl))
     val angle by transition.animateFloat(
         initialValue = 0f,
         targetValue = 360f,
@@ -152,7 +154,7 @@ internal fun MusicVinyl(
             animation = tween(26000, easing = LinearEasing),
             repeatMode = RepeatMode.Restart
         ),
-        label = "musicVinylAngle"
+        label = stringResource(Res.string.music_ui_musicvinylangle)
     )
     Canvas(
         modifier.graphicsLayer {
@@ -201,7 +203,7 @@ internal fun MusicAuroraBackground(
 }
 
 /**
- * Service metadata often arrives as "Playlist • YouTube Music". The app is called Nuvio,
+ * Service metadata often arrives as stringResource(Res.string.music_ui_playlist_youtube_music). The app is called Nuvio,
  * so strip the provider name from descriptive lines without changing song or album titles.
  */
 internal fun String.withoutMusicServiceBrand(): String = replace(
@@ -298,7 +300,7 @@ internal fun MusicCard(
     val scale by animateFloatAsState(
         targetValue = if (focused) 1.035f else 1f,
         animationSpec = tween(140),
-        label = "musicCardScale"
+        label = stringResource(Res.string.music_ui_musiccardscale)
     )
     val artShape = RoundedCornerShape(12.dp)
     val cardShape = RoundedCornerShape(14.dp)
@@ -452,7 +454,7 @@ internal fun MusicTrackRow(
             else -> Color.Transparent
         },
         animationSpec = tween(120),
-        label = "musicTrackRowBackground"
+        label = stringResource(Res.string.music_ui_musictrackrowbackground)
     )
     Row(
         modifier
@@ -586,9 +588,9 @@ internal fun MusicBrowseRow(
         }
         Text(
             text = when (type) {
-                BrowseType.ALBUM -> "Album"
-                BrowseType.ARTIST -> "Artist"
-                BrowseType.PLAYLIST -> "Playlist"
+                BrowseType.ALBUM -> stringResource(Res.string.music_ui_album)
+                BrowseType.ARTIST -> stringResource(Res.string.music_ui_artist)
+                BrowseType.PLAYLIST -> stringResource(Res.string.music_ui_playlist)
                 BrowseType.OTHER -> ""
             },
             color = MusicPalette.textMuted,
@@ -609,7 +611,7 @@ internal fun MusicPill(
     val scale by animateFloatAsState(
         targetValue = if (focused) 1.06f else 1f,
         animationSpec = tween(140),
-        label = "musicPillScale"
+        label = stringResource(Res.string.music_ui_musicpillscale)
     )
     val background by animateColorAsState(
         targetValue = when {
@@ -618,7 +620,7 @@ internal fun MusicPill(
             else -> MusicPalette.surface
         },
         animationSpec = tween(140),
-        label = "musicPillBackground"
+        label = stringResource(Res.string.music_ui_musicpillbackground)
     )
     Box(
         modifier
@@ -707,7 +709,7 @@ internal fun MusicErrorState(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Something went wrong",
+            text = stringResource(Res.string.person_something_wrong),
             color = MusicPalette.text,
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold
@@ -741,7 +743,7 @@ internal fun MusicErrorState(
                 modifier = Modifier.size(18.dp)
             )
             Text(
-                text = "Try again",
+                text = stringResource(Res.string.whats_new_retry),
                 color = if (focused) MusicPalette.background else MusicPalette.text,
                 fontSize = 14.sp,
                 fontWeight = FontWeight.SemiBold
@@ -811,7 +813,7 @@ internal fun formatMusicTime(milliseconds: Long): String {
 /** The three dancing bars in the now-playing chip. Static when playback is paused. */
 @Composable
 internal fun MusicPlayingIndicator(playing: Boolean, modifier: Modifier = Modifier) {
-    val transition = rememberInfiniteTransition(label = "nowPlayingIndicator")
+    val transition = rememberInfiniteTransition(label = stringResource(Res.string.music_ui_nowplayingindicator))
     val fast by transition.animateFloat(
         initialValue = 0.30f,
         targetValue = 1f,
@@ -819,7 +821,7 @@ internal fun MusicPlayingIndicator(playing: Boolean, modifier: Modifier = Modifi
             animation = tween(420, easing = LinearEasing),
             repeatMode = RepeatMode.Reverse
         ),
-        label = "indicatorFast"
+        label = stringResource(Res.string.music_ui_indicatorfast)
     )
     val medium by transition.animateFloat(
         initialValue = 0.55f,
@@ -828,7 +830,7 @@ internal fun MusicPlayingIndicator(playing: Boolean, modifier: Modifier = Modifi
             animation = tween(360, delayMillis = 70, easing = LinearEasing),
             repeatMode = RepeatMode.Reverse
         ),
-        label = "indicatorMedium"
+        label = stringResource(Res.string.music_ui_indicatormedium)
     )
     val slow by transition.animateFloat(
         initialValue = 0.38f,
@@ -837,7 +839,7 @@ internal fun MusicPlayingIndicator(playing: Boolean, modifier: Modifier = Modifi
             animation = tween(520, delayMillis = 140, easing = LinearEasing),
             repeatMode = RepeatMode.Reverse
         ),
-        label = "indicatorSlow"
+        label = stringResource(Res.string.music_ui_indicatorslow)
     )
     val bars = if (playing) listOf(fast, medium, slow) else listOf(0.42f, 0.72f, 0.52f)
     Row(

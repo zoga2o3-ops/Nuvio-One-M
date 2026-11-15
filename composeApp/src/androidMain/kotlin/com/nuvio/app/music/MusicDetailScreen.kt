@@ -58,6 +58,8 @@ import androidx.compose.material3.Text
 import com.nuvio.app.music.engine.data.model.BrowseType
 import com.nuvio.app.music.engine.data.model.HomeShelf
 import kotlin.math.roundToInt
+import nuvio.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 internal fun MusicDetailScreen(
@@ -154,8 +156,8 @@ internal fun MusicDetailScreen(
             }
             state.songs.isEmpty() -> item(key = "detail-empty") {
                 MusicEmptyState(
-                    title = "Nothing to play",
-                    message = "This page didn't list any tracks.",
+                    title = stringResource(Res.string.music_ui_nothing_to_play),
+                    message = stringResource(Res.string.music_ui_this_page_didn_t_list_any_tracks),
                     modifier = Modifier.fillMaxWidth().height(300.dp)
                 )
             }
@@ -231,7 +233,7 @@ private fun MusicDetailHeader(
     val animatedDownloadProgress by animateFloatAsState(
         targetValue = downloadProgress.coerceIn(0f, 1f),
         animationSpec = tween(360),
-        label = "musicDetailDownloadProgress"
+        label = stringResource(Res.string.music_ui_musicdetaildownloadprogress)
     )
 
     val compact = LocalConfiguration.current.screenWidthDp < 600
@@ -254,7 +256,7 @@ private fun MusicDetailHeader(
             ) {
                 Icon(
                     Icons.AutoMirrored.Filled.ArrowBack,
-                    contentDescription = "Back",
+                    contentDescription = stringResource(Res.string.action_back),
                     tint = if (backFocused) MusicPalette.background else MusicPalette.text,
                     modifier = Modifier.size(20.dp)
                 )
@@ -262,9 +264,9 @@ private fun MusicDetailHeader(
             Spacer(Modifier.size(14.dp))
             Text(
                 text = when (state.type) {
-                    BrowseType.ALBUM -> "Album"
-                    BrowseType.ARTIST -> "Artist"
-                    BrowseType.PLAYLIST -> "Playlist"
+                    BrowseType.ALBUM -> stringResource(Res.string.music_ui_album)
+                    BrowseType.ARTIST -> stringResource(Res.string.music_ui_artist)
+                    BrowseType.PLAYLIST -> stringResource(Res.string.music_ui_playlist)
                     BrowseType.OTHER -> "Music"
                 }.uppercase(),
                 color = MusicPalette.textSecondary,
@@ -359,7 +361,7 @@ private fun MusicDetailHeader(
                             modifier = Modifier.size(20.dp)
                         )
                         Text(
-                            text = "Play",
+                            text = stringResource(Res.string.action_play),
                             color = if (playFocused) MusicPalette.background else Color.White,
                             fontSize = 15.sp,
                             fontWeight = FontWeight.Bold
@@ -437,7 +439,7 @@ private fun MusicDetailHeader(
                                         if (percent > 0) {
                                             "Downloading $percent%"
                                         } else {
-                                            "Preparing…"
+                                            stringResource(Res.string.music_ui_preparing)
                                         }
                                     }
                                     downloadedCount > 0 -> "Download rest"

@@ -47,6 +47,8 @@ import com.nuvio.app.livetv.model.LiveChannel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
+import nuvio.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 
 /**
  * Logos for [channel], closest first: the same channel in your other playlists, then the two free
@@ -120,18 +122,18 @@ internal fun ChangeLogoDialog(channel: LiveChannel, hasPicked: Boolean, onPick: 
     }
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Logo for ${channel.name}", maxLines = 1, overflow = TextOverflow.Ellipsis) },
+        title = { Text(stringResource(Res.string.live_tv_ui_logo_for, channel.name), maxLines = 1, overflow = TextOverflow.Ellipsis) },
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 OutlinedTextField(
                     value = query, onValueChange = { query = it }, singleLine = true,
-                    label = { Text("Search logos") }, modifier = Modifier.fillMaxWidth(), colors = fieldColors(),
+                    label = { Text(stringResource(Res.string.live_tv_ui_search_logos)) }, modifier = Modifier.fillMaxWidth(), colors = fieldColors(),
                 )
                 val list = choices
                 when {
                     list == null -> Box(Modifier.fillMaxWidth().height(160.dp), contentAlignment = Alignment.Center) { CircularProgressIndicator() }
                     list.isEmpty() -> Text(
-                        "No logos found. Try other words in the box above.",
+                        stringResource(Res.string.live_tv_ui_no_logos_found_try_other_words_in_the_box_above),
                         style = MaterialTheme.typography.bodySmall, color = LocalContentColor.current.copy(alpha = 0.7f),
                     )
                     else -> LazyVerticalGrid(
@@ -154,7 +156,7 @@ internal fun ChangeLogoDialog(channel: LiveChannel, hasPicked: Boolean, onPick: 
                 }
             }
         },
-        confirmButton = { if (hasPicked) TextButton(onClick = { onPick(null) }) { Text("Use its own") } },
-        dismissButton = { TextButton(onClick = onDismiss) { Text("Close") } },
+        confirmButton = { if (hasPicked) TextButton(onClick = { onPick(null) }) { Text(stringResource(Res.string.live_tv_ui_use_its_own)) } },
+        dismissButton = { TextButton(onClick = onDismiss) { Text(stringResource(Res.string.action_close)) } },
     )
 }

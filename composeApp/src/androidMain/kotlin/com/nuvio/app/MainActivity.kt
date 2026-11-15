@@ -9,7 +9,10 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.SystemBarStyle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.nuvio.app.core.auth.AuthStorage
 import com.nuvio.app.core.network.ServerConfigurationStorage
@@ -205,14 +208,18 @@ open class MainActivity : AppCompatActivity() {
     private fun showContent() {
         handleIncomingAppIntent(intent)
         setContent {
-            val sheetBackdropSource = rememberNuvioBackdrop()
-            val sheetBackdrop = remember(sheetBackdropSource) { NuvioSheetBackdrop(sheetBackdropSource) }
-            NuvioSheetBackdropHost(sheetBackdrop = sheetBackdrop) {
-                App(
-                    initialTab = if (com.nuvio.app.livetv.ui.LiveTvStart.startOnLiveTv(this@MainActivity)) {
-                        com.nuvio.app.AppScreenTab.LiveTv
-                    } else com.nuvio.app.AppScreenTab.Home,
-                )
+            // Keep the interface left-to-right for every language. Arabic, Hebrew and Urdu
+            // still render correctly, but the app does not mirror around them.
+            CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
+                val sheetBackdropSource = rememberNuvioBackdrop()
+                val sheetBackdrop = remember(sheetBackdropSource) { NuvioSheetBackdrop(sheetBackdropSource) }
+                NuvioSheetBackdropHost(sheetBackdrop = sheetBackdrop) {
+                    App(
+                        initialTab = if (com.nuvio.app.livetv.ui.LiveTvStart.startOnLiveTv(this@MainActivity)) {
+                            com.nuvio.app.AppScreenTab.LiveTv
+                        } else com.nuvio.app.AppScreenTab.Home,
+                    )
+                }
             }
         }
         contentReady = true

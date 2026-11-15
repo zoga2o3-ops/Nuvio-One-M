@@ -1,0 +1,30 @@
+<resources>
+    <string name="tracking_source_anilist">AniList</string>
+    <string name="settings_anilist_anime_section">Anime</string>
+    <string name="settings_anilist_library_description">Danh sách anime AniList của bạn: Đang xem, Đang lập kế hoạch, Đã hoàn thành, Đã tạm dừng, Đã bỏ và Đang xem lại.</string>
+    <string name="settings_anilist_progress_description">Continue Watching và Up Next từ danh sách AniList Watching của bạn.</string>
+    <string name="library_anilist_title">Thư viện AniList</string>
+    <string name="library_anilist_load_failed">Không thể tải thư viện AniList của bạn</string>
+    <string name="library_anilist_empty_title">Thư viện AniList của bạn trống</string>
+    <string name="library_anilist_empty_message">Thêm anime vào danh sách AniList của bạn để xem chúng tại đây.</string>
+    <string name="settings_anilist_connect">Kết nối AniList</string>
+    <string name="settings_anilist_connected_as">Đã kết nối với tên %1$s</string>
+    <string name="settings_anilist_connected_description">Đồng bộ hóa danh sách anime, tiến trình tập, điểm số và Tiếp tục xem với AniList.</string>
+    <string name="settings_anilist_sign_in_description">Kết nối AniList để đồng bộ hóa danh sách anime, tiến trình tập, điểm số và Tiếp tục xem.</string>
+    <string name="settings_anilist_finish_sign_in">Hoàn tất đăng nhập</string>
+    <string name="settings_anilist_approval_description">Phê duyệt Nuvio trong trình duyệt của bạn. Bạn sẽ được đưa trở lại ứng dụng một cách tự động.</string>
+    <string name="settings_anilist_open_login">Mở trang đăng nhập</string>
+    <string name="settings_anilist_disconnect">Ngắt kết nối AniList</string>
+    <string name="settings_anilist_missing_credentials">Kết nối AniList không khả dụng trong bản dựng này.</string>
+    <string name="settings_anilist_sync_now">Đồng bộ hóa ngay bây giờ</string>
+    <string name="settings_anilist_visit">Ghé thăm AniList</string>
+    <string name="settings_anilist_disconnect_description">Dừng gửi thông tin cập nhật về đồng hồ từ hồ sơ này. Danh sách AniList của bạn được lưu giữ.</string>
+    <string name="settings_anilist_account_fallback">Người dùng AniList</string>
+    <string name="settings_anilist_syncing">Đang đồng bộ hóa danh sách AniList của bạn…</string>
+    <string name="settings_anilist_last_synced">Đồng bộ hóa lần cuối %1$s</string>
+    <string name="settings_anilist_auth_denied">Kết nối đã bị từ chối. Hãy thử lại để kết nối tài khoản của bạn.</string>
+    <string name="settings_anilist_auth_invalid">AniList trả về phản hồi đăng nhập không hợp lệ. Vui lòng thử lại.</string>
+    <string name="settings_anilist_auth_revoked">Kết nối AniList của bạn đã hết hạn hoặc đã bị thu hồi. Kết nối lại để tiếp tục đồng bộ hóa.</string>
+    <string name="settings_anilist_unavailable">Không thể đồng bộ hóa với AniList. Vui lòng thử lại.</string>
+    <string name="settings_anilist_rate_limited">Đã đạt đến giới hạn yêu cầu của AniList. Quá trình đồng bộ hóa sẽ sớm tiếp tục.</string>
+</resources>

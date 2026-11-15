@@ -1,0 +1,36 @@
+<resources>
+    <string name="tracking_source_publicmetadb">PublicMetaDB</string>
+    <string name="settings_publicmetadb_library_description">Din PublicMetaDB-overvåkningsliste og egendefinerte lister.</string>
+    <string name="settings_publicmetadb_progress_description">Fortsett å se og opp neste fra PublicMetaDB CV-poeng og seerhistorikk.</string>
+    <string name="library_publicmetadb_title">PublicMetaDB bibliotek</string>
+    <string name="library_publicmetadb_load_failed">Kunne ikke laste PublicMetaDB-biblioteket ditt</string>
+    <string name="library_publicmetadb_empty_title">PublicMetaDB-biblioteket ditt er tomt</string>
+    <string name="library_publicmetadb_empty_message">Legg til filmer og serier i PublicMetaDB-listene dine for å se dem her.</string>
+    <string name="settings_publicmetadb_connect">Koble til PublicMetaDB</string>
+    <string name="settings_publicmetadb_connected_as">Koblet til nøkkelen som slutter %1$s</string>
+    <string name="settings_publicmetadb_connected_description">Synkroniser lister, seerhistorikk, rangeringer, scrobbles og Fortsett å se med PublicMetaDB.</string>
+    <string name="settings_publicmetadb_sign_in_description">Koble PublicMetaDB med en API-nøkkel for å synkronisere lister, seerhistorikk, rangeringer, scrobbles og Fortsett å se.</string>
+    <string name="settings_publicmetadb_finish_sign_in">Fullfør tilkoblingen</string>
+    <string name="settings_publicmetadb_approval_description">Skriv inn PublicMetaDB API-nøkkelen for å fullføre tilkoblingen.</string>
+    <string name="settings_publicmetadb_open_login">Skriv inn API-nøkkel</string>
+    <string name="settings_publicmetadb_disconnect">Koble fra PublicMetaDB</string>
+    <string name="settings_publicmetadb_missing_credentials">PublicMetaDB-tilkobling er utilgjengelig i denne versjonen.</string>
+    <string name="settings_publicmetadb_sync_now">Synkroniser nå</string>
+    <string name="settings_publicmetadb_visit">Besøk PublicMetaDB</string>
+    <string name="settings_publicmetadb_disconnect_description">Slutt å sende klokkeoppdateringer fra denne profilen og glem API-nøkkelen. PublicMetaDB-listene og historikken dine beholdes.</string>
+    <string name="settings_publicmetadb_account_fallback">din API-nøkkel</string>
+    <string name="settings_publicmetadb_syncing">Synkroniserer PublicMetaDB-listene dine …</string>
+    <string name="settings_publicmetadb_last_synced">Sist synkronisert %1$s</string>
+    <string name="settings_publicmetadb_api_key_title">Koble til PublicMetaDB</string>
+    <string name="settings_publicmetadb_api_key_description">Opprett en API-nøkkel på PublicMetaDB under Innstillinger → API, og lim den inn her. Nøkler starter vanligvis med pm-.</string>
+    <string name="settings_publicmetadb_api_key_label">API-nøkkel</string>
+    <string name="settings_publicmetadb_get_api_key">Få en API-nøkkel</string>
+    <string name="settings_publicmetadb_connect_action">Koble til</string>
+    <string name="settings_publicmetadb_missing_key">Skriv inn PublicMetaDB API-nøkkelen din.</string>
+    <string name="settings_publicmetadb_invalid_key">PublicMetaDB godtok ikke denne API-nøkkelen. Sjekk det og prøv igjen.</string>
+    <string name="settings_publicmetadb_request_failed">Kunne ikke nå PublicMetaDB. Vennligst prøv igjen.</string>
+    <string name="settings_publicmetadb_rate_limited">PublicMetaDBs forespørselsgrense er nådd. Prøv igjen snart.</string>
+    <string name="settings_publicmetadb_blocked">PublicMetaDB blokkerte denne forespørselen. Vennligst prøv igjen senere.</string>
+    <string name="settings_publicmetadb_auth_revoked">PublicMetaDB API-nøkkelen din er ikke lenger gyldig. Koble til igjen med en ny nøkkel.</string>
+    <string name="settings_publicmetadb_unavailable">Kunne ikke synkronisere med PublicMetaDB. Vennligst prøv igjen.</string>
+</resources>

@@ -42,6 +42,9 @@ import androidx.media3.exoplayer.ExoPlayer
 import com.nuvio.app.features.player.PlayerSettingsRepository
 import com.nuvio.app.features.player.SubtitleAppearanceControls
 import java.util.Locale
+import nuvio.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.resources.getString
 
 /** One caption track of the video playing: its own captions, or an automatic translation of them. */
 class CaptionTrack(
@@ -71,7 +74,7 @@ fun ExoPlayer.captionTracks(): List<CaptionTrack> {
 
 /** A language's name in the language the phone is set to; a tidy version of the code when it has none. */
 internal fun languageName(code: String): String {
-    if (code.isBlank()) return "Unknown"
+    if (code.isBlank()) return kotlinx.coroutines.runBlocking { getString(Res.string.subtitle_language_unknown) }
     val locale = Locale.forLanguageTag(code)
     val name = locale.getDisplayLanguage(Locale.getDefault())
     if (name.isNotBlank() && !name.equals(code, ignoreCase = true)) return name.replaceFirstChar { it.titlecase(Locale.getDefault()) }
@@ -114,33 +117,33 @@ fun YouTubeCaptionsDialog(onDismiss: () -> Unit) {
             CompositionLocalProvider(LocalContentColor provides Color.White) {
                 Column(Modifier.fillMaxSize().statusBarsPadding().navigationBarsPadding()) {
                     Row(Modifier.fillMaxWidth().padding(16.dp, 8.dp), verticalAlignment = Alignment.CenterVertically) {
-                        Text("Captions", style = MaterialTheme.typography.titleLarge, modifier = Modifier.weight(1f))
-                        TextButton(onClick = onDismiss) { Text("Done") }
+                        Text(stringResource(Res.string.youtube_ui_captions), style = MaterialTheme.typography.titleLarge, modifier = Modifier.weight(1f))
+                        TextButton(onClick = onDismiss) { Text(stringResource(Res.string.action_done)) }
                     }
                     if (player == null || tracks.isEmpty()) {
                         Text(
-                            if (player == null) "Nothing is playing." else "This video has no captions.",
+                            if (player == null) stringResource(Res.string.youtube_ui_nothing_is_playing) else stringResource(Res.string.youtube_ui_this_video_has_no_captions),
                             modifier = Modifier.padding(24.dp), color = LocalContentColor.current.copy(alpha = 0.7f),
                         )
                     } else {
                         LazyColumn(Modifier.weight(1f).padding(horizontal = 16.dp)) {
-                            item { CaptionRow("Off", null, !anySelected) { player.captionsOff(); version++ } }
+                            item { CaptionRow(stringResource(Res.string.settings_playback_auto_sync_tolerance_off), null, !anySelected) { player.captionsOff(); version++ } }
                             if (own.isNotEmpty()) {
-                                item { SectionTitle("Captions in the video") }
+                                item { SectionTitle(stringResource(Res.string.youtube_ui_captions_in_the_video)) }
                                 items(own) { t -> CaptionRow(t.name, null, t.selected) { player.selectCaption(t); version++ } }
                             }
                             item {
-                                SectionTitle("Auto-translate")
+                                SectionTitle(stringResource(Res.string.youtube_ui_auto_translate))
                                 OutlinedTextField(
                                     value = query, onValueChange = { query = it }, singleLine = true,
-                                    placeholder = { Text("Search languages") },
+                                    placeholder = { Text(stringResource(Res.string.youtube_ui_search_languages)) },
                                     modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp),
                                 )
                             }
                             items(translated) { t ->
                                 CaptionRow(t.name, "Translated by Google", t.selected) { player.selectCaption(t); version++ }
                             }
-                            item { SectionTitle("Subtitle style") }
+                            item { SectionTitle(stringResource(Res.string.youtube_ui_subtitle_style)) }
                             item {
                                 SubtitleAppearanceControls(
                                     style = subtitleStyle,
