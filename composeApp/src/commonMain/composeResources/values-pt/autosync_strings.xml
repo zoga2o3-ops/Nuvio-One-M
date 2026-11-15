@@ -1,0 +1,12 @@
+<resources>
+    <string name="settings_playback_subtitle_auto_sync">Legenda com sincronização automática</string>
+    <string name="settings_playback_subtitle_auto_sync_description">Sincronize automaticamente a legenda complementar preferida quando a reprodução é iniciada. Requer um idioma de legendagem preferencial.</string>
+    <string name="settings_playback_auto_sync_mode_aggressive">Pesquisa de sincronização automática: completa</string>
+    <string name="settings_playback_auto_sync_mode_aggressive_description">Continua a comparar outras legendas e faixas incorporadas para uma correspondência mais próxima antes de sincronizar. Apenas são aplicadas correspondências confiantes.</string>
+    <string name="settings_playback_auto_sync_mode_passive">Pesquisa de sincronização automática: rápida</string>
+    <string name="settings_playback_auto_sync_mode_passive_description">Utiliza a primeira correspondência forte mais cedo. Apenas são aplicadas correspondências confiantes, como acontece com Thorough.</string>
+    <string name="settings_playback_auto_sync_tolerance">Tolerância de sincronização automática: %1$s</string>
+    <string name="settings_playback_auto_sync_tolerance_description">Mantenha o tempo da legenda original quando a sincronização não a mover mais do que isso. Toque em para alterar.</string>
+    <string name="settings_playback_auto_sync_tolerance_off">Desligado</string>
+    <string name="settings_playback_auto_sync_tolerance_value">%1$d senhora</string>
+</resources>

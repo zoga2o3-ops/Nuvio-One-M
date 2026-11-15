@@ -35,10 +35,12 @@ import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.ui.PlayerView
 import com.nuvio.app.livetv.model.LiveChannel
+import nuvio.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 
 /**
  * The video window on the Sports page: the game plays at the top while you keep scrolling the
- * games below. "Full screen" hands it over to the normal player; closing it frees the player.
+ * games below. stringResource(Res.string.live_tv_ui_full_screen) hands it over to the normal player; closing it frees the player.
  */
 @Composable
 fun SportsVideoWindow(channel: LiveChannel, onFullScreen: () -> Unit, onClose: () -> Unit) {
@@ -80,11 +82,11 @@ fun SportsVideoWindow(channel: LiveChannel, onFullScreen: () -> Unit, onClose: (
             modifier = Modifier.fillMaxSize(),
         )
         if (buffering && !failed) CircularProgressIndicator(Modifier.align(Alignment.Center))
-        if (failed) Text("This channel didn't play here. Try full screen.", Modifier.align(Alignment.Center).padding(16.dp), color = Color.White)
+        if (failed) Text(stringResource(Res.string.live_tv_ui_this_channel_didn_t_play_here_try_full_screen), Modifier.align(Alignment.Center).padding(16.dp), color = Color.White)
         Row(Modifier.align(Alignment.TopStart).fillMaxWidth().background(Color(0x66000000)), verticalAlignment = Alignment.CenterVertically) {
             Text(channel.name, Modifier.weight(1f).padding(start = 12.dp), color = Color.White, maxLines = 1, overflow = TextOverflow.Ellipsis)
-            TextButton(onClick = onFullScreen) { Text("Full screen", color = Color.White) }
-            TextButton(onClick = onClose) { Text("Close", color = Color.White) }
+            TextButton(onClick = onFullScreen) { Text(stringResource(Res.string.live_tv_ui_full_screen), color = Color.White) }
+            TextButton(onClick = onClose) { Text(stringResource(Res.string.action_close), color = Color.White) }
         }
     }
 }

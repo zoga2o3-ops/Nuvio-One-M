@@ -1,0 +1,30 @@
+<resources>
+    <string name="tracking_source_anilist">AniList</string>
+    <string name="settings_anilist_anime_section">Anime</string>
+    <string name="settings_anilist_library_description">Vaše zoznamy anime AniList: Sledovanie, Plánovanie, Dokončené, Pozastavené, Vypustené a Opätovné sledovanie.</string>
+    <string name="settings_anilist_progress_description">Pokračovať v sledovaní a ďalej zo zoznamu sledovaných stránok AniList.</string>
+    <string name="library_anilist_title">Knižnica AniList</string>
+    <string name="library_anilist_load_failed">Nepodarilo sa načítať vašu knižnicu AniList</string>
+    <string name="library_anilist_empty_title">Vaša knižnica AniList je prázdna</string>
+    <string name="library_anilist_empty_message">Pridajte anime do svojich zoznamov AniList, aby ste ich videli tu.</string>
+    <string name="settings_anilist_connect">Pripojte AniList</string>
+    <string name="settings_anilist_connected_as">Pripojené ako %1$s</string>
+    <string name="settings_anilist_connected_description">Synchronizujte svoje zoznamy anime, priebeh epizód, skóre a pokračujte v sledovaní s AniList.</string>
+    <string name="settings_anilist_sign_in_description">Pripojte AniList a synchronizujte svoje zoznamy anime, priebeh epizód, skóre a pokračujte v sledovaní.</string>
+    <string name="settings_anilist_finish_sign_in">Dokončiť prihlásenie</string>
+    <string name="settings_anilist_approval_description">Schváľte Nuvio vo svojom prehliadači. Budete automaticky presmerovaní späť do aplikácie.</string>
+    <string name="settings_anilist_open_login">Otvorte prihlasovaciu stránku</string>
+    <string name="settings_anilist_disconnect">Odpojte AniList</string>
+    <string name="settings_anilist_missing_credentials">Pripojenie AniList nie je v tejto zostave k dispozícii.</string>
+    <string name="settings_anilist_sync_now">Synchronizovať teraz</string>
+    <string name="settings_anilist_visit">Navštívte AniList</string>
+    <string name="settings_anilist_disconnect_description">Zastaviť odosielanie aktualizácií hodiniek z tohto profilu. Vaše zoznamy AniList sa uchovávajú.</string>
+    <string name="settings_anilist_account_fallback">Používateľ AniList</string>
+    <string name="settings_anilist_syncing">Synchronizujú sa vaše zoznamy AniList…</string>
+    <string name="settings_anilist_last_synced">Posledná synchronizácia %1$s</string>
+    <string name="settings_anilist_auth_denied">Spojenie bolo odmietnuté. Skúste znova pripojiť svoj účet.</string>
+    <string name="settings_anilist_auth_invalid">AniList vrátil neplatnú odpoveď na prihlásenie. Skúste to znova.</string>
+    <string name="settings_anilist_auth_revoked">Platnosť vášho pripojenia AniList vypršala alebo bolo zrušené. Ak chcete obnoviť synchronizáciu, znova sa pripojte.</string>
+    <string name="settings_anilist_unavailable">Nepodarilo sa synchronizovať s AniList. Skúste to znova.</string>
+    <string name="settings_anilist_rate_limited">Limit žiadostí AniList bol dosiahnutý. Synchronizácia sa čoskoro obnoví.</string>
+</resources>

@@ -32,6 +32,8 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
 import com.nuvio.app.features.profiles.ProfileRepository
+import nuvio.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 
 /**
  * The code YouTube is waiting for. The activate page is opened automatically as soon as the code
@@ -48,11 +50,11 @@ fun YouTubeSignInDialog(accounts: YouTubeAccountViewModel, account: YouTubeAccou
 
     AlertDialog(
         onDismissRequest = accounts::cancelSignIn,
-        title = { Text("Link YouTube to Nuvio One") },
+        title = { Text(stringResource(Res.string.youtube_ui_link_youtube_to_nuvio_one)) },
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
                 Text(
-                    "Enter this code on the YouTube page we opened. Signing in links the account " +
+                    stringResource(Res.string.youtube_ui_enter_this_code_on_the_youtube_page_we_opened_signing_in_lin) +
                         "to your Nuvio One profile, $profileName.",
                 )
                 Text(code, style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
@@ -60,13 +62,13 @@ fun YouTubeSignInDialog(accounts: YouTubeAccountViewModel, account: YouTubeAccou
         },
         confirmButton = {
             Button(onClick = { link?.let { YouTubeSignInReturn.openActivatePage(context, it) } }) {
-                Text("Open YouTube")
+                Text(stringResource(Res.string.music_ui_open_youtube))
             }
         },
         dismissButton = {
             Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-                TextButton(onClick = { clipboard.setText(AnnotatedString(code)) }) { Text("Copy code") }
-                TextButton(onClick = accounts::cancelSignIn) { Text("Cancel") }
+                TextButton(onClick = { clipboard.setText(AnnotatedString(code)) }) { Text(stringResource(Res.string.settings_tracking_device_code_copy)) }
+                TextButton(onClick = accounts::cancelSignIn) { Text(stringResource(Res.string.action_cancel)) }
             }
         },
     )
@@ -85,7 +87,7 @@ fun YouTubeAccountsDialog(
 ) {
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Who's watching?") },
+        title = { Text(stringResource(Res.string.profile_who_is_watching)) },
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                 account.linkedAccount?.let { linked ->
@@ -122,13 +124,13 @@ fun YouTubeAccountsDialog(
                         }
                     }
                 }
-                TextButton(onClick = onAdd) { Text("Add another account") }
+                TextButton(onClick = onAdd) { Text(stringResource(Res.string.music_ui_add_another_account)) }
                 if (account.linkedAccount == null && onLinkToNuvioOne != null) {
-                    TextButton(onClick = onLinkToNuvioOne) { Text("Link to Nuvio One") }
+                    TextButton(onClick = onLinkToNuvioOne) { Text(stringResource(Res.string.youtube_settings_link_to_nuvio)) }
                 }
-                TextButton(onClick = onSignOut) { Text("Sign out of ${account.accountName ?: "this account"}") }
+                TextButton(onClick = onSignOut) { Text(stringResource(Res.string.youtube_ui_sign_out_of, account.accountName ?: stringResource(Res.string.youtube_ui_this_account))) }
             }
         },
-        confirmButton = { TextButton(onClick = onDismiss) { Text("Close") } },
+        confirmButton = { TextButton(onClick = onDismiss) { Text(stringResource(Res.string.action_close)) } },
     )
 }

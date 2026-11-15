@@ -1,0 +1,36 @@
+<resources>
+    <string name="tracking_source_publicmetadb">パブリックメタDB</string>
+    <string name="settings_publicmetadb_library_description">PublicMetaDB ウォッチリストとカスタム リスト。</string>
+    <string name="settings_publicmetadb_progress_description">PublicMetaDB 再開ポイントと視聴履歴から「継続視聴」と「次へ」を実行します。</string>
+    <string name="library_publicmetadb_title">パブリックメタDBライブラリ</string>
+    <string name="library_publicmetadb_load_failed">PublicMetaDB ライブラリをロードできませんでした</string>
+    <string name="library_publicmetadb_empty_title">PublicMetaDB ライブラリが空です</string>
+    <string name="library_publicmetadb_empty_message">映画や番組を PublicMetaDB リストに追加すると、ここで表示されます。</string>
+    <string name="settings_publicmetadb_connect">PublicMetaDB に接続する</string>
+    <string name="settings_publicmetadb_connected_as">キー末尾 %1$s で接続されています</string>
+    <string name="settings_publicmetadb_connected_description">PublicMetaDB を使用して、リスト、視聴履歴、評価、スクロブルを同期し、視聴を継続します。</string>
+    <string name="settings_publicmetadb_sign_in_description">API キーを使用して PublicMetaDB に接続し、リスト、視聴履歴、評価、スクロブル、継続視聴を同期します。</string>
+    <string name="settings_publicmetadb_finish_sign_in">接続を終了する</string>
+    <string name="settings_publicmetadb_approval_description">PublicMetaDB API キーを入力して接続を完了します。</string>
+    <string name="settings_publicmetadb_open_login">APIキーを入力してください</string>
+    <string name="settings_publicmetadb_disconnect">PublicMetaDB を切断する</string>
+    <string name="settings_publicmetadb_missing_credentials">このビルドでは PublicMetaDB 接続は利用できません。</string>
+    <string name="settings_publicmetadb_sync_now">今すぐ同期する</string>
+    <string name="settings_publicmetadb_visit">PublicMetaDB にアクセス</string>
+    <string name="settings_publicmetadb_disconnect_description">このプロファイルからのウォッチ更新の送信を停止し、API キーを忘れてください。 PublicMetaDB のリストと履歴は保存されます。</string>
+    <string name="settings_publicmetadb_account_fallback">APIキー</string>
+    <string name="settings_publicmetadb_syncing">PublicMetaDB リストを同期しています…</string>
+    <string name="settings_publicmetadb_last_synced">最後に同期したのは %1$s</string>
+    <string name="settings_publicmetadb_api_key_title">PublicMetaDB に接続する</string>
+    <string name="settings_publicmetadb_api_key_description">PublicMetaDB の [設定] → [API] で API キーを作成し、ここに貼り付けます。キーは通常 pm- で始まります。</string>
+    <string name="settings_publicmetadb_api_key_label">APIキー</string>
+    <string name="settings_publicmetadb_get_api_key">APIキーを取得する</string>
+    <string name="settings_publicmetadb_connect_action">接続する</string>
+    <string name="settings_publicmetadb_missing_key">PublicMetaDB API キーを入力します。</string>
+    <string name="settings_publicmetadb_invalid_key">PublicMetaDB はこの API キーを受け入れませんでした。確認してもう一度試してください。</string>
+    <string name="settings_publicmetadb_request_failed">PublicMetaDB に到達できませんでした。もう一度試してください。</string>
+    <string name="settings_publicmetadb_rate_limited">PublicMetaDB のリクエスト制限に達しました。しばらくしてからもう一度お試しください。</string>
+    <string name="settings_publicmetadb_blocked">PublicMetaDB はこのリクエストをブロックしました。後でもう一度試してください。</string>
+    <string name="settings_publicmetadb_auth_revoked">PublicMetaDB API キーは有効ではなくなりました。新しいキーで再度接続します。</string>
+    <string name="settings_publicmetadb_unavailable">PublicMetaDB と同期できませんでした。もう一度試してください。</string>
+</resources>

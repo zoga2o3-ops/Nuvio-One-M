@@ -40,6 +40,8 @@ import java.security.MessageDigest
 import java.util.UUID
 import java.util.concurrent.TimeUnit
 import java.util.zip.GZIPInputStream
+import nuvio.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.getString
 
 data class LiveTvStatus(
     val loading: Boolean = false,
@@ -564,7 +566,7 @@ class LiveTvRepository(
                 now - file.lastModified() > settings.playlistRefreshHours.coerceAtLeast(1) * HOUR
             if (forcePlaylists || stale || pl.id in forceIds) {
                 LIVE_REPORT.add("Checking playlist \"${pl.name}\" for updates")
-                setStatus(loading = true, message = "Updating playlist \"${pl.name}\"…")
+                setStatus(loading = true, message = getString(Res.string.live_tv_ui_status_updating_playlist, pl.name))
                 val before = if (file.exists()) file.length() to file.lastModified() else null
                 val result = runCatching {
                     if (pl.isStalker) {
@@ -612,7 +614,7 @@ class LiveTvRepository(
         // Build channels first so EPG matching knows which channels exist.
         if (changed || _channels.value.isEmpty()) {
             outOfTheWay()
-            setStatus(loading = true, message = "Reading channels…")
+            setStatus(loading = true, message = getString(Res.string.live_tv_ui_status_reading_channels))
             buildChannels()
             saveChannels() // so the next start uses it straight away
         }
@@ -628,7 +630,7 @@ class LiveTvRepository(
             // A playlist saved again (its login, user agent…): its own guide is downloaded again too.
             val forcedHere = target.sourceId in forceIds || target.playlistId in forceIds
             if (forceEpg || stale || forcedHere || guideHoles || (target.sourceId == null && changed && !file.exists())) {
-                setStatus(loading = true, message = "Downloading guide \"${target.name}\"…")
+                setStatus(loading = true, message = getString(Res.string.live_tv_ui_status_downloading_guide, target.name))
                 LIVE_REPORT.add("Downloading guide \"${target.name}\" (user agent: ${target.userAgent.ifBlank { "app default" }})")
                 val result = runCatching {
                     download(
@@ -663,7 +665,7 @@ class LiveTvRepository(
             storedGuideEmpty = false
             guideHoles = false
             outOfTheWay()
-            setStatus(loading = true, message = "Matching guide data…")
+            setStatus(loading = true, message = getString(Res.string.live_tv_ui_status_matching_guide_data))
             buildPrograms(settings, epgTargets)
         }
         _status.value = LiveTvStatus(loading = false, loadedOnce = true)
@@ -681,7 +683,7 @@ class LiveTvRepository(
         // checked against the channels afterwards), so the two waits overlap.
         val guidePreRead = scope.async(Dispatchers.IO) { preReadGuide() }
         if (!loadSavedChannels()) {
-            setStatus(loading = true, message = "Loading channels…")
+            setStatus(loading = true, message = getString(Res.string.live_tv_ui_status_loading_channels))
             buildChannels()
             saveChannels()
             LIVE_REPORT.add("Channels re-read from playlists: ${_channels.value.size} in ${System.currentTimeMillis() - t0} ms")
@@ -899,7 +901,7 @@ class LiveTvRepository(
         val shownAgain = skipped.filter { it in keys && it !in nowHidden }
         if (shownAgain.isNotEmpty()) {
             LIVE_REPORT.add("Guide: ${shownAgain.size} channels shown again, reading their listings")
-            setStatus(loading = true, message = "Updating guide…")
+            setStatus(loading = true, message = getString(Res.string.live_tv_ui_status_updating_guide))
             buildPrograms(prefs.currentSettings(), collectEpgTargets())
             _status.value = LiveTvStatus(loading = false, loadedOnce = true)
             return@withContext
@@ -1666,7 +1668,7 @@ class LiveTvRepository(
         for ((plIndex, pl) in playlists.withIndex()) {
             val file = playlistFile(pl.id)
             if (!file.exists()) continue
-            setStatus(loading = true, message = "Reading channels from \"${pl.name}\"" + (if (playlists.size > 1) " (${plIndex + 1} of ${playlists.size})" else "") + "…")
+            setStatus(loading = true, message = getString(Res.string.live_tv_ui_status_reading_channels_from, pl.name) + (if (playlists.size > 1) getString(Res.string.live_tv_ui_status_step, plIndex + 1, playlists.size) else "") + "…")
             val parsed = runCatching { openMaybeGzip(file).bufferedReader().use { M3uParser.parse(it) } }
                 .onFailure { Log.w(TAG, "Parse ${pl.name} failed", it) }
                 .getOrNull() ?: continue
@@ -1830,7 +1832,7 @@ class LiveTvRepository(
                     if (used() > rt.maxMemory() * 0.85) System.gc()
                     if (used() > rt.maxMemory() * 0.85) {
                         LIVE_REPORT.add("Guide \"${target.name}\" skipped: memory nearly full (${used() / 1048576} of ${rt.maxMemory() / 1048576} MB)")
-                        setStatus(loading = true, message = "Not enough memory for guide \"${target.name}\" — skipped")
+                        setStatus(loading = true, message = getString(Res.string.live_tv_ui_status_too_little_memory, target.name))
                         continue
                     }
                 }
@@ -1841,7 +1843,7 @@ class LiveTvRepository(
                     val now = System.currentTimeMillis()
                     if (now - shownAt > 750) {
                         shownAt = now
-                        setStatus(loading = true, message = "Reading guide \"${target.name}\"$step… ${(done * 100 / fileSize).coerceIn(0, 99)}%")
+                        setStatus(loading = true, message = kotlinx.coroutines.runBlocking { getString(Res.string.live_tv_ui_status_reading_guide_progress, target.name, step, (done * 100 / fileSize).coerceIn(0, 99)) } + "%")
                     }
                 }
                 val readStart = System.currentTimeMillis()
@@ -1898,7 +1900,7 @@ class LiveTvRepository(
                 guideDb.stagedWindow(src, winFrom, winTo).forEach { (xid, list) -> keepWindow(src, xid, list) }
             }
 
-            setStatus(loading = true, message = "Matching guide \"${target.name}\"$step…")
+            setStatus(loading = true, message = getString(Res.string.live_tv_ui_status_matching_guide, target.name, step))
             val label = runCatching { java.net.URI(target.url).host?.removePrefix("www.") }.getOrNull()
                 ?.takeIf { it.isNotBlank() } ?: target.name
             sourceMeta += Triple(target, label, entries.sortedBy { it.displayName.lowercase() })
@@ -2145,7 +2147,7 @@ class LiveTvRepository(
                     .getOrDefault(false)
                 if (!quick) {
                     LIVE_REPORT.add("Assign EPG: guide channel lists not ready, so every guide was read")
-                    setStatus(loading = true, message = "Updating guide…")
+                    setStatus(loading = true, message = getString(Res.string.live_tv_ui_status_updating_guide))
                     buildPrograms(prefs.currentSettings(), collectEpgTargets())
                 }
                 _status.value = LiveTvStatus(loading = false, loadedOnce = true)
@@ -2193,7 +2195,7 @@ class LiveTvRepository(
             val target = targets.firstOrNull { it.fileId == sourceId } ?: continue
             val file = epgFile(target.fileId)
             if (!file.exists()) continue
-            setStatus(loading = true, message = "Reading guide \"${target.name}\"…")
+            setStatus(loading = true, message = getString(Res.string.live_tv_ui_status_reading_guide, target.name))
             val parsed = openMaybeGzip(file).use { input ->
                 XmltvParser.parse(input, windowStart, windowEnd) { wanted }
             }
@@ -2261,7 +2263,7 @@ class LiveTvRepository(
     fun rematchEpg() {
         scope.launch {
             mutex.withLock {
-                setStatus(loading = true, message = "Updating guide…")
+                setStatus(loading = true, message = getString(Res.string.live_tv_ui_status_updating_guide))
                 buildPrograms(prefs.currentSettings(), collectEpgTargets())
                 _status.value = LiveTvStatus(loading = false, loadedOnce = true)
             }
@@ -2360,7 +2362,7 @@ class LiveTvRepository(
                             val now = System.currentTimeMillis()
                             if (now - shownAt > 750) {
                                 shownAt = now
-                                setStatus(loading = true, message = "$progressLabel… " + sizeLabel(read) + (total?.let { " of " + sizeLabel(it) } ?: ""))
+                                setStatus(loading = true, message = getString(Res.string.live_tv_ui_status_progress, progressLabel) + sizeLabel(read) + (total?.let { getString(Res.string.live_tv_ui_status_of, sizeLabel(it)) } ?: ""))
                             }
                         }
                     }
@@ -2540,9 +2542,9 @@ class LiveTvRepository(
         require(StalkerClient.isValidMac(pl.stalkerMac)) { "The MAC address should look like 00:1A:79:AB:CD:EF" }
         StalkerLinks.configure(prefs.currentPlaylists())
         val client = StalkerLinks.client(pl.id) ?: error("Portal not set up")
-        setStatus(loading = true, message = "Signing in to \"${pl.name}\"…")
+        setStatus(loading = true, message = getString(Res.string.live_tv_ui_status_signing_in, pl.name))
         val genres = runCatching { client.genres() }.getOrDefault(emptyMap())
-        setStatus(loading = true, message = "Loading channels from ${pl.name}…")
+        setStatus(loading = true, message = getString(Res.string.live_tv_ui_status_loading_channels_from, pl.name))
         val channels = client.channels()
         if (channels.isEmpty()) error("The portal returned no channels. Check that this MAC address is registered with your provider.")
         stalkerChannels[pl.id] = channels
@@ -2665,7 +2667,7 @@ class LiveTvRepository(
                         out.write("#EXTINF:-1$attrs,$title\n")
                         out.write("$base/live/$user/$pass/$streamId.$ext\n")
                         count++
-                        if (count % 500 == 0) setStatus(loading = true, message = "Loading channels from ${pl.name}… ${"%,d".format(count)}")
+                        if (count % 500 == 0) setStatus(loading = true, message = kotlinx.coroutines.runBlocking { getString(Res.string.live_tv_ui_status_loading_channels_count, pl.name, "%,d".format(count)) })
                     }
                     if (keyed) reader.endObject() else reader.endArray()
                 }

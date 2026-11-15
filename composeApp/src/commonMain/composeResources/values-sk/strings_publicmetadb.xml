@@ -1,0 +1,36 @@
+<resources>
+    <string name="tracking_source_publicmetadb">PublicMetaDB</string>
+    <string name="settings_publicmetadb_library_description">Váš zoznam na sledovanie PublicMetaDB a vlastné zoznamy.</string>
+    <string name="settings_publicmetadb_progress_description">Pokračovať v pozeraní a ďalej z vašich bodov obnovenia PublicMetaDB a histórie pozerania.</string>
+    <string name="library_publicmetadb_title">Verejná knižnica MetaDB</string>
+    <string name="library_publicmetadb_load_failed">Nepodarilo sa načítať vašu knižnicu PublicMetaDB</string>
+    <string name="library_publicmetadb_empty_title">Vaša knižnica PublicMetaDB je prázdna</string>
+    <string name="library_publicmetadb_empty_message">Pridajte filmy a relácie do svojich zoznamov PublicMetaDB a pozrite si ich tu.</string>
+    <string name="settings_publicmetadb_connect">Pripojte PublicMetaDB</string>
+    <string name="settings_publicmetadb_connected_as">Pripojené s koncovkou kľúča %1$s</string>
+    <string name="settings_publicmetadb_connected_description">Synchronizujte svoje zoznamy, históriu pozerania, hodnotenia, scrobble a Pokračujte v pozeraní s PublicMetaDB.</string>
+    <string name="settings_publicmetadb_sign_in_description">Pripojte PublicMetaDB pomocou kľúča API, aby ste mohli synchronizovať svoje zoznamy, históriu pozerania, hodnotenia, scrobbles a pokračovať v sledovaní.</string>
+    <string name="settings_publicmetadb_finish_sign_in">Dokončite pripojenie</string>
+    <string name="settings_publicmetadb_approval_description">Na dokončenie pripojenia zadajte svoj kľúč API PublicMetaDB.</string>
+    <string name="settings_publicmetadb_open_login">Zadajte kľúč API</string>
+    <string name="settings_publicmetadb_disconnect">Odpojte PublicMetaDB</string>
+    <string name="settings_publicmetadb_missing_credentials">Pripojenie PublicMetaDB nie je v tejto zostave k dispozícii.</string>
+    <string name="settings_publicmetadb_sync_now">Synchronizovať teraz</string>
+    <string name="settings_publicmetadb_visit">Navštívte PublicMetaDB</string>
+    <string name="settings_publicmetadb_disconnect_description">Zastavte odosielanie aktualizácií hodiniek z tohto profilu a zabudnite kľúč API. Vaše zoznamy a história PublicMetaDB sa uchovávajú.</string>
+    <string name="settings_publicmetadb_account_fallback">váš kľúč API</string>
+    <string name="settings_publicmetadb_syncing">Synchronizujú sa vaše zoznamy PublicMetaDB…</string>
+    <string name="settings_publicmetadb_last_synced">Posledná synchronizácia %1$s</string>
+    <string name="settings_publicmetadb_api_key_title">Pripojte PublicMetaDB</string>
+    <string name="settings_publicmetadb_api_key_description">Vytvorte kľúč API na PublicMetaDB v časti Nastavenia → API a prilepte ho sem. Klávesy zvyčajne začínajú na pm-.</string>
+    <string name="settings_publicmetadb_api_key_label">API kľúč</string>
+    <string name="settings_publicmetadb_get_api_key">Získajte kľúč API</string>
+    <string name="settings_publicmetadb_connect_action">Pripojte sa</string>
+    <string name="settings_publicmetadb_missing_key">Zadajte svoj kľúč API PublicMetaDB.</string>
+    <string name="settings_publicmetadb_invalid_key">PublicMetaDB neakceptoval tento kľúč API. Skontrolujte to a skúste to znova.</string>
+    <string name="settings_publicmetadb_request_failed">Nepodarilo sa spojiť s PublicMetaDB. Skúste to znova.</string>
+    <string name="settings_publicmetadb_rate_limited">Bol dosiahnutý limit žiadostí PublicMetaDB. Skúste to znova o chvíľu.</string>
+    <string name="settings_publicmetadb_blocked">PublicMetaDB zablokoval túto žiadosť. Skúste to znova neskôr.</string>
+    <string name="settings_publicmetadb_auth_revoked">Váš kľúč API PublicMetaDB už nie je platný. Pripojte sa znova s ​​novým kľúčom.</string>
+    <string name="settings_publicmetadb_unavailable">Nepodarilo sa synchronizovať s PublicMetaDB. Skúste to znova.</string>
+</resources>

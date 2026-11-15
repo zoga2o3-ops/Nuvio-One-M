@@ -1,0 +1,20 @@
+<resources>
+    <string name="settings_backup_section">النسخ الاحتياطي</string>
+    <string name="settings_backup_include_sensitive">تضمين معلومات حساسة</string>
+    <string name="settings_backup_include_sensitive_description">أضف مفاتيح API ومفاتيح debrid والإضافات والبث التلفزيوني المباشر ومعرف التطبيق Discord إلى الملف الذي تم تصديره. احتفظ بهذا الملف خاصًا</string>
+    <string name="settings_backup_export">إعدادات التصدير</string>
+    <string name="settings_backup_export_description">حفظ الإعدادات والمكونات الإضافية في ملف. لا يتم تضمين المجموعات وأجهزة التتبع وحساب Nuvio الخاص بك أبدًا</string>
+    <string name="settings_backup_export_done">تم تصدير الإعدادات</string>
+    <string name="settings_backup_export_failed">تعذر تصدير الإعدادات</string>
+    <string name="settings_backup_import">إعدادات الاستيراد</string>
+    <string name="settings_backup_import_description">استعادة الإعدادات من ملف تم تصديره</string>
+    <string name="settings_backup_importing">جارٍ استيراد الإعدادات...</string>
+    <string name="settings_backup_import_confirm_title">إعدادات الاستيراد؟</string>
+    <string name="settings_backup_import_confirm_message">ستحل الإعدادات من هذا الملف محل الإعدادات الحالية لملف التعريف هذا. ستتم إضافة المكونات الإضافية المفقودة. تظل مفاتيح واجهة برمجة التطبيقات (API) والوظائف الإضافية والبث التلفزيوني المباشر دون تغيير.</string>
+    <string name="settings_backup_import_confirm_message_sensitive">ستحل الإعدادات من هذا الملف محل الإعدادات الحالية لملف التعريف هذا، بما في ذلك مفاتيح API ومفاتيح debrid. ستتم إضافة الإضافات والمكونات الإضافية ومصادر البث التلفزيوني المباشر المفقودة.</string>
+    <string name="settings_backup_import_confirm_action">يستورد</string>
+    <string name="settings_backup_import_done">تم استيراد الإعدادات</string>
+    <string name="settings_backup_import_partial">تم استيراد الإعدادات، ولكن لا يمكن تطبيق بعض الأقسام</string>
+    <string name="settings_backup_import_failed">تعذر استيراد الإعدادات</string>
+    <string name="settings_backup_import_invalid">هذا الملف ليس تصدير إعدادات Nuvio</string>
+</resources>

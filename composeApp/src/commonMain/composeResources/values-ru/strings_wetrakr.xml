@@ -1,0 +1,33 @@
+<resources>
+    <string name="tracking_source_wetrakr">WeTrakr</string>
+    <string name="settings_wetrakr_library_description">Ваши списки WeTrakr: планирование, просмотр, ожидание, просмотр, пауза и прекращение.</string>
+    <string name="settings_wetrakr_progress_description">Продолжайте просмотр и переходите к следующему из воспроизведения и просмотренных эпизодов WeTrakr.</string>
+    <string name="library_wetrakr_title">Библиотека WeTrakr</string>
+    <string name="library_wetrakr_load_failed">Не удалось загрузить вашу библиотеку WeTrakr.</string>
+    <string name="library_wetrakr_empty_title">Ваша библиотека WeTrakr пуста.</string>
+    <string name="library_wetrakr_empty_message">Добавьте фильмы и шоу в свои списки WeTrakr, чтобы увидеть их здесь.</string>
+    <string name="settings_wetrakr_connect">Подключите WeTrakr</string>
+    <string name="settings_wetrakr_connected_as">Подключено как %1$s</string>
+    <string name="settings_wetrakr_connected_description">Синхронизируйте свои списки, историю просмотра, рейтинги, скробблы и продолжайте просмотр с помощью WeTrakr.</string>
+    <string name="settings_wetrakr_sign_in_description">Подключите WeTrakr, чтобы синхронизировать свои списки, историю просмотров, рейтинги, скробблы и продолжить просмотр.</string>
+    <string name="settings_wetrakr_finish_sign_in">Завершить вход</string>
+    <string name="settings_wetrakr_approval_description">Откройте страницу активации WeTrakr и введите этот код. Nuvio подключается автоматически после вашего одобрения.</string>
+    <string name="settings_wetrakr_open_login">Открыть страницу активации</string>
+    <string name="settings_wetrakr_disconnect">Отключить WeTrakr</string>
+    <string name="settings_wetrakr_missing_credentials">В этой сборке соединение WeTrakr недоступно.</string>
+    <string name="settings_wetrakr_sync_now">Синхронизировать сейчас</string>
+    <string name="settings_wetrakr_visit">Посетите WeTrakr</string>
+    <string name="settings_wetrakr_disconnect_description">Прекратите отправлять обновления часов из этого профиля. Ваши списки и история WeTrakr сохраняются.</string>
+    <string name="settings_wetrakr_account_fallback">Пользователь WeTrakr</string>
+    <string name="settings_wetrakr_syncing">Синхронизация ваших списков WeTrakr…</string>
+    <string name="settings_wetrakr_last_synced">Последняя синхронизация %1$s</string>
+    <string name="settings_wetrakr_auth_denied">Соединение отклонено. Попробуйте еще раз подключить свою учетную запись.</string>
+    <string name="settings_wetrakr_auth_expired">Срок действия кода активации истек. Попробуйте еще раз, чтобы получить новый код.</string>
+    <string name="settings_wetrakr_auth_failed">Не удалось связаться с WeTrakr, чтобы начать вход. Пожалуйста, попробуйте еще раз.</string>
+    <string name="settings_wetrakr_auth_rate_limited">Слишком много попыток входа. Подождите 15 минут и повторите попытку.</string>
+    <string name="settings_wetrakr_app_suspended">WeTrakr заблокировал это приложение. Пожалуйста, повторите попытку позже.</string>
+    <string name="settings_wetrakr_auth_revoked">Срок действия вашего соединения с WeTrakr истек или оно было аннулировано. Подключитесь еще раз, чтобы возобновить синхронизацию.</string>
+    <string name="settings_wetrakr_unavailable">Не удалось синхронизироваться с WeTrakr. Пожалуйста, попробуйте еще раз.</string>
+    <string name="settings_wetrakr_rate_limited">Достигнут лимит запросов WeTrakr. Синхронизация возобновится в ближайшее время.</string>
+    <string name="settings_wetrakr_plan_limit">Для этого требуется WeTrakr VIP или это превышает ограничения вашего плана.</string>
+</resources>

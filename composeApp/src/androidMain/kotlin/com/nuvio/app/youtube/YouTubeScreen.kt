@@ -68,6 +68,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
+import nuvio.composeapp.generated.resources.Res
+import nuvio.composeapp.generated.resources.youtube_empty_nothing
+import nuvio.composeapp.generated.resources.youtube_empty_signed_out_home
+import nuvio.composeapp.generated.resources.youtube_sign_in
+import nuvio.composeapp.generated.resources.youtube_sign_in_to_see
+import org.jetbrains.compose.resources.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -77,6 +83,7 @@ import coil3.compose.AsyncImage
 import com.nuvio.app.core.ui.LocalNuvioBottomNavigationOverlayPadding
 import com.nuvio.app.core.ui.LocalScreenActive
 import com.nuvio.app.features.youtube.YouTubePlayRequest
+import nuvio.composeapp.generated.resources.*
 
 /** The YouTube page: feeds, search and sign-in, laid out for touch. Playing hands off to Nuvio's own player. */
 @Composable
@@ -136,12 +143,12 @@ fun YouTubeScreen(modifier: Modifier = Modifier, onPlay: (YouTubePlayRequest) ->
                     if (it.isFocused) vm.suggest(query)
                 },
                 singleLine = true,
-                placeholder = { Text("Search YouTube") },
+                placeholder = { Text(stringResource(Res.string.youtube_ui_search_youtube)) },
                 leadingIcon = { Icon(Icons.Filled.Search, contentDescription = null) },
                 trailingIcon = if (query.isNotEmpty()) {
                     {
                         IconButton(onClick = { query = ""; vm.suggest("") }) {
-                            Icon(Icons.Filled.Close, contentDescription = "Clear search")
+                            Icon(Icons.Filled.Close, contentDescription = stringResource(Res.string.episode_navigator_clear_search))
                         }
                     }
                 } else null,
@@ -154,17 +161,17 @@ fun YouTubeScreen(modifier: Modifier = Modifier, onPlay: (YouTubePlayRequest) ->
                 searchOpen = !searchOpen
                 if (!searchOpen) { query = ""; focusManager.clearFocus() }
             }) {
-                Icon(Icons.Filled.Search, contentDescription = if (searchOpen) "Hide search" else "Search YouTube")
+                Icon(Icons.Filled.Search, contentDescription = if (searchOpen) "Hide search" else stringResource(Res.string.youtube_ui_search_youtube))
             }
             IconButton(onClick = { showSettings = true }) {
-                Icon(Icons.Filled.Settings, contentDescription = "Settings")
+                Icon(Icons.Filled.Settings, contentDescription = stringResource(Res.string.compose_settings_page_root))
             }
             if (account.signedIn) {
                 OutlinedButton(onClick = { showAccounts = true }) {
-                    Text(account.accountName ?: "Account", maxLines = 1, overflow = TextOverflow.Ellipsis)
+                    Text(account.accountName ?: stringResource(Res.string.compose_settings_page_account), maxLines = 1, overflow = TextOverflow.Ellipsis)
                 }
             } else if (account.checked) {
-                Button(onClick = { accounts.startSignIn() }) { Text("Sign in") }
+                Button(onClick = { accounts.startSignIn() }) { Text(stringResource(Res.string.youtube_sign_in)) }
             }
         }
         val tabRow: @Composable () -> Unit = {
@@ -176,7 +183,7 @@ fun YouTubeScreen(modifier: Modifier = Modifier, onPlay: (YouTubePlayRequest) ->
                     FilterChip(
                         selected = state.tab == tab && state.subTitle == null,
                         onClick = { query = ""; vm.selectTab(tab) },
-                        label = { Text(tab.title) },
+                        label = { Text(stringResource(tab.titleRes)) },
                     )
                 }
             }
@@ -222,7 +229,7 @@ fun YouTubeScreen(modifier: Modifier = Modifier, onPlay: (YouTubePlayRequest) ->
                         maxLines = 1, overflow = TextOverflow.Ellipsis,
                     )
                 }
-                if (query.isBlank()) TextButton(onClick = { vm.clearSearchHistory() }) { Text("Clear search history") }
+                if (query.isBlank()) TextButton(onClick = { vm.clearSearchHistory() }) { Text(stringResource(Res.string.youtube_ui_clear_search_history)) }
             }
         }
 
@@ -239,11 +246,14 @@ fun YouTubeScreen(modifier: Modifier = Modifier, onPlay: (YouTubePlayRequest) ->
                     text = when {
                         state.error != null -> state.error!!
                         state.tab == YtTab.HOME && !state.signedIn ->
-                            "Home is picked for you. OneTube only fills it once you sign in. Try Live, Music or Gaming above, or sign in."
-                        state.tab.needsSignIn && !state.signedIn -> "Sign in to see your ${state.tab.title.lowercase()}."
-                        else -> "Nothing here yet."
+                            stringResource(Res.string.youtube_empty_signed_out_home)
+                        state.tab.needsSignIn && !state.signedIn -> stringResource(
+                            Res.string.youtube_sign_in_to_see,
+                            stringResource(state.tab.titleRes).lowercase(),
+                        )
+                        else -> stringResource(Res.string.youtube_empty_nothing)
                     },
-                    action = if ((state.tab.needsSignIn || state.tab == YtTab.HOME) && !state.signedIn) "Sign in" else null,
+                    action = if ((state.tab.needsSignIn || state.tab == YtTab.HOME) && !state.signedIn) stringResource(Res.string.youtube_sign_in) else null,
                     onAction = { accounts.startSignIn() },
                 )
                 state.tab == YtTab.CHANNELS && state.subTitle == null && state.grid.isNotEmpty() ->
@@ -269,7 +279,7 @@ fun YouTubeScreen(modifier: Modifier = Modifier, onPlay: (YouTubePlayRequest) ->
             error?.let {
                 AlertDialog(
                     onDismissRequest = vm::clearError,
-                    confirmButton = { TextButton(onClick = vm::clearError) { Text("OK") } },
+                    confirmButton = { TextButton(onClick = vm::clearError) { Text(stringResource(Res.string.action_ok)) } },
                     text = { Text(it) },
                 )
             }
@@ -440,7 +450,7 @@ private fun ChannelsList(state: YtUiState, vm: YouTubeViewModel, split: Boolean,
                         modifier = Modifier.size(44.dp).clip(CircleShape),
                     )
                     Text(channel.title, maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.padding(start = 12.dp).weight(1f))
-                    if (split) TextButton(onClick = { vm.open(channel) }) { Text("Open") }
+                    if (split) TextButton(onClick = { vm.open(channel) }) { Text(stringResource(Res.string.youtube_ui_open)) }
                 }
             }
         }

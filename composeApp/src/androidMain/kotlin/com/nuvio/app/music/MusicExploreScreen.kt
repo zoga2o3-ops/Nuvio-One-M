@@ -47,6 +47,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import com.nuvio.app.music.engine.data.model.HomeShelf
 import com.nuvio.app.music.engine.data.model.MoodGenre
+import nuvio.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 internal fun MusicExploreScreen(
@@ -65,8 +67,8 @@ internal fun MusicExploreScreen(
             state.error != null && state.sections.isEmpty() ->
                 MusicErrorState(state.error, onRetry, modifier)
             state.sections.isEmpty() -> MusicEmptyState(
-                title = "Nothing to explore",
-                message = "The music service didn't send any moods or genres.",
+                title = stringResource(Res.string.music_ui_nothing_to_explore),
+                message = stringResource(Res.string.music_ui_the_music_service_didn_t_send_any_moods_or_genres),
                 modifier = modifier
             )
             else -> MoodList(state, onMoodClick, modifier)
@@ -155,7 +157,7 @@ private fun ExploreHeader() {
         )
     ) {
         Text(
-            text = "Explore",
+            text = stringResource(Res.string.music_tab_explore),
             color = MusicPalette.text,
             fontFamily = MusicDisplay,
             fontSize = if (compact) 30.sp else 40.sp,
@@ -164,7 +166,7 @@ private fun ExploreHeader() {
         )
         Spacer(Modifier.height(5.dp))
         Text(
-            text = "Moods, moments and genres for every listening room.",
+            text = stringResource(Res.string.music_ui_moods_moments_and_genres_for_every_listening_room),
             color = MusicPalette.textSecondary,
             fontSize = if (compact) 13.sp else 14.sp
         )
@@ -181,7 +183,7 @@ private fun MoodTile(
     val scale by animateFloatAsState(
         targetValue = if (focused) 1.04f else 1f,
         animationSpec = tween(140),
-        label = "moodTileScale"
+        label = stringResource(Res.string.music_ui_moodtilescale)
     )
     val base = mood.stripeColor?.let { Color(it) } ?: MusicPalette.accentPurple
     // YouTube's stripe colours range from near-black to pale yellow. Keep every tile
@@ -229,7 +231,7 @@ private fun MoodTile(
             modifier = Modifier.align(Alignment.TopStart)
         )
         Text(
-            text = "BROWSE",
+            text = stringResource(Res.string.music_ui_browse),
             color = Color.White.copy(alpha = 0.68f),
             fontSize = 10.5.sp,
             fontWeight = FontWeight.Bold,
@@ -282,7 +284,7 @@ private fun MoodDetail(
                 ) {
                     Icon(
                         Icons.AutoMirrored.Filled.ArrowBack,
-                        contentDescription = "Back",
+                        contentDescription = stringResource(Res.string.action_back),
                         tint = if (focused) MusicPalette.background else MusicPalette.text,
                         modifier = Modifier.size(18.dp)
                     )

@@ -1,0 +1,19 @@
+<resources>
+    <string name="episode_navigator_search_hint">Търсете заглавие, сюжет или номер</string>
+    <string name="episode_navigator_clear_search">Изчистете търсенето</string>
+    <string name="episode_navigator_go_to">Отидете на</string>
+    <string name="episode_navigator_sort">Сортиране</string>
+    <string name="episode_navigator_count">%1$d от %2$d епизоди</string>
+    <string name="episode_navigator_no_match">Няма епизоди, съответстващи на „%1$s“</string>
+    <string name="episode_navigator_go_to_title">Преминете към епизод</string>
+    <string name="episode_navigator_episode_number">Номер на епизод</string>
+    <string name="episode_navigator_go">върви</string>
+    <string name="episode_navigator_go_to_help">Въведете номер или изберете един по-долу. Подчертано = гледано, очертано = следващо.</string>
+    <string name="episode_navigator_out_of_range">%1$s има епизоди %2$d–%3$d</string>
+    <string name="episode_navigator_sort_title">Сортиране на епизоди</string>
+    <string name="episode_navigator_sort_first_to_last">Епизод: първи до последен</string>
+    <string name="episode_navigator_sort_last_to_first">Епизод: последен към първи</string>
+    <string name="episode_navigator_sort_highest_rated">Най-висок рейтинг</string>
+    <string name="episode_navigator_sort_newest_aired">Най-новото излъчено</string>
+    <string name="episode_navigator_sort_unwatched_first">Първо негледан</string>
+</resources>

@@ -1,6 +1,21 @@
 package com.nuvio.app.youtube
 
 import android.content.Context
+import androidx.compose.runtime.Composable
+import nuvio.composeapp.generated.resources.Res
+import nuvio.composeapp.generated.resources.youtube_settings_auto
+import nuvio.composeapp.generated.resources.youtube_settings_category_filler
+import nuvio.composeapp.generated.resources.youtube_settings_category_interaction
+import nuvio.composeapp.generated.resources.youtube_settings_category_intro
+import nuvio.composeapp.generated.resources.youtube_settings_category_music_offtopic
+import nuvio.composeapp.generated.resources.youtube_settings_category_outro
+import nuvio.composeapp.generated.resources.youtube_settings_category_preview
+import nuvio.composeapp.generated.resources.youtube_settings_category_selfpromo
+import nuvio.composeapp.generated.resources.youtube_settings_category_sponsor
+import nuvio.composeapp.generated.resources.youtube_settings_codec_auto
+import nuvio.composeapp.generated.resources.youtube_settings_codec_avc
+import org.jetbrains.compose.resources.StringResource
+import org.jetbrains.compose.resources.stringResource
 
 /** Your YouTube choices, kept on this device. */
 object YouTubeSettings {
@@ -28,15 +43,15 @@ object YouTubeSettings {
     private const val KEY_CONTENT_REGION = "content_region"
 
     /** SponsorBlock's segment types, in the order they're listed. */
-    val sponsorCategories: List<Pair<String, String>> = listOf(
-        "sponsor" to "Sponsor",
-        "selfpromo" to "Self-promotion",
-        "interaction" to "Like and subscribe reminders",
-        "intro" to "Intros",
-        "outro" to "Outros and end cards",
-        "preview" to "Previews and recaps",
-        "music_offtopic" to "Non-music parts",
-        "filler" to "Filler"
+    val sponsorCategories: List<Pair<String, StringResource>> = listOf(
+        "sponsor" to Res.string.youtube_settings_category_sponsor,
+        "selfpromo" to Res.string.youtube_settings_category_selfpromo,
+        "interaction" to Res.string.youtube_settings_category_interaction,
+        "intro" to Res.string.youtube_settings_category_intro,
+        "outro" to Res.string.youtube_settings_category_outro,
+        "preview" to Res.string.youtube_settings_category_preview,
+        "music_offtopic" to Res.string.youtube_settings_category_music_offtopic,
+        "filler" to Res.string.youtube_settings_category_filler
     )
 
     private val defaultCategories = setOf("sponsor", "selfpromo", "interaction")
@@ -186,11 +201,12 @@ object YouTubeSettings {
         prefs(context).edit().putString(KEY_CODEC, codec).apply()
     }
 
+    @Composable
     fun codecLabel(codec: String) = when (codec) {
-        "avc" -> "H.264 (most compatible)"
+        "avc" -> stringResource(Res.string.youtube_settings_codec_avc)
         "vp9" -> "VP9"
         "av1" -> "AV1"
-        else -> "Auto"
+        else -> stringResource(Res.string.youtube_settings_codec_auto)
     }
 
     /** Video MIME types in the order to try them. Auto leaves AV1 for last: few boxes decode it well. */
@@ -213,5 +229,6 @@ object YouTubeSettings {
         prefs(context).edit().putInt(KEY_QUALITY, height).apply()
     }
 
-    fun qualityLabel(height: Int) = if (height <= 0) "Auto" else "${height}p"
+    @Composable
+    fun qualityLabel(height: Int) = if (height <= 0) stringResource(Res.string.youtube_settings_auto) else "${height}p"
 }

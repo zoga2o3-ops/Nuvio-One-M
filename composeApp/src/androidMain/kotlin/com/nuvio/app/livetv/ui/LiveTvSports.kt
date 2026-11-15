@@ -64,6 +64,9 @@ import com.nuvio.app.livetv.sports.SportsRepository
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import nuvio.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.resources.getString
 
 private val CardBg = Color(0xFF1B1B1F)
 private val Accent = Color(0xFFE53935)
@@ -97,6 +100,8 @@ fun SportsPage(
     var fixFor by remember { mutableStateOf<SportsEvent?>(null) }
     var windowChannel by remember { mutableStateOf<LiveChannel?>(null) }
     val context = androidx.compose.ui.platform.LocalContext.current
+    val reminderToast = stringResource(Res.string.live_tv_ui_you_ll_get_a_reminder)
+    val sportsLabel = stringResource(Res.string.yt_tab_sports)
     val notifications = rememberLiveTvNotificationPermission()
 
     val from = remember(day) { repo.dayStart(day) }
@@ -131,7 +136,7 @@ fun SportsPage(
                 Pill("Games", mode == "games") { mode = "games" }
                 Pill("My Teams", mode == "mine") { mode = "mine" }
                 Pill("Tables", mode == "tables") { mode = "tables" }
-                Pill("Search", mode == "search") { mode = "search" }
+                Pill(stringResource(Res.string.collections_editor_tmdb_search), mode == "search") { mode = "search" }
             }
             if (mode == "games") {
                 DaySwitcher(day = day, onDay = { day = it }, dayFmt = dayFmt, repo = repo)
@@ -152,13 +157,13 @@ fun SportsPage(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 modifier = Modifier.padding(bottom = 8.dp),
             ) {
-                item { Pill("All", sport == null) { sport = null } }
+                item { Pill(stringResource(Res.string.collections_tab_all), sport == null) { sport = null } }
                 items(sportsToday) { s -> Pill("${s.icon} ${s.label}", sport == s) { sport = s } }
             }
         }
         if (mode == "games" && !hasChannels) {
             Text(
-                "Add a playlist to watch games. You can still see scores and times.",
+                stringResource(Res.string.live_tv_ui_add_a_playlist_to_watch_games_you_can_still_see_scores_and_t),
                 style = MaterialTheme.typography.bodySmall,
                 color = LocalContentColor.current.copy(alpha = 0.6f),
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
@@ -174,7 +179,7 @@ fun SportsPage(
             if (groups.isEmpty()) {
                 Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                     if (loading) CircularProgressIndicator()
-                    else Text("No games found for this day.", color = LocalContentColor.current.copy(alpha = 0.6f))
+                    else Text(stringResource(Res.string.live_tv_ui_no_games_found_for_this_day), color = LocalContentColor.current.copy(alpha = 0.6f))
                 }
             } else {
                 LazyColumn(
@@ -218,11 +223,11 @@ fun SportsPage(
                 val was = repo.isReminded(ev)
                 repo.toggleReminder(ev)
                 val lead = settings.remindMinutes * 60_000L
-                val r = com.nuvio.app.livetv.model.Reminder("sport:" + ev.id, SportsCatalog.league(ev.leagueId)?.name ?: "Sports", ev.title, ev.startMs + 2 * 60_000L - lead)
+                val r = com.nuvio.app.livetv.model.Reminder("sport:" + ev.id, SportsCatalog.league(ev.leagueId)?.name ?: sportsLabel, ev.title, ev.startMs + 2 * 60_000L - lead)
                 if (was) com.nuvio.app.livetv.reminders.LiveTvReminders.cancel(context, r)
                 else {
                     com.nuvio.app.livetv.reminders.LiveTvReminders.schedule(context, r)
-                    android.widget.Toast.makeText(context, "You'll get a reminder.", android.widget.Toast.LENGTH_SHORT).show()
+                    android.widget.Toast.makeText(context, reminderToast, android.widget.Toast.LENGTH_SHORT).show()
                 }
             },
             onWatch = { m -> if (settings.videoWindow) windowChannel = m.channel else onWatch(m.channel); opened = null },
@@ -258,7 +263,7 @@ private fun Pill(label: String, selected: Boolean, onClick: () -> Unit) {
 @Composable
 internal fun LiveBadge(modifier: Modifier = Modifier) {
     Text(
-        "LIVE",
+        stringResource(Res.string.live_tv_ui_live),
         color = Color.White,
         fontSize = 10.sp,
         fontWeight = FontWeight.Bold,
@@ -271,7 +276,7 @@ internal fun LiveBadge(modifier: Modifier = Modifier) {
 private fun DaySwitcher(day: Int, onDay: (Int) -> Unit, dayFmt: SimpleDateFormat, repo: SportsRepository) {
     val label = when (day) {
         -1 -> "Yesterday"
-        0 -> "Today"
+        0 -> stringResource(Res.string.library_calendar_today)
         1 -> "Tomorrow"
         else -> dayFmt.format(Date(repo.dayStart(day)))
     }
@@ -281,7 +286,7 @@ private fun DaySwitcher(day: Int, onDay: (Int) -> Unit, dayFmt: SimpleDateFormat
             onClick = { onDay(day - 1) },
             modifier = Modifier.size(40.dp),
         ) {
-            Icon(Icons.Default.KeyboardArrowLeft, contentDescription = "Previous day", modifier = Modifier.size(22.dp))
+            Icon(Icons.Default.KeyboardArrowLeft, contentDescription = stringResource(Res.string.live_tv_ui_previous_day), modifier = Modifier.size(22.dp))
         }
         Text(
             label,
@@ -295,7 +300,7 @@ private fun DaySwitcher(day: Int, onDay: (Int) -> Unit, dayFmt: SimpleDateFormat
             onClick = { onDay(day + 1) },
             modifier = Modifier.size(40.dp),
         ) {
-            Icon(Icons.Default.KeyboardArrowRight, contentDescription = "Next day", modifier = Modifier.size(22.dp))
+            Icon(Icons.Default.KeyboardArrowRight, contentDescription = stringResource(Res.string.live_tv_ui_next_day), modifier = Modifier.size(22.dp))
         }
     }
 }
@@ -304,9 +309,9 @@ private const val MIN_DAY = -1
 private const val MAX_DAY = 6
 
 private fun statusOf(ev: SportsEvent, clock: SimpleDateFormat): String = when (ev.state) {
-    GameState.PRE -> if (ev.hasTime) clock.format(Date(ev.startMs)) else "Today"
-    GameState.LIVE -> ev.status?.takeIf { it.isNotBlank() } ?: "LIVE"
-    GameState.POST -> ev.status?.takeIf { it.isNotBlank() } ?: "Final"
+    GameState.PRE -> if (ev.hasTime) clock.format(Date(ev.startMs)) else kotlinx.coroutines.runBlocking { getString(Res.string.library_calendar_today) }
+    GameState.LIVE -> ev.status?.takeIf { it.isNotBlank() } ?: kotlinx.coroutines.runBlocking { getString(Res.string.live_tv_ui_live) }
+    GameState.POST -> ev.status?.takeIf { it.isNotBlank() } ?: kotlinx.coroutines.runBlocking { getString(Res.string.live_tv_ui_final) }
     GameState.OFF -> ev.status?.takeIf { it.isNotBlank() } ?: clock.format(Date(ev.startMs))
 }
 
@@ -405,7 +410,7 @@ private fun SportsSearch(repo: SportsRepository) {
     Column(Modifier.fillMaxSize()) {
         OutlinedTextField(
             value = query, onValueChange = { query = it }, singleLine = true,
-            placeholder = { Text("Search teams or leagues") },
+            placeholder = { Text(stringResource(Res.string.live_tv_ui_search_teams_or_leagues)) },
             modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 4.dp),
         )
         LazyColumn(
@@ -415,7 +420,7 @@ private fun SportsSearch(repo: SportsRepository) {
             if (q.length < 2) {
                 item {
                     Text(
-                        "Type at least 2 letters to search teams and leagues.",
+                        stringResource(Res.string.live_tv_ui_type_at_least_2_letters_to_search_teams_and_leagues),
                         style = MaterialTheme.typography.bodySmall,
                         color = LocalContentColor.current.copy(alpha = 0.6f),
                     )
@@ -424,7 +429,7 @@ private fun SportsSearch(repo: SportsRepository) {
             if (leagues.isNotEmpty()) {
                 item {
                     Text(
-                        "Leagues",
+                        stringResource(Res.string.live_tv_ui_leagues_2),
                         style = MaterialTheme.typography.titleSmall,
                         color = MaterialTheme.colorScheme.primary,
                         modifier = Modifier.padding(top = 8.dp, bottom = 2.dp),
@@ -447,7 +452,7 @@ private fun SportsSearch(repo: SportsRepository) {
             if (teams.isNotEmpty()) {
                 item {
                     Text(
-                        "Teams",
+                        stringResource(Res.string.live_tv_ui_teams),
                         style = MaterialTheme.typography.titleSmall,
                         color = MaterialTheme.colorScheme.primary,
                         modifier = Modifier.padding(top = 12.dp, bottom = 2.dp),
@@ -508,13 +513,13 @@ private fun GameDialog(
                 ev.subtitle?.let { Text(it, style = MaterialTheme.typography.bodySmall) }
                 ev.situation?.let { Text(it, style = MaterialTheme.typography.bodySmall, color = Accent) }
                 if (ev.broadcasts.isNotEmpty()) {
-                    Text("TV: " + ev.broadcasts.joinToString(", "), style = MaterialTheme.typography.bodySmall, color = LocalContentColor.current.copy(alpha = 0.7f))
+                    Text(stringResource(Res.string.live_tv_ui_tv) + ev.broadcasts.joinToString(", "), style = MaterialTheme.typography.bodySmall, color = LocalContentColor.current.copy(alpha = 0.7f))
                 }
                 Spacer(Modifier.height(4.dp))
                 if (matches.isEmpty()) {
-                    Text("None of your channels are showing this one.", color = LocalContentColor.current.copy(alpha = 0.6f))
+                    Text(stringResource(Res.string.live_tv_ui_none_of_your_channels_are_showing_this_one), color = LocalContentColor.current.copy(alpha = 0.6f))
                 } else {
-                    Text("Your channels", style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.primary)
+                    Text(stringResource(Res.string.live_tv_ui_your_channels), style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.primary)
                     LazyColumn(Modifier.height(220.dp)) {
                         items(matches.take(12), key = { it.channel.key }) { m ->
                             Row(Modifier.fillMaxWidth().padding(vertical = 6.dp), verticalAlignment = Alignment.CenterVertically) {
@@ -526,20 +531,20 @@ private fun GameDialog(
                                         color = LocalContentColor.current.copy(alpha = 0.6f),
                                     )
                                 }
-                                if (ev.state != GameState.POST) TextButton(onClick = { onRecord(m) }) { Text("Record") }
-                                TextButton(onClick = { onWatch(m) }) { Text("Watch") }
+                                if (ev.state != GameState.POST) TextButton(onClick = { onRecord(m) }) { Text(stringResource(Res.string.live_tv_ui_record)) }
+                                TextButton(onClick = { onWatch(m) }) { Text(stringResource(Res.string.live_tv_ui_watch)) }
                             }
                         }
                     }
                 }
             }
         },
-        confirmButton = { TextButton(onClick = onDismiss) { Text("Close") } },
+        confirmButton = { TextButton(onClick = onDismiss) { Text(stringResource(Res.string.action_close)) } },
         dismissButton = {
             Row {
-                TextButton(onClick = onDetails) { Text("Details") }
+                TextButton(onClick = onDetails) { Text(stringResource(Res.string.settings_meta_details)) }
                 if (ev.state == GameState.PRE) TextButton(onClick = onRemind) { Text(if (reminded) "Remove reminder" else "Remind me") }
-                TextButton(onClick = onFix) { Text("Wrong channel?") }
+                TextButton(onClick = onFix) { Text(stringResource(Res.string.live_tv_ui_wrong_channel)) }
             }
         },
     )

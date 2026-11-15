@@ -1,0 +1,36 @@
+<resources>
+    <string name="tracking_source_publicmetadb">PublicMetaDB</string>
+    <string name="settings_publicmetadb_library_description">உங்கள் PublicMetaDB கண்காணிப்பு பட்டியல் மற்றும் தனிப்பயன் பட்டியல்கள்.</string>
+    <string name="settings_publicmetadb_progress_description">உங்கள் PublicMetaDB ரெஸ்யூம் பாயிண்ட்கள் மற்றும் பார்வை வரலாற்றில் இருந்து தொடர்ந்து பார்க்கவும் மற்றும் அடுத்தது.</string>
+    <string name="library_publicmetadb_title">PublicMetaDB நூலகம்</string>
+    <string name="library_publicmetadb_load_failed">உங்கள் PublicMetaDB நூலகத்தை ஏற்ற முடியவில்லை</string>
+    <string name="library_publicmetadb_empty_title">உங்கள் PublicMetaDB நூலகம் காலியாக உள்ளது</string>
+    <string name="library_publicmetadb_empty_message">திரைப்படங்கள் மற்றும் நிகழ்ச்சிகளை உங்கள் PublicMetaDB பட்டியல்களில் சேர்த்து அவற்றை இங்கே பார்க்கலாம்.</string>
+    <string name="settings_publicmetadb_connect">PublicMetaDB ஐ இணைக்கவும்</string>
+    <string name="settings_publicmetadb_connected_as">விசை முடிவான %1$s உடன் இணைக்கப்பட்டுள்ளது</string>
+    <string name="settings_publicmetadb_connected_description">உங்கள் பட்டியல்கள், பார்வை வரலாறு, மதிப்பீடுகள், ஸ்க்ரோபிள்கள் ஆகியவற்றை ஒத்திசைக்கவும் மற்றும் PublicMetaDB உடன் தொடர்ந்து பார்க்கவும்.</string>
+    <string name="settings_publicmetadb_sign_in_description">உங்கள் பட்டியல்களை ஒத்திசைக்க, பார்வை வரலாறு, மதிப்பீடுகள், ஸ்க்ரோபிள்கள் மற்றும் தொடர்ந்து பார்ப்பதற்கு ஏபிஐ விசையுடன் PublicMetaDB ஐ இணைக்கவும்.</string>
+    <string name="settings_publicmetadb_finish_sign_in">இணைப்பதை முடிக்கவும்</string>
+    <string name="settings_publicmetadb_approval_description">இணைப்பதை முடிக்க உங்கள் PublicMetaDB API விசையை உள்ளிடவும்.</string>
+    <string name="settings_publicmetadb_open_login">API விசையை உள்ளிடவும்</string>
+    <string name="settings_publicmetadb_disconnect">PublicMetaDB இணைப்பைத் துண்டிக்கவும்</string>
+    <string name="settings_publicmetadb_missing_credentials">இந்த கட்டமைப்பில் PublicMetaDB இணைப்பு கிடைக்கவில்லை.</string>
+    <string name="settings_publicmetadb_sync_now">இப்போது ஒத்திசைக்கவும்</string>
+    <string name="settings_publicmetadb_visit">PublicMetaDB ஐப் பார்வையிடவும்</string>
+    <string name="settings_publicmetadb_disconnect_description">இந்தச் சுயவிவரத்திலிருந்து வாட்ச் புதுப்பிப்புகளை அனுப்புவதை நிறுத்திவிட்டு, API விசையை மறந்துவிடுங்கள். உங்கள் PublicMetaDB பட்டியல்கள் மற்றும் வரலாறு சேமிக்கப்படும்.</string>
+    <string name="settings_publicmetadb_account_fallback">உங்கள் API விசை</string>
+    <string name="settings_publicmetadb_syncing">உங்கள் PublicMetaDB பட்டியல்களை ஒத்திசைக்கிறது…</string>
+    <string name="settings_publicmetadb_last_synced">கடைசியாக ஒத்திசைத்தது %1$s</string>
+    <string name="settings_publicmetadb_api_key_title">PublicMetaDB ஐ இணைக்கவும்</string>
+    <string name="settings_publicmetadb_api_key_description">அமைப்புகள் → API இன் கீழ் PublicMetaDB இல் API விசையை உருவாக்கவும், பின்னர் அதை இங்கே ஒட்டவும். விசைகள் பொதுவாக pm- உடன் தொடங்கும்.</string>
+    <string name="settings_publicmetadb_api_key_label">API விசை</string>
+    <string name="settings_publicmetadb_get_api_key">API விசையைப் பெறவும்</string>
+    <string name="settings_publicmetadb_connect_action">இணைக்கவும்</string>
+    <string name="settings_publicmetadb_missing_key">உங்கள் PublicMetaDB API விசையை உள்ளிடவும்.</string>
+    <string name="settings_publicmetadb_invalid_key">PublicMetaDB இந்த API விசையை ஏற்கவில்லை. சரிபார்த்து மீண்டும் முயலவும்.</string>
+    <string name="settings_publicmetadb_request_failed">PublicMetaDB ஐ அடைய முடியவில்லை. மீண்டும் முயற்சிக்கவும்.</string>
+    <string name="settings_publicmetadb_rate_limited">PublicMetaDB இன் கோரிக்கை வரம்பை அடைந்துவிட்டது. சிறிது நேரத்தில் மீண்டும் முயற்சிக்கவும்.</string>
+    <string name="settings_publicmetadb_blocked">இந்த கோரிக்கையை PublicMetaDB தடுத்துள்ளது. பிறகு முயற்சிக்கவும்.</string>
+    <string name="settings_publicmetadb_auth_revoked">உங்கள் PublicMetaDB API விசை இனி செல்லுபடியாகாது. புதிய விசையுடன் மீண்டும் இணைக்கவும்.</string>
+    <string name="settings_publicmetadb_unavailable">PublicMetaDB உடன் ஒத்திசைக்க முடியவில்லை. மீண்டும் முயற்சிக்கவும்.</string>
+</resources>

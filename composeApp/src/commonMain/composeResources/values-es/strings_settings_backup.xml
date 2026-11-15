@@ -1,0 +1,20 @@
+<resources>
+    <string name="settings_backup_section">RESPALDO</string>
+    <string name="settings_backup_include_sensitive">Incluir información confidencial</string>
+    <string name="settings_backup_include_sensitive_description">Agregue claves API, claves debrid, complementos, Live TV y el ID de la aplicación Discord al archivo exportado. Mantenga ese archivo privado</string>
+    <string name="settings_backup_export">Configuración de exportación</string>
+    <string name="settings_backup_export_description">Guarde la configuración y los complementos en un archivo. Las colecciones, los rastreadores y su cuenta Nuvio nunca se incluyen</string>
+    <string name="settings_backup_export_done">Configuración exportada</string>
+    <string name="settings_backup_export_failed">No se pudo exportar la configuración</string>
+    <string name="settings_backup_import">Importar configuración</string>
+    <string name="settings_backup_import_description">Restaurar la configuración de un archivo exportado</string>
+    <string name="settings_backup_importing">Importando configuraciones…</string>
+    <string name="settings_backup_import_confirm_title">¿Importar configuración?</string>
+    <string name="settings_backup_import_confirm_message">La configuración de este archivo reemplazará la configuración actual de este perfil. Se agregarán los complementos que falten. Tus claves API, complementos y Live TV permanecen sin cambios.</string>
+    <string name="settings_backup_import_confirm_message_sensitive">La configuración de este archivo reemplazará la configuración actual de este perfil, incluidas las claves API y las claves debrid. Se agregarán complementos, complementos y fuentes de TV en vivo que falten.</string>
+    <string name="settings_backup_import_confirm_action">Importar</string>
+    <string name="settings_backup_import_done">Configuraciones importadas</string>
+    <string name="settings_backup_import_partial">Configuración importada, pero algunas secciones no se pudieron aplicar</string>
+    <string name="settings_backup_import_failed">No se pudo importar la configuración</string>
+    <string name="settings_backup_import_invalid">Este archivo no es una exportación de configuración Nuvio</string>
+</resources>

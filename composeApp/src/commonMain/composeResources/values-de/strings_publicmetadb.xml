@@ -1,0 +1,36 @@
+<resources>
+    <string name="tracking_source_publicmetadb">PublicMetaDB</string>
+    <string name="settings_publicmetadb_library_description">Ihre PublicMetaDB-Beobachtungsliste und benutzerdefinierte Listen.</string>
+    <string name="settings_publicmetadb_progress_description">Von Ihren PublicMetaDB-Lebenslaufpunkten und dem Wiedergabeverlauf aus können Sie mit „Weiterschauen“ und „Als Nächstes“ weitermachen.</string>
+    <string name="library_publicmetadb_title">PublicMetaDB-Bibliothek</string>
+    <string name="library_publicmetadb_load_failed">Ihre PublicMetaDB-Bibliothek konnte nicht geladen werden</string>
+    <string name="library_publicmetadb_empty_title">Ihre PublicMetaDB-Bibliothek ist leer</string>
+    <string name="library_publicmetadb_empty_message">Fügen Sie Filme und Shows zu Ihren PublicMetaDB-Listen hinzu, um sie hier anzuzeigen.</string>
+    <string name="settings_publicmetadb_connect">PublicMetaDB verbinden</string>
+    <string name="settings_publicmetadb_connected_as">Verbunden mit Schlüsselende %1$s</string>
+    <string name="settings_publicmetadb_connected_description">Synchronisieren Sie Ihre Listen, den Wiedergabeverlauf, die Bewertungen, Scrobbles und setzen Sie die Wiedergabe fort mit PublicMetaDB.</string>
+    <string name="settings_publicmetadb_sign_in_description">Verbinden Sie PublicMetaDB mit einem API-Schlüssel, um Ihre Listen, Ihren Wiedergabeverlauf, Bewertungen, Scrobbles und „Weiter ansehen“ zu synchronisieren.</string>
+    <string name="settings_publicmetadb_finish_sign_in">Beenden Sie die Verbindung</string>
+    <string name="settings_publicmetadb_approval_description">Geben Sie Ihren PublicMetaDB-API-Schlüssel ein, um die Verbindung abzuschließen.</string>
+    <string name="settings_publicmetadb_open_login">Geben Sie den API-Schlüssel ein</string>
+    <string name="settings_publicmetadb_disconnect">Trennen Sie PublicMetaDB</string>
+    <string name="settings_publicmetadb_missing_credentials">Die PublicMetaDB-Verbindung ist in diesem Build nicht verfügbar.</string>
+    <string name="settings_publicmetadb_sync_now">Jetzt synchronisieren</string>
+    <string name="settings_publicmetadb_visit">Besuchen Sie PublicMetaDB</string>
+    <string name="settings_publicmetadb_disconnect_description">Hören Sie auf, Uhrenaktualisierungen von diesem Profil zu senden, und vergessen Sie den API-Schlüssel. Ihre PublicMetaDB-Listen und Ihr Verlauf bleiben erhalten.</string>
+    <string name="settings_publicmetadb_account_fallback">Ihren API-Schlüssel</string>
+    <string name="settings_publicmetadb_syncing">Synchronisierung Ihrer PublicMetaDB-Listen…</string>
+    <string name="settings_publicmetadb_last_synced">Zuletzt synchronisiert %1$s</string>
+    <string name="settings_publicmetadb_api_key_title">PublicMetaDB verbinden</string>
+    <string name="settings_publicmetadb_api_key_description">Erstellen Sie einen API-Schlüssel in PublicMetaDB unter Einstellungen → API und fügen Sie ihn dann hier ein. Schlüssel beginnen normalerweise mit pm-.</string>
+    <string name="settings_publicmetadb_api_key_label">API-Schlüssel</string>
+    <string name="settings_publicmetadb_get_api_key">Holen Sie sich einen API-Schlüssel</string>
+    <string name="settings_publicmetadb_connect_action">Verbinden</string>
+    <string name="settings_publicmetadb_missing_key">Geben Sie Ihren PublicMetaDB-API-Schlüssel ein.</string>
+    <string name="settings_publicmetadb_invalid_key">PublicMetaDB hat diesen API-Schlüssel nicht akzeptiert. Überprüfen Sie es und versuchen Sie es erneut.</string>
+    <string name="settings_publicmetadb_request_failed">PublicMetaDB konnte nicht erreicht werden. Bitte versuchen Sie es erneut.</string>
+    <string name="settings_publicmetadb_rate_limited">Das Anforderungslimit von PublicMetaDB wurde erreicht. Versuchen Sie es in Kürze noch einmal.</string>
+    <string name="settings_publicmetadb_blocked">PublicMetaDB hat diese Anfrage blockiert. Bitte versuchen Sie es später noch einmal.</string>
+    <string name="settings_publicmetadb_auth_revoked">Ihr PublicMetaDB-API-Schlüssel ist nicht mehr gültig. Verbinden Sie sich erneut mit einem neuen Schlüssel.</string>
+    <string name="settings_publicmetadb_unavailable">Konnte nicht mit PublicMetaDB synchronisiert werden. Bitte versuchen Sie es erneut.</string>
+</resources>

@@ -55,4 +55,8 @@
     <string name="servers_resume_row">দেখা চালিয়ে যান</string>
     <string name="servers_failure_unsupported">সার্ভারটি এই আইটেমটি সমর্থন করে না।</string>
     <string name="servers_failure_incomplete">এখনো এই সার্ভারের লাইব্রেরি চেক করা হচ্ছে। একটু পর আবার চেষ্টা করুন।</string>
-    </resources>
+    <string name="home_empty_no_sources_title">কোনো কন্টেন্ট সোর্স নেই</string>
+    <string name="home_empty_no_sources_message">হোমে ক্যাটালগ দেখতে একটি অ্যাডন যোগ করুন বা একটি মিডিয়া সার্ভার সংযুক্ত করুন।</string>
+    <string name="search_empty_no_sources_message">সার্চ করার জন্য একটি অ্যাডন যোগ করুন বা একটি মিডিয়া সার্ভার সংযুক্ত করুন।</string>
+    <string name="library_source_servers">সার্ভার</string>
+</resources>

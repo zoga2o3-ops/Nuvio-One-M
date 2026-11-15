@@ -1,0 +1,36 @@
+<resources>
+    <string name="tracking_source_publicmetadb">PublicMetaDB</string>
+    <string name="settings_publicmetadb_library_description">قائمة المراقبة PublicMetaDB الخاصة بك والقوائم المخصصة.</string>
+    <string name="settings_publicmetadb_progress_description">استمر في المشاهدة والمتابعة من نقاط استئناف PublicMetaDB وسجل المشاهدة.</string>
+    <string name="library_publicmetadb_title">مكتبة MetaDB العامة</string>
+    <string name="library_publicmetadb_load_failed">تعذر تحميل مكتبة PublicMetaDB الخاصة بك</string>
+    <string name="library_publicmetadb_empty_title">مكتبة PublicMetaDB الخاصة بك فارغة</string>
+    <string name="library_publicmetadb_empty_message">أضف الأفلام والعروض إلى قوائم PublicMetaDB الخاصة بك لمشاهدتها هنا.</string>
+    <string name="settings_publicmetadb_connect">قم بتوصيل PublicMetaDB</string>
+    <string name="settings_publicmetadb_connected_as">متصل بمفتاح النهاية %1$s</string>
+    <string name="settings_publicmetadb_connected_description">قم بمزامنة قوائمك وسجل المشاهدة والتقييمات والتمريرات ومتابعة المشاهدة باستخدام PublicMetaDB.</string>
+    <string name="settings_publicmetadb_sign_in_description">قم بتوصيل PublicMetaDB بمفتاح واجهة برمجة التطبيقات (API) لمزامنة قوائمك وسجل المشاهدة والتقييمات والتمريرات ومتابعة المشاهدة.</string>
+    <string name="settings_publicmetadb_finish_sign_in">إنهاء الاتصال</string>
+    <string name="settings_publicmetadb_approval_description">أدخل مفتاح PublicMetaDB API الخاص بك لإنهاء الاتصال.</string>
+    <string name="settings_publicmetadb_open_login">أدخل مفتاح API</string>
+    <string name="settings_publicmetadb_disconnect">افصل PublicMetaDB</string>
+    <string name="settings_publicmetadb_missing_credentials">اتصال PublicMetaDB غير متوفر في هذا الإصدار.</string>
+    <string name="settings_publicmetadb_sync_now">مزامنة الآن</string>
+    <string name="settings_publicmetadb_visit">قم بزيارة PublicMetaDB</string>
+    <string name="settings_publicmetadb_disconnect_description">توقف عن إرسال تحديثات الساعة من هذا الملف الشخصي وانسى مفتاح API. يتم الاحتفاظ بقوائم PublicMetaDB وتاريخها.</string>
+    <string name="settings_publicmetadb_account_fallback">مفتاح API الخاص بك</string>
+    <string name="settings_publicmetadb_syncing">جارٍ مزامنة قوائم PublicMetaDB الخاصة بك...</string>
+    <string name="settings_publicmetadb_last_synced">آخر مزامنة %1$s</string>
+    <string name="settings_publicmetadb_api_key_title">قم بتوصيل PublicMetaDB</string>
+    <string name="settings_publicmetadb_api_key_description">قم بإنشاء مفتاح API على PublicMetaDB ضمن الإعدادات → API، ثم الصقه هنا. تبدأ المفاتيح عادةً بـ PM-.</string>
+    <string name="settings_publicmetadb_api_key_label">مفتاح واجهة برمجة التطبيقات</string>
+    <string name="settings_publicmetadb_get_api_key">احصل على مفتاح API</string>
+    <string name="settings_publicmetadb_connect_action">يتصل</string>
+    <string name="settings_publicmetadb_missing_key">أدخل مفتاح واجهة برمجة تطبيقات PublicMetaDB الخاص بك.</string>
+    <string name="settings_publicmetadb_invalid_key">لم يقبل PublicMetaDB مفتاح API هذا. التحقق من ذلك وحاول مرة أخرى.</string>
+    <string name="settings_publicmetadb_request_failed">لا يمكن الوصول إلى PublicMetaDB. يرجى المحاولة مرة أخرى.</string>
+    <string name="settings_publicmetadb_rate_limited">تم الوصول إلى الحد الأقصى لطلبات PublicMetaDB. حاول مرة أخرى قريبا.</string>
+    <string name="settings_publicmetadb_blocked">قام PublicMetaDB بحظر هذا الطلب. يرجى المحاولة مرة أخرى لاحقا.</string>
+    <string name="settings_publicmetadb_auth_revoked">لم يعد مفتاح PublicMetaDB API الخاص بك صالحًا. قم بالاتصال مرة أخرى بمفتاح جديد.</string>
+    <string name="settings_publicmetadb_unavailable">لا يمكن المزامنة مع PublicMetaDB. يرجى المحاولة مرة أخرى.</string>
+</resources>

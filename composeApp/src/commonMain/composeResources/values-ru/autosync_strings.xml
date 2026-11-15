@@ -1,0 +1,12 @@
+<resources>
+    <string name="settings_playback_subtitle_auto_sync">Автосинхронизация субтитров</string>
+    <string name="settings_playback_subtitle_auto_sync_description">Автоматически синхронизируйте предпочтительные дополнительные субтитры при запуске воспроизведения. Требуется предпочтительный язык субтитров.</string>
+    <string name="settings_playback_auto_sync_mode_aggressive">Автоматический поиск синхронизации: тщательный</string>
+    <string name="settings_playback_auto_sync_mode_aggressive_description">Продолжает сравнивать другие субтитры и встроенные дорожки для более точного соответствия перед синхронизацией. Применяются только достоверные совпадения.</string>
+    <string name="settings_playback_auto_sync_mode_passive">Автоматический поиск синхронизации: быстрый</string>
+    <string name="settings_playback_auto_sync_mode_passive_description">Раньше использует первое сильное совпадение. Всегда применяются только уверенные совпадения, как в случае с Thorough.</string>
+    <string name="settings_playback_auto_sync_tolerance">Допуск автоматической синхронизации: %1$s</string>
+    <string name="settings_playback_auto_sync_tolerance_description">Сохраняйте исходную синхронизацию субтитров, если синхронизация переместит их не более чем на это значение. Нажмите, чтобы изменить.</string>
+    <string name="settings_playback_auto_sync_tolerance_off">Выключенный</string>
+    <string name="settings_playback_auto_sync_tolerance_value">%1$d мс</string>
+</resources>

@@ -1,0 +1,36 @@
+<resources>
+    <string name="tracking_source_publicmetadb">پبلک میٹا ڈی بی</string>
+    <string name="settings_publicmetadb_library_description">آپ کی PublicMetaDB واچ لسٹ اور اپنی مرضی کی فہرستیں۔</string>
+    <string name="settings_publicmetadb_progress_description">اپنے PublicMetaDB ریزیوم پوائنٹس اور دیکھنے کی سرگزشت سے دیکھنا اور آگے بڑھنا جاری رکھیں۔</string>
+    <string name="library_publicmetadb_title">پبلک میٹا ڈی بی لائبریری</string>
+    <string name="library_publicmetadb_load_failed">آپ کی PublicMetaDB لائبریری لوڈ نہیں ہو سکی</string>
+    <string name="library_publicmetadb_empty_title">آپ کی PublicMetaDB لائبریری خالی ہے۔</string>
+    <string name="library_publicmetadb_empty_message">موویز اور شوز کو یہاں دیکھنے کے لیے اپنی PublicMetaDB فہرستوں میں شامل کریں۔</string>
+    <string name="settings_publicmetadb_connect">PublicMetaDB کو مربوط کریں۔</string>
+    <string name="settings_publicmetadb_connected_as">کلیدی اختتام %1$s کے ساتھ منسلک</string>
+    <string name="settings_publicmetadb_connected_description">پبلک میٹا ڈی بی کے ساتھ اپنی فہرستیں، دیکھنے کی تاریخ، درجہ بندی، اسکروبلز اور دیکھنا جاری رکھیں۔</string>
+    <string name="settings_publicmetadb_sign_in_description">اپنی فہرستوں، دیکھنے کی تاریخ، درجہ بندی، اسکروبلز اور دیکھنا جاری رکھنے کے لیے ایک API کلید کے ساتھ PublicMetaDB کو مربوط کریں۔</string>
+    <string name="settings_publicmetadb_finish_sign_in">جڑنا ختم کریں۔</string>
+    <string name="settings_publicmetadb_approval_description">رابطہ ختم کرنے کے لیے اپنی PublicMetaDB API کلید درج کریں۔</string>
+    <string name="settings_publicmetadb_open_login">API کلید درج کریں۔</string>
+    <string name="settings_publicmetadb_disconnect">PublicMetaDB کو منقطع کریں۔</string>
+    <string name="settings_publicmetadb_missing_credentials">پبلک میٹا ڈی بی کنکشن اس بلڈ میں دستیاب نہیں ہے۔</string>
+    <string name="settings_publicmetadb_sync_now">ابھی مطابقت پذیری کریں۔</string>
+    <string name="settings_publicmetadb_visit">PublicMetaDB ملاحظہ کریں۔</string>
+    <string name="settings_publicmetadb_disconnect_description">اس پروفائل سے گھڑی کی اپ ڈیٹس بھیجنا بند کریں اور API کلید کو بھول جائیں۔ آپ کی PublicMetaDB فہرستیں اور تاریخ رکھی جاتی ہے۔</string>
+    <string name="settings_publicmetadb_account_fallback">آپ کی API کلید</string>
+    <string name="settings_publicmetadb_syncing">آپ کی PublicMetaDB فہرستوں کی مطابقت پذیری ہو رہی ہے…</string>
+    <string name="settings_publicmetadb_last_synced">آخری بار مطابقت پذیری %1$s</string>
+    <string name="settings_publicmetadb_api_key_title">PublicMetaDB کو مربوط کریں۔</string>
+    <string name="settings_publicmetadb_api_key_description">PublicMetaDB پر ترتیبات → API کے تحت ایک API کلید بنائیں، پھر اسے یہاں چسپاں کریں۔ چابیاں عام طور پر pm- سے شروع ہوتی ہیں۔</string>
+    <string name="settings_publicmetadb_api_key_label">API کلید</string>
+    <string name="settings_publicmetadb_get_api_key">ایک API کلید حاصل کریں۔</string>
+    <string name="settings_publicmetadb_connect_action">جڑیں۔</string>
+    <string name="settings_publicmetadb_missing_key">اپنی PublicMetaDB API کلید درج کریں۔</string>
+    <string name="settings_publicmetadb_invalid_key">PublicMetaDB نے اس API کلید کو قبول نہیں کیا۔ اسے چیک کریں اور دوبارہ کوشش کریں۔</string>
+    <string name="settings_publicmetadb_request_failed">PublicMetaDB تک نہیں پہنچ سکا۔ براہ کرم دوبارہ کوشش کریں۔</string>
+    <string name="settings_publicmetadb_rate_limited">PublicMetaDB کی درخواست کی حد پوری ہو گئی ہے۔ تھوڑی دیر میں دوبارہ کوشش کریں۔</string>
+    <string name="settings_publicmetadb_blocked">PublicMetaDB نے اس درخواست کو مسدود کردیا۔ براہ کرم بعد میں دوبارہ کوشش کریں۔</string>
+    <string name="settings_publicmetadb_auth_revoked">آپ کی PublicMetaDB API کلید اب درست نہیں ہے۔ ایک نئی کلید کے ساتھ دوبارہ جڑیں۔</string>
+    <string name="settings_publicmetadb_unavailable">PublicMetaDB کے ساتھ مطابقت پذیری نہیں ہو سکی۔ براہ کرم دوبارہ کوشش کریں۔</string>
+</resources>

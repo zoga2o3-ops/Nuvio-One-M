@@ -1,0 +1,30 @@
+<resources>
+    <string name="tracking_source_anilist">AniList</string>
+    <string name="settings_anilist_anime_section">Anime</string>
+    <string name="settings_anilist_library_description">Vaš AniList popis animea: gledanje, planiranje, dovršeno, pauzirano, odbačeno i ponovno gledanje.</string>
+    <string name="settings_anilist_progress_description">Nastavite s gledanjem i Sljedeće s vašeg AniList popisa za gledanje.</string>
+    <string name="library_anilist_title">Knjižnica AniList</string>
+    <string name="library_anilist_load_failed">Nije moguće učitati vašu AniList biblioteku</string>
+    <string name="library_anilist_empty_title">Vaša AniList biblioteka je prazna</string>
+    <string name="library_anilist_empty_message">Dodajte anime na svoje popise AniList da biste ih vidjeli ovdje.</string>
+    <string name="settings_anilist_connect">Spojite AniList</string>
+    <string name="settings_anilist_connected_as">Povezan kao %1$s</string>
+    <string name="settings_anilist_connected_description">Sinkronizirajte svoje popise animea, napredak epizoda, rezultate i nastavite gledati uz AniList.</string>
+    <string name="settings_anilist_sign_in_description">Povežite AniList za sinkronizaciju popisa animea, napretka epizoda, rezultata i nastavka gledanja.</string>
+    <string name="settings_anilist_finish_sign_in">Završite prijavu</string>
+    <string name="settings_anilist_approval_description">Odobrite Nuvio u svom pregledniku. Automatski ćete biti vraćeni u aplikaciju.</string>
+    <string name="settings_anilist_open_login">Otvorite stranicu za prijavu</string>
+    <string name="settings_anilist_disconnect">Odspojite AniList</string>
+    <string name="settings_anilist_missing_credentials">AniList veza nije dostupna u ovoj verziji.</string>
+    <string name="settings_anilist_sync_now">Sinkroniziraj sada</string>
+    <string name="settings_anilist_visit">Posjetite AniList</string>
+    <string name="settings_anilist_disconnect_description">Prestani slati ažuriranja sata s ovog profila. Vaši AniList popisi se čuvaju.</string>
+    <string name="settings_anilist_account_fallback">Korisnik AniList-a</string>
+    <string name="settings_anilist_syncing">Sinkronizacija vaših AniList popisa…</string>
+    <string name="settings_anilist_last_synced">Zadnja sinkronizacija %1$s</string>
+    <string name="settings_anilist_auth_denied">Veza je odbijena. Pokušajte ponovno povezati svoj račun.</string>
+    <string name="settings_anilist_auth_invalid">AniList je vratio nevažeći odgovor za prijavu. Molimo pokušajte ponovo.</string>
+    <string name="settings_anilist_auth_revoked">Vaša AniList veza je istekla ili je opozvana. Ponovno se povežite za nastavak sinkronizacije.</string>
+    <string name="settings_anilist_unavailable">Nije moguće sinkronizirati s AniList. Molimo pokušajte ponovo.</string>
+    <string name="settings_anilist_rate_limited">Dosegnuto je ograničenje zahtjeva za AniList. Sinkronizacija će se uskoro nastaviti.</string>
+</resources>

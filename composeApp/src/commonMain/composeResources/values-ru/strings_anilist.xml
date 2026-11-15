@@ -1,0 +1,30 @@
+<resources>
+    <string name="tracking_source_anilist">АниЛист</string>
+    <string name="settings_anilist_anime_section">Аниме</string>
+    <string name="settings_anilist_library_description">Ваши списки аниме в AniList: просмотр, планирование, завершение, пауза, прекращение и повторный просмотр.</string>
+    <string name="settings_anilist_progress_description">Продолжить просмотр и перейти к следующему из вашего списка просмотра AniList.</string>
+    <string name="library_anilist_title">Библиотека АниЛист</string>
+    <string name="library_anilist_load_failed">Не удалось загрузить библиотеку AniList.</string>
+    <string name="library_anilist_empty_title">Ваша библиотека AniList пуста.</string>
+    <string name="library_anilist_empty_message">Добавьте аниме в свои списки AniList, чтобы увидеть их здесь.</string>
+    <string name="settings_anilist_connect">Подключить АниЛист</string>
+    <string name="settings_anilist_connected_as">Подключено как %1$s</string>
+    <string name="settings_anilist_connected_description">Синхронизируйте свои списки аниме, прогресс эпизодов, оценки и продолжайте просмотр с помощью AniList.</string>
+    <string name="settings_anilist_sign_in_description">Подключите AniList, чтобы синхронизировать списки аниме, прогресс эпизодов, оценки и продолжить просмотр.</string>
+    <string name="settings_anilist_finish_sign_in">Завершить вход</string>
+    <string name="settings_anilist_approval_description">Подтвердите Nuvio в своем браузере. Вы будете автоматически отправлены обратно в приложение.</string>
+    <string name="settings_anilist_open_login">Открыть страницу входа</string>
+    <string name="settings_anilist_disconnect">Отключить АниЛист</string>
+    <string name="settings_anilist_missing_credentials">Соединение AniList в этой сборке недоступно.</string>
+    <string name="settings_anilist_sync_now">Синхронизировать сейчас</string>
+    <string name="settings_anilist_visit">Посетите АниЛист</string>
+    <string name="settings_anilist_disconnect_description">Прекратите отправлять обновления часов из этого профиля. Ваши списки AniList сохраняются.</string>
+    <string name="settings_anilist_account_fallback">Пользователь AniList</string>
+    <string name="settings_anilist_syncing">Синхронизация списков AniList…</string>
+    <string name="settings_anilist_last_synced">Последняя синхронизация %1$s</string>
+    <string name="settings_anilist_auth_denied">Соединение отклонено. Попробуйте еще раз подключить свою учетную запись.</string>
+    <string name="settings_anilist_auth_invalid">AniList вернул неверный ответ на вход. Пожалуйста, попробуйте еще раз.</string>
+    <string name="settings_anilist_auth_revoked">Срок действия вашего соединения с AniList истек или оно было отменено. Подключитесь еще раз, чтобы возобновить синхронизацию.</string>
+    <string name="settings_anilist_unavailable">Не удалось синхронизироваться с AniList. Пожалуйста, попробуйте еще раз.</string>
+    <string name="settings_anilist_rate_limited">Достигнут лимит запросов AniList. Синхронизация возобновится в ближайшее время.</string>
+</resources>

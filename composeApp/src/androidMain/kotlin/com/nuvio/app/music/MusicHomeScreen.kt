@@ -49,6 +49,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import com.nuvio.app.music.engine.data.model.HomeShelf
 import com.nuvio.app.music.engine.data.model.ShelfItem
+import nuvio.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 internal fun MusicHomeScreen(
@@ -65,8 +67,8 @@ internal fun MusicHomeScreen(
         state.error != null && state.shelves.isEmpty() ->
             MusicErrorState(state.error, onRetry, modifier)
         state.shelves.isEmpty() -> MusicEmptyState(
-            title = "No music yet",
-            message = "The music service didn't send anything back. Check the connection and try again.",
+            title = stringResource(Res.string.music_ui_no_music_yet),
+            message = stringResource(Res.string.music_ui_the_music_service_didn_t_send_anything_back_check_the_connec),
             modifier = modifier
         )
         else -> MusicHomeFeed(
@@ -291,7 +293,7 @@ private fun HeroCopy(
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             MusicTag(
-                text = if (item.isVideo) "Video" else "Featured",
+                text = if (item.isVideo) stringResource(Res.string.player_video_settings_title) else stringResource(Res.string.music_ui_featured),
                 color = MusicPalette.accentTeal
             )
             if (shelfSubtitle.isNotBlank()) {
@@ -326,14 +328,14 @@ private fun HeroCopy(
         ) {
             HeroAction(
                 icon = Icons.Default.PlayArrow,
-                label = if (item.videoId != null) "Play" else "Open",
+                label = if (item.videoId != null) stringResource(Res.string.action_play) else stringResource(Res.string.youtube_ui_open),
                 primary = true,
                 onClick = onPlay
             )
             if (item.browseId != null) {
                 HeroAction(
                     icon = Icons.Default.ChevronRight,
-                    label = "Details",
+                    label = stringResource(Res.string.settings_meta_details),
                     primary = false,
                     onClick = onClick
                 )

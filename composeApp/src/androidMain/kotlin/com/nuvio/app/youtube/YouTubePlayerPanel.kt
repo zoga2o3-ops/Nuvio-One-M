@@ -53,6 +53,8 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil3.compose.AsyncImage
+import nuvio.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 
 private enum class PanelMode { MAIN, PLAYLISTS, COMMENTS, REPLIES, QUALITY }
 
@@ -121,7 +123,7 @@ fun YouTubePlayerPanel(videoId: String, onDismiss: () -> Unit) {
                     state.message?.let {
                         Row(Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 4.dp), verticalAlignment = Alignment.CenterVertically) {
                             Text(it, Modifier.weight(1f), style = MaterialTheme.typography.bodySmall)
-                            TextButton(onClick = vm::clearMessage) { Text("OK") }
+                            TextButton(onClick = vm::clearMessage) { Text(stringResource(Res.string.action_ok)) }
                         }
                     }
                 }
@@ -137,18 +139,18 @@ private fun Header(info: YtVideoInfo?, mode: PanelMode, onBack: () -> Unit) {
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(12.dp),
     ) {
-        if (mode != PanelMode.MAIN) TextButton(onClick = onBack) { Text("Back") }
+        if (mode != PanelMode.MAIN) TextButton(onClick = onBack) { Text(stringResource(Res.string.action_back)) }
         info?.authorImage?.let {
             AsyncImage(model = it, contentDescription = null, modifier = Modifier.size(40.dp).clip(CircleShape), contentScale = ContentScale.Crop)
         }
         Column(Modifier.weight(1f)) {
             Text(
                 when (mode) {
-                    PanelMode.MAIN -> info?.title ?: "Loading..."
-                    PanelMode.PLAYLISTS -> "Save to playlist"
-                    PanelMode.COMMENTS -> "Comments"
-                    PanelMode.REPLIES -> "Replies"
-                    PanelMode.QUALITY -> "Quality"
+                    PanelMode.MAIN -> info?.title ?: stringResource(Res.string.youtube_ui_loading)
+                    PanelMode.PLAYLISTS -> stringResource(Res.string.youtube_ui_save_to_playlist)
+                    PanelMode.COMMENTS -> stringResource(Res.string.detail_comments_title)
+                    PanelMode.REPLIES -> stringResource(Res.string.youtube_ui_replies)
+                    PanelMode.QUALITY -> stringResource(Res.string.player_toolbar_button_quality)
                 },
                 maxLines = 2, overflow = TextOverflow.Ellipsis, style = MaterialTheme.typography.titleMedium,
             )
@@ -173,15 +175,15 @@ private fun Main(state: YtPlayerState, vm: YouTubePlayerViewModel, onPlaylists: 
     Column(Modifier.fillMaxSize().padding(horizontal = 16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             Action(
-                label = if (info?.likeCount != null) "Like  ${info.likeCount}" else "Like",
+                label = if (info?.likeCount != null) "Like  ${info.likeCount}" else stringResource(Res.string.music_ui_like),
                 highlighted = info?.liked == true,
                 modifier = Modifier.weight(1f),
                 onClick = vm::toggleLike,
             )
-            Action(label = "Dislike", highlighted = info?.disliked == true, modifier = Modifier.weight(1f), onClick = vm::toggleDislike)
+            Action(label = stringResource(Res.string.youtube_ui_dislike), highlighted = info?.disliked == true, modifier = Modifier.weight(1f), onClick = vm::toggleDislike)
         }
         Action(
-            label = if (info?.subscribed == true) "Subscribed" else "Subscribe",
+            label = if (info?.subscribed == true) stringResource(Res.string.youtube_ui_subscribed) else stringResource(Res.string.youtube_ui_subscribe),
             detail = info?.author,
             highlighted = info?.subscribed == true,
             onClick = vm::toggleSubscribe,
@@ -190,17 +192,17 @@ private fun Main(state: YtPlayerState, vm: YouTubePlayerViewModel, onPlaylists: 
             val pinned = player.pinnedHeight()
             val playing = player.videoFormat?.height?.takeIf { it > 0 }
             Action(
-                label = "Quality",
-                detail = if (pinned > 0) YouTubeSettings.qualityLabel(pinned) else "Auto" + (playing?.let { " (${it}p)" } ?: ""),
+                label = stringResource(Res.string.player_toolbar_button_quality),
+                detail = if (pinned > 0) YouTubeSettings.qualityLabel(pinned) else stringResource(Res.string.youtube_settings_auto) + (playing?.let { " (${it}p)" } ?: ""),
                 onClick = onQuality,
             )
         }
-        Action(label = "Save to playlist", onClick = onPlaylists)
-        if (info?.commentsKey != null) Action(label = "Comments", onClick = onComments)
-        Action(label = "Hide this channel", detail = "Keeps it off the YouTube page", onClick = vm::hideChannel)
+        Action(label = stringResource(Res.string.youtube_ui_save_to_playlist), onClick = onPlaylists)
+        if (info?.commentsKey != null) Action(label = stringResource(Res.string.detail_comments_title), onClick = onComments)
+        Action(label = stringResource(Res.string.youtube_ui_hide_this_channel), detail = stringResource(Res.string.youtube_ui_keeps_it_off_the_youtube_page), onClick = vm::hideChannel)
         if (!state.signedIn) {
             Text(
-                "Sign in on the YouTube page to like, subscribe or save.",
+                stringResource(Res.string.youtube_ui_sign_in_on_the_youtube_page_to_like_subscribe_or_save),
                 style = MaterialTheme.typography.bodySmall, color = Color(0xFFB0B0B0), modifier = Modifier.padding(top = 8.dp),
             )
         }
@@ -226,7 +228,7 @@ private fun Quality() {
     val context = LocalContext.current.applicationContext
     val player = YouTubePlayerHandle.player
     if (player == null) {
-        Centered("Nothing is playing.")
+        Centered(stringResource(Res.string.youtube_ui_nothing_is_playing))
         return
     }
     var version by remember { mutableStateOf(0) }
@@ -236,7 +238,7 @@ private fun Quality() {
     var codec by remember { mutableStateOf(YouTubeSettings.codecPreference(context)) }
     LazyColumn(contentPadding = PaddingValues(horizontal = 16.dp, vertical = 4.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
         item {
-            Text("Codec", style = MaterialTheme.typography.bodySmall, color = Color(0xFFB0B0B0))
+            Text(stringResource(Res.string.stream_info_codec), style = MaterialTheme.typography.bodySmall, color = Color(0xFFB0B0B0))
             Row(Modifier.padding(top = 4.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 YouTubeSettings.codecChoices.forEach { choice ->
                     FilterChip(
@@ -253,10 +255,10 @@ private fun Quality() {
                     )
                 }
             }
-            Text("Size", style = MaterialTheme.typography.bodySmall, color = Color(0xFFB0B0B0), modifier = Modifier.padding(top = 12.dp))
+            Text(stringResource(Res.string.youtube_ui_size), style = MaterialTheme.typography.bodySmall, color = Color(0xFFB0B0B0), modifier = Modifier.padding(top = 12.dp))
         }
         item {
-            Action(label = "Auto", highlighted = pinned == 0, onClick = { player.selectQuality(context, 0); version++ })
+            Action(label = stringResource(Res.string.youtube_settings_auto), highlighted = pinned == 0, onClick = { player.selectQuality(context, 0); version++ })
         }
         items(heights) { h ->
             Action(label = YouTubeSettings.qualityLabel(h), highlighted = pinned == h, onClick = { player.selectQuality(context, h); version++ })
@@ -268,9 +270,9 @@ private fun Quality() {
 private fun Playlists(state: YtPlayerState, vm: YouTubePlayerViewModel) {
     val rows = state.playlists
     when {
-        !state.signedIn -> Centered("Sign in on the YouTube page to save videos.")
+        !state.signedIn -> Centered(stringResource(Res.string.youtube_ui_sign_in_on_the_youtube_page_to_save_videos))
         rows == null -> Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { CircularProgressIndicator() }
-        rows.isEmpty() -> Centered("You don't have any playlists yet.")
+        rows.isEmpty() -> Centered(stringResource(Res.string.youtube_ui_you_don_t_have_any_playlists_yet))
         else -> LazyColumn(contentPadding = PaddingValues(horizontal = 16.dp, vertical = 4.dp)) {
             items(rows) { row ->
                 Row(
@@ -289,14 +291,14 @@ private fun Playlists(state: YtPlayerState, vm: YouTubePlayerViewModel) {
 private fun Comments(state: YtPlayerState, vm: YouTubePlayerViewModel, onReplies: (String) -> Unit) {
     Column(Modifier.fillMaxSize()) {
         Row(Modifier.padding(horizontal = 16.dp), horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
-            Text("Sort by", style = MaterialTheme.typography.bodySmall, color = Color(0xFFB0B0B0))
-            FilterChip(selected = state.commentsSort == 0, onClick = { vm.loadComments(newest = false) }, label = { Text("Top") })
-            FilterChip(selected = state.commentsSort == 1, onClick = { vm.loadComments(newest = true) }, label = { Text("Newest") })
+            Text(stringResource(Res.string.live_tv_ui_sort_by), style = MaterialTheme.typography.bodySmall, color = Color(0xFFB0B0B0))
+            FilterChip(selected = state.commentsSort == 0, onClick = { vm.loadComments(newest = false) }, label = { Text(stringResource(Res.string.settings_stream_badge_position_top)) })
+            FilterChip(selected = state.commentsSort == 1, onClick = { vm.loadComments(newest = true) }, label = { Text(stringResource(Res.string.youtube_ui_newest)) })
         }
         when {
             state.commentsLoading && state.comments.isEmpty() ->
                 Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { CircularProgressIndicator() }
-            state.comments.isEmpty() -> Centered("No comments to show.")
+            state.comments.isEmpty() -> Centered(stringResource(Res.string.youtube_ui_no_comments_to_show))
             else -> LazyColumn(contentPadding = PaddingValues(16.dp), verticalArrangement = Arrangement.spacedBy(14.dp)) {
                 items(state.comments) { c -> CommentRow(c, onLike = { vm.toggleCommentLike(c) }, onReplies = onReplies) }
                 if (state.canLoadMoreComments) {
@@ -315,7 +317,7 @@ private fun Replies(state: YtPlayerState, vm: YouTubePlayerViewModel) {
     when {
         state.repliesLoading && state.replies.isEmpty() ->
             Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { CircularProgressIndicator() }
-        state.replies.isEmpty() -> Centered("No replies to show.")
+        state.replies.isEmpty() -> Centered(stringResource(Res.string.youtube_ui_no_replies_to_show))
         else -> LazyColumn(contentPadding = PaddingValues(16.dp), verticalArrangement = Arrangement.spacedBy(14.dp)) {
             items(state.replies) { c -> CommentRow(c, onLike = { vm.toggleCommentLike(c) }, onReplies = null) }
             if (state.canLoadMoreReplies) {
@@ -346,13 +348,13 @@ private fun CommentRow(c: YtComment, onLike: () -> Unit, onReplies: ((String) ->
             ) {
                 Icon(
                     Icons.Filled.ThumbUp,
-                    contentDescription = if (c.liked) "Unlike comment" else "Like comment",
+                    contentDescription = if (c.liked) stringResource(Res.string.youtube_ui_unlike_comment) else stringResource(Res.string.youtube_ui_like_comment),
                     modifier = Modifier.size(14.dp),
                     tint = if (c.liked) MaterialTheme.colorScheme.primary else Color(0xFF909090),
                 )
                 Spacer(Modifier.width(4.dp))
                 Text(
-                    if (c.liked) "Liked" else "Like",
+                    if (c.liked) stringResource(Res.string.youtube_ui_liked) else stringResource(Res.string.music_ui_like),
                     style = MaterialTheme.typography.labelSmall,
                     color = if (c.liked) MaterialTheme.colorScheme.primary else Color(0xFF909090),
                 )
@@ -360,7 +362,7 @@ private fun CommentRow(c: YtComment, onLike: () -> Unit, onReplies: ((String) ->
         }
         val key = c.replyKey
         if (key != null && onReplies != null) {
-            val label = c.replyCount?.let { if (it.any(Char::isLetter)) it else "$it replies" } ?: "Replies"
+            val label = c.replyCount?.let { if (it.any(Char::isLetter)) it else "$it replies" } ?: stringResource(Res.string.youtube_ui_replies)
             TextButton(onClick = { onReplies(key) }) { Text(label) }
         }
     }

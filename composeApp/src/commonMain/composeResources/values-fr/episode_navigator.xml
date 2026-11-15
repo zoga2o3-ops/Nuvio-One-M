@@ -1,0 +1,19 @@
+<resources>
+    <string name="episode_navigator_search_hint">Rechercher un titre, une intrigue ou un numéro</string>
+    <string name="episode_navigator_clear_search">Effacer la recherche</string>
+    <string name="episode_navigator_go_to">Aller à</string>
+    <string name="episode_navigator_sort">Trier</string>
+    <string name="episode_navigator_count">%1$d sur %2$d épisodes</string>
+    <string name="episode_navigator_no_match">Aucun épisode ne correspond à « %1$s »</string>
+    <string name="episode_navigator_go_to_title">Passer à l'épisode</string>
+    <string name="episode_navigator_episode_number">Numéro de l'épisode</string>
+    <string name="episode_navigator_go">Aller</string>
+    <string name="episode_navigator_go_to_help">Tapez un numéro ou choisissez-en un ci-dessous. Souligné = regardé, souligné = à suivre.</string>
+    <string name="episode_navigator_out_of_range">%1$s a des épisodes %2$d–%3$d</string>
+    <string name="episode_navigator_sort_title">Trier les épisodes</string>
+    <string name="episode_navigator_sort_first_to_last">Épisode : du premier au dernier</string>
+    <string name="episode_navigator_sort_last_to_first">Épisode : du dernier au premier</string>
+    <string name="episode_navigator_sort_highest_rated">Les mieux notés</string>
+    <string name="episode_navigator_sort_newest_aired">Diffusion la plus récente</string>
+    <string name="episode_navigator_sort_unwatched_first">Inaperçu d'abord</string>
+</resources>

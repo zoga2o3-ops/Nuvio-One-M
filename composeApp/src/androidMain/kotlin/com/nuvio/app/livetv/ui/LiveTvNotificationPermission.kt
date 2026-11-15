@@ -24,6 +24,8 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
 import com.nuvio.app.livetv.reminders.LiveTvReminders
+import nuvio.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 
 /** The notification permission state, and a way to ask for it (or fix it in system settings). */
 internal class LiveTvNotificationPermission(
@@ -41,6 +43,7 @@ internal fun rememberLiveTvNotificationPermission(): LiveTvNotificationPermissio
     val context = LocalContext.current
     val activity = remember(context) { context.findActivity() }
     var canNotify by remember(context) { mutableStateOf(LiveTvReminders.canNotify(context)) }
+    val notificationsOff = stringResource(Res.string.live_tv_ui_notifications_are_off_turn_them_on_in_system_settings_to_get)
 
     // Coming back from the system settings (or the permission dialog) should update the row.
     LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
@@ -54,7 +57,7 @@ internal fun rememberLiveTvNotificationPermission(): LiveTvNotificationPermissio
         if (!granted) {
             Toast.makeText(
                 context,
-                "Notifications are off. Turn them on in system settings to get alerts.",
+                notificationsOff,
                 Toast.LENGTH_LONG,
             ).show()
         }

@@ -1,0 +1,36 @@
+<resources>
+    <string name="tracking_source_publicmetadb">PublicMetaDB</string>
+    <string name="settings_publicmetadb_library_description">Twoja lista obserwowanych i listy niestandardowe PublicMetaDB.</string>
+    <string name="settings_publicmetadb_progress_description">Kontynuuj oglądanie i przejdź dalej, korzystając z punktów wznowienia PublicMetaDB i historii oglądania.</string>
+    <string name="library_publicmetadb_title">Biblioteka PublicMetaDB</string>
+    <string name="library_publicmetadb_load_failed">Nie można załadować biblioteki PublicMetaDB</string>
+    <string name="library_publicmetadb_empty_title">Twoja biblioteka PublicMetaDB jest pusta</string>
+    <string name="library_publicmetadb_empty_message">Dodaj filmy i programy do swoich list PublicMetaDB, aby zobaczyć je tutaj.</string>
+    <string name="settings_publicmetadb_connect">Połącz PublicMetaDB</string>
+    <string name="settings_publicmetadb_connected_as">Połączony z końcówką klucza %1$s</string>
+    <string name="settings_publicmetadb_connected_description">Synchronizuj swoje listy, historię oglądania, oceny, scrobble i kontynuuj oglądanie za pomocą PublicMetaDB.</string>
+    <string name="settings_publicmetadb_sign_in_description">Połącz PublicMetaDB z kluczem API, aby zsynchronizować swoje listy, historię oglądania, oceny, scrobble i Kontynuuj oglądanie.</string>
+    <string name="settings_publicmetadb_finish_sign_in">Zakończ łączenie</string>
+    <string name="settings_publicmetadb_approval_description">Wprowadź klucz API PublicMetaDB, aby zakończyć połączenie.</string>
+    <string name="settings_publicmetadb_open_login">Wprowadź klucz API</string>
+    <string name="settings_publicmetadb_disconnect">Odłącz PublicMetaDB</string>
+    <string name="settings_publicmetadb_missing_credentials">Połączenie PublicMetaDB jest niedostępne w tej kompilacji.</string>
+    <string name="settings_publicmetadb_sync_now">Zsynchronizuj teraz</string>
+    <string name="settings_publicmetadb_visit">Odwiedź PublicMetaDB</string>
+    <string name="settings_publicmetadb_disconnect_description">Przestań wysyłać aktualizacje zegarka z tego profilu i zapomnij o kluczu API. Twoje listy i historia PublicMetaDB zostaną zachowane.</string>
+    <string name="settings_publicmetadb_account_fallback">Twój klucz API</string>
+    <string name="settings_publicmetadb_syncing">Synchronizowanie list PublicMetaDB…</string>
+    <string name="settings_publicmetadb_last_synced">Ostatnia synchronizacja %1$s</string>
+    <string name="settings_publicmetadb_api_key_title">Połącz PublicMetaDB</string>
+    <string name="settings_publicmetadb_api_key_description">Utwórz klucz API w PublicMetaDB w Ustawieniach → API, a następnie wklej go tutaj. Klucze zwykle zaczynają się od pm-.</string>
+    <string name="settings_publicmetadb_api_key_label">Klucz API</string>
+    <string name="settings_publicmetadb_get_api_key">Zdobądź klucz API</string>
+    <string name="settings_publicmetadb_connect_action">Łączyć</string>
+    <string name="settings_publicmetadb_missing_key">Wprowadź klucz API PublicMetaDB.</string>
+    <string name="settings_publicmetadb_invalid_key">PublicMetaDB nie zaakceptował tego klucza API. Sprawdź i spróbuj ponownie.</string>
+    <string name="settings_publicmetadb_request_failed">Nie udało się połączyć z PublicMetaDB. Spróbuj ponownie.</string>
+    <string name="settings_publicmetadb_rate_limited">Osiągnięto limit żądań PublicMetaDB. Spróbuj ponownie wkrótce.</string>
+    <string name="settings_publicmetadb_blocked">PublicMetaDB zablokowało to żądanie. Spróbuj ponownie później.</string>
+    <string name="settings_publicmetadb_auth_revoked">Twój klucz API PublicMetaDB nie jest już ważny. Połącz się ponownie z nowym kluczem.</string>
+    <string name="settings_publicmetadb_unavailable">Nie można zsynchronizować z PublicMetaDB. Spróbuj ponownie.</string>
+</resources>

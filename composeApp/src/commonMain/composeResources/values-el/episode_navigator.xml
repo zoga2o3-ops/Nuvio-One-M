@@ -1,0 +1,19 @@
+<resources>
+    <string name="episode_navigator_search_hint">Αναζήτηση τίτλου, πλοκής ή αριθμού</string>
+    <string name="episode_navigator_clear_search">Εκκαθάριση αναζήτησης</string>
+    <string name="episode_navigator_go_to">Μεταβείτε στο</string>
+    <string name="episode_navigator_sort">Είδος</string>
+    <string name="episode_navigator_count">%1$d από %2$d επεισόδια</string>
+    <string name="episode_navigator_no_match">Κανένα επεισόδιο δεν ταιριάζει με το "%1$s"</string>
+    <string name="episode_navigator_go_to_title">Μετάβαση στο επεισόδιο</string>
+    <string name="episode_navigator_episode_number">Αριθμός επεισοδίου</string>
+    <string name="episode_navigator_go">Πάω</string>
+    <string name="episode_navigator_go_to_help">Πληκτρολογήστε έναν αριθμό ή επιλέξτε έναν παρακάτω. Υπογραμμισμένο = παρακολούθησε, περιγραμμένο = επάνω στη συνέχεια.</string>
+    <string name="episode_navigator_out_of_range">Το %1$s έχει επεισόδια %2$d–%3$d</string>
+    <string name="episode_navigator_sort_title">Ταξινόμηση επεισοδίων</string>
+    <string name="episode_navigator_sort_first_to_last">Επεισόδιο: πρώτο έως τελευταίο</string>
+    <string name="episode_navigator_sort_last_to_first">Επεισόδιο: τελευταίο προς πρώτο</string>
+    <string name="episode_navigator_sort_highest_rated">Υψηλότερη βαθμολογία</string>
+    <string name="episode_navigator_sort_newest_aired">Το νεότερο που μεταδόθηκε</string>
+    <string name="episode_navigator_sort_unwatched_first">Απαρατήρητος πρώτος</string>
+</resources>

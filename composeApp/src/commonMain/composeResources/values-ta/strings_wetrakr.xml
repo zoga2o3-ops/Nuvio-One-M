@@ -1,0 +1,33 @@
+<resources>
+    <string name="tracking_source_wetrakr">WeTrakr</string>
+    <string name="settings_wetrakr_library_description">உங்கள் WeTrakr பட்டியல்கள்: திட்டமிடல், பார்த்தல், காத்திருப்பது, பார்த்தது, இடைநிறுத்தப்பட்டது மற்றும் கைவிடப்பட்டது.</string>
+    <string name="settings_wetrakr_progress_description">உங்கள் WeTrakr பிளேபேக் மற்றும் பார்த்த எபிசோட்களில் இருந்து தொடர்ந்து பார்க்கவும் மற்றும் அடுத்தது.</string>
+    <string name="library_wetrakr_title">WeTrakr நூலகம்</string>
+    <string name="library_wetrakr_load_failed">உங்கள் WeTrakr நூலகத்தை ஏற்ற முடியவில்லை</string>
+    <string name="library_wetrakr_empty_title">உங்கள் WeTrakr நூலகம் காலியாக உள்ளது</string>
+    <string name="library_wetrakr_empty_message">உங்கள் WeTrakr பட்டியல்களில் திரைப்படங்கள் மற்றும் நிகழ்ச்சிகளைச் சேர்த்து அவற்றை இங்கே பார்க்கலாம்.</string>
+    <string name="settings_wetrakr_connect">WeTrakr ஐ இணைக்கவும்</string>
+    <string name="settings_wetrakr_connected_as">%1$s ஆக இணைக்கப்பட்டது</string>
+    <string name="settings_wetrakr_connected_description">உங்கள் பட்டியல்களை ஒத்திசைக்கவும், பார்வை வரலாறு, மதிப்பீடுகள், ஸ்க்ரோபிள்கள் மற்றும் WeTrakr உடன் தொடர்ந்து பார்க்கவும்.</string>
+    <string name="settings_wetrakr_sign_in_description">உங்கள் பட்டியல்களை ஒத்திசைக்க WeTrakr ஐ இணைக்கவும், வரலாறு, மதிப்பீடுகள், ஸ்க்ரோபிள்கள் மற்றும் தொடர்ந்து பார்க்கவும்.</string>
+    <string name="settings_wetrakr_finish_sign_in">உள்நுழைவை முடிக்கவும்</string>
+    <string name="settings_wetrakr_approval_description">WeTrakr செயல்படுத்தும் பக்கத்தைத் திறந்து இந்தக் குறியீட்டை உள்ளிடவும். நீங்கள் ஒப்புதல் அளித்தவுடன் Nuvio தானாகவே இணைக்கப்படும்.</string>
+    <string name="settings_wetrakr_open_login">செயல்படுத்தும் பக்கத்தைத் திறக்கவும்</string>
+    <string name="settings_wetrakr_disconnect">WeTrakr துண்டிக்கவும்</string>
+    <string name="settings_wetrakr_missing_credentials">இந்த கட்டமைப்பில் WeTrakr இணைப்பு கிடைக்கவில்லை.</string>
+    <string name="settings_wetrakr_sync_now">இப்போது ஒத்திசைக்கவும்</string>
+    <string name="settings_wetrakr_visit">WeTrakr ஐப் பார்வையிடவும்</string>
+    <string name="settings_wetrakr_disconnect_description">இந்தச் சுயவிவரத்திலிருந்து வாட்ச் புதுப்பிப்புகளை அனுப்புவதை நிறுத்துங்கள். உங்கள் WeTrakr பட்டியல்கள் மற்றும் வரலாறு சேமிக்கப்படும்.</string>
+    <string name="settings_wetrakr_account_fallback">WeTrakr பயனர்</string>
+    <string name="settings_wetrakr_syncing">உங்கள் WeTrakr பட்டியல்களை ஒத்திசைக்கிறது…</string>
+    <string name="settings_wetrakr_last_synced">கடைசியாக ஒத்திசைத்தது %1$s</string>
+    <string name="settings_wetrakr_auth_denied">இணைப்பு நிராகரிக்கப்பட்டது. உங்கள் கணக்கை இணைக்க மீண்டும் முயற்சிக்கவும்.</string>
+    <string name="settings_wetrakr_auth_expired">செயல்படுத்தும் குறியீடு காலாவதியானது. புதிய குறியீட்டைப் பெற மீண்டும் முயற்சிக்கவும்.</string>
+    <string name="settings_wetrakr_auth_failed">உள்நுழைவைத் தொடங்க WeTrakr ஐ அடைய முடியவில்லை. மீண்டும் முயற்சிக்கவும்.</string>
+    <string name="settings_wetrakr_auth_rate_limited">பல உள்நுழைவு முயற்சிகள். 15 நிமிடங்கள் காத்திருந்து மீண்டும் முயற்சிக்கவும்.</string>
+    <string name="settings_wetrakr_app_suspended">WeTrakr இந்த பயன்பாட்டை இடைநிறுத்தியுள்ளது. பிறகு முயற்சிக்கவும்.</string>
+    <string name="settings_wetrakr_auth_revoked">உங்கள் WeTrakr இணைப்பு காலாவதியாகிவிட்டது அல்லது ரத்து செய்யப்பட்டது. ஒத்திசைவை மீண்டும் தொடங்க மீண்டும் இணைக்கவும்.</string>
+    <string name="settings_wetrakr_unavailable">WeTrakr உடன் ஒத்திசைக்க முடியவில்லை. மீண்டும் முயற்சிக்கவும்.</string>
+    <string name="settings_wetrakr_rate_limited">WeTrakr இன் கோரிக்கை வரம்பை அடைந்துவிட்டது. ஒத்திசைவு விரைவில் மீண்டும் தொடங்கும்.</string>
+    <string name="settings_wetrakr_plan_limit">இதற்கு WeTrakr VIP தேவை அல்லது உங்கள் திட்டத்தின் வரம்புகளுக்கு மேல் உள்ளது.</string>
+</resources>

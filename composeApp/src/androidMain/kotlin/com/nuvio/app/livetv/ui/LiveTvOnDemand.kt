@@ -58,6 +58,9 @@ import com.nuvio.app.livetv.ondemand.VodKind
 import com.nuvio.app.livetv.ondemand.VodSort
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import nuvio.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.resources.getString
 
 private const val PAGE = 60
 
@@ -183,16 +186,16 @@ fun OnDemandPage(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Chip("Movies", kind == VodKind.MOVIE) { kind = VodKind.MOVIE; category = null }
-            Chip("Series", kind == VodKind.SERIES) { kind = VodKind.SERIES; category = null }
+            Chip(stringResource(Res.string.profile_insights_type_movie), kind == VodKind.MOVIE) { kind = VodKind.MOVIE; category = null }
+            Chip(stringResource(Res.string.profile_insights_type_series), kind == VodKind.SERIES) { kind = VodKind.SERIES; category = null }
             OutlinedTextField(
                 value = query,
                 onValueChange = { query = it },
                 singleLine = true,
-                placeholder = { Text("Search") },
+                placeholder = { Text(stringResource(Res.string.collections_editor_tmdb_search)) },
                 modifier = Modifier.weight(1f),
                 shape = RoundedCornerShape(12.dp), colors = fieldColors())
-            if (genres.isNotEmpty()) TextButton(onClick = { pickGenre = true }) { Text(genre ?: "Genre", maxLines = 1) }
+            if (genres.isNotEmpty()) TextButton(onClick = { pickGenre = true }) { Text(genre ?: stringResource(Res.string.live_tv_ui_genre), maxLines = 1) }
             TextButton(onClick = { pickSort = true }) { Text(sort.label, maxLines = 1) }
         }
         if (query.isBlank()) {
@@ -201,7 +204,7 @@ fun OnDemandPage(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 modifier = Modifier.padding(bottom = 8.dp),
             ) {
-                item { Chip("All", category == null) { category = null } }
+                item { Chip(stringResource(Res.string.collections_tab_all), category == null) { category = null } }
                 items(categories, key = { it.uid }) { c ->
                     val locked = c.uid in lockedCategories && c.uid !in opened
                     Chip(
@@ -210,11 +213,11 @@ fun OnDemandPage(
                         onLongClick = { categoryActions = c },
                     ) { if (locked) askPinFor = c else category = c }
                 }
-                if (hiddenCategories.isNotEmpty()) item { TextButton(onClick = onShowAllCategories) { Text("Show hidden") } }
-                item { TextButton(onClick = { manageGroups = true }) { Text("Manage") } }
+                if (hiddenCategories.isNotEmpty()) item { TextButton(onClick = onShowAllCategories) { Text(stringResource(Res.string.live_tv_ui_show_hidden)) } }
+                item { TextButton(onClick = { manageGroups = true }) { Text(stringResource(Res.string.live_tv_ui_manage)) } }
             }
         }
-        // "All" with nothing searched or sorted: a row for each category, like Nuvio's Home. A row's "See all" opens that category.
+        // stringResource(Res.string.collections_tab_all) with nothing searched or sorted: a row for each category, like Nuvio's Home. A row's stringResource(Res.string.live_tv_ui_see_all) opens that category.
         val rowsMode = category == null && query.isBlank() && genre == null && sort == VodSort.DEFAULT
         if (rowsMode) {
             OnDemandRows(
@@ -247,7 +250,7 @@ fun OnDemandPage(
     if (pickSort) {
         AlertDialog(
             onDismissRequest = { pickSort = false },
-            title = { Text("Sort by") },
+            title = { Text(stringResource(Res.string.live_tv_ui_sort_by)) },
             text = {
                 Column {
                     VodSort.entries.forEach { s ->
@@ -265,7 +268,7 @@ fun OnDemandPage(
                     }
                 }
             },
-            confirmButton = { TextButton(onClick = { pickSort = false }) { Text("Cancel") } },
+            confirmButton = { TextButton(onClick = { pickSort = false }) { Text(stringResource(Res.string.action_cancel)) } },
         )
     }
     categoryActions?.let { c ->
@@ -273,8 +276,8 @@ fun OnDemandPage(
         AlertDialog(
             onDismissRequest = { categoryActions = null },
             title = { Text(c.name) },
-            text = { Text("Hide this category, or lock it so it needs your PIN. \"Show hidden\" brings hidden ones back.") },
-            confirmButton = { TextButton(onClick = { onHideCategory(c); categoryActions = null }) { Text("Hide") } },
+            text = { Text(stringResource(Res.string.live_tv_ui_hide_this_category_or_lock_it_so_it_needs_your_pin_show_hidd)) },
+            confirmButton = { TextButton(onClick = { onHideCategory(c); categoryActions = null }) { Text(stringResource(Res.string.layout_ratings_hide)) } },
             dismissButton = {
                 Row {
                     TextButton(onClick = {
@@ -282,23 +285,23 @@ fun OnDemandPage(
                         else if (pin.length < 4) setPinFor = c else onLockCategory(c.uid, true)
                         categoryActions = null
                     }) { Text(if (isLocked) "Remove lock" else "Lock") }
-                    TextButton(onClick = { categoryActions = null }) { Text("Cancel") }
+                    TextButton(onClick = { categoryActions = null }) { Text(stringResource(Res.string.action_cancel)) }
                 }
             },
         )
     }
     if (pickGenre) {
         PickDialog(
-            title = "Genre",
+            title = stringResource(Res.string.live_tv_ui_genre),
             options = genres.map { it.first to "${it.first}  ${it.second}" },
-            extra = "All genres" to { genre = null; pickGenre = false },
+            extra = stringResource(Res.string.collections_editor_all_genres) to { genre = null; pickGenre = false },
             onPick = { g -> genre = g; pickGenre = false },
             onDismiss = { pickGenre = false },
         )
     }
     askPinFor?.let { c ->
         PinDialog(
-            title = "Enter your PIN",
+            title = stringResource(Res.string.live_tv_ui_enter_your_pin),
             expected = pin,
             onPin = { com.nuvio.app.livetv.parental.LiveTvUnlocks.unlock(c.uid); openedTick++; category = c; askPinFor = null },
             onDismiss = { askPinFor = null },
@@ -306,7 +309,7 @@ fun OnDemandPage(
     }
     setPinFor?.let { c ->
         PinDialog(
-            title = "Set a PIN",
+            title = stringResource(Res.string.live_tv_ui_set_a_pin),
             setting = true,
             onPin = { newPin -> onSetPin(newPin); onLockCategory(c.uid, true); setPinFor = null },
             onDismiss = { setPinFor = null },
@@ -340,7 +343,7 @@ private fun ManageGroupsDialog(
     val byId = remember(categories) { categories.associateBy { it.uid } }
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Manage groups") },
+        title = { Text(stringResource(Res.string.live_tv_ui_manage_groups)) },
         text = {
             androidx.compose.foundation.lazy.LazyColumn(Modifier.height(380.dp)) {
                 items(list.size, key = { list[it] }) { i ->
@@ -355,23 +358,23 @@ private fun ManageGroupsDialog(
                             maxLines = 1, overflow = TextOverflow.Ellipsis,
                         )
                         TextButton(enabled = i > 0, onClick = { list = list.toMutableList().also { java.util.Collections.swap(it, i, i - 1) } }) { Text("\u25B2") }
-                        TextButton(enabled = i < list.size - 1, onClick = { list = list.toMutableList().also { java.util.Collections.swap(it, i, i + 1) } }) { Text("\u25BC") }
+                        TextButton(enabled = i < list.size - 1, onClick = { list = list.toMutableList().also { java.util.Collections.swap(it, i, i + 1) } }) { Text(stringResource(Res.string.live_tv_ui_u25bc)) }
                     }
                 }
             }
         },
-        confirmButton = { TextButton(onClick = { onSave(list.toSet() - shownIds, list, newNames) }) { Text("Done") } },
+        confirmButton = { TextButton(onClick = { onSave(list.toSet() - shownIds, list, newNames) }) { Text(stringResource(Res.string.action_done)) } },
         dismissButton = {
             Row {
-                TextButton(onClick = { onSave(emptySet(), emptyList(), emptyMap()) }) { Text("Reset") }
-                TextButton(onClick = onDismiss) { Text("Cancel") }
+                TextButton(onClick = { onSave(emptySet(), emptyList(), emptyMap()) }) { Text(stringResource(Res.string.compose_player_reset)) }
+                TextButton(onClick = onDismiss) { Text(stringResource(Res.string.action_cancel)) }
             }
         },
     )
     renaming?.let { c ->
         TextPromptDialog(
-            title = "Rename group", initial = newNames[c.uid] ?: c.name,
-            hint = "Leave it empty to go back to the provider's name.",
+            title = stringResource(Res.string.live_tv_ui_rename_group), initial = newNames[c.uid] ?: c.name,
+            hint = stringResource(Res.string.live_tv_ui_leave_it_empty_to_go_back_to_the_provider_s_name),
             onOk = { n -> newNames = if (n.isBlank()) newNames - c.uid else newNames + (c.uid to n); renaming = null },
             onDismiss = { renaming = null },
         )
@@ -453,14 +456,14 @@ internal fun OnDemandDetails(repo: OnDemandRepository, item: VodItem, onPlay: (L
     var fixing by remember(item.uid) { mutableStateOf(false) }
     if (fixing) {
         TextPromptDialog(
-            title = "Fix poster",
+            title = stringResource(Res.string.live_tv_ui_fix_poster),
             initial = title + (item.year?.let { " ($it)" } ?: ""),
-            hint = "The right name, and the year if it helps (Name (2015)). Leave it empty to use the provider's picture.",
+            hint = stringResource(Res.string.live_tv_ui_the_right_name_and_the_year_if_it_helps_name_2015_leave_it_e),
             onOk = { text ->
                 fixing = false
                 scope.launch {
                     val ok = repo.fixPoster(item, text)
-                    android.widget.Toast.makeText(appContext, if (ok) "Poster updated. It shows next time the list opens." else "No poster found for that.", android.widget.Toast.LENGTH_LONG).show()
+                    android.widget.Toast.makeText(appContext, if (ok) getString(Res.string.live_tv_ui_poster_updated_it_shows_next_time_the_list_opens) else getString(Res.string.live_tv_ui_no_poster_found_for_that), android.widget.Toast.LENGTH_LONG).show()
                 }
             },
             onDismiss = { fixing = false },
@@ -477,7 +480,7 @@ internal fun OnDemandDetails(repo: OnDemandRepository, item: VodItem, onPlay: (L
     }
     versions?.let { list ->
         PickDialog(
-            title = "Choose a version",
+            title = stringResource(Res.string.live_tv_ui_choose_a_version),
             options = list.mapIndexed { i, v -> i.toString() to (v.label + if (v.detail.isNotBlank()) "  \u00B7  ${v.detail}" else "") },
             onPick = { idx ->
                 val chosen = list[idx.toInt()].item
@@ -498,7 +501,7 @@ internal fun OnDemandDetails(repo: OnDemandRepository, item: VodItem, onPlay: (L
                 ).joinToString("  ·  ")
                 if (meta.isNotBlank()) Text(meta, style = MaterialTheme.typography.bodySmall, color = LocalContentColor.current.copy(alpha = 0.7f))
                 if (info == null && !failed) Box(Modifier.fillMaxWidth().padding(24.dp), contentAlignment = Alignment.Center) { CircularProgressIndicator() }
-                if (failed) Text("The provider didn't send details for this one.", modifier = Modifier.padding(top = 8.dp))
+                if (failed) Text(stringResource(Res.string.live_tv_ui_the_provider_didn_t_send_details_for_this_one), modifier = Modifier.padding(top = 8.dp))
                 info?.plot?.let { Text(it, style = MaterialTheme.typography.bodyMedium, maxLines = 6, overflow = TextOverflow.Ellipsis, modifier = Modifier.padding(top = 8.dp)) }
                 val episodes = info?.episodes.orEmpty()
                 if (item.kind == VodKind.SERIES && episodes.isNotEmpty()) {
@@ -528,15 +531,15 @@ internal fun OnDemandDetails(repo: OnDemandRepository, item: VodItem, onPlay: (L
                         if (copies.size > 1) versions = copies
                         else repo.movieUrl(item)?.let { play(it, title, info?.cover) }
                     }
-                }) { Text(if (item.copies > 1) "Play (${item.copies} versions)" else "Play") }
+                }) { Text(if (item.copies > 1) "Play (${item.copies} versions)" else stringResource(Res.string.action_play)) }
             } else {
-                TextButton(onClick = onDismiss) { Text("Close") }
+                TextButton(onClick = onDismiss) { Text(stringResource(Res.string.action_close)) }
             }
         },
         dismissButton = {
             Row {
-                TextButton(onClick = { fixing = true }) { Text("Fix poster") }
-                if (item.kind == VodKind.MOVIE) TextButton(onClick = onDismiss) { Text("Close") }
+                TextButton(onClick = { fixing = true }) { Text(stringResource(Res.string.live_tv_ui_fix_poster)) }
+                if (item.kind == VodKind.MOVIE) TextButton(onClick = onDismiss) { Text(stringResource(Res.string.action_close)) }
             }
         },
     )
@@ -559,7 +562,7 @@ private fun OnDemandRows(
         item(key = "recent") {
             var recent by remember(kind, version, hidden) { mutableStateOf<List<VodItem>>(emptyList()) }
             LaunchedEffect(kind, version, hidden) { recent = runCatching { repo.items(kind, null, hidden, true, ROW_SIZE, 0) }.getOrDefault(emptyList()) }
-            VodRow("Recently added", recent, onOpen, null)
+            VodRow(stringResource(Res.string.library_sort_added_desc), recent, onOpen, null)
         }
         items(categories, key = { it.uid }) { c ->
             var row by remember(c.uid, version, hidden) { mutableStateOf<List<VodItem>>(emptyList()) }
@@ -575,7 +578,7 @@ private fun VodRow(title: String, items: List<VodItem>, onOpen: (VodItem) -> Uni
     Column {
         Row(Modifier.fillMaxWidth().padding(horizontal = 16.dp), verticalAlignment = Alignment.CenterVertically) {
             Text(title, Modifier.weight(1f), style = MaterialTheme.typography.titleMedium, maxLines = 1, overflow = TextOverflow.Ellipsis)
-            if (onSeeAll != null) TextButton(onClick = onSeeAll) { Text("See all") }
+            if (onSeeAll != null) TextButton(onClick = onSeeAll) { Text(stringResource(Res.string.live_tv_ui_see_all)) }
         }
         LazyRow(contentPadding = PaddingValues(horizontal = 16.dp), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
             items(items, key = { it.uid }) { item -> Box(Modifier.width(112.dp)) { Poster(item) { onOpen(item) } } }

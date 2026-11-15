@@ -1,0 +1,36 @@
+<resources>
+    <string name="tracking_source_publicmetadb">PublicMetaDB</string>
+    <string name="settings_publicmetadb_library_description">Lista dvs. de urmărire PublicMetaDB și listele personalizate.</string>
+    <string name="settings_publicmetadb_progress_description">Continuați să vizionați și mai departe de la punctele dvs. de reluare PublicMetaDB și istoricul vizionărilor.</string>
+    <string name="library_publicmetadb_title">Biblioteca PublicMetaDB</string>
+    <string name="library_publicmetadb_load_failed">Nu s-a putut încărca biblioteca PublicMetaDB</string>
+    <string name="library_publicmetadb_empty_title">Biblioteca dvs. PublicMetaDB este goală</string>
+    <string name="library_publicmetadb_empty_message">Adăugați filme și emisiuni la listele dvs. PublicMetaDB pentru a le vedea aici.</string>
+    <string name="settings_publicmetadb_connect">Conectați PublicMetaDB</string>
+    <string name="settings_publicmetadb_connected_as">Conectat cu sfârșitul cheii %1$s</string>
+    <string name="settings_publicmetadb_connected_description">Sincronizați-vă listele, istoricul vizionărilor, evaluările, scrobble-urile și vizionați în continuare cu PublicMetaDB.</string>
+    <string name="settings_publicmetadb_sign_in_description">Conectați PublicMetaDB cu o cheie API pentru a vă sincroniza listele, istoricul vizionărilor, evaluările, scrobble-urile și continuarea vizionarii.</string>
+    <string name="settings_publicmetadb_finish_sign_in">Terminați conectarea</string>
+    <string name="settings_publicmetadb_approval_description">Introduceți cheia API PublicMetaDB pentru a finaliza conectarea.</string>
+    <string name="settings_publicmetadb_open_login">Introduceți cheia API</string>
+    <string name="settings_publicmetadb_disconnect">Deconectați PublicMetaDB</string>
+    <string name="settings_publicmetadb_missing_credentials">Conexiunea PublicMetaDB nu este disponibilă în această versiune.</string>
+    <string name="settings_publicmetadb_sync_now">Sincronizează acum</string>
+    <string name="settings_publicmetadb_visit">Vizitați PublicMetaDB</string>
+    <string name="settings_publicmetadb_disconnect_description">Nu mai trimiteți actualizări de ceas din acest profil și uitați cheia API. Listele și istoricul dvs. PublicMetaDB sunt păstrate.</string>
+    <string name="settings_publicmetadb_account_fallback">cheia dvs. API</string>
+    <string name="settings_publicmetadb_syncing">Se sincronizează listele PublicMetaDB...</string>
+    <string name="settings_publicmetadb_last_synced">Ultima sincronizare %1$s</string>
+    <string name="settings_publicmetadb_api_key_title">Conectați PublicMetaDB</string>
+    <string name="settings_publicmetadb_api_key_description">Creați o cheie API pe PublicMetaDB sub Setări → API, apoi lipiți-o aici. Tastele încep de obicei cu pm-.</string>
+    <string name="settings_publicmetadb_api_key_label">cheie API</string>
+    <string name="settings_publicmetadb_get_api_key">Obțineți o cheie API</string>
+    <string name="settings_publicmetadb_connect_action">Conectați-vă</string>
+    <string name="settings_publicmetadb_missing_key">Introduceți cheia dvs. API PublicMetaDB.</string>
+    <string name="settings_publicmetadb_invalid_key">PublicMetaDB nu a acceptat această cheie API. Verificați-l și încercați din nou.</string>
+    <string name="settings_publicmetadb_request_failed">Nu s-a putut accesa PublicMetaDB. Vă rugăm să încercați din nou.</string>
+    <string name="settings_publicmetadb_rate_limited">Limita de solicitare a PublicMetaDB a fost atinsă. Încercați din nou în scurt timp.</string>
+    <string name="settings_publicmetadb_blocked">PublicMetaDB a blocat această solicitare. Vă rugăm să încercați din nou mai târziu.</string>
+    <string name="settings_publicmetadb_auth_revoked">Cheia dvs. API PublicMetaDB nu mai este validă. Conectați-vă din nou cu o cheie nouă.</string>
+    <string name="settings_publicmetadb_unavailable">Nu s-a putut sincroniza cu PublicMetaDB. Vă rugăm să încercați din nou.</string>
+</resources>

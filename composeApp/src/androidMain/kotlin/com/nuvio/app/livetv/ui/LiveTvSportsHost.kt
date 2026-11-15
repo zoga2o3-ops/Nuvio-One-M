@@ -21,10 +21,12 @@ import com.nuvio.app.livetv.sports.SportsEvent
 import com.nuvio.app.livetv.sports.SportsFollows
 import com.nuvio.app.livetv.sports.SportsSettings
 import kotlinx.coroutines.delay
+import nuvio.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 
 /**
  * Wherever you are in the app: a message when a game you asked about (or a team you follow) is about
- * to start, and, when "Switch to the game" is on, the channel comes up by itself a minute before it
+ * to start, and, when stringResource(Res.string.live_tv_ui_switch_to_the_game) is on, the channel comes up by itself a minute before it
  * starts, with ten seconds' warning to cancel.
  */
 @Composable
@@ -101,10 +103,10 @@ fun LiveTvSportsHost() {
     countdown?.let { (ev, ch) ->
         AlertDialog(
             onDismissRequest = {},
-            title = { Text("Switching to the game") },
-            text = { Text("${ev.title} is about to start. Switching to ${ch.name} in a few seconds.") },
-            confirmButton = { TextButton(onClick = { switchNow(ev, ch) }) { Text("Switch now") } },
-            dismissButton = { TextButton(onClick = { armed = null; countdown = null; repo.dropReminder(ev.id) }) { Text("Cancel") } },
+            title = { Text(stringResource(Res.string.live_tv_ui_switching_to_the_game)) },
+            text = { Text(stringResource(Res.string.live_tv_ui_game_switch, ev.title, ch.name)) },
+            confirmButton = { TextButton(onClick = { switchNow(ev, ch) }) { Text(stringResource(Res.string.live_tv_ui_switch_now)) } },
+            dismissButton = { TextButton(onClick = { armed = null; countdown = null; repo.dropReminder(ev.id) }) { Text(stringResource(Res.string.action_cancel)) } },
         )
         LaunchedEffect(ev.id) {
             delay(10_000)
@@ -124,11 +126,11 @@ fun LiveTvSportsHost() {
                 )
             },
             confirmButton = {
-                if (best != null) TextButton(onClick = { switchNow(ev, best) }) { Text("Watch") }
-                else TextButton(onClick = { due = null; repo.dropReminder(ev.id) }) { Text("OK") }
+                if (best != null) TextButton(onClick = { switchNow(ev, best) }) { Text(stringResource(Res.string.live_tv_ui_watch)) }
+                else TextButton(onClick = { due = null; repo.dropReminder(ev.id) }) { Text(stringResource(Res.string.action_ok)) }
             },
             dismissButton = {
-                TextButton(onClick = { due = null; armed = null; repo.dropReminder(ev.id) }) { Text(if (switching != null) "Don't switch" else "Dismiss") }
+                TextButton(onClick = { due = null; armed = null; repo.dropReminder(ev.id) }) { Text(if (switching != null) stringResource(Res.string.live_tv_ui_don_t_switch) else stringResource(Res.string.live_tv_ui_dismiss)) }
             },
         )
     }

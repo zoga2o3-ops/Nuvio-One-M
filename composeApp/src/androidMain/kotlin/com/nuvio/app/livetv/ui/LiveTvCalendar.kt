@@ -64,10 +64,24 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
+import nuvio.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.StringResource
+import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.resources.getString
 
-private enum class CalendarTab(val label: String) { UPCOMING("Upcoming"), RECENT("Recently aired"), TODAY("Airing today"), FOLLOWING("Following") }
+private enum class CalendarTab(val labelRes: StringResource) {
+    UPCOMING(Res.string.live_tv_ui_tab_upcoming),
+    RECENT(Res.string.live_tv_ui_tab_recent),
+    TODAY(Res.string.live_tv_ui_tab_today),
+    FOLLOWING(Res.string.live_tv_ui_tab_following),
+}
 
-private enum class CalendarFilter(val label: String) { ALL("All"), SHOWS("Shows"), MOVIES("Movies"), SPORTS("Sports") }
+private enum class CalendarFilter(val labelRes: StringResource) {
+    ALL(Res.string.live_tv_ui_filter_all),
+    SHOWS(Res.string.live_tv_ui_filter_shows),
+    MOVIES(Res.string.live_tv_ui_filter_movies),
+    SPORTS(Res.string.live_tv_ui_filter_sports),
+}
 
 /** One row of the Calendar: a show episode, or a game of a team you follow. */
 private sealed interface CalendarRow {
@@ -144,7 +158,7 @@ fun CalendarPage(
                         .background(if (tab == t) MaterialTheme.colorScheme.secondaryContainer else Color.Transparent)
                         .clickable { tab = t }
                         .padding(horizontal = 12.dp, vertical = 8.dp)
-                ) { Text(t.label, maxLines = 1, style = MaterialTheme.typography.labelLarge) }
+                ) { Text(stringResource(t.labelRes), maxLines = 1, style = MaterialTheme.typography.labelLarge) }
             }
         }
         if (tab != CalendarTab.FOLLOWING) {
@@ -156,7 +170,7 @@ fun CalendarPage(
                     FilterChip(
                         selected = filter == f,
                         onClick = { filter = f },
-                        label = { Text(f.label) },
+                        label = { Text(stringResource(f.labelRes)) },
                     )
                 }
             }
@@ -200,20 +214,20 @@ fun CalendarPage(
         }
         if (tab == CalendarTab.FOLLOWING) {
             LazyColumn(Modifier.weight(1f).fillMaxWidth(), contentPadding = PaddingValues(16.dp, 0.dp, 16.dp, 96.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                item { Text("Shows with a bell", style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.primary) }
-                if (state.followed.isEmpty()) item { Text("Open an episode and tap Follow to add a show here.", color = LocalContentColor.current.copy(alpha = 0.6f)) }
+                item { Text(stringResource(Res.string.live_tv_ui_shows_with_a_bell), style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.primary) }
+                if (state.followed.isEmpty()) item { Text(stringResource(Res.string.live_tv_ui_open_an_episode_and_tap_follow_to_add_a_show_here), color = LocalContentColor.current.copy(alpha = 0.6f)) }
                 items(state.followed.entries.toList(), key = { "f" + it.key }) { (imdb, name) ->
                     Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
                         Text(name, Modifier.weight(1f), maxLines = 1, overflow = TextOverflow.Ellipsis)
-                        TextButton(onClick = { calendar.toggleFollow(imdb, name) }) { Text("Unfollow") }
+                        TextButton(onClick = { calendar.toggleFollow(imdb, name) }) { Text(stringResource(Res.string.live_tv_ui_unfollow)) }
                     }
                 }
-                item { Text("Taken off the Calendar", style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.primary, modifier = Modifier.padding(top = 12.dp)) }
-                if (state.hidden.isEmpty()) item { Text("Nothing hidden.", color = LocalContentColor.current.copy(alpha = 0.6f)) }
+                item { Text(stringResource(Res.string.live_tv_ui_taken_off_the_calendar), style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.primary, modifier = Modifier.padding(top = 12.dp)) }
+                if (state.hidden.isEmpty()) item { Text(stringResource(Res.string.live_tv_ui_nothing_hidden), color = LocalContentColor.current.copy(alpha = 0.6f)) }
                 items(state.hidden.entries.toList(), key = { "h" + it.key }) { (imdb, name) ->
                     Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
                         Text(name, Modifier.weight(1f), maxLines = 1, overflow = TextOverflow.Ellipsis)
-                        TextButton(onClick = { calendar.unhide(imdb) }) { Text("Show again") }
+                        TextButton(onClick = { calendar.unhide(imdb) }) { Text(stringResource(Res.string.youtube_settings_show_again)) }
                     }
                 }
             }
@@ -225,9 +239,9 @@ fun CalendarPage(
                         when {
                             filter == CalendarFilter.SPORTS && follows.teams.isEmpty() ->
                                 "Follow teams in Sports to see their games here."
-                            filter == CalendarFilter.SPORTS && tab == CalendarTab.TODAY -> "No games for your teams today."
-                            filter == CalendarFilter.SPORTS && tab == CalendarTab.RECENT -> "No games for your teams lately."
-                            filter == CalendarFilter.SPORTS -> "No upcoming games for your teams."
+                            filter == CalendarFilter.SPORTS && tab == CalendarTab.TODAY -> stringResource(Res.string.live_tv_ui_no_games_today)
+                            filter == CalendarFilter.SPORTS && tab == CalendarTab.RECENT -> stringResource(Res.string.live_tv_ui_no_games_lately)
+                            filter == CalendarFilter.SPORTS -> stringResource(Res.string.live_tv_ui_no_games_upcoming)
                             tab == CalendarTab.TODAY -> "Nothing found airing today."
                             state.note != null -> state.note!!
                             tab == CalendarTab.RECENT -> "Nothing aired lately from your shows."
@@ -245,7 +259,7 @@ fun CalendarPage(
                     if (busy) item {
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             CircularProgressIndicator(Modifier.size(14.dp), strokeWidth = 2.dp)
-                            Text("  Looking up your shows (${state.shows})…", style = MaterialTheme.typography.bodySmall)
+                            Text("  " + stringResource(Res.string.live_tv_ui_looking_up_shows, state.shows), style = MaterialTheme.typography.bodySmall)
                         }
                     }
                     grouped.forEach { (key, day) ->
@@ -292,7 +306,7 @@ fun CalendarPage(
             title = { Text(ev.title, maxLines = 2, overflow = TextOverflow.Ellipsis) },
             text = {
                 Column {
-                    Text("Watch on", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.primary)
+                    Text(stringResource(Res.string.live_tv_ui_watch_on), style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.primary)
                     channels.forEach { m ->
                         TextButton(onClick = {
                             pickedGame = null
@@ -301,7 +315,7 @@ fun CalendarPage(
                     }
                 }
             },
-            confirmButton = { TextButton(onClick = { pickedGame = null }) { Text("Close") } },
+            confirmButton = { TextButton(onClick = { pickedGame = null }) { Text(stringResource(Res.string.action_close)) } },
         )
     }
     opened?.let { e ->
@@ -315,16 +329,16 @@ fun CalendarPage(
             title = { Text(e.showName, maxLines = 2, overflow = TextOverflow.Ellipsis) },
             text = {
                 Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                    Text(if (e.isMovie) "Movie  —  ${e.title.orEmpty()}" else "S${e.season} · E${e.episode}" + (e.title?.let { "  —  $it" } ?: ""), style = MaterialTheme.typography.titleSmall)
+                    Text(if (e.isMovie) stringResource(Res.string.live_tv_ui_movie) + "  —  " + e.title.orEmpty() else stringResource(Res.string.live_tv_ui_episode_short, e.season ?: 0, e.episode ?: 0) + (e.title?.let { "  —  $it" } ?: ""), style = MaterialTheme.typography.titleSmall)
                     Text(
                         SimpleDateFormat("EEEE d MMMM", Locale.getDefault()).format(Date(e.airMs)) + "  " + timeFmt.format(Date(e.airMs)) +
-                            (e.network?.let { "  ·  $it" } ?: "") + if (e.streaming) " (streaming)" else "",
+                            (e.network?.let { "  ·  $it" } ?: "") + if (e.streaming) " " + stringResource(Res.string.live_tv_ui_streaming) else "",
                         style = MaterialTheme.typography.bodySmall, color = LocalContentColor.current.copy(alpha = 0.7f),
                     )
-                    e.runtime?.let { Text("$it min", style = MaterialTheme.typography.bodySmall) }
+                    e.runtime?.let { Text(stringResource(Res.string.live_tv_ui_minutes_short, it), style = MaterialTheme.typography.bodySmall) }
                     e.summary?.takeIf { it.isNotBlank() && !it.equals("null", true) }?.let { Text(android.text.Html.fromHtml(it, 0).toString().trim(), style = MaterialTheme.typography.bodyMedium, maxLines = 8, overflow = TextOverflow.Ellipsis) }
                     if (onTv.isNotEmpty()) {
-                        Text("On my TV", style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.primary, modifier = Modifier.padding(top = 6.dp))
+                        Text(stringResource(Res.string.live_tv_ui_on_my_tv), style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.primary, modifier = Modifier.padding(top = 6.dp))
                         onTv.forEach { t ->
                             val id = t.channel.key + t.program.startMs
                             val scheduled = id in recorded || live.scheduler.isScheduled(t.channel.key, t.program)
@@ -340,22 +354,22 @@ fun CalendarPage(
                                 if (onNow) TextButton(onClick = {
                                     com.nuvio.app.livetv.player.LiveTvReconnect.arm(t.channel.url, t.channel.key)
                                     onPlay(liveTvRequest(t.channel, listOf(t.program), System.currentTimeMillis())); opened = null
-                                }) { Text("Watch") }
+                                }) { Text(stringResource(Res.string.live_tv_ui_watch)) }
                                 else TextButton(enabled = !scheduled, onClick = {
                                     live.scheduler.add(t.channel, t.program); recorded = recorded + id
-                                }) { Text(if (scheduled) "Set" else "Record") }
+                                }) { Text(if (scheduled) "Set" else stringResource(Res.string.live_tv_ui_record)) }
                             }
                         }
                     }
                 }
             },
-            confirmButton = { TextButton(onClick = { opened = null }) { Text("Close") } },
+            confirmButton = { TextButton(onClick = { opened = null }) { Text(stringResource(Res.string.action_close)) } },
             dismissButton = {
                 val imdb = e.imdb
                 if (imdb != null) Row {
                     val following = imdb in state.followed
-                    TextButton(onClick = { calendar.toggleFollow(imdb, e.showName); opened = null }) { Text(if (following) "Unfollow" else "Follow") }
-                    TextButton(onClick = { calendar.hide(imdb, e.showName); opened = null }) { Text("Hide show") }
+                    TextButton(onClick = { calendar.toggleFollow(imdb, e.showName); opened = null }) { Text(if (following) stringResource(Res.string.live_tv_ui_unfollow) else "Follow") }
+                    TextButton(onClick = { calendar.hide(imdb, e.showName); opened = null }) { Text(stringResource(Res.string.live_tv_ui_hide_show)) }
                 }
             },
         )
@@ -412,7 +426,7 @@ private fun CalendarGameCard(
                 LiveBadge()
             } else {
                 Text(
-                    if (ev.hasTime) timeFmt.format(Date(ev.startMs)) else "Today",
+                    if (ev.hasTime) timeFmt.format(Date(ev.startMs)) else stringResource(Res.string.library_calendar_today),
                     style = MaterialTheme.typography.labelMedium,
                     color = Color.White.copy(alpha = 0.78f),
                     modifier = Modifier.padding(start = 6.dp),
@@ -488,7 +502,7 @@ private fun TeamBand(side: Side, showScore: Boolean, followed: Boolean) {
             Spacer(Modifier.width(4.dp))
             Icon(
                 Icons.Filled.Star,
-                contentDescription = "Followed team",
+                contentDescription = stringResource(Res.string.live_tv_ui_followed_team),
                 tint = Color(0xFFFFC107),
                 modifier = Modifier.size(14.dp),
             )
@@ -499,16 +513,18 @@ private fun TeamBand(side: Side, showScore: Boolean, followed: Boolean) {
     }
 }
 
+@Composable
 private fun gameNote(ev: SportsEvent, timeFmt: SimpleDateFormat, now: Long): String = when (ev.state) {
     GameState.LIVE -> ev.status?.takeIf { it.isNotBlank() } ?: "LIVE"
     GameState.POST -> ev.status?.takeIf { it.isNotBlank() } ?: "Final"
     GameState.OFF -> ev.status?.takeIf { it.isNotBlank() } ?: timeFmt.format(Date(ev.startMs))
-    GameState.PRE -> if (!ev.hasTime) "Today" else relativeStart(ev.startMs, now)
+    GameState.PRE -> if (!ev.hasTime) stringResource(Res.string.library_calendar_today) else relativeStart(ev.startMs, now)
 }
 
+@Composable
 private fun relativeStart(startMs: Long, now: Long): String {
     val diff = startMs - now
-    if (diff <= 0) return "Now"
+    if (diff <= 0) return stringResource(Res.string.live_tv_epg_now)
     val mins = diff / 60_000
     if (mins < 60) return "in $mins min"
     val hours = diff / 3_600_000
@@ -529,7 +545,7 @@ private fun EpisodeRow(e: CalendarItem, timeFmt: SimpleDateFormat, onClick: () -
         Column(Modifier.weight(1f).padding(start = 12.dp)) {
             Text(e.showName, style = MaterialTheme.typography.titleSmall, maxLines = 1, overflow = TextOverflow.Ellipsis)
             Text(
-                if (e.isMovie) "Movie  ·  ${e.title.orEmpty()}" else "S${e.season} · E${e.episode}" + (e.title?.let { "  $it" } ?: ""),
+                if (e.isMovie) "Movie  ·  ${e.title.orEmpty()}" else stringResource(Res.string.live_tv_ui_episode_short, e.season ?: 0, e.episode ?: 0) + (e.title?.let { "  $it" } ?: ""),
                 style = MaterialTheme.typography.bodySmall, maxLines = 1, overflow = TextOverflow.Ellipsis,
                 color = LocalContentColor.current.copy(alpha = 0.75f),
             )
@@ -550,9 +566,9 @@ private fun dayTitle(day: Long, fmt: SimpleDateFormat): String {
     val today = dayKey(System.currentTimeMillis())
     val diff = Math.round((day - today) / 86_400_000.0).toInt()
     return when (diff) {
-        0 -> "Today"
-        1 -> "Tomorrow"
-        -1 -> "Yesterday"
+        0 -> kotlinx.coroutines.runBlocking { getString(Res.string.library_calendar_today) }
+        1 -> kotlinx.coroutines.runBlocking { getString(Res.string.live_tv_ui_tomorrow) }
+        -1 -> kotlinx.coroutines.runBlocking { getString(Res.string.live_tv_ui_yesterday) }
         else -> fmt.format(Date(day))
     }
 }

@@ -1,0 +1,33 @@
+<resources>
+    <string name="tracking_source_wetrakr">WeTrakr</string>
+    <string name="settings_wetrakr_library_description">Az Ön WeTrakr listái: Tervezés, Figyelés, Várakozás, Figyelt, Szüneteltetve és Eldobott.</string>
+    <string name="settings_wetrakr_progress_description">Folytassa a megtekintést és a következőt a WeTrakr lejátszásból és a megtekintett epizódokból.</string>
+    <string name="library_wetrakr_title">WeTrakr könyvtár</string>
+    <string name="library_wetrakr_load_failed">Nem sikerült betölteni a WeTrakr könyvtárát</string>
+    <string name="library_wetrakr_empty_title">A WeTrakr könyvtára üres</string>
+    <string name="library_wetrakr_empty_message">Adjon hozzá filmeket és műsorokat WeTrakr listáihoz, hogy itt megtekinthesse őket.</string>
+    <string name="settings_wetrakr_connect">Csatlakoztassa a WeTrakr-t</string>
+    <string name="settings_wetrakr_connected_as">Csatlakozva mint %1$s</string>
+    <string name="settings_wetrakr_connected_description">Szinkronizálja listáit, megtekintési előzményeit, értékeléseit, scrobbleit, és folytassa a nézést a WeTrakr segítségével.</string>
+    <string name="settings_wetrakr_sign_in_description">Csatlakoztassa a WeTrakr-t a listák, a megtekintési előzmények, az értékelések, a scrobblek és a Nézés folytatása érdekében.</string>
+    <string name="settings_wetrakr_finish_sign_in">A bejelentkezés befejezése</string>
+    <string name="settings_wetrakr_approval_description">Nyissa meg a WeTrakr aktiválási oldalt, és írja be ezt a kódot. A Nuvio automatikusan csatlakozik, ha jóváhagyja.</string>
+    <string name="settings_wetrakr_open_login">Az aktiválási oldal megnyitása</string>
+    <string name="settings_wetrakr_disconnect">Válassza le a WeTrakr-t</string>
+    <string name="settings_wetrakr_missing_credentials">A WeTrakr kapcsolat nem érhető el ebben a buildben.</string>
+    <string name="settings_wetrakr_sync_now">Szinkronizálás most</string>
+    <string name="settings_wetrakr_visit">Látogassa meg a WeTrakr oldalt</string>
+    <string name="settings_wetrakr_disconnect_description">Az órafrissítések küldésének leállítása ebből a profilból. A WeTrakr listái és előzményei megőrződnek.</string>
+    <string name="settings_wetrakr_account_fallback">WeTrakr felhasználó</string>
+    <string name="settings_wetrakr_syncing">A WeTrakr listák szinkronizálása…</string>
+    <string name="settings_wetrakr_last_synced">Utolsó szinkronizálás: %1$s</string>
+    <string name="settings_wetrakr_auth_denied">A kapcsolat elutasítva. Próbálja újra összekapcsolni fiókját.</string>
+    <string name="settings_wetrakr_auth_expired">Az aktiváló kód lejárt. Próbálkozzon újra egy új kód beszerzéséhez.</string>
+    <string name="settings_wetrakr_auth_failed">Nem sikerült elérni a WeTrakr-t a bejelentkezés megkezdéséhez. Kérjük, próbálja újra.</string>
+    <string name="settings_wetrakr_auth_rate_limited">Túl sok bejelentkezési kísérlet. Várjon 15 percet, és próbálja újra.</string>
+    <string name="settings_wetrakr_app_suspended">A WeTrakr felfüggesztette ezt az alkalmazást. Kérjük, próbálja újra később.</string>
+    <string name="settings_wetrakr_auth_revoked">Az Ön WeTrakr kapcsolata lejárt vagy visszavonták. A szinkronizálás folytatásához csatlakozzon újra.</string>
+    <string name="settings_wetrakr_unavailable">Nem sikerült szinkronizálni a WeTrakrral. Kérjük, próbálja újra.</string>
+    <string name="settings_wetrakr_rate_limited">Elérte a WeTrakr kéréskorlátját. A szinkronizálás hamarosan folytatódik.</string>
+    <string name="settings_wetrakr_plan_limit">Ehhez WeTrakr VIP-re van szükség, vagy meghaladja a terv határait.</string>
+</resources>

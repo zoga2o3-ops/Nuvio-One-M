@@ -1,0 +1,33 @@
+<resources>
+    <string name="tracking_source_wetrakr">WeTrakr</string>
+    <string name="settings_wetrakr_library_description">Lista dvs. WeTrakr: Planificare, Vizionare, Așteptare, Vizionat, Întrerupt și Renunțat.</string>
+    <string name="settings_wetrakr_progress_description">Continuați să vizionați și să urmați din redarea WeTrakr și din episoadele vizionate.</string>
+    <string name="library_wetrakr_title">Biblioteca WeTrakr</string>
+    <string name="library_wetrakr_load_failed">Nu s-a putut încărca biblioteca dvs. WeTrakr</string>
+    <string name="library_wetrakr_empty_title">Biblioteca dvs. WeTrakr este goală</string>
+    <string name="library_wetrakr_empty_message">Adăugați filme și emisiuni în listele dvs. WeTrakr pentru a le vedea aici.</string>
+    <string name="settings_wetrakr_connect">Conectați WeTrakr</string>
+    <string name="settings_wetrakr_connected_as">Conectat ca %1$s</string>
+    <string name="settings_wetrakr_connected_description">Sincronizați-vă listele, istoricul vizionărilor, evaluările, scrobble-urile și vizionați în continuare cu WeTrakr.</string>
+    <string name="settings_wetrakr_sign_in_description">Conectați WeTrakr pentru a vă sincroniza listele, istoricul vizionărilor, evaluările, scrobble-urile și Continuați vizionarea.</string>
+    <string name="settings_wetrakr_finish_sign_in">Finalizați conectarea</string>
+    <string name="settings_wetrakr_approval_description">Deschideți pagina de activare WeTrakr și introduceți acest cod. Nuvio se conectează automat după ce ați aprobat.</string>
+    <string name="settings_wetrakr_open_login">Deschide pagina de activare</string>
+    <string name="settings_wetrakr_disconnect">Deconectați WeTrakr</string>
+    <string name="settings_wetrakr_missing_credentials">Conexiunea WeTrakr nu este disponibilă în această versiune.</string>
+    <string name="settings_wetrakr_sync_now">Sincronizează acum</string>
+    <string name="settings_wetrakr_visit">Vizitați WeTrakr</string>
+    <string name="settings_wetrakr_disconnect_description">Nu mai trimiteți actualizări pentru ceasuri de la acest profil. Listele și istoricul dvs. WeTrakr sunt păstrate.</string>
+    <string name="settings_wetrakr_account_fallback">Utilizator WeTrakr</string>
+    <string name="settings_wetrakr_syncing">Se sincronizează listele tale WeTrakr...</string>
+    <string name="settings_wetrakr_last_synced">Ultima sincronizare %1$s</string>
+    <string name="settings_wetrakr_auth_denied">Conexiunea a fost refuzată. Încercați din nou să vă conectați contul.</string>
+    <string name="settings_wetrakr_auth_expired">Codul de activare a expirat. Încercați din nou pentru a obține un cod nou.</string>
+    <string name="settings_wetrakr_auth_failed">Nu s-a putut contacta WeTrakr pentru a începe conectarea. Vă rugăm să încercați din nou.</string>
+    <string name="settings_wetrakr_auth_rate_limited">Prea multe încercări de conectare. Așteptați 15 minute și încercați din nou.</string>
+    <string name="settings_wetrakr_app_suspended">WeTrakr a suspendat această aplicație. Vă rugăm să încercați din nou mai târziu.</string>
+    <string name="settings_wetrakr_auth_revoked">Conexiunea dvs. WeTrakr a expirat sau a fost revocată. Conectați-vă din nou pentru a relua sincronizarea.</string>
+    <string name="settings_wetrakr_unavailable">Nu s-a putut sincroniza cu WeTrakr. Vă rugăm să încercați din nou.</string>
+    <string name="settings_wetrakr_rate_limited">Limita de solicitare a WeTrakr a fost atinsă. Sincronizarea va fi reluată în curând.</string>
+    <string name="settings_wetrakr_plan_limit">Acest lucru necesită WeTrakr VIP sau depășește limitele planului dvs.</string>
+</resources>

@@ -1,6 +1,5 @@
 package com.nuvio.app.features.settings
 
-import com.nuvio.app.features.player.DeviceLanguagePreferences
 import nuvio.composeapp.generated.resources.Res
 import nuvio.composeapp.generated.resources.lang_arabic
 import nuvio.composeapp.generated.resources.lang_bengali
@@ -22,6 +21,7 @@ import nuvio.composeapp.generated.resources.lang_romanian
 import nuvio.composeapp.generated.resources.lang_russian
 import nuvio.composeapp.generated.resources.lang_slovak
 import nuvio.composeapp.generated.resources.lang_spanish
+import nuvio.composeapp.generated.resources.lang_tamil
 import nuvio.composeapp.generated.resources.lang_turkish
 import nuvio.composeapp.generated.resources.lang_urdu
 import nuvio.composeapp.generated.resources.lang_norwegian
@@ -56,6 +56,7 @@ enum class AppLanguage(
     RUSSIAN("ru", Res.string.lang_russian),
     SLOVAK("sk", Res.string.lang_slovak),
     SPANISH("es", Res.string.lang_spanish),
+    TAMIL("ta", Res.string.lang_tamil),
     TURKISH("tr", Res.string.lang_turkish),
     URDU("ur", Res.string.lang_urdu),
     NORWEGIAN("nb", Res.string.lang_norwegian),
@@ -64,10 +65,11 @@ enum class AppLanguage(
     VIETNAMESE("vi", Res.string.lang_vietnamese),
     ;
 
-    fun isRightToLeft(): Boolean {
-        val languageCode = if (this == DEVICE) DeviceLanguagePreferences.preferredLanguageCodes().firstOrNull() else code
-        return languageCode?.substringBefore('-') in setOf(ARABIC.code, HEBREW.code, URDU.code)
-    }
+    /**
+     * The interface stays left-to-right in every language, including Arabic, Hebrew and Urdu:
+     * their text renders correctly, but the app does not mirror around it.
+     */
+    fun isRightToLeft(): Boolean = false
 
     companion object {
         fun fromCode(code: String?): AppLanguage =

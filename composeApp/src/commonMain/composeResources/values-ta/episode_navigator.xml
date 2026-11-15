@@ -1,0 +1,19 @@
+<resources>
+    <string name="episode_navigator_search_hint">தலைப்பு, சதி அல்லது எண்ணைத் தேடுங்கள்</string>
+    <string name="episode_navigator_clear_search">தெளிவான தேடல்</string>
+    <string name="episode_navigator_go_to">செல்க</string>
+    <string name="episode_navigator_sort">வரிசைப்படுத்து</string>
+    <string name="episode_navigator_count">%2$d அத்தியாயங்களில் %1$d</string>
+    <string name="episode_navigator_no_match">‘%1$s’ உடன் எந்த அத்தியாயமும் இல்லை</string>
+    <string name="episode_navigator_go_to_title">அத்தியாயத்திற்குச் செல்லவும்</string>
+    <string name="episode_navigator_episode_number">எபிசோட் எண்</string>
+    <string name="episode_navigator_go">போ</string>
+    <string name="episode_navigator_go_to_help">எண்ணைத் தட்டச்சு செய்யவும் அல்லது கீழே ஒன்றைத் தேர்ந்தெடுக்கவும். அடிக்கோடிடப்பட்டது = பார்த்தது, கோடிட்டது = அடுத்தது.</string>
+    <string name="episode_navigator_out_of_range">%1$s எபிசோடுகளைக் கொண்டுள்ளது %2$d–%3$d</string>
+    <string name="episode_navigator_sort_title">அத்தியாயங்களை வரிசைப்படுத்தவும்</string>
+    <string name="episode_navigator_sort_first_to_last">எபிசோட்: முதல் முதல் கடைசி வரை</string>
+    <string name="episode_navigator_sort_last_to_first">எபிசோட்: கடைசி முதல் முதல் வரை</string>
+    <string name="episode_navigator_sort_highest_rated">அதிக மதிப்பீடு</string>
+    <string name="episode_navigator_sort_newest_aired">புதிதாக ஒளிபரப்பப்பட்டது</string>
+    <string name="episode_navigator_sort_unwatched_first">முதலில் பார்க்காதது</string>
+</resources>

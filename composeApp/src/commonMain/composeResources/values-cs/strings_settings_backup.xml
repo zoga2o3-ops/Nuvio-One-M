@@ -1,0 +1,20 @@
+<resources>
+    <string name="settings_backup_section">ZÁLOHOVÁNÍ</string>
+    <string name="settings_backup_include_sensitive">Zahrnout citlivé informace</string>
+    <string name="settings_backup_include_sensitive_description">Do exportovaného souboru přidejte klíče API, klíče debrid, doplňky, živé televizní vysílání a ID aplikace Discord. Udržujte tento soubor soukromý</string>
+    <string name="settings_backup_export">Nastavení exportu</string>
+    <string name="settings_backup_export_description">Uložte nastavení a pluginy do souboru. Sbírky, sledovače a váš účet Nuvio nejsou nikdy zahrnuty</string>
+    <string name="settings_backup_export_done">Nastavení exportováno</string>
+    <string name="settings_backup_export_failed">Nastavení se nepodařilo exportovat</string>
+    <string name="settings_backup_import">Nastavení importu</string>
+    <string name="settings_backup_import_description">Obnovte nastavení z exportovaného souboru</string>
+    <string name="settings_backup_importing">Import nastavení…</string>
+    <string name="settings_backup_import_confirm_title">Importovat nastavení?</string>
+    <string name="settings_backup_import_confirm_message">Nastavení z tohoto souboru nahradí aktuální nastavení tohoto profilu. Chybějící pluginy budou doplněny. Vaše klíče API, doplňky a živá televize zůstanou nezměněny.</string>
+    <string name="settings_backup_import_confirm_message_sensitive">Nastavení z tohoto souboru nahradí aktuální nastavení tohoto profilu, včetně klíčů API a klíčů debrid. Budou přidány chybějící doplňky, pluginy a zdroje živé televize.</string>
+    <string name="settings_backup_import_confirm_action">Importovat</string>
+    <string name="settings_backup_import_done">Nastavení byla importována</string>
+    <string name="settings_backup_import_partial">Nastavení byla importována, ale některé sekce nebylo možné použít</string>
+    <string name="settings_backup_import_failed">Nastavení nelze importovat</string>
+    <string name="settings_backup_import_invalid">Tento soubor není exportem nastavení Nuvio</string>
+</resources>

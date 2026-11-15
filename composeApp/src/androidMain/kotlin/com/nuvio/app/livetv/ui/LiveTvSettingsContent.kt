@@ -29,6 +29,9 @@ import com.nuvio.app.livetv.LiveTv
 import com.nuvio.app.livetv.model.ChannelSort
 import com.nuvio.app.livetv.model.LiveTvSettings
 import kotlinx.coroutines.launch
+import nuvio.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.getString
+import org.jetbrains.compose.resources.stringResource
 
 /** The Live TV settings page, shown inside Nuvio's settings. */
 @Composable
@@ -46,233 +49,233 @@ fun LiveTvSettingsContent() {
 
     CompositionLocalProvider(LocalContentColor provides MaterialTheme.colorScheme.onBackground) {
         Column(Modifier.fillMaxWidth()) {
-            Section("Channels")
+            Section(stringResource(Res.string.live_tv_section_channels))
             ChoiceRow(
-                "Sort channels",
-                when (settings.channelSort) { ChannelSort.PLAYLIST -> "As in the playlist"; ChannelSort.NUMBER -> "By number"; ChannelSort.NAME -> "By name" },
-                listOf("As in the playlist" to ChannelSort.PLAYLIST, "By number" to ChannelSort.NUMBER, "By name" to ChannelSort.NAME),
+                stringResource(Res.string.live_tv_ui_sort_channels),
+                when (settings.channelSort) { ChannelSort.PLAYLIST -> stringResource(Res.string.live_tv_ui_as_in_the_playlist); ChannelSort.NUMBER -> stringResource(Res.string.live_tv_ui_by_number); ChannelSort.NAME -> stringResource(Res.string.live_tv_ui_by_name) },
+                listOf(stringResource(Res.string.live_tv_ui_as_in_the_playlist) to ChannelSort.PLAYLIST, stringResource(Res.string.live_tv_ui_by_number) to ChannelSort.NUMBER, stringResource(Res.string.live_tv_ui_by_name) to ChannelSort.NAME),
             ) { v -> change { it.copy(channelSort = v) } }
             ChoiceRow(
-                "Order of groups",
-                when (settings.groupSort) { "playlist" -> "As in the playlist"; "name" -> "A to Z"; else -> "Mine" },
-                listOf("Mine (long-press a group to move it)" to "custom", "As in the playlist" to "playlist", "A to Z" to "name"),
+                stringResource(Res.string.live_tv_ui_order_of_groups),
+                when (settings.groupSort) { "playlist" -> stringResource(Res.string.live_tv_ui_as_in_the_playlist); "name" -> "A to Z"; else -> "Mine" },
+                listOf("Mine (long-press a group to move it)" to "custom", stringResource(Res.string.live_tv_ui_as_in_the_playlist) to "playlist", "A to Z" to "name"),
             ) { v -> change { it.copy(groupSort = v) } }
-            SwitchRow("Remember the last group", "Open Live TV on the group you were in.", settings.rememberLastGroup) { v -> change { it.copy(rememberLastGroup = v) } }
-            SwitchRow("All channels group", null, settings.showAllChannelsGroup) { v -> change { it.copy(showAllChannelsGroup = v) } }
-            SwitchRow("Favorites group", null, settings.showFavoritesGroup) { v -> change { it.copy(showFavoritesGroup = v) } }
-            SwitchRow("Recent group", "Channels you watched lately.", settings.showRecentGroup) { v -> change { it.copy(showRecentGroup = v) } }
-            SwitchRow("Channel count on groups", null, settings.showGroupCounts) { v -> change { it.copy(showGroupCounts = v) } }
-            SwitchRow("Channel numbers", null, settings.showChannelNumbers) { v -> change { it.copy(showChannelNumbers = v) } }
-            SwitchRow("Channel logos", null, settings.showChannelLogos) { v -> change { it.copy(showChannelLogos = v) } }
-            SwitchRow("Compact rows", "Fit more channels on screen.", settings.compactRows) { v -> change { it.copy(compactRows = v) } }
-            SwitchRow("Number channels in order", "1, 2, 3 down the list you see, whatever the playlist says.", settings.sequentialNumbers) { v -> change { it.copy(sequentialNumbers = v) } }
+            SwitchRow(stringResource(Res.string.live_tv_ui_remember_the_last_group), "Open Live TV on the group you were in.", settings.rememberLastGroup) { v -> change { it.copy(rememberLastGroup = v) } }
+            SwitchRow(stringResource(Res.string.live_tv_ui_all_channels_group), null, settings.showAllChannelsGroup) { v -> change { it.copy(showAllChannelsGroup = v) } }
+            SwitchRow(stringResource(Res.string.live_tv_ui_favorites_group), null, settings.showFavoritesGroup) { v -> change { it.copy(showFavoritesGroup = v) } }
+            SwitchRow(stringResource(Res.string.live_tv_ui_recent_group), "Channels you watched lately.", settings.showRecentGroup) { v -> change { it.copy(showRecentGroup = v) } }
+            SwitchRow(stringResource(Res.string.live_tv_ui_channel_count_on_groups), null, settings.showGroupCounts) { v -> change { it.copy(showGroupCounts = v) } }
+            SwitchRow(stringResource(Res.string.live_tv_ui_channel_numbers), null, settings.showChannelNumbers) { v -> change { it.copy(showChannelNumbers = v) } }
+            SwitchRow(stringResource(Res.string.live_tv_ui_channel_logos), null, settings.showChannelLogos) { v -> change { it.copy(showChannelLogos = v) } }
+            SwitchRow(stringResource(Res.string.live_tv_ui_compact_rows), "Fit more channels on screen.", settings.compactRows) { v -> change { it.copy(compactRows = v) } }
+            SwitchRow(stringResource(Res.string.live_tv_ui_number_channels_in_order), "1, 2, 3 down the list you see, whatever the playlist says.", settings.sequentialNumbers) { v -> change { it.copy(sequentialNumbers = v) } }
             var editNames by remember { mutableStateOf(false) }
-            ActionLine("Clean up channel names", if (settings.nameRemovals.isBlank()) "Remove tags like \"US:\" or \"HD\" from names." else "Removing: ${settings.nameRemovals}") { editNames = true }
-            SwitchRow("Also clean group names", "Take the same words off group names too.", settings.cleanGroupNames) { v -> change { it.copy(cleanGroupNames = v) } }
+            ActionLine(stringResource(Res.string.live_tv_ui_clean_up_channel_names), if (settings.nameRemovals.isBlank()) stringResource(Res.string.live_tv_ui_remove_tags_hint) else stringResource(Res.string.live_tv_ui_removing, settings.nameRemovals)) { editNames = true }
+            SwitchRow(stringResource(Res.string.live_tv_ui_also_clean_group_names), "Take the same words off group names too.", settings.cleanGroupNames) { v -> change { it.copy(cleanGroupNames = v) } }
             if (editNames) {
                 TextPromptDialog(
-                    title = "Words to remove from names",
+                    title = stringResource(Res.string.live_tv_ui_words_to_remove_from_names),
                     initial = settings.nameRemovals,
-                    hint = "Separate them with commas, for example: US:, HD, FHD, 4K",
+                    hint = stringResource(Res.string.live_tv_ui_separate_them_with_commas_for_example_us_hd_fhd_4k),
                     onOk = { v -> change { it.copy(nameRemovals = v) }; editNames = false },
                     onDismiss = { editNames = false },
                 )
             }
-            ActionLine("Put channels back in playlist order", "Forget the order you set with Move earlier / later.") { scope.launch { live.prefs.resetChannelOrder() } }
+            ActionLine(stringResource(Res.string.live_tv_ui_put_channels_back_in_playlist_order), "Forget the order you set with Move earlier / later.") { scope.launch { live.prefs.resetChannelOrder() } }
 
-            Section("Guide")
-            SwitchRow("24-hour clock", null, settings.use24HourClock) { v -> change { it.copy(use24HourClock = v) } }
-            StepperRow("Shift the guide", "${settings.epgOffsetMinutes / 60.0} hours".replace(".0 ", " "),
+            Section(stringResource(Res.string.live_tv_ui_guide))
+            SwitchRow(stringResource(Res.string.live_tv_ui_24_hour_clock), null, settings.use24HourClock) { v -> change { it.copy(use24HourClock = v) } }
+            StepperRow(stringResource(Res.string.live_tv_ui_shift_the_guide), "${settings.epgOffsetMinutes / 60.0} hours".replace(".0 ", " "),
                 onMinus = { change { it.copy(epgOffsetMinutes = (it.epgOffsetMinutes - 30).coerceAtLeast(-12 * 60)) } },
                 onPlus = { change { it.copy(epgOffsetMinutes = (it.epgOffsetMinutes + 30).coerceAtMost(12 * 60)) } })
-            StepperRow("Days of guide to keep", "${settings.epgFutureDays} days ahead",
+            StepperRow(stringResource(Res.string.live_tv_ui_days_of_guide_to_keep), "${settings.epgFutureDays} days ahead",
                 onMinus = { change { it.copy(epgFutureDays = (it.epgFutureDays - 1).coerceAtLeast(1)) } },
                 onPlus = { change { it.copy(epgFutureDays = (it.epgFutureDays + 1).coerceAtMost(14)) } })
-            StepperRow("Past programmes", "${settings.epgPastHours} hours back",
+            StepperRow(stringResource(Res.string.live_tv_ui_past_programmes), "${settings.epgPastHours} hours back",
                 onMinus = { change { it.copy(epgPastHours = (it.epgPastHours - 12).coerceAtLeast(0)) } },
                 onPlus = { change { it.copy(epgPastHours = (it.epgPastHours + 12).coerceAtMost(7 * 24)) } })
             ChoiceRow(
-                "Guide size",
-                when (settings.guideSize) { "COMPACT" -> "Compact"; "LARGE" -> "Large"; "XLARGE" -> "Extra large"; else -> "Standard" },
-                listOf("Compact" to "COMPACT", "Standard" to "STANDARD", "Large" to "LARGE", "Extra large" to "XLARGE"),
+                stringResource(Res.string.live_tv_ui_guide_size),
+                when (settings.guideSize) { stringResource(Res.string.live_tv_ui_compact) -> "Compact"; stringResource(Res.string.live_tv_ui_large) -> "Large"; stringResource(Res.string.live_tv_ui_xlarge) -> "Extra large"; else -> "Standard" },
+                listOf("Compact" to stringResource(Res.string.live_tv_ui_compact), "Standard" to "STANDARD", "Large" to stringResource(Res.string.live_tv_ui_large), "Extra large" to stringResource(Res.string.live_tv_ui_xlarge)),
             ) { v -> change { it.copy(guideSize = v) } }
-            SwitchRow("Show start and end times", "Both times under each show, in taller rows.", settings.showProgramTimes) { v -> change { it.copy(showProgramTimes = v) } }
-            SwitchRow("Show episode numbers", "\"S2 E5\" under a show's name.", settings.showEpisodeNumbers) { v -> change { it.copy(showEpisodeNumbers = v) } }
-            SwitchRow("Line for the current time", null, settings.showNowLine) { v -> change { it.copy(showNowLine = v) } }
+            SwitchRow(stringResource(Res.string.live_tv_ui_show_start_and_end_times), "Both times under each show, in taller rows.", settings.showProgramTimes) { v -> change { it.copy(showProgramTimes = v) } }
+            SwitchRow(stringResource(Res.string.live_tv_ui_show_episode_numbers), "\"S2 E5\" under a show's name.", settings.showEpisodeNumbers) { v -> change { it.copy(showEpisodeNumbers = v) } }
+            SwitchRow(stringResource(Res.string.live_tv_ui_line_for_the_current_time), null, settings.showNowLine) { v -> change { it.copy(showNowLine = v) } }
             ChoiceRow(
-                "Refresh the guide",
+                stringResource(Res.string.live_tv_ui_refresh_the_guide),
                 "Every ${settings.epgRefreshHours} hours",
                 listOf(6, 12, 24, 48).map { "Every $it hours" to it },
             ) { v -> change { it.copy(epgRefreshHours = v) } }
             ChoiceRow(
-                "Refresh playlists",
+                stringResource(Res.string.live_tv_ui_refresh_playlists),
                 "Every ${settings.playlistRefreshHours} hours",
                 listOf(6, 12, 24, 48, 168).map { "Every $it hours" to it },
             ) { v -> change { it.copy(playlistRefreshHours = v) } }
 
-            Section("Playback")
-            SwitchRow("Reconnect when a channel drops", "Try again a few times before giving up.", settings.autoReconnect) { v -> change { it.copy(autoReconnect = v) } }
-            SwitchRow("Prefer HLS for catch-up", "Gives replays a length, so you can skip around.", settings.catchupPreferHls) { v -> change { it.copy(catchupPreferHls = v) } }
-            StepperRow("Catch-up time shift", "${settings.catchupShiftMinutes} minutes",
+            Section(stringResource(Res.string.compose_settings_page_playback))
+            SwitchRow(stringResource(Res.string.live_tv_ui_reconnect_when_a_channel_drops), "Try again a few times before giving up.", settings.autoReconnect) { v -> change { it.copy(autoReconnect = v) } }
+            SwitchRow(stringResource(Res.string.live_tv_ui_prefer_hls_for_catch_up), "Gives replays a length, so you can skip around.", settings.catchupPreferHls) { v -> change { it.copy(catchupPreferHls = v) } }
+            StepperRow(stringResource(Res.string.live_tv_ui_catch_up_time_shift), "${settings.catchupShiftMinutes} minutes",
                 onMinus = { change { it.copy(catchupShiftMinutes = (it.catchupShiftMinutes - 5).coerceAtLeast(-180)) } },
                 onPlus = { change { it.copy(catchupShiftMinutes = (it.catchupShiftMinutes + 5).coerceAtMost(180)) } })
 
             ChoiceRow(
-                "Buffer size",
-                when (settings.bufferSize) { "small" -> "Small"; "large" -> "Large"; "xlarge" -> "Extra large"; else -> "Normal" },
-                listOf("Small (fastest channel changes)" to "small", "Normal" to "normal", "Large (for a poor connection)" to "large", "Extra large" to "xlarge"),
+                stringResource(Res.string.live_tv_ui_buffer_size),
+                when (settings.bufferSize) { "small" -> stringResource(Res.string.live_tv_ui_small); "large" -> stringResource(Res.string.live_tv_ui_large); "xlarge" -> stringResource(Res.string.live_tv_ui_extra_large); else -> stringResource(Res.string.live_tv_ui_normal) },
+                listOf(stringResource(Res.string.live_tv_ui_small_fastest) to "small", stringResource(Res.string.live_tv_ui_normal) to "normal", stringResource(Res.string.live_tv_ui_large_poor) to "large", stringResource(Res.string.live_tv_ui_extra_large) to "xlarge"),
             ) { v -> change { it.copy(bufferSize = v) } }
-            SwitchRow("Try another copy when a channel won't play", "Another channel with the same name takes over.", settings.autoBackupChannel) { v -> change { it.copy(autoBackupChannel = v) } }
-            SwitchRow("Closed captions on by default", "Turn captions on when a channel has them.", settings.captionsByDefault) { v -> change { it.copy(captionsByDefault = v) } }
-            SwitchRow("Dolby / DTS passthrough", "Send surround sound on untouched. Off: the phone decodes it.", settings.audioPassthrough) { v -> change { it.copy(audioPassthrough = v) } }
+            SwitchRow(stringResource(Res.string.live_tv_ui_try_another_copy_when_a_channel_won_t_play), "Another channel with the same name takes over.", settings.autoBackupChannel) { v -> change { it.copy(autoBackupChannel = v) } }
+            SwitchRow(stringResource(Res.string.live_tv_ui_closed_captions_on_by_default), "Turn captions on when a channel has them.", settings.captionsByDefault) { v -> change { it.copy(captionsByDefault = v) } }
+            SwitchRow(stringResource(Res.string.live_tv_ui_dolby_dts_passthrough), "Send surround sound on untouched. Off: the phone decodes it.", settings.audioPassthrough) { v -> change { it.copy(audioPassthrough = v) } }
             ChoiceRow(
-                "Frame rate",
-                if (settings.frameRateMode == "OFF") "Leave as it is" else "Match the picture",
-                listOf("Leave as it is" to "OFF", "Match the picture (smoother motion)" to "START"),
+                stringResource(Res.string.live_tv_ui_frame_rate),
+                if (settings.frameRateMode == "OFF") stringResource(Res.string.live_tv_ui_leave_as_it_is) else stringResource(Res.string.live_tv_ui_match_the_picture),
+                listOf(stringResource(Res.string.live_tv_ui_leave_as_it_is) to "OFF", stringResource(Res.string.live_tv_ui_match_the_picture_motion) to "START"),
             ) { v -> change { it.copy(frameRateMode = v) } }
 
-            Section("Pause and rewind")
-            SwitchRow("Pause and rewind", "Pausing a channel keeps recording it, so you carry on where you stopped.", settings.timeshiftEnabled) { v -> change { it.copy(timeshiftEnabled = v) } }
-            StepperRow("Keep the last", "${settings.timeshiftMinutes} minutes",
+            Section(stringResource(Res.string.live_tv_ui_pause_and_rewind))
+            SwitchRow(stringResource(Res.string.live_tv_ui_pause_and_rewind), "Pausing a channel keeps recording it, so you carry on where you stopped.", settings.timeshiftEnabled) { v -> change { it.copy(timeshiftEnabled = v) } }
+            StepperRow(stringResource(Res.string.live_tv_ui_keep_the_last), "${settings.timeshiftMinutes} minutes",
                 onMinus = { change { it.copy(timeshiftMinutes = (it.timeshiftMinutes - 5).coerceAtLeast(5)) } },
                 onPlus = { change { it.copy(timeshiftMinutes = (it.timeshiftMinutes + 5).coerceAtMost(30)) } })
-            SwitchRow("Rewind anytime", "Keep the last minutes while you watch, so you can rewind without pausing. Uses a second connection to your provider.", settings.rewindAlways) { v -> change { it.copy(rewindAlways = v) } }
+            SwitchRow(stringResource(Res.string.live_tv_ui_rewind_anytime), "Keep the last minutes while you watch, so you can rewind without pausing. Uses a second connection to your provider.", settings.rewindAlways) { v -> change { it.copy(rewindAlways = v) } }
 
-            Section("Sports")
+            Section(stringResource(Res.string.yt_tab_sports))
             val sports = remember { live.sports }
             val sportsSettings by sports.settings.collectAsStateWithLifecycle()
             if (!notifications.canNotify) {
                 ActionLine(
-                    "Turn on notifications",
-                    "Scoring alerts and team reminders need notification permission.",
+                    stringResource(Res.string.live_tv_ui_turn_on_notifications),
+                    stringResource(Res.string.live_tv_ui_scoring_alerts_and_team_reminders_need_notification_permissi),
                     notifications.ask,
                 )
             }
             ChoiceRow(
-                "Your region",
+                stringResource(Res.string.live_tv_ui_your_region),
                 com.nuvio.app.livetv.sports.SportsCatalog.regionName(com.nuvio.app.livetv.sports.SportsCatalog.regionOf(sportsSettings)),
                 com.nuvio.app.livetv.sports.SportsCatalog.regions.map { (code, name) -> name to code },
             ) { v -> sports.updateSettings { it.copy(region = v) } }
             ChoiceRow(
-                "Channels from",
-                com.nuvio.app.livetv.sports.ChannelRegions.all.firstOrNull { it.first == sportsSettings.channelRegion }?.second ?: "All regions",
+                stringResource(Res.string.live_tv_ui_channels_from),
+                com.nuvio.app.livetv.sports.ChannelRegions.all.firstOrNull { it.first == sportsSettings.channelRegion }?.second ?: stringResource(Res.string.live_tv_ui_all_regions),
                 com.nuvio.app.livetv.sports.ChannelRegions.all.map { (code, name) -> name to code },
             ) { v -> sports.updateSettings { it.copy(channelRegion = v) } }
-            SwitchRow("Video window", "Watch games in a window at the top of the Sports page. Off: games open full screen.", sportsSettings.videoWindow) { v -> sports.updateSettings { it.copy(videoWindow = v) } }
-            SwitchRow("Games in the Calendar", "Show games of the teams you follow on the Calendar.", settings.calendarSports) { v -> change { it.copy(calendarSports = v) } }
-            SwitchRow("Hide scores", "Keep results off the screen until you're ready.", sportsSettings.hideScores) { v -> sports.updateSettings { it.copy(hideScores = v) } }
-            SwitchRow("Scoring alerts", "A notification when a team you follow scores.", sportsSettings.scoringAlerts) { v ->
+            SwitchRow(stringResource(Res.string.live_tv_ui_video_window), "Watch games in a window at the top of the Sports page. Off: games open full screen.", sportsSettings.videoWindow) { v -> sports.updateSettings { it.copy(videoWindow = v) } }
+            SwitchRow(stringResource(Res.string.live_tv_ui_games_in_the_calendar), "Show games of the teams you follow on the Calendar.", settings.calendarSports) { v -> change { it.copy(calendarSports = v) } }
+            SwitchRow(stringResource(Res.string.live_tv_ui_hide_scores), "Keep results off the screen until you're ready.", sportsSettings.hideScores) { v -> sports.updateSettings { it.copy(hideScores = v) } }
+            SwitchRow(stringResource(Res.string.live_tv_ui_scoring_alerts), "A notification when a team you follow scores.", sportsSettings.scoringAlerts) { v ->
                 if (v) notifications.ask()
                 sports.updateSettings { it.copy(scoringAlerts = v) }
             }
-            SwitchRow("Remind me about my teams", "A notification before every game of a team you follow, without asking for each one.", sportsSettings.remindMyTeams) { v ->
+            SwitchRow(stringResource(Res.string.live_tv_ui_remind_me_about_my_teams), "A notification before every game of a team you follow, without asking for each one.", sportsSettings.remindMyTeams) { v ->
                 if (v) notifications.ask()
                 sports.updateSettings { it.copy(remindMyTeams = v) }
             }
-            SwitchRow("Switch to the game", "Open the game's channel by itself a minute before it starts, with a few seconds to cancel. Needs the app open.", sportsSettings.autoSwitch) { v -> sports.updateSettings { it.copy(autoSwitch = v) } }
-            StepperRow("Remind me before a game", "${sportsSettings.remindMinutes} minutes",
+            SwitchRow(stringResource(Res.string.live_tv_ui_switch_to_the_game), "Open the game's channel by itself a minute before it starts, with a few seconds to cancel. Needs the app open.", sportsSettings.autoSwitch) { v -> sports.updateSettings { it.copy(autoSwitch = v) } }
+            StepperRow(stringResource(Res.string.live_tv_ui_remind_me_before_a_game), "${sportsSettings.remindMinutes} minutes",
                 onMinus = { sports.updateSettings { it.copy(remindMinutes = (it.remindMinutes - 5).coerceAtLeast(0)) } },
                 onPlus = { sports.updateSettings { it.copy(remindMinutes = (it.remindMinutes + 5).coerceAtMost(120)) } })
-            SwitchRow("Only games on my channels", "Leave out games none of your channels show.", sportsSettings.onlyOnMyChannels) { v -> sports.updateSettings { it.copy(onlyOnMyChannels = v) } }
-            SwitchRow("Best channel first", "Put the likeliest channel at the top of a game's list.", sportsSettings.bestChannelFirst) { v -> sports.updateSettings { it.copy(bestChannelFirst = v) } }
-            ActionLine("Forget the channels I picked", "Undo every \"Wrong channel?\" fix.") { sports.clearFixes() }
+            SwitchRow(stringResource(Res.string.live_tv_ui_only_games_on_my_channels), "Leave out games none of your channels show.", sportsSettings.onlyOnMyChannels) { v -> sports.updateSettings { it.copy(onlyOnMyChannels = v) } }
+            SwitchRow(stringResource(Res.string.live_tv_ui_best_channel_first), "Put the likeliest channel at the top of a game's list.", sportsSettings.bestChannelFirst) { v -> sports.updateSettings { it.copy(bestChannelFirst = v) } }
+            ActionLine(stringResource(Res.string.live_tv_ui_forget_the_channels_i_picked), "Undo every \"Wrong channel?\" fix.") { sports.clearFixes() }
 
-            Section("Recordings")
-            StepperRow("Start recording early", "${settings.recordPreMinutes} minutes",
+            Section(stringResource(Res.string.live_tv_ui_recordings))
+            StepperRow(stringResource(Res.string.live_tv_ui_start_recording_early), "${settings.recordPreMinutes} minutes",
                 onMinus = { change { it.copy(recordPreMinutes = (it.recordPreMinutes - 1).coerceAtLeast(0)) } },
                 onPlus = { change { it.copy(recordPreMinutes = (it.recordPreMinutes + 1).coerceAtMost(30)) } })
-            StepperRow("Keep recording after the show", "${settings.recordPostMinutes} minutes",
+            StepperRow(stringResource(Res.string.live_tv_ui_keep_recording_after_the_show), "${settings.recordPostMinutes} minutes",
                 onMinus = { change { it.copy(recordPostMinutes = (it.recordPostMinutes - 1).coerceAtLeast(0)) } },
                 onPlus = { change { it.copy(recordPostMinutes = (it.recordPostMinutes + 1).coerceAtMost(60)) } })
             val storage = remember { com.nuvio.app.livetv.record.RecordingStorage.choices(context) }
             ChoiceRow(
-                "Save recordings to",
-                storage.firstOrNull { it.id == settings.recordingStorage }?.label ?: "This device",
+                stringResource(Res.string.live_tv_ui_save_recordings_to),
+                storage.firstOrNull { it.id == settings.recordingStorage }?.label ?: stringResource(Res.string.live_tv_ui_this_device),
                 storage.map { "${it.label}  (${com.nuvio.app.livetv.record.RecordingStorage.sizeLabel(it.freeBytes)} free)" to it.id },
             ) { v -> change { it.copy(recordingStorage = v) } }
             ChoiceRow(
-                "When space runs low",
-                if (settings.recordingSpaceRule == "DELETE_OLDEST") "Delete the oldest recording" else "Stop recording",
-                listOf("Stop recording" to "STOP", "Delete the oldest recording" to "DELETE_OLDEST"),
+                stringResource(Res.string.live_tv_ui_when_space_runs_low),
+                if (settings.recordingSpaceRule == "DELETE_OLDEST") stringResource(Res.string.live_tv_ui_delete_the_oldest_recording) else stringResource(Res.string.live_tv_ui_stop_recording),
+                listOf(stringResource(Res.string.live_tv_ui_stop_recording) to "STOP", stringResource(Res.string.live_tv_ui_delete_the_oldest_recording) to "DELETE_OLDEST"),
             ) { v -> change { it.copy(recordingSpaceRule = v) } }
 
-            Section("On screen")
-            SwitchRow("4K / FHD / HD badges", "Next to channels you've watched.", settings.showQualityBadges) { v -> change { it.copy(showQualityBadges = v) } }
+            Section(stringResource(Res.string.live_tv_ui_on_screen))
+            SwitchRow(stringResource(Res.string.live_tv_ui_4k_fhd_hd_badges), "Next to channels you've watched.", settings.showQualityBadges) { v -> change { it.copy(showQualityBadges = v) } }
             ChoiceRow(
-                "Clock over the picture",
-                if (settings.clockMode == "always") "Always" else "Off",
-                listOf("Off" to "never", "Always" to "always"),
+                stringResource(Res.string.live_tv_ui_clock_over_the_picture),
+                if (settings.clockMode == "always") stringResource(Res.string.live_tv_ui_always) else stringResource(Res.string.settings_playback_auto_sync_tolerance_off),
+                listOf(stringResource(Res.string.settings_playback_auto_sync_tolerance_off) to "never", "Always" to "always"),
             ) { v -> change { it.copy(clockMode = v) } }
             ChoiceRow(
-                "Clock position",
-                when (settings.clockPosition) { "top_left" -> "Top left"; "bottom_left" -> "Bottom left"; "bottom_right" -> "Bottom right"; else -> "Top right" },
-                listOf("Top left" to "top_left", "Top right" to "top_right", "Bottom left" to "bottom_left", "Bottom right" to "bottom_right"),
+                stringResource(Res.string.live_tv_ui_clock_position),
+                when (settings.clockPosition) { "top_left" -> stringResource(Res.string.live_tv_ui_top_left); "bottom_left" -> stringResource(Res.string.live_tv_ui_bottom_left); "bottom_right" -> stringResource(Res.string.live_tv_ui_bottom_right); else -> stringResource(Res.string.live_tv_ui_top_right) },
+                listOf(stringResource(Res.string.live_tv_ui_top_left) to "top_left", stringResource(Res.string.live_tv_ui_top_right) to "top_right", stringResource(Res.string.live_tv_ui_bottom_left) to "bottom_left", stringResource(Res.string.live_tv_ui_bottom_right) to "bottom_right"),
             ) { v -> change { it.copy(clockPosition = v) } }
             ChoiceRow(
-                "Clock size",
-                when (settings.clockSize) { "small" -> "Small"; "large" -> "Large"; else -> "Medium" },
-                listOf("Small" to "small", "Medium" to "medium", "Large" to "large"),
+                stringResource(Res.string.live_tv_ui_clock_size),
+                when (settings.clockSize) { "small" -> stringResource(Res.string.live_tv_ui_small); "large" -> stringResource(Res.string.live_tv_ui_large); else -> stringResource(Res.string.live_tv_ui_medium) },
+                listOf(stringResource(Res.string.live_tv_ui_small) to "small", stringResource(Res.string.live_tv_ui_medium) to "medium", stringResource(Res.string.live_tv_ui_large) to "large"),
             ) { v -> change { it.copy(clockSize = v) } }
-            StepperRow("Clock opacity", "${settings.clockOpacity} %",
+            StepperRow(stringResource(Res.string.live_tv_ui_clock_opacity), "${settings.clockOpacity} %",
                 onMinus = { change { it.copy(clockOpacity = (it.clockOpacity - 10).coerceAtLeast(20)) } },
                 onPlus = { change { it.copy(clockOpacity = (it.clockOpacity + 10).coerceAtMost(100)) } })
-            SwitchRow("Clock background", "A soft dark pill behind the clock.", settings.clockBackground) { v -> change { it.copy(clockBackground = v) } }
+            SwitchRow(stringResource(Res.string.live_tv_ui_clock_background), "A soft dark pill behind the clock.", settings.clockBackground) { v -> change { it.copy(clockBackground = v) } }
 
-            Section("Starting")
+            Section(stringResource(Res.string.live_tv_ui_starting))
             var startPage by remember { mutableStateOf(LiveTvStart.startPage(context)) }
             ChoiceRow(
-                "Open the app on",
-                if (startPage == "LIVE_TV") "Live TV" else "Home",
-                listOf("Home" to "HOME", "Live TV" to "LIVE_TV"),
+                stringResource(Res.string.live_tv_ui_open_the_app_on),
+                if (startPage == "LIVE_TV") stringResource(Res.string.compose_nav_live_tv) else stringResource(Res.string.compose_nav_home),
+                listOf(stringResource(Res.string.compose_nav_home) to "HOME", stringResource(Res.string.compose_nav_live_tv) to "LIVE_TV"),
             ) { v -> LiveTvStart.setStartPage(context, v); startPage = v }
-            SwitchRow("Play the last channel", "When Live TV opens, start the channel you watched last.", settings.autoPlayLastChannel) { v -> change { it.copy(autoPlayLastChannel = v) } }
+            SwitchRow(stringResource(Res.string.live_tv_ui_play_the_last_channel), "When Live TV opens, start the channel you watched last.", settings.autoPlayLastChannel) { v -> change { it.copy(autoPlayLastChannel = v) } }
 
             AccountSyncSection(live)
             DriveSyncSection(live)
 
-            Section("Parental controls")
+            Section(stringResource(Res.string.live_tv_ui_parental_controls))
             if (settings.parentalPin.isBlank()) {
-                ActionLine("Set a PIN", "Then long-press a group to lock it.") { pinStep = "set" }
+                ActionLine(stringResource(Res.string.live_tv_ui_set_a_pin), "Then long-press a group to lock it.") { pinStep = "set" }
             } else {
-                ActionLine("Change PIN", null) { pinStep = "verify-change" }
-                ActionLine("Remove PIN", "Locked groups open freely again.") { pinStep = "verify-remove" }
+                ActionLine(stringResource(Res.string.live_tv_ui_change_pin), null) { pinStep = "verify-change" }
+                ActionLine(stringResource(Res.string.live_tv_ui_remove_pin), "Locked groups open freely again.") { pinStep = "verify-remove" }
             }
 
             if (settings.parentalPin.isNotBlank()) {
                 ChoiceRow(
-                    "Lock again",
+                    stringResource(Res.string.live_tv_ui_lock_again),
                     when (settings.relockMinutes) {
-                        -1 -> "When I leave Live TV"
-                        0 -> "When the app closes"
-                        60 -> "After 1 hour"
-                        1 -> "After 1 minute"
-                        else -> "After ${settings.relockMinutes} minutes"
+                        -1 -> stringResource(Res.string.live_tv_ui_when_i_leave_live_tv)
+                        0 -> stringResource(Res.string.live_tv_ui_when_app_closes)
+                        60 -> stringResource(Res.string.live_tv_ui_after_1_hour)
+                        1 -> stringResource(Res.string.live_tv_ui_after_1_minute)
+                        else -> stringResource(Res.string.live_tv_ui_after_n_minutes, settings.relockMinutes)
                     },
-                    listOf("When I leave Live TV" to "-1", "After 1 minute" to "1", "After 5 minutes" to "5", "After 15 minutes" to "15", "After 1 hour" to "60", "When the app closes" to "0"),
+                    listOf(stringResource(Res.string.live_tv_ui_when_i_leave_live_tv) to "-1", stringResource(Res.string.live_tv_ui_after_1_minute) to "1", stringResource(Res.string.live_tv_ui_after_5_minutes) to "5", stringResource(Res.string.live_tv_ui_after_15_minutes) to "15", stringResource(Res.string.live_tv_ui_after_1_hour) to "60", stringResource(Res.string.live_tv_ui_when_app_closes) to "0"),
                 ) { v -> change { it.copy(relockMinutes = v.toIntOrNull() ?: -1) } }
-                SwitchRow("Lock adult groups automatically", "Groups with an adult name need the PIN too.", settings.lockAdultContent) { v -> change { it.copy(lockAdultContent = v) } }
+                SwitchRow(stringResource(Res.string.live_tv_ui_lock_adult_groups_automatically), "Groups with an adult name need the PIN too.", settings.lockAdultContent) { v -> change { it.copy(lockAdultContent = v) } }
             }
 
-            Section("Reset")
-            ActionLine("Clear names, numbers and group order", "Hidden channels and favorites stay as they are.") { confirmReset = true }
+            Section(stringResource(Res.string.compose_player_reset))
+            ActionLine(stringResource(Res.string.live_tv_ui_clear_names_numbers_and_group_order), "Hidden channels and favorites stay as they are.") { confirmReset = true }
         }
     }
 
     when (pinStep) {
         "set", "change" -> PinDialog(
-            title = "Choose a new PIN",
+            title = stringResource(Res.string.live_tv_ui_choose_a_new_pin),
             setting = true,
             onPin = { pin -> change { it.copy(parentalPin = pin) }; pinStep = null },
             onDismiss = { pinStep = null },
         )
         "verify-change" -> PinDialog(
-            title = "Enter your current PIN",
+            title = stringResource(Res.string.live_tv_ui_enter_your_current_pin),
             expected = settings.parentalPin,
             onPin = { pinStep = "change" },
             onDismiss = { pinStep = null },
         )
         "verify-remove" -> PinDialog(
-            title = "Enter your PIN to remove it",
+            title = stringResource(Res.string.live_tv_ui_enter_your_pin_to_remove_it),
             expected = settings.parentalPin,
             onPin = {
                 change { it.copy(parentalPin = "") }
@@ -285,15 +288,15 @@ fun LiveTvSettingsContent() {
     if (confirmReset) {
         AlertDialog(
             onDismissRequest = { confirmReset = false },
-            title = { Text("Clear your edits?") },
-            text = { Text("Channel names, channel numbers, group names and group order go back to what the playlist says.") },
+            title = { Text(stringResource(Res.string.live_tv_ui_clear_your_edits)) },
+            text = { Text(stringResource(Res.string.live_tv_ui_channel_names_channel_numbers_group_names_and_group_order_go)) },
             confirmButton = {
                 TextButton(onClick = {
                     scope.launch { live.prefs.resetChannelEdits(); live.prefs.resetGroupEdits() }
                     confirmReset = false
-                }) { Text("Clear") }
+                }) { Text(stringResource(Res.string.settings_custom_poster_clear)) }
             },
-            dismissButton = { TextButton(onClick = { confirmReset = false }) { Text("Cancel") } },
+            dismissButton = { TextButton(onClick = { confirmReset = false }) { Text(stringResource(Res.string.action_cancel)) } },
         )
     }
 }
@@ -362,7 +365,7 @@ private fun <T> ChoiceRow(title: String, current: String, options: List<Pair<Str
                     }
                 }
             },
-            confirmButton = { TextButton(onClick = { open = false }) { Text("Cancel") } },
+            confirmButton = { TextButton(onClick = { open = false }) { Text(stringResource(Res.string.action_cancel)) } },
         )
     }
 }
@@ -374,10 +377,10 @@ private fun AccountSyncSection(live: LiveTv) {
     val state by sync.state.collectAsStateWithLifecycle()
     var confirmDelete by remember { mutableStateOf(false) }
 
-    Section("Sync with your Nuvio account")
+    Section(stringResource(Res.string.live_tv_ui_sync_with_your_nuvio_account))
     if (!state.available) {
         Text(
-            "Setup Sync works with the official Nuvio server. It isn't available on a custom server.",
+            stringResource(Res.string.live_tv_ui_setup_sync_works_with_the_official_nuvio_server_it_isn_t_ava),
             style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.padding(vertical = 4.dp),
         )
@@ -385,7 +388,7 @@ private fun AccountSyncSection(live: LiveTv) {
     }
     if (!state.signedIn) {
         Text(
-            "Sign in to your Nuvio account (Profile → Account) to keep your Live TV setup on all your devices.",
+            stringResource(Res.string.live_tv_ui_sign_in_to_your_nuvio_account_profile_account_to_keep_your_l),
             style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.padding(vertical = 4.dp),
         )
@@ -396,25 +399,25 @@ private fun AccountSyncSection(live: LiveTv) {
         style = MaterialTheme.typography.bodyMedium, modifier = Modifier.padding(vertical = 4.dp),
     )
     SwitchRow(
-        "Setup Sync",
-        "Keep playlists, guides, favorites, Sports and Calendar choices and Live TV settings the same on all your devices. The same saved copy the TV app uses. Use either this or Google Drive sync, not both.",
+        stringResource(Res.string.live_tv_ui_setup_sync),
+        stringResource(Res.string.live_tv_ui_setup_sync_description),
         state.enabled,
     ) { v -> if (v) sync.turnOn() else sync.turnOff() }
     if (state.enabled) {
         Text(
             if (state.lastSyncMs > 0) {
-                "Last synced " + java.text.DateFormat.getDateTimeInstance(
+                stringResource(Res.string.live_tv_ui_last_synced, java.text.DateFormat.getDateTimeInstance(
                     java.text.DateFormat.MEDIUM, java.text.DateFormat.SHORT
-                ).format(java.util.Date(state.lastSyncMs)) + "."
-            } else "Not synced yet.",
+                ).format(java.util.Date(state.lastSyncMs)))
+            } else stringResource(Res.string.live_tv_ui_not_synced_yet),
             style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.padding(vertical = 4.dp),
         )
-        ActionLine("Sync now", "Check for changes from your other devices.") { sync.syncNow() }
-        ActionLine("Restore the previous copy", "Bring back the saved setup from before the last sync.") { sync.restorePrevious() }
-        ActionLine("Delete the saved copy", "This device keeps its setup. Other devices stop receiving it.") { confirmDelete = true }
+        ActionLine(stringResource(Res.string.settings_simkl_sync_now), stringResource(Res.string.live_tv_ui_check_changes)) { sync.syncNow() }
+        ActionLine(stringResource(Res.string.live_tv_ui_restore_the_previous_copy), stringResource(Res.string.live_tv_ui_bring_back_saved)) { sync.restorePrevious() }
+        ActionLine(stringResource(Res.string.live_tv_ui_delete_the_saved_copy), stringResource(Res.string.live_tv_ui_delete_keeps_device)) { confirmDelete = true }
     }
-    if (state.busy) Text("Working…", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+    if (state.busy) Text(stringResource(Res.string.live_tv_ui_working), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
     state.message?.let {
         Text(it, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(vertical = 4.dp))
     }
@@ -422,10 +425,10 @@ private fun AccountSyncSection(live: LiveTv) {
     if (confirmDelete) {
         AlertDialog(
             onDismissRequest = { confirmDelete = false },
-            title = { Text("Delete the saved Live TV setup?") },
-            text = { Text("Your Nuvio account's saved copy is removed. This device keeps its own setup; other devices keep theirs but stop receiving changes.") },
-            confirmButton = { TextButton(onClick = { confirmDelete = false; sync.deleteCloudCopy() }) { Text("Delete") } },
-            dismissButton = { TextButton(onClick = { confirmDelete = false }) { Text("Cancel") } },
+            title = { Text(stringResource(Res.string.live_tv_ui_delete_the_saved_live_tv_setup)) },
+            text = { Text(stringResource(Res.string.live_tv_ui_your_nuvio_account_s_saved_copy_is_removed_this_device_keeps)) },
+            confirmButton = { TextButton(onClick = { confirmDelete = false; sync.deleteCloudCopy() }) { Text(stringResource(Res.string.action_delete)) } },
+            dismissButton = { TextButton(onClick = { confirmDelete = false }) { Text(stringResource(Res.string.action_cancel)) } },
         )
     }
 }
@@ -435,14 +438,16 @@ private fun DriveSyncSection(live: LiveTv) {
     val sync = live.driveSync
     val state by sync.state.collectAsStateWithLifecycle()
     val context = LocalContext.current
+    val codeCopied = stringResource(Res.string.settings_tracking_device_code_copied)
+    val googleCodeLabel = stringResource(Res.string.live_tv_ui_google_code)
     val scope = rememberCoroutineScope()
     var askRestore by remember { mutableStateOf<com.nuvio.app.livetv.sync.LiveTvDriveSync.BackupInfo?>(null) }
     var checking by remember { mutableStateOf(false) }
 
-    Section("Sync with Google Drive")
+    Section(stringResource(Res.string.live_tv_ui_sync_with_google_drive))
     if (!state.available) {
         Text(
-            "Google Drive sync isn't set up in this build (no Google client in the build settings).",
+            stringResource(Res.string.live_tv_ui_google_drive_sync_isn_t_set_up_in_this_build_no_google_clien),
             style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.padding(vertical = 4.dp),
         )
@@ -450,29 +455,35 @@ private fun DriveSyncSection(live: LiveTv) {
     }
     if (!state.connected) {
         ActionLine(
-            "Connect Google Drive",
-            "Keeps your groups, favorites, names and playlists in step with your TV and other devices. Stored in a hidden folder only this app can read.",
+            stringResource(Res.string.live_tv_ui_connect_google_drive),
+            stringResource(Res.string.live_tv_ui_keeps_your_groups_favorites_names_and_playlists_in_step_with),
         ) { sync.beginSignIn() }
     } else {
+        val connectedBase = state.email?.let {
+            stringResource(Res.string.live_tv_ui_connected_as, stringResource(Res.string.settings_debrid_connected), it)
+        } ?: stringResource(Res.string.settings_debrid_connected)
         Text(
-            "Connected" + (state.email?.let { " as $it" } ?: "") +
-                if (state.lastSyncMs > 0) ".  Last synced " + java.text.DateFormat.getDateTimeInstance(java.text.DateFormat.MEDIUM, java.text.DateFormat.SHORT).format(java.util.Date(state.lastSyncMs)) else ".",
+            if (state.lastSyncMs > 0) stringResource(
+                Res.string.live_tv_ui_connected_last_synced_short,
+                connectedBase,
+                java.text.DateFormat.getDateTimeInstance(java.text.DateFormat.MEDIUM, java.text.DateFormat.SHORT).format(java.util.Date(state.lastSyncMs)),
+            ) else stringResource(Res.string.live_tv_ui_connected, connectedBase),
             style = MaterialTheme.typography.bodyMedium, modifier = Modifier.padding(vertical = 4.dp),
         )
-        SwitchRow("Sync automatically", "Back up changes soon after you make them, and pick up newer ones from your other devices.", state.autoSync) { sync.setAutoSync(it) }
-        ActionLine("Back up now", "Save this device's setup to Google Drive.") { sync.backUpNow() }
-        ActionLine("Restore from Google Drive", "Replace this device's setup with the saved copy.") {
+        SwitchRow(stringResource(Res.string.live_tv_ui_sync_automatically), stringResource(Res.string.live_tv_ui_backup_soon), state.autoSync) { sync.setAutoSync(it) }
+        ActionLine(stringResource(Res.string.live_tv_ui_back_up_now), stringResource(Res.string.live_tv_ui_save_setup_to_drive)) { sync.backUpNow() }
+        ActionLine(stringResource(Res.string.live_tv_ui_restore_from_google_drive), stringResource(Res.string.live_tv_ui_replace_with_saved)) {
             scope.launch {
                 checking = true
                 val info = sync.backupInfo()
                 checking = false
-                if (info == null) android.widget.Toast.makeText(context, "No backup found in Google Drive yet.", android.widget.Toast.LENGTH_SHORT).show()
+                if (info == null) android.widget.Toast.makeText(context, getString(Res.string.live_tv_ui_no_backup_found_in_google_drive_yet), android.widget.Toast.LENGTH_SHORT).show()
                 else askRestore = info
             }
         }
-        ActionLine("Disconnect", "Stops syncing. Your backup stays in your Google Drive.") { sync.disconnect() }
+        ActionLine(stringResource(Res.string.live_tv_disconnect), stringResource(Res.string.live_tv_ui_stops_syncing)) { sync.disconnect() }
     }
-    if (state.busy || checking) Text("Working…", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+    if (state.busy || checking) Text(stringResource(Res.string.live_tv_ui_working), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
     state.message?.let { Text(it, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(vertical = 4.dp)) }
 
     state.signIn?.let { p ->
@@ -481,7 +492,7 @@ private fun DriveSyncSection(live: LiveTv) {
             // The code goes on the clipboard too, to paste if Google's page asks for it.
             runCatching {
                 (context.getSystemService(android.content.Context.CLIPBOARD_SERVICE) as android.content.ClipboardManager)
-                    .setPrimaryClip(android.content.ClipData.newPlainText("Google code", p.userCode))
+                    .setPrimaryClip(android.content.ClipData.newPlainText(googleCodeLabel, p.userCode))
             }
             runCatching {
                 context.startActivity(android.content.Intent(android.content.Intent.ACTION_VIEW, android.net.Uri.parse(p.qrUrl)).addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK))
@@ -489,13 +500,13 @@ private fun DriveSyncSection(live: LiveTv) {
         }
         AlertDialog(
             onDismissRequest = { sync.cancelSignIn() },
-            title = { Text("Connect Google Drive") },
+            title = { Text(stringResource(Res.string.live_tv_ui_connect_google_drive)) },
             text = {
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    Text("Your browser opens Google's page. If it asks for a code, paste it (it's already copied) or type this one:")
+                    Text(stringResource(Res.string.live_tv_ui_your_browser_opens_google_s_page_if_it_asks_for_a_code_paste))
                     Text(p.userCode, style = MaterialTheme.typography.headlineMedium)
                     Text(p.url, style = MaterialTheme.typography.bodyMedium)
-                    Text("This window closes by itself once you've approved it.", style = MaterialTheme.typography.bodySmall, color = LocalContentColor.current.copy(alpha = 0.7f))
+                    Text(stringResource(Res.string.live_tv_ui_this_window_closes_by_itself_once_you_ve_approved_it), style = MaterialTheme.typography.bodySmall, color = LocalContentColor.current.copy(alpha = 0.7f))
                 }
             },
             confirmButton = {
@@ -503,32 +514,35 @@ private fun DriveSyncSection(live: LiveTv) {
                     TextButton(onClick = {
                         runCatching {
                             (context.getSystemService(android.content.Context.CLIPBOARD_SERVICE) as android.content.ClipboardManager)
-                                .setPrimaryClip(android.content.ClipData.newPlainText("Google code", p.userCode))
-                            android.widget.Toast.makeText(context, "Code copied", android.widget.Toast.LENGTH_SHORT).show()
+                                .setPrimaryClip(android.content.ClipData.newPlainText(googleCodeLabel, p.userCode))
+                            android.widget.Toast.makeText(context, codeCopied, android.widget.Toast.LENGTH_SHORT).show()
                         }
-                    }) { Text("Copy code") }
+                    }) { Text(stringResource(Res.string.settings_tracking_device_code_copy)) }
                     TextButton(onClick = {
                         runCatching {
                             context.startActivity(android.content.Intent(android.content.Intent.ACTION_VIEW, android.net.Uri.parse(p.qrUrl)).addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK))
                         }
-                    }) { Text("Open again") }
+                    }) { Text(stringResource(Res.string.live_tv_ui_open_again)) }
                 }
             },
-            dismissButton = { TextButton(onClick = { sync.cancelSignIn() }) { Text("Cancel") } },
+            dismissButton = { TextButton(onClick = { sync.cancelSignIn() }) { Text(stringResource(Res.string.action_cancel)) } },
         )
     }
     askRestore?.let { info ->
         AlertDialog(
             onDismissRequest = { askRestore = null },
-            title = { Text("Restore from Google Drive?") },
+            title = { Text(stringResource(Res.string.live_tv_ui_restore_from_google_drive_2)) },
             text = {
                 Text(
-                    "Saved " + java.text.DateFormat.getDateTimeInstance(java.text.DateFormat.MEDIUM, java.text.DateFormat.SHORT).format(java.util.Date(info.savedAtMs)) +
-                        " on ${if (info.fromThisTv) "this device" else info.device}. This replaces this device's groups, favorites, names and playlists.",
+                    stringResource(
+                    Res.string.live_tv_ui_saved_on_device,
+                    java.text.DateFormat.getDateTimeInstance(java.text.DateFormat.MEDIUM, java.text.DateFormat.SHORT).format(java.util.Date(info.savedAtMs)),
+                    if (info.fromThisTv) stringResource(Res.string.live_tv_ui_this_device) else info.device,
+                ),
                 )
             },
-            confirmButton = { TextButton(onClick = { askRestore = null; sync.restoreNow() }) { Text("Restore") } },
-            dismissButton = { TextButton(onClick = { askRestore = null }) { Text("Cancel") } },
+            confirmButton = { TextButton(onClick = { askRestore = null; sync.restoreNow() }) { Text(stringResource(Res.string.live_tv_ui_restore)) } },
+            dismissButton = { TextButton(onClick = { askRestore = null }) { Text(stringResource(Res.string.action_cancel)) } },
         )
     }
 }

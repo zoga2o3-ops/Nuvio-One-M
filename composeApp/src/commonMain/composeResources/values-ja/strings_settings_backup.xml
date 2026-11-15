@@ -1,0 +1,20 @@
+<resources>
+    <string name="settings_backup_section">バックアップ</string>
+    <string name="settings_backup_include_sensitive">機密情報を含める</string>
+    <string name="settings_backup_include_sensitive_description">API キー、デブリッド キー、アドオン、ライブ TV、および Discord アプリケーション ID をエクスポートされたファイルに追加します。そのファイルを非公開にしておきます</string>
+    <string name="settings_backup_export">設定のエクスポート</string>
+    <string name="settings_backup_export_description">設定とプラグインをファイルに保存します。コレクション、トラッカー、Nuvio アカウントは決して含まれません</string>
+    <string name="settings_backup_export_done">設定がエクスポートされました</string>
+    <string name="settings_backup_export_failed">設定をエクスポートできませんでした</string>
+    <string name="settings_backup_import">インポート設定</string>
+    <string name="settings_backup_import_description">エクスポートされたファイルから設定を復元する</string>
+    <string name="settings_backup_importing">設定をインポート中…</string>
+    <string name="settings_backup_import_confirm_title">設定をインポートしますか?</string>
+    <string name="settings_backup_import_confirm_message">このファイルの設定は、このプロファイルの現在の設定を置き換えます。不足しているプラ​​グインが追加されます。 API キー、アドオン、ライブ TV は変更されません。</string>
+    <string name="settings_backup_import_confirm_message_sensitive">このファイルの設定は、API キーやデブリッド キーを含む、このプロファイルの現在の設定を置き換えます。不足しているアドオン、プラグイン、ライブ TV ソースが追加されます。</string>
+    <string name="settings_backup_import_confirm_action">輸入</string>
+    <string name="settings_backup_import_done">インポートされた設定</string>
+    <string name="settings_backup_import_partial">設定はインポートされましたが、一部のセクションを適用できませんでした</string>
+    <string name="settings_backup_import_failed">設定をインポートできませんでした</string>
+    <string name="settings_backup_import_invalid">このファイルは Nuvio 設定のエクスポートではありません</string>
+</resources>

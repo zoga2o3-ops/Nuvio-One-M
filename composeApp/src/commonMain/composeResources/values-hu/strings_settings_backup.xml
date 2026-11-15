@@ -1,0 +1,20 @@
+<resources>
+    <string name="settings_backup_section">BIZTONSÁGI MENTÉS</string>
+    <string name="settings_backup_include_sensitive">Érzékeny információk szerepeltetése</string>
+    <string name="settings_backup_include_sensitive_description">Adjon hozzá API-kulcsokat, törlési kulcsokat, bővítményeket, élő TV-t és a Discord alkalmazásazonosítót az exportált fájlhoz. Tartsa privátban a fájlt</string>
+    <string name="settings_backup_export">Beállítások exportálása</string>
+    <string name="settings_backup_export_description">Mentse el a beállításokat és a bővítményeket egy fájlba. A gyűjtemények, a nyomkövetők és az Ön Nuvio fiókja soha nem szerepelnek benne</string>
+    <string name="settings_backup_export_done">Beállítások exportálva</string>
+    <string name="settings_backup_export_failed">Nem sikerült exportálni a beállításokat</string>
+    <string name="settings_backup_import">Beállítások importálása</string>
+    <string name="settings_backup_import_description">Beállítások visszaállítása exportált fájlból</string>
+    <string name="settings_backup_importing">Beállítások importálása…</string>
+    <string name="settings_backup_import_confirm_title">Importálja a beállításokat?</string>
+    <string name="settings_backup_import_confirm_message">A fájl beállításai felváltják a profil jelenlegi beállításait. A hiányzó bővítmények hozzáadásra kerülnek. Az API-kulcsok, a kiegészítők és az Élő TV változatlanok maradnak.</string>
+    <string name="settings_backup_import_confirm_message_sensitive">A fájl beállításai felváltják a profil jelenlegi beállításait, beleértve az API-kulcsokat és a törlési kulcsokat. A hiányzó kiegészítők, bővítmények és élő TV-források hozzáadásra kerülnek.</string>
+    <string name="settings_backup_import_confirm_action">Importálás</string>
+    <string name="settings_backup_import_done">Beállítások importálva</string>
+    <string name="settings_backup_import_partial">A beállítások importálva, de néhány szakaszt nem sikerült alkalmazni</string>
+    <string name="settings_backup_import_failed">Nem sikerült importálni a beállításokat</string>
+    <string name="settings_backup_import_invalid">Ez a fájl nem a Nuvio beállítások exportálása</string>
+</resources>

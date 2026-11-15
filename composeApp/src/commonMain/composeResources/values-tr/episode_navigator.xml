@@ -1,0 +1,19 @@
+<resources>
+    <string name="episode_navigator_search_hint">Başlığı, konuyu veya numarayı arayın</string>
+    <string name="episode_navigator_clear_search">Aramayı temizle</string>
+    <string name="episode_navigator_go_to">Git</string>
+    <string name="episode_navigator_sort">Düzenlemek</string>
+    <string name="episode_navigator_count">%1$d / %2$d bölüm</string>
+    <string name="episode_navigator_no_match">'%1$s' ile eşleşen bölüm yok</string>
+    <string name="episode_navigator_go_to_title">Bölüme atla</string>
+    <string name="episode_navigator_episode_number">Bölüm numarası</string>
+    <string name="episode_navigator_go">Gitmek</string>
+    <string name="episode_navigator_go_to_help">Bir sayı yazın veya aşağıdan birini seçin. Altı çizili = izlendi, özetlenen = sonraki.</string>
+    <string name="episode_navigator_out_of_range">%1$s'nin %2$d–%3$d bölümleri var</string>
+    <string name="episode_navigator_sort_title">Bölümleri sırala</string>
+    <string name="episode_navigator_sort_first_to_last">Bölüm: ilkten sonuncuya</string>
+    <string name="episode_navigator_sort_last_to_first">Bölüm: sondan birinciye</string>
+    <string name="episode_navigator_sort_highest_rated">En yüksek puan</string>
+    <string name="episode_navigator_sort_newest_aired">En yeni yayınlanan</string>
+    <string name="episode_navigator_sort_unwatched_first">İlk önce izlenmeyenler</string>
+</resources>

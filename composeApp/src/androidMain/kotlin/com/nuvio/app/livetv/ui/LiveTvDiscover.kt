@@ -40,6 +40,8 @@ import com.nuvio.app.livetv.ondemand.VodItem
 import com.nuvio.app.livetv.ondemand.VodKind
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import nuvio.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 
 /**
  * Channels you can open from Search and Home: not hidden, and never from a PIN-locked group (those
@@ -117,11 +119,11 @@ fun LiveTvSearchSection(query: String, onPlay: (LiveTvPlayRequest) -> Unit) {
     if (showHits.isNotEmpty()) {
         val timeFmt = remember { java.text.SimpleDateFormat("h:mm a", java.util.Locale.getDefault()) }
         Column(Modifier.padding(bottom = 12.dp)) {
-            Text("On TV", Modifier.padding(horizontal = 16.dp, vertical = 6.dp), style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onBackground)
+            Text(stringResource(Res.string.live_tv_ui_on_tv), Modifier.padding(horizontal = 16.dp, vertical = 6.dp), style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onBackground)
             LazyRow(contentPadding = PaddingValues(horizontal = 16.dp), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                 items(showHits, key = { it.first.key }) { (c, p) ->
                     val onNow = System.currentTimeMillis() >= p.startMs
-                    Tile(p.title, (if (onNow) "Now" else timeFmt.format(java.util.Date(p.startMs))) + "  ·  " + c.name, p.icon ?: c.logo) { open(live, c, onPlay) }
+                    Tile(p.title, (if (onNow) stringResource(Res.string.live_tv_epg_now) else timeFmt.format(java.util.Date(p.startMs))) + "  ·  " + c.name, p.icon ?: c.logo) { open(live, c, onPlay) }
                 }
             }
         }
@@ -161,7 +163,7 @@ fun LiveTvHomeRow(onPlay: (LiveTvPlayRequest) -> Unit) {
     var resume by remember { mutableStateOf<List<com.nuvio.app.livetv.ondemand.VodResume.Entry>>(emptyList()) }
     LaunchedEffect(Unit) { resume = com.nuvio.app.livetv.ondemand.VodResume.unfinished(context).take(15) }
     if (resume.isNotEmpty()) Column(Modifier.padding(bottom = 12.dp)) {
-        Text("Continue watching \u00B7 On Demand", Modifier.padding(horizontal = 16.dp, vertical = 6.dp), style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onBackground)
+        Text(stringResource(Res.string.live_tv_ui_continue_watching_u00b7_on_demand), Modifier.padding(horizontal = 16.dp, vertical = 6.dp), style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onBackground)
         LazyRow(contentPadding = PaddingValues(horizontal = 16.dp), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
             items(resume, key = { it.key }) { e ->
                 val left = if (e.durationMs > 0) "${((e.durationMs - e.positionMs) / 60_000L).coerceAtLeast(1)} min left" else null
@@ -196,7 +198,7 @@ fun LiveTvHomeEpisodes(onOpenShow: (imdb: String, name: String, image: String?) 
     val now = System.currentTimeMillis()
     val dayFmt = remember { java.text.SimpleDateFormat("EEE", java.util.Locale.getDefault()) }
     Column(Modifier.padding(bottom = 12.dp)) {
-        Text("New episodes", Modifier.padding(horizontal = 16.dp, vertical = 6.dp), style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onBackground)
+        Text(stringResource(Res.string.live_tv_ui_new_episodes), Modifier.padding(horizontal = 16.dp, vertical = 6.dp), style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onBackground)
         LazyRow(contentPadding = PaddingValues(horizontal = 16.dp), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
             items(list, key = { it.showName + it.season + "x" + it.episode }) { e ->
                 val day = (if (e.airMs <= now) "Aired " else "") + dayFmt.format(java.util.Date(e.airMs))

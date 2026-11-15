@@ -74,7 +74,10 @@ import com.nuvio.app.music.engine.data.model.Song
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
+import nuvio.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 
+import org.jetbrains.compose.resources.getString
 /**
  * The full-screen YouTube music video for the current song. Music playback is paused before this
  * opens; the video brings its own audio. Leaving the screen releases the video player and returns
@@ -93,6 +96,7 @@ internal fun MusicVideoPlayerScreen(
     var player by remember { mutableStateOf<ExoPlayer?>(null) }
     var loading by remember { mutableStateOf(true) }
     var error by remember { mutableStateOf<String?>(null) }
+    val videoErrorLabel = stringResource(Res.string.music_ui_this_music_video_couldn_t_be_played)
     var isPlaying by remember { mutableStateOf(false) }
     var positionMs by remember { mutableLongStateOf(startPositionMs.coerceAtLeast(0L)) }
     var durationMs by remember { mutableLongStateOf(0L) }
@@ -125,7 +129,7 @@ internal fun MusicVideoPlayerScreen(
             runCatching { MusicStreamResolver.resolve(video.videoId) }.getOrNull()
         }
         if (stream == null) {
-            error = "This music video couldn't be loaded."
+            error = getString(Res.string.music_ui_this_music_video_couldn_t_be_loaded)
             loading = false
             return@LaunchedEffect
         }
@@ -170,7 +174,7 @@ internal fun MusicVideoPlayerScreen(
                     }
 
                     override fun onPlayerError(e: PlaybackException) {
-                        error = e.message ?: "This music video couldn't be played."
+                        error = e.message ?: videoErrorLabel
                         loading = false
                     }
                 })
@@ -252,7 +256,7 @@ internal fun MusicVideoPlayerScreen(
         ) {
             VideoCircleButton(
                 icon = Icons.AutoMirrored.Filled.ArrowBack,
-                label = "Back to Now Playing",
+                label = stringResource(Res.string.music_ui_back_to_now_playing),
                 onClick = onClose
             )
             Column(Modifier.weight(1f)) {
@@ -303,7 +307,7 @@ internal fun MusicVideoPlayerScreen(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "Video unavailable",
+                    text = stringResource(Res.string.music_ui_video_unavailable),
                     color = Color.White,
                     fontFamily = MusicDisplay,
                     fontSize = 26.sp,
@@ -318,7 +322,7 @@ internal fun MusicVideoPlayerScreen(
                 Spacer(Modifier.height(18.dp))
                 LibraryActionButton(
                     icon = Icons.AutoMirrored.Filled.ArrowBack,
-                    label = "Back to song",
+                    label = stringResource(Res.string.music_ui_back_to_song),
                     onClick = onClose
                 )
             }
@@ -369,7 +373,7 @@ internal fun MusicVideoPlayerScreen(
             ) {
                 VideoCircleButton(
                     icon = Icons.Default.Replay10,
-                    label = "Back 10 seconds",
+                    label = stringResource(Res.string.music_ui_back_10_seconds),
                     onClick = {
                         player?.let {
                             it.seekTo((it.currentPosition - 10_000L).coerceAtLeast(0L))
@@ -378,7 +382,7 @@ internal fun MusicVideoPlayerScreen(
                 )
                 VideoCircleButton(
                     icon = if (isPlaying) Icons.Default.Pause else Icons.Default.PlayArrow,
-                    label = if (isPlaying) "Pause" else "Play",
+                    label = if (isPlaying) stringResource(Res.string.compose_action_pause) else stringResource(Res.string.action_play),
                     modifier = Modifier.focusRequester(playFocus),
                     onClick = {
                         player?.let {
@@ -395,7 +399,7 @@ internal fun MusicVideoPlayerScreen(
                 )
                 VideoCircleButton(
                     icon = Icons.Default.Forward10,
-                    label = "Forward 10 seconds",
+                    label = stringResource(Res.string.music_ui_forward_10_seconds),
                     onClick = {
                         player?.let {
                             val max = it.duration.takeIf { d -> d > 0L } ?: Long.MAX_VALUE
@@ -406,7 +410,7 @@ internal fun MusicVideoPlayerScreen(
             }
             Spacer(Modifier.height(10.dp))
             Text(
-                text = "Music stays paused · Back returns to the song",
+                text = stringResource(Res.string.music_ui_music_stays_paused_back_returns_to_the_song),
                 color = Color.White.copy(alpha = 0.34f),
                 fontSize = 10.sp
             )

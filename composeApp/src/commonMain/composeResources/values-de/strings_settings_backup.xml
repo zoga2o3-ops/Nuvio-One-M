@@ -1,0 +1,20 @@
+<resources>
+    <string name="settings_backup_section">BACKUP</string>
+    <string name="settings_backup_include_sensitive">Fügen Sie vertrauliche Informationen hinzu</string>
+    <string name="settings_backup_include_sensitive_description">Fügen Sie der exportierten Datei API-Schlüssel, Debrid-Schlüssel, Add-ons, Live-TV und die Anwendungs-ID Discord hinzu. Halten Sie diese Datei privat</string>
+    <string name="settings_backup_export">Exporteinstellungen</string>
+    <string name="settings_backup_export_description">Speichern Sie Einstellungen und Plugins in einer Datei. Sammlungen, Tracker und Ihr Nuvio-Konto sind niemals enthalten</string>
+    <string name="settings_backup_export_done">Einstellungen exportiert</string>
+    <string name="settings_backup_export_failed">Die Einstellungen konnten nicht exportiert werden</string>
+    <string name="settings_backup_import">Einstellungen importieren</string>
+    <string name="settings_backup_import_description">Stellen Sie Einstellungen aus einer exportierten Datei wieder her</string>
+    <string name="settings_backup_importing">Einstellungen werden importiert…</string>
+    <string name="settings_backup_import_confirm_title">Einstellungen importieren?</string>
+    <string name="settings_backup_import_confirm_message">Einstellungen aus dieser Datei ersetzen die aktuellen Einstellungen dieses Profils. Fehlende Plugins werden hinzugefügt. Ihre API-Schlüssel, Add-ons und Live-TV bleiben unverändert.</string>
+    <string name="settings_backup_import_confirm_message_sensitive">Einstellungen aus dieser Datei ersetzen die aktuellen Einstellungen dieses Profils, einschließlich API-Schlüssel und Debrid-Schlüssel. Fehlende Add-ons, Plugins und Live-TV-Quellen werden hinzugefügt.</string>
+    <string name="settings_backup_import_confirm_action">Import</string>
+    <string name="settings_backup_import_done">Einstellungen importiert</string>
+    <string name="settings_backup_import_partial">Einstellungen importiert, aber einige Abschnitte konnten nicht angewendet werden</string>
+    <string name="settings_backup_import_failed">Die Einstellungen konnten nicht importiert werden</string>
+    <string name="settings_backup_import_invalid">Bei dieser Datei handelt es sich nicht um einen Nuvio-Einstellungsexport</string>
+</resources>

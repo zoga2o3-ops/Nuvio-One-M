@@ -1,0 +1,12 @@
+<resources>
+    <string name="settings_playback_subtitle_auto_sync">Subtitle Sinkronisasi Otomatis</string>
+    <string name="settings_playback_subtitle_auto_sync_description">Secara otomatis menyinkronkan subtitle tambahan pilihan saat pemutaran dimulai. Membutuhkan bahasa subtitle pilihan.</string>
+    <string name="settings_playback_auto_sync_mode_aggressive">Pencarian Sinkronisasi Otomatis: Menyeluruh</string>
+    <string name="settings_playback_auto_sync_mode_aggressive_description">Terus bandingkan subtitle lain dan trek yang disematkan untuk mendapatkan kecocokan yang lebih dekat sebelum menyinkronkan. Hanya kecocokan percaya diri yang diterapkan.</string>
+    <string name="settings_playback_auto_sync_mode_passive">Pencarian Sinkronisasi Otomatis: Cepat</string>
+    <string name="settings_playback_auto_sync_mode_passive_description">Menggunakan pertandingan kuat pertama lebih cepat. Hanya pertandingan percaya diri yang pernah diterapkan, seperti halnya Thorough.</string>
+    <string name="settings_playback_auto_sync_tolerance">Toleransi Sinkronisasi Otomatis: %1$s</string>
+    <string name="settings_playback_auto_sync_tolerance_description">Pertahankan waktu subtitle asli ketika sinkronisasi akan memindahkannya tidak lebih dari ini. Ketuk untuk mengubah.</string>
+    <string name="settings_playback_auto_sync_tolerance_off">Mati</string>
+    <string name="settings_playback_auto_sync_tolerance_value">%1$d ms</string>
+</resources>

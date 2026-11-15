@@ -1,0 +1,33 @@
+<resources>
+    <string name="tracking_source_wetrakr">WeTrakr</string>
+    <string name="settings_wetrakr_library_description">Je WeTrakr-lijsten zijn: Plannen, Kijken, Wachten, Bekeken, Gepauzeerd en Gedropt.</string>
+    <string name="settings_wetrakr_progress_description">Ga door met kijken en Volgende vanaf het afspelen en bekeken afleveringen van WeTrakr.</string>
+    <string name="library_wetrakr_title">WeTrakr-bibliotheek</string>
+    <string name="library_wetrakr_load_failed">Kan uw WeTrakr-bibliotheek niet laden</string>
+    <string name="library_wetrakr_empty_title">Uw WeTrakr-bibliotheek is leeg</string>
+    <string name="library_wetrakr_empty_message">Voeg films en programma's toe aan uw WeTrakr-lijsten om ze hier te bekijken.</string>
+    <string name="settings_wetrakr_connect">Verbind WeTrakr</string>
+    <string name="settings_wetrakr_connected_as">Verbonden als %1$s</string>
+    <string name="settings_wetrakr_connected_description">Synchroniseer uw lijsten, kijkgeschiedenis, beoordelingen, scrobbles en blijf kijken met WeTrakr.</string>
+    <string name="settings_wetrakr_sign_in_description">Verbind WeTrakr om uw lijsten, kijkgeschiedenis, beoordelingen, scrobbles en doorgaan met kijken te synchroniseren.</string>
+    <string name="settings_wetrakr_finish_sign_in">Voltooi het inloggen</string>
+    <string name="settings_wetrakr_approval_description">Open de WeTrakr-activeringspagina en voer deze code in. Nuvio maakt automatisch verbinding zodra u akkoord gaat.</string>
+    <string name="settings_wetrakr_open_login">Activeringspagina openen</string>
+    <string name="settings_wetrakr_disconnect">Ontkoppel WeTrakr</string>
+    <string name="settings_wetrakr_missing_credentials">WeTrakr-verbinding is niet beschikbaar in deze build.</string>
+    <string name="settings_wetrakr_sync_now">Synchroniseer nu</string>
+    <string name="settings_wetrakr_visit">Bezoek WeTrakr</string>
+    <string name="settings_wetrakr_disconnect_description">Stop met het verzenden van horloge-updates vanuit dit profiel. Uw WeTrakr-lijsten en geschiedenis worden bewaard.</string>
+    <string name="settings_wetrakr_account_fallback">WeTrakr-gebruiker</string>
+    <string name="settings_wetrakr_syncing">Uw WeTrakr-lijsten synchroniseren…</string>
+    <string name="settings_wetrakr_last_synced">Laatst gesynchroniseerd %1$s</string>
+    <string name="settings_wetrakr_auth_denied">Verbinding is geweigerd. Probeer opnieuw om uw account te koppelen.</string>
+    <string name="settings_wetrakr_auth_expired">De activatiecode is verlopen. Probeer opnieuw om een ​​nieuwe code te krijgen.</string>
+    <string name="settings_wetrakr_auth_failed">Kon WeTrakr niet bereiken om het inloggen te starten. Probeer het opnieuw.</string>
+    <string name="settings_wetrakr_auth_rate_limited">Te veel inlogpogingen. Wacht 15 minuten en probeer het opnieuw.</string>
+    <string name="settings_wetrakr_app_suspended">WeTrakr heeft deze app opgeschort. Probeer het later opnieuw.</string>
+    <string name="settings_wetrakr_auth_revoked">Uw WeTrakr-verbinding is verlopen of ingetrokken. Maak opnieuw verbinding om de synchronisatie te hervatten.</string>
+    <string name="settings_wetrakr_unavailable">Kan niet synchroniseren met WeTrakr. Probeer het opnieuw.</string>
+    <string name="settings_wetrakr_rate_limited">De verzoeklimiet van WeTrakr is bereikt. Het synchroniseren wordt binnenkort hervat.</string>
+    <string name="settings_wetrakr_plan_limit">Hiervoor is WeTrakr VIP nodig of overschrijdt de limiet van uw plan.</string>
+</resources>

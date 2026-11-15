@@ -65,7 +65,10 @@ import com.nuvio.app.livetv.sports.TeamInfo
 import java.text.SimpleDateFormat
 import java.util.Date
 import kotlin.math.roundToInt
+import nuvio.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 
+import org.jetbrains.compose.resources.getString
 private val GameBg = Color(0xFF141419)
 private val CardBg = Color(0xFF1B1B1F)
 private val Accent = Color(0xFFE53935)
@@ -104,10 +107,10 @@ internal fun SportsGameScreen(
                 Column(Modifier.fillMaxSize().statusBarsPadding().navigationBarsPadding()) {
                     Row(Modifier.fillMaxWidth().padding(12.dp, 8.dp), verticalAlignment = Alignment.CenterVertically) {
                         IconButton(onClick = onDismiss) {
-                            Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                            Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(Res.string.action_back))
                         }
                         Text(
-                            league?.name ?: "Sports",
+                            league?.name ?: stringResource(Res.string.yt_tab_sports),
                             style = MaterialTheme.typography.headlineSmall,
                             fontWeight = FontWeight.Bold,
                             modifier = Modifier.weight(1f).padding(start = 4.dp),
@@ -125,16 +128,16 @@ internal fun SportsGameScreen(
                         item(key = "actions") {
                             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                                 if (ev.state == GameState.PRE) {
-                                    GameChip(if (reminded) "Reminded" else "Remind me", reminded, onRemind)
+                                    GameChip(if (reminded) stringResource(Res.string.live_tv_ui_reminded) else stringResource(Res.string.live_tv_ui_remind_me), reminded, onRemind)
                                 }
-                                GameChip("Fix channel", false, onFix)
+                                GameChip(stringResource(Res.string.live_tv_ui_fix_channel), false, onFix)
                             }
                         }
-                        item(key = "channels-h") { SectionTitle("Watch on your channels") }
+                        item(key = "channels-h") { SectionTitle(stringResource(Res.string.live_tv_ui_watch_on_your_channels)) }
                         if (matches.isEmpty()) {
                             item(key = "channels-none") {
                                 Text(
-                                    "None of your channels are showing this one.",
+                                    stringResource(Res.string.live_tv_ui_none_of_your_channels_are_showing_this_one),
                                     style = MaterialTheme.typography.bodyMedium,
                                     color = Color.White.copy(alpha = 0.6f),
                                 )
@@ -146,14 +149,14 @@ internal fun SportsGameScreen(
                         }
                         val p = plays
                         if (!p.isNullOrEmpty()) {
-                            item(key = "scoring-h") { SectionTitle("Latest scoring") }
+                            item(key = "scoring-h") { SectionTitle(stringResource(Res.string.live_tv_ui_latest_scoring)) }
                             items(p.asReversed().take(20), key = { it.clock + "|" + it.text }) { play ->
                                 PlayRow(play)
                             }
                         }
                         val x = extras
                         if (x != null && x.stats.isNotEmpty()) {
-                            item(key = "stats-h") { SectionTitle("Team stats") }
+                            item(key = "stats-h") { SectionTitle(stringResource(Res.string.live_tv_ui_team_stats)) }
                             items(x.stats, key = { it.label }) { stat -> StatBar(stat) }
                         }
                     }
@@ -274,13 +277,13 @@ private fun ChannelRow(
         Column(Modifier.weight(1f)) {
             Text(m.channel.name, maxLines = 1, overflow = TextOverflow.Ellipsis)
             Text(
-                listOfNotNull(m.quality, if (m.sure) "good match" else "possible match").joinToString(" · "),
+                listOfNotNull(m.quality, if (m.sure) stringResource(Res.string.live_tv_ui_good_match) else stringResource(Res.string.live_tv_ui_possible_match)).joinToString(" · "),
                 style = MaterialTheme.typography.labelSmall,
                 color = Color.White.copy(alpha = 0.55f),
             )
         }
-        if (state != GameState.POST) TextButton(onClick = onRecord) { Text("Record") }
-        TextButton(onClick = onWatch) { Text("Watch") }
+        if (state != GameState.POST) TextButton(onClick = onRecord) { Text(stringResource(Res.string.live_tv_ui_record)) }
+        TextButton(onClick = onWatch) { Text(stringResource(Res.string.live_tv_ui_watch)) }
     }
 }
 
@@ -366,7 +369,7 @@ private fun statusLine(ev: SportsEvent): String = when (ev.state) {
     GameState.LIVE -> "In progress"
     GameState.POST -> "FT · " + SimpleDateFormat("EEE d MMM", java.util.Locale.getDefault()).format(Date(ev.startMs))
     GameState.OFF -> ev.status ?: "Postponed"
-    GameState.PRE -> if (ev.hasTime) SimpleDateFormat("EEE d MMM, h:mm a", java.util.Locale.getDefault()).format(Date(ev.startMs)) else "Today"
+    GameState.PRE -> if (ev.hasTime) SimpleDateFormat("EEE d MMM, h:mm a", java.util.Locale.getDefault()).format(Date(ev.startMs)) else kotlinx.coroutines.runBlocking { getString(Res.string.library_calendar_today) }
 }
 
 // ---- team colours

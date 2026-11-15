@@ -30,6 +30,8 @@ import org.json.JSONObject
 import java.security.MessageDigest
 import java.util.UUID
 import java.util.concurrent.TimeUnit
+import nuvio.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.getString
 
 /** What the settings screen shows. */
 data class DriveSyncState(
@@ -174,7 +176,7 @@ class LiveTvDriveSync(
                 codes = runCatching {
                     postForm("https://oauth2.googleapis.com/device/code", mapOf("client_id" to clientId, "scope" to scopes))
                 }.getOrElse {
-                    _state.value = _state.value.copy(busy = false, message = "Couldn't reach Google. Try again.")
+                    _state.value = _state.value.copy(busy = false, message = getString(Res.string.live_tv_drive_couldnt_reach_google))
                     return@launch
                 }
                 mode = m
@@ -218,7 +220,7 @@ class LiveTvDriveSync(
                     "authorization_pending" -> Unit
                     "slow_down" -> interval += 5
                     "access_denied" -> {
-                        _state.value = _state.value.copy(signIn = null, message = "Sign-in was declined.")
+                        _state.value = _state.value.copy(signIn = null, message = getString(Res.string.live_tv_drive_sign_in_declined))
                         return@launch
                     }
                     else -> {
@@ -227,7 +229,7 @@ class LiveTvDriveSync(
                     }
                 }
             }
-            _state.value = _state.value.copy(signIn = null, message = "The code expired. Try again.")
+            _state.value = _state.value.copy(signIn = null, message = getString(Res.string.live_tv_drive_code_expired))
         }
     }
 
@@ -239,7 +241,7 @@ class LiveTvDriveSync(
     private suspend fun onSignedIn(token: JSONObject) {
         val refresh = token.optString("refresh_token")
         if (refresh.isBlank()) {
-            _state.value = _state.value.copy(signIn = null, message = "Google didn't return a sign-in. Try again.")
+            _state.value = _state.value.copy(signIn = null, message = getString(Res.string.live_tv_drive_no_sign_in))
             return
         }
         accessToken = token.optString("access_token")
@@ -256,7 +258,7 @@ class LiveTvDriveSync(
         store.edit().remove(KEY_REFRESH).remove(KEY_EMAIL).remove(KEY_FILE_ID).remove(KEY_LAST_HASH).remove(KEY_MODE).apply()
         runCatching { baseFile().delete() }
         accessToken = null
-        _state.value = _state.value.copy(connected = false, email = null, message = "Disconnected. Your backup stays in your Google Drive.")
+        _state.value = _state.value.copy(connected = false, email = null, message = kotlinx.coroutines.runBlocking { getString(Res.string.live_tv_drive_disconnected) })
         if (refresh != null) scope.launch {
             runCatching { postForm("https://oauth2.googleapis.com/revoke", mapOf("token" to refresh)) }
         }
@@ -347,9 +349,9 @@ class LiveTvDriveSync(
             busy = false,
             lastSyncMs = store.getLong(KEY_LAST_SYNC, 0L),
             message = when {
-                result.isFailure -> "Backup failed: ${result.exceptionOrNull()?.message ?: "network error"}"
-                emptyRefused -> "Nothing backed up: add a playlist or guide first. Your saved copy in Google Drive was left as it was."
-                force -> "Backed up to Google Drive."
+                result.isFailure -> getString(Res.string.live_tv_drive_backup_failed, result.exceptionOrNull()?.message ?: "network error")
+                emptyRefused -> getString(Res.string.live_tv_drive_nothing_to_back_up)
+                force -> getString(Res.string.live_tv_drive_backed_up)
                 else -> _state.value.message
             }
         )
@@ -361,7 +363,7 @@ class LiveTvDriveSync(
      */
     private suspend fun pull(force: Boolean, onlyIfExists: Boolean = false): Boolean = mutex.withLock {
         val token = token() ?: return@withLock false
-        _state.value = _state.value.copy(busy = true, message = if (force && !onlyIfExists) "Restoring…" else null)
+        _state.value = _state.value.copy(busy = true, message = if (force && !onlyIfExists) getString(Res.string.live_tv_drive_restoring) else null)
         val result = runCatching {
             val fileId = fileId(token) ?: return@runCatching null
             val text = execute(
@@ -402,10 +404,10 @@ class LiveTvDriveSync(
             busy = false,
             lastSyncMs = store.getLong(KEY_LAST_SYNC, 0L),
             message = when {
-                result.isFailure -> "Restore failed: ${result.exceptionOrNull()?.message ?: "network error"}"
-                result.getOrNull() == null && force && !onlyIfExists -> "No backup found in Google Drive yet."
-                applied && force -> "Restored from Google Drive."
-                applied -> "Updated from your other device."
+                result.isFailure -> getString(Res.string.live_tv_drive_restore_failed, result.exceptionOrNull()?.message ?: "network error")
+                result.getOrNull() == null && force && !onlyIfExists -> getString(Res.string.live_tv_drive_no_backup)
+                applied && force -> getString(Res.string.live_tv_drive_restored)
+                applied -> getString(Res.string.live_tv_drive_updated)
                 else -> _state.value.message
             }
         )
@@ -608,18 +610,18 @@ class LiveTvDriveSync(
         }.getOrElse { e ->
             // The reason too (timeout, blocked, no route…), so a VPN or network problem shows.
             val why = when (e) {
-                is java.net.SocketTimeoutException -> "timed out"
-                is java.net.UnknownHostException -> "couldn't look up Google's address"
-                is javax.net.ssl.SSLException -> "secure connection refused"
-                is java.net.ConnectException -> "connection refused"
+                is java.net.SocketTimeoutException -> getString(Res.string.live_tv_drive_why_timeout)
+                is java.net.UnknownHostException -> getString(Res.string.live_tv_drive_why_host)
+                is javax.net.ssl.SSLException -> getString(Res.string.live_tv_drive_why_ssl)
+                is java.net.ConnectException -> getString(Res.string.live_tv_drive_why_connect)
                 else -> e.javaClass.simpleName
             }
-            _state.value = _state.value.copy(message = "Couldn't reach Google Drive ($why).")
+            _state.value = _state.value.copy(message = getString(Res.string.live_tv_drive_couldnt_reach_drive, why))
             return null
         }
         if (res.optString("error") == "invalid_grant") {
             store.edit().remove(KEY_REFRESH).apply()
-            _state.value = _state.value.copy(connected = false, message = "Google Drive access was removed. Connect again to keep syncing.")
+            _state.value = _state.value.copy(connected = false, message = getString(Res.string.live_tv_drive_access_removed))
             return null
         }
         val access = res.optString("access_token").ifBlank { return null }

@@ -32,6 +32,8 @@ import java.io.File
 import java.security.MessageDigest
 import java.util.UUID
 import java.util.concurrent.TimeUnit
+import nuvio.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.getString
 
 /** What the settings screen shows for Setup Sync. */
 data class CloudSyncState(
@@ -265,7 +267,7 @@ class LiveTvCloudSync(
         val uid = userId ?: return
         setEnabled(uid, false)
         store.edit().putBoolean(KEY_DECLINED + uid, true).apply()
-        _state.value = _state.value.copy(enabled = false, message = "Off. Your saved copy stays saved.", prompt = null)
+        _state.value = _state.value.copy(enabled = false, message = kotlinx.coroutines.runBlocking { getString(Res.string.live_tv_cloud_off_saved) }, prompt = null)
     }
 
     /** Removes the saved copy from the cloud and stops syncing here. This device keeps its setup. */
@@ -352,7 +354,7 @@ class LiveTvCloudSync(
                         setEnabled(uid, true)
                         _state.value = _state.value.copy(
                             lastSyncMs = store.getLong(KEY_LAST_SYNC, 0L),
-                            message = "Restored your Live TV setup."
+                            message = getString(Res.string.live_tv_cloud_restored)
                         )
                     } else {
                         _state.value = _state.value.copy(prompt = CloudPrompt.CHOOSE)

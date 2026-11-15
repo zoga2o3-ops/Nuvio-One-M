@@ -1,0 +1,30 @@
+<resources>
+    <string name="tracking_source_anilist">AniList</string>
+    <string name="settings_anilist_anime_section">Anime</string>
+    <string name="settings_anilist_library_description">Listele dvs. de anime AniList: Vizionare, Planificare, Finalizate, Întrerupte, Scăpat și Revizionare.</string>
+    <string name="settings_anilist_progress_description">Continuați vizionarea și Urmați în continuare din lista de vizionare AniList.</string>
+    <string name="library_anilist_title">Biblioteca AniList</string>
+    <string name="library_anilist_load_failed">Nu s-a putut încărca biblioteca AniList</string>
+    <string name="library_anilist_empty_title">Biblioteca dvs. AniList este goală</string>
+    <string name="library_anilist_empty_message">Adaugă anime la listele tale AniList pentru a le vedea aici.</string>
+    <string name="settings_anilist_connect">Conectați AniList</string>
+    <string name="settings_anilist_connected_as">Conectat ca %1$s</string>
+    <string name="settings_anilist_connected_description">Sincronizați-vă listele de anime, progresul episoadelor, scorurile și vizionați în continuare cu AniList.</string>
+    <string name="settings_anilist_sign_in_description">Conectați AniList pentru a vă sincroniza listele anime, progresul episoadelor, scorurile și continuarea vizionarii.</string>
+    <string name="settings_anilist_finish_sign_in">Finalizați conectarea</string>
+    <string name="settings_anilist_approval_description">Aprobați Nuvio în browserul dvs. Veți fi trimis automat înapoi la aplicație.</string>
+    <string name="settings_anilist_open_login">Deschideți pagina de conectare</string>
+    <string name="settings_anilist_disconnect">Deconectați AniList</string>
+    <string name="settings_anilist_missing_credentials">Conexiunea AniList nu este disponibilă în această versiune.</string>
+    <string name="settings_anilist_sync_now">Sincronizează acum</string>
+    <string name="settings_anilist_visit">Vizitați AniList</string>
+    <string name="settings_anilist_disconnect_description">Nu mai trimiteți actualizări pentru ceasuri de la acest profil. Listele dvs. AniList sunt păstrate.</string>
+    <string name="settings_anilist_account_fallback">Utilizator AniList</string>
+    <string name="settings_anilist_syncing">Se sincronizează listele dvs. AniList...</string>
+    <string name="settings_anilist_last_synced">Ultima sincronizare %1$s</string>
+    <string name="settings_anilist_auth_denied">Conexiunea a fost refuzată. Încercați din nou să vă conectați contul.</string>
+    <string name="settings_anilist_auth_invalid">AniList a returnat un răspuns de conectare nevalid. Vă rugăm să încercați din nou.</string>
+    <string name="settings_anilist_auth_revoked">Conexiunea dvs. AniList a expirat sau a fost revocată. Conectați-vă din nou pentru a relua sincronizarea.</string>
+    <string name="settings_anilist_unavailable">Nu s-a putut sincroniza cu AniList. Vă rugăm să încercați din nou.</string>
+    <string name="settings_anilist_rate_limited">Limita cererilor AniList a fost atinsă. Sincronizarea va fi reluată în curând.</string>
+</resources>

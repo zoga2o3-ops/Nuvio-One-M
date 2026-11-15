@@ -1,0 +1,19 @@
+<resources>
+    <string name="episode_navigator_search_hint">Keresés cím, telek vagy szám</string>
+    <string name="episode_navigator_clear_search">Keresés törlése</string>
+    <string name="episode_navigator_go_to">Menj ide</string>
+    <string name="episode_navigator_sort">Fajta</string>
+    <string name="episode_navigator_count">%2$d epizódból %1$d</string>
+    <string name="episode_navigator_no_match">Egyetlen epizód sem felel meg a következőnek: „%1$s”</string>
+    <string name="episode_navigator_go_to_title">Ugrás az epizódra</string>
+    <string name="episode_navigator_episode_number">Epizód száma</string>
+    <string name="episode_navigator_go">Megy</string>
+    <string name="episode_navigator_go_to_help">Írjon be egy számot, vagy válasszon egyet lent. Aláhúzva = figyelt, körvonalazva = felfelé.</string>
+    <string name="episode_navigator_out_of_range">%1$s rendelkezik %2$d–%3$d epizódokkal</string>
+    <string name="episode_navigator_sort_title">Epizódok rendezése</string>
+    <string name="episode_navigator_sort_first_to_last">Epizód: elsőtől utolsóig</string>
+    <string name="episode_navigator_sort_last_to_first">epizód: utolsótól elsőig</string>
+    <string name="episode_navigator_sort_highest_rated">A legmagasabb minősítésű</string>
+    <string name="episode_navigator_sort_newest_aired">A legújabb adásban</string>
+    <string name="episode_navigator_sort_unwatched_first">Először nézetlen</string>
+</resources>

@@ -1,0 +1,12 @@
+<resources>
+    <string name="settings_playback_subtitle_auto_sync">Automatische synchronisatie ondertiteling</string>
+    <string name="settings_playback_subtitle_auto_sync_description">Synchroniseer automatisch de gewenste add-on-ondertitel wanneer het afspelen begint. Vereist een voorkeurstaal voor ondertitels.</string>
+    <string name="settings_playback_auto_sync_mode_aggressive">Automatisch zoeken naar synchronisatie: grondig</string>
+    <string name="settings_playback_auto_sync_mode_aggressive_description">Blijft andere ondertitels en ingesloten tracks vergelijken voor een betere overeenkomst voordat wordt gesynchroniseerd. Alleen zelfverzekerde overeenkomsten worden ooit toegepast.</string>
+    <string name="settings_playback_auto_sync_mode_passive">Automatisch zoeken naar synchronisatie: snel</string>
+    <string name="settings_playback_auto_sync_mode_passive_description">Gebruikt de eerste sterke match eerder. Er worden altijd alleen zelfverzekerde matches toegepast, zoals bij Thorough.</string>
+    <string name="settings_playback_auto_sync_tolerance">Tolerantie voor automatische synchronisatie: %1$s</string>
+    <string name="settings_playback_auto_sync_tolerance_description">Behoud de oorspronkelijke timing van de ondertiteling wanneer de synchronisatie deze met niet meer dan dit zou verschuiven. Tik om te wijzigen.</string>
+    <string name="settings_playback_auto_sync_tolerance_off">Uit</string>
+    <string name="settings_playback_auto_sync_tolerance_value">%1$d ms</string>
+</resources>

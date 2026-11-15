@@ -1,0 +1,19 @@
+<resources>
+    <string name="episode_navigator_search_hint">শিরোনাম, প্লট বা নম্বর খুঁজুন</string>
+    <string name="episode_navigator_clear_search">সাফ অনুসন্ধান</string>
+    <string name="episode_navigator_go_to">যান</string>
+    <string name="episode_navigator_sort">সাজান</string>
+    <string name="episode_navigator_count">%2$d পর্বের %1$d</string>
+    <string name="episode_navigator_no_match">'%1$s'-এর সাথে কোনো পর্ব মেলে না</string>
+    <string name="episode_navigator_go_to_title">পর্বে ঝাঁপ দাও</string>
+    <string name="episode_navigator_episode_number">পর্ব সংখ্যা</string>
+    <string name="episode_navigator_go">যাও</string>
+    <string name="episode_navigator_go_to_help">একটি নম্বর টাইপ করুন, বা নীচে একটি চয়ন করুন৷ আন্ডারলাইনড = দেখা, রূপরেখা = আপ পরবর্তী।</string>
+    <string name="episode_navigator_out_of_range">%1$s এপিসোড আছে %2$d_PH2_%3$d</string>
+    <string name="episode_navigator_sort_title">পর্ব সাজান</string>
+    <string name="episode_navigator_sort_first_to_last">পর্ব: প্রথম থেকে শেষ</string>
+    <string name="episode_navigator_sort_last_to_first">পর্ব: শেষ থেকে প্রথম</string>
+    <string name="episode_navigator_sort_highest_rated">সর্বোচ্চ রেট</string>
+    <string name="episode_navigator_sort_newest_aired">নতুন সম্প্রচারিত</string>
+    <string name="episode_navigator_sort_unwatched_first">প্রথম দেখা হয়নি</string>
+</resources>

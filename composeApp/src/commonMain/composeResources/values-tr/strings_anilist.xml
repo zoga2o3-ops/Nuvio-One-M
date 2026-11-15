@@ -1,0 +1,30 @@
+<resources>
+    <string name="tracking_source_anilist">AniList</string>
+    <string name="settings_anilist_anime_section">anime</string>
+    <string name="settings_anilist_library_description">AniList anime listeleriniz: İzleniyor, Planlanıyor, Tamamlandı, Duraklatıldı, Bırakıldı ve Yeniden İzleniyor.</string>
+    <string name="settings_anilist_progress_description">AniList İzleme listenizden İzlemeye Devam Et ve Sıradaki.</string>
+    <string name="library_anilist_title">AniList Kütüphanesi</string>
+    <string name="library_anilist_load_failed">AniList kitaplığınız yüklenemedi</string>
+    <string name="library_anilist_empty_title">AniList kitaplığınız boş</string>
+    <string name="library_anilist_empty_message">Animeleri burada görmek için AniList listelerinize ekleyin.</string>
+    <string name="settings_anilist_connect">AniList'i bağlayın</string>
+    <string name="settings_anilist_connected_as">%1$s olarak bağlanıldı</string>
+    <string name="settings_anilist_connected_description">AniList ile anime listelerinizi, bölüm ilerlemenizi, puanlarınızı ve İzlemeye Devam Edin'i senkronize edin.</string>
+    <string name="settings_anilist_sign_in_description">Anime listelerinizi, bölüm ilerlemenizi, puanlarınızı ve İzlemeye Devam Etmeyi senkronize etmek için AniList'i bağlayın.</string>
+    <string name="settings_anilist_finish_sign_in">Oturum açmayı bitir</string>
+    <string name="settings_anilist_approval_description">Tarayıcınızda Nuvio onaylayın. Otomatik olarak uygulamaya geri gönderileceksiniz.</string>
+    <string name="settings_anilist_open_login">Oturum açma sayfasını aç</string>
+    <string name="settings_anilist_disconnect">AniList'in bağlantısını kesin</string>
+    <string name="settings_anilist_missing_credentials">AniList bağlantısı bu yapıda kullanılamıyor.</string>
+    <string name="settings_anilist_sync_now">Şimdi senkronize et</string>
+    <string name="settings_anilist_visit">AniList'i ziyaret edin</string>
+    <string name="settings_anilist_disconnect_description">Bu profilden saat güncellemeleri göndermeyi durdurun. AniList listeleriniz tutulur.</string>
+    <string name="settings_anilist_account_fallback">AniList kullanıcısı</string>
+    <string name="settings_anilist_syncing">AniList listeleriniz senkronize ediliyor…</string>
+    <string name="settings_anilist_last_synced">Son senkronizasyon %1$s</string>
+    <string name="settings_anilist_auth_denied">Bağlantı reddedildi. Hesabınıza bağlanmayı tekrar deneyin.</string>
+    <string name="settings_anilist_auth_invalid">AniList geçersiz bir oturum açma yanıtı döndürdü. Lütfen tekrar deneyin.</string>
+    <string name="settings_anilist_auth_revoked">AniList bağlantınızın süresi doldu veya iptal edildi. Senkronizasyonu sürdürmek için tekrar bağlanın.</string>
+    <string name="settings_anilist_unavailable">AniList ile senkronize edilemedi. Lütfen tekrar deneyin.</string>
+    <string name="settings_anilist_rate_limited">AniList'in istek sınırına ulaşıldı. Senkronizasyon kısa süre içinde devam edecek.</string>
+</resources>

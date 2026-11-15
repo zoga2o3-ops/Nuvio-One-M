@@ -1,0 +1,36 @@
+<resources>
+    <string name="tracking_source_publicmetadb">পাবলিকমেটাডিবি</string>
+    <string name="settings_publicmetadb_library_description">আপনার PublicMetaDB ওয়াচলিস্ট এবং কাস্টম তালিকা।</string>
+    <string name="settings_publicmetadb_progress_description">আপনার PublicMetaDB সারসংকলন পয়েন্ট এবং দেখার ইতিহাস থেকে পরবর্তী দেখা এবং পরবর্তী দেখা চালিয়ে যান।</string>
+    <string name="library_publicmetadb_title">পাবলিকমেটাডিবি লাইব্রেরি</string>
+    <string name="library_publicmetadb_load_failed">আপনার PublicMetaDB লাইব্রেরি লোড করা যায়নি</string>
+    <string name="library_publicmetadb_empty_title">আপনার PublicMetaDB লাইব্রেরি খালি</string>
+    <string name="library_publicmetadb_empty_message">এখানে দেখতে আপনার PublicMetaDB তালিকায় চলচ্চিত্র এবং শো যোগ করুন।</string>
+    <string name="settings_publicmetadb_connect">PublicMetaDB সংযোগ করুন</string>
+    <string name="settings_publicmetadb_connected_as">কী শেষ %1$s এর সাথে সংযুক্ত</string>
+    <string name="settings_publicmetadb_connected_description">আপনার তালিকা সিঙ্ক করুন, দেখার ইতিহাস, রেটিং, স্ক্রাবল এবং PublicMetaDB এর সাথে দেখা চালিয়ে যান।</string>
+    <string name="settings_publicmetadb_sign_in_description">আপনার তালিকা, দেখার ইতিহাস, রেটিং, স্ক্রাবল এবং দেখা চালিয়ে যেতে একটি API কী দিয়ে PublicMetaDB সংযুক্ত করুন।</string>
+    <string name="settings_publicmetadb_finish_sign_in">সংযোগ শেষ করুন</string>
+    <string name="settings_publicmetadb_approval_description">সংযোগ শেষ করতে আপনার PublicMetaDB API কী লিখুন।</string>
+    <string name="settings_publicmetadb_open_login">API কী লিখুন</string>
+    <string name="settings_publicmetadb_disconnect">PublicMetaDB সংযোগ বিচ্ছিন্ন করুন</string>
+    <string name="settings_publicmetadb_missing_credentials">PublicMetaDB সংযোগ এই বিল্ডে অনুপলব্ধ৷</string>
+    <string name="settings_publicmetadb_sync_now">এখন সিঙ্ক করুন</string>
+    <string name="settings_publicmetadb_visit">PublicMetaDB দেখুন</string>
+    <string name="settings_publicmetadb_disconnect_description">এই প্রোফাইল থেকে ঘড়ির আপডেট পাঠানো বন্ধ করুন এবং API কী ভুলে যান। আপনার PublicMetaDB তালিকা এবং ইতিহাস রাখা হয়.</string>
+    <string name="settings_publicmetadb_account_fallback">আপনার API কী</string>
+    <string name="settings_publicmetadb_syncing">আপনার PublicMetaDB তালিকা সিঙ্ক করা হচ্ছে...</string>
+    <string name="settings_publicmetadb_last_synced">সর্বশেষ সিঙ্ক হয়েছে %1$s</string>
+    <string name="settings_publicmetadb_api_key_title">PublicMetaDB সংযোগ করুন</string>
+    <string name="settings_publicmetadb_api_key_description">সেটিংস → API-এর অধীনে PublicMetaDB-এ একটি API কী তৈরি করুন, তারপরে এখানে পেস্ট করুন। কীগুলি সাধারণত pm- দিয়ে শুরু হয়।</string>
+    <string name="settings_publicmetadb_api_key_label">API কী</string>
+    <string name="settings_publicmetadb_get_api_key">একটি API কী পান</string>
+    <string name="settings_publicmetadb_connect_action">সংযোগ করুন</string>
+    <string name="settings_publicmetadb_missing_key">আপনার PublicMetaDB API কী লিখুন।</string>
+    <string name="settings_publicmetadb_invalid_key">PublicMetaDB এই API কী গ্রহণ করেনি। এটি পরীক্ষা করুন এবং আবার চেষ্টা করুন.</string>
+    <string name="settings_publicmetadb_request_failed">PublicMetaDB-এ পৌঁছানো যায়নি। আবার চেষ্টা করুন.</string>
+    <string name="settings_publicmetadb_rate_limited">PublicMetaDB-এর অনুরোধের সীমা পৌঁছে গেছে। শীঘ্রই আবার চেষ্টা করুন.</string>
+    <string name="settings_publicmetadb_blocked">PublicMetaDB এই অনুরোধটি ব্লক করেছে। পরে আবার চেষ্টা করুন.</string>
+    <string name="settings_publicmetadb_auth_revoked">আপনার PublicMetaDB API কী আর বৈধ নয়। একটি নতুন কী দিয়ে আবার সংযোগ করুন।</string>
+    <string name="settings_publicmetadb_unavailable">PublicMetaDB এর সাথে সিঙ্ক করা যায়নি। আবার চেষ্টা করুন.</string>
+</resources>

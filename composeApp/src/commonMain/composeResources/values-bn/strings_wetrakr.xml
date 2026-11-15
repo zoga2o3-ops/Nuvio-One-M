@@ -1,0 +1,33 @@
+<resources>
+    <string name="tracking_source_wetrakr">WeTrakr</string>
+    <string name="settings_wetrakr_library_description">আপনার WeTrakr তালিকা: পরিকল্পনা করা, দেখা, অপেক্ষা করা, দেখা, বিরতি দেওয়া এবং বাদ দেওয়া।</string>
+    <string name="settings_wetrakr_progress_description">আপনার WeTrakr প্লেব্যাক এবং দেখা পর্বগুলি থেকে দেখা এবং পরবর্তীতে দেখা চালিয়ে যান।</string>
+    <string name="library_wetrakr_title">WeTrakr লাইব্রেরি</string>
+    <string name="library_wetrakr_load_failed">আপনার WeTrakr লাইব্রেরি লোড করা যায়নি</string>
+    <string name="library_wetrakr_empty_title">আপনার WeTrakr লাইব্রেরি খালি</string>
+    <string name="library_wetrakr_empty_message">এখানে দেখার জন্য আপনার WeTrakr তালিকায় চলচ্চিত্র এবং শো যোগ করুন।</string>
+    <string name="settings_wetrakr_connect">WeTrakr সংযোগ করুন</string>
+    <string name="settings_wetrakr_connected_as">%1$s হিসাবে সংযুক্ত</string>
+    <string name="settings_wetrakr_connected_description">আপনার তালিকা সিঙ্ক করুন, দেখার ইতিহাস, রেটিং, স্ক্রাবল এবং WeTrakr এর সাথে দেখা চালিয়ে যান।</string>
+    <string name="settings_wetrakr_sign_in_description">আপনার তালিকা, দেখার ইতিহাস, রেটিং, স্ক্রাবল এবং দেখা চালিয়ে যাওয়ার জন্য WeTrakr-কে সংযুক্ত করুন।</string>
+    <string name="settings_wetrakr_finish_sign_in">সাইন-ইন শেষ করুন</string>
+    <string name="settings_wetrakr_approval_description">WeTrakr সক্রিয়করণ পৃষ্ঠাটি খুলুন এবং এই কোডটি লিখুন। একবার আপনি অনুমোদন করলে Nuvio স্বয়ংক্রিয়ভাবে সংযুক্ত হয়।</string>
+    <string name="settings_wetrakr_open_login">সক্রিয়করণ পৃষ্ঠা খুলুন</string>
+    <string name="settings_wetrakr_disconnect">WeTrakr সংযোগ বিচ্ছিন্ন করুন</string>
+    <string name="settings_wetrakr_missing_credentials">এই বিল্ডে WeTrakr সংযোগ অনুপলব্ধ।</string>
+    <string name="settings_wetrakr_sync_now">এখন সিঙ্ক করুন</string>
+    <string name="settings_wetrakr_visit">WeTrakr দেখুন</string>
+    <string name="settings_wetrakr_disconnect_description">এই প্রোফাইল থেকে ঘড়ি আপডেট পাঠানো বন্ধ করুন. আপনার WeTrakr তালিকা এবং ইতিহাস রাখা হয়.</string>
+    <string name="settings_wetrakr_account_fallback">WeTrakr ব্যবহারকারী</string>
+    <string name="settings_wetrakr_syncing">আপনার WeTrakr তালিকা সিঙ্ক করা হচ্ছে...</string>
+    <string name="settings_wetrakr_last_synced">সর্বশেষ সিঙ্ক হয়েছে %1$s</string>
+    <string name="settings_wetrakr_auth_denied">সংযোগ প্রত্যাখ্যান করা হয়েছে. আপনার অ্যাকাউন্ট সংযোগ করার জন্য আবার চেষ্টা করুন.</string>
+    <string name="settings_wetrakr_auth_expired">সক্রিয়করণ কোড মেয়াদ শেষ হয়েছে. একটি নতুন কোড পেতে আবার চেষ্টা করুন.</string>
+    <string name="settings_wetrakr_auth_failed">সাইন-ইন শুরু করতে WeTrakr-এ পৌঁছানো যায়নি। আবার চেষ্টা করুন.</string>
+    <string name="settings_wetrakr_auth_rate_limited">অনেকগুলি সাইন-ইন প্রচেষ্টা৷ 15 মিনিট অপেক্ষা করুন এবং আবার চেষ্টা করুন।</string>
+    <string name="settings_wetrakr_app_suspended">WeTrakr এই অ্যাপটিকে সাসপেন্ড করেছে। পরে আবার চেষ্টা করুন.</string>
+    <string name="settings_wetrakr_auth_revoked">আপনার WeTrakr সংযোগের মেয়াদ শেষ হয়ে গেছে বা প্রত্যাহার করা হয়েছে। সিঙ্কিং পুনরায় শুরু করতে আবার সংযোগ করুন৷</string>
+    <string name="settings_wetrakr_unavailable">WeTrakr এর সাথে সিঙ্ক করা যায়নি। আবার চেষ্টা করুন.</string>
+    <string name="settings_wetrakr_rate_limited">WeTrakr-এর অনুরোধের সীমা পৌঁছে গেছে। শীঘ্রই সিঙ্ক করা আবার শুরু হবে।</string>
+    <string name="settings_wetrakr_plan_limit">এটির জন্য WeTrakr ভিআইপি প্রয়োজন বা আপনার পরিকল্পনার সীমা ছাড়িয়ে গেছে।</string>
+</resources>

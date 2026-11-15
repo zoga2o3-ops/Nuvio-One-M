@@ -1,0 +1,30 @@
+<resources>
+    <string name="tracking_source_anilist">AniList</string>
+    <string name="settings_anilist_anime_section">Anime</string>
+    <string name="settings_anilist_library_description">Uw AniList-animelijsten: Kijken, Plannen, Voltooid, Gepauzeerd, Gedropt en Opnieuw kijken.</string>
+    <string name="settings_anilist_progress_description">Doorgaan met kijken en Volgende vanuit uw AniList-kijklijst.</string>
+    <string name="library_anilist_title">AniList-bibliotheek</string>
+    <string name="library_anilist_load_failed">Kan uw AniList-bibliotheek niet laden</string>
+    <string name="library_anilist_empty_title">Uw AniList-bibliotheek is leeg</string>
+    <string name="library_anilist_empty_message">Voeg anime toe aan je AniList-lijsten om ze hier te bekijken.</string>
+    <string name="settings_anilist_connect">Sluit AniList aan</string>
+    <string name="settings_anilist_connected_as">Verbonden als %1$s</string>
+    <string name="settings_anilist_connected_description">Synchroniseer uw anime-lijsten, afleveringsvoortgang, scores en blijf kijken met AniList.</string>
+    <string name="settings_anilist_sign_in_description">Verbind AniList om uw anime-lijsten, afleveringsvoortgang, scores en doorgaan met kijken te synchroniseren.</string>
+    <string name="settings_anilist_finish_sign_in">Voltooi het inloggen</string>
+    <string name="settings_anilist_approval_description">Keur Nuvio goed in uw browser. Je wordt automatisch teruggestuurd naar de app.</string>
+    <string name="settings_anilist_open_login">Open de inlogpagina</string>
+    <string name="settings_anilist_disconnect">Ontkoppel AniList</string>
+    <string name="settings_anilist_missing_credentials">AniList-verbinding is niet beschikbaar in deze build.</string>
+    <string name="settings_anilist_sync_now">Synchroniseer nu</string>
+    <string name="settings_anilist_visit">Bezoek AniList</string>
+    <string name="settings_anilist_disconnect_description">Stop met het verzenden van horloge-updates vanuit dit profiel. Uw AniList-lijsten worden bewaard.</string>
+    <string name="settings_anilist_account_fallback">AniList-gebruiker</string>
+    <string name="settings_anilist_syncing">Uw AniList-lijsten synchroniseren...</string>
+    <string name="settings_anilist_last_synced">Laatst gesynchroniseerd %1$s</string>
+    <string name="settings_anilist_auth_denied">Verbinding is geweigerd. Probeer opnieuw om uw account te koppelen.</string>
+    <string name="settings_anilist_auth_invalid">AniList heeft een ongeldig aanmeldingsantwoord geretourneerd. Probeer het opnieuw.</string>
+    <string name="settings_anilist_auth_revoked">Uw AniList-verbinding is verlopen of ingetrokken. Maak opnieuw verbinding om de synchronisatie te hervatten.</string>
+    <string name="settings_anilist_unavailable">Kan niet synchroniseren met AniList. Probeer het opnieuw.</string>
+    <string name="settings_anilist_rate_limited">De verzoeklimiet van AniList is bereikt. Het synchroniseren wordt binnenkort hervat.</string>
+</resources>

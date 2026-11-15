@@ -1,0 +1,20 @@
+<resources>
+    <string name="settings_backup_section">YEDEKLEME</string>
+    <string name="settings_backup_include_sensitive">Hassas Bilgileri Ekle</string>
+    <string name="settings_backup_include_sensitive_description">Dışa aktarılan dosyaya API anahtarlarını, debrid anahtarlarını, eklentileri, Canlı TV'yi ve Discord uygulama kimliğini ekleyin. O dosyayı gizli tut</string>
+    <string name="settings_backup_export">Ayarları Dışa Aktarma</string>
+    <string name="settings_backup_export_description">Ayarları ve eklentileri bir dosyaya kaydedin. Koleksiyonlar, izleyiciler ve Nuvio hesabınız asla dahil edilmez</string>
+    <string name="settings_backup_export_done">Ayarlar dışa aktarıldı</string>
+    <string name="settings_backup_export_failed">Ayarlar dışa aktarılamadı</string>
+    <string name="settings_backup_import">Ayarları İçe Aktarma</string>
+    <string name="settings_backup_import_description">Dışa aktarılan bir dosyadan ayarları geri yükleme</string>
+    <string name="settings_backup_importing">Ayarlar içe aktarılıyor…</string>
+    <string name="settings_backup_import_confirm_title">Ayarlar İçe Aktarılsın mı?</string>
+    <string name="settings_backup_import_confirm_message">Bu dosyadaki ayarlar bu profilin mevcut ayarlarının yerini alacak. Eksik eklentiler eklenecektir. API anahtarlarınız, eklentileriniz ve Canlı TV'niz değişmeden kalır.</string>
+    <string name="settings_backup_import_confirm_message_sensitive">Bu dosyadaki ayarlar, API anahtarları ve debrid anahtarları da dahil olmak üzere bu profilin mevcut ayarlarının yerini alacak. Eksik eklentiler, eklentiler ve Canlı TV kaynakları eklenecektir.</string>
+    <string name="settings_backup_import_confirm_action">İçe aktarmak</string>
+    <string name="settings_backup_import_done">Ayarlar içe aktarıldı</string>
+    <string name="settings_backup_import_partial">Ayarlar içe aktarıldı ancak bazı bölümler uygulanamadı</string>
+    <string name="settings_backup_import_failed">Ayarlar içe aktarılamadı</string>
+    <string name="settings_backup_import_invalid">Bu dosya bir Nuvio ayar aktarımı değil</string>
+</resources>

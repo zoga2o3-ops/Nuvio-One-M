@@ -11,6 +11,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
+import nuvio.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.getString
 
 /** What the player needs from the Live TV settings, kept current and readable from any thread. */
 object LivePlayback {
@@ -116,7 +118,7 @@ object LiveTvBackup {
         } ?: return false
         LiveTvReconnect.arm(next.url, next.key)
         android.os.Handler(android.os.Looper.getMainLooper()).post {
-            Toast.makeText(context, "${current.name} won't play. Trying another copy.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, kotlinx.coroutines.runBlocking { getString(Res.string.live_tv_ui_channel_wont_play, current.name) }, Toast.LENGTH_SHORT).show()
             LiveTvHost.openChannel?.invoke(liveTvRequest(next, live.repository.programs.value[next.key], System.currentTimeMillis()))
         }
         return true

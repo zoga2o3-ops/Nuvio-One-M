@@ -1,0 +1,19 @@
+<resources>
+    <string name="episode_navigator_search_hint">חיפוש כותרת, עלילה או מספר</string>
+    <string name="episode_navigator_clear_search">נקה חיפוש</string>
+    <string name="episode_navigator_go_to">עבור אל</string>
+    <string name="episode_navigator_sort">סוּג</string>
+    <string name="episode_navigator_count">%1$d מתוך %2$d פרקים</string>
+    <string name="episode_navigator_no_match">אין פרקים שתואמים את '%1$s'</string>
+    <string name="episode_navigator_go_to_title">קפוץ לפרק</string>
+    <string name="episode_navigator_episode_number">מספר פרק</string>
+    <string name="episode_navigator_go">לָלֶכֶת</string>
+    <string name="episode_navigator_go_to_help">הקלד מספר, או בחר אחד למטה. קו תחתון = נצפה, מתואר = למעלה הבא.</string>
+    <string name="episode_navigator_out_of_range">ל-%1$s יש פרקים %2$d–%3$d</string>
+    <string name="episode_navigator_sort_title">מיין פרקים</string>
+    <string name="episode_navigator_sort_first_to_last">פרק: ראשון עד אחרון</string>
+    <string name="episode_navigator_sort_last_to_first">פרק: אחרון עד ראשון</string>
+    <string name="episode_navigator_sort_highest_rated">בעל הדירוג הגבוה ביותר</string>
+    <string name="episode_navigator_sort_newest_aired">הכי חדש שודר</string>
+    <string name="episode_navigator_sort_unwatched_first">לא נצפה ראשון</string>
+</resources>

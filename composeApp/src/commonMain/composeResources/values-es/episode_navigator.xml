@@ -1,0 +1,19 @@
+<resources>
+    <string name="episode_navigator_search_hint">Buscar título, trama o número</string>
+    <string name="episode_navigator_clear_search">Borrar búsqueda</string>
+    <string name="episode_navigator_go_to">Ir a</string>
+    <string name="episode_navigator_sort">Clasificar</string>
+    <string name="episode_navigator_count">%1$d de %2$d episodios</string>
+    <string name="episode_navigator_no_match">Ningún episodio coincide con '%1$s'</string>
+    <string name="episode_navigator_go_to_title">Saltar al episodio</string>
+    <string name="episode_navigator_episode_number">Número de episodio</string>
+    <string name="episode_navigator_go">Ir</string>
+    <string name="episode_navigator_go_to_help">Escriba un número o elija uno a continuación. Subrayado = visto, delineado = a continuación.</string>
+    <string name="episode_navigator_out_of_range">%1$s tiene episodios %2$d–%3$d</string>
+    <string name="episode_navigator_sort_title">Ordenar episodios</string>
+    <string name="episode_navigator_sort_first_to_last">Episodio: del primero al último</string>
+    <string name="episode_navigator_sort_last_to_first">Episodio: del último al primero</string>
+    <string name="episode_navigator_sort_highest_rated">Mejor calificado</string>
+    <string name="episode_navigator_sort_newest_aired">Lo más reciente emitido</string>
+    <string name="episode_navigator_sort_unwatched_first">No visto primero</string>
+</resources>

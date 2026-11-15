@@ -113,11 +113,17 @@ import androidx.compose.material3.Text
 import com.nuvio.app.music.engine.data.model.Song
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import nuvio.composeapp.generated.resources.Res
+import nuvio.composeapp.generated.resources.music_settings_title
+import org.jetbrains.compose.resources.stringResource
+import nuvio.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.StringResource
+import org.jetbrains.compose.resources.getString
 
-private enum class NowPlayingTab(val label: String) {
-    LYRICS("Lyrics"),
-    QUEUE("Up next"),
-    INFO("Info")
+private enum class NowPlayingTab(val labelRes: StringResource) {
+    LYRICS(Res.string.music_ui_lyrics),
+    QUEUE(Res.string.settings_playback_page_up_next),
+    INFO(Res.string.music_ui_info),
 }
 
 @Composable
@@ -264,13 +270,13 @@ internal fun MusicNowPlayingScreen(
             ) {
                 NowHeaderButton(
                     icon = Icons.Default.KeyboardArrowDown,
-                    label = "Close",
+                    label = stringResource(Res.string.action_close),
                     modifier = Modifier.focusProperties { down = playFocus },
                     onClick = onClose
                 )
                 Spacer(Modifier.width(if (compact) 9.dp else 14.dp))
                 Text(
-                    text = if (compact) "NOW PLAYING · NUVIO ONE MUSIC" else "NOW PLAYING",
+                    text = if (compact) stringResource(Res.string.music_ui_now_playing_nuvio_one_music) else kotlinx.coroutines.runBlocking { getString(Res.string.music_ui_now_playing) },
                     color = Color.White.copy(alpha = 0.62f),
                     fontSize = if (compact) 9.sp else 11.sp,
                     letterSpacing = if (compact) 1.6.sp else 2.4.sp,
@@ -288,10 +294,10 @@ internal fun MusicNowPlayingScreen(
                         },
                         label = when {
                             downloaded -> "Downloaded"
-                            downloadActive || downloadStarting -> "Cancel download"
+                            downloadActive || downloadStarting -> kotlinx.coroutines.runBlocking { getString(Res.string.music_ui_cancel_download) }
                             downloadEntry?.status == MusicDownloadStatus.FAILED ->
-                                "Retry download"
-                            else -> "Download this track"
+                                stringResource(Res.string.music_ui_retry_download)
+                            else -> kotlinx.coroutines.runBlocking { getString(Res.string.music_ui_download_this_track) }
                         },
                         active = downloaded,
                         progress = downloadProgress,
@@ -310,7 +316,7 @@ internal fun MusicNowPlayingScreen(
                 }
                 NowHeaderButton(
                     icon = if (lyricsExpanded) Icons.Default.FullscreenExit else Icons.Default.Fullscreen,
-                    label = if (lyricsExpanded) "Exit canvas" else "Canvas lyrics",
+                    label = if (lyricsExpanded) stringResource(Res.string.music_ui_exit_canvas) else stringResource(Res.string.music_ui_canvas_lyrics),
                     active = lyricsExpanded,
                     onClick = {
                         lyricsExpanded = !lyricsExpanded
@@ -320,7 +326,7 @@ internal fun MusicNowPlayingScreen(
                 Spacer(Modifier.width(8.dp))
                 NowHeaderButton(
                     icon = Icons.Default.Settings,
-                    label = "Music settings",
+                    label = stringResource(Res.string.music_settings_title),
                     onClick = onOpenSettings
                 )
             }
@@ -342,9 +348,9 @@ internal fun MusicNowPlayingScreen(
                     ) {
                         Text(
                             text = if (song?.localUri != null) {
-                                "PLAYING FROM THIS DEVICE"
+                                kotlinx.coroutines.runBlocking { getString(Res.string.music_ui_playing_from_device) }
                             } else {
-                                "PLAYING FROM NUVIO MUSIC"
+                                kotlinx.coroutines.runBlocking { getString(Res.string.music_ui_playing_from_nuvio) }
                             },
                             color = MusicPalette.accentTeal,
                             fontSize = 10.sp,
@@ -353,7 +359,7 @@ internal fun MusicNowPlayingScreen(
                         )
                         Spacer(Modifier.height(6.dp))
                         Text(
-                            text = song?.title ?: "Nothing playing",
+                            text = song?.title ?: stringResource(Res.string.music_ui_nothing_playing),
                             color = MusicPalette.text,
                             fontFamily = MusicDisplay,
                             fontSize = if (compact) 30.sp else 42.sp,
@@ -402,7 +408,7 @@ internal fun MusicNowPlayingScreen(
                         ) {
                             MusicActionChip(
                                 icon = if (isLiked) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
-                                label = if (isLiked) "Liked" else "Like",
+                                label = if (isLiked) stringResource(Res.string.youtube_ui_liked) else stringResource(Res.string.music_ui_like),
                                 active = isLiked,
                                 onClick = {
                                     song?.let {
@@ -420,20 +426,20 @@ internal fun MusicNowPlayingScreen(
                             )
                             MusicActionChip(
                                 icon = Icons.Default.PlaylistAdd,
-                                label = "Playlist",
+                                label = stringResource(Res.string.music_ui_playlist),
                                 onClick = { if (song != null) showPlaylistPicker = true }
                             )
                             if (song?.localUri == null) {
                                 MusicActionChip(
                                     icon = Icons.Default.Radio,
-                                    label = "Radio",
+                                    label = stringResource(Res.string.music_ui_radio),
                                     onClick = { song?.let { MusicPlayer.startRadio(it) } }
                                 )
                             }
                             if (!touchUi) {
                                 MusicActionChip(
                                     icon = Icons.Default.Shuffle,
-                                    label = if (state.shuffle) "Shuffle on" else "Shuffle",
+                                    label = if (state.shuffle) stringResource(Res.string.music_ui_shuffle_on) else stringResource(Res.string.random_episode_title),
                                     active = state.shuffle,
                                     onClick = { MusicPlayer.setShuffle(!state.shuffle) }
                                 )
@@ -445,8 +451,8 @@ internal fun MusicNowPlayingScreen(
                                     },
                                     label = when (state.repeatMode) {
                                         RepeatMode.OFF -> "Repeat"
-                                        RepeatMode.ALL -> "Repeat all"
-                                        RepeatMode.ONE -> "Repeat one"
+                                        RepeatMode.ALL -> kotlinx.coroutines.runBlocking { getString(Res.string.music_ui_repeat_all) }
+                                        RepeatMode.ONE -> kotlinx.coroutines.runBlocking { getString(Res.string.music_ui_repeat_one) }
                                     },
                                     active = state.repeatMode != RepeatMode.OFF,
                                     onClick = { MusicPlayer.cycleRepeat() }
@@ -455,7 +461,7 @@ internal fun MusicNowPlayingScreen(
                             if (state.videoAvailable && state.videoSong != null && song?.localUri == null) {
                                 MusicActionChip(
                                     icon = Icons.Default.Videocam,
-                                    label = "Music video",
+                                    label = stringResource(Res.string.music_ui_music_video),
                                     active = false,
                                     onClick = {
                                         state.videoSong?.let { video ->
@@ -502,14 +508,14 @@ internal fun MusicNowPlayingScreen(
                             if (touchUi) {
                                 TransportButton(
                                     icon = Icons.Default.Shuffle,
-                                    label = if (state.shuffle) "Shuffle on" else "Shuffle",
+                                    label = if (state.shuffle) stringResource(Res.string.music_ui_shuffle_on) else stringResource(Res.string.random_episode_title),
                                     active = state.shuffle
                                 ) {
                                     MusicPlayer.setShuffle(!state.shuffle)
                                 }
                                 Spacer(Modifier.width(6.dp))
                             }
-                            TransportButton(Icons.Default.SkipPrevious, "Previous") {
+                            TransportButton(Icons.Default.SkipPrevious, stringResource(Res.string.action_previous)) {
                                 MusicPlayer.previous()
                             }
                             Spacer(Modifier.width(16.dp))
@@ -532,13 +538,13 @@ internal fun MusicNowPlayingScreen(
                             ) {
                                 Icon(
                                     if (state.isPlaying) Icons.Default.Pause else Icons.Default.PlayArrow,
-                                    contentDescription = if (state.isPlaying) "Pause" else "Play",
+                                    contentDescription = if (state.isPlaying) stringResource(Res.string.compose_action_pause) else stringResource(Res.string.action_play),
                                     tint = if (playFocused) Color.White else MusicPalette.background,
                                     modifier = Modifier.size(24.dp)
                                 )
                             }
                             Spacer(Modifier.width(16.dp))
-                            TransportButton(Icons.Default.SkipNext, "Next") {
+                            TransportButton(Icons.Default.SkipNext, stringResource(Res.string.action_next)) {
                                 MusicPlayer.next()
                             }
                             if (touchUi) {
@@ -551,8 +557,8 @@ internal fun MusicNowPlayingScreen(
                                     },
                                     label = when (state.repeatMode) {
                                         RepeatMode.OFF -> "Repeat"
-                                        RepeatMode.ALL -> "Repeat all"
-                                        RepeatMode.ONE -> "Repeat one"
+                                        RepeatMode.ALL -> kotlinx.coroutines.runBlocking { getString(Res.string.music_ui_repeat_all) }
+                                        RepeatMode.ONE -> kotlinx.coroutines.runBlocking { getString(Res.string.music_ui_repeat_one) }
                                     },
                                     active = state.repeatMode != RepeatMode.OFF
                                 ) {
@@ -565,7 +571,7 @@ internal fun MusicNowPlayingScreen(
                         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                             NowPlayingTab.entries.forEach { tab ->
                                 NowPlayingTabButton(
-                                    label = tab.label,
+                                    label = stringResource(tab.labelRes),
                                     selected = nowTab == tab,
                                     onClick = { nowTab = tab }
                                 )
@@ -863,9 +869,9 @@ private fun QueuePanel(
         Box(Modifier.fillMaxSize(), contentAlignment = Alignment.TopStart) {
             Text(
                 text = if (state.repeatMode == RepeatMode.ALL) {
-                    "The queue starts over when this ends."
+                    stringResource(Res.string.music_ui_the_queue_starts_over_when_this_ends)
                 } else {
-                    "This is the last track in the queue."
+                    stringResource(Res.string.music_ui_this_is_the_last_track_in_the_queue)
                 },
                 color = MusicPalette.textMuted,
                 fontSize = 12.sp
@@ -971,12 +977,12 @@ private fun NowInfoPanel(song: Song?, state: MusicPlayer.State, isLiked: Boolean
         song?.durationText.orEmpty()
     }
     val fields = listOf(
-        "Album" to (song?.albumName ?: "Single"),
-        "Artist" to (song?.artist ?: "Unknown artist"),
-        "Duration" to duration.ifBlank { "—" },
-        "Source" to if (song?.localUri != null) "This device" else "Streaming",
-        "Format" to if (song?.isVideo == true) "Video upload" else "Catalogue track",
-        "Library" to if (isLiked) "Liked" else "Not liked"
+        stringResource(Res.string.music_ui_album) to (song?.albumName ?: stringResource(Res.string.music_ui_single)),
+        stringResource(Res.string.music_ui_artist) to (song?.artist ?: kotlinx.coroutines.runBlocking { getString(Res.string.music_ui_unknown_artist) }),
+        stringResource(Res.string.music_ui_duration) to duration.ifBlank { "—" },
+        stringResource(Res.string.stream_info_source) to if (song?.localUri != null) stringResource(Res.string.live_tv_ui_this_device) else stringResource(Res.string.music_ui_streaming),
+        stringResource(Res.string.music_ui_format) to if (song?.isVideo == true) stringResource(Res.string.music_ui_video_upload) else stringResource(Res.string.music_ui_catalogue_track),
+        stringResource(Res.string.profile_insights_stat_library) to if (isLiked) stringResource(Res.string.youtube_ui_liked) else stringResource(Res.string.music_ui_not_liked)
     )
     Column(
         Modifier.fillMaxSize().padding(top = 2.dp),
@@ -1025,7 +1031,7 @@ private fun LyricsPanel(
                 contentAlignment = Alignment.TopStart
             ) {
                 Text(
-                    text = "Play a track to see its lyrics.",
+                    text = stringResource(Res.string.music_ui_play_a_track_to_see_its_lyrics),
                     color = MusicPalette.textMuted,
                     fontSize = 13.sp
                 )
@@ -1084,7 +1090,7 @@ private fun LyricsPanel(
                     if (!timed) {
                         item(key = "lyrics-untimed") {
                             Text(
-                                text = "Lyrics aren't time-synced for this track.",
+                                text = stringResource(Res.string.music_ui_lyrics_aren_t_time_synced_for_this_track),
                                 color = MusicPalette.textMuted,
                                 fontSize = 10.5.sp
                             )
@@ -1125,7 +1131,7 @@ private fun LyricsPanel(
                             val sweep by animateFloatAsState(
                                 targetValue = sweepTarget,
                                 animationSpec = tween(durationMillis = 200, easing = LinearEasing),
-                                label = "lyric-sweep"
+                                label = stringResource(Res.string.music_ui_lyric_sweep)
                             )
                             val fontSize = when {
                                 isCurrent && expanded -> 38.sp
@@ -1271,7 +1277,7 @@ private fun PlaylistPickerOverlay(
                 .padding(24.dp)
         ) {
             Text(
-                text = "Add to playlist",
+                text = stringResource(Res.string.music_ui_add_to_playlist),
                 color = MusicPalette.text,
                 fontSize = 22.sp,
                 fontWeight = FontWeight.Bold
@@ -1284,7 +1290,7 @@ private fun PlaylistPickerOverlay(
                 item(key = "new-playlist") {
                     PickerRow(
                         icon = Icons.Default.Add,
-                        label = "New playlist",
+                        label = stringResource(Res.string.music_ui_new_playlist),
                         modifier = Modifier.focusRequester(firstFocus),
                         onClick = onCreate
                     )
@@ -1302,7 +1308,7 @@ private fun PlaylistPickerOverlay(
                 item(key = "cancel") {
                     PickerRow(
                         icon = Icons.Default.Close,
-                        label = "Cancel",
+                        label = stringResource(Res.string.action_cancel),
                         onClick = onDismiss
                     )
                 }

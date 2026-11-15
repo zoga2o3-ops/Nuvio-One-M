@@ -1,0 +1,30 @@
+<resources>
+    <string name="tracking_source_anilist">اینی لسٹ</string>
+    <string name="settings_anilist_anime_section">anime</string>
+    <string name="settings_anilist_library_description">آپ کی اینی لسٹ anime کی فہرستیں: دیکھنا، منصوبہ بندی، مکمل، روکا، چھوڑا اور دوبارہ دیکھنا۔</string>
+    <string name="settings_anilist_progress_description">دیکھنا جاری رکھیں اور اپنی اینی لسٹ دیکھنے کی فہرست سے آگے بڑھیں۔</string>
+    <string name="library_anilist_title">اینی لسٹ لائبریری</string>
+    <string name="library_anilist_load_failed">آپ کی اینی لسٹ لائبریری لوڈ نہیں ہو سکی</string>
+    <string name="library_anilist_empty_title">آپ کی اینی لسٹ لائبریری خالی ہے۔</string>
+    <string name="library_anilist_empty_message">اپنی اینی لسٹ فہرستوں میں انیم کو شامل کریں تاکہ انہیں یہاں دیکھیں۔</string>
+    <string name="settings_anilist_connect">اینی لسٹ کو جوڑیں۔</string>
+    <string name="settings_anilist_connected_as">%1$s کے بطور منسلک</string>
+    <string name="settings_anilist_connected_description">اپنی اینیمی فہرستوں، ایپیسوڈ کی پیشرفت، اسکورز اور اینی لسٹ کے ساتھ دیکھنا جاری رکھیں۔</string>
+    <string name="settings_anilist_sign_in_description">اپنی anime فہرستوں، ایپی سوڈ کی پیشرفت، اسکورز اور دیکھنا جاری رکھنے کے لیے AniList کو مربوط کریں۔</string>
+    <string name="settings_anilist_finish_sign_in">سائن ان مکمل کریں۔</string>
+    <string name="settings_anilist_approval_description">اپنے براؤزر میں Nuvio کو منظور کریں۔ آپ کو خود بخود ایپ پر واپس بھیج دیا جائے گا۔</string>
+    <string name="settings_anilist_open_login">سائن ان صفحہ کھولیں۔</string>
+    <string name="settings_anilist_disconnect">اینی لسٹ کو منقطع کریں۔</string>
+    <string name="settings_anilist_missing_credentials">اس تعمیر میں اینی لسٹ کنکشن دستیاب نہیں ہے۔</string>
+    <string name="settings_anilist_sync_now">ابھی مطابقت پذیری کریں۔</string>
+    <string name="settings_anilist_visit">اینی لسٹ پر جائیں۔</string>
+    <string name="settings_anilist_disconnect_description">اس پروفائل سے گھڑی کی اپ ڈیٹس بھیجنا بند کریں۔ آپ کی اینی لسٹ کی فہرستیں رکھی جاتی ہیں۔</string>
+    <string name="settings_anilist_account_fallback">اینی لسٹ صارف</string>
+    <string name="settings_anilist_syncing">آپ کی اینی لسٹ فہرستوں کو ہم آہنگ کیا جا رہا ہے…</string>
+    <string name="settings_anilist_last_synced">آخری بار مطابقت پذیری %1$s</string>
+    <string name="settings_anilist_auth_denied">کنکشن مسترد کر دیا گیا تھا۔ اپنا اکاؤنٹ منسلک کرنے کے لیے دوبارہ کوشش کریں۔</string>
+    <string name="settings_anilist_auth_invalid">AniList نے ایک غلط سائن ان جواب واپس کیا۔ براہ کرم دوبارہ کوشش کریں۔</string>
+    <string name="settings_anilist_auth_revoked">آپ کے اینی لسٹ کنکشن کی میعاد ختم ہو گئی ہے یا اسے منسوخ کر دیا گیا ہے۔ مطابقت پذیری دوبارہ شروع کرنے کے لیے دوبارہ جڑیں۔</string>
+    <string name="settings_anilist_unavailable">AniList کے ساتھ مطابقت پذیری نہیں ہو سکی۔ براہ کرم دوبارہ کوشش کریں۔</string>
+    <string name="settings_anilist_rate_limited">اینی لسٹ کی درخواست کی حد پوری ہو گئی ہے۔ مطابقت پذیری جلد ہی دوبارہ شروع ہو جائے گی۔</string>
+</resources>

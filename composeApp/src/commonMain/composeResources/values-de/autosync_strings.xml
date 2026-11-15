@@ -1,0 +1,12 @@
+<resources>
+    <string name="settings_playback_subtitle_auto_sync">Untertitel automatisch synchronisieren</string>
+    <string name="settings_playback_subtitle_auto_sync_description">Synchronisieren Sie automatisch den bevorzugten Zusatzuntertitel, wenn die Wiedergabe beginnt. Erfordert eine bevorzugte Untertitelsprache.</string>
+    <string name="settings_playback_auto_sync_mode_aggressive">Auto-Sync-Suche: Gründlich</string>
+    <string name="settings_playback_auto_sync_mode_aggressive_description">Vergleicht vor der Synchronisierung ständig andere Untertitel und eingebettete Titel, um eine genauere Übereinstimmung zu erzielen. Es werden immer nur sichere Übereinstimmungen angewendet.</string>
+    <string name="settings_playback_auto_sync_mode_passive">Auto-Sync-Suche: Schnell</string>
+    <string name="settings_playback_auto_sync_mode_passive_description">Verwendet das erste starke Match früher. Es werden immer nur sichere Übereinstimmungen angewendet, wie bei „Truthough“.</string>
+    <string name="settings_playback_auto_sync_tolerance">Auto-Sync-Toleranz: %1$s</string>
+    <string name="settings_playback_auto_sync_tolerance_description">Behalten Sie den ursprünglichen Untertitel-Timing bei, wenn die Synchronisierung ihn um nicht mehr als diesen Wert verschieben würde. Zum Ändern tippen.</string>
+    <string name="settings_playback_auto_sync_tolerance_off">Aus</string>
+    <string name="settings_playback_auto_sync_tolerance_value">%1$d ms</string>
+</resources>

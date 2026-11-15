@@ -1,0 +1,12 @@
+<resources>
+    <string name="settings_playback_subtitle_auto_sync">தானியங்கு ஒத்திசைவு வசனம்</string>
+    <string name="settings_playback_subtitle_auto_sync_description">பிளேபேக் தொடங்கும் போது விருப்பமான துணைத் தலைப்புகளைத் தானாக ஒத்திசைக்கவும். விருப்பமான வசன மொழி தேவை.</string>
+    <string name="settings_playback_auto_sync_mode_aggressive">தானியங்கு ஒத்திசைவு தேடல்: முழுமையானது</string>
+    <string name="settings_playback_auto_sync_mode_aggressive_description">ஒத்திசைப்பதற்கு முன், மற்ற வசனங்கள் மற்றும் உட்பொதிக்கப்பட்ட டிராக்குகளை ஒரு நெருக்கமான பொருத்தத்திற்காக ஒப்பிடும். நம்பிக்கையான போட்டிகள் மட்டுமே எப்போதும் பயன்படுத்தப்படும்.</string>
+    <string name="settings_playback_auto_sync_mode_passive">தானியங்கு ஒத்திசைவு தேடல்: விரைவு</string>
+    <string name="settings_playback_auto_sync_mode_passive_description">முதல் வலுவான போட்டியை விரைவில் பயன்படுத்துகிறது. முழுமையானது போலவே நம்பிக்கையான போட்டிகள் மட்டுமே பயன்படுத்தப்படும்.</string>
+    <string name="settings_playback_auto_sync_tolerance">தானியங்கு ஒத்திசைவு சகிப்புத்தன்மை: %1$s</string>
+    <string name="settings_playback_auto_sync_tolerance_description">ஒத்திசைவு இதை விட அதிகமாக நகர்த்தும்போது அசல் வசன நேரத்தை வைத்திருங்கள். மாற்ற தட்டவும்.</string>
+    <string name="settings_playback_auto_sync_tolerance_off">ஆஃப்</string>
+    <string name="settings_playback_auto_sync_tolerance_value">%1$d ms</string>
+</resources>

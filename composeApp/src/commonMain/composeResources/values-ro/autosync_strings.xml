@@ -1,0 +1,12 @@
+<resources>
+    <string name="settings_playback_subtitle_auto_sync">Sincronizare automată subtitrare</string>
+    <string name="settings_playback_subtitle_auto_sync_description">Sincronizați automat subtitrarea suplimentară preferată când începe redarea. Necesită o limbă preferată pentru subtitrare.</string>
+    <string name="settings_playback_auto_sync_mode_aggressive">Căutare de sincronizare automată: completă</string>
+    <string name="settings_playback_auto_sync_mode_aggressive_description">Continuă să compară alte subtitrări și melodii încorporate pentru o potrivire mai apropiată înainte de sincronizare. Numai potrivirile sigure sunt aplicate vreodată.</string>
+    <string name="settings_playback_auto_sync_mode_passive">Căutare de sincronizare automată: rapidă</string>
+    <string name="settings_playback_auto_sync_mode_passive_description">Folosește prima potrivire puternică mai devreme. Numai potrivirile sigure sunt aplicate vreodată, ca și în cazul Thorough.</string>
+    <string name="settings_playback_auto_sync_tolerance">Toleranță de sincronizare automată: %1$s</string>
+    <string name="settings_playback_auto_sync_tolerance_description">Păstrați sincronizarea inițială a subtitrarilor când sincronizarea l-ar muta cu cel mult atât. Atingeți pentru a schimba.</string>
+    <string name="settings_playback_auto_sync_tolerance_off">Off</string>
+    <string name="settings_playback_auto_sync_tolerance_value">%1$d ms</string>
+</resources>

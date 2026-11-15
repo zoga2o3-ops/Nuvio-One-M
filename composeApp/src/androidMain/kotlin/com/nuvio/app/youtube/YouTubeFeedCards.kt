@@ -55,6 +55,8 @@ import coil3.compose.AsyncImage
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
+import nuvio.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 
 /** How long a card must be the one in view, without scrolling, before its preview starts. */
 private const val PREVIEW_DWELL_MS = 900L
@@ -338,7 +340,7 @@ private fun PreviewVideo(
             ) {
                 Icon(
                     imageVector = if (soundOn) Icons.AutoMirrored.Filled.VolumeUp else Icons.AutoMirrored.Filled.VolumeOff,
-                    contentDescription = if (soundOn) "Mute" else "Unmute",
+                    contentDescription = if (soundOn) stringResource(Res.string.youtube_ui_mute) else stringResource(Res.string.youtube_ui_unmute),
                     tint = Color.White,
                     modifier = Modifier.size(20.dp),
                 )

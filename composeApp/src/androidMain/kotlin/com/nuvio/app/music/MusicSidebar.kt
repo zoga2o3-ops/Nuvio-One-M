@@ -50,6 +50,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
+import nuvio.composeapp.generated.resources.Res
+import nuvio.composeapp.generated.resources.compose_nav_home
+import nuvio.composeapp.generated.resources.compose_nav_library
+import nuvio.composeapp.generated.resources.compose_nav_search
+import nuvio.composeapp.generated.resources.compose_settings_page_integrations
+import nuvio.composeapp.generated.resources.compose_settings_page_root
+import nuvio.composeapp.generated.resources.music_tab_explore
+import nuvio.composeapp.generated.resources.music_tab_local
+import nuvio.composeapp.generated.resources.music_tab_party
+import org.jetbrains.compose.resources.stringResource
 
 /** The Music section's own rail, matching the listening-room mockup. */
 @Composable
@@ -127,7 +137,7 @@ internal fun MusicSidebar(
 
         Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
             MusicSidebarItem(
-                label = "Home",
+                label = stringResource(Res.string.compose_nav_home),
                 icon = Icons.Default.Home,
                 selected = selectedTab == MusicTab.HOME,
                 modifier = if (selectedTab == MusicTab.HOME) {
@@ -138,7 +148,7 @@ internal fun MusicSidebar(
                 onClick = { onTabSelected(MusicTab.HOME) }
             )
             MusicSidebarItem(
-                label = "Explore",
+                label = stringResource(Res.string.music_tab_explore),
                 icon = Icons.Default.Explore,
                 selected = selectedTab == MusicTab.EXPLORE,
                 modifier = if (selectedTab == MusicTab.EXPLORE) {
@@ -149,7 +159,7 @@ internal fun MusicSidebar(
                 onClick = { onTabSelected(MusicTab.EXPLORE) }
             )
             MusicSidebarItem(
-                label = "Library",
+                label = stringResource(Res.string.compose_nav_library),
                 icon = Icons.Default.LibraryMusic,
                 selected = selectedTab == MusicTab.LIBRARY,
                 modifier = if (selectedTab == MusicTab.LIBRARY) {
@@ -160,7 +170,7 @@ internal fun MusicSidebar(
                 onClick = { onTabSelected(MusicTab.LIBRARY) }
             )
             MusicSidebarItem(
-                label = "Local",
+                label = stringResource(Res.string.music_tab_local),
                 icon = Icons.Default.Folder,
                 selected = selectedTab == MusicTab.LOCAL,
                 modifier = if (selectedTab == MusicTab.LOCAL) {
@@ -177,7 +187,7 @@ internal fun MusicSidebar(
                 onClick = onOpenWebDav
             )
             MusicSidebarItem(
-                label = "Search",
+                label = stringResource(Res.string.compose_nav_search),
                 icon = Icons.Default.Search,
                 selected = selectedTab == MusicTab.SEARCH,
                 modifier = if (selectedTab == MusicTab.SEARCH) {
@@ -188,14 +198,14 @@ internal fun MusicSidebar(
                 onClick = { onTabSelected(MusicTab.SEARCH) }
             )
             MusicSidebarItem(
-                label = "Party",
+                label = stringResource(Res.string.music_tab_party),
                 icon = Icons.Default.Groups,
                 selected = false,
                 live = partyRunning,
                 onClick = onOpenParty
             )
             MusicSidebarItem(
-                label = "Integrations",
+                label = stringResource(Res.string.compose_settings_page_integrations),
                 icon = Icons.Default.Extension,
                 selected = false,
                 onClick = onOpenIntegrations
@@ -206,7 +216,7 @@ internal fun MusicSidebar(
 
         Spacer(Modifier.height(9.dp))
         MusicSidebarItem(
-            label = "Settings",
+            label = stringResource(Res.string.compose_settings_page_root),
             icon = Icons.Default.Settings,
             selected = false,
             onClick = onOpenSettings

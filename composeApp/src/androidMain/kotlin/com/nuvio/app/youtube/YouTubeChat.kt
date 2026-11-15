@@ -25,6 +25,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import nuvio.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 
 private const val VISIBLE_LINES = 12
 
@@ -48,7 +50,7 @@ fun YouTubeChatOverlay(videoId: String) {
             verticalArrangement = androidx.compose.foundation.layout.Arrangement.Bottom,
         ) {
             if (lines.isEmpty()) {
-                Text("Waiting for chat…", color = Color(0xFFBBBBBB), fontSize = 12.sp)
+                Text(stringResource(Res.string.youtube_ui_waiting_for_chat), color = Color(0xFFBBBBBB), fontSize = 12.sp)
             }
             lines.takeLast(VISIBLE_LINES).forEach { line ->
                 Text(

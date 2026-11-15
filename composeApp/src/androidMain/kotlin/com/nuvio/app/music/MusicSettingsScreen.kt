@@ -37,6 +37,8 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.FocusRequester
@@ -57,6 +59,43 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
+import nuvio.composeapp.generated.resources.Res
+import nuvio.composeapp.generated.resources.compose_action_off
+import nuvio.composeapp.generated.resources.compose_action_on
+import nuvio.composeapp.generated.resources.music_settings_audio_quality
+import nuvio.composeapp.generated.resources.music_settings_autoplay
+import nuvio.composeapp.generated.resources.music_settings_autoplay_detail
+import nuvio.composeapp.generated.resources.music_settings_close
+import nuvio.composeapp.generated.resources.music_settings_download_quality
+import nuvio.composeapp.generated.resources.music_settings_download_quality_detail
+import nuvio.composeapp.generated.resources.music_settings_equalizer
+import nuvio.composeapp.generated.resources.music_settings_equalizer_detail
+import nuvio.composeapp.generated.resources.music_settings_equalizer_unavailable
+import nuvio.composeapp.generated.resources.music_settings_fade_2s
+import nuvio.composeapp.generated.resources.music_settings_fade_4s
+import nuvio.composeapp.generated.resources.music_settings_gapless
+import nuvio.composeapp.generated.resources.music_settings_keys_to_change
+import nuvio.composeapp.generated.resources.music_settings_minutes
+import nuvio.composeapp.generated.resources.music_settings_playback_speed
+import nuvio.composeapp.generated.resources.music_settings_playback_speed_detail
+import nuvio.composeapp.generated.resources.music_settings_section_downloads
+import nuvio.composeapp.generated.resources.music_settings_section_playback
+import nuvio.composeapp.generated.resources.music_settings_section_sound
+import nuvio.composeapp.generated.resources.music_settings_section_timer
+import nuvio.composeapp.generated.resources.music_settings_skip_silence
+import nuvio.composeapp.generated.resources.music_settings_skip_silence_detail
+import nuvio.composeapp.generated.resources.music_settings_sleep_timer
+import nuvio.composeapp.generated.resources.music_settings_sleep_timer_detail
+import nuvio.composeapp.generated.resources.music_settings_sleep_timer_remaining
+import nuvio.composeapp.generated.resources.music_settings_subtitle
+import nuvio.composeapp.generated.resources.music_settings_tap_to_change
+import nuvio.composeapp.generated.resources.music_settings_title
+import nuvio.composeapp.generated.resources.music_settings_track_transition
+import nuvio.composeapp.generated.resources.music_settings_track_transition_detail
+import nuvio.composeapp.generated.resources.music_settings_wifi_only
+import nuvio.composeapp.generated.resources.music_settings_wifi_only_off_detail
+import nuvio.composeapp.generated.resources.music_settings_wifi_only_on_detail
+import org.jetbrains.compose.resources.stringResource
 
 /** Playback, sound and timer preferences for the Music section. */
 @Composable
@@ -112,7 +151,7 @@ internal fun MusicSettingsScreen(onClose: () -> Unit) {
                 )
                 Column {
                     Text(
-                        text = "Music settings",
+                        text = stringResource(Res.string.music_settings_title),
                         color = MusicPalette.text,
                         fontFamily = MusicDisplay,
                         fontSize = 34.sp,
@@ -121,14 +160,16 @@ internal fun MusicSettingsScreen(onClose: () -> Unit) {
                     )
                     Spacer(Modifier.height(2.dp))
                     Text(
-                        text = "Playback, sound, downloads and timers",
+                        text = stringResource(Res.string.music_settings_subtitle),
                         color = MusicPalette.textMuted,
                         fontSize = 13.sp
                     )
                 }
                 Spacer(Modifier.weight(1f))
                 Text(
-                    text = if (compact) "TAP TO CHANGE" else "LEFT / RIGHT TO CHANGE",
+                    text = stringResource(
+                        if (compact) Res.string.music_settings_tap_to_change else Res.string.music_settings_keys_to_change
+                    ),
                     color = MusicPalette.textMuted,
                     fontSize = 9.5.sp,
                     letterSpacing = 1.2.sp,
@@ -145,12 +186,12 @@ internal fun MusicSettingsScreen(onClose: () -> Unit) {
                 contentPadding = PaddingValues(bottom = 24.dp),
                 verticalArrangement = Arrangement.spacedBy(6.dp)
             ) {
-                item(key = "playback-label") { SettingsSection("Playback") }
+                item(key = "playback-label") { SettingsSection(stringResource(Res.string.music_settings_section_playback)) }
                 item(key = "audio-quality") {
                     SettingsSelector(
-                        title = "Audio quality",
-                        detail = audioQuality.detail,
-                        options = MusicAudioQuality.entries.map { it.label },
+                        title = stringResource(Res.string.music_settings_audio_quality),
+                        detail = stringResource(audioQuality.detailRes),
+                        options = MusicAudioQuality.entries.map { stringResource(it.labelRes) },
                         selectedIndex = MusicAudioQuality.entries.indexOf(audioQuality),
                         onSelect = { MusicPlayer.setAudioQuality(MusicAudioQuality.entries[it]) },
                         modifier = Modifier.focusRequester(firstFocus)
@@ -158,18 +199,22 @@ internal fun MusicSettingsScreen(onClose: () -> Unit) {
                 }
                 item(key = "autoplay") {
                     SettingsSelector(
-                        title = "Autoplay",
-                        detail = "Starts a radio mix when the queue ends.",
-                        options = listOf("Off", "On"),
+                        title = stringResource(Res.string.music_settings_autoplay),
+                        detail = stringResource(Res.string.music_settings_autoplay_detail),
+                        options = listOf(stringResource(Res.string.compose_action_off), stringResource(Res.string.compose_action_on)),
                         selectedIndex = if (autoplay) 1 else 0,
                         onSelect = { MusicPlayer.setAutoplay(it == 1) }
                     )
                 }
                 item(key = "track-transition") {
                     SettingsSelector(
-                        title = "Track transition",
-                        detail = "Gapless uses the prefetched next stream; a fade softens the join.",
-                        options = listOf("Gapless", "Fade 2s", "Fade 4s"),
+                        title = stringResource(Res.string.music_settings_track_transition),
+                        detail = stringResource(Res.string.music_settings_track_transition_detail),
+                        options = listOf(
+                            stringResource(Res.string.music_settings_gapless),
+                            stringResource(Res.string.music_settings_fade_2s),
+                            stringResource(Res.string.music_settings_fade_4s),
+                        ),
                         selectedIndex = when (fadeSeconds) {
                             2 -> 1
                             4 -> 2
@@ -182,20 +227,20 @@ internal fun MusicSettingsScreen(onClose: () -> Unit) {
                 }
                 item(key = "skip-silence") {
                     SettingsSelector(
-                        title = "Skip silence",
-                        detail = "Skips long silent passages inside a track.",
-                        options = listOf("Off", "On"),
+                        title = stringResource(Res.string.music_settings_skip_silence),
+                        detail = stringResource(Res.string.music_settings_skip_silence_detail),
+                        options = listOf(stringResource(Res.string.compose_action_off), stringResource(Res.string.compose_action_on)),
                         selectedIndex = if (skipSilence) 1 else 0,
                         onSelect = { MusicPlayer.setSkipSilence(it == 1) }
                     )
                 }
 
-                item(key = "sound-label") { SettingsSection("Sound") }
+                item(key = "sound-label") { SettingsSection(stringResource(Res.string.music_settings_section_sound)) }
                 val speeds = listOf(0.75f, 1f, 1.25f, 1.5f, 2f)
                 item(key = "playback-speed") {
                     SettingsSelector(
-                        title = "Playback speed",
-                        detail = "Lyrics and progress follow the speed.",
+                        title = stringResource(Res.string.music_settings_playback_speed),
+                        detail = stringResource(Res.string.music_settings_playback_speed_detail),
                         options = speeds.map(::speedLabel),
                         selectedIndex = speeds.indexOf(playbackSpeed).coerceAtLeast(0),
                         onSelect = { MusicPlayer.setPlaybackSpeed(speeds[it]) }
@@ -203,54 +248,58 @@ internal fun MusicSettingsScreen(onClose: () -> Unit) {
                 }
                 item(key = "equalizer") {
                     SettingsSelector(
-                        title = "Equalizer",
-                        detail = if (equalizerAvailable) {
-                            "Applied to the music player."
-                        } else {
-                            "Not supported on this device; the choice is remembered."
-                        },
-                        options = MusicEqualizerPreset.entries.map { it.label },
+                        title = stringResource(Res.string.music_settings_equalizer),
+                        detail = stringResource(
+                            if (equalizerAvailable) Res.string.music_settings_equalizer_detail
+                            else Res.string.music_settings_equalizer_unavailable
+                        ),
+                        options = MusicEqualizerPreset.entries.map { stringResource(it.labelRes) },
                         selectedIndex = MusicEqualizerPreset.entries.indexOf(equalizerPreset),
                         onSelect = { MusicPlayer.setEqualizerPreset(MusicEqualizerPreset.entries[it]) }
                     )
                 }
 
-                item(key = "downloads-label") { SettingsSection("Downloads") }
+                item(key = "downloads-label") { SettingsSection(stringResource(Res.string.music_settings_section_downloads)) }
                 item(key = "download-quality") {
                     SettingsSelector(
-                        title = "Download quality",
-                        detail = "${downloadQuality.detail} · applies to new downloads.",
-                        options = MusicAudioQuality.entries.map { it.label },
+                        title = stringResource(Res.string.music_settings_download_quality),
+                        detail = stringResource(
+                            Res.string.music_settings_download_quality_detail,
+                            stringResource(downloadQuality.detailRes),
+                        ),
+                        options = MusicAudioQuality.entries.map { stringResource(it.labelRes) },
                         selectedIndex = MusicAudioQuality.entries.indexOf(downloadQuality),
                         onSelect = { MusicSettings.setDownloadQuality(MusicAudioQuality.entries[it]) }
                     )
                 }
                 item(key = "wifi-only") {
                     SettingsSelector(
-                        title = "Wi-Fi only",
-                        detail = if (wifiOnlyDownloads) {
-                            "Downloads wait for an unmetered network."
-                        } else {
-                            "Downloads can use mobile data."
-                        },
-                        options = listOf("Off", "On"),
+                        title = stringResource(Res.string.music_settings_wifi_only),
+                        detail = stringResource(
+                            if (wifiOnlyDownloads) Res.string.music_settings_wifi_only_on_detail
+                            else Res.string.music_settings_wifi_only_off_detail
+                        ),
+                        options = listOf(stringResource(Res.string.compose_action_off), stringResource(Res.string.compose_action_on)),
                         selectedIndex = if (wifiOnlyDownloads) 1 else 0,
                         onSelect = { MusicSettings.setWifiOnlyDownloads(it == 1) }
                     )
                 }
 
-                item(key = "timer-label") { SettingsSection("Timer") }
+                item(key = "timer-label") { SettingsSection(stringResource(Res.string.music_settings_section_timer)) }
                 val timerOptions = listOf<Int?>(null, 15, 30, 45, 60, 90)
                 val remaining = playback.sleepTimerRemainingMs
                 item(key = "sleep-timer") {
                     SettingsSelector(
-                        title = "Sleep timer",
+                        title = stringResource(Res.string.music_settings_sleep_timer),
                         detail = if (playback.sleepTimerMinutes != null && remaining != null) {
-                            "Pauses in ${formatMusicTime(remaining)}."
+                            stringResource(Res.string.music_settings_sleep_timer_remaining, formatMusicTime(remaining))
                         } else {
-                            "Pauses playback after the chosen time."
+                            stringResource(Res.string.music_settings_sleep_timer_detail)
                         },
-                        options = timerOptions.map { if (it == null) "Off" else "${it}m" },
+                        options = timerOptions.map {
+                            if (it == null) stringResource(Res.string.compose_action_off)
+                            else stringResource(Res.string.music_settings_minutes, it)
+                        },
                         selectedIndex = timerOptions.indexOf(playback.sleepTimerMinutes)
                             .coerceAtLeast(0),
                         onSelect = { MusicPlayer.setSleepTimer(timerOptions[it]) }
@@ -287,6 +336,7 @@ private fun SettingsSelector(
     modifier: Modifier = Modifier
 ) {
     val focusManager = LocalFocusManager.current
+    val rtl = LocalLayoutDirection.current == LayoutDirection.Rtl
     var focused by remember { mutableStateOf(false) }
     val safeIndex = selectedIndex.coerceIn(0, options.lastIndex.coerceAtLeast(0))
     val value = options.getOrElse(safeIndex) { "" }
@@ -361,7 +411,7 @@ private fun SettingsSelector(
             horizontalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             Icon(
-                Icons.Default.KeyboardArrowLeft,
+                if (rtl) Icons.Default.KeyboardArrowRight else Icons.Default.KeyboardArrowLeft,
                 contentDescription = null,
                 tint = if (focused) Color.White else MusicPalette.textMuted,
                 modifier = Modifier.size(15.dp)
@@ -387,7 +437,7 @@ private fun SettingsSelector(
                 )
             }
             Icon(
-                Icons.Default.KeyboardArrowRight,
+                if (rtl) Icons.Default.KeyboardArrowLeft else Icons.Default.KeyboardArrowRight,
                 contentDescription = null,
                 tint = if (focused) Color.White else MusicPalette.textMuted,
                 modifier = Modifier.size(15.dp)
@@ -423,7 +473,7 @@ private fun SettingsCloseButton(onClick: () -> Unit, onDown: () -> Unit) {
     ) {
         Icon(
             Icons.Default.KeyboardArrowDown,
-            contentDescription = "Close settings",
+            contentDescription = stringResource(Res.string.music_settings_close),
             tint = if (focused) MusicPalette.background else Color.White,
             modifier = Modifier.size(22.dp)
         )

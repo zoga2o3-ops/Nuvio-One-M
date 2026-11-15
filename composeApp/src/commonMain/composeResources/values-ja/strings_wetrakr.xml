@@ -1,0 +1,33 @@
+<resources>
+    <string name="tracking_source_wetrakr">WeTrakr</string>
+    <string name="settings_wetrakr_library_description">WeTrakr のリスト: 計画中、監視中、待機中、監視中、一時停止中、ドロップ済み。</string>
+    <string name="settings_wetrakr_progress_description">WeTrakr の再生と視聴したエピソードから視聴を続けて次へ進みます。</string>
+    <string name="library_wetrakr_title">WeTrakr ライブラリ</string>
+    <string name="library_wetrakr_load_failed">WeTrakr ライブラリをロードできませんでした</string>
+    <string name="library_wetrakr_empty_title">WeTrakr ライブラリが空です</string>
+    <string name="library_wetrakr_empty_message">映画や番組を WeTrakr リストに追加すると、ここで表示されます。</string>
+    <string name="settings_wetrakr_connect">WeTrakr に接続する</string>
+    <string name="settings_wetrakr_connected_as">%1$s として接続されています</string>
+    <string name="settings_wetrakr_connected_description">リスト、視聴履歴、評価、スクロブルを同期し、WeTrakr で視聴を続けます。</string>
+    <string name="settings_wetrakr_sign_in_description">WeTrakr に接続すると、リスト、視聴履歴、評価、スクロブル、継続視聴を同期できます。</string>
+    <string name="settings_wetrakr_finish_sign_in">サインインを終了する</string>
+    <string name="settings_wetrakr_approval_description">WeTrakr アクティベーション ページを開いて、このコードを入力します。 Nuvio は、承認すると自動的に接続します。</string>
+    <string name="settings_wetrakr_open_login">アクティベーションページを開く</string>
+    <string name="settings_wetrakr_disconnect">WeTrakr を切断する</string>
+    <string name="settings_wetrakr_missing_credentials">このビルドでは WeTrakr 接続は利用できません。</string>
+    <string name="settings_wetrakr_sync_now">今すぐ同期する</string>
+    <string name="settings_wetrakr_visit">WeTrakrにアクセス</string>
+    <string name="settings_wetrakr_disconnect_description">このプロファイルからの時計の更新の送信を停止します。 WeTrakr のリストと履歴は保存されます。</string>
+    <string name="settings_wetrakr_account_fallback">WeTrakr ユーザー</string>
+    <string name="settings_wetrakr_syncing">WeTrakr リストを同期しています…</string>
+    <string name="settings_wetrakr_last_synced">最後に同期したのは %1$s</string>
+    <string name="settings_wetrakr_auth_denied">接続が拒否されました。アカウントの接続をもう一度試してください。</string>
+    <string name="settings_wetrakr_auth_expired">アクティベーション コードの有効期限が切れました。新しいコードの取得を再試行してください。</string>
+    <string name="settings_wetrakr_auth_failed">サインインを開始するための WeTrakr に接続できませんでした。もう一度試してください。</string>
+    <string name="settings_wetrakr_auth_rate_limited">サインイン試行が多すぎます。 15 分待ってから再試行してください。</string>
+    <string name="settings_wetrakr_app_suspended">WeTrakr はこのアプリを一時停止しました。後でもう一度試してください。</string>
+    <string name="settings_wetrakr_auth_revoked">WeTrakr 接続の有効期限が切れたか、取り消されました。再度接続して同期を再開します。</string>
+    <string name="settings_wetrakr_unavailable">WeTrakr と同期できませんでした。もう一度試してください。</string>
+    <string name="settings_wetrakr_rate_limited">WeTrakr のリクエスト制限に達しました。同期はすぐに再開されます。</string>
+    <string name="settings_wetrakr_plan_limit">これには WeTrakr VIP が必要か、プランの制限を超えています。</string>
+</resources>

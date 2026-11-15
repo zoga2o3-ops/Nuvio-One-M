@@ -1,0 +1,19 @@
+<resources>
+    <string name="episode_navigator_search_hint">Vyhledejte název, pozemek nebo číslo</string>
+    <string name="episode_navigator_clear_search">Vymazat vyhledávání</string>
+    <string name="episode_navigator_go_to">Přejít na</string>
+    <string name="episode_navigator_sort">Seřadit</string>
+    <string name="episode_navigator_count">%1$d z %2$d epizod</string>
+    <string name="episode_navigator_no_match">Žádné epizody neodpovídají „%1$s“</string>
+    <string name="episode_navigator_go_to_title">Přejít na epizodu</string>
+    <string name="episode_navigator_episode_number">Číslo epizody</string>
+    <string name="episode_navigator_go">Jít</string>
+    <string name="episode_navigator_go_to_help">Zadejte číslo nebo jej vyberte níže. Podtrženo = zhlédnuto, vyznačeno = další.</string>
+    <string name="episode_navigator_out_of_range">%1$s má epizody %2$d–%3$d</string>
+    <string name="episode_navigator_sort_title">Seřadit epizody</string>
+    <string name="episode_navigator_sort_first_to_last">Epizoda: první až poslední</string>
+    <string name="episode_navigator_sort_last_to_first">Epizoda: od poslední k první</string>
+    <string name="episode_navigator_sort_highest_rated">Nejlépe hodnocené</string>
+    <string name="episode_navigator_sort_newest_aired">Nejnovější vysílání</string>
+    <string name="episode_navigator_sort_unwatched_first">Nejprve nezhlédnuto</string>
+</resources>

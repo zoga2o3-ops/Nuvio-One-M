@@ -1,0 +1,20 @@
+<resources>
+    <string name="settings_backup_section">ZÁLOHA</string>
+    <string name="settings_backup_include_sensitive">Zahrňte citlivé informácie</string>
+    <string name="settings_backup_include_sensitive_description">Do exportovaného súboru pridajte kľúče API, kľúče debrid, doplnky, živé televízne vysielanie a ID aplikácie Discord. Udržujte tento súbor súkromný</string>
+    <string name="settings_backup_export">Nastavenia exportu</string>
+    <string name="settings_backup_export_description">Uložte nastavenia a doplnky do súboru. Zbierky, sledovače a váš účet Nuvio nie sú nikdy zahrnuté</string>
+    <string name="settings_backup_export_done">Nastavenia boli exportované</string>
+    <string name="settings_backup_export_failed">Nastavenia sa nepodarilo exportovať</string>
+    <string name="settings_backup_import">Nastavenia importu</string>
+    <string name="settings_backup_import_description">Obnovte nastavenia z exportovaného súboru</string>
+    <string name="settings_backup_importing">Importujú sa nastavenia…</string>
+    <string name="settings_backup_import_confirm_title">Importovať nastavenia?</string>
+    <string name="settings_backup_import_confirm_message">Nastavenia z tohto súboru nahradia aktuálne nastavenia tohto profilu. Chýbajúce pluginy budú doplnené. Vaše API kľúče, doplnky a Live TV zostanú nezmenené.</string>
+    <string name="settings_backup_import_confirm_message_sensitive">Nastavenia z tohto súboru nahradia aktuálne nastavenia tohto profilu vrátane kľúčov API a kľúčov debrid. Pridajú sa chýbajúce doplnky, doplnky a zdroje Live TV.</string>
+    <string name="settings_backup_import_confirm_action">Importovať</string>
+    <string name="settings_backup_import_done">Nastavenia boli importované</string>
+    <string name="settings_backup_import_partial">Nastavenia boli importované, ale niektoré sekcie nebolo možné použiť</string>
+    <string name="settings_backup_import_failed">Nastavenia sa nepodarilo importovať</string>
+    <string name="settings_backup_import_invalid">Tento súbor nepredstavuje export nastavení Nuvio</string>
+</resources>

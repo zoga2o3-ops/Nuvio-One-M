@@ -85,6 +85,18 @@ import com.nuvio.app.music.engine.data.model.Song
 import com.nuvio.app.youtube.YouTubeAccountViewModel
 import com.nuvio.app.music.LocalOpenSidebar
 import com.nuvio.app.music.LocalSidebarExpanded
+import nuvio.composeapp.generated.resources.Res
+import nuvio.composeapp.generated.resources.compose_nav_home
+import nuvio.composeapp.generated.resources.compose_nav_library
+import nuvio.composeapp.generated.resources.compose_nav_search
+import nuvio.composeapp.generated.resources.compose_settings_page_integrations
+import nuvio.composeapp.generated.resources.compose_settings_page_root
+import nuvio.composeapp.generated.resources.music_settings_title
+import nuvio.composeapp.generated.resources.music_tab_explore
+import nuvio.composeapp.generated.resources.music_tab_local
+import nuvio.composeapp.generated.resources.music_tab_party
+import org.jetbrains.compose.resources.stringResource
+import nuvio.composeapp.generated.resources.*
 
 /** One density scale for the whole Music section. */
 private const val MUSIC_UI_SCALE = 0.88f
@@ -109,6 +121,10 @@ fun MusicScreen() {
     val party by MusicPartyManager.state.collectAsState()
     val accountViewModel: YouTubeAccountViewModel = viewModel { YouTubeAccountViewModel(context) }
     val account by accountViewModel.state.collectAsState()
+    // Read once here: the callbacks below run outside composition.
+    val youtubeMusicAccountLabel = stringResource(Res.string.music_ui_youtube_music_account)
+    val artistLabel = stringResource(Res.string.music_ui_artist)
+    val albumLabel = stringResource(Res.string.music_ui_album)
     val profileState by com.nuvio.app.features.profiles.ProfileRepository.state.collectAsState()
     val profileName = profileState.activeProfile?.name
     var showNowPlaying by remember { mutableStateOf(false) }
@@ -438,7 +454,7 @@ fun MusicScreen() {
                             viewModel.openDetail(
                                 browseId = "account:playlist:${playlist.id}",
                                 title = playlist.title,
-                                subtitle = "YouTube Music account",
+                                subtitle = youtubeMusicAccountLabel,
                                 thumbnailUrl = playlist.thumbnailUrl,
                                 type = BrowseType.PLAYLIST
                             )
@@ -505,7 +521,7 @@ fun MusicScreen() {
                         viewModel.openDetail(
                             browseId = browseId,
                             title = title,
-                            subtitle = artist.ifBlank { "Album" },
+                            subtitle = artist.ifBlank { albumLabel },
                             thumbnailUrl = thumbnailUrl,
                             type = BrowseType.ALBUM
                         )
@@ -519,7 +535,7 @@ fun MusicScreen() {
                         viewModel.openDetail(
                             browseId = browseId,
                             title = name,
-                            subtitle = "Artist",
+                            subtitle = artistLabel,
                             thumbnailUrl = thumbnailUrl,
                             type = BrowseType.ARTIST
                         )
@@ -792,7 +808,7 @@ private fun RowScope.MusicNavItems(
 ) {
         val overlayOpen = partyOpen || integrationsOpen
         MusicTopNavItem(
-            label = "Home",
+            label = stringResource(Res.string.compose_nav_home),
             selected = !overlayOpen && selectedTab == MusicTab.HOME,
             modifier = if (!overlayOpen && selectedTab == MusicTab.HOME) {
                 Modifier.focusRequester(initialFocus)
@@ -803,7 +819,7 @@ private fun RowScope.MusicNavItems(
             onClick = { onTabSelected(MusicTab.HOME) }
         )
         MusicTopNavItem(
-            label = "Explore",
+            label = stringResource(Res.string.music_tab_explore),
             selected = !overlayOpen && selectedTab == MusicTab.EXPLORE,
             modifier = if (!overlayOpen && selectedTab == MusicTab.EXPLORE) {
                 Modifier.focusRequester(initialFocus)
@@ -813,7 +829,7 @@ private fun RowScope.MusicNavItems(
             onClick = { onTabSelected(MusicTab.EXPLORE) }
         )
         MusicTopNavItem(
-            label = "Library",
+            label = stringResource(Res.string.compose_nav_library),
             selected = !overlayOpen && selectedTab == MusicTab.LIBRARY,
             modifier = if (!overlayOpen && selectedTab == MusicTab.LIBRARY) {
                 Modifier.focusRequester(initialFocus)
@@ -823,7 +839,7 @@ private fun RowScope.MusicNavItems(
             onClick = { onTabSelected(MusicTab.LIBRARY) }
         )
         MusicTopNavItem(
-            label = "Local",
+            label = stringResource(Res.string.music_tab_local),
             selected = !overlayOpen && selectedTab == MusicTab.LOCAL,
             modifier = if (!overlayOpen && selectedTab == MusicTab.LOCAL) {
                 Modifier.focusRequester(initialFocus)
@@ -833,7 +849,7 @@ private fun RowScope.MusicNavItems(
             onClick = { onTabSelected(MusicTab.LOCAL) }
         )
         MusicTopNavItem(
-            label = "Search",
+            label = stringResource(Res.string.compose_nav_search),
             selected = !overlayOpen && selectedTab == MusicTab.SEARCH,
             modifier = if (!overlayOpen && selectedTab == MusicTab.SEARCH) {
                 Modifier.focusRequester(initialFocus)
@@ -843,13 +859,13 @@ private fun RowScope.MusicNavItems(
             onClick = { onTabSelected(MusicTab.SEARCH) }
         )
         MusicTopNavItem(
-            label = "Party",
+            label = stringResource(Res.string.music_tab_party),
             selected = partyOpen || partyRunning,
             live = partyRunning,
             onClick = onOpenParty
         )
         MusicTopNavItem(
-            label = "Integrations",
+            label = stringResource(Res.string.compose_settings_page_integrations),
             selected = integrationsOpen,
             onClick = onOpenIntegrations
         )
@@ -1040,7 +1056,7 @@ private fun NowPlayingMiniButton(
         ) {
             Icon(
                 if (playback.isPlaying) Icons.Default.Pause else Icons.Default.PlayArrow,
-                contentDescription = "Now playing",
+                contentDescription = stringResource(Res.string.music_ui_now_playing),
                 tint = MusicPalette.background,
                 modifier = Modifier.size(9.dp)
             )
@@ -1067,7 +1083,7 @@ private fun MusicSettingsButton(onClick: () -> Unit) {
     ) {
         Icon(
             Icons.Default.Settings,
-            contentDescription = "Music settings",
+            contentDescription = stringResource(Res.string.music_settings_title),
             tint = if (focused) MusicPalette.text else MusicPalette.textSecondary,
             modifier = Modifier.size(17.dp)
         )
@@ -1094,14 +1110,14 @@ private fun MusicAccountButton(name: String?, avatar: String?, onClick: () -> Un
         if (avatar != null) {
             AsyncImage(
                 model = avatar,
-                contentDescription = name ?: "YouTube Music account",
+                contentDescription = name ?: stringResource(Res.string.music_ui_youtube_music_account),
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize().clip(CircleShape)
             )
         } else {
             Icon(
                 Icons.Default.AccountCircle,
-                contentDescription = if (name == null) "Sign in to YouTube Music" else name,
+                contentDescription = if (name == null) stringResource(Res.string.music_ui_sign_in_to_youtube_music) else name,
                 tint = if (focused) MusicPalette.text else MusicPalette.textSecondary,
                 modifier = Modifier.size(20.dp)
             )
@@ -1111,9 +1127,9 @@ private fun MusicAccountButton(name: String?, avatar: String?, onClick: () -> Un
 
 /** The browse id prefixes YouTube Music uses, for cards that don't carry a type. */
 private fun browseTypeOf(browseId: String): BrowseType = when {
-    browseId.startsWith("MPREb") -> BrowseType.ALBUM
+    browseId.startsWith("mpreb") -> BrowseType.ALBUM
     browseId.startsWith("UC") -> BrowseType.ARTIST
     browseId.startsWith("VL") || browseId.startsWith("PL") ||
-        browseId.startsWith("OLAK5uy_") -> BrowseType.PLAYLIST
+        browseId.startsWith("OLAK5uy") -> BrowseType.PLAYLIST
     else -> BrowseType.OTHER
 }

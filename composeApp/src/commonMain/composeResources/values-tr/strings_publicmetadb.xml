@@ -1,0 +1,36 @@
+<resources>
+    <string name="tracking_source_publicmetadb">PublicMetaDB</string>
+    <string name="settings_publicmetadb_library_description">PublicMetaDB izleme listeniz ve özel listeleriniz.</string>
+    <string name="settings_publicmetadb_progress_description">PublicMetaDB özgeçmiş noktalarınızdan ve izleme geçmişinizden İzlemeye Devam Et ve Sıradaki.</string>
+    <string name="library_publicmetadb_title">PublicMetaDB Kütüphanesi</string>
+    <string name="library_publicmetadb_load_failed">PublicMetaDB kitaplığınız yüklenemedi</string>
+    <string name="library_publicmetadb_empty_title">PublicMetaDB kitaplığınız boş</string>
+    <string name="library_publicmetadb_empty_message">Burada görmek için filmleri ve şovları PublicMetaDB listelerinize ekleyin.</string>
+    <string name="settings_publicmetadb_connect">PublicMetaDB'yi bağlayın</string>
+    <string name="settings_publicmetadb_connected_as">%1$s anahtar uzantısıyla bağlantılı</string>
+    <string name="settings_publicmetadb_connected_description">Listelerinizi, izleme geçmişinizi, derecelendirmelerinizi, scrobble'larınızı ve İzlemeye Devam Etme'nizi PublicMetaDB ile senkronize edin.</string>
+    <string name="settings_publicmetadb_sign_in_description">Listelerinizi, izleme geçmişinizi, derecelendirmelerinizi, scrobble'larınızı ve İzlemeye Devam Etme'nizi senkronize etmek için PublicMetaDB'yi bir API anahtarıyla bağlayın.</string>
+    <string name="settings_publicmetadb_finish_sign_in">Bağlantıyı bitir</string>
+    <string name="settings_publicmetadb_approval_description">Bağlantıyı tamamlamak için PublicMetaDB API anahtarınızı girin.</string>
+    <string name="settings_publicmetadb_open_login">API anahtarını girin</string>
+    <string name="settings_publicmetadb_disconnect">PublicMetaDB'nin bağlantısını kesin</string>
+    <string name="settings_publicmetadb_missing_credentials">PublicMetaDB bağlantısı bu yapıda kullanılamıyor.</string>
+    <string name="settings_publicmetadb_sync_now">Şimdi senkronize et</string>
+    <string name="settings_publicmetadb_visit">PublicMetaDB'yi ziyaret edin</string>
+    <string name="settings_publicmetadb_disconnect_description">Bu profilden izleme güncellemeleri göndermeyi bırakın ve API anahtarını unutun. PublicMetaDB listeleriniz ve geçmişiniz tutulur.</string>
+    <string name="settings_publicmetadb_account_fallback">API anahtarınız</string>
+    <string name="settings_publicmetadb_syncing">PublicMetaDB listeleriniz senkronize ediliyor…</string>
+    <string name="settings_publicmetadb_last_synced">Son senkronizasyon %1$s</string>
+    <string name="settings_publicmetadb_api_key_title">PublicMetaDB'yi bağlayın</string>
+    <string name="settings_publicmetadb_api_key_description">PublicMetaDB'de Ayarlar → API altında bir API anahtarı oluşturun ve buraya yapıştırın. Anahtarlar genellikle pm- ile başlar.</string>
+    <string name="settings_publicmetadb_api_key_label">API anahtarı</string>
+    <string name="settings_publicmetadb_get_api_key">API anahtarı edinin</string>
+    <string name="settings_publicmetadb_connect_action">Bağlamak</string>
+    <string name="settings_publicmetadb_missing_key">PublicMetaDB API anahtarınızı girin.</string>
+    <string name="settings_publicmetadb_invalid_key">PublicMetaDB bu API anahtarını kabul etmedi. Kontrol edip tekrar deneyin.</string>
+    <string name="settings_publicmetadb_request_failed">PublicMetaDB'ye ulaşılamadı. Lütfen tekrar deneyin.</string>
+    <string name="settings_publicmetadb_rate_limited">PublicMetaDB'nin istek sınırına ulaşıldı. Kısa süre sonra tekrar deneyin.</string>
+    <string name="settings_publicmetadb_blocked">PublicMetaDB bu isteği engelledi. Lütfen daha sonra tekrar deneyin.</string>
+    <string name="settings_publicmetadb_auth_revoked">PublicMetaDB API anahtarınız artık geçerli değil. Yeni bir anahtarla tekrar bağlanın.</string>
+    <string name="settings_publicmetadb_unavailable">PublicMetaDB ile senkronize edilemedi. Lütfen tekrar deneyin.</string>
+</resources>
