@@ -39,7 +39,37 @@ internal data class SemanticVersion(
         }
         if (leftNumeric) return -1
         if (rightNumeric) return 1
-        return left.compareTo(right)
+        // Tags such as beta9/beta10 are alphanumeric identifiers. Strict semver compares them
+        // lexically, which puts beta10 before beta9. Compare digit runs numerically instead.
+        return compareNatural(left, right)
+    }
+
+    private fun compareNatural(left: String, right: String): Int {
+        var i = 0
+        var j = 0
+        while (i < left.length && j < right.length) {
+            val leftChar = left[i]
+            val rightChar = right[j]
+            if (leftChar.isDigit() && rightChar.isDigit()) {
+                var leftEnd = i
+                while (leftEnd < left.length && left[leftEnd].isDigit()) leftEnd++
+                var rightEnd = j
+                while (rightEnd < right.length && right[rightEnd].isDigit()) rightEnd++
+                val leftNumber = left.substring(i, leftEnd).trimStart('0').ifEmpty { "0" }
+                val rightNumber = right.substring(j, rightEnd).trimStart('0').ifEmpty { "0" }
+                compareValues(leftNumber.length, rightNumber.length)
+                    .takeIf { it != 0 }
+                    ?.let { return it }
+                leftNumber.compareTo(rightNumber).takeIf { it != 0 }?.let { return it }
+                i = leftEnd
+                j = rightEnd
+            } else {
+                if (leftChar != rightChar) return leftChar.compareTo(rightChar)
+                i++
+                j++
+            }
+        }
+        return compareValues(left.length - i, right.length - j)
     }
 }
 
