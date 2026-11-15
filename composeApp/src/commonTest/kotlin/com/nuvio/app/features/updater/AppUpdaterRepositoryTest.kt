@@ -2,7 +2,9 @@ package com.nuvio.app.features.updater
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertNull
+import kotlin.test.assertTrue
 
 class AppUpdaterRepositoryTest {
     @Test
@@ -42,6 +44,24 @@ class AppUpdaterRepositoryTest {
                 {"name": "app.apk", "browser_download_url": "https://example.com/beta10.apk"}]}
         ]"""
         assertEquals("1.1.0-beta.10", select(response, UpdateChannel.BETA)?.tag)
+    }
+
+    @Test
+    fun betaNumbersWithoutADotCompareNumerically() {
+        val response = """[
+            {"tag_name": "0.6.6-beta9", "assets": [
+                {"name": "app.apk", "browser_download_url": "https://example.com/beta9.apk"}]},
+            {"tag_name": "0.6.6-beta10", "assets": [
+                {"name": "app.apk", "browser_download_url": "https://example.com/beta10.apk"}]}
+        ]"""
+        assertEquals("0.6.6-beta10", select(response, UpdateChannel.BETA)?.tag)
+    }
+
+    @Test
+    fun beta10IsNewerThanBeta9WithoutADot() {
+        assertTrue(VersionUtils.isRemoteNewer("0.6.6-beta10", "0.6.6-beta9"))
+        assertFalse(VersionUtils.isRemoteNewer("0.6.6-beta9", "0.6.6-beta10"))
+        assertFalse(VersionUtils.isRemoteNewer("0.6.6-beta10", "0.6.6-beta10"))
     }
 
     @Test
