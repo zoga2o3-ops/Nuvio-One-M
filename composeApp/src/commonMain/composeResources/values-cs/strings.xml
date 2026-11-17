@@ -3932,4 +3932,6 @@
     <string name="live_tv_ui_nothing_recorded_yet">Zatím nic nenahráno. Dlouhým stisknutím kanálu jej nahrajte nebo klepněte na pořad v průvodci.</string>
     <string name="live_tv_ui_couldnt_be_recorded">Nedalo se to zaznamenat</string>
     <string name="live_tv_ui_hide_search">Skrýt vyhledávání</string>
+    <string name="live_tv_settings_source_counts">Počet playlistů: %1$d · Počet průvodců: %2$d</string>
+    <string name="live_tv_settings_update_all_description">Stáhněte si nejnovější kanály a programy.</string>
 </resources>

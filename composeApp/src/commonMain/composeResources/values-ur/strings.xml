@@ -3933,4 +3933,6 @@
     <string name="live_tv_ui_nothing_recorded_yet">ابھی تک کچھ ریکارڈ نہیں ہوا۔ کسی چینل کو ریکارڈ کرنے کے لیے اسے دیر تک دبائیں، یا گائیڈ میں شو کو تھپتھپائیں۔</string>
     <string name="live_tv_ui_couldnt_be_recorded">اسے ریکارڈ نہیں کیا جا سکا</string>
     <string name="live_tv_ui_hide_search">تلاش چھپائیں۔</string>
+    <string name="live_tv_settings_source_counts">%1$d پلے لسٹس · %2$d گائیڈز</string>
+    <string name="live_tv_settings_update_all_description">تازہ ترین چینلز اور فہرستیں ڈاؤن لوڈ کریں۔</string>
 </resources>

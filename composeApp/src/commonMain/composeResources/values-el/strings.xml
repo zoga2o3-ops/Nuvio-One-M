@@ -3926,4 +3926,6 @@
     <string name="live_tv_ui_nothing_recorded_yet">Δεν έχει καταγραφεί τίποτα ακόμα. Πατήστε παρατεταμένα ένα κανάλι για να το εγγράψετε ή πατήστε μια εκπομπή στον οδηγό.</string>
     <string name="live_tv_ui_couldnt_be_recorded">Δεν ήταν δυνατή η ηχογράφηση</string>
     <string name="live_tv_ui_hide_search">Απόκρυψη αναζήτησης</string>
+    <string name="live_tv_settings_source_counts">%1$d λίστες αναπαραγωγής · %2$d οδηγοί</string>
+    <string name="live_tv_settings_update_all_description">Πραγματοποιήστε λήψη των πιο πρόσφατων καναλιών και καταλόγων προγραμμάτων.</string>
 </resources>

@@ -3956,4 +3956,6 @@
     <string name="live_tv_ui_nothing_recorded_yet">Все още нищо не е записано. Натиснете дълго канал, за да го запишете, или докоснете предаване в ръководството.</string>
     <string name="live_tv_ui_couldnt_be_recorded">Не можа да се запише</string>
     <string name="live_tv_ui_hide_search">Скриване на търсенето</string>
+    <string name="live_tv_settings_source_counts">%1$d плейлиста · %2$d ръководства</string>
+    <string name="live_tv_settings_update_all_description">Изтеглете най-новите канали и програмни указания.</string>
 </resources>

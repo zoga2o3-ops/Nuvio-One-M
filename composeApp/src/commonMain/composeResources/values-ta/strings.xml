@@ -3896,4 +3896,6 @@
     <string name="live_tv_ui_nothing_recorded_yet">இதுவரை எதுவும் பதிவு செய்யப்படவில்லை. சேனலைப் பதிவுசெய்ய நீண்ட நேரம் அழுத்தவும் அல்லது வழிகாட்டியில் உள்ள நிகழ்ச்சியைத் தட்டவும்.</string>
     <string name="live_tv_ui_couldnt_be_recorded">அதை பதிவு செய்ய முடியவில்லை</string>
     <string name="live_tv_ui_hide_search">தேடலை மறை</string>
+    <string name="live_tv_settings_source_counts">%1$d பிளேலிஸ்ட்கள் · %2$d வழிகாட்டிகள்</string>
+    <string name="live_tv_settings_update_all_description">சமீபத்திய சேனல்களையும் பட்டியல்களையும் பதிவிறக்கவும்.</string>
 </resources>

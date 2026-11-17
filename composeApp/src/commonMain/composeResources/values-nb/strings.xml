@@ -3908,4 +3908,6 @@ Du bruker denne funksjonen helt på eget ansvar. P2P kan deaktiveres når som he
     <string name="live_tv_ui_nothing_recorded_yet">Ingenting er registrert ennå. Trykk lenge på en kanal for å ta den opp, eller trykk på et program i guiden.</string>
     <string name="live_tv_ui_couldnt_be_recorded">Det kunne ikke tas opp</string>
     <string name="live_tv_ui_hide_search">Skjul søk</string>
+    <string name="live_tv_settings_source_counts">%1$d spillelister · %2$d guider</string>
+    <string name="live_tv_settings_update_all_description">Last ned de nyeste kanalene og programoversiktene.</string>
 </resources>

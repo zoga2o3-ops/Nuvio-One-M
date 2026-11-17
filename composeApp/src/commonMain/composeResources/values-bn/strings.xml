@@ -3968,4 +3968,6 @@
     <string name="live_tv_ui_nothing_recorded_yet">এখনও কিছু রেকর্ড করা হয়নি. একটি চ্যানেল রেকর্ড করতে দীর্ঘক্ষণ চাপ দিন, বা গাইডে একটি শোতে আলতো চাপুন৷</string>
     <string name="live_tv_ui_couldnt_be_recorded">এটা রেকর্ড করা যায়নি</string>
     <string name="live_tv_ui_hide_search">অনুসন্ধান লুকান</string>
+    <string name="live_tv_settings_source_counts">%1$dটি প্লেলিস্ট · %2$dটি গাইড</string>
+    <string name="live_tv_settings_update_all_description">সর্বশেষ চ্যানেল এবং তালিকা ডাউনলোড করুন।</string>
 </resources>

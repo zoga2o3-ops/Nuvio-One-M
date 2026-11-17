@@ -3959,4 +3959,6 @@
     <string name="live_tv_ui_nothing_recorded_yet">Rien d'enregistré pour l'instant. Appuyez longuement sur une chaîne pour l'enregistrer ou appuyez sur une émission dans le guide.</string>
     <string name="live_tv_ui_couldnt_be_recorded">Il n'a pas pu être enregistré</string>
     <string name="live_tv_ui_hide_search">Masquer la recherche</string>
+    <string name="live_tv_settings_source_counts">%1$d playlists · %2$d guides</string>
+    <string name="live_tv_settings_update_all_description">Téléchargez les dernières chaînes et listes.</string>
 </resources>

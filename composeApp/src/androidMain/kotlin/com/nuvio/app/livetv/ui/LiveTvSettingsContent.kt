@@ -25,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.nuvio.app.livetv.LiveTv
 import com.nuvio.app.livetv.model.ChannelSort
 import com.nuvio.app.livetv.model.LiveTvSettings
@@ -39,6 +40,15 @@ fun LiveTvSettingsContent() {
     val context = LocalContext.current.applicationContext
     val live = remember { LiveTv.get(context) }
     val settings by live.prefs.settings.collectAsStateWithLifecycle(initialValue = LiveTvSettings())
+    // The same sources the Live TV page uses, so playlists and guides can be managed here too.
+    val sources: LiveTvViewModel = viewModel { LiveTvViewModel(context) }
+    val playlists by sources.playlists.collectAsStateWithLifecycle()
+    val epgs by sources.epgSources.collectAsStateWithLifecycle()
+    val playlistAccounts by sources.accounts.collectAsStateWithLifecycle()
+    val sourceStatus by sources.status.collectAsStateWithLifecycle()
+    var showPlaylists by remember { mutableStateOf(false) }
+    var showAddPlaylist by remember { mutableStateOf(false) }
+    var showAddEpg by remember { mutableStateOf(false) }
     val notifications = rememberLiveTvNotificationPermission()
     val scope = rememberCoroutineScope()
     fun change(transform: (LiveTvSettings) -> LiveTvSettings) {
@@ -49,6 +59,21 @@ fun LiveTvSettingsContent() {
 
     CompositionLocalProvider(LocalContentColor provides MaterialTheme.colorScheme.onBackground) {
         Column(Modifier.fillMaxWidth()) {
+            Section(stringResource(Res.string.live_tv_ui_playlists_and_guide))
+            ActionLine(
+                title = stringResource(Res.string.live_tv_ui_playlists_and_guide),
+                detail = if (sourceStatus.loading) {
+                    sourceStatus.message?.takeIf { it.isNotBlank() }
+                        ?: stringResource(Res.string.live_tv_ui_working)
+                } else {
+                    stringResource(Res.string.live_tv_settings_source_counts, playlists.size, epgs.size)
+                },
+            ) { showPlaylists = true }
+            ActionLine(
+                title = stringResource(Res.string.live_tv_ui_update_all),
+                detail = stringResource(Res.string.live_tv_settings_update_all_description),
+            ) { sources.refresh() }
+
             Section(stringResource(Res.string.live_tv_section_channels))
             ChoiceRow(
                 stringResource(Res.string.live_tv_ui_sort_channels),
@@ -297,6 +322,36 @@ fun LiveTvSettingsContent() {
                 }) { Text(stringResource(Res.string.settings_custom_poster_clear)) }
             },
             dismissButton = { TextButton(onClick = { confirmReset = false }) { Text(stringResource(Res.string.action_cancel)) } },
+        )
+    }
+    if (showPlaylists) {
+        PlaylistsDialog(
+            playlists = playlists,
+            epgs = epgs,
+            onDismiss = { showPlaylists = false },
+            onAdd = { showAddPlaylist = true },
+            onAddEpg = { showAddEpg = true },
+            onRefresh = sources::refresh,
+            onRemove = sources::removePlaylist,
+            onEnabled = sources::setPlaylistEnabled,
+            onRemoveEpg = sources::removeEpg,
+            onEpgEnabled = sources::setEpgEnabled,
+            accounts = playlistAccounts,
+            onEdit = sources::updatePlaylist,
+        )
+    }
+    if (showAddPlaylist) {
+        AddPlaylistDialog(
+            onDismiss = { showAddPlaylist = false },
+            onM3u = { name, url -> sources.addM3u(name, url); showAddPlaylist = false; showPlaylists = false },
+            onXtream = { name, server, user, pass -> sources.addXtream(name, server, user, pass); showAddPlaylist = false; showPlaylists = false },
+            onStalker = { name, portal, mac -> sources.addStalker(name, portal, mac); showAddPlaylist = false; showPlaylists = false },
+        )
+    }
+    if (showAddEpg) {
+        AddEpgDialog(
+            onDismiss = { showAddEpg = false },
+            onAdd = { name, url -> sources.addEpg(name, url); showAddEpg = false },
         )
     }
 }

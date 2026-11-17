@@ -3959,4 +3959,6 @@
     <string name="live_tv_ui_nothing_recorded_yet">Chưa có gì được ghi lại. Nhấn và giữ một kênh để ghi kênh đó hoặc nhấn vào một chương trình trong hướng dẫn.</string>
     <string name="live_tv_ui_couldnt_be_recorded">Không thể ghi lại nó</string>
     <string name="live_tv_ui_hide_search">Ẩn tìm kiếm</string>
+    <string name="live_tv_settings_source_counts">%1$d danh sách phát · %2$d hướng dẫn</string>
+    <string name="live_tv_settings_update_all_description">Tải xuống các kênh và danh sách mới nhất.</string>
 </resources>

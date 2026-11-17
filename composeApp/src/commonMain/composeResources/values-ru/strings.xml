@@ -3938,4 +3938,6 @@
     <string name="live_tv_ui_nothing_recorded_yet">Еще ничего не записано. Нажмите и удерживайте канал, чтобы записать его, или коснитесь шоу в гиде.</string>
     <string name="live_tv_ui_couldnt_be_recorded">Это не могло быть записано</string>
     <string name="live_tv_ui_hide_search">Скрыть поиск</string>
+    <string name="live_tv_settings_source_counts">Плейлисты: %1$d · Путеводители: %2$d</string>
+    <string name="live_tv_settings_update_all_description">Загрузите последние каналы и списки.</string>
 </resources>

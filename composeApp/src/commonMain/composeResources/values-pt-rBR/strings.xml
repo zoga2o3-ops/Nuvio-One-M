@@ -3940,4 +3940,6 @@
     <string name="live_tv_ui_nothing_recorded_yet">Nada registrado ainda. Mantenha pressionado um canal para gravá-lo ou toque em um programa no guia.</string>
     <string name="live_tv_ui_couldnt_be_recorded">Não foi possível gravar</string>
     <string name="live_tv_ui_hide_search">Ocultar pesquisa</string>
+    <string name="live_tv_settings_source_counts">%1$d playlists · %2$d guias</string>
+    <string name="live_tv_settings_update_all_description">Baixe os canais e as programações mais recentes.</string>
 </resources>

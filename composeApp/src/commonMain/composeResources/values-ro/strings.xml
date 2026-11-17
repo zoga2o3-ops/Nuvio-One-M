@@ -3900,4 +3900,6 @@
     <string name="live_tv_ui_nothing_recorded_yet">Nimic încă înregistrat. Apăsați lung pe un canal pentru a-l înregistra sau atingeți o emisiune din ghid.</string>
     <string name="live_tv_ui_couldnt_be_recorded">Nu a putut fi înregistrat</string>
     <string name="live_tv_ui_hide_search">Ascunde căutarea</string>
+    <string name="live_tv_settings_source_counts">%1$d liste de redare · %2$d ghiduri</string>
+    <string name="live_tv_settings_update_all_description">Descărcați cele mai recente canale și grile de programe.</string>
 </resources>
