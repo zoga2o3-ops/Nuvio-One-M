@@ -20,12 +20,16 @@ import com.nuvio.app.livetv.model.LiveUserState
 import com.nuvio.app.livetv.model.PlaylistSource
 import com.nuvio.app.livetv.model.Reminder
 import com.nuvio.app.livetv.model.ZapMode
+import com.nuvio.app.music.MusicLibrary
+import com.nuvio.app.music.MusicLibrarySync
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import org.json.JSONArray
@@ -35,6 +39,7 @@ class LiveTvPreferences(
     context: Context,
     private val profileManager: com.nuvio.app.livetv.data.LiveTvProfile
 ) {
+    private val appContext = context.applicationContext
     private val store: DataStore<Preferences> = PreferenceDataStoreFactory.create(
         scope = CoroutineScope(Dispatchers.IO + SupervisorJob()),
         produceFile = { context.preferencesDataStoreFile("live_tv") }
@@ -549,10 +554,17 @@ class LiveTvPreferences(
         deviceStore.edit { it[Keys.removedSources] = (it[Keys.removedSources] ?: emptySet()) + clean }
     }
 
-    suspend fun removedSourceIds(): Set<String> = deviceStore.data.first()[Keys.removedSources] ?: emptySet()
+    suspend fun removedSourceIds(): Set<String> =
+        (deviceStore.data.first()[Keys.removedSources] ?: emptySet()) +
+            // Liked songs and Music playlists removed here (Music library sync).
+            run {
+                MusicLibrary.init(appContext)
+                MusicLibrary.syncRemovedIds()
+            }
 
     suspend fun forgetRemovedSources(ids: Set<String>) {
         if (ids.isEmpty()) return
+        MusicLibrary.forgetSyncRemoved(ids)
         deviceStore.edit { it[Keys.removedSources] = (it[Keys.removedSources] ?: emptySet()) - ids }
     }
 
@@ -1171,7 +1183,12 @@ class LiveTvPreferences(
     // ---------- Google Drive sync ----------
 
     /** Fires whenever anything in Live TV's stored data changes. */
-    val changes: Flow<Unit> = store.data.map { }
+    val changes: Flow<Unit> = merge(
+        store.data.map { },
+        // The Music library travels in the same setup (MusicLibrarySync).
+        MusicLibrary.liked.drop(1).map { },
+        MusicLibrary.playlists.drop(1).map { }
+    )
 
     /**
      * Everything worth carrying to another TV, as JSON: sources, settings, favorites, hidden
@@ -1208,6 +1225,10 @@ class LiveTvPreferences(
             } ?: return@forEach
             out.put(name, entry)
         }
+        // Liked Songs and Music playlists (shared with the other apps too).
+        runCatching { MusicLibrarySync.export(appContext) }
+            .getOrNull()
+            ?.forEach { (k, v) -> out.put(k, v) }
         return out
     }
 
@@ -1216,7 +1237,8 @@ class LiveTvPreferences(
         if (data == null) return false
         fun raw(key: String) = data.optJSONObject(key)?.optString("v")
         return runCatching { decodePlaylists(raw(Keys.playlists.name)).isNotEmpty() }.getOrDefault(false) ||
-            runCatching { decodeEpgs(raw(Keys.epgs.name)).isNotEmpty() }.getOrDefault(false)
+            runCatching { decodeEpgs(raw(Keys.epgs.name)).isNotEmpty() }.getOrDefault(false) ||
+            MusicLibrarySync.hasMusic(data)
     }
 
     /** Replaces this TV's Live TV setup with [data] from [exportForSync], keeping per-TV state. */
@@ -1227,12 +1249,18 @@ class LiveTvPreferences(
             val localPlaylists = decodePlaylists(p[Keys.playlists]).associateBy { it.id }
             val localEpgs = decodeEpgs(p[Keys.epgs]).associateBy { it.id }
             // Remove synced keys the other TV doesn't have, then write everything it does.
-            p.asMap().keys.filter { it.name !in SYNC_EXCLUDED && !data.has(it.name) }.forEach {
+            p.asMap().keys.filter {
+                it.name !in SYNC_EXCLUDED &&
+                    it.name !in MusicLibrarySync.KEYS &&
+                    !data.has(it.name)
+            }.forEach {
                 @Suppress("UNCHECKED_CAST")
                 p.remove(it as Preferences.Key<Any>)
             }
             data.keys().forEach { name ->
                 if (name in SYNC_EXCLUDED) return@forEach
+                // The Music library is written to its own store below, not to Live TV's.
+                if (name in MusicLibrarySync.KEYS) return@forEach
                 val e = data.optJSONObject(name) ?: return@forEach
                 when (e.optString("t")) {
                     "b" -> p[booleanPreferencesKey(name)] = e.optBoolean("v")
@@ -1270,6 +1298,8 @@ class LiveTvPreferences(
                 }
             }
         }
+        // Liked Songs and Music playlists: their own store, no Live TV reload for them.
+        runCatching { MusicLibrarySync.import(appContext, data) }
         return changed
     }
 

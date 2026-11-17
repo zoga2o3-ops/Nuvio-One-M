@@ -61,6 +61,8 @@ object MusicLibrary {
     private const val KEY_LIKED = "liked_songs"
     private const val KEY_RECENTS = "recent_songs"
     private const val KEY_PLAYLISTS = "playlists"
+    /** Liked songs and playlists removed here since the last sync (they stay removed on other devices). */
+    private const val KEY_SYNC_REMOVED = "sync_removed"
     private const val MAX_RECENTS = 60
 
     private val json = Json {
@@ -92,11 +94,13 @@ object MusicLibrary {
     fun isLiked(videoId: String): Boolean = _liked.value.any { it.videoId == videoId }
 
     /** Returns true when the song is liked after the toggle. */
+    @Synchronized
     fun toggleLike(song: Song): Boolean {
         if (song.videoId.isBlank()) return false
         val current = _liked.value
         val existing = current.firstOrNull { it.videoId == song.videoId }
         val next = if (existing != null) {
+            noteRemoved(setOf(song.videoId))
             current.filterNot { it.videoId == song.videoId }
         } else {
             listOf(song.toStored()) + current
@@ -162,7 +166,9 @@ object MusicLibrary {
         persist(KEY_PLAYLISTS, _playlists.value)
     }
 
+    @Synchronized
     fun deletePlaylist(playlistId: String) {
+        noteRemoved(setOf(playlistId))
         _playlists.value = _playlists.value.filterNot { it.id == playlistId }
         persist(KEY_PLAYLISTS, _playlists.value)
     }
@@ -173,6 +179,60 @@ object MusicLibrary {
             if (it.id == playlistId) it.copy(name = title) else it
         }
         persist(KEY_PLAYLISTS, _playlists.value)
+    }
+
+    // ---------- Sync (MusicLibrarySync) ----------
+
+    /** Replaces Liked Songs with a synced list, keeping art and lengths already known here. */
+    @Synchronized
+    internal fun replaceLiked(songs: List<StoredSong>): Boolean {
+        val next = withKnownDetails(songs)
+        if (next == _liked.value) return false
+        _liked.value = next
+        persist(KEY_LIKED, next)
+        return true
+    }
+
+    /** Replaces the playlists with synced ones, keeping art and lengths already known here. */
+    @Synchronized
+    internal fun replacePlaylists(playlists: List<StoredPlaylist>): Boolean {
+        val next = playlists.map { it.copy(songs = withKnownDetails(it.songs)) }
+        if (next == _playlists.value) return false
+        _playlists.value = next
+        persist(KEY_PLAYLISTS, next)
+        return true
+    }
+
+    private fun withKnownDetails(songs: List<StoredSong>): List<StoredSong> {
+        val known = HashMap<String, StoredSong>()
+        (_liked.value + _playlists.value.flatMap { it.songs } + _recents.value).forEach {
+            known.putIfAbsent(it.videoId, it)
+        }
+        return songs.map { s ->
+            val k = known[s.videoId] ?: return@map s
+            s.copy(
+                thumbnailUrl = k.thumbnailUrl ?: s.thumbnailUrl,
+                durationText = k.durationText ?: s.durationText,
+                albumName = k.albumName ?: s.albumName,
+                albumId = k.albumId ?: s.albumId,
+                artistId = k.artistId ?: s.artistId
+            )
+        }
+    }
+
+    fun syncRemovedIds(): Set<String> =
+        prefs?.getStringSet(KEY_SYNC_REMOVED, null)?.toSet().orEmpty()
+
+    fun forgetSyncRemoved(ids: Set<String>) {
+        val store = prefs ?: return
+        val current = syncRemovedIds()
+        if (ids.none { it in current }) return
+        store.edit().putStringSet(KEY_SYNC_REMOVED, current - ids).apply()
+    }
+
+    private fun noteRemoved(ids: Set<String>) {
+        val store = prefs ?: return
+        store.edit().putStringSet(KEY_SYNC_REMOVED, syncRemovedIds() + ids).apply()
     }
 
     private fun Song.toStored(): StoredSong = StoredSong(
