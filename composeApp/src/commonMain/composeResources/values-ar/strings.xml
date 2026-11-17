@@ -3966,4 +3966,7 @@
     <string name="music_ui_spotify_connected">تم ربط Spotify.</string>
     <string name="music_ui_spotify_disconnected">تم قطع الاتصال بـ Spotify.</string>
     <string name="music_ui_spotify_session_stays_encrypted">تُفتح صفحة تسجيل الدخول إلى Spotify هنا؛ وتظل الجلسة مشفرة على هذا الهاتف.</string>
+    <string name="live_tv_ui_multiview">عرض متعدد</string>
+    <string name="live_tv_ui_multiview_pick">اختر ما يصل إلى أربع قنوات للمشاهدة في وقت واحد.</string>
+    <string name="live_tv_ui_multiview_sound">اضغط على قناة لسماع صوتها.</string>
 </resources>

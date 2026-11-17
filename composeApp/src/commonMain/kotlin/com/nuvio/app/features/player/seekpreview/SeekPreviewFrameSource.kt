@@ -28,3 +28,12 @@ internal expect fun openSeekPreviewFeed(
     headers: Map<String, String>,
     onThumbnail: (positionMs: Long, bitmap: ImageBitmap?, error: String?) -> Unit,
 ): SeekPreviewFeed?
+
+/**
+ * A feature can supply its own frames (OneTube's storyboard sprite sheets), so no second decoder
+ * is needed for those videos. Android sets [forVideo] at start-up; it returns null when it has
+ * nothing for that video, and the stream grabber is used instead.
+ */
+internal object SeekPreviewExtraSource {
+    var forVideo: ((videoId: String) -> SeekPreviewFrameSource?)? = null
+}

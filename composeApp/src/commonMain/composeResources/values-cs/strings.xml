@@ -3956,4 +3956,7 @@
     <string name="music_ui_spotify_connected">Spotify je připojeno.</string>
     <string name="music_ui_spotify_disconnected">Spotify bylo odpojeno.</string>
     <string name="music_ui_spotify_session_stays_encrypted">Zde se otevře přihlašovací stránka Spotify; relace zůstane na tomto telefonu zašifrovaná.</string>
+    <string name="live_tv_ui_multiview">Více obrazovek</string>
+    <string name="live_tv_ui_multiview_pick">Vyberte až čtyři kanály pro současné sledování.</string>
+    <string name="live_tv_ui_multiview_sound">Klepnutím na kanál zapnete jeho zvuk.</string>
 </resources>

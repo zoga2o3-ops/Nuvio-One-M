@@ -3920,4 +3920,7 @@
     <string name="music_ui_spotify_connected">Spotify ligado.</string>
     <string name="music_ui_spotify_disconnected">Spotify desligado.</string>
     <string name="music_ui_spotify_session_stays_encrypted">A página de início de sessão do Spotify abre aqui; a sessão permanece encriptada neste telemóvel.</string>
+    <string name="live_tv_ui_multiview">Vista múltipla</string>
+    <string name="live_tv_ui_multiview_pick">Escolha até quatro canais para ver ao mesmo tempo.</string>
+    <string name="live_tv_ui_multiview_sound">Toque num canal para ouvir o som.</string>
 </resources>

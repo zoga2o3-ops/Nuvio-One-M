@@ -52,6 +52,8 @@ internal class SeekPreviewFrame(val positionMs: Long, val bitmap: ImageBitmap)
 internal class SeekPreviewController(
     private val url: String,
     private val headers: Map<String, String>,
+    /** A source a feature already has (OneTube's storyboard), tried before the stream grabber. */
+    private val externalSourceFactory: (() -> SeekPreviewFrameSource?)? = null,
 ) {
     @OptIn(ExperimentalCoroutinesApi::class)
     private val decodeDispatcher = Dispatchers.IO.limitedParallelism(1)
@@ -285,7 +287,7 @@ internal class SeekPreviewController(
     private fun decodeFrame(positionMs: Long): ImageBitmap? {
         if (!sourceOpened) {
             sourceOpened = true
-            source = openSeekPreviewFrameSource(url, headers)
+            source = externalSourceFactory?.invoke() ?: openSeekPreviewFrameSource(url, headers)
             InAppLogger.info(
                 LogTag,
                 "source=${source?.let { it::class.simpleName } ?: "none"} headers=${headers.size} " +
@@ -340,9 +342,18 @@ internal fun bucketFor(positionMs: Long, durationMs: Long): Long {
 internal fun rememberSeekPreviewController(
     url: String?,
     headers: Map<String, String>,
+    videoId: String? = null,
 ): SeekPreviewController? {
-    val controller = remember(url, headers) {
-        url?.let { SeekPreviewController(it, headers) }
+    val controller = remember(url, headers, videoId) {
+        url?.let {
+            SeekPreviewController(
+                url = it,
+                headers = headers,
+                externalSourceFactory = videoId?.let { id ->
+                    { SeekPreviewExtraSource.forVideo?.invoke(id) }
+                },
+            )
+        }
     }
     DisposableEffect(controller) {
         onDispose { controller?.dispose() }

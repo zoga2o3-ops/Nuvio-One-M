@@ -3987,4 +3987,7 @@
     <string name="music_ui_spotify_connected">Spotify je povezan.</string>
     <string name="music_ui_spotify_disconnected">Spotify je prekinuo vezu.</string>
     <string name="music_ui_spotify_session_stays_encrypted">Ovdje se otvara stranica za prijavu na Spotify; sesija ostaje šifrirana na ovom telefonu.</string>
+    <string name="live_tv_ui_multiview">Više prikaza</string>
+    <string name="live_tv_ui_multiview_pick">Odaberite do četiri kanala za istovremeno gledanje.</string>
+    <string name="live_tv_ui_multiview_sound">Dodirnite kanal za njegov zvuk.</string>
 </resources>

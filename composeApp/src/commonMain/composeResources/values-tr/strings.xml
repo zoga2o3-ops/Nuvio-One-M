@@ -3969,4 +3969,7 @@ Bu özelliği tamamen kendi sorumluluğunuzda kullanırsınız. P2P istediğiniz
     <string name="music_ui_spotify_connected">Spotify ba?land?.</string>
     <string name="music_ui_spotify_disconnected">Spotify ba?lant?s? kesildi.</string>
     <string name="music_ui_spotify_session_stays_encrypted">Spotify'?n oturum a?ma sayfas? burada a??l?r; oturum bu telefonda ?ifreli kal?r.</string>
+    <string name="live_tv_ui_multiview">?oklu g?r?n?m</string>
+    <string name="live_tv_ui_multiview_pick">Ayn? anda izlemek i?in en fazla d?rt kanal se?in.</string>
+    <string name="live_tv_ui_multiview_sound">Sesi i?in bir kanala dokunun.</string>
 </resources>

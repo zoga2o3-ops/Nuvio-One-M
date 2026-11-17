@@ -3934,4 +3934,7 @@
     <string name="music_ui_spotify_connected">Połączono z Spotify.</string>
     <string name="music_ui_spotify_disconnected">Spotify zostało odłączone.</string>
     <string name="music_ui_spotify_session_stays_encrypted">Tutaj otwiera się strona logowania Spotify; sesja pozostaje zaszyfrowana na tym telefonie.</string>
+    <string name="live_tv_ui_multiview">Widok wielu kanałów</string>
+    <string name="live_tv_ui_multiview_pick">Wybierz do czterech kanałów do jednoczesnego oglądania.</string>
+    <string name="live_tv_ui_multiview_sound">Dotknij kanału, aby usłyszeć jego dźwięk.</string>
 </resources>

@@ -3913,4 +3913,7 @@
     <string name="music_ui_spotify_connected">Spotify מחובר.</string>
     <string name="music_ui_spotify_disconnected">החיבור ל-Spotify נותק.</string>
     <string name="music_ui_spotify_session_stays_encrypted">דף הכניסה של Spotify נפתח כאן; ההפעלה נשארת מוצפנת בטלפון זה.</string>
+    <string name="live_tv_ui_multiview">תצוגה מרובה</string>
+    <string name="live_tv_ui_multiview_pick">בחרו עד ארבעה ערוצים לצפייה בו-זמנית.</string>
+    <string name="live_tv_ui_multiview_sound">הקישו על ערוץ כדי לשמוע את הקול שלו.</string>
 </resources>

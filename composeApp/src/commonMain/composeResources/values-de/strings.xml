@@ -3920,4 +3920,7 @@
     <string name="music_ui_spotify_connected">Spotify verbunden.</string>
     <string name="music_ui_spotify_disconnected">Spotify wurde getrennt.</string>
     <string name="music_ui_spotify_session_stays_encrypted">Die Anmeldeseite von Spotify wird hier geöffnet; die Sitzung bleibt auf diesem Handy verschlüsselt.</string>
+    <string name="live_tv_ui_multiview">Mehrfachansicht</string>
+    <string name="live_tv_ui_multiview_pick">Wähle bis zu vier Sender zur gleichzeitigen Wiedergabe.</string>
+    <string name="live_tv_ui_multiview_sound">Tippe auf einen Sender, um seinen Ton zu hören.</string>
 </resources>

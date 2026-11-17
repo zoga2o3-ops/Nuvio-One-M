@@ -3956,4 +3956,7 @@
     <string name="music_ui_spotify_connected">Spotify gekoppeld.</string>
     <string name="music_ui_spotify_disconnected">Spotify is losgekoppeld.</string>
     <string name="music_ui_spotify_session_stays_encrypted">De inlogpagina van Spotify wordt hier geopend; de sessie blijft versleuteld op deze telefoon.</string>
+    <string name="live_tv_ui_multiview">Meerdere weergaven</string>
+    <string name="live_tv_ui_multiview_pick">Kies maximaal vier zenders om tegelijk te bekijken.</string>
+    <string name="live_tv_ui_multiview_sound">Tik op een zender om het geluid te horen.</string>
 </resources>
