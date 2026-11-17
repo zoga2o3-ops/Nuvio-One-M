@@ -3939,6 +3939,6 @@
     <string name="live_tv_ui_nothing_recorded_yet">Nothing recorded yet. Long-press a channel to record it, or tap a show in the guide.</string>
     <string name="live_tv_ui_couldnt_be_recorded">It couldn't be recorded</string>
     <string name="live_tv_ui_hide_search">Hide search</string>
-    <string name="live_tv_settings_source_counts">%1$d playlists · %2$d guides</string>
+    <string name="live_tv_settings_source_counts">Playlists: %1$d · Guides: %2$d</string>
     <string name="live_tv_settings_update_all_description">Download the latest channels and listings.</string>
 </resources>
