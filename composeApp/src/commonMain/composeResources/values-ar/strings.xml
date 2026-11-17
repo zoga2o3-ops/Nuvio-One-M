@@ -3969,4 +3969,5 @@
     <string name="live_tv_ui_multiview">عرض متعدد</string>
     <string name="live_tv_ui_multiview_pick">اختر ما يصل إلى أربع قنوات للمشاهدة في وقت واحد.</string>
     <string name="live_tv_ui_multiview_sound">اضغط على قناة لسماع صوتها.</string>
+    <string name="live_tv_ui_multiview_pick_three">اختر ما يصل إلى ثلاث قنوات للمشاهدة في وقت واحد.</string>
 </resources>

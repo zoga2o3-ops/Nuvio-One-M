@@ -3959,4 +3959,5 @@
     <string name="live_tv_ui_multiview">Meerdere weergaven</string>
     <string name="live_tv_ui_multiview_pick">Kies maximaal vier zenders om tegelijk te bekijken.</string>
     <string name="live_tv_ui_multiview_sound">Tik op een zender om het geluid te horen.</string>
+    <string name="live_tv_ui_multiview_pick_three">Kies maximaal drie zenders om tegelijk te bekijken.</string>
 </resources>
