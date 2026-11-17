@@ -3979,4 +3979,12 @@
     <string name="live_tv_ui_score_alerts">Obavijesti o ocjenama</string>
     <string name="live_tv_ui_score_alerts_on">Upozorenja o ocjenama su uključena</string>
     <string name="live_tv_ui_my_live_games">Moje utakmice uživo</string>
+    <string name="music_ui_spotify_account">Račun na Spotifyu</string>
+    <string name="music_ui_spotify_account_subtitle">Prijavite se kako biste kopirali svoje pjesme koje su vam se svidjele i popise za reprodukciju.</string>
+    <string name="music_ui_spotify_sync">Sinkronizacija Spotifyjeve medijateke</string>
+    <string name="music_ui_spotify_syncing">Sinkronizacija ...</string>
+    <string name="music_ui_spotify_sign_in">Prijavi se na Spotify</string>
+    <string name="music_ui_spotify_connected">Spotify je povezan.</string>
+    <string name="music_ui_spotify_disconnected">Spotify je prekinuo vezu.</string>
+    <string name="music_ui_spotify_session_stays_encrypted">Ovdje se otvara stranica za prijavu na Spotify; sesija ostaje šifrirana na ovom telefonu.</string>
 </resources>

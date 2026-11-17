@@ -3972,4 +3972,12 @@
     <string name="live_tv_ui_score_alerts">Известия за резултати</string>
     <string name="live_tv_ui_score_alerts_on">Известията за оценка са включени</string>
     <string name="live_tv_ui_my_live_games">Моите игри на живо</string>
+    <string name="music_ui_spotify_account">Акаунт в Spotify</string>
+    <string name="music_ui_spotify_account_subtitle">Влезте, за да копирате своите „Харесани песни“ и плейлисти.</string>
+    <string name="music_ui_spotify_sync">Синхронизиране на библиотеката в Spotify</string>
+    <string name="music_ui_spotify_syncing">Синхронизиране…</string>
+    <string name="music_ui_spotify_sign_in">Влизане в Spotify</string>
+    <string name="music_ui_spotify_connected">Spotify е свързан.</string>
+    <string name="music_ui_spotify_disconnected">Spotify е изключен.</string>
+    <string name="music_ui_spotify_session_stays_encrypted">Страницата за влизане в Spotify се отваря тук; сесията остава криптирана на този телефон.</string>
 </resources>

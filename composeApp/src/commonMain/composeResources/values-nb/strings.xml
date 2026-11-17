@@ -3924,4 +3924,12 @@ Du bruker denne funksjonen helt på eget ansvar. P2P kan deaktiveres når som he
     <string name="live_tv_ui_score_alerts">Poengvarsler</string>
     <string name="live_tv_ui_score_alerts_on">Poengvarsler på</string>
     <string name="live_tv_ui_my_live_games">Moje probíhající hry</string>
+    <string name="music_ui_spotify_account">Spotify-konto</string>
+    <string name="music_ui_spotify_account_subtitle">Logg inn for å kopiere «Sanger du har likt» og spillelister.</string>
+    <string name="music_ui_spotify_sync">Synkroniser Spotify-biblioteket</string>
+    <string name="music_ui_spotify_syncing">Synkronisering</string>
+    <string name="music_ui_spotify_sign_in">Logg inn på Spotify</string>
+    <string name="music_ui_spotify_connected">Spotify er koblet til.</string>
+    <string name="music_ui_spotify_disconnected">Spotify er koblet fra.</string>
+    <string name="music_ui_spotify_session_stays_encrypted">Spotifys påloggingsside åpnes her. Økten forblir kryptert på denne telefonen.</string>
 </resources>

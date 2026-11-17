@@ -3954,4 +3954,12 @@
     <string name="live_tv_ui_score_alerts">Оповещения о рейтинге</string>
     <string name="live_tv_ui_score_alerts_on">Оповещения об оценках включены</string>
     <string name="live_tv_ui_my_live_games">Мои Текущие игры</string>
+    <string name="music_ui_spotify_account">Аккаунт Spotify</string>
+    <string name="music_ui_spotify_account_subtitle">Войдите в систему, чтобы скопировать понравившиеся песни и плейлисты.</string>
+    <string name="music_ui_spotify_sync">Синхронизировать библиотеку Spotify</string>
+    <string name="music_ui_spotify_syncing">Синхронизация…</string>
+    <string name="music_ui_spotify_sign_in">Войти в Spotify</string>
+    <string name="music_ui_spotify_connected">Spotify подключен.</string>
+    <string name="music_ui_spotify_disconnected">Spotify отключен.</string>
+    <string name="music_ui_spotify_session_stays_encrypted">Здесь открывается страница входа в Spotify; сеанс остается зашифрованным на этом телефоне.</string>
 </resources>

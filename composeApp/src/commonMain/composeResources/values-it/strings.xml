@@ -3957,4 +3957,12 @@
     <string name="live_tv_ui_score_alerts">Avvisi sui punteggi</string>
     <string name="live_tv_ui_score_alerts_on">Avvisi sui punteggi attivi</string>
     <string name="live_tv_ui_my_live_games">Miei giochi in corso</string>
+    <string name="music_ui_spotify_account">Account Spotify</string>
+    <string name="music_ui_spotify_account_subtitle">Accedi per copiare i tuoi brani preferiti e le tue playlist.</string>
+    <string name="music_ui_spotify_sync">Sincronizza la libreria di Spotify</string>
+    <string name="music_ui_spotify_syncing">Sincronizzazione...</string>
+    <string name="music_ui_spotify_sign_in">Accedi a Spotify</string>
+    <string name="music_ui_spotify_connected">Spotify collegato.</string>
+    <string name="music_ui_spotify_disconnected">Spotify disconnesso.</string>
+    <string name="music_ui_spotify_session_stays_encrypted">La pagina di accesso di Spotify si apre qui; la sessione rimane crittografata su questo telefono.</string>
 </resources>

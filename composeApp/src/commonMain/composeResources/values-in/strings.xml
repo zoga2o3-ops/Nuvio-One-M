@@ -3910,4 +3910,12 @@
     <string name="live_tv_ui_score_alerts">Pemberitahuan skor</string>
     <string name="live_tv_ui_score_alerts_on">Pemberitahuan skor diaktifkan</string>
     <string name="live_tv_ui_my_live_games">Game Live</string>
+    <string name="music_ui_spotify_account">Akun Spotify</string>
+    <string name="music_ui_spotify_account_subtitle">Masuk untuk menyalin Lagu Favorit dan daftar putarmu.</string>
+    <string name="music_ui_spotify_sync">Sinkronkan pustaka Spotify</string>
+    <string name="music_ui_spotify_syncing">Menyinkronkan</string>
+    <string name="music_ui_spotify_sign_in">Masuk ke Spotify</string>
+    <string name="music_ui_spotify_connected">Spotify terhubung.</string>
+    <string name="music_ui_spotify_disconnected">Spotify terputus.</string>
+    <string name="music_ui_spotify_session_stays_encrypted">Halaman masuk Spotify terbuka di sini; sesi tetap terenkripsi di ponsel ini.</string>
 </resources>

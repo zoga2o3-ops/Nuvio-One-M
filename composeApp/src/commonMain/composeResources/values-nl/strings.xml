@@ -3948,4 +3948,12 @@
     <string name="live_tv_ui_score_alerts">Scoremeldingen</string>
     <string name="live_tv_ui_score_alerts_on">Scoremeldingen aan</string>
     <string name="live_tv_ui_my_live_games">Mijn live spellen</string>
+    <string name="music_ui_spotify_account">Spotify-account</string>
+    <string name="music_ui_spotify_account_subtitle">Log in om je favoriete nummers en afspeellijsten te kopiëren.</string>
+    <string name="music_ui_spotify_sync">Spotify-bibliotheek synchroniseren</string>
+    <string name="music_ui_spotify_syncing">Aan het synchroniseren...</string>
+    <string name="music_ui_spotify_sign_in">Inloggen op Spotify</string>
+    <string name="music_ui_spotify_connected">Spotify gekoppeld.</string>
+    <string name="music_ui_spotify_disconnected">Spotify is losgekoppeld.</string>
+    <string name="music_ui_spotify_session_stays_encrypted">De inlogpagina van Spotify wordt hier geopend; de sessie blijft versleuteld op deze telefoon.</string>
 </resources>

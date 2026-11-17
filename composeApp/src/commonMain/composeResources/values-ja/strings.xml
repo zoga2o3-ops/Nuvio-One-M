@@ -3943,4 +3943,12 @@
     <string name="live_tv_ui_score_alerts">スコアアラート</string>
     <string name="live_tv_ui_score_alerts_on">スコアアラートをオンにする</string>
     <string name="live_tv_ui_my_live_games">マイライブゲーム</string>
+    <string name="music_ui_spotify_account">Spotifyアカウント</string>
+    <string name="music_ui_spotify_account_subtitle">ログインして、お気に入りの曲とプレイリストをコピーしましょう。</string>
+    <string name="music_ui_spotify_sync">Spotifyライブラリを同期する</string>
+    <string name="music_ui_spotify_syncing">同期中…</string>
+    <string name="music_ui_spotify_sign_in">Spotifyにサインイン</string>
+    <string name="music_ui_spotify_connected">Spotifyに接続しました。</string>
+    <string name="music_ui_spotify_disconnected">Spotifyの接続が解除されました。</string>
+    <string name="music_ui_spotify_session_stays_encrypted">Spotifyのサインインページがここに開きます。セッションはこのスマートフォン上で暗号化されたままになります。</string>
 </resources>

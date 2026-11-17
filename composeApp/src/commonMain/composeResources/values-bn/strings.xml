@@ -3984,4 +3984,12 @@
     <string name="live_tv_ui_score_alerts">স্কোর সংক্রান্ত অ্যালার্ট</string>
     <string name="live_tv_ui_score_alerts_on">স্কোর সংক্রান্ত অ্যালার্ট চালু আছে</string>
     <string name="live_tv_ui_my_live_games">লাইভ গেমস</string>
+    <string name="music_ui_spotify_account">Spotify অ্যাকাউন্ট</string>
+    <string name="music_ui_spotify_account_subtitle">আপনার পছন্দ করা গান এবং প্লেলিস্ট কপি করতে সাইন ইন করুন।</string>
+    <string name="music_ui_spotify_sync">Spotify লাইব্রেরি সিঙ্ক করুন</string>
+    <string name="music_ui_spotify_syncing">সমলয় করা হচ্ছে ...</string>
+    <string name="music_ui_spotify_sign_in">Spotify-তে সাইন ইন করুন</string>
+    <string name="music_ui_spotify_connected">Spotify কানেক্ট করা হয়েছে।</string>
+    <string name="music_ui_spotify_disconnected">Spotify সংযোগ বিচ্ছিন্ন করা হয়েছে।</string>
+    <string name="music_ui_spotify_session_stays_encrypted">Spotify-এর সাইন-ইন পেজ এখানে খুলবে; সেশনটি এই ফোনে এনক্রিপ্ট করা থাকবে।</string>
 </resources>

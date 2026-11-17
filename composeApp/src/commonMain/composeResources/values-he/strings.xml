@@ -3905,4 +3905,12 @@
     <string name="live_tv_ui_score_alerts">התראות על דירוג</string>
     <string name="live_tv_ui_score_alerts_on">התראות על דירוג מופעלות</string>
     <string name="live_tv_ui_my_live_games">המשחקים החיים שלי</string>
+    <string name="music_ui_spotify_account">חשבון Spotify</string>
+    <string name="music_ui_spotify_account_subtitle">התחברו כדי להעתיק את השירים והפלייליסטים שסימנתם בלייק.</string>
+    <string name="music_ui_spotify_sync">סנכרון ספריית Spotify</string>
+    <string name="music_ui_spotify_syncing">מסנכרן...</string>
+    <string name="music_ui_spotify_sign_in">התחברות ל-Spotify</string>
+    <string name="music_ui_spotify_connected">Spotify מחובר.</string>
+    <string name="music_ui_spotify_disconnected">החיבור ל-Spotify נותק.</string>
+    <string name="music_ui_spotify_session_stays_encrypted">דף הכניסה של Spotify נפתח כאן; ההפעלה נשארת מוצפנת בטלפון זה.</string>
 </resources>

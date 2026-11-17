@@ -54,6 +54,13 @@
             android:theme="@style/Theme.Nuvio.Splash" />
 
         <activity
+            android:name="com.nuvio.app.music.SpotifyLoginActivity"
+            android:exported="false"
+            android:label="Spotify"
+            android:theme="@android:style/Theme.DeviceDefault.Light.NoActionBar"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
             android:name="com.nuvio.app.LinkActivity"
             android:excludeFromRecents="true"
             android:exported="true"

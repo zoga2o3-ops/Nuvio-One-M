@@ -3916,4 +3916,12 @@
     <string name="live_tv_ui_score_alerts">Alerte privind scorul</string>
     <string name="live_tv_ui_score_alerts_on">Alerte privind scorul activate</string>
     <string name="live_tv_ui_my_live_games">Jocurile mele live</string>
+    <string name="music_ui_spotify_account">Cont Spotify</string>
+    <string name="music_ui_spotify_account_subtitle">Conectați-vă pentru a copia melodiile apreciate și listele de redare.</string>
+    <string name="music_ui_spotify_sync">Sincronizați biblioteca Spotify</string>
+    <string name="music_ui_spotify_syncing">Se sincronizează...</string>
+    <string name="music_ui_spotify_sign_in">Conectați-vă la Spotify</string>
+    <string name="music_ui_spotify_connected">Spotify conectat.</string>
+    <string name="music_ui_spotify_disconnected">Spotify a fost deconectat.</string>
+    <string name="music_ui_spotify_session_stays_encrypted">Pagina de conectare Spotify se deschide aici; sesiunea rămâne criptată pe acest telefon.</string>
 </resources>

@@ -3961,4 +3961,12 @@ Bu özelliği tamamen kendi sorumluluğunuzda kullanırsınız. P2P istediğiniz
     <string name="live_tv_ui_score_alerts">Puan uyarıları</string>
     <string name="live_tv_ui_score_alerts_on">Puan uyarıları açık</string>
     <string name="live_tv_ui_my_live_games">Canlı oyunlarım</string>
+    <string name="music_ui_spotify_account">Spotify hesab?</string>
+    <string name="music_ui_spotify_account_subtitle">Be?endi?iniz ?ark?lar? ve ?alma listelerinizi kopyalamak i?in oturum a??n.</string>
+    <string name="music_ui_spotify_sync">Spotify kitapl???n? e?itle</string>
+    <string name="music_ui_spotify_syncing">E?itleniyor…</string>
+    <string name="music_ui_spotify_sign_in">Spotify'a giri? yap</string>
+    <string name="music_ui_spotify_connected">Spotify ba?land?.</string>
+    <string name="music_ui_spotify_disconnected">Spotify ba?lant?s? kesildi.</string>
+    <string name="music_ui_spotify_session_stays_encrypted">Spotify'?n oturum a?ma sayfas? burada a??l?r; oturum bu telefonda ?ifreli kal?r.</string>
 </resources>

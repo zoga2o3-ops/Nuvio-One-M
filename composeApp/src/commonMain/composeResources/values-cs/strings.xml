@@ -3948,4 +3948,12 @@
     <string name="live_tv_ui_score_alerts">Upozornění na skóre</string>
     <string name="live_tv_ui_score_alerts_on">Upozornění na skóre zapnuta</string>
     <string name="live_tv_ui_my_live_games">Moje živé hry</string>
+    <string name="music_ui_spotify_account">Účet Spotify</string>
+    <string name="music_ui_spotify_account_subtitle">Přihlas se a zkopíruj své oblíbené skladby a playlisty.</string>
+    <string name="music_ui_spotify_sync">Synchronizovat knihovnu Spotify</string>
+    <string name="music_ui_spotify_syncing">synchronizování</string>
+    <string name="music_ui_spotify_sign_in">Přihlásit se ke Spotify</string>
+    <string name="music_ui_spotify_connected">Spotify je připojeno.</string>
+    <string name="music_ui_spotify_disconnected">Spotify bylo odpojeno.</string>
+    <string name="music_ui_spotify_session_stays_encrypted">Zde se otevře přihlašovací stránka Spotify; relace zůstane na tomto telefonu zašifrovaná.</string>
 </resources>
