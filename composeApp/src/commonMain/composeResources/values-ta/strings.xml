@@ -3912,4 +3912,12 @@
     <string name="live_tv_ui_score_alerts">மதிப்பெண் அறிவிப்புகள்</string>
     <string name="live_tv_ui_score_alerts_on">மதிப்பெண் அறிவிப்புகள் இயக்கத்தில் உள்ளன</string>
     <string name="live_tv_ui_my_live_games">எனது நேரலை விளையாட்டுகள்</string>
+    <string name="music_ui_spotify_account">Spotify கணக்கு</string>
+    <string name="music_ui_spotify_account_subtitle">உங்கள் விரும்பிய பாடல்கள் மற்றும் பிளேலிஸ்ட்களை நகலெடுக்க உள்நுழையவும்.</string>
+    <string name="music_ui_spotify_sync">Spotify நூலகத்தை ஒத்திசைக்கவும்</string>
+    <string name="music_ui_spotify_syncing">ஒத்திசைகிறது...</string>
+    <string name="music_ui_spotify_sign_in">Spotify இல் உள்நுழைக</string>
+    <string name="music_ui_spotify_connected">Spotify இணைக்கப்பட்டுள்ளது.</string>
+    <string name="music_ui_spotify_disconnected">Spotify இணைப்பு துண்டிக்கப்பட்டது.</string>
+    <string name="music_ui_spotify_session_stays_encrypted">Spotify ??? ??????????? ?????? ????? ??????????; ?????? ???? ???????? ???????????????? ?????????.</string>
 </resources>

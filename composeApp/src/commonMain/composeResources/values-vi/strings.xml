@@ -3975,4 +3975,12 @@
     <string name="live_tv_ui_score_alerts">Thông báo về điểm số</string>
     <string name="live_tv_ui_score_alerts_on">Bật thông báo về điểm số</string>
     <string name="live_tv_ui_my_live_games">Các trận đấu trực tiếp của tôi</string>
+    <string name="music_ui_spotify_account">T?i kho?n Spotify</string>
+    <string name="music_ui_spotify_account_subtitle">??ng nh?p ?? sao ch?p B?i h?t ?? th?ch v? danh s?ch ph?t c?a b?n.</string>
+    <string name="music_ui_spotify_sync">??ng b? th? vi?n Spotify</string>
+    <string name="music_ui_spotify_syncing">?ang ??ng b?…</string>
+    <string name="music_ui_spotify_sign_in">??ng nh?p v?o Spotify</string>
+    <string name="music_ui_spotify_connected">?? k?t n?i Spotify.</string>
+    <string name="music_ui_spotify_disconnected">?? ng?t k?t n?i Spotify.</string>
+    <string name="music_ui_spotify_session_stays_encrypted">Trang ??ng nh?p c?a Spotify m? t?i ??y; phi?n ??ng nh?p ???c m? h?a tr?n ?i?n tho?i n?y.</string>
 </resources>

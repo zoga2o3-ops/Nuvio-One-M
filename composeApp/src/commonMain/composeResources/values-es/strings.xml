@@ -3941,4 +3941,12 @@
     <string name="live_tv_ui_score_alerts">Alertas de puntuación</string>
     <string name="live_tv_ui_score_alerts_on">Alertas de puntuación activadas</string>
     <string name="live_tv_ui_my_live_games">Mis porras activas</string>
+    <string name="music_ui_spotify_account">Cuenta de Spotify</string>
+    <string name="music_ui_spotify_account_subtitle">Inicia sesión para copiar tus canciones favoritas y tus listas de reproducción.</string>
+    <string name="music_ui_spotify_sync">Sincronizar la biblioteca de Spotify</string>
+    <string name="music_ui_spotify_syncing">Sincronizando...</string>
+    <string name="music_ui_spotify_sign_in">Iniciar sesión en Spotify</string>
+    <string name="music_ui_spotify_connected">Spotify conectado.</string>
+    <string name="music_ui_spotify_disconnected">Spotify se ha desconectado.</string>
+    <string name="music_ui_spotify_session_stays_encrypted">La página de inicio de sesión de Spotify se abre aquí; la sesión permanece cifrada en este teléfono.</string>
 </resources>

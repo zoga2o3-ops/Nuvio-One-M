@@ -3955,4 +3955,12 @@
     <string name="live_tv_ui_score_alerts">Score alerts</string>
     <string name="live_tv_ui_score_alerts_on">Score alerts on</string>
     <string name="live_tv_ui_my_live_games">My live games</string>
+    <string name="music_ui_spotify_account">Spotify account</string>
+    <string name="music_ui_spotify_account_subtitle">Sign in to copy your Liked Songs and playlists.</string>
+    <string name="music_ui_spotify_sync">Sync Spotify library</string>
+    <string name="music_ui_spotify_syncing">Syncing…</string>
+    <string name="music_ui_spotify_sign_in">Sign in to Spotify</string>
+    <string name="music_ui_spotify_connected">Spotify connected.</string>
+    <string name="music_ui_spotify_disconnected">Spotify disconnected.</string>
+    <string name="music_ui_spotify_session_stays_encrypted">Spotify's sign-in page opens here; the session stays encrypted on this phone.</string>
 </resources>

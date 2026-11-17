@@ -92,12 +92,23 @@ internal fun MusicIntegrationsScreen(
     var importProgress by remember { mutableStateOf<String?>(null) }
     var importResult by remember { mutableStateOf<String?>(null) }
     var importError by remember { mutableStateOf<String?>(null) }
+    val spotifyWeb by MusicSpotifyWebSession.state.collectAsState()
+    val webSync by MusicSpotifyWebSync.state.collectAsState()
+    var spotifyMessage by remember { mutableStateOf<String?>(null) }
+    val spotifyLogin = androidx.activity.compose.rememberLauncherForActivityResult(
+        androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == android.app.Activity.RESULT_OK) {
+            spotifyMessage = kotlinx.coroutines.runBlocking { getString(Res.string.music_ui_spotify_connected) }
+        }
+    }
 
     LaunchedEffect(Unit) {
         MusicWebDav.init(context)
         MusicNavidrome.init(context)
         MusicScrobbler.init(context)
         MusicAddonRegistry.init(context)
+        MusicSpotifyWebSession.init(context)
         withFrameNanos { }
         runCatching { closeFocus.requestFocus() }
     }
@@ -292,6 +303,81 @@ internal fun MusicIntegrationsScreen(
                         primary = addons.isEmpty(),
                         onClick = onOpenSources
                     )
+                }
+
+                IntegrationCard(
+                    icon = Icons.Default.Favorite,
+                    tint = MusicPalette.accentTeal,
+                    title = stringResource(Res.string.music_ui_spotify_account),
+                    subtitle = if (spotifyWeb.connected) {
+                        stringResource(
+                            Res.string.settings_trakt_connected_as,
+                            spotifyWeb.accountName ?: stringResource(Res.string.music_ui_spotify_account)
+                        )
+                    } else {
+                        stringResource(Res.string.music_ui_spotify_account_subtitle)
+                    }
+                ) {
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(9.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        IntegrationPill(
+                            icon = Icons.Default.MusicNote,
+                            label = when {
+                                webSync.busy -> stringResource(Res.string.music_ui_spotify_syncing)
+                                spotifyWeb.connected -> stringResource(Res.string.music_ui_spotify_sync)
+                                else -> stringResource(Res.string.music_ui_spotify_sign_in)
+                            },
+                            primary = true,
+                            enabled = !webSync.busy,
+                            onClick = {
+                                if (spotifyWeb.connected) {
+                                    MusicSpotifyWebSync.sync(context)
+                                } else {
+                                    spotifyLogin.launch(
+                                        android.content.Intent(context, SpotifyLoginActivity::class.java)
+                                    )
+                                }
+                            }
+                        )
+                        if (spotifyWeb.connected) {
+                            IntegrationPill(
+                                icon = Icons.Default.Favorite,
+                                label = stringResource(Res.string.settings_debrid_disconnect),
+                                enabled = !webSync.busy,
+                                onClick = {
+                                    MusicSpotifyWebSession.clear(context)
+                                    MusicSpotifyWebSync.reset()
+                                    spotifyMessage = kotlinx.coroutines.runBlocking { getString(Res.string.music_ui_spotify_disconnected) }
+                                }
+                            )
+                        }
+                    }
+                    if (spotifyWeb.connected) {
+                        Spacer(Modifier.height(8.dp))
+                        Text(
+                            text = stringResource(Res.string.music_ui_spotify_session_stays_encrypted),
+                            color = MusicPalette.textSecondary,
+                            fontSize = 11.sp
+                        )
+                    }
+                    webSync.progress?.let {
+                        Spacer(Modifier.height(8.dp))
+                        Text(text = it, color = MusicPalette.textSecondary, fontSize = 11.sp)
+                    }
+                    webSync.result?.let {
+                        Spacer(Modifier.height(8.dp))
+                        Text(text = it, color = MusicPalette.accentTeal, fontSize = 11.sp)
+                    }
+                    webSync.error?.let {
+                        Spacer(Modifier.height(8.dp))
+                        Text(text = it, color = MusicPalette.error, fontSize = 11.sp)
+                    }
+                    spotifyMessage?.let {
+                        Spacer(Modifier.height(8.dp))
+                        Text(text = it, color = MusicPalette.accentTeal, fontSize = 11.sp)
+                    }
                 }
 
                 IntegrationCard(

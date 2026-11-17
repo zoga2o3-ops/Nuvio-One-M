@@ -110,6 +110,22 @@ object MusicLibrary {
         return existing == null
     }
 
+    /** Adds songs to Liked Songs without toggling (library sync). Returns how many were new. */
+    @Synchronized
+    fun addLikedSongs(songs: List<Song>): Int {
+        if (songs.isEmpty()) return 0
+        val current = _liked.value
+        val existing = current.mapTo(HashSet()) { it.videoId }
+        val additions = songs
+            .filter { it.videoId.isNotBlank() && existing.add(it.videoId) }
+            .map { it.toStored() }
+        if (additions.isEmpty()) return 0
+        val next = current + additions
+        _liked.value = next
+        persist(KEY_LIKED, next)
+        return additions.size
+    }
+
     /** Moves [song] to the front of Recently Played, keeping one entry per video. */
     fun recordPlayed(song: Song) {
         if (song.videoId.isBlank()) return

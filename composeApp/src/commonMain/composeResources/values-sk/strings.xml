@@ -3984,4 +3984,12 @@
     <string name="live_tv_ui_score_alerts">Upozornenia na skóre</string>
     <string name="live_tv_ui_score_alerts_on">Upozornenia na skóre sú zapnuté</string>
     <string name="live_tv_ui_my_live_games">Moje živé hry</string>
+    <string name="music_ui_spotify_account">Účet Spotify</string>
+    <string name="music_ui_spotify_account_subtitle">Prihlás sa a skopíruj svoje obľúbené skladby a zoznamy skladieb.</string>
+    <string name="music_ui_spotify_sync">Synchronizovať knižnicu Spotify</string>
+    <string name="music_ui_spotify_syncing">Synchronizovanie</string>
+    <string name="music_ui_spotify_sign_in">Prihlásiť sa do Spotify</string>
+    <string name="music_ui_spotify_connected">Spotify je pripojené.</string>
+    <string name="music_ui_spotify_disconnected">Spotify bolo odpojené.</string>
+    <string name="music_ui_spotify_session_stays_encrypted">Tu sa otvorí prihlasovacia stránka Spotify. Relácia zostane na tomto telefóne zašifrovaná.</string>
 </resources>

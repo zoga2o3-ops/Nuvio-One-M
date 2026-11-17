@@ -3944,4 +3944,12 @@
     <string name="live_tv_ui_score_alerts">Pontszámra vonatkozó értesítések</string>
     <string name="live_tv_ui_score_alerts_on">Pontszámra vonatkozó értesítések bekapcsolva</string>
     <string name="live_tv_ui_my_live_games">Élő játékaim</string>
+    <string name="music_ui_spotify_account">Spotify-fiók</string>
+    <string name="music_ui_spotify_account_subtitle">Jelentkezz be a Kedvenc számaid és lejátszási listáid másolásához.</string>
+    <string name="music_ui_spotify_sync">Spotify-könyvtár szinkronizálása</string>
+    <string name="music_ui_spotify_syncing">Szinkronizálás</string>
+    <string name="music_ui_spotify_sign_in">Bejelentkezés a Spotifyba</string>
+    <string name="music_ui_spotify_connected">Spotify csatlakoztatva.</string>
+    <string name="music_ui_spotify_disconnected">A Spotify leválasztva.</string>
+    <string name="music_ui_spotify_session_stays_encrypted">Itt nyílik meg a Spotify bejelentkezési oldala; a munkamenet titkosítva marad ezen a telefonon.</string>
 </resources>
