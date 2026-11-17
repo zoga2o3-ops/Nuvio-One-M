@@ -6,6 +6,7 @@ import android.util.Base64
 import android.util.Log
 import com.nuvio.app.livetv.data.LiveTvPreferences
 import com.nuvio.app.livetv.data.LiveTvRepository
+import com.nuvio.app.music.MusicLibrarySync
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -426,7 +427,10 @@ class LiveTvDriveSync(
             // What really changed here. Nothing: no reload at all (it used to reload Live TV,
             // reading the guide again, on every sync, often twice at start-up).
             val keys = (before.keys().asSequence() + after.keys().asSequence()).toSet()
-                .filter { k -> before.opt(k)?.toString() != after.opt(k)?.toString() }
+                .filter { k ->
+                    k !in MusicLibrarySync.KEYS &&
+                        before.opt(k)?.toString() != after.opt(k)?.toString()
+                }
             if (keys.isEmpty() && changed.isEmpty()) {
                 com.nuvio.app.livetv.model.LiveTvLoadReport.add("Sync: other TV's setup is the same as this one; nothing to reload")
                 return
@@ -696,7 +700,7 @@ class LiveTvDriveSync(
     private companion object {
         const val TAG = "LiveTvDriveSync"
         /** Settings that are lists of sources, merged source by source. */
-        val SOURCE_LISTS = setOf("playlists", "epg_sources")
+        val SOURCE_LISTS = setOf("playlists", "epg_sources", "music_liked", "music_playlists")
         const val MODE_APPDATA = "appdata"
         const val MODE_FILE = "file"
         /** Tried in order until Google accepts one. */
