@@ -103,6 +103,13 @@ private const val MUSIC_UI_SCALE = 0.88f
 
 private data class MusicVideoRequest(val video: Song, val startPositionMs: Long)
 
+/** A queue item that can open the full-screen video player instead of audio-only. */
+private fun Song.hasMusicVideo(): Boolean =
+    localUri == null &&
+        !videoId.startsWith("local:") &&
+        !videoId.startsWith("webdav:") &&
+        !videoId.startsWith("navidrome:")
+
 /**
  * The Music section: YouTube Music browsing, search and an audio-first player, in BitChord's
  * Apple-Music-inspired layout.
@@ -149,6 +156,51 @@ fun MusicScreen() {
     val sidebarExpanded = LocalSidebarExpanded.current
     val openPlaylist = playlists.firstOrNull { it.id == openPlaylistId }
     val view = LocalView.current
+
+    /** Opens the full-screen video for [song], or returns to Now Playing when it has none. */
+    fun showVideoFor(song: Song, startPositionMs: Long) {
+        if (!song.hasMusicVideo()) {
+            musicVideo = null
+            showNowPlaying = true
+            return
+        }
+        MusicPlayer.pause()
+        musicVideo = MusicVideoRequest(song, startPositionMs)
+        showNowPlaying = false
+    }
+
+    /**
+     * Moves the video screen through the queue. At the end of the queue the audio player
+     * decides what happens next (autoplay/stop) and the screen returns to Now Playing.
+     */
+    fun skipVideo(direction: Int, auto: Boolean = false) {
+        val state = MusicPlayer.state.value
+        if (state.queue.isEmpty() || state.index !in state.queue.indices) return
+        val target = when {
+            direction > 0 && state.index < state.queue.lastIndex -> state.index + 1
+            direction < 0 && state.index > 0 -> state.index - 1
+            direction > 0 && state.repeatMode == RepeatMode.ALL -> 0
+            direction < 0 && state.repeatMode == RepeatMode.ALL -> state.queue.lastIndex
+            else -> null
+        }
+        if (target == null) {
+            if (auto && direction > 0) {
+                MusicPlayer.next(auto = true)
+                musicVideo = null
+                showNowPlaying = true
+            }
+            return
+        }
+        val next = state.queue[target]
+        if (next.hasMusicVideo()) {
+            MusicPlayer.selectPaused(target)
+            showVideoFor(next, 0L)
+        } else {
+            MusicPlayer.jumpTo(target)
+            musicVideo = null
+            showNowPlaying = true
+        }
+    }
 
     // A TV treats a paused video surface as idle and starts its screensaver. Keep the window
     // awake while music is actually playing (or between tracks), while a party is waiting for
@@ -511,9 +563,7 @@ fun MusicScreen() {
                 onClose = { showNowPlaying = false },
                 onOpenSettings = { showSettings = true },
                 onOpenMusicVideo = { video, startPositionMs ->
-                    MusicPlayer.pause()
-                    musicVideo = MusicVideoRequest(video, startPositionMs)
-                    showNowPlaying = false
+                    showVideoFor(video, startPositionMs)
                 },
                 onOpenAlbum = { browseId, title, artist, thumbnailUrl ->
                     showNowPlaying = false
@@ -555,7 +605,8 @@ fun MusicScreen() {
                 onClose = {
                     musicVideo = null
                     showNowPlaying = true
-                }
+                },
+                onEnded = { skipVideo(direction = 1, auto = true) }
             )
         }
     }

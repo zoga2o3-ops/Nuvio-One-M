@@ -322,6 +322,36 @@ object MusicPlayer {
     }
 
     /**
+     * Makes [index] the current track without starting audio. Used when a music video takes over
+     * the screen: the video brings its own sound, and returning to Now Playing should show this
+     * track paused rather than briefly starting the audio stream behind the video.
+     */
+    fun selectPaused(index: Int) {
+        val current = _state.value
+        if (index !in current.queue.indices) return
+        val song = current.queue[index]
+        resolutionJob?.cancel()
+        prefetchJob?.cancel()
+        videoJob?.cancel()
+        runCatching { player?.stop() }
+        _state.update {
+            it.copy(
+                index = index,
+                song = song,
+                isBuffering = false,
+                isPlaying = false,
+                positionMs = 0L,
+                durationMs = song.durationMillis(),
+                error = null,
+                videoAvailable = false,
+                videoLoading = false,
+                videoSong = null
+            )
+        }
+        persistQueue()
+    }
+
+    /**
      * Appends a song to the shared queue, starting playback when nothing is queued yet.
      * Used by Party Mode, where additions arrive from phones rather than the TV screen.
      */
