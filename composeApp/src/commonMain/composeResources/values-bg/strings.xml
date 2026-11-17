@@ -3983,4 +3983,5 @@
     <string name="live_tv_ui_multiview">Многоекранен изглед</string>
     <string name="live_tv_ui_multiview_pick">Изберете до четири канала за гледане едновременно.</string>
     <string name="live_tv_ui_multiview_sound">Докоснете канал, за да чуете звука му.</string>
+    <string name="live_tv_ui_multiview_pick_three">Изберете до три канала за гледане едновременно.</string>
 </resources>

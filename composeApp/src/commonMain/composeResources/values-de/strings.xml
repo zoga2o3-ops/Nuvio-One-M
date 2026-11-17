@@ -3923,4 +3923,5 @@
     <string name="live_tv_ui_multiview">Mehrfachansicht</string>
     <string name="live_tv_ui_multiview_pick">Wähle bis zu vier Sender zur gleichzeitigen Wiedergabe.</string>
     <string name="live_tv_ui_multiview_sound">Tippe auf einen Sender, um seinen Ton zu hören.</string>
+    <string name="live_tv_ui_multiview_pick_three">Wähle bis zu drei Sender zur gleichzeitigen Wiedergabe.</string>
 </resources>

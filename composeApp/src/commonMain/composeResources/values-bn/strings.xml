@@ -3995,4 +3995,5 @@
     <string name="live_tv_ui_multiview">মাল্টিভিউ</string>
     <string name="live_tv_ui_multiview_pick">একসাথে দেখতে সর্বোচ্চ চারটি চ্যানেল বেছে নিন।</string>
     <string name="live_tv_ui_multiview_sound">শব্দের জন্য একটি চ্যানেলে ট্যাপ করুন।</string>
+    <string name="live_tv_ui_multiview_pick_three">একসাথে দেখতে সর্বোচ্চ তিনটি চ্যানেল বেছে নিন।</string>
 </resources>

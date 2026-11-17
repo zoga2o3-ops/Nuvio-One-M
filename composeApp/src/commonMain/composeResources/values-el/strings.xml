@@ -3953,4 +3953,5 @@
     <string name="live_tv_ui_multiview">Πολλαπλή προβολή</string>
     <string name="live_tv_ui_multiview_pick">Επιλέξτε έως τέσσερα κανάλια για ταυτόχρονη παρακολούθηση.</string>
     <string name="live_tv_ui_multiview_sound">Πατήστε ένα κανάλι για τον ήχο του.</string>
+    <string name="live_tv_ui_multiview_pick_three">Επιλέξτε έως τρία κανάλια για ταυτόχρονη παρακολούθηση.</string>
 </resources>

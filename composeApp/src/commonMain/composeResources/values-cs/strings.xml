@@ -3959,4 +3959,5 @@
     <string name="live_tv_ui_multiview">Více obrazovek</string>
     <string name="live_tv_ui_multiview_pick">Vyberte až čtyři kanály pro současné sledování.</string>
     <string name="live_tv_ui_multiview_sound">Klepnutím na kanál zapnete jeho zvuk.</string>
+    <string name="live_tv_ui_multiview_pick_three">Vyberte až tři kanály pro současné sledování.</string>
 </resources>

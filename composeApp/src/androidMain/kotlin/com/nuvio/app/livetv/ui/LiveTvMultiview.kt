@@ -9,6 +9,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -62,15 +63,20 @@ import com.nuvio.app.livetv.model.LiveChannel
 import com.nuvio.app.livetv.player.StalkerPlayback
 import nuvio.composeapp.generated.resources.Res
 import nuvio.composeapp.generated.resources.action_cancel
+import nuvio.composeapp.generated.resources.compose_nav_search
 import nuvio.composeapp.generated.resources.live_tv_ui_multiview
 import nuvio.composeapp.generated.resources.live_tv_ui_multiview_pick
+import nuvio.composeapp.generated.resources.live_tv_ui_multiview_pick_three
 import nuvio.composeapp.generated.resources.live_tv_ui_multiview_sound
-import nuvio.composeapp.generated.resources.compose_nav_search
 import org.jetbrains.compose.resources.stringResource
 
-private const val MAX_TILES = 4
+/** A phone shows three screens at once; a tablet has room for four. */
+private const val MAX_TILES_PHONE = 3
+private const val MAX_TILES_TABLET = 4
+private const val TABLET_MIN_WIDTH_DP = 768
+private const val TABLET_MIN_HEIGHT_DP = 600
 
-/** Which channels go in the grid: up to four, all of them playable. */
+/** Which channels go in the grid: up to three on a phone, four on a tablet. */
 @Composable
 internal fun LiveTvMultiviewPicker(
     channels: List<LiveChannel>,
@@ -90,99 +96,109 @@ internal fun LiveTvMultiviewPicker(
         onDismissRequest = onDismiss,
         properties = DialogProperties(usePlatformDefaultWidth = false),
     ) {
-        Column(
-            Modifier.fillMaxSize().background(Color(0xFF121216)).padding(20.dp),
-        ) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Icon(Icons.Default.GridView, contentDescription = null, tint = Color(0xFFE53935))
-                Text(
-                    stringResource(Res.string.live_tv_ui_multiview),
-                    style = MaterialTheme.typography.headlineSmall,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.weight(1f).padding(start = 10.dp),
-                )
-                IconButton(onClick = onDismiss) {
-                    Icon(Icons.Default.Close, contentDescription = stringResource(Res.string.action_cancel))
-                }
-            }
-            Text(
-                stringResource(Res.string.live_tv_ui_multiview_pick),
-                style = MaterialTheme.typography.bodyMedium,
-                color = LocalContentColor.current.copy(alpha = 0.7f),
-                modifier = Modifier.padding(top = 4.dp, bottom = 12.dp),
-            )
-            OutlinedTextField(
-                value = query,
-                onValueChange = { query = it },
-                singleLine = true,
-                placeholder = { Text(stringResource(Res.string.compose_nav_search)) },
-                modifier = Modifier.fillMaxWidth(),
-            )
-            LazyColumn(
-                Modifier.weight(1f).fillMaxWidth().padding(top = 8.dp),
-                verticalArrangement = Arrangement.spacedBy(2.dp),
+        BoxWithConstraints(Modifier.fillMaxSize()) {
+            val tablet = maxWidth >= TABLET_MIN_WIDTH_DP.dp && maxHeight >= TABLET_MIN_HEIGHT_DP.dp
+            val maxTiles = if (tablet) MAX_TILES_TABLET else MAX_TILES_PHONE
+            Column(
+                Modifier.fillMaxSize().background(Color(0xFF121216)).padding(20.dp),
             ) {
-                items(shown, key = { it.key }) { channel ->
-                    val selected = picked.any { it.key == channel.key }
-                    Row(
-                        Modifier.fillMaxWidth()
-                            .clip(RoundedCornerShape(8.dp))
-                            .background(if (selected) Color(0xFF2A2A31) else Color.Transparent)
-                            .clickable {
-                                picked = when {
-                                    selected -> picked.filterNot { it.key == channel.key }
-                                    picked.size < MAX_TILES -> picked + channel
-                                    else -> picked
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Icon(Icons.Default.GridView, contentDescription = null, tint = Color(0xFFE53935))
+                    Text(
+                        stringResource(Res.string.live_tv_ui_multiview),
+                        style = MaterialTheme.typography.headlineSmall,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.weight(1f).padding(start = 10.dp),
+                    )
+                    IconButton(onClick = onDismiss) {
+                        Icon(Icons.Default.Close, contentDescription = stringResource(Res.string.action_cancel))
+                    }
+                }
+                Text(
+                    stringResource(
+                        if (maxTiles == MAX_TILES_PHONE) Res.string.live_tv_ui_multiview_pick_three
+                        else Res.string.live_tv_ui_multiview_pick
+                    ),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = LocalContentColor.current.copy(alpha = 0.7f),
+                    modifier = Modifier.padding(top = 4.dp, bottom = 12.dp),
+                )
+                OutlinedTextField(
+                    value = query,
+                    onValueChange = { query = it },
+                    singleLine = true,
+                    placeholder = { Text(stringResource(Res.string.compose_nav_search)) },
+                    modifier = Modifier.fillMaxWidth(),
+                )
+                LazyColumn(
+                    Modifier.weight(1f).fillMaxWidth().padding(top = 8.dp),
+                    verticalArrangement = Arrangement.spacedBy(2.dp),
+                ) {
+                    items(shown, key = { it.key }) { channel ->
+                        val selected = picked.any { it.key == channel.key }
+                        Row(
+                            Modifier.fillMaxWidth()
+                                .clip(RoundedCornerShape(8.dp))
+                                .background(if (selected) Color(0xFF2A2A31) else Color.Transparent)
+                                .clickable {
+                                    picked = when {
+                                        selected -> picked.filterNot { it.key == channel.key }
+                                        picked.size < maxTiles -> picked + channel
+                                        else -> picked
+                                    }
                                 }
-                            }
-                            .padding(horizontal = 8.dp, vertical = 6.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        Checkbox(
-                            checked = selected,
-                            onCheckedChange = {
-                                picked = when {
-                                    selected -> picked.filterNot { it.key == channel.key }
-                                    picked.size < MAX_TILES -> picked + channel
-                                    else -> picked
-                                }
-                            },
-                        )
-                        Column(Modifier.weight(1f)) {
-                            Text(channel.name, maxLines = 1, overflow = TextOverflow.Ellipsis)
-                            Text(
-                                channel.group,
-                                style = MaterialTheme.typography.bodySmall,
-                                color = LocalContentColor.current.copy(alpha = 0.55f),
-                                maxLines = 1,
-                                overflow = TextOverflow.Ellipsis,
+                                .padding(horizontal = 8.dp, vertical = 6.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            Checkbox(
+                                checked = selected,
+                                onCheckedChange = {
+                                    picked = when {
+                                        selected -> picked.filterNot { it.key == channel.key }
+                                        picked.size < maxTiles -> picked + channel
+                                        else -> picked
+                                    }
+                                },
                             )
+                            Column(Modifier.weight(1f)) {
+                                Text(channel.name, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                                Text(
+                                    channel.group,
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = LocalContentColor.current.copy(alpha = 0.55f),
+                                    maxLines = 1,
+                                    overflow = TextOverflow.Ellipsis,
+                                )
+                            }
                         }
                     }
                 }
-            }
-            Row(
-                Modifier.fillMaxWidth().padding(top = 12.dp),
-                horizontalArrangement = Arrangement.End,
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                TextButton(onClick = onDismiss) { Text(stringResource(Res.string.action_cancel)) }
-                TextButton(
-                    onClick = { if (picked.isNotEmpty()) onStart(picked) },
-                    enabled = picked.isNotEmpty(),
+                Row(
+                    Modifier.fillMaxWidth().padding(top = 12.dp),
+                    horizontalArrangement = Arrangement.End,
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Icon(Icons.Default.Check, contentDescription = null, modifier = Modifier.size(18.dp))
-                    Text(
-                        stringResource(Res.string.live_tv_ui_multiview),
-                        modifier = Modifier.padding(start = 6.dp),
-                    )
+                    TextButton(onClick = onDismiss) { Text(stringResource(Res.string.action_cancel)) }
+                    TextButton(
+                        onClick = { if (picked.isNotEmpty()) onStart(picked) },
+                        enabled = picked.isNotEmpty(),
+                    ) {
+                        Icon(Icons.Default.Check, contentDescription = null, modifier = Modifier.size(18.dp))
+                        Text(
+                            stringResource(Res.string.live_tv_ui_multiview),
+                            modifier = Modifier.padding(start = 6.dp),
+                        )
+                    }
                 }
             }
         }
     }
 }
 
-/** Two to four channels at once: tap a tile to give it the sound. */
+/**
+ * The screens at once: a phone stacks three top to bottom when held upright and puts them in a
+ * row when held sideways; a tablet keeps the two-by-two grid.
+ */
 @Composable
 internal fun LiveTvMultiviewScreen(
     channels: List<LiveChannel>,
@@ -235,7 +251,11 @@ internal fun LiveTvMultiviewScreen(
         onDismissRequest = onClose,
         properties = DialogProperties(usePlatformDefaultWidth = false, decorFitsSystemWindows = false),
     ) {
-        Box(Modifier.fillMaxSize().background(Color.Black)) {
+        BoxWithConstraints(Modifier.fillMaxSize().background(Color.Black)) {
+            val tablet = maxWidth >= TABLET_MIN_WIDTH_DP.dp && maxHeight >= TABLET_MIN_HEIGHT_DP.dp
+            val landscape = maxWidth > maxHeight
+            val limit = if (tablet) MAX_TILES_TABLET else MAX_TILES_PHONE
+            val tiles = channels.take(limit)
             Column(Modifier.fillMaxSize()) {
                 Row(
                     Modifier.fillMaxWidth().padding(horizontal = 12.dp, vertical = 8.dp),
@@ -259,27 +279,54 @@ internal fun LiveTvMultiviewScreen(
                         Icon(Icons.Default.Close, contentDescription = stringResource(Res.string.action_cancel), tint = Color.White)
                     }
                 }
-                val tileCount = channels.size.coerceIn(1, MAX_TILES)
-                val rowCount = if (tileCount <= 2) 1 else 2
-                val columnCount = if (tileCount == 1) 1 else 2
-                Column(Modifier.weight(1f).fillMaxWidth()) {
-                    repeat(rowCount) { row ->
-                        Row(Modifier.weight(1f).fillMaxWidth()) {
-                            repeat(columnCount) { column ->
-                                val index = row * columnCount + column
-                                val channel = channels.getOrNull(index)
-                                Box(Modifier.weight(1f).fillMaxHeight()) {
-                                    if (channel != null && index < tileCount) {
-                                        MultiviewTile(
-                                            channel = channel,
-                                            player = players.getOrNull(index),
-                                            sound = index == soundIndex,
-                                            onSelect = { soundIndex = index },
-                                        )
-                                    } else {
-                                        Box(Modifier.fillMaxSize().padding(2.dp).background(Color(0xFF0A0A0C)))
+                when {
+                    tablet -> {
+                        val rowCount = if (tiles.size <= 2) 1 else 2
+                        val columnCount = if (tiles.size == 1) 1 else 2
+                        Column(Modifier.weight(1f).fillMaxWidth()) {
+                            repeat(rowCount) { row ->
+                                Row(Modifier.weight(1f).fillMaxWidth()) {
+                                    repeat(columnCount) { column ->
+                                        val index = row * columnCount + column
+                                        val channel = tiles.getOrNull(index)
+                                        Box(Modifier.weight(1f).fillMaxHeight()) {
+                                            if (channel != null) {
+                                                MultiviewTile(
+                                                    channel = channel,
+                                                    player = players.getOrNull(index),
+                                                    sound = index == soundIndex,
+                                                    onSelect = { soundIndex = index },
+                                                )
+                                            } else {
+                                                Box(Modifier.fillMaxSize().padding(2.dp).background(Color(0xFF0A0A0C)))
+                                            }
+                                        }
                                     }
                                 }
+                            }
+                        }
+                    }
+                    landscape -> Row(Modifier.weight(1f).fillMaxWidth()) {
+                        tiles.forEachIndexed { index, channel ->
+                            Box(Modifier.weight(1f).fillMaxHeight()) {
+                                MultiviewTile(
+                                    channel = channel,
+                                    player = players.getOrNull(index),
+                                    sound = index == soundIndex,
+                                    onSelect = { soundIndex = index },
+                                )
+                            }
+                        }
+                    }
+                    else -> Column(Modifier.weight(1f).fillMaxWidth()) {
+                        tiles.forEachIndexed { index, channel ->
+                            Box(Modifier.weight(1f).fillMaxWidth()) {
+                                MultiviewTile(
+                                    channel = channel,
+                                    player = players.getOrNull(index),
+                                    sound = index == soundIndex,
+                                    onSelect = { soundIndex = index },
+                                )
                             }
                         }
                     }
