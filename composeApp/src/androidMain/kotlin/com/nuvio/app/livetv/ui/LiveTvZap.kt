@@ -31,7 +31,7 @@ fun liveTvRequest(channel: LiveChannel, programs: List<EpgProgram>?, now: Long):
         poster = channel.logo,
         channelKey = channel.key,
         headers = channel.headers,
-        subtitle = programs?.firstOrNull { it.isLive(now) }?.title,
+        subtitle = programs?.firstOrNull { it.isLive(now) }?.displayTitle(),
     )
 }
 
@@ -60,5 +60,5 @@ fun liveTvNowPlaying(channelKey: String): String? {
             now = System.currentTimeMillis()
         }
     }
-    return programs[channelKey]?.firstOrNull { it.isLive(now) }?.title
+    return programs[channelKey]?.firstOrNull { it.isLive(now) }?.displayTitle()
 }
