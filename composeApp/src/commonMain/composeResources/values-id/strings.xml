@@ -3894,4 +3894,6 @@
     <string name="live_tv_ui_nothing_recorded_yet">Belum ada yang tercatat. Tekan lama saluran untuk merekamnya, atau ketuk acara di panduan.</string>
     <string name="live_tv_ui_couldnt_be_recorded">Itu tidak dapat direkam</string>
     <string name="live_tv_ui_hide_search">Sembunyikan pencarian</string>
+    <string name="live_tv_settings_source_counts">%1$d daftar putar · %2$d panduan</string>
+    <string name="live_tv_settings_update_all_description">Unduh saluran dan daftar terbaru.</string>
 </resources>

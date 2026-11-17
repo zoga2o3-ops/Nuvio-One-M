@@ -3932,4 +3932,6 @@
     <string name="live_tv_ui_nothing_recorded_yet">Nog niets opgenomen. Druk lang op een kanaal om het op te nemen, of tik op een programma in de gids.</string>
     <string name="live_tv_ui_couldnt_be_recorded">Het kon niet worden opgenomen</string>
     <string name="live_tv_ui_hide_search">Zoekopdracht verbergen</string>
+    <string name="live_tv_settings_source_counts">%1$d afspeellijsten · %2$d gidsen</string>
+    <string name="live_tv_settings_update_all_description">Download de nieuwste zenders en overzichten.</string>
 </resources>

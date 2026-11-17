@@ -3927,4 +3927,6 @@
     <string name="live_tv_ui_nothing_recorded_yet">まだ何も記録されていません。チャンネルを長押しして録画するか、ガイド内の番組をタップします。</string>
     <string name="live_tv_ui_couldnt_be_recorded">録音できませんでした</string>
     <string name="live_tv_ui_hide_search">検索を非表示にする</string>
+    <string name="live_tv_settings_source_counts">プレイリスト%1$d件 · ガイド%2$d件</string>
+    <string name="live_tv_settings_update_all_description">最新のチャンネルと番組表をダウンロードします。</string>
 </resources>

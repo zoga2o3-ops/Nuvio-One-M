@@ -3928,4 +3928,6 @@
     <string name="live_tv_ui_nothing_recorded_yet">Még nincs rögzítve semmi. Nyomja meg hosszan a csatornát a rögzítéshez, vagy koppintson egy műsorra a műsorfüzetben.</string>
     <string name="live_tv_ui_couldnt_be_recorded">Nem lehetett rögzíteni</string>
     <string name="live_tv_ui_hide_search">Keresés elrejtése</string>
+    <string name="live_tv_settings_source_counts">%1$d lejátszási lista · %2$d útmutató</string>
+    <string name="live_tv_settings_update_all_description">Töltse le a legújabb csatornákat és műsorújságokat.</string>
 </resources>

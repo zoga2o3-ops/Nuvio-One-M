@@ -3963,4 +3963,6 @@
     <string name="live_tv_ui_nothing_recorded_yet">Još ništa nije snimljeno. Dugo pritisnite kanal da biste ga snimili ili dodirnite emisiju u vodiču.</string>
     <string name="live_tv_ui_couldnt_be_recorded">Nije se moglo snimiti</string>
     <string name="live_tv_ui_hide_search">Sakrij pretragu</string>
+    <string name="live_tv_settings_source_counts">Popisi za reprodukciju: %1$d · Vodiči: %2$d</string>
+    <string name="live_tv_settings_update_all_description">Preuzmite najnovije kanale i popise programa.</string>
 </resources>

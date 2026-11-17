@@ -3968,4 +3968,6 @@
     <string name="live_tv_ui_nothing_recorded_yet">Zatiaľ nič zaznamenané. Dlhým stlačením kanála ho nahrajte alebo klepnite na reláciu v sprievodcovi.</string>
     <string name="live_tv_ui_couldnt_be_recorded">Nedalo sa to zaznamenať</string>
     <string name="live_tv_ui_hide_search">Skryť vyhľadávanie</string>
+    <string name="live_tv_settings_source_counts">Počet zoznamov videí: %1$d · Počet sprievodcov: %2$d</string>
+    <string name="live_tv_settings_update_all_description">Stiahnite si najnovšie kanály a programy.</string>
 </resources>

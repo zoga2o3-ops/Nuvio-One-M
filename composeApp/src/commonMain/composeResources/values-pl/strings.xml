@@ -3910,4 +3910,6 @@
     <string name="live_tv_ui_nothing_recorded_yet">Jeszcze nic nie zostało nagrane. Naciśnij i przytrzymaj kanał, aby go nagrać, lub dotknij programu w przewodniku.</string>
     <string name="live_tv_ui_couldnt_be_recorded">Nie dało się tego nagrać</string>
     <string name="live_tv_ui_hide_search">Ukryj wyszukiwanie</string>
+    <string name="live_tv_settings_source_counts">Playlisty: %1$d · Przewodniki: %2$d</string>
+    <string name="live_tv_settings_update_all_description">Pobierz najnowsze kanały i listy programów.</string>
 </resources>

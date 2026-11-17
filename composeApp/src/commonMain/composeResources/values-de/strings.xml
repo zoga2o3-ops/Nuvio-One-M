@@ -3896,4 +3896,6 @@
     <string name="live_tv_ui_nothing_recorded_yet">Noch nichts aufgezeichnet. Drücken Sie lange auf einen Kanal, um ihn aufzuzeichnen, oder tippen Sie auf eine Sendung im Guide.</string>
     <string name="live_tv_ui_couldnt_be_recorded">Es konnte nicht aufgezeichnet werden</string>
     <string name="live_tv_ui_hide_search">Suche ausblenden</string>
+    <string name="live_tv_settings_source_counts">%1$d Playlists · %2$d Guides</string>
+    <string name="live_tv_settings_update_all_description">Laden Sie die neuesten Kanäle und Programmlisten herunter.</string>
 </resources>

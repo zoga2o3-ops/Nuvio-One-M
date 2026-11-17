@@ -3889,4 +3889,6 @@
     <string name="live_tv_ui_nothing_recorded_yet">שום דבר עדיין לא נרשם. לחץ לחיצה ארוכה על ערוץ כדי להקליט אותו, או הקש על תוכנית במדריך.</string>
     <string name="live_tv_ui_couldnt_be_recorded">לא ניתן היה להקליט את זה</string>
     <string name="live_tv_ui_hide_search">הסתר את החיפוש</string>
+    <string name="live_tv_settings_source_counts">%1$d פלייליסטים · %2$d מדריכים</string>
+    <string name="live_tv_settings_update_all_description">הורד את הערוצים ואת לוחות השידורים העדכניים ביותר.</string>
 </resources>

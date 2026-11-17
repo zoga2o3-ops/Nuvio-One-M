@@ -3942,4 +3942,6 @@
     <string name="live_tv_ui_nothing_recorded_yet">لم يتم تسجيل أي شيء حتى الآن. اضغط لفترة طويلة على القناة لتسجيلها، أو اضغط على أحد العروض في الدليل.</string>
     <string name="live_tv_ui_couldnt_be_recorded">لا يمكن تسجيله</string>
     <string name="live_tv_ui_hide_search">إخفاء البحث</string>
+    <string name="live_tv_settings_source_counts">%1$d قائمة تشغيل · %2$d دليل</string>
+    <string name="live_tv_settings_update_all_description">تنزيل أحدث القنوات وجداول البرامج.</string>
 </resources>

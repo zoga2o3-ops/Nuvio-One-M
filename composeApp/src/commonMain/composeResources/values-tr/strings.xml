@@ -3945,4 +3945,6 @@ Bu özelliği tamamen kendi sorumluluğunuzda kullanırsınız. P2P istediğiniz
     <string name="live_tv_ui_nothing_recorded_yet">Henüz kaydedilen bir şey yok. Kaydetmek için bir kanala uzun basın veya kılavuzdaki bir programa dokunun.</string>
     <string name="live_tv_ui_couldnt_be_recorded">Kaydedilemedi</string>
     <string name="live_tv_ui_hide_search">Aramayı gizle</string>
+    <string name="live_tv_settings_source_counts">%1$d çalma listesi · %2$d rehber</string>
+    <string name="live_tv_settings_update_all_description">En son kanalları ve listeleri indirin.</string>
 </resources>
