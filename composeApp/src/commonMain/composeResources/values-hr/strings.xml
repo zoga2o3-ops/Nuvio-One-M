@@ -3965,4 +3965,15 @@
     <string name="live_tv_ui_hide_search">Sakrij pretragu</string>
     <string name="live_tv_settings_source_counts">Popisi za reprodukciju: %1$d · Vodiči: %2$d</string>
     <string name="live_tv_settings_update_all_description">Preuzmite najnovije kanale i popise programa.</string>
+    <string name="live_tv_ui_filter_by_group_tag">Filtriraj kanale prema oznaci grupe</string>
+    <string name="live_tv_ui_filter_by_group_tag_description">Pregledajte svoje grupe, a zatim odaberite oznake koje želite sakriti.</string>
+    <string name="live_tv_ui_group_tags_selected">%1$d tags selected</string>
+    <string name="live_tv_ui_group_tags_scan">Skeniraj oznake</string>
+    <string name="live_tv_ui_group_tags_scanning">Pretraživanje...</string>
+    <string name="live_tv_ui_group_tags_scan_again">Ponovno skenirajte</string>
+    <string name="live_tv_ui_group_tags_no_channels">Prvo učitajte svoje popise za reprodukciju.</string>
+    <string name="live_tv_ui_group_tags_empty">Nisu pronađene korisne oznake.</string>
+    <string name="live_tv_ui_group_tags_hint">Oznake se podudaraju s cijelim riječima ili segmentima. Favoriti i prilagođene grupe ostaju vidljivi.</string>
+    <string name="live_tv_ui_group_tags_clear">Bistro</string>
+    <string name="live_tv_ui_group_tags_done">Želimo vam ugodan dan!</string>
 </resources>

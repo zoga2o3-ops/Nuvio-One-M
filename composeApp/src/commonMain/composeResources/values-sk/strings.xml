@@ -3970,4 +3970,15 @@
     <string name="live_tv_ui_hide_search">Skryť vyhľadávanie</string>
     <string name="live_tv_settings_source_counts">Počet zoznamov videí: %1$d · Počet sprievodcov: %2$d</string>
     <string name="live_tv_settings_update_all_description">Stiahnite si najnovšie kanály a programy.</string>
+    <string name="live_tv_ui_filter_by_group_tag">Filtrovať kanály podľa značky skupiny</string>
+    <string name="live_tv_ui_filter_by_group_tag_description">Preskúmajte svoje skupiny a potom vyberte značky, ktoré chcete skryť.</string>
+    <string name="live_tv_ui_group_tags_selected">Počet vybraných značiek: %1$d</string>
+    <string name="live_tv_ui_group_tags_scan">Naskenovať štítky</string>
+    <string name="live_tv_ui_group_tags_scanning">Skenovanie...</string>
+    <string name="live_tv_ui_group_tags_scan_again">Skenovať znova</string>
+    <string name="live_tv_ui_group_tags_no_channels">Najskôr načítajte svoje zoznamy skladieb.</string>
+    <string name="live_tv_ui_group_tags_empty">Nenašli sa žiadne užitočné značky.</string>
+    <string name="live_tv_ui_group_tags_hint">Značky sa zhodujú s celými slovami alebo segmentmi. Obľúbené položky a vlastné skupiny zostávajú viditeľné.</string>
+    <string name="live_tv_ui_group_tags_clear">Vymazať</string>
+    <string name="live_tv_ui_group_tags_done">Dokončené</string>
 </resources>

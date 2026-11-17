@@ -3896,4 +3896,15 @@
     <string name="live_tv_ui_hide_search">Sembunyikan pencarian</string>
     <string name="live_tv_settings_source_counts">%1$d daftar putar · %2$d panduan</string>
     <string name="live_tv_settings_update_all_description">Unduh saluran dan daftar terbaru.</string>
+    <string name="live_tv_ui_filter_by_group_tag">Filter saluran menurut tag grup</string>
+    <string name="live_tv_ui_filter_by_group_tag_description">Pindai grup Anda, lalu pilih tag untuk disembunyikan.</string>
+    <string name="live_tv_ui_group_tags_selected">%1$d tags selected</string>
+    <string name="live_tv_ui_group_tags_scan">Pindai tag</string>
+    <string name="live_tv_ui_group_tags_scanning">Memindai…</string>
+    <string name="live_tv_ui_group_tags_scan_again">Pindai lagi</string>
+    <string name="live_tv_ui_group_tags_no_channels">Muat daftar putar Anda terlebih dahulu.</string>
+    <string name="live_tv_ui_group_tags_empty">Tidak ada tag yang berguna ditemukan.</string>
+    <string name="live_tv_ui_group_tags_hint">Tag cocok dengan kata atau segmen utuh. Favorit dan grup kustom tetap terlihat.</string>
+    <string name="live_tv_ui_group_tags_clear">Kosongkan</string>
+    <string name="live_tv_ui_group_tags_done">Selesai</string>
 </resources>

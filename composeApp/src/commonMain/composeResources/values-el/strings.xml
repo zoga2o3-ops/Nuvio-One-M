@@ -3928,4 +3928,15 @@
     <string name="live_tv_ui_hide_search">Απόκρυψη αναζήτησης</string>
     <string name="live_tv_settings_source_counts">%1$d λίστες αναπαραγωγής · %2$d οδηγοί</string>
     <string name="live_tv_settings_update_all_description">Πραγματοποιήστε λήψη των πιο πρόσφατων καναλιών και καταλόγων προγραμμάτων.</string>
+    <string name="live_tv_ui_filter_by_group_tag">Φιλτράρισμα καναλιών ανά ετικέτα ομάδας</string>
+    <string name="live_tv_ui_filter_by_group_tag_description">Σαρώστε τις ομάδες σας και, στη συνέχεια, επιλέξτε τις ετικέτες που θέλετε να αποκρύψετε.</string>
+    <string name="live_tv_ui_group_tags_selected">%1$d επιλεγμένες ετικέτες</string>
+    <string name="live_tv_ui_group_tags_scan">Σάρωση ετικετών</string>
+    <string name="live_tv_ui_group_tags_scanning">Σάρωση</string>
+    <string name="live_tv_ui_group_tags_scan_again">Σαρώστε ξανά</string>
+    <string name="live_tv_ui_group_tags_no_channels">Φορτώστε πρώτα τις λίστες αναπαραγωγής σας.</string>
+    <string name="live_tv_ui_group_tags_empty">Δεν βρέθηκαν χρήσιμες ετικέτες.</string>
+    <string name="live_tv_ui_group_tags_hint">Οι ετικέτες αντιστοιχούν σε ολόκληρες λέξεις ή τμήματα. Τα αγαπημένα και οι προσαρμοσμένες ομάδες παραμένουν ορατά.</string>
+    <string name="live_tv_ui_group_tags_clear">Διαγραφή</string>
+    <string name="live_tv_ui_group_tags_done">Έγινε</string>
 </resources>

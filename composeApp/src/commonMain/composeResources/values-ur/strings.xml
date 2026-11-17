@@ -3935,4 +3935,15 @@
     <string name="live_tv_ui_hide_search">تلاش چھپائیں۔</string>
     <string name="live_tv_settings_source_counts">%1$d پلے لسٹس · %2$d گائیڈز</string>
     <string name="live_tv_settings_update_all_description">تازہ ترین چینلز اور فہرستیں ڈاؤن لوڈ کریں۔</string>
+    <string name="live_tv_ui_filter_by_group_tag">گروپ ٹیگ کے لحاظ سے چینلز فلٹر کریں</string>
+    <string name="live_tv_ui_filter_by_group_tag_description">اپنے گروپس کو اسکین کریں، پھر چھپانے کے لیے ٹیگز منتخب کریں۔</string>
+    <string name="live_tv_ui_group_tags_selected">%1$d ٹیگز منتخب کیے گئے</string>
+    <string name="live_tv_ui_group_tags_scan">ٹیگز اسکین کریں</string>
+    <string name="live_tv_ui_group_tags_scanning">سکین کر رہا ہے</string>
+    <string name="live_tv_ui_group_tags_scan_again">دوبارہ اسکین کریں</string>
+    <string name="live_tv_ui_group_tags_no_channels">پہلے اپنی پلے لسٹس لوڈ کریں۔</string>
+    <string name="live_tv_ui_group_tags_empty">کوئی مفید ٹیگز نہیں ملے۔</string>
+    <string name="live_tv_ui_group_tags_hint">ٹیگز پورے الفاظ یا حصوں سے مماثل ہوتے ہیں۔ پسندیدہ اور حسب منشا گروپس نظر آتے رہتے ہیں۔</string>
+    <string name="live_tv_ui_group_tags_clear">صاف</string>
+    <string name="live_tv_ui_group_tags_done">کردیا</string>
 </resources>

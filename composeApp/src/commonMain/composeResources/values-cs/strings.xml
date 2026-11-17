@@ -3934,4 +3934,15 @@
     <string name="live_tv_ui_hide_search">Skrýt vyhledávání</string>
     <string name="live_tv_settings_source_counts">Počet playlistů: %1$d · Počet průvodců: %2$d</string>
     <string name="live_tv_settings_update_all_description">Stáhněte si nejnovější kanály a programy.</string>
+    <string name="live_tv_ui_filter_by_group_tag">Filtrovat kanály podle značky skupiny</string>
+    <string name="live_tv_ui_filter_by_group_tag_description">Projdi si své skupiny a vyber štítky, které chceš skrýt.</string>
+    <string name="live_tv_ui_group_tags_selected">"Vybráno: %1$d"</string>
+    <string name="live_tv_ui_group_tags_scan">Naskenovat štítky</string>
+    <string name="live_tv_ui_group_tags_scanning">Skenování...</string>
+    <string name="live_tv_ui_group_tags_scan_again">Skenovat znovu</string>
+    <string name="live_tv_ui_group_tags_no_channels">Nejprve nahrajte své playlisty.</string>
+    <string name="live_tv_ui_group_tags_empty">Nebyly nalezeny žádné užitečné štítky.</string>
+    <string name="live_tv_ui_group_tags_hint">Štítky se shodují s celými slovy nebo segmenty. Oblíbené položky a vlastní skupiny zůstávají viditelné.</string>
+    <string name="live_tv_ui_group_tags_clear">Vymazat</string>
+    <string name="live_tv_ui_group_tags_done">Hotovo</string>
 </resources>

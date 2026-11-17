@@ -3860,7 +3860,7 @@
     <string name="live_tv_ui_remove_tags_hint"></string>
     <string name="live_tv_ui_removing">削除中: %1$s</string>
     <string name="live_tv_ui_setup_sync_description">プレイリスト、ガイド、お気に入り、スポーツとカレンダーの選択、ライブ TV 設定をすべてのデバイスで同じに保ちます。 The same saved copy the TV app uses. Use either this or Google Drive sync, not both.</string>
-    <string name="live_tv_ui_last_synced"></string>
+    <string name="live_tv_ui_last_synced">????: %1$s</string>
     <string name="live_tv_ui_check_changes"></string>
     <string name="live_tv_ui_bring_back_saved">最後の同期前に保存された設定を戻します。</string>
     <string name="live_tv_ui_delete_keeps_device"></string>
@@ -3888,9 +3888,9 @@
     <string name="live_tv_ui_after_5_minutes"></string>
     <string name="live_tv_ui_after_15_minutes"></string>
     <string name="live_tv_ui_after_1_hour"></string>
-    <string name="live_tv_ui_connected_as"></string>
-    <string name="live_tv_ui_connected_last_synced"></string>
-    <string name="live_tv_ui_connected"></string>
+    <string name="live_tv_ui_connected_as">%1$s?%2$s ????</string>
+    <string name="live_tv_ui_connected_last_synced">%1$s?%2$s ?????????: %3$s</string>
+    <string name="live_tv_ui_connected">%1$s?</string>
     <string name="live_tv_ui_backup_soon">変更を加えたらすぐにバックアップし、他のデバイスから新しい変更を取得します。</string>
     <string name="live_tv_ui_save_setup_to_drive"></string>
     <string name="live_tv_ui_replace_with_saved"></string>
@@ -3900,7 +3900,7 @@
     <string name="live_tv_ui_medium">中くらい</string>
     <string name="live_tv_ui_extra_large">特大</string>
     <string name="live_tv_ui_normal">普通</string>
-    <string name="live_tv_ui_after_n_minutes"></string>
+    <string name="live_tv_ui_after_n_minutes">%1$d ??</string>
     <string name="live_tv_ui_connected_last_synced_short">%1$s。  最後に同期したのは %2$s</string>
     <string name="live_tv_ui_on_demand">オンデマンド</string>
     <string name="music_ui_waiting_for_sign_in_approval">サインインの承認を待っています</string>
@@ -3929,4 +3929,15 @@
     <string name="live_tv_ui_hide_search">検索を非表示にする</string>
     <string name="live_tv_settings_source_counts">プレイリスト%1$d件 · ガイド%2$d件</string>
     <string name="live_tv_settings_update_all_description">最新のチャンネルと番組表をダウンロードします。</string>
+    <string name="live_tv_ui_filter_by_group_tag">グループタグでチャンネルを絞り込む</string>
+    <string name="live_tv_ui_filter_by_group_tag_description">グループをスキャンしてから、非表示にするタグを選択します。</string>
+    <string name="live_tv_ui_group_tags_selected">%1$d 件選択</string>
+    <string name="live_tv_ui_group_tags_scan">タグをスキャンする</string>
+    <string name="live_tv_ui_group_tags_scanning">スキャン中</string>
+    <string name="live_tv_ui_group_tags_scan_again">もう一度スキャン</string>
+    <string name="live_tv_ui_group_tags_no_channels">最初にプレイリストを読み込んでください。</string>
+    <string name="live_tv_ui_group_tags_empty">有用なタグが見つかりません。</string>
+    <string name="live_tv_ui_group_tags_hint">タグは単語全体またはセグメントと一致します。お気に入りおよびカスタムグループは表示されたままになります。</string>
+    <string name="live_tv_ui_group_tags_clear">クリア</string>
+    <string name="live_tv_ui_group_tags_done">完了</string>
 </resources>

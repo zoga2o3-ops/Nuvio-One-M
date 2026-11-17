@@ -969,7 +969,8 @@ class SportsRepository(
             addAll(sp.networkChannels.values); addAll(sp.teamChannels.values); addAll(sp.leagueChannels.values)
         }
         val channels: List<LiveChannel> = channelStore.displayChannels.value.filter { ch ->
-            (ch.key in picked || (ch.key !in user.hiddenChannels && ch.groupId !in user.hiddenGroups)) &&
+            (ch.key in picked || (ch.key !in user.hiddenChannels && ch.groupId !in user.hiddenGroups &&
+                !user.hidesByGroupTag(ch, user.keptChannelKeys))) &&
                 !ParentalControls.isLocked(ch.groupId, ch.group, live, user.lockedGroups) &&
                 !(ParentalControls.enabled(live) && live.lockAdultContent && ParentalControls.isAdult(ch.name))
         }

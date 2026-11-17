@@ -3898,4 +3898,15 @@
     <string name="live_tv_ui_hide_search">தேடலை மறை</string>
     <string name="live_tv_settings_source_counts">%1$d பிளேலிஸ்ட்கள் · %2$d வழிகாட்டிகள்</string>
     <string name="live_tv_settings_update_all_description">சமீபத்திய சேனல்களையும் பட்டியல்களையும் பதிவிறக்கவும்.</string>
+    <string name="live_tv_ui_filter_by_group_tag">குழு குறிச்சொல் மூலம் சேனல்களை வடிகட்டவும்</string>
+    <string name="live_tv_ui_filter_by_group_tag_description">உங்கள் குழுக்களை ஸ்கேன் செய்து, மறைக்க வேண்டிய குறிச்சொற்களைத் தேர்ந்தெடுக்கவும்.</string>
+    <string name="live_tv_ui_group_tags_selected">%1$d குறிச்சொற்கள் தேர்ந்தெடுக்கப்பட்டன</string>
+    <string name="live_tv_ui_group_tags_scan">டேக்குகளை ஸ்கேன் செய்யவும்</string>
+    <string name="live_tv_ui_group_tags_scanning">வருடுகிறது...</string>
+    <string name="live_tv_ui_group_tags_scan_again">மீண்டும் ஸ்கேன் செய்யவும்</string>
+    <string name="live_tv_ui_group_tags_no_channels">முதலில் உங்கள் பிளேலிஸ்ட்களை ஏற்றவும்.</string>
+    <string name="live_tv_ui_group_tags_empty">பயனுள்ள குறிச்சொற்கள் எதுவும் கிடைக்கவில்லை.</string>
+    <string name="live_tv_ui_group_tags_hint">குறிச்சொற்கள் முழு வார்த்தைகளுடனோ அல்லது பிரிவுகளுடனோ பொருந்தும். பிடித்தவை மற்றும் தனிப்பயன் குழுக்கள் தொடர்ந்து தெரியும்.</string>
+    <string name="live_tv_ui_group_tags_clear">அகற்று</string>
+    <string name="live_tv_ui_group_tags_done">முடிந்தது</string>
 </resources>
