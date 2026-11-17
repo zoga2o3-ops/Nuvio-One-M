@@ -88,7 +88,8 @@ import org.jetbrains.compose.resources.getString
 internal fun MusicVideoPlayerScreen(
     video: Song,
     startPositionMs: Long,
-    onClose: () -> Unit
+    onClose: () -> Unit,
+    onEnded: () -> Unit = {}
 ) {
     val context = LocalContext.current
     val view = LocalView.current
@@ -100,7 +101,8 @@ internal fun MusicVideoPlayerScreen(
     var isPlaying by remember { mutableStateOf(false) }
     var positionMs by remember { mutableLongStateOf(startPositionMs.coerceAtLeast(0L)) }
     var durationMs by remember { mutableLongStateOf(0L) }
-    var ended by remember { mutableStateOf(false) }
+    var ended by remember(video.videoId) { mutableStateOf(false) }
+    var advanceHandled by remember(video.videoId) { mutableStateOf(false) }
     val playFocus = remember { FocusRequester() }
 
     BackHandler(onBack = onClose)
@@ -123,6 +125,11 @@ internal fun MusicVideoPlayerScreen(
     }
 
     LaunchedEffect(video.videoId) {
+        // A new queue item replaces the video player; release the old one before starting.
+        player?.release()
+        player = null
+        ended = false
+        isPlaying = false
         loading = true
         error = null
         val stream = withContext(Dispatchers.IO) {
@@ -194,6 +201,25 @@ internal fun MusicVideoPlayerScreen(
                 isPlaying = it.isPlaying
             }
             delay(250L)
+        }
+    }
+
+    // A music video that reaches its end follows the queue, like audio playback does.
+    // Repeat one replays the same video; everything else asks MusicScreen for the next item.
+    LaunchedEffect(ended) {
+        if (!ended) {
+            advanceHandled = false
+            return@LaunchedEffect
+        }
+        if (advanceHandled) return@LaunchedEffect
+        advanceHandled = true
+        val musicState = MusicPlayer.state.value
+        val singleRepeatAll = musicState.repeatMode == RepeatMode.ALL && musicState.queue.size <= 1
+        if (musicState.repeatMode == RepeatMode.ONE || singleRepeatAll) {
+            player?.seekTo(0L)
+            player?.play()
+        } else {
+            onEnded()
         }
     }
 
