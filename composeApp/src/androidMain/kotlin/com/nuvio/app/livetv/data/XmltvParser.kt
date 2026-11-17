@@ -200,8 +200,8 @@ object XmltvParser {
         // air date here instead ("20260929"), which would make every poster look "wrong year".
         val year = date?.trim()?.takeIf { it.length == 4 }?.toIntOrNull()?.takeIf { it in 1900..2100 }
             ?: yearIn(title) ?: yearIn(desc)
-        val fullDesc = listOfNotNull(subTitle?.takeIf { it.isNotBlank() }, desc?.takeIf { it.isNotBlank() })
-            .joinToString("\n").ifBlank { null }
+        val cleanSubTitle = subTitle?.trim()?.takeIf { it.isNotBlank() }
+        val fullDesc = desc?.takeIf { it.isNotBlank() } ?: cleanSubTitle
         return EpgProgram(
             startMs = start,
             stopMs = stop,
@@ -214,7 +214,8 @@ object XmltvParser {
             episode = episode?.intern(),
             icon = icon?.intern(),
             year = year,
-            people = people.take(12)
+            people = people.take(12),
+            subTitle = cleanSubTitle?.let { if (it.length > 120) it.take(120).trimEnd() else it }
         )
     }
 

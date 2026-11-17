@@ -147,7 +147,7 @@ fun LiveTvGuideGrid(
     selected?.let { (channel, program) ->
         AlertDialog(
             onDismissRequest = { selected = null },
-            title = { Text(program.title) },
+            title = { Text(program.displayTitle()) },
             text = {
                 Column {
                     Text(

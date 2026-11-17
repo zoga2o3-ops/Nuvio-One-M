@@ -13,7 +13,7 @@ import com.nuvio.app.livetv.model.EpgProgram
  * TV opens straight away however big the guide is, and uses far less memory.
  */
 class EpgDatabase(context: Context) :
-    SQLiteOpenHelper(context, "livetv_guide.db", null, 3) {
+    SQLiteOpenHelper(context, "livetv_guide.db", null, 4) {
 
     init {
         // Readers don't wait for writers: the guide stays readable (scrolling, catch-up) while a
@@ -25,7 +25,7 @@ class EpgDatabase(context: Context) :
         db.execSQL(
             """CREATE TABLE programs (
                 ch TEXT NOT NULL, start INTEGER NOT NULL, stop INTEGER NOT NULL, title TEXT NOT NULL,
-                descr TEXT, cat TEXT, ep TEXT, icon TEXT, year INTEGER, people TEXT)"""
+                descr TEXT, cat TEXT, ep TEXT, icon TEXT, year INTEGER, people TEXT, sub TEXT)"""
         )
         db.execSQL("CREATE INDEX programs_ch_start ON programs(ch, start)")
         db.execSQL("CREATE INDEX programs_stop ON programs(stop)")
@@ -49,6 +49,17 @@ class EpgDatabase(context: Context) :
         }
         // Version 3: guides staged while they're read (see StageWriter).
         if (oldVersion < 3) createStageTables(db)
+        // Version 4: the guide's sub-title (sport match-ups). The saved guide is read from the
+        // local guide files once more so existing listings get their sub-titles too.
+        if (oldVersion < 4) {
+            runCatching { db.execSQL("ALTER TABLE programs ADD COLUMN sub TEXT") }
+            runCatching { db.execSQL("ALTER TABLE stage ADD COLUMN sub TEXT") }
+            db.execSQL("DELETE FROM meta WHERE k IN ('fingerprint', 'parts')")
+            db.execSQL("DELETE FROM stage")
+            db.execSQL("DELETE FROM stage_meta")
+            db.execSQL("DELETE FROM stage_channels")
+            db.execSQL("DELETE FROM stage_info")
+        }
     }
 
     /** Replaces the whole guide (after a guide update), in one transaction. */
@@ -68,7 +79,7 @@ class EpgDatabase(context: Context) :
             db.delete("programs", null, null)
             db.delete("auto", null, null)
             val stmt = db.compileStatement(
-                "INSERT INTO programs (ch, start, stop, title, descr, cat, ep, icon, year, people) VALUES (?,?,?,?,?,?,?,?,?,?)"
+                "INSERT INTO programs (ch, start, stop, title, descr, cat, ep, icon, year, people, sub) VALUES (?,?,?,?,?,?,?,?,?,?,?)"
             )
             programs.forEach { (ch, list) ->
                 list.forEach { p ->
@@ -83,6 +94,7 @@ class EpgDatabase(context: Context) :
                     p.icon?.let { stmt.bindString(8, it) } ?: stmt.bindNull(8)
                     p.year?.let { stmt.bindLong(9, it.toLong()) } ?: stmt.bindNull(9)
                     if (p.people.isEmpty()) stmt.bindNull(10) else stmt.bindString(10, p.people.joinToString("\u001F"))
+                    p.subTitle?.let { stmt.bindString(11, it) } ?: stmt.bindNull(11)
                     stmt.executeInsert()
                 }
             }
@@ -121,7 +133,7 @@ class EpgDatabase(context: Context) :
                 db.delete("auto", "ch = ?", arrayOf(ch))
             }
             val stmt = db.compileStatement(
-                "INSERT INTO programs (ch, start, stop, title, descr, cat, ep, icon, year, people) VALUES (?,?,?,?,?,?,?,?,?,?)"
+                "INSERT INTO programs (ch, start, stop, title, descr, cat, ep, icon, year, people, sub) VALUES (?,?,?,?,?,?,?,?,?,?,?)"
             )
             programs.forEach { (ch, list) ->
                 list.forEach { p ->
@@ -136,6 +148,7 @@ class EpgDatabase(context: Context) :
                     p.icon?.let { stmt.bindString(8, it) } ?: stmt.bindNull(8)
                     p.year?.let { stmt.bindLong(9, it.toLong()) } ?: stmt.bindNull(9)
                     if (p.people.isEmpty()) stmt.bindNull(10) else stmt.bindString(10, p.people.joinToString("\u001F"))
+                    p.subTitle?.let { stmt.bindString(11, it) } ?: stmt.bindNull(11)
                     stmt.executeInsert()
                 }
             }
@@ -221,7 +234,7 @@ class EpgDatabase(context: Context) :
         channels: Collection<String>? = null
     ): Map<String, List<EpgProgram>> {
         val out = HashMap<String, ArrayList<EpgProgram>>()
-        val columns = if (light) "ch, start, stop, title, ep, icon" else "ch, start, stop, title, descr, cat, ep, icon, year, people"
+        val columns = if (light) "ch, start, stop, title, ep, icon, sub" else "ch, start, stop, title, descr, cat, ep, icon, year, people, sub"
         // Read by start time (indexed): shows starting in the window, plus ones that started up
         // to [MAX_SHOW_MS] earlier and are still on. Looking up "everything that ends after the
         // start of the window" instead meant reading every future listing in the guide.
@@ -235,7 +248,8 @@ class EpgDatabase(context: Context) :
                         stopMs = c.getLong(2),
                         title = c.getString(3),
                         episode = if (c.isNull(4)) null else XmltvParser.cleanEpisode(c.getString(4)),
-                        icon = if (c.isNull(5)) null else c.getString(5)
+                        icon = if (c.isNull(5)) null else c.getString(5),
+                        subTitle = if (c.isNull(6)) null else c.getString(6)
                     ) else EpgProgram(
                         startMs = c.getLong(1),
                         stopMs = c.getLong(2),
@@ -245,7 +259,8 @@ class EpgDatabase(context: Context) :
                         episode = if (c.isNull(6)) null else XmltvParser.cleanEpisode(c.getString(6)),
                         icon = if (c.isNull(7)) null else c.getString(7),
                         year = if (c.isNull(8)) null else c.getInt(8),
-                        people = if (c.isNull(9)) emptyList() else c.getString(9).split('\u001F')
+                        people = if (c.isNull(9)) emptyList() else c.getString(9).split('\u001F'),
+                        subTitle = if (c.isNull(10)) null else c.getString(10)
                     )
                     out.getOrPut(c.getString(0)) { ArrayList() } += p
                 }
@@ -332,13 +347,14 @@ class EpgDatabase(context: Context) :
         try {
             db.delete("programs", "ch = ? AND start >= ? AND start < ?", arrayOf(ch, fromMs.toString(), toMs.toString()))
             val stmt = db.compileStatement(
-                "INSERT INTO programs (ch, start, stop, title, descr, cat, ep, icon, year, people) VALUES (?,?,?,?,?,?,?,?,?,?)"
+                "INSERT INTO programs (ch, start, stop, title, descr, cat, ep, icon, year, people, sub) VALUES (?,?,?,?,?,?,?,?,?,?,?)"
             )
             programs.forEach { p ->
                 stmt.clearBindings()
                 stmt.bindString(1, ch); stmt.bindLong(2, p.startMs); stmt.bindLong(3, p.stopMs); stmt.bindString(4, p.title)
                 p.description?.let { stmt.bindString(5, it) } ?: stmt.bindNull(5)
                 stmt.bindNull(6); stmt.bindNull(7); stmt.bindNull(8); stmt.bindNull(9); stmt.bindNull(10)
+                p.subTitle?.let { stmt.bindString(11, it) } ?: stmt.bindNull(11)
                 stmt.executeInsert()
             }
             db.setTransactionSuccessful()
@@ -371,7 +387,7 @@ class EpgDatabase(context: Context) :
         db.execSQL(
             """CREATE TABLE IF NOT EXISTS stage (
                 src TEXT NOT NULL, xid TEXT NOT NULL, start INTEGER NOT NULL, stop INTEGER NOT NULL, title TEXT NOT NULL,
-                descr TEXT, cat TEXT, ep TEXT, icon TEXT, year INTEGER, people TEXT)"""
+                descr TEXT, cat TEXT, ep TEXT, icon TEXT, year INTEGER, people TEXT, sub TEXT)"""
         )
         db.execSQL(
             "CREATE TABLE IF NOT EXISTS stage_meta (src TEXT NOT NULL, xid TEXT NOT NULL, cnt INTEGER NOT NULL, " +
@@ -403,7 +419,7 @@ class EpgDatabase(context: Context) :
             db.delete("stage_channels", "src = ?", arrayOf(src))
             db.delete("stage_info", "src = ?", arrayOf(src))
             stmt = db.compileStatement(
-                "INSERT INTO stage (src, xid, start, stop, title, descr, cat, ep, icon, year, people) VALUES (?,?,?,?,?,?,?,?,?,?,?)"
+                "INSERT INTO stage (src, xid, start, stop, title, descr, cat, ep, icon, year, people, sub) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)"
             )
         }
 
@@ -420,6 +436,7 @@ class EpgDatabase(context: Context) :
                 p.icon?.let { stmt.bindString(9, it) } ?: stmt.bindNull(9)
                 p.year?.let { stmt.bindLong(10, it.toLong()) } ?: stmt.bindNull(10)
                 if (p.people.isEmpty()) stmt.bindNull(11) else stmt.bindString(11, p.people.joinToString("\u001F"))
+                p.subTitle?.let { stmt.bindString(12, it) } ?: stmt.bindNull(12)
                 stmt.executeInsert()
                 m[0]++
                 if (p.stopMs > m[1]) m[1] = p.stopMs
@@ -500,7 +517,7 @@ class EpgDatabase(context: Context) :
         val out = HashMap<String, ArrayList<EpgProgram>>()
         xids.distinct().chunked(400).forEach { part ->
             readableDatabase.rawQuery(
-                "SELECT xid, start, stop, title, descr, cat, ep, icon, year, people FROM stage WHERE src = ? AND xid IN (" +
+                "SELECT xid, start, stop, title, descr, cat, ep, icon, year, people, sub FROM stage WHERE src = ? AND xid IN (" +
                     part.joinToString(",") { "?" } + ")",
                 (listOf(src) + part).toTypedArray()
             ).use { c ->
@@ -511,7 +528,8 @@ class EpgDatabase(context: Context) :
                     episode = if (c.isNull(6)) null else c.getString(6),
                     icon = if (c.isNull(7)) null else c.getString(7),
                     year = if (c.isNull(8)) null else c.getInt(8),
-                    people = if (c.isNull(9)) emptyList() else c.getString(9).split('\u001F')
+                    people = if (c.isNull(9)) emptyList() else c.getString(9).split('\u001F'),
+                    subTitle = if (c.isNull(10)) null else c.getString(10)
                 )
             }
         }
@@ -523,7 +541,7 @@ class EpgDatabase(context: Context) :
     fun stagedPrograms(src: String, xid: String): List<EpgProgram> {
         val out = ArrayList<EpgProgram>()
         readableDatabase.rawQuery(
-            "SELECT start, stop, title, descr, cat, ep, icon, year, people FROM stage WHERE src = ? AND xid = ? ORDER BY start",
+            "SELECT start, stop, title, descr, cat, ep, icon, year, people, sub FROM stage WHERE src = ? AND xid = ? ORDER BY start",
             arrayOf(src, xid)
         ).use { c ->
             while (c.moveToNext()) out += EpgProgram(
@@ -533,7 +551,8 @@ class EpgDatabase(context: Context) :
                 episode = if (c.isNull(5)) null else c.getString(5),
                 icon = if (c.isNull(6)) null else c.getString(6),
                 year = if (c.isNull(7)) null else c.getInt(7),
-                people = if (c.isNull(8)) emptyList() else c.getString(8).split('\u001F')
+                people = if (c.isNull(8)) emptyList() else c.getString(8).split('\u001F'),
+                subTitle = if (c.isNull(9)) null else c.getString(9)
             )
         }
         return out
@@ -543,13 +562,14 @@ class EpgDatabase(context: Context) :
     fun stagedWindow(src: String, fromMs: Long, toMs: Long): Map<String, List<EpgProgram>> {
         val out = HashMap<String, ArrayList<EpgProgram>>()
         readableDatabase.rawQuery(
-            "SELECT xid, start, stop, title, ep, icon FROM stage WHERE src = ? AND stop > ? AND start < ?",
+            "SELECT xid, start, stop, title, ep, icon, sub FROM stage WHERE src = ? AND stop > ? AND start < ?",
             arrayOf(src, fromMs.toString(), toMs.toString())
         ).use { c ->
             while (c.moveToNext()) out.getOrPut(c.getString(0)) { ArrayList() } += EpgProgram(
                 startMs = c.getLong(1), stopMs = c.getLong(2), title = c.getString(3),
                 episode = if (c.isNull(4)) null else c.getString(4),
-                icon = if (c.isNull(5)) null else c.getString(5)
+                icon = if (c.isNull(5)) null else c.getString(5),
+                subTitle = if (c.isNull(6)) null else c.getString(6)
             )
         }
         return out
@@ -599,14 +619,14 @@ class EpgDatabase(context: Context) :
                 ins.executeInsert()
             }
             db.execSQL(
-                "INSERT INTO programs (ch, start, stop, title, descr, cat, ep, icon, year, people) " +
-                    "SELECT c.ch, s.start, s.stop, s.title, s.descr, s.cat, s.ep, s.icon, s.year, s.people " +
+                "INSERT INTO programs (ch, start, stop, title, descr, cat, ep, icon, year, people, sub) " +
+                    "SELECT c.ch, s.start, s.stop, s.title, s.descr, s.cat, s.ep, s.icon, s.year, s.people, s.sub " +
                     "FROM stage s JOIN temp.choice c ON c.src = s.src AND c.xid = s.xid WHERE s.stop > ? AND s.start < ?",
                 arrayOf<Any>(fromMs, toMs)
             )
             db.execSQL("DROP TABLE IF EXISTS temp.choice")
             val stmt = db.compileStatement(
-                "INSERT INTO programs (ch, start, stop, title, descr, cat, ep, icon, year, people) VALUES (?,?,?,?,?,?,?,?,?,?)"
+                "INSERT INTO programs (ch, start, stop, title, descr, cat, ep, icon, year, people, sub) VALUES (?,?,?,?,?,?,?,?,?,?,?)"
             )
             extra.forEach { (ch, list) ->
                 list.forEach { p ->
@@ -618,6 +638,7 @@ class EpgDatabase(context: Context) :
                     p.icon?.let { stmt.bindString(8, it) } ?: stmt.bindNull(8)
                     p.year?.let { stmt.bindLong(9, it.toLong()) } ?: stmt.bindNull(9)
                     if (p.people.isEmpty()) stmt.bindNull(10) else stmt.bindString(10, p.people.joinToString("\u001F"))
+                    p.subTitle?.let { stmt.bindString(11, it) } ?: stmt.bindNull(11)
                     stmt.executeInsert()
                 }
             }

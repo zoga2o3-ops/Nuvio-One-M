@@ -299,11 +299,11 @@ class LiveTvViewModel(context: Context) : ViewModel() {
         ) ?: return null
         return LiveTvPlayRequest(
             url = url,
-            title = "${channel.name} · ${program.title}",
+            title = "${channel.name} · ${program.displayTitle()}",
             poster = channel.logo,
             channelKey = channel.key,
             headers = channel.headers,
-            subtitle = program.title,
+            subtitle = program.displayTitle(),
             catchup = true,
         )
     }

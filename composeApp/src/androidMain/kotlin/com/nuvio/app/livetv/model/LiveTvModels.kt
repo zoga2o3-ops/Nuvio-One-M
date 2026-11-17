@@ -174,9 +174,17 @@ data class EpgProgram(
     /** Release year from the guide (XMLTV <date>, or "(1990)" in the title/description). */
     val year: Int? = null,
     /** Actors and directors from the guide's <credits>, when it has them. */
-    val people: List<String> = emptyList()
+    val people: List<String> = emptyList(),
+    /**
+     * The guide's <sub-title>: for sport, the match-up ("Texas at LSU") that the title
+     * ("College Football") alone doesn't name. Shown beside the title in the guide's header.
+     */
+    val subTitle: String? = null
 ) {
     fun isLive(nowMs: Long): Boolean = nowMs in startMs until stopMs
+    /** "College Football : Texas at LSU" when the guide has a sub-title. */
+    fun displayTitle(): String =
+        subTitle?.takeIf { it.isNotBlank() }?.let { "$title : $it" } ?: title
     fun progress(nowMs: Long): Float {
         val span = (stopMs - startMs).coerceAtLeast(1L)
         return ((nowMs - startMs).toFloat() / span).coerceIn(0f, 1f)
