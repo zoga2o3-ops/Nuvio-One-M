@@ -3970,4 +3970,15 @@
     <string name="live_tv_ui_hide_search">অনুসন্ধান লুকান</string>
     <string name="live_tv_settings_source_counts">%1$dটি প্লেলিস্ট · %2$dটি গাইড</string>
     <string name="live_tv_settings_update_all_description">সর্বশেষ চ্যানেল এবং তালিকা ডাউনলোড করুন।</string>
+    <string name="live_tv_ui_filter_by_group_tag">গ্রুপ ট্যাগ অনুযায়ী চ্যানেলগুলি ফিল্টার করুন</string>
+    <string name="live_tv_ui_filter_by_group_tag_description">আপনার গ্রুপগুলি স্ক্যান করুন, তারপর লুকানোর জন্য ট্যাগ বেছে নিন।</string>
+    <string name="live_tv_ui_group_tags_selected">%1$dটি ট্যাগ বেছে নেওয়া হয়েছে</string>
+    <string name="live_tv_ui_group_tags_scan">ট্যাগ স্ক্যান করুন</string>
+    <string name="live_tv_ui_group_tags_scanning">স্ক্যান করা হচ্ছে...</string>
+    <string name="live_tv_ui_group_tags_scan_again">আবার স্ক্যান করুন</string>
+    <string name="live_tv_ui_group_tags_no_channels">প্রথমে আপনার প্লেলিস্ট লোড করুন।</string>
+    <string name="live_tv_ui_group_tags_empty">কোনও কার্যকর ট্যাগ পাওয়া যায়নি।</string>
+    <string name="live_tv_ui_group_tags_hint">ট্যাগগুলি সম্পূর্ণ শব্দ বা অংশের সাথে মেলে। প্রিয় এবং কাস্টম গ্রুপগুলি দৃশ্যমান থাকে।</string>
+    <string name="live_tv_ui_group_tags_clear">সরিয়ে ফেলুন</string>
+    <string name="live_tv_ui_group_tags_done">সম্পন্ন হয়েছে</string>
 </resources>

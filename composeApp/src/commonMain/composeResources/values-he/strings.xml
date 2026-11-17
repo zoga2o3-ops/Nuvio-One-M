@@ -3433,7 +3433,7 @@
     <string name="live_tv_ui_no_games_lately">אין משחקים לקבוצות שלך לאחרונה.</string>
     <string name="live_tv_ui_no_games_upcoming">אין משחקים קרובים לקבוצות שלך.</string>
     <string name="live_tv_ui_saved_from_catchup"></string>
-    <string name="live_tv_ui_continue_from"></string>
+    <string name="live_tv_ui_continue_from">???? ?-%1$s</string>
     <string name="live_tv_ui_hours_value">%1$d ש</string>
     <string name="live_tv_ui_starts_now"></string>
     <string name="live_tv_ui_starts_at">מתחיל %1$s</string>
@@ -3891,4 +3891,15 @@
     <string name="live_tv_ui_hide_search">הסתר את החיפוש</string>
     <string name="live_tv_settings_source_counts">%1$d פלייליסטים · %2$d מדריכים</string>
     <string name="live_tv_settings_update_all_description">הורד את הערוצים ואת לוחות השידורים העדכניים ביותר.</string>
+    <string name="live_tv_ui_filter_by_group_tag">סינון ערוצים לפי תגית קבוצה</string>
+    <string name="live_tv_ui_filter_by_group_tag_description">סרקו את הקבוצות שלכם, ואז בחרו תגים להסתרה.</string>
+    <string name="live_tv_ui_group_tags_selected">נבחרו %1$d תגיות</string>
+    <string name="live_tv_ui_group_tags_scan">סריקת תגים</string>
+    <string name="live_tv_ui_group_tags_scanning">בהליכי סריקה…</string>
+    <string name="live_tv_ui_group_tags_scan_again">סריקה חוזרת</string>
+    <string name="live_tv_ui_group_tags_no_channels">יש לטעון תחילה את רשימות ההשמעה שלכם.</string>
+    <string name="live_tv_ui_group_tags_empty">לא נמצאו תגיות שימושיות.</string>
+    <string name="live_tv_ui_group_tags_hint">תגיות תואמות למילים שלמות או למקטעים. מועדפים וקבוצות מותאמות אישית נשארים גלויים.</string>
+    <string name="live_tv_ui_group_tags_clear">נקה בחירה</string>
+    <string name="live_tv_ui_group_tags_done">בוצע</string>
 </resources>

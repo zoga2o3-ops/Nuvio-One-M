@@ -895,7 +895,7 @@ class LiveTvRepository(
         val channels = _channels.value
         if (channels.isEmpty()) return@withContext
         val hidden = prefs.currentHiddenEverywhere()
-        val nowHidden = channels.filter { hidden.hides(it.key, it.groupId) }.mapTo(HashSet()) { it.key }
+        val nowHidden = channels.filter { hidden.hides(it.key, it.groupId, it.group) }.mapTo(HashSet()) { it.key }
         val skipped = loadSkipped() ?: emptySet() // older guides stored every channel
         val keys = channels.mapTo(HashSet()) { it.key }
         val shownAgain = skipped.filter { it in keys && it !in nowHidden }
@@ -1479,7 +1479,7 @@ class LiveTvRepository(
         // Hidden channels: group ids can change with the number of playlists ("playlist::group"
         // with several, just "group" with one), so check what's hidden against the stored guide.
         val hidden = prefs.currentHiddenEverywhere()
-        val nowHidden = channels.filter { hidden.hides(it.key, it.groupId) }.mapTo(HashSet()) { it.key }
+        val nowHidden = channels.filter { hidden.hides(it.key, it.groupId, it.group) }.mapTo(HashSet()) { it.key }
         val skipped = (loadSkipped() ?: emptySet()).filterTo(HashSet()) { it in keys }
         if (keys.any { it in skipped && it !in nowHidden }) return@withContext false // shown again: needs listings
         val newlyHidden = nowHidden - skipped
@@ -1730,7 +1730,7 @@ class LiveTvRepository(
         // many times bigger than what's watched. Showing them again reads their listings back.
         val hidden = prefs.currentHiddenEverywhere()
         val skipped = HashSet<String>()
-        val channels = all.filter { c -> (!hidden.hides(c.key, c.groupId)).also { shown -> if (!shown) skipped += c.key } }
+        val channels = all.filter { c -> (!hidden.hides(c.key, c.groupId, c.group)).also { shown -> if (!shown) skipped += c.key } }
         LIVE_REPORT.add(
             "Guide matching: ${channels.size} of ${all.size} channels shown somewhere" +
                 " (${channels.count { !it.tvgId.isNullOrBlank() }} with a tvg-id)"

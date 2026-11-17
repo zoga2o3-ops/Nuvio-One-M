@@ -32,6 +32,8 @@ class LiveTvViewModel(context: Context) : ViewModel() {
     private val prefs = live.prefs
 
     val channels: StateFlow<List<LiveChannel>> = live.store.displayChannels
+    /** Every loaded channel, before hidden and group-tag filters: used by the group-tag scan. */
+    val allChannels: StateFlow<List<LiveChannel>> = live.repository.channels
     val programs = repository.programs
     val status = repository.status
     val guideGeneration = repository.guideGeneration
@@ -114,6 +116,14 @@ class LiveTvViewModel(context: Context) : ViewModel() {
 
     fun showAllHidden() {
         viewModelScope.launch { prefs.clearHiddenChannels(); prefs.clearHiddenGroups() }
+    }
+
+    fun setGroupTagFilter(tag: String, enabled: Boolean) {
+        viewModelScope.launch { prefs.setGroupTagFilter(tag, enabled) }
+    }
+
+    fun clearGroupTagFilters() {
+        viewModelScope.launch { prefs.clearGroupTagFilters() }
     }
 
     fun updateSettings(transform: (LiveTvSettings) -> LiveTvSettings) {

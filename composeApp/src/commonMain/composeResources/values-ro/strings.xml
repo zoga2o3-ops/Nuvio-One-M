@@ -3902,4 +3902,15 @@
     <string name="live_tv_ui_hide_search">Ascunde căutarea</string>
     <string name="live_tv_settings_source_counts">%1$d liste de redare · %2$d ghiduri</string>
     <string name="live_tv_settings_update_all_description">Descărcați cele mai recente canale și grile de programe.</string>
+    <string name="live_tv_ui_filter_by_group_tag">Filtrați canalele după eticheta grupului</string>
+    <string name="live_tv_ui_filter_by_group_tag_description">Scanați grupurile, apoi alegeți etichetele de ascuns.</string>
+    <string name="live_tv_ui_group_tags_selected">%1$d etichete selectate</string>
+    <string name="live_tv_ui_group_tags_scan">Scanați etichetele</string>
+    <string name="live_tv_ui_group_tags_scanning">Se scanează...</string>
+    <string name="live_tv_ui_group_tags_scan_again">Scanează din nou</string>
+    <string name="live_tv_ui_group_tags_no_channels">Încărcați mai întâi listele de redare.</string>
+    <string name="live_tv_ui_group_tags_empty">Nu s-au găsit etichete utile.</string>
+    <string name="live_tv_ui_group_tags_hint">Etichetele corespund cuvintelor întregi sau segmentelor. Favoritele și grupurile personalizate rămân vizibile.</string>
+    <string name="live_tv_ui_group_tags_clear">Transparent</string>
+    <string name="live_tv_ui_group_tags_done">Terminat</string>
 </resources>

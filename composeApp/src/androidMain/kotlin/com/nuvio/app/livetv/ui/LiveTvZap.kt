@@ -19,7 +19,7 @@ import kotlinx.coroutines.delay
 /** Your channels in list order, without the ones you've hidden. */
 private fun visibleChannels(live: LiveTv): List<LiveChannel> {
     val user = live.userState.value
-    return live.store.displayChannels.value.filter { it.key !in user.hiddenChannels && it.groupId !in user.hiddenGroups }
+    return live.store.displayChannels.value.filter { it.key !in user.hiddenChannels && it.groupId !in user.hiddenGroups && !user.hidesByGroupTag(it, user.keptChannelKeys) }
 }
 
 /** What the player needs to open a channel. Also remembers the channel's protection details, if it has any. */

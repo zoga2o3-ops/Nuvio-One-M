@@ -3944,4 +3944,15 @@
     <string name="live_tv_ui_hide_search">إخفاء البحث</string>
     <string name="live_tv_settings_source_counts">%1$d قائمة تشغيل · %2$d دليل</string>
     <string name="live_tv_settings_update_all_description">تنزيل أحدث القنوات وجداول البرامج.</string>
+    <string name="live_tv_ui_filter_by_group_tag">تصفية القنوات حسب علامة المجموعة</string>
+    <string name="live_tv_ui_filter_by_group_tag_description">امسح مجموعاتك ضوئيًا، ثم اختر العلامات التي تريد إخفاءها.</string>
+    <string name="live_tv_ui_group_tags_selected">%1$d المحدد:</string>
+    <string name="live_tv_ui_group_tags_scan">مسح العلامات ضوئيًا</string>
+    <string name="live_tv_ui_group_tags_scanning">جار المسح الضوئي...</string>
+    <string name="live_tv_ui_group_tags_scan_again">امسح مجددًا</string>
+    <string name="live_tv_ui_group_tags_no_channels">حمّل قوائم التشغيل الخاصة بك أولاً.</string>
+    <string name="live_tv_ui_group_tags_empty">لم يتم العثور على علامات مفيدة.</string>
+    <string name="live_tv_ui_group_tags_hint">تطابق العلامات الكلمات أو الأجزاء الكاملة. تظل المفضلة والمجموعات المخصصة مرئية.</string>
+    <string name="live_tv_ui_group_tags_clear">واضح</string>
+    <string name="live_tv_ui_group_tags_done">تم الإنتهاء</string>
 </resources>

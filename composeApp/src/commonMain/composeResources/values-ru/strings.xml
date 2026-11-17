@@ -3940,4 +3940,15 @@
     <string name="live_tv_ui_hide_search">Скрыть поиск</string>
     <string name="live_tv_settings_source_counts">Плейлисты: %1$d · Путеводители: %2$d</string>
     <string name="live_tv_settings_update_all_description">Загрузите последние каналы и списки.</string>
+    <string name="live_tv_ui_filter_by_group_tag">Фильтровать каналы по тегу группы</string>
+    <string name="live_tv_ui_filter_by_group_tag_description">Просмотрите свои группы, а затем выберите теги, которые нужно скрыть.</string>
+    <string name="live_tv_ui_group_tags_selected">Выбрано %1$d</string>
+    <string name="live_tv_ui_group_tags_scan">Сканировать метки</string>
+    <string name="live_tv_ui_group_tags_scanning">Сканирование</string>
+    <string name="live_tv_ui_group_tags_scan_again">Повторить поиск</string>
+    <string name="live_tv_ui_group_tags_no_channels">Сначала загрузите свои плейлисты.</string>
+    <string name="live_tv_ui_group_tags_empty">Полезные теги не найдены.</string>
+    <string name="live_tv_ui_group_tags_hint">Теги соответствуют целым словам или сегментам. Избранное и пользовательские группы остаются видимыми.</string>
+    <string name="live_tv_ui_group_tags_clear">Сбросить</string>
+    <string name="live_tv_ui_group_tags_done">Готово</string>
 </resources>

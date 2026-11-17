@@ -3934,4 +3934,15 @@
     <string name="live_tv_ui_hide_search">Zoekopdracht verbergen</string>
     <string name="live_tv_settings_source_counts">%1$d afspeellijsten · %2$d gidsen</string>
     <string name="live_tv_settings_update_all_description">Download de nieuwste zenders en overzichten.</string>
+    <string name="live_tv_ui_filter_by_group_tag">Kanalen filteren op groepstag</string>
+    <string name="live_tv_ui_filter_by_group_tag_description">Scan je groepen en kies vervolgens de tags die je wilt verbergen.</string>
+    <string name="live_tv_ui_group_tags_selected">%1$d tags selected</string>
+    <string name="live_tv_ui_group_tags_scan">Tags scannen</string>
+    <string name="live_tv_ui_group_tags_scanning">Scannen...</string>
+    <string name="live_tv_ui_group_tags_scan_again">Opnieuw scannen</string>
+    <string name="live_tv_ui_group_tags_no_channels">Laad eerst je afspeellijsten.</string>
+    <string name="live_tv_ui_group_tags_empty">Geen bruikbare tags gevonden.</string>
+    <string name="live_tv_ui_group_tags_hint">Tags komen overeen met hele woorden of segmenten. Favorieten en aangepaste groepen blijven zichtbaar.</string>
+    <string name="live_tv_ui_group_tags_clear">Wissen</string>
+    <string name="live_tv_ui_group_tags_done">Klaar</string>
 </resources>

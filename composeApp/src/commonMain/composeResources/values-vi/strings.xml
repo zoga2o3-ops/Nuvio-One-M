@@ -3961,4 +3961,15 @@
     <string name="live_tv_ui_hide_search">Ẩn tìm kiếm</string>
     <string name="live_tv_settings_source_counts">%1$d danh sách phát · %2$d hướng dẫn</string>
     <string name="live_tv_settings_update_all_description">Tải xuống các kênh và danh sách mới nhất.</string>
+    <string name="live_tv_ui_filter_by_group_tag">Lọc kênh theo thẻ nhóm</string>
+    <string name="live_tv_ui_filter_by_group_tag_description">Quét các nhóm của bạn, sau đó chọn các thẻ cần ẩn.</string>
+    <string name="live_tv_ui_group_tags_selected">%1$d tags selected</string>
+    <string name="live_tv_ui_group_tags_scan">Quét thẻ</string>
+    <string name="live_tv_ui_group_tags_scanning">Đang quét…</string>
+    <string name="live_tv_ui_group_tags_scan_again">Quét lại</string>
+    <string name="live_tv_ui_group_tags_no_channels">Trước tiên, hãy tải danh sách phát của bạn.</string>
+    <string name="live_tv_ui_group_tags_empty">Không tìm thấy thẻ hữu ích nào.</string>
+    <string name="live_tv_ui_group_tags_hint">Thẻ khớp với toàn bộ từ hoặc đoạn. Mục yêu thích và các nhóm tùy chỉnh vẫn hiển thị.</string>
+    <string name="live_tv_ui_group_tags_clear">Xóa</string>
+    <string name="live_tv_ui_group_tags_done">Hoàn thành</string>
 </resources>

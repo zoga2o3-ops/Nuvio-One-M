@@ -3958,4 +3958,15 @@
     <string name="live_tv_ui_hide_search">Скриване на търсенето</string>
     <string name="live_tv_settings_source_counts">%1$d плейлиста · %2$d ръководства</string>
     <string name="live_tv_settings_update_all_description">Изтеглете най-новите канали и програмни указания.</string>
+    <string name="live_tv_ui_filter_by_group_tag">Филтриране на каналите по етикет на групата</string>
+    <string name="live_tv_ui_filter_by_group_tag_description">Сканирайте групите си, след което изберете етикетите, които да скриете.</string>
+    <string name="live_tv_ui_group_tags_selected">Избрани са %1$d етикета</string>
+    <string name="live_tv_ui_group_tags_scan">Сканиране на етикети</string>
+    <string name="live_tv_ui_group_tags_scanning">Сканиране...</string>
+    <string name="live_tv_ui_group_tags_scan_again">Сканиране отново</string>
+    <string name="live_tv_ui_group_tags_no_channels">Първо заредете плейлистите си.</string>
+    <string name="live_tv_ui_group_tags_empty">Не са намерени полезни етикети.</string>
+    <string name="live_tv_ui_group_tags_hint">Етикетите съответстват на цели думи или сегменти. Любимите и персонализираните групи остават видими.</string>
+    <string name="live_tv_ui_group_tags_clear">Премахване</string>
+    <string name="live_tv_ui_group_tags_done">Приключено</string>
 </resources>

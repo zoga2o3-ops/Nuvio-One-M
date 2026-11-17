@@ -3947,4 +3947,15 @@ Bu özelliği tamamen kendi sorumluluğunuzda kullanırsınız. P2P istediğiniz
     <string name="live_tv_ui_hide_search">Aramayı gizle</string>
     <string name="live_tv_settings_source_counts">%1$d çalma listesi · %2$d rehber</string>
     <string name="live_tv_settings_update_all_description">En son kanalları ve listeleri indirin.</string>
+    <string name="live_tv_ui_filter_by_group_tag">Kanalları grup etiketine göre filtrele</string>
+    <string name="live_tv_ui_filter_by_group_tag_description">Gruplarınızı tarayın, ardından gizlemek istediğiniz etiketleri seçin.</string>
+    <string name="live_tv_ui_group_tags_selected">%1$d tags selected</string>
+    <string name="live_tv_ui_group_tags_scan">Etiketleri tarayın</string>
+    <string name="live_tv_ui_group_tags_scanning">Taranıyor</string>
+    <string name="live_tv_ui_group_tags_scan_again">Tekrar tara</string>
+    <string name="live_tv_ui_group_tags_no_channels">Önce çalma listelerinizi yükleyin.</string>
+    <string name="live_tv_ui_group_tags_empty">Faydalı etiket bulunamadı.</string>
+    <string name="live_tv_ui_group_tags_hint">Etiketler tüm kelimelerle veya bölümlerle eşleşir. Favoriler ve özel gruplar görünür kalır.</string>
+    <string name="live_tv_ui_group_tags_clear">Temizle</string>
+    <string name="live_tv_ui_group_tags_done">Bitti</string>
 </resources>

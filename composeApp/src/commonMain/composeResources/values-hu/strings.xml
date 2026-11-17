@@ -3930,4 +3930,15 @@
     <string name="live_tv_ui_hide_search">Keresés elrejtése</string>
     <string name="live_tv_settings_source_counts">%1$d lejátszási lista · %2$d útmutató</string>
     <string name="live_tv_settings_update_all_description">Töltse le a legújabb csatornákat és műsorújságokat.</string>
+    <string name="live_tv_ui_filter_by_group_tag">Csatornák szűrése csoportcímke szerint</string>
+    <string name="live_tv_ui_filter_by_group_tag_description">Vizsgáld át a csoportjaidat, majd válaszd ki az elrejteni kívánt címkéket.</string>
+    <string name="live_tv_ui_group_tags_selected">%1$d tags selected</string>
+    <string name="live_tv_ui_group_tags_scan">Címkék beolvasása</string>
+    <string name="live_tv_ui_group_tags_scanning">Beolvasás…</string>
+    <string name="live_tv_ui_group_tags_scan_again">Scan újra</string>
+    <string name="live_tv_ui_group_tags_no_channels">Először töltsd be a lejátszási listáidat.</string>
+    <string name="live_tv_ui_group_tags_empty">Nem található hasznos címke.</string>
+    <string name="live_tv_ui_group_tags_hint">A címkék teljes szavakra vagy szakaszokra illeszkednek. A kedvencek és az egyéni csoportok továbbra is láthatók maradnak.</string>
+    <string name="live_tv_ui_group_tags_clear">Törlés</string>
+    <string name="live_tv_ui_group_tags_done">Kész</string>
 </resources>

@@ -3941,4 +3941,15 @@
     <string name="live_tv_ui_hide_search">Hide search</string>
     <string name="live_tv_settings_source_counts">Playlists: %1$d · Guides: %2$d</string>
     <string name="live_tv_settings_update_all_description">Download the latest channels and listings.</string>
+    <string name="live_tv_ui_filter_by_group_tag">Filter channels by group tag</string>
+    <string name="live_tv_ui_filter_by_group_tag_description">Scan your groups, then choose tags to hide.</string>
+    <string name="live_tv_ui_group_tags_selected">Tags selected: %1$d</string>
+    <string name="live_tv_ui_group_tags_scan">Scan tags</string>
+    <string name="live_tv_ui_group_tags_scanning">Scanning…</string>
+    <string name="live_tv_ui_group_tags_scan_again">Scan again</string>
+    <string name="live_tv_ui_group_tags_no_channels">Load your playlists first.</string>
+    <string name="live_tv_ui_group_tags_empty">No useful tags found.</string>
+    <string name="live_tv_ui_group_tags_hint">Tags match whole words or segments. Favorites and custom groups stay visible.</string>
+    <string name="live_tv_ui_group_tags_clear">Clear</string>
+    <string name="live_tv_ui_group_tags_done">Done</string>
 </resources>

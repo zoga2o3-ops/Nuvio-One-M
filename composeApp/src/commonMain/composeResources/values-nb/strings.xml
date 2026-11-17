@@ -3910,4 +3910,15 @@ Du bruker denne funksjonen helt på eget ansvar. P2P kan deaktiveres når som he
     <string name="live_tv_ui_hide_search">Skjul søk</string>
     <string name="live_tv_settings_source_counts">%1$d spillelister · %2$d guider</string>
     <string name="live_tv_settings_update_all_description">Last ned de nyeste kanalene og programoversiktene.</string>
+    <string name="live_tv_ui_filter_by_group_tag">Filtrer kanaler etter gruppestikkord</string>
+    <string name="live_tv_ui_filter_by_group_tag_description">Skann gruppene dine og velg deretter taggene du vil skjule.</string>
+    <string name="live_tv_ui_group_tags_selected">%1$d valgt</string>
+    <string name="live_tv_ui_group_tags_scan">Skann tagger</string>
+    <string name="live_tv_ui_group_tags_scanning">Skanner&amp;#160;…</string>
+    <string name="live_tv_ui_group_tags_scan_again">Skann på nytt</string>
+    <string name="live_tv_ui_group_tags_no_channels">Last inn spillelistene dine først.</string>
+    <string name="live_tv_ui_group_tags_empty">Ingen nyttige stikkord funnet.</string>
+    <string name="live_tv_ui_group_tags_hint">Stikkord samsvarer med hele ord eller segmenter. Favoritter og egendefinerte grupper forblir synlige.</string>
+    <string name="live_tv_ui_group_tags_clear">Fjern</string>
+    <string name="live_tv_ui_group_tags_done">Ferdig</string>
 </resources>

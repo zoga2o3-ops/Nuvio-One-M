@@ -3927,4 +3927,15 @@
     <string name="live_tv_ui_hide_search">Ocultar búsqueda</string>
     <string name="live_tv_settings_source_counts">%1$d listas de reproducción · %2$d guías</string>
     <string name="live_tv_settings_update_all_description">Descarga los últimos canales y listados.</string>
+    <string name="live_tv_ui_filter_by_group_tag">Filtrar canales por etiqueta de grupo</string>
+    <string name="live_tv_ui_filter_by_group_tag_description">Escanea tus grupos y, a continuación, elige las etiquetas que quieres ocultar.</string>
+    <string name="live_tv_ui_group_tags_selected">%1$d tags selected</string>
+    <string name="live_tv_ui_group_tags_scan">Escanear etiquetas</string>
+    <string name="live_tv_ui_group_tags_scanning">Analizando…</string>
+    <string name="live_tv_ui_group_tags_scan_again">Escanear de nuevo</string>
+    <string name="live_tv_ui_group_tags_no_channels">Carga primero tus listas de reproducción.</string>
+    <string name="live_tv_ui_group_tags_empty">No se han encontrado etiquetas útiles.</string>
+    <string name="live_tv_ui_group_tags_hint">Las etiquetas coinciden con palabras o segmentos completos. Los favoritos y los grupos personalizados siguen siendo visibles.</string>
+    <string name="live_tv_ui_group_tags_clear">Borrar</string>
+    <string name="live_tv_ui_group_tags_done">Terminado</string>
 </resources>
