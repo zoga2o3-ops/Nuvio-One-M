@@ -26,6 +26,9 @@ import java.nio.channels.FileChannel
 
 private const val MB = 1024L * 1024L
 private const val READ_AHEAD_BLOCK_BYTES = 16 shl 20
+private const val MAX_BUFFER_SECONDS = 3_600
+private const val MAX_TARGET_BUFFER_MB = 4_096
+private const val MIN_TARGET_BUFFER_BYTES = 16L * MB
 
 internal fun isProgressivePlaybackSource(
     url: String,
@@ -53,14 +56,24 @@ internal fun PlayerSettingsUiState.buildPlaybackLoadControl(localFileSource: Boo
             .setTargetBufferBytes(minOf(LOCAL_FILE_TARGET_BUFFER_MB * MB, heapLimitBytes).toInt())
             .setPrioritizeTimeOverSizeThresholds(false)
         customPlaybackBuffersEnabled -> {
-            val startMs = playbackStartBufferSeconds * 1000
-            val rebufferMs = playbackRebufferSeconds * 1000
-            val minMs = maxOf(playbackMinBufferSeconds * 1000, startMs, rebufferMs)
-            val maxMs = maxOf(playbackMaxBufferSeconds * 1000, minMs)
+            val startMs = playbackStartBufferSeconds.coerceIn(0, MAX_BUFFER_SECONDS) * 1000
+            val rebufferMs = playbackRebufferSeconds.coerceIn(0, MAX_BUFFER_SECONDS) * 1000
+            val minMs = maxOf(
+                playbackMinBufferSeconds.coerceIn(0, MAX_BUFFER_SECONDS) * 1000,
+                startMs,
+                rebufferMs,
+                1,
+            )
+            val maxMs = maxOf(playbackMaxBufferSeconds.coerceIn(0, MAX_BUFFER_SECONDS) * 1000, minMs)
+            val backBufferMs = playbackBackBufferSeconds.coerceIn(0, MAX_BUFFER_SECONDS) * 1000
             builder
-                .setBackBuffer(playbackBackBufferSeconds * 1000, true)
+                .setBackBuffer(backBufferMs, true)
                 .setBufferDurationsMs(minMs, maxMs, startMs, rebufferMs)
-                .setTargetBufferBytes(minOf(playbackTargetBufferMb * MB, heapLimitBytes).toInt())
+                .setTargetBufferBytes(
+                    (playbackTargetBufferMb.coerceIn(1, MAX_TARGET_BUFFER_MB) * MB)
+                        .coerceIn(MIN_TARGET_BUFFER_BYTES, heapLimitBytes)
+                        .toInt(),
+                )
         }
         exoNativeMemoryEnabled -> builder
             .setBackBuffer(10_000, true)
@@ -86,7 +99,8 @@ internal fun PlayerSettingsUiState.buildPlaybackLoadControl(localFileSource: Boo
 private fun PlayerSettingsUiState.nativeReadAheadBytes(): Long = when {
     !exoNativeMemoryEnabled -> 0L
     customPlaybackBuffersEnabled ->
-        playbackTargetBufferMb.coerceAtMost(PlaybackMemoryInfo.safeBufferLimitMb()) * MB
+        (playbackTargetBufferMb.coerceIn(1, MAX_TARGET_BUFFER_MB).toLong() * MB)
+            .coerceAtMost(PlaybackMemoryInfo.safeBufferLimitMb() * MB)
     else -> PlaybackMemoryInfo.safeBufferLimitMb() / 2 * MB
 }
 

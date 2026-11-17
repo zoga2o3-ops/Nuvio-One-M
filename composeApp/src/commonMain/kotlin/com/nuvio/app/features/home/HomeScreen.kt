@@ -932,14 +932,19 @@ fun HomeScreen(
         if (!active) return@ScreenActivityEffect
         val inputs = Triple(watchedUiState, watchProgressUiState.entries, CurrentDateProvider.todayIsoDate())
         if (resolvedBadgeInputs.value == inputs) return@ScreenActivityEffect
-        if (
+        // Mark these inputs before resolving. Watched state can change several times while a
+        // profile loads; without this, a series with no metadata would make every change re-fetch
+        // the whole list again.
+        resolvedBadgeInputs.value = inputs
+        try {
             resolveWatchedBadgesBulk(
                 watchedItems = watchedUiState.items,
                 progressEntries = watchProgressUiState.entries,
                 todayIsoDate = inputs.third,
             )
-        ) {
-            resolvedBadgeInputs.value = inputs
+        } catch (error: CancellationException) {
+            if (resolvedBadgeInputs.value == inputs) resolvedBadgeInputs.value = null
+            throw error
         }
     }
     val hasRenderableCollectionRows = remember(enabledHomeItems, collectionsMap) {
