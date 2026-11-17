@@ -90,6 +90,7 @@ fun SportsPage(
     val loading by repo.loading.collectAsStateWithLifecycle()
     val problem by repo.problem.collectAsStateWithLifecycle()
     val settings by repo.settings.collectAsStateWithLifecycle()
+    val follows by repo.follows.collectAsStateWithLifecycle()
     var day by remember { mutableStateOf(0) }
     var sport by remember { mutableStateOf<Sport?>(null) }
     var opened by remember { mutableStateOf<SportsEvent?>(null) }
@@ -113,8 +114,18 @@ fun SportsPage(
     val shown = remember(ofDay, sport) {
         ofDay.filter { sport == null || SportsCatalog.league(it.leagueId)?.sport == sport }
     }
-    val groups = remember(shown) {
-        shown.groupBy { it.leagueId }
+    fun isFavourite(ev: SportsEvent): Boolean =
+        ev.leagueId in follows.leagues || ev.leagueId in follows.pins ||
+            ev.sides.any { follows.followsTeam(ev.leagueId, it.team.id) } ||
+            follows.words.any { it.isNotBlank() && ev.title.contains(it, ignoreCase = true) }
+
+    val liveFavourites = remember(shown, follows) {
+        shown.filter { it.state == GameState.LIVE && isFavourite(it) }.sortedBy { it.startMs }
+    }
+    val liveFavouriteIds = remember(liveFavourites) { liveFavourites.mapTo(HashSet()) { it.id } }
+    val groups = remember(shown, liveFavouriteIds) {
+        shown.filterNot { it.id in liveFavouriteIds }
+            .groupBy { it.leagueId }
             .toList()
             .sortedBy { (id, _) -> SportsCatalog.all.indexOfFirst { it.id == id }.let { if (it < 0) Int.MAX_VALUE else it } }
             .map { (id, list) ->
@@ -176,7 +187,7 @@ fun SportsPage(
             SportsVideoWindow(c, onFullScreen = { windowChannel = null; onWatch(c) }, onClose = { windowChannel = null })
         }
         if (mode == "games") Box(Modifier.weight(1f).fillMaxWidth()) {
-            if (groups.isEmpty()) {
+            if (groups.isEmpty() && liveFavourites.isEmpty()) {
                 Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                     if (loading) CircularProgressIndicator()
                     else Text(stringResource(Res.string.live_tv_ui_no_games_found_for_this_day), color = LocalContentColor.current.copy(alpha = 0.6f))
@@ -186,6 +197,25 @@ fun SportsPage(
                     contentPadding = PaddingValues(16.dp, 4.dp, 16.dp, 96.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
+                    if (liveFavourites.isNotEmpty()) {
+                        item(key = "h-my-live") {
+                            Text(
+                                stringResource(Res.string.live_tv_ui_my_live_games),
+                                style = MaterialTheme.typography.titleSmall,
+                                color = MaterialTheme.colorScheme.primary,
+                                modifier = Modifier.padding(top = 10.dp),
+                            )
+                        }
+                        items(liveFavourites, key = { it.id }) { ev ->
+                            GameCard(
+                                ev = ev,
+                                sport = SportsCatalog.league(ev.leagueId)?.sport,
+                                best = matches[ev.id]?.firstOrNull(),
+                                clock = clock,
+                                hideScore = settings.hideScores,
+                            ) { opened = ev }
+                        }
+                    }
                     groups.forEach { (leagueId, games) ->
                         item(key = "h$leagueId") {
                             Text(
@@ -218,7 +248,9 @@ fun SportsPage(
             matches = matches[ev.id].orEmpty(),
             clock = clock,
             hideScore = settings.hideScores,
-            reminded = ev.id in repo.follows.collectAsStateWithLifecycle().value.reminders.map { it.eventId },
+            reminded = ev.id in follows.reminders.map { it.eventId },
+            alerted = follows.alertGames.any { it.eventId == ev.id },
+            alertsFromFollows = repo.alertsFromFollows(ev, follows),
             onRemind = {
                 val was = repo.isReminded(ev)
                 repo.toggleReminder(ev)
@@ -229,6 +261,16 @@ fun SportsPage(
                     com.nuvio.app.livetv.reminders.LiveTvReminders.schedule(context, r)
                     android.widget.Toast.makeText(context, reminderToast, android.widget.Toast.LENGTH_SHORT).show()
                 }
+            },
+            onAlerts = {
+                val was = follows.alertGames.any { it.eventId == ev.id }
+                if (!was) notifications.ask()
+                repo.toggleGameAlerts(ev)
+                android.widget.Toast.makeText(
+                    context,
+                    if (was) "Score alerts off for this game" else "Score alerts on for this game",
+                    android.widget.Toast.LENGTH_SHORT,
+                ).show()
             },
             onWatch = { m -> if (settings.videoWindow) windowChannel = m.channel else onWatch(m.channel); opened = null },
             onRecord = { m -> onRecord(ev, m); opened = null },

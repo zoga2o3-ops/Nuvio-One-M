@@ -3946,4 +3946,7 @@
     <string name="live_tv_ui_group_tags_hint">ٹیگز پورے الفاظ یا حصوں سے مماثل ہوتے ہیں۔ پسندیدہ اور حسب منشا گروپس نظر آتے رہتے ہیں۔</string>
     <string name="live_tv_ui_group_tags_clear">صاف</string>
     <string name="live_tv_ui_group_tags_done">کردیا</string>
+    <string name="live_tv_ui_score_alerts">اسکور کے الرٹس</string>
+    <string name="live_tv_ui_score_alerts_on">اسکور کے الرٹس آن ہیں</string>
+    <string name="live_tv_ui_my_live_games">میرے لائیو گیمز</string>
 </resources>

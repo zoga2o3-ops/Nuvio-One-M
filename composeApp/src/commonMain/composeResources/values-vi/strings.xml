@@ -3972,4 +3972,7 @@
     <string name="live_tv_ui_group_tags_hint">Thẻ khớp với toàn bộ từ hoặc đoạn. Mục yêu thích và các nhóm tùy chỉnh vẫn hiển thị.</string>
     <string name="live_tv_ui_group_tags_clear">Xóa</string>
     <string name="live_tv_ui_group_tags_done">Hoàn thành</string>
+    <string name="live_tv_ui_score_alerts">Thông báo về điểm số</string>
+    <string name="live_tv_ui_score_alerts_on">Bật thông báo về điểm số</string>
+    <string name="live_tv_ui_my_live_games">Các trận đấu trực tiếp của tôi</string>
 </resources>

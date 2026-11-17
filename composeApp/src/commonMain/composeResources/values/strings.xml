@@ -3952,4 +3952,7 @@
     <string name="live_tv_ui_group_tags_hint">Tags match whole words or segments. Favorites and custom groups stay visible.</string>
     <string name="live_tv_ui_group_tags_clear">Clear</string>
     <string name="live_tv_ui_group_tags_done">Done</string>
+    <string name="live_tv_ui_score_alerts">Score alerts</string>
+    <string name="live_tv_ui_score_alerts_on">Score alerts on</string>
+    <string name="live_tv_ui_my_live_games">My live games</string>
 </resources>

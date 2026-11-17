@@ -3955,4 +3955,7 @@
     <string name="live_tv_ui_group_tags_hint">تطابق العلامات الكلمات أو الأجزاء الكاملة. تظل المفضلة والمجموعات المخصصة مرئية.</string>
     <string name="live_tv_ui_group_tags_clear">واضح</string>
     <string name="live_tv_ui_group_tags_done">تم الإنتهاء</string>
+    <string name="live_tv_ui_score_alerts">تنبيهات الدرجات</string>
+    <string name="live_tv_ui_score_alerts_on">تنبيهات الدرجات مُفعَّلة</string>
+    <string name="live_tv_ui_my_live_games">ألعابي المباشرة</string>
 </resources>

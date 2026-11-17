@@ -3981,4 +3981,7 @@
     <string name="live_tv_ui_group_tags_hint">Značky sa zhodujú s celými slovami alebo segmentmi. Obľúbené položky a vlastné skupiny zostávajú viditeľné.</string>
     <string name="live_tv_ui_group_tags_clear">Vymazať</string>
     <string name="live_tv_ui_group_tags_done">Dokončené</string>
+    <string name="live_tv_ui_score_alerts">Upozornenia na skóre</string>
+    <string name="live_tv_ui_score_alerts_on">Upozornenia na skóre sú zapnuté</string>
+    <string name="live_tv_ui_my_live_games">Moje živé hry</string>
 </resources>

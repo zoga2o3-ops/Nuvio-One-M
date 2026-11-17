@@ -208,7 +208,7 @@ fun LiveTvSettingsContent() {
             SwitchRow(stringResource(Res.string.live_tv_ui_video_window), "Watch games in a window at the top of the Sports page. Off: games open full screen.", sportsSettings.videoWindow) { v -> sports.updateSettings { it.copy(videoWindow = v) } }
             SwitchRow(stringResource(Res.string.live_tv_ui_games_in_the_calendar), "Show games of the teams you follow on the Calendar.", settings.calendarSports) { v -> change { it.copy(calendarSports = v) } }
             SwitchRow(stringResource(Res.string.live_tv_ui_hide_scores), "Keep results off the screen until you're ready.", sportsSettings.hideScores) { v -> sports.updateSettings { it.copy(hideScores = v) } }
-            SwitchRow(stringResource(Res.string.live_tv_ui_scoring_alerts), "A notification when a team you follow scores.", sportsSettings.scoringAlerts) { v ->
+            SwitchRow(stringResource(Res.string.live_tv_ui_scoring_alerts), "A notification when a team you follow scores, and the final score when the game ends.", sportsSettings.scoringAlerts) { v ->
                 if (v) notifications.ask()
                 sports.updateSettings { it.copy(scoringAlerts = v) }
             }

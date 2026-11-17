@@ -3921,4 +3921,7 @@ Du bruker denne funksjonen helt på eget ansvar. P2P kan deaktiveres når som he
     <string name="live_tv_ui_group_tags_hint">Stikkord samsvarer med hele ord eller segmenter. Favoritter og egendefinerte grupper forblir synlige.</string>
     <string name="live_tv_ui_group_tags_clear">Fjern</string>
     <string name="live_tv_ui_group_tags_done">Ferdig</string>
+    <string name="live_tv_ui_score_alerts">Poengvarsler</string>
+    <string name="live_tv_ui_score_alerts_on">Poengvarsler på</string>
+    <string name="live_tv_ui_my_live_games">Moje probíhající hry</string>
 </resources>

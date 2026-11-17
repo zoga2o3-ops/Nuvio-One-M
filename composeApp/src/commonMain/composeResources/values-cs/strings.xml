@@ -3945,4 +3945,7 @@
     <string name="live_tv_ui_group_tags_hint">Štítky se shodují s celými slovy nebo segmenty. Oblíbené položky a vlastní skupiny zůstávají viditelné.</string>
     <string name="live_tv_ui_group_tags_clear">Vymazat</string>
     <string name="live_tv_ui_group_tags_done">Hotovo</string>
+    <string name="live_tv_ui_score_alerts">Upozornění na skóre</string>
+    <string name="live_tv_ui_score_alerts_on">Upozornění na skóre zapnuta</string>
+    <string name="live_tv_ui_my_live_games">Moje živé hry</string>
 </resources>

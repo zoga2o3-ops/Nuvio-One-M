@@ -3907,4 +3907,7 @@
     <string name="live_tv_ui_group_tags_hint">Tag cocok dengan kata atau segmen utuh. Favorit dan grup kustom tetap terlihat.</string>
     <string name="live_tv_ui_group_tags_clear">Kosongkan</string>
     <string name="live_tv_ui_group_tags_done">Selesai</string>
+    <string name="live_tv_ui_score_alerts">Pemberitahuan skor</string>
+    <string name="live_tv_ui_score_alerts_on">Pemberitahuan skor diaktifkan</string>
+    <string name="live_tv_ui_my_live_games">Game Live</string>
 </resources>
