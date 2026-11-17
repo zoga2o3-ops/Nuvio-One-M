@@ -3983,4 +3983,7 @@
     <string name="music_ui_spotify_connected">Spotify connecté.</string>
     <string name="music_ui_spotify_disconnected">Spotify déconnecté.</string>
     <string name="music_ui_spotify_session_stays_encrypted">La page de connexion de Spotify s’ouvre ici ; la session reste chiffrée sur ce téléphone.</string>
+    <string name="live_tv_ui_multiview">Multi-vue</string>
+    <string name="live_tv_ui_multiview_pick">Choisissez jusqu’à quatre chaînes à regarder en même temps.</string>
+    <string name="live_tv_ui_multiview_sound">Touchez une chaîne pour entendre son son.</string>
 </resources>

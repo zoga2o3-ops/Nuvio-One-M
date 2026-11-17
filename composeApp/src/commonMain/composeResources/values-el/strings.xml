@@ -3950,4 +3950,7 @@
     <string name="music_ui_spotify_connected">Το Spotify συνδέθηκε.</string>
     <string name="music_ui_spotify_disconnected">Η σύνδεση με το Spotify διακόπηκε.</string>
     <string name="music_ui_spotify_session_stays_encrypted">Η σελίδα σύνδεσης του Spotify ανοίγει εδώ. Η συνεδρία παραμένει κρυπτογραφημένη σε αυτό το τηλέφωνο.</string>
+    <string name="live_tv_ui_multiview">Πολλαπλή προβολή</string>
+    <string name="live_tv_ui_multiview_pick">Επιλέξτε έως τέσσερα κανάλια για ταυτόχρονη παρακολούθηση.</string>
+    <string name="live_tv_ui_multiview_sound">Πατήστε ένα κανάλι για τον ήχο του.</string>
 </resources>

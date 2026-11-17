@@ -3949,4 +3949,7 @@
     <string name="music_ui_spotify_connected">Spotify conectado.</string>
     <string name="music_ui_spotify_disconnected">Spotify se ha desconectado.</string>
     <string name="music_ui_spotify_session_stays_encrypted">La página de inicio de sesión de Spotify se abre aquí; la sesión permanece cifrada en este teléfono.</string>
+    <string name="live_tv_ui_multiview">Vista múltiple</string>
+    <string name="live_tv_ui_multiview_pick">Elige hasta cuatro canales para verlos a la vez.</string>
+    <string name="live_tv_ui_multiview_sound">Toca un canal para escuchar su sonido.</string>
 </resources>

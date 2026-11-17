@@ -3962,4 +3962,7 @@
     <string name="music_ui_spotify_connected">Spotify подключен.</string>
     <string name="music_ui_spotify_disconnected">Spotify отключен.</string>
     <string name="music_ui_spotify_session_stays_encrypted">Здесь открывается страница входа в Spotify; сеанс остается зашифрованным на этом телефоне.</string>
+    <string name="live_tv_ui_multiview">Многоэкранный просмотр</string>
+    <string name="live_tv_ui_multiview_pick">Выберите до четырёх каналов для одновременного просмотра.</string>
+    <string name="live_tv_ui_multiview_sound">Нажмите на канал, чтобы услышать его звук.</string>
 </resources>

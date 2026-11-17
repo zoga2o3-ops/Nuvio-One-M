@@ -3924,4 +3924,7 @@
     <string name="music_ui_spotify_connected">Spotify conectat.</string>
     <string name="music_ui_spotify_disconnected">Spotify a fost deconectat.</string>
     <string name="music_ui_spotify_session_stays_encrypted">Pagina de conectare Spotify se deschide aici; sesiunea rămâne criptată pe acest telefon.</string>
+    <string name="live_tv_ui_multiview">Vizualizare multiplă</string>
+    <string name="live_tv_ui_multiview_pick">Alegeți până la patru canale pentru vizionare simultană.</string>
+    <string name="live_tv_ui_multiview_sound">Atingeți un canal pentru sunetul acestuia.</string>
 </resources>

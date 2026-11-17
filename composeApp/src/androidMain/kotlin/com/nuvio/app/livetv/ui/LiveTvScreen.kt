@@ -29,12 +29,14 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.GridView
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.outlined.StarBorder
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.FilterChip
+import androidx.compose.material3.SmallFloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalContentColor
@@ -119,6 +121,8 @@ fun LiveTvScreen(modifier: Modifier, onPlay: (LiveTvPlayRequest) -> Unit) {
     var setPinFor by remember { mutableStateOf<String?>(null) }
     var query by remember { mutableStateOf("") }
     var showPlaylists by remember { mutableStateOf(false) }
+    var showMultiviewPicker by remember { mutableStateOf(false) }
+    var multiviewChannels by remember { mutableStateOf<List<LiveChannel>>(emptyList()) }
     var showAdd by remember { mutableStateOf(false) }
     var showAddEpg by remember { mutableStateOf(false) }
     var showGuide by remember { mutableStateOf(false) }
@@ -482,7 +486,39 @@ fun LiveTvScreen(modifier: Modifier, onPlay: (LiveTvPlayRequest) -> Unit) {
                     }
                 }
             }
+            if (playlists.isNotEmpty() && multiviewChannels.isEmpty() &&
+                !showGuide && !showRecordings && !showOnDemand && !showSports && !showCalendar
+            ) {
+                SmallFloatingActionButton(
+                    onClick = { showMultiviewPicker = true },
+                    modifier = Modifier.align(Alignment.BottomEnd).padding(end = 20.dp, bottom = 96.dp),
+                    containerColor = Color(0xFFE53935),
+                ) {
+                    Icon(
+                        Icons.Default.GridView,
+                        contentDescription = stringResource(Res.string.live_tv_ui_multiview),
+                        tint = Color.White,
+                    )
+                }
+            }
         }
+    }
+
+    if (showMultiviewPicker) {
+        LiveTvMultiviewPicker(
+            channels = shown,
+            onStart = { picked ->
+                showMultiviewPicker = false
+                multiviewChannels = picked
+            },
+            onDismiss = { showMultiviewPicker = false },
+        )
+    }
+    if (multiviewChannels.isNotEmpty()) {
+        LiveTvMultiviewScreen(
+            channels = multiviewChannels,
+            onClose = { multiviewChannels = emptyList() },
+        )
     }
 
     actionChannel?.let { c ->

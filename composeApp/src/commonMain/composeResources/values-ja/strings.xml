@@ -3951,4 +3951,7 @@
     <string name="music_ui_spotify_connected">Spotifyに接続しました。</string>
     <string name="music_ui_spotify_disconnected">Spotifyの接続が解除されました。</string>
     <string name="music_ui_spotify_session_stays_encrypted">Spotifyのサインインページがここに開きます。セッションはこのスマートフォン上で暗号化されたままになります。</string>
+    <string name="live_tv_ui_multiview">マルチビュー</string>
+    <string name="live_tv_ui_multiview_pick">同時に視聴するチャンネルを最大4つ選択してください。</string>
+    <string name="live_tv_ui_multiview_sound">音声を聞くにはチャンネルをタップしてください。</string>
 </resources>

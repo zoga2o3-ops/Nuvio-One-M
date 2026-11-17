@@ -3932,4 +3932,7 @@ Du bruker denne funksjonen helt på eget ansvar. P2P kan deaktiveres når som he
     <string name="music_ui_spotify_connected">Spotify er koblet til.</string>
     <string name="music_ui_spotify_disconnected">Spotify er koblet fra.</string>
     <string name="music_ui_spotify_session_stays_encrypted">Spotifys påloggingsside åpnes her. Økten forblir kryptert på denne telefonen.</string>
+    <string name="live_tv_ui_multiview">Flerbilder</string>
+    <string name="live_tv_ui_multiview_pick">Velg opptil fire kanaler å se samtidig.</string>
+    <string name="live_tv_ui_multiview_sound">Trykk på en kanal for å høre lyden.</string>
 </resources>

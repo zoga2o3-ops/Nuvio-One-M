@@ -3918,4 +3918,7 @@
     <string name="music_ui_spotify_connected">Spotify terhubung.</string>
     <string name="music_ui_spotify_disconnected">Spotify terputus.</string>
     <string name="music_ui_spotify_session_stays_encrypted">Halaman masuk Spotify terbuka di sini; sesi tetap terenkripsi di ponsel ini.</string>
+    <string name="live_tv_ui_multiview">Tampilan ganda</string>
+    <string name="live_tv_ui_multiview_pick">Pilih hingga empat saluran untuk ditonton sekaligus.</string>
+    <string name="live_tv_ui_multiview_sound">Ketuk saluran untuk mendengar suaranya.</string>
 </resources>

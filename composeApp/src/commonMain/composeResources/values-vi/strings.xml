@@ -3983,4 +3983,7 @@
     <string name="music_ui_spotify_connected">?? k?t n?i Spotify.</string>
     <string name="music_ui_spotify_disconnected">?? ng?t k?t n?i Spotify.</string>
     <string name="music_ui_spotify_session_stays_encrypted">Trang ??ng nh?p c?a Spotify m? t?i ??y; phi?n ??ng nh?p ???c m? h?a tr?n ?i?n tho?i n?y.</string>
+    <string name="live_tv_ui_multiview">Xem nhi?u k?nh</string>
+    <string name="live_tv_ui_multiview_pick">Ch?n t?i ?a b?n k?nh ?? xem c?ng l?c.</string>
+    <string name="live_tv_ui_multiview_sound">Ch?m v?o m?t k?nh ?? nghe ?m thanh c?a k?nh ??.</string>
 </resources>

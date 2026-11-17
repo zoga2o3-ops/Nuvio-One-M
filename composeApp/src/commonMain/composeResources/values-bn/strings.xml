@@ -3992,4 +3992,7 @@
     <string name="music_ui_spotify_connected">Spotify কানেক্ট করা হয়েছে।</string>
     <string name="music_ui_spotify_disconnected">Spotify সংযোগ বিচ্ছিন্ন করা হয়েছে।</string>
     <string name="music_ui_spotify_session_stays_encrypted">Spotify-এর সাইন-ইন পেজ এখানে খুলবে; সেশনটি এই ফোনে এনক্রিপ্ট করা থাকবে।</string>
+    <string name="live_tv_ui_multiview">মাল্টিভিউ</string>
+    <string name="live_tv_ui_multiview_pick">একসাথে দেখতে সর্বোচ্চ চারটি চ্যানেল বেছে নিন।</string>
+    <string name="live_tv_ui_multiview_sound">শব্দের জন্য একটি চ্যানেলে ট্যাপ করুন।</string>
 </resources>

@@ -98,6 +98,16 @@ class NuvioApplication : Application(), SingletonImageLoader.Factory {
         com.nuvio.app.features.youtube.YouTubeHost.screen = { modifier, onPlay ->
             com.nuvio.app.youtube.YouTubeScreen(modifier, onPlay)
         }
+        // OneTube's seek previews come from YouTube's own sprite sheets, not a second decoder.
+        com.nuvio.app.features.player.seekpreview.SeekPreviewExtraSource.forVideo = { videoId ->
+            com.nuvio.app.youtube.YouTubeStoryboards.getOrFetch(videoId)?.let { storyboard ->
+                com.nuvio.app.features.player.seekpreview.openYouTubeStoryboardFrameSource(
+                    this,
+                    storyboard,
+                    videoId,
+                )
+            }
+        }
         // The YouTube account linked to the active Nuvio One profile travels in its synced settings.
         com.nuvio.app.features.youtube.YouTubeAccountLinkHost.export = {
             com.nuvio.app.youtube.YouTubeAccountLink.exportRaw(this)

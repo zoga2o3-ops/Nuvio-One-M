@@ -634,6 +634,15 @@ class YouTubeViewModel (private val context: Context) : ViewModel() {
             Log.i(TAG, "lookup with client=${info.clientInfo?.clientName} at ${since()}ms")
         }
         if (info.isUnplayable) error(friendlyReason(info.playabilityReason))
+        // Seek previews use YouTube's sprite sheets, so they need no second decoder. Some clients
+        // omit storyboards from their answer; those are fetched in the background instead.
+        if (info.isLive) {
+            YouTubeStoryboards.clear(videoId)
+        } else {
+            val direct = runCatching { info.createStoryboard() }.getOrNull()
+            YouTubeStoryboards.put(videoId, direct)
+            if (direct == null) YouTubeStoryboards.ensure(videoId)
+        }
         Log.i(TAG, "formats video=$videoId dash=${info.containsDashFormats()} " +
             "sabr=${info.containsSabrFormats()} hls=${info.containsHlsUrl()} " +
             "adaptive=${info.adaptiveFormats?.size} live=${info.isLive} client=${info.clientInfo?.clientName}")

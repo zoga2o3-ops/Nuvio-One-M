@@ -573,13 +573,21 @@ private fun PlayerScreenRuntime.RenderPlayerControls(
     modifier: Modifier,
 ) {
     val isInPip = rememberIsInPictureInPicture()
+    val youtubeVideoId = if ((contentType ?: parentMetaType).equals("youtube", ignoreCase = true)) {
+        activeVideoId
+    } else {
+        null
+    }
+    // Saved recordings are served from this device, so their previews need no provider connection.
+    val isRecordingPlayback = activeVideoId?.startsWith("recording:") == true
     val seekPreview = rememberSeekPreviewController(
         url = activePlaybackSourceUrl?.takeIf {
             playerSettingsUiState.seekPreviewEnabled &&
-                !isLiveTvPlayback &&
+                (!isLiveTvPlayback || isRecordingPlayback) &&
                 activeTorrentInfoHash == null
         },
         headers = activeSourceHeaders,
+        videoId = youtubeVideoId,
     )
     val userRatingTarget = currentUserRatingTarget()
     val canRate = rememberCanRate(userRatingTarget)

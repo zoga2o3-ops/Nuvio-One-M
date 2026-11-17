@@ -3992,4 +3992,7 @@
     <string name="music_ui_spotify_connected">Spotify je pripojené.</string>
     <string name="music_ui_spotify_disconnected">Spotify bolo odpojené.</string>
     <string name="music_ui_spotify_session_stays_encrypted">Tu sa otvorí prihlasovacia stránka Spotify. Relácia zostane na tomto telefóne zašifrovaná.</string>
+    <string name="live_tv_ui_multiview">Multizobrazenie</string>
+    <string name="live_tv_ui_multiview_pick">Vyberte a? ?tyri kan?ly na s??asn? sledovanie.</string>
+    <string name="live_tv_ui_multiview_sound">Klepnut?m na kan?l zapnete jeho zvuk.</string>
 </resources>
