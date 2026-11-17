@@ -3954,4 +3954,7 @@
     <string name="live_tv_ui_group_tags_hint">I tag corrispondono a parole o segmenti interi. I preferiti e i gruppi personalizzati rimangono visibili.</string>
     <string name="live_tv_ui_group_tags_clear">Cancella</string>
     <string name="live_tv_ui_group_tags_done">Fine</string>
+    <string name="live_tv_ui_score_alerts">Avvisi sui punteggi</string>
+    <string name="live_tv_ui_score_alerts_on">Avvisi sui punteggi attivi</string>
+    <string name="live_tv_ui_my_live_games">Miei giochi in corso</string>
 </resources>

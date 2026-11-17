@@ -3938,4 +3938,7 @@
     <string name="live_tv_ui_group_tags_hint">Las etiquetas coinciden con palabras o segmentos completos. Los favoritos y los grupos personalizados siguen siendo visibles.</string>
     <string name="live_tv_ui_group_tags_clear">Borrar</string>
     <string name="live_tv_ui_group_tags_done">Terminado</string>
+    <string name="live_tv_ui_score_alerts">Alertas de puntuación</string>
+    <string name="live_tv_ui_score_alerts_on">Alertas de puntuación activadas</string>
+    <string name="live_tv_ui_my_live_games">Mis porras activas</string>
 </resources>

@@ -3972,4 +3972,7 @@
     <string name="live_tv_ui_group_tags_hint">Les balises correspondent à des mots entiers ou à des segments. Les favoris et les groupes personnalisés restent visibles.</string>
     <string name="live_tv_ui_group_tags_clear">Réinitialiser&amp;#10;</string>
     <string name="live_tv_ui_group_tags_done">Effectué</string>
+    <string name="live_tv_ui_score_alerts">Alertes de score</string>
+    <string name="live_tv_ui_score_alerts_on">Alertes de score activées</string>
+    <string name="live_tv_ui_my_live_games">Mes jeux en direct</string>
 </resources>

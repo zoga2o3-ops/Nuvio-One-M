@@ -2,6 +2,8 @@ package com.nuvio.app.livetv.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -85,7 +87,10 @@ internal fun SportsGameScreen(
     clock: SimpleDateFormat,
     hideScore: Boolean,
     reminded: Boolean,
+    alerted: Boolean,
+    alertsFromFollows: Boolean,
     onRemind: () -> Unit,
+    onAlerts: () -> Unit,
     onWatch: (ChannelMatch) -> Unit,
     onRecord: (ChannelMatch) -> Unit,
     onFix: () -> Unit,
@@ -126,9 +131,19 @@ internal fun SportsGameScreen(
                             Scoreboard(ev, league?.name, sides, showScore, extras)
                         }
                         item(key = "actions") {
-                            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                            Row(
+                                Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()),
+                                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                            ) {
                                 if (ev.state == GameState.PRE) {
                                     GameChip(if (reminded) stringResource(Res.string.live_tv_ui_reminded) else stringResource(Res.string.live_tv_ui_remind_me), reminded, onRemind)
+                                }
+                                if ((ev.state == GameState.PRE || ev.state == GameState.LIVE) && !hideScore && !alertsFromFollows) {
+                                    GameChip(
+                                        if (alerted) stringResource(Res.string.live_tv_ui_score_alerts_on) else stringResource(Res.string.live_tv_ui_score_alerts),
+                                        alerted,
+                                        onAlerts,
+                                    )
                                 }
                                 GameChip(stringResource(Res.string.live_tv_ui_fix_channel), false, onFix)
                             }

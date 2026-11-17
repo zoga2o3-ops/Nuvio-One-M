@@ -3976,4 +3976,7 @@
     <string name="live_tv_ui_group_tags_hint">Oznake se podudaraju s cijelim riječima ili segmentima. Favoriti i prilagođene grupe ostaju vidljivi.</string>
     <string name="live_tv_ui_group_tags_clear">Bistro</string>
     <string name="live_tv_ui_group_tags_done">Želimo vam ugodan dan!</string>
+    <string name="live_tv_ui_score_alerts">Obavijesti o ocjenama</string>
+    <string name="live_tv_ui_score_alerts_on">Upozorenja o ocjenama su uključena</string>
+    <string name="live_tv_ui_my_live_games">Moje utakmice uživo</string>
 </resources>

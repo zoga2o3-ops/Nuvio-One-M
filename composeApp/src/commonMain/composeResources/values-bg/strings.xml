@@ -3969,4 +3969,7 @@
     <string name="live_tv_ui_group_tags_hint">Етикетите съответстват на цели думи или сегменти. Любимите и персонализираните групи остават видими.</string>
     <string name="live_tv_ui_group_tags_clear">Премахване</string>
     <string name="live_tv_ui_group_tags_done">Приключено</string>
+    <string name="live_tv_ui_score_alerts">Известия за резултати</string>
+    <string name="live_tv_ui_score_alerts_on">Известията за оценка са включени</string>
+    <string name="live_tv_ui_my_live_games">Моите игри на живо</string>
 </resources>

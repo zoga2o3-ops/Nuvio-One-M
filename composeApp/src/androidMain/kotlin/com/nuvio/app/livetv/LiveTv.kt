@@ -103,16 +103,18 @@ class LiveTv private constructor(context: Context) {
         CoroutineScope(SupervisorJob() + Dispatchers.Default).launch {
             com.nuvio.app.livetv.sports.SportsAuto.run(appContext, this@LiveTv)
         }
-        // A team you follow scored: tell you, wherever you are in the app.
+        // A team you follow scored, or a game you asked about finished: tell you, wherever you are.
         CoroutineScope(SupervisorJob() + Dispatchers.Default).launch {
             com.nuvio.app.livetv.sports.SportsLive.alerts.collect { a ->
                 if (a != null) {
                     val sides = a.event.sides
+                    val title = if (a.final) "Full time" else "${a.team.name} scored"
                     com.nuvio.app.livetv.reminders.LiveTvReminders.alert(
-                        appContext, "${a.team.name} scored",
+                        appContext, title,
                         sides.joinToString("  \u2013  ") { "${it.team.abbr.ifBlank { it.team.name }} ${it.score.orEmpty()}" } +
                             "  \u00B7  ${a.league.name}",
                     )
+                    com.nuvio.app.livetv.sports.SportsLive.done(a)
                 }
             }
         }

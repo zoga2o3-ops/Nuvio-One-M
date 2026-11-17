@@ -3913,4 +3913,7 @@
     <string name="live_tv_ui_group_tags_hint">Etichetele corespund cuvintelor întregi sau segmentelor. Favoritele și grupurile personalizate rămân vizibile.</string>
     <string name="live_tv_ui_group_tags_clear">Transparent</string>
     <string name="live_tv_ui_group_tags_done">Terminat</string>
+    <string name="live_tv_ui_score_alerts">Alerte privind scorul</string>
+    <string name="live_tv_ui_score_alerts_on">Alerte privind scorul activate</string>
+    <string name="live_tv_ui_my_live_games">Jocurile mele live</string>
 </resources>
