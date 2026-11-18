@@ -65,6 +65,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -376,7 +377,7 @@ fun LiveTvScreen(modifier: Modifier, onPlay: (LiveTvPlayRequest) -> Unit) {
                     if (playlists.isNotEmpty()) {
                         Row(
                             Modifier.horizontalScroll(androidx.compose.foundation.rememberScrollState()),
-                            horizontalArrangement = Arrangement.spacedBy(2.dp),
+                            horizontalArrangement = Arrangement.spacedBy(3.dp),
                         ) {
                             IconTab(Icons.Default.LiveTv, stringResource(Res.string.live_tv_section_channels), !showGuide && !showRecordings && !showOnDemand && !showSports && !showCalendar) { showGuide = false; showRecordings = false; showOnDemand = false; showSports = false; showCalendar = false }
                             IconTab(Icons.AutoMirrored.Filled.List, stringResource(Res.string.live_tv_ui_guide), showGuide) { showGuide = true; showRecordings = false; showOnDemand = false; showSports = false; showCalendar = false }
@@ -803,19 +804,27 @@ private fun Header(
             shape = RoundedCornerShape(12.dp), colors = fieldColors())
     }
     Column(Modifier.padding(16.dp, 12.dp, 16.dp, 8.dp)) {
-        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-            Text("Live TV", style = MaterialTheme.typography.titleLarge, maxLines = 1)
-            Box(Modifier.weight(1f), contentAlignment = Alignment.Center) { tabs() }
-            IconButton(
-                onClick = {
-                    searchOpen = !searchOpen
-                    if (!searchOpen) onQuery("")
-                },
-                modifier = Modifier.size(38.dp),
+        Box(Modifier.fillMaxWidth()) {
+            Row(
+                Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(4.dp),
             ) {
-                Icon(Icons.Default.Search, contentDescription = if (searchOpen) stringResource(Res.string.live_tv_ui_hide_search) else stringResource(Res.string.live_tv_search_placeholder))
+                Text("Live TV", style = MaterialTheme.typography.titleLarge, maxLines = 1)
+                Spacer(Modifier.weight(1f))
+                IconButton(
+                    onClick = {
+                        searchOpen = !searchOpen
+                        if (!searchOpen) onQuery("")
+                    },
+                    modifier = Modifier.size(38.dp),
+                ) {
+                    Icon(Icons.Default.Search, contentDescription = if (searchOpen) stringResource(Res.string.live_tv_ui_hide_search) else stringResource(Res.string.live_tv_search_placeholder))
+                }
+                TextButton(onClick = onPlaylists, contentPadding = PaddingValues(horizontal = 6.dp)) { Text(playlistName ?: stringResource(Res.string.live_tv_ui_playlists), maxLines = 1, overflow = TextOverflow.Ellipsis, style = MaterialTheme.typography.labelLarge) }
             }
-            TextButton(onClick = onPlaylists, contentPadding = PaddingValues(horizontal = 6.dp)) { Text(playlistName ?: stringResource(Res.string.live_tv_ui_playlists), maxLines = 1, overflow = TextOverflow.Ellipsis, style = MaterialTheme.typography.labelLarge) }
+            // Centred on the screen, not just in the gap beside the title.
+            Box(Modifier.align(Alignment.Center)) { tabs() }
         }
         if (searchOpen) search(Modifier.fillMaxWidth().padding(top = 6.dp))
     }
@@ -841,13 +850,15 @@ private fun GroupChip(label: String, selected: Boolean, onLongClick: (() -> Unit
 @Composable
 private fun IconTab(icon: ImageVector, label: String, selected: Boolean, onClick: () -> Unit) {
     val shape = RoundedCornerShape(10.dp)
+    // Landscape and tablet have room for wider buttons; a phone stays compact.
+    val wide = LocalConfiguration.current.screenWidthDp >= 600
     Box(
         Modifier
             .clip(shape)
             .background(if (selected) Accent else Color.Transparent)
             .border(1.dp, if (selected) Accent else MaterialTheme.colorScheme.outlineVariant, shape)
             .clickable(onClick = onClick)
-            .padding(horizontal = 5.dp, vertical = 8.dp),
+            .padding(horizontal = if (wide) 12.dp else 7.dp, vertical = 8.dp),
         contentAlignment = Alignment.Center,
     ) {
         Icon(

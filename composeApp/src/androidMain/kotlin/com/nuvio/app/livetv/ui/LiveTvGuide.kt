@@ -88,7 +88,7 @@ fun LiveTvGuideGrid(
     val hourWidth = if (tablet) 300.dp else 230.dp
     val labelWidth = if (tablet) 176.dp else if (wide) 140.dp else 84.dp
     val showName = tablet || wide
-    val rowHeight = when (LiveTvDisplay.guideSize) { "COMPACT" -> 52.dp; "LARGE" -> 82.dp; "XLARGE" -> 98.dp; else -> 66.dp }
+    val rowHeight = when (LiveTvDisplay.guideSize) { "COMPACT" -> 62.dp; "LARGE" -> 88.dp; "XLARGE" -> 104.dp; else -> 74.dp }
     val totalWidth = hourWidth * SPAN_HOURS
     // Fixed when the guide opens, an hour back from now on a half-hour mark.
     val windowStart = remember { (System.currentTimeMillis() - HOUR) / HALF_HOUR * HALF_HOUR }
