@@ -496,28 +496,27 @@ private fun statusLine(ev: SportsEvent): String = when (ev.state) {
 
 // ---- team colours
 
-private fun teamColor(t: TeamInfo?): Color {
-    val main = t?.color?.let { Color(it) }
-    val alt = t?.altColor?.let { Color(it) }
+private fun bandColor(c: Color): Color =
+    lerp(c, Color(0xFF0B0E14), if (c.luminance() > 0.5f) 0.5f else if (c.luminance() > 0.25f) 0.25f else 0.08f)
+
+private fun bandBase(team: TeamInfo?): Color = bandBase(team?.color, team?.altColor)
+
+private fun bandBase(color: Long?, altColor: Long?): Color {
+    val main = color?.let { Color(it) }
+    val alt = altColor?.let { Color(it) }
     val pick = when {
         main == null -> alt
         main.luminance() > 0.62f && alt != null && alt.luminance() < 0.62f -> alt
         else -> main
     }
-    return pick ?: Color(0xFF3A4150)
+    val base = pick ?: Color(0xFF3A4150)
+    return if (base.luminance() < 0.04f && alt != null && alt.luminance() > base.luminance() + 0.05f) alt else base
 }
 
-private fun bandColor(c: Color): Color =
-    lerp(c, Color(0xFF0B0E14), if (c.luminance() > 0.5f) 0.5f else if (c.luminance() > 0.25f) 0.25f else 0.08f)
+internal fun teamBandBrush(team: TeamInfo?): Brush = teamBandBrush(team?.color, team?.altColor)
 
-private fun bandBase(t: TeamInfo?): Color {
-    val main = teamColor(t)
-    val alt = t?.altColor?.let { Color(it) }
-    return if (main.luminance() < 0.04f && alt != null && alt.luminance() > main.luminance() + 0.05f) alt else main
-}
-
-internal fun teamBandBrush(team: TeamInfo?): Brush {
-    val c = bandColor(bandBase(team))
+internal fun teamBandBrush(color: Long?, altColor: Long?): Brush {
+    val c = bandColor(bandBase(color, altColor))
     return Brush.horizontalGradient(
         0f to c.copy(alpha = 0.92f),
         0.7f to c.copy(alpha = 0.28f),

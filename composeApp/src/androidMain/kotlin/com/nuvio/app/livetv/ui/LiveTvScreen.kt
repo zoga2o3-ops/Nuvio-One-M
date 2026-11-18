@@ -58,6 +58,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -79,6 +80,7 @@ import com.nuvio.app.features.livetv.LiveTvPlayRequest
 import com.nuvio.app.livetv.model.ChannelGroup
 import com.nuvio.app.livetv.model.EpgProgram
 import com.nuvio.app.livetv.model.LiveChannel
+import com.nuvio.app.livetv.sports.Sport
 import com.nuvio.app.livetv.model.PlaylistGroupOrder
 import nuvio.composeapp.generated.resources.*
 import org.jetbrains.compose.resources.getString
@@ -142,8 +144,9 @@ fun LiveTvScreen(modifier: Modifier, onPlay: (LiveTvPlayRequest) -> Unit) {
     var showOnDemand by remember { mutableStateOf(false) }
     var showSports by remember { mutableStateOf(false) }
     var showCalendar by remember { mutableStateOf(false) }
-    var sportsDay by remember { mutableStateOf(0) }
-    var sportsMode by remember { mutableStateOf("games") }
+    var sportsDay by rememberSaveable { mutableStateOf(0) }
+    var sportsMode by rememberSaveable { mutableStateOf("games") }
+    var sportsSport by rememberSaveable { mutableStateOf<Sport?>(null) }
     var recordFor by remember { mutableStateOf<LiveChannel?>(null) }
     val recordings by vm.recordings.collectAsStateWithLifecycle()
     val schedules by vm.schedules.collectAsStateWithLifecycle()
@@ -418,6 +421,8 @@ fun LiveTvScreen(modifier: Modifier, onPlay: (LiveTvPlayRequest) -> Unit) {
                             day = sportsDay,
                             mode = sportsMode,
                             onMode = { sportsMode = it },
+                            sport = sportsSport,
+                            onSport = { sportsSport = it },
                             onWatch = { c -> vm.recordWatched(c.key); playLive(onPlay, c.toRequest(programs[c.key], now)) },
                             onRecord = { ev, m ->
                                 android.widget.Toast.makeText(context, vm.recordSportsEvent(ev, m.channel), android.widget.Toast.LENGTH_LONG).show()

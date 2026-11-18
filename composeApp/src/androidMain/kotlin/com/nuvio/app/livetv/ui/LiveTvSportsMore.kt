@@ -19,7 +19,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -281,8 +280,11 @@ internal fun SportsTables(repo: SportsRepository) {
                             items(g.rows, key = { g.name + it.id }) { r ->
                                 val mine = follows.teams.any { it.teamId == r.id }
                                 Row(
-                                    Modifier.fillMaxWidth().padding(vertical = 5.dp)
-                                        .then(if (mine) Modifier.background(Color(0x22FFC107)) else Modifier),
+                                    Modifier.fillMaxWidth().padding(vertical = 3.dp)
+                                        .clip(RoundedCornerShape(8.dp))
+                                        .background(teamBandBrush(r.color, r.altColor))
+                                        .then(if (mine) Modifier.background(Color(0x22FFC107)) else Modifier)
+                                        .padding(horizontal = 8.dp, vertical = 5.dp),
                                     verticalAlignment = Alignment.CenterVertically,
                                 ) {
                                     Text("${r.pos}", Modifier.width(22.dp), fontSize = 12.sp)
@@ -298,7 +300,6 @@ internal fun SportsTables(repo: SportsRepository) {
                                         )
                                     }
                                 }
-                                HorizontalDivider(color = Color(0x14FFFFFF))
                             }
                         }
                     }

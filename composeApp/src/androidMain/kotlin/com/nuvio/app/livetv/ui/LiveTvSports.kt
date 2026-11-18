@@ -23,14 +23,10 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowDropDown
-import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalContentColor
@@ -85,6 +81,8 @@ fun SportsPage(
     day: Int,
     mode: String,
     onMode: (String) -> Unit,
+    sport: Sport?,
+    onSport: (Sport?) -> Unit,
     onWatch: (LiveChannel) -> Unit,
     onRecord: (SportsEvent, ChannelMatch) -> Unit,
 ) {
@@ -99,7 +97,6 @@ fun SportsPage(
     val problem by repo.problem.collectAsStateWithLifecycle()
     val settings by repo.settings.collectAsStateWithLifecycle()
     val follows by repo.follows.collectAsStateWithLifecycle()
-    var sport by remember { mutableStateOf<Sport?>(null) }
     var opened by remember { mutableStateOf<SportsEvent?>(null) }
     var showScores by remember { mutableStateOf(false) }
     var pickTeams by remember { mutableStateOf(false) }
@@ -152,18 +149,26 @@ fun SportsPage(
                 Modifier.horizontalScroll(rememberScrollState()),
                 horizontalArrangement = Arrangement.spacedBy(6.dp),
             ) {
-                SportFilterPill(
-                    sport = sport,
-                    sports = sportChoices,
-                    active = mode == "games",
-                    onPick = {
-                        sport = it
-                        onMode("games")
-                    },
-                )
+                Pill(stringResource(Res.string.live_tv_ui_games), mode == "games") { onMode("games") }
                 Pill(stringResource(Res.string.live_tv_ui_my_teams), mode == "mine") { onMode("mine") }
                 Pill(stringResource(Res.string.live_tv_ui_tables), mode == "tables") { onMode("tables") }
                 Pill(stringResource(Res.string.collections_editor_tmdb_search), mode == "search") { onMode("search") }
+            }
+        }
+        if (mode == "games" && (sportChoices.size > 1 || sport != null)) {
+            Box(
+                Modifier.fillMaxWidth().padding(horizontal = 16.dp).padding(bottom = 8.dp),
+                contentAlignment = Alignment.Center,
+            ) {
+                Row(
+                    Modifier.horizontalScroll(rememberScrollState()),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                ) {
+                    Pill(stringResource(Res.string.collections_tab_all), sport == null) { onSport(null) }
+                    sportChoices.forEach { s ->
+                        Pill("${s.icon} ${s.label}", sport == s) { onSport(s) }
+                    }
+                }
             }
         }
         if (mode == "mine") {
@@ -300,50 +305,6 @@ fun SportsPage(
 }
 
 /** The Games pill: opens a menu of the sports playing that day. */
-@Composable
-private fun SportFilterPill(sport: Sport?, sports: List<Sport>, active: Boolean, onPick: (Sport?) -> Unit) {
-    var open by remember { mutableStateOf(false) }
-    val shape = RoundedCornerShape(8.dp)
-    val games = stringResource(Res.string.live_tv_ui_games)
-    val label = if (active) sport?.let { "${it.icon} ${it.label}" } ?: games else games
-    Box {
-        Row(
-            Modifier.clip(shape)
-                .background(if (active) MaterialTheme.colorScheme.secondaryContainer else Color.Transparent)
-                .border(1.dp, MaterialTheme.colorScheme.outlineVariant, shape)
-                .clickable { open = true }
-                .padding(horizontal = 10.dp, vertical = 8.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(2.dp),
-        ) {
-            Text(
-                label,
-                maxLines = 1,
-                style = MaterialTheme.typography.labelLarge,
-            )
-            Icon(Icons.Default.ArrowDropDown, contentDescription = null, modifier = Modifier.size(18.dp))
-        }
-        DropdownMenu(expanded = open, onDismissRequest = { open = false }) {
-            DropdownMenuItem(
-                text = { Text(stringResource(Res.string.collections_tab_all)) },
-                onClick = { open = false; onPick(null) },
-                trailingIcon = {
-                    if (sport == null) Icon(Icons.Default.Check, contentDescription = null, modifier = Modifier.size(18.dp))
-                },
-            )
-            sports.forEach { s ->
-                DropdownMenuItem(
-                    text = { Text("${s.icon} ${s.label}") },
-                    onClick = { open = false; onPick(s) },
-                    trailingIcon = {
-                        if (s == sport) Icon(Icons.Default.Check, contentDescription = null, modifier = Modifier.size(18.dp))
-                    },
-                )
-            }
-        }
-    }
-}
-
 @Composable
 private fun Pill(label: String, selected: Boolean, onClick: () -> Unit) {
     val shape = RoundedCornerShape(8.dp)
