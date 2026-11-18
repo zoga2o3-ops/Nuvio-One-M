@@ -37,6 +37,7 @@ import com.nuvio.app.core.ui.NuvioSectionLabel
 import com.nuvio.app.core.ui.NuvioStatusModal
 import com.nuvio.app.core.ui.NuvioToastController
 import com.nuvio.app.core.ui.NuvioTokens
+import com.nuvio.app.core.ui.PlatformBackHandler
 import com.nuvio.app.core.ui.nuvio
 import com.nuvio.app.core.ui.nuvioTypeScale
 import com.nuvio.app.features.settings.DownloadsSettingsScreen
@@ -110,6 +111,9 @@ fun DownloadsScreen(
     if (showSettings) {
         DownloadsSettingsScreen(onBack = { showSettings = false })
         return
+    }
+    PlatformBackHandler(enabled = selectedShowId != null && onBackFromShow == null) {
+        selectedShowId = null
     }
 
     NuvioScreen {
