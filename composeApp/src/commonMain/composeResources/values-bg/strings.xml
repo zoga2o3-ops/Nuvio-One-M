@@ -3988,4 +3988,15 @@
     <string name="live_tv_ui_all_playlists">Всички плейлисти</string>
     <string name="live_tv_ui_manage_playlists">Управление на плейлисти</string>
     <string name="live_tv_ui_groups">Групи</string>
+    <string name="live_tv_ui_game">Мач</string>
+    <string name="live_tv_ui_stats">Статистика</string>
+    <string name="live_tv_ui_plays">Игра</string>
+    <string name="live_tv_ui_leaders">Лидери</string>
+    <string name="live_tv_ui_no_plays_yet">Все още няма игра.</string>
+    <string name="live_tv_ui_table">Таблица</string>
+    <string name="live_tv_ui_games">Мачове</string>
+    <string name="live_tv_ui_my_teams">Моите отбори</string>
+    <string name="live_tv_ui_tables">Таблици</string>
+    <string name="live_tv_ui_team">Отбор</string>
+    <string name="live_tv_ui_on_channel">По %1$s</string>
 </resources>

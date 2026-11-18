@@ -23,10 +23,14 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalContentColor
@@ -46,6 +50,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -77,6 +82,9 @@ fun SportsPage(
     repo: SportsRepository,
     hasChannels: Boolean,
     use24Hour: Boolean,
+    day: Int,
+    mode: String,
+    onMode: (String) -> Unit,
     onWatch: (LiveChannel) -> Unit,
     onRecord: (SportsEvent, ChannelMatch) -> Unit,
 ) {
@@ -91,11 +99,9 @@ fun SportsPage(
     val problem by repo.problem.collectAsStateWithLifecycle()
     val settings by repo.settings.collectAsStateWithLifecycle()
     val follows by repo.follows.collectAsStateWithLifecycle()
-    var day by remember { mutableStateOf(0) }
     var sport by remember { mutableStateOf<Sport?>(null) }
     var opened by remember { mutableStateOf<SportsEvent?>(null) }
     var showScores by remember { mutableStateOf(false) }
-    var mode by remember { mutableStateOf("games") }
     var pickTeams by remember { mutableStateOf(false) }
     var details by remember { mutableStateOf<SportsEvent?>(null) }
     var fixFor by remember { mutableStateOf<SportsEvent?>(null) }
@@ -110,6 +116,9 @@ fun SportsPage(
     val ofDay = remember(events, from, to) { events.filter { it.startMs in from until to } }
     val sportsToday = remember(ofDay) {
         ofDay.mapNotNull { SportsCatalog.league(it.leagueId)?.sport }.distinct().sortedBy { it.ordinal }
+    }
+    val sportChoices = remember(sportsToday, sport) {
+        (sportsToday + listOfNotNull(sport)).distinct().sortedBy { it.ordinal }
     }
     val shown = remember(ofDay, sport) {
         ofDay.filter { sport == null || SportsCatalog.league(it.leagueId)?.sport == sport }
@@ -133,24 +142,28 @@ fun SportsPage(
             }
     }
     val clock = remember(use24Hour) { SimpleDateFormat(if (use24Hour) "HH:mm" else "h:mm a", Locale.getDefault()) }
-    val dayFmt = remember { SimpleDateFormat("EEE d", Locale.getDefault()) }
 
     Column(Modifier.fillMaxSize()) {
-        Row(
+        Box(
             Modifier.fillMaxWidth().padding(horizontal = 16.dp).padding(bottom = 6.dp),
-            verticalAlignment = Alignment.CenterVertically,
+            contentAlignment = Alignment.Center,
         ) {
             Row(
-                Modifier.weight(1f).horizontalScroll(rememberScrollState()),
+                Modifier.horizontalScroll(rememberScrollState()),
                 horizontalArrangement = Arrangement.spacedBy(6.dp),
             ) {
-                Pill("Games", mode == "games") { mode = "games" }
-                Pill("My Teams", mode == "mine") { mode = "mine" }
-                Pill("Tables", mode == "tables") { mode = "tables" }
-                Pill(stringResource(Res.string.collections_editor_tmdb_search), mode == "search") { mode = "search" }
-            }
-            if (mode == "games") {
-                DaySwitcher(day = day, onDay = { day = it }, dayFmt = dayFmt, repo = repo)
+                SportFilterPill(
+                    sport = sport,
+                    sports = sportChoices,
+                    active = mode == "games",
+                    onPick = {
+                        sport = it
+                        onMode("games")
+                    },
+                )
+                Pill(stringResource(Res.string.live_tv_ui_my_teams), mode == "mine") { onMode("mine") }
+                Pill(stringResource(Res.string.live_tv_ui_tables), mode == "tables") { onMode("tables") }
+                Pill(stringResource(Res.string.collections_editor_tmdb_search), mode == "search") { onMode("search") }
             }
         }
         if (mode == "mine") {
@@ -161,16 +174,6 @@ fun SportsPage(
             Box(Modifier.weight(1f).fillMaxWidth()) { SportsTables(repo) }
         } else if (mode == "search") {
             Box(Modifier.weight(1f).fillMaxWidth()) { SportsSearch(repo) }
-        }
-        if (mode == "games" && sportsToday.size > 1) {
-            LazyRow(
-                contentPadding = PaddingValues(horizontal = 16.dp),
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                modifier = Modifier.padding(bottom = 8.dp),
-            ) {
-                item { Pill(stringResource(Res.string.collections_tab_all), sport == null) { sport = null } }
-                items(sportsToday) { s -> Pill("${s.icon} ${s.label}", sport == s) { sport = s } }
-            }
         }
         if (mode == "games" && !hasChannels) {
             Text(
@@ -206,14 +209,21 @@ fun SportsPage(
                                 modifier = Modifier.padding(top = 10.dp),
                             )
                         }
-                        items(liveFavourites, key = { it.id }) { ev ->
-                            GameCard(
-                                ev = ev,
-                                sport = SportsCatalog.league(ev.leagueId)?.sport,
-                                best = matches[ev.id]?.firstOrNull(),
-                                clock = clock,
-                                hideScore = settings.hideScores,
-                            ) { opened = ev }
+                        item(key = "my-live-row") {
+                            LazyRow(
+                                contentPadding = PaddingValues(vertical = 2.dp),
+                                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                            ) {
+                                items(liveFavourites, key = { it.id }) { ev ->
+                                    LiveGameCard(
+                                        ev = ev,
+                                        sport = SportsCatalog.league(ev.leagueId)?.sport,
+                                        best = matches[ev.id]?.firstOrNull(),
+                                        clock = clock,
+                                        hideScore = settings.hideScores,
+                                    ) { opened = ev }
+                                }
+                            }
                         }
                     }
                     groups.forEach { (leagueId, games) ->
@@ -289,6 +299,51 @@ fun SportsPage(
     }
 }
 
+/** The Games pill: opens a menu of the sports playing that day. */
+@Composable
+private fun SportFilterPill(sport: Sport?, sports: List<Sport>, active: Boolean, onPick: (Sport?) -> Unit) {
+    var open by remember { mutableStateOf(false) }
+    val shape = RoundedCornerShape(8.dp)
+    val games = stringResource(Res.string.live_tv_ui_games)
+    val label = if (active) sport?.let { "${it.icon} ${it.label}" } ?: games else games
+    Box {
+        Row(
+            Modifier.clip(shape)
+                .background(if (active) MaterialTheme.colorScheme.secondaryContainer else Color.Transparent)
+                .border(1.dp, MaterialTheme.colorScheme.outlineVariant, shape)
+                .clickable { open = true }
+                .padding(horizontal = 10.dp, vertical = 8.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(2.dp),
+        ) {
+            Text(
+                label,
+                maxLines = 1,
+                style = MaterialTheme.typography.labelLarge,
+            )
+            Icon(Icons.Default.ArrowDropDown, contentDescription = null, modifier = Modifier.size(18.dp))
+        }
+        DropdownMenu(expanded = open, onDismissRequest = { open = false }) {
+            DropdownMenuItem(
+                text = { Text(stringResource(Res.string.collections_tab_all)) },
+                onClick = { open = false; onPick(null) },
+                trailingIcon = {
+                    if (sport == null) Icon(Icons.Default.Check, contentDescription = null, modifier = Modifier.size(18.dp))
+                },
+            )
+            sports.forEach { s ->
+                DropdownMenuItem(
+                    text = { Text("${s.icon} ${s.label}") },
+                    onClick = { open = false; onPick(s) },
+                    trailingIcon = {
+                        if (s == sport) Icon(Icons.Default.Check, contentDescription = null, modifier = Modifier.size(18.dp))
+                    },
+                )
+            }
+        }
+    }
+}
+
 @Composable
 private fun Pill(label: String, selected: Boolean, onClick: () -> Unit) {
     val shape = RoundedCornerShape(8.dp)
@@ -315,7 +370,10 @@ internal fun LiveBadge(modifier: Modifier = Modifier) {
 
 /** One day at a time, with buttons to step back and forward. */
 @Composable
-private fun DaySwitcher(day: Int, onDay: (Int) -> Unit, dayFmt: SimpleDateFormat, repo: SportsRepository) {
+internal fun SportsDaySwitcher(day: Int, onDay: (Int) -> Unit, repo: SportsRepository) {
+    val compact = LocalConfiguration.current.screenWidthDp < 600
+    val button = if (compact) 32.dp else 40.dp
+    val dayFmt = remember { SimpleDateFormat("EEE d", Locale.getDefault()) }
     val label = when (day) {
         -1 -> "Yesterday"
         0 -> stringResource(Res.string.library_calendar_today)
@@ -326,23 +384,23 @@ private fun DaySwitcher(day: Int, onDay: (Int) -> Unit, dayFmt: SimpleDateFormat
         IconButton(
             enabled = day > MIN_DAY,
             onClick = { onDay(day - 1) },
-            modifier = Modifier.size(40.dp),
+            modifier = Modifier.size(button),
         ) {
-            Icon(Icons.Default.KeyboardArrowLeft, contentDescription = stringResource(Res.string.live_tv_ui_previous_day), modifier = Modifier.size(22.dp))
+            Icon(Icons.Default.KeyboardArrowLeft, contentDescription = stringResource(Res.string.live_tv_ui_previous_day), modifier = Modifier.size(if (compact) 20.dp else 22.dp))
         }
         Text(
             label,
             maxLines = 1,
             style = MaterialTheme.typography.labelLarge,
-            modifier = Modifier.widthIn(min = 52.dp),
+            modifier = Modifier.widthIn(min = if (compact) 42.dp else 52.dp),
             textAlign = TextAlign.Center,
         )
         IconButton(
             enabled = day < MAX_DAY,
             onClick = { onDay(day + 1) },
-            modifier = Modifier.size(40.dp),
+            modifier = Modifier.size(button),
         ) {
-            Icon(Icons.Default.KeyboardArrowRight, contentDescription = stringResource(Res.string.live_tv_ui_next_day), modifier = Modifier.size(22.dp))
+            Icon(Icons.Default.KeyboardArrowRight, contentDescription = stringResource(Res.string.live_tv_ui_next_day), modifier = Modifier.size(if (compact) 20.dp else 22.dp))
         }
     }
 }
@@ -393,13 +451,59 @@ private fun GameCard(ev: SportsEvent, sport: Sport?, best: ChannelMatch?, clock:
             )
             if (best != null) {
                 Text(
-                    "On ${best.channel.name}",
+                    stringResource(Res.string.live_tv_ui_on_channel, best.channel.name),
                     style = MaterialTheme.typography.labelSmall,
                     color = LocalContentColor.current.copy(alpha = 0.6f),
                     maxLines = 1, overflow = TextOverflow.Ellipsis,
                     modifier = Modifier.width(140.dp),
                 )
             }
+        }
+    }
+}
+
+@Composable
+private fun LiveGameCard(
+    ev: SportsEvent,
+    sport: Sport?,
+    best: ChannelMatch?,
+    clock: SimpleDateFormat,
+    hideScore: Boolean,
+    onClick: () -> Unit,
+) {
+    val sides = ev.ordered(sport ?: Sport.OTHER)
+    Column(
+        Modifier
+            .width(238.dp)
+            .clip(RoundedCornerShape(14.dp))
+            .background(CardBg)
+            .clickable(onClick = onClick)
+            .padding(12.dp),
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            LiveBadge()
+            Spacer(Modifier.weight(1f))
+            Text(
+                statusOf(ev, clock),
+                style = MaterialTheme.typography.labelSmall,
+                color = Accent,
+                fontWeight = FontWeight.Bold,
+            )
+        }
+        Spacer(Modifier.height(7.dp))
+        sides.forEachIndexed { index, s ->
+            if (index > 0) Spacer(Modifier.height(3.dp))
+            SideRow(s = s, showScore = ev.hasScore && !hideScore, bandBrush = teamBandBrush(s.team))
+        }
+        if (best != null) {
+            Text(
+                stringResource(Res.string.live_tv_ui_on_channel, best.channel.name),
+                style = MaterialTheme.typography.labelSmall,
+                color = LocalContentColor.current.copy(alpha = 0.6f),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.padding(top = 7.dp),
+            )
         }
     }
 }

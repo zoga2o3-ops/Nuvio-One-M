@@ -3960,4 +3960,15 @@
     <string name="live_tv_ui_all_playlists">Összes lista</string>
     <string name="live_tv_ui_manage_playlists">Listák kezelése</string>
     <string name="live_tv_ui_groups">Csoportok</string>
+    <string name="live_tv_ui_game">Mérkőzés</string>
+    <string name="live_tv_ui_stats">Statisztikák</string>
+    <string name="live_tv_ui_plays">Játékok</string>
+    <string name="live_tv_ui_leaders">Vezetők</string>
+    <string name="live_tv_ui_no_plays_yet">Még nincsenek játékok.</string>
+    <string name="live_tv_ui_table">Táblázat</string>
+    <string name="live_tv_ui_games">Mérkőzések</string>
+    <string name="live_tv_ui_my_teams">Saját csapataim</string>
+    <string name="live_tv_ui_tables">Táblázatok</string>
+    <string name="live_tv_ui_team">Csapat</string>
+    <string name="live_tv_ui_on_channel">%1$s csatornán</string>
 </resources>

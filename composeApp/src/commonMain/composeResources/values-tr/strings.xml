@@ -3977,4 +3977,15 @@ Bu özelliği tamamen kendi sorumluluğunuzda kullanırsınız. P2P istediğiniz
     <string name="live_tv_ui_all_playlists">Tüm çalma listeleri</string>
     <string name="live_tv_ui_manage_playlists">Çalma listelerini yönet</string>
     <string name="live_tv_ui_groups">Gruplar</string>
+    <string name="live_tv_ui_game">Maç</string>
+    <string name="live_tv_ui_stats">İstatistikler</string>
+    <string name="live_tv_ui_plays">Oyunlar</string>
+    <string name="live_tv_ui_leaders">Liderler</string>
+    <string name="live_tv_ui_no_plays_yet">Henüz oyun yok.</string>
+    <string name="live_tv_ui_table">Tablo</string>
+    <string name="live_tv_ui_games">Maçlar</string>
+    <string name="live_tv_ui_my_teams">Takımlarım</string>
+    <string name="live_tv_ui_tables">Tablolar</string>
+    <string name="live_tv_ui_team">Takım</string>
+    <string name="live_tv_ui_on_channel">%1$s üzerinde</string>
 </resources>

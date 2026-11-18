@@ -1,6 +1,7 @@
 package com.nuvio.app.livetv.ui
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.rememberScrollState
@@ -56,6 +57,7 @@ import coil3.compose.AsyncImage
 import com.nuvio.app.livetv.sports.ChannelMatch
 import com.nuvio.app.livetv.sports.GameExtras
 import com.nuvio.app.livetv.sports.GameState
+import com.nuvio.app.livetv.sports.Performer
 import com.nuvio.app.livetv.sports.ScoringPlay
 import com.nuvio.app.livetv.sports.Side
 import com.nuvio.app.livetv.sports.Sport
@@ -63,6 +65,7 @@ import com.nuvio.app.livetv.sports.SportsCatalog
 import com.nuvio.app.livetv.sports.SportsEvent
 import com.nuvio.app.livetv.sports.SportsRepository
 import com.nuvio.app.livetv.sports.StatLine
+import com.nuvio.app.livetv.sports.TableRow
 import com.nuvio.app.livetv.sports.TeamInfo
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -101,6 +104,7 @@ internal fun SportsGameScreen(
     val showScore = ev.hasScore && !hideScore
     var plays by remember(ev.id) { mutableStateOf<List<ScoringPlay>?>(null) }
     var extras by remember(ev.id) { mutableStateOf<GameExtras?>(null) }
+    var tab by remember(ev.id) { mutableStateOf(0) }
     LaunchedEffect(ev.id) {
         plays = runCatching { repo.scoringPlays(ev) }.getOrDefault(emptyList())
         extras = runCatching { repo.gameExtras(ev) }.getOrNull()
@@ -162,17 +166,62 @@ internal fun SportsGameScreen(
                                 ChannelRow(m, clock, ev.state, onWatch = { onWatch(m) }, onRecord = { onRecord(m) })
                             }
                         }
-                        val p = plays
-                        if (!p.isNullOrEmpty()) {
-                            item(key = "scoring-h") { SectionTitle(stringResource(Res.string.live_tv_ui_latest_scoring)) }
-                            items(p.asReversed().take(20), key = { it.clock + "|" + it.text }) { play ->
-                                PlayRow(play)
+                        item(key = "tabs") {
+                            Row(
+                                Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()),
+                                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                            ) {
+                                GameTab(stringResource(Res.string.live_tv_ui_game), tab == 0) { tab = 0 }
+                                GameTab(stringResource(Res.string.live_tv_ui_stats), tab == 1) { tab = 1 }
+                                GameTab(stringResource(Res.string.live_tv_ui_plays), tab == 2) { tab = 2 }
                             }
                         }
+                        val p = plays
                         val x = extras
-                        if (x != null && x.stats.isNotEmpty()) {
-                            item(key = "stats-h") { SectionTitle(stringResource(Res.string.live_tv_ui_team_stats)) }
-                            items(x.stats, key = { it.label }) { stat -> StatBar(stat) }
+                        if (tab == 0) {
+                            if (!p.isNullOrEmpty()) {
+                                item(key = "scoring-h") { SectionTitle(stringResource(Res.string.live_tv_ui_latest_scoring)) }
+                                items(p.asReversed().take(4), key = { it.clock + "|" + it.text }) { play ->
+                                    PlayRow(play)
+                                }
+                            }
+                            if (x != null && x.performers.isNotEmpty()) {
+                                item(key = "leaders-h") { SectionTitle(stringResource(Res.string.live_tv_ui_leaders)) }
+                                items(x.performers.take(4), key = { it.category + "|" + it.name }) { performer ->
+                                    PerformerRow(performer)
+                                }
+                            }
+                        }
+                        if (tab == 1) {
+                            if (x != null && x.stats.isNotEmpty()) {
+                                item(key = "stats-h") { SectionTitle(stringResource(Res.string.live_tv_ui_team_stats)) }
+                                items(x.stats, key = { it.label }) { stat -> StatBar(stat) }
+                            }
+                            if (x != null && x.performers.isNotEmpty()) {
+                                item(key = "leaders-h") { SectionTitle(stringResource(Res.string.live_tv_ui_leaders)) }
+                                items(x.performers.take(6), key = { it.category + "|" + it.name }) { performer ->
+                                    PerformerRow(performer)
+                                }
+                            }
+                            if (x != null && x.table.isNotEmpty()) {
+                                item(key = "table-h") { SectionTitle(x.tableTitle ?: stringResource(Res.string.live_tv_ui_table)) }
+                                item(key = "table") { MiniTable(x.tableHead, x.table) }
+                            }
+                        }
+                        if (tab == 2) {
+                            if (p.isNullOrEmpty()) {
+                                item(key = "plays-none") {
+                                    Text(
+                                        stringResource(Res.string.live_tv_ui_no_plays_yet),
+                                        style = MaterialTheme.typography.bodyMedium,
+                                        color = Color.White.copy(alpha = 0.6f),
+                                    )
+                                }
+                            } else {
+                                items(p.asReversed(), key = { it.clock + "|" + it.text }) { play ->
+                                    PlayRow(play)
+                                }
+                            }
                         }
                     }
                 }
@@ -299,6 +348,64 @@ private fun ChannelRow(
         }
         if (state != GameState.POST) TextButton(onClick = onRecord) { Text(stringResource(Res.string.live_tv_ui_record)) }
         TextButton(onClick = onWatch) { Text(stringResource(Res.string.live_tv_ui_watch)) }
+    }
+}
+
+@Composable
+private fun GameTab(label: String, selected: Boolean, onClick: () -> Unit) {
+    val shape = RoundedCornerShape(9.dp)
+    Box(
+        Modifier
+            .clip(shape)
+            .background(if (selected) Accent else Color.Transparent)
+            .border(1.dp, if (selected) Accent else Color(0x33FFFFFF), shape)
+            .clickable(onClick = onClick)
+            .padding(horizontal = 14.dp, vertical = 8.dp),
+    ) {
+        Text(label, color = Color.White, style = MaterialTheme.typography.labelLarge)
+    }
+}
+
+@Composable
+private fun PerformerRow(p: Performer) {
+    Row(Modifier.fillMaxWidth().padding(vertical = 5.dp), verticalAlignment = Alignment.CenterVertically) {
+        Column(Modifier.weight(1f)) {
+            Text(p.category, style = MaterialTheme.typography.labelSmall, color = Color.White.copy(alpha = 0.55f))
+            Text(p.name, style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.SemiBold)
+        }
+        Text(
+            p.line,
+            style = MaterialTheme.typography.bodySmall,
+            color = Color.White.copy(alpha = 0.7f),
+            textAlign = TextAlign.End,
+            modifier = Modifier.width(150.dp),
+        )
+    }
+}
+
+@Composable
+private fun MiniTable(head: List<String>, rows: List<TableRow>) {
+    Column(Modifier.fillMaxWidth().clip(RoundedCornerShape(12.dp)).background(CardBg).padding(10.dp)) {
+        Row(Modifier.fillMaxWidth()) {
+            Text("", Modifier.width(22.dp))
+            Text(stringResource(Res.string.live_tv_ui_team), Modifier.weight(1f), style = MaterialTheme.typography.labelSmall, color = Color.White.copy(alpha = 0.55f))
+            head.forEach { h ->
+                Text(h, Modifier.width(34.dp), style = MaterialTheme.typography.labelSmall, color = Color.White.copy(alpha = 0.55f), textAlign = TextAlign.End)
+            }
+        }
+        rows.forEach { r ->
+            Row(
+                Modifier.fillMaxWidth().padding(top = 5.dp)
+                    .then(if (r.mine) Modifier.background(Color(0x22FFC107)) else Modifier),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Text(r.pos, Modifier.width(22.dp), style = MaterialTheme.typography.labelSmall)
+                Text(r.team, Modifier.weight(1f), style = MaterialTheme.typography.labelSmall, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                Text(r.a, Modifier.width(34.dp), style = MaterialTheme.typography.labelSmall, textAlign = TextAlign.End)
+                Text(r.b, Modifier.width(34.dp), style = MaterialTheme.typography.labelSmall, textAlign = TextAlign.End)
+                Text(r.c, Modifier.width(34.dp), style = MaterialTheme.typography.labelSmall, textAlign = TextAlign.End)
+            }
+        }
     }
 }
 

@@ -3964,4 +3964,15 @@
     <string name="live_tv_ui_all_playlists">Alle afspeellijsten</string>
     <string name="live_tv_ui_manage_playlists">Afspeellijsten beheren</string>
     <string name="live_tv_ui_groups">Groepen</string>
+    <string name="live_tv_ui_game">Wedstrijd</string>
+    <string name="live_tv_ui_stats">Statistieken</string>
+    <string name="live_tv_ui_plays">Acties</string>
+    <string name="live_tv_ui_leaders">Leiders</string>
+    <string name="live_tv_ui_no_plays_yet">Nog geen acties.</string>
+    <string name="live_tv_ui_table">Tabel</string>
+    <string name="live_tv_ui_games">Wedstrijden</string>
+    <string name="live_tv_ui_my_teams">Mijn teams</string>
+    <string name="live_tv_ui_tables">Tabellen</string>
+    <string name="live_tv_ui_team">Team</string>
+    <string name="live_tv_ui_on_channel">Op %1$s</string>
 </resources>

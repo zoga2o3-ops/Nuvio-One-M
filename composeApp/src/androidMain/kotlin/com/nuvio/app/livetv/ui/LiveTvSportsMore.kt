@@ -37,6 +37,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -117,7 +118,10 @@ private fun GameChip(ev: SportsEvent, clock: SimpleDateFormat, hideScore: Boolea
     ) {
         if (sides.size == 2) {
             sides.forEach { s ->
-                Row(verticalAlignment = Alignment.CenterVertically) {
+                Row(
+                    Modifier.fillMaxWidth().clip(RoundedCornerShape(8.dp)).background(teamBandBrush(s.team)).padding(horizontal = 8.dp, vertical = 5.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
                     if (!s.team.logo.isNullOrBlank()) AsyncImage(s.team.logo, null, Modifier.size(20.dp), contentScale = ContentScale.Fit)
                     else Box(Modifier.size(20.dp))
                     Text(s.team.abbr.ifBlank { s.team.name }, Modifier.padding(start = 8.dp).weight(1f), maxLines = 1,
@@ -252,9 +256,26 @@ internal fun SportsTables(repo: SportsRepository) {
                         t.groups.forEach { g ->
                             item(key = "g" + g.name + g.parent) {
                                 Text(g.name, style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.primary, modifier = Modifier.padding(top = 12.dp, bottom = 4.dp))
-                                Row {
-                                    Text("", Modifier.width(200.dp))
-                                    cols.forEach { c -> Text(c.label, Modifier.width(48.dp), fontSize = 11.sp, color = LocalContentColor.current.copy(alpha = 0.6f)) }
+                                Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                                    Text("", Modifier.width(22.dp))
+                                    Box(Modifier.size(20.dp))
+                                    Text(
+                                        stringResource(Res.string.live_tv_ui_team),
+                                        Modifier.weight(1f).padding(start = 8.dp),
+                                        fontSize = 11.sp,
+                                        maxLines = 1,
+                                        color = LocalContentColor.current.copy(alpha = 0.6f),
+                                    )
+                                    cols.forEach { c ->
+                                        Text(
+                                            c.label,
+                                            Modifier.width(42.dp),
+                                            fontSize = 11.sp,
+                                            maxLines = 1,
+                                            textAlign = TextAlign.End,
+                                            color = LocalContentColor.current.copy(alpha = 0.6f),
+                                        )
+                                    }
                                 }
                             }
                             items(g.rows, key = { g.name + it.id }) { r ->
@@ -264,10 +285,18 @@ internal fun SportsTables(repo: SportsRepository) {
                                         .then(if (mine) Modifier.background(Color(0x22FFC107)) else Modifier),
                                     verticalAlignment = Alignment.CenterVertically,
                                 ) {
-                                    Text("${r.pos}", Modifier.width(26.dp), fontSize = 12.sp)
+                                    Text("${r.pos}", Modifier.width(22.dp), fontSize = 12.sp)
                                     if (!r.logo.isNullOrBlank()) AsyncImage(r.logo, null, Modifier.size(20.dp), contentScale = ContentScale.Fit) else Box(Modifier.size(20.dp))
-                                    Text(r.shortName.ifBlank { r.name }, Modifier.width(150.dp).padding(start = 8.dp), maxLines = 1, overflow = TextOverflow.Ellipsis, fontSize = 13.sp)
-                                    cols.forEach { c -> Text(r.values[c.key].orEmpty(), Modifier.width(48.dp), fontSize = 12.sp) }
+                                    Text(r.shortName.ifBlank { r.name }, Modifier.weight(1f).padding(start = 8.dp), maxLines = 1, overflow = TextOverflow.Ellipsis, fontSize = 13.sp)
+                                    cols.forEach { c ->
+                                        Text(
+                                            r.values[c.key].orEmpty(),
+                                            Modifier.width(42.dp),
+                                            fontSize = 12.sp,
+                                            maxLines = 1,
+                                            textAlign = TextAlign.End,
+                                        )
+                                    }
                                 }
                                 HorizontalDivider(color = Color(0x14FFFFFF))
                             }

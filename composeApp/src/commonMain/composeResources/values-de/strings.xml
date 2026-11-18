@@ -3928,4 +3928,15 @@
     <string name="live_tv_ui_all_playlists">Alle Playlists</string>
     <string name="live_tv_ui_manage_playlists">Playlists verwalten</string>
     <string name="live_tv_ui_groups">Gruppen</string>
+    <string name="live_tv_ui_game">Spiel</string>
+    <string name="live_tv_ui_stats">Statistiken</string>
+    <string name="live_tv_ui_plays">Spielzüge</string>
+    <string name="live_tv_ui_leaders">Führende</string>
+    <string name="live_tv_ui_no_plays_yet">Noch keine Spielzüge.</string>
+    <string name="live_tv_ui_table">Tabelle</string>
+    <string name="live_tv_ui_games">Spiele</string>
+    <string name="live_tv_ui_my_teams">Meine Teams</string>
+    <string name="live_tv_ui_tables">Tabellen</string>
+    <string name="live_tv_ui_team">Team</string>
+    <string name="live_tv_ui_on_channel">Auf %1$s</string>
 </resources>

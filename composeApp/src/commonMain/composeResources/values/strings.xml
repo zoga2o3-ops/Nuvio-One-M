@@ -3971,4 +3971,15 @@
     <string name="live_tv_ui_all_playlists">All playlists</string>
     <string name="live_tv_ui_manage_playlists">Manage playlists</string>
     <string name="live_tv_ui_groups">Groups</string>
+    <string name="live_tv_ui_game">Game</string>
+    <string name="live_tv_ui_stats">Stats</string>
+    <string name="live_tv_ui_plays">Plays</string>
+    <string name="live_tv_ui_leaders">Leaders</string>
+    <string name="live_tv_ui_no_plays_yet">No plays yet.</string>
+    <string name="live_tv_ui_table">Table</string>
+    <string name="live_tv_ui_games">Games</string>
+    <string name="live_tv_ui_my_teams">My Teams</string>
+    <string name="live_tv_ui_tables">Tables</string>
+    <string name="live_tv_ui_team">Team</string>
+    <string name="live_tv_ui_on_channel">On %1$s</string>
 </resources>

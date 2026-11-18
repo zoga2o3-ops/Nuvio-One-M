@@ -3959,4 +3959,15 @@
     <string name="live_tv_ui_all_playlists">すべてのプレイリスト</string>
     <string name="live_tv_ui_manage_playlists">プレイリストを管理</string>
     <string name="live_tv_ui_groups">グループ</string>
+    <string name="live_tv_ui_game">試合</string>
+    <string name="live_tv_ui_stats">統計</string>
+    <string name="live_tv_ui_plays">プレー</string>
+    <string name="live_tv_ui_leaders">リーダー</string>
+    <string name="live_tv_ui_no_plays_yet">まだプレーはありません。</string>
+    <string name="live_tv_ui_table">順位表</string>
+    <string name="live_tv_ui_games">試合</string>
+    <string name="live_tv_ui_my_teams">マイチーム</string>
+    <string name="live_tv_ui_tables">順位表</string>
+    <string name="live_tv_ui_team">チーム</string>
+    <string name="live_tv_ui_on_channel">%1$sで</string>
 </resources>

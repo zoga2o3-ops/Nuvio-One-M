@@ -3921,4 +3921,15 @@
     <string name="live_tv_ui_all_playlists">כל רשימות ההשמעה</string>
     <string name="live_tv_ui_manage_playlists">ניהול רשימות השמעה</string>
     <string name="live_tv_ui_groups">קבוצות</string>
+    <string name="live_tv_ui_game">משחק</string>
+    <string name="live_tv_ui_stats">סטטיסטיקות</string>
+    <string name="live_tv_ui_plays">מהלכים</string>
+    <string name="live_tv_ui_leaders">מובילים</string>
+    <string name="live_tv_ui_no_plays_yet">אין מהלכים עדיין.</string>
+    <string name="live_tv_ui_table">טבלה</string>
+    <string name="live_tv_ui_games">משחקים</string>
+    <string name="live_tv_ui_my_teams">הקבוצות שלי</string>
+    <string name="live_tv_ui_tables">טבלאות</string>
+    <string name="live_tv_ui_team">קבוצה</string>
+    <string name="live_tv_ui_on_channel">ב-%1$s</string>
 </resources>

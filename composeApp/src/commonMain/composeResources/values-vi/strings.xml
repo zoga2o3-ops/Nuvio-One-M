@@ -3991,4 +3991,15 @@
     <string name="live_tv_ui_all_playlists">Tất cả danh sách phát</string>
     <string name="live_tv_ui_manage_playlists">Quản lý danh sách phát</string>
     <string name="live_tv_ui_groups">Nhóm</string>
+    <string name="live_tv_ui_game">Trận đấu</string>
+    <string name="live_tv_ui_stats">Thống kê</string>
+    <string name="live_tv_ui_plays">Pha bóng</string>
+    <string name="live_tv_ui_leaders">Dẫn đầu</string>
+    <string name="live_tv_ui_no_plays_yet">Chưa có pha bóng nào.</string>
+    <string name="live_tv_ui_table">Bảng</string>
+    <string name="live_tv_ui_games">Trận đấu</string>
+    <string name="live_tv_ui_my_teams">Đội của tôi</string>
+    <string name="live_tv_ui_tables">Bảng</string>
+    <string name="live_tv_ui_team">Đội</string>
+    <string name="live_tv_ui_on_channel">Trên %1$s</string>
 </resources>

@@ -142,6 +142,8 @@ fun LiveTvScreen(modifier: Modifier, onPlay: (LiveTvPlayRequest) -> Unit) {
     var showOnDemand by remember { mutableStateOf(false) }
     var showSports by remember { mutableStateOf(false) }
     var showCalendar by remember { mutableStateOf(false) }
+    var sportsDay by remember { mutableStateOf(0) }
+    var sportsMode by remember { mutableStateOf("games") }
     var recordFor by remember { mutableStateOf<LiveChannel?>(null) }
     val recordings by vm.recordings.collectAsStateWithLifecycle()
     val schedules by vm.schedules.collectAsStateWithLifecycle()
@@ -398,6 +400,9 @@ fun LiveTvScreen(modifier: Modifier, onPlay: (LiveTvPlayRequest) -> Unit) {
                     onQuery = { query = it },
                     onPlaylists = { showPlaylistPicker = true },
                     playlistName = sourceFilter?.let { id -> playlists.firstOrNull { it.id == id }?.name },
+                    centre = if (showSports && sportsMode == "games") {
+                        { SportsDaySwitcher(day = sportsDay, onDay = { sportsDay = it }, repo = vm.sports) }
+                    } else null,
                 )
                 if (playlists.isEmpty()) {
                     EmptyState(onAdd = { showAdd = true })
@@ -410,6 +415,9 @@ fun LiveTvScreen(modifier: Modifier, onPlay: (LiveTvPlayRequest) -> Unit) {
                             repo = vm.sports,
                             hasChannels = allChannels.isNotEmpty(),
                             use24Hour = settings.use24HourClock,
+                            day = sportsDay,
+                            mode = sportsMode,
+                            onMode = { sportsMode = it },
                             onWatch = { c -> vm.recordWatched(c.key); playLive(onPlay, c.toRequest(programs[c.key], now)) },
                             onRecord = { ev, m ->
                                 android.widget.Toast.makeText(context, vm.recordSportsEvent(ev, m.channel), android.widget.Toast.LENGTH_LONG).show()
@@ -795,6 +803,7 @@ private fun Header(
     onQuery: (String) -> Unit,
     onPlaylists: () -> Unit,
     playlistName: String? = null,
+    centre: (@Composable () -> Unit)? = null,
 ) {
     var searchOpen by remember { mutableStateOf(false) }
     val search: @Composable (Modifier) -> Unit = { m ->
@@ -806,29 +815,72 @@ private fun Header(
     Column(Modifier.padding(16.dp, 12.dp, 16.dp, 8.dp)) {
         val compact = LocalConfiguration.current.screenWidthDp < 600
         Box(Modifier.fillMaxWidth()) {
-            Row(
-                Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(4.dp),
-            ) {
-                Text("Live TV", style = MaterialTheme.typography.titleLarge, maxLines = 1)
-                Spacer(Modifier.weight(1f))
-                IconButton(
-                    onClick = {
-                        searchOpen = !searchOpen
-                        if (!searchOpen) onQuery("")
-                    },
-                    modifier = Modifier.size(38.dp),
+            if (compact && centre != null) {
+                // Phone with the day switcher: title, the day in the middle, then search and playlists.
+                Row(
+                    Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(4.dp),
                 ) {
-                    Icon(Icons.Default.Search, contentDescription = if (searchOpen) stringResource(Res.string.live_tv_ui_hide_search) else stringResource(Res.string.live_tv_search_placeholder))
+                    Box(Modifier.weight(1f), contentAlignment = Alignment.CenterStart) {
+                        Text("Live TV", style = MaterialTheme.typography.titleLarge, maxLines = 1)
+                    }
+                    centre()
+                    Row(
+                        Modifier.weight(1f),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.End,
+                    ) {
+                        IconButton(
+                            onClick = {
+                                searchOpen = !searchOpen
+                                if (!searchOpen) onQuery("")
+                            },
+                            modifier = Modifier.size(38.dp),
+                        ) {
+                            Icon(Icons.Default.Search, contentDescription = if (searchOpen) stringResource(Res.string.live_tv_ui_hide_search) else stringResource(Res.string.live_tv_search_placeholder))
+                        }
+                        TextButton(
+                            onClick = onPlaylists,
+                            contentPadding = PaddingValues(horizontal = 4.dp),
+                            modifier = Modifier.weight(1f, fill = false),
+                        ) {
+                            Text(
+                                playlistName ?: stringResource(Res.string.live_tv_ui_playlists),
+                                maxLines = 1, overflow = TextOverflow.Ellipsis,
+                                style = MaterialTheme.typography.labelLarge,
+                            )
+                        }
+                    }
                 }
-                TextButton(onClick = onPlaylists, contentPadding = PaddingValues(horizontal = 6.dp)) { Text(playlistName ?: stringResource(Res.string.live_tv_ui_playlists), maxLines = 1, overflow = TextOverflow.Ellipsis, style = MaterialTheme.typography.labelLarge) }
+            } else {
+                Row(
+                    Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(4.dp),
+                ) {
+                    Text("Live TV", style = MaterialTheme.typography.titleLarge, maxLines = 1)
+                    Spacer(Modifier.weight(1f))
+                    IconButton(
+                        onClick = {
+                            searchOpen = !searchOpen
+                            if (!searchOpen) onQuery("")
+                        },
+                        modifier = Modifier.size(38.dp),
+                    ) {
+                        Icon(Icons.Default.Search, contentDescription = if (searchOpen) stringResource(Res.string.live_tv_ui_hide_search) else stringResource(Res.string.live_tv_search_placeholder))
+                    }
+                    TextButton(onClick = onPlaylists, contentPadding = PaddingValues(horizontal = 6.dp)) { Text(playlistName ?: stringResource(Res.string.live_tv_ui_playlists), maxLines = 1, overflow = TextOverflow.Ellipsis, style = MaterialTheme.typography.labelLarge) }
+                }
             }
             // On a phone the icons get their own centred row; a wide screen has room in the top row.
             if (!compact) Box(Modifier.align(Alignment.Center)) { tabs() }
         }
         if (compact) {
             Box(Modifier.fillMaxWidth().padding(top = 6.dp), contentAlignment = Alignment.Center) { tabs() }
+        }
+        if (!compact && centre != null) {
+            Box(Modifier.fillMaxWidth().padding(top = 6.dp), contentAlignment = Alignment.Center) { centre() }
         }
         if (searchOpen) search(Modifier.fillMaxWidth().padding(top = 6.dp))
     }

@@ -3995,4 +3995,15 @@
     <string name="live_tv_ui_all_playlists">Svi popisi</string>
     <string name="live_tv_ui_manage_playlists">Upravljanje popisima</string>
     <string name="live_tv_ui_groups">Grupe</string>
+    <string name="live_tv_ui_game">Utakmica</string>
+    <string name="live_tv_ui_stats">Statistika</string>
+    <string name="live_tv_ui_plays">Potezi</string>
+    <string name="live_tv_ui_leaders">Voditelji</string>
+    <string name="live_tv_ui_no_plays_yet">Još nema poteza.</string>
+    <string name="live_tv_ui_table">Tablica</string>
+    <string name="live_tv_ui_games">Utakmice</string>
+    <string name="live_tv_ui_my_teams">Moje momčadi</string>
+    <string name="live_tv_ui_tables">Tablice</string>
+    <string name="live_tv_ui_team">Momčad</string>
+    <string name="live_tv_ui_on_channel">Na %1$s</string>
 </resources>

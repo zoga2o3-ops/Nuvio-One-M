@@ -3974,4 +3974,15 @@
     <string name="live_tv_ui_all_playlists">كل قوائم التشغيل</string>
     <string name="live_tv_ui_manage_playlists">إدارة قوائم التشغيل</string>
     <string name="live_tv_ui_groups">المجموعات</string>
+    <string name="live_tv_ui_game">المباراة</string>
+    <string name="live_tv_ui_stats">الإحصاءات</string>
+    <string name="live_tv_ui_plays">اللعب</string>
+    <string name="live_tv_ui_leaders">المتصدرون</string>
+    <string name="live_tv_ui_no_plays_yet">لا توجد لعب بعد.</string>
+    <string name="live_tv_ui_table">الجدول</string>
+    <string name="live_tv_ui_games">المباريات</string>
+    <string name="live_tv_ui_my_teams">فرقي</string>
+    <string name="live_tv_ui_tables">الجداول</string>
+    <string name="live_tv_ui_team">الفريق</string>
+    <string name="live_tv_ui_on_channel">على %1$s</string>
 </resources>
