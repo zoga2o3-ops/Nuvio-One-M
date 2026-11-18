@@ -3973,4 +3973,7 @@ Bu özelliği tamamen kendi sorumluluğunuzda kullanırsınız. P2P istediğiniz
     <string name="live_tv_ui_multiview_pick">Ayn? anda izlemek i?in en fazla d?rt kanal se?in.</string>
     <string name="live_tv_ui_multiview_sound">Sesi i?in bir kanala dokunun.</string>
     <string name="live_tv_ui_multiview_pick_three">Aynı anda izlemek için en fazla üç kanal seçin.</string>
+    <string name="live_tv_ui_playlists">Çalma listeleri</string>
+    <string name="live_tv_ui_all_playlists">Tüm çalma listeleri</string>
+    <string name="live_tv_ui_manage_playlists">Çalma listelerini yönet</string>
 </resources>

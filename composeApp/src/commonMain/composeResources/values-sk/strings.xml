@@ -3996,4 +3996,7 @@
     <string name="live_tv_ui_multiview_pick">Vyberte a? ?tyri kan?ly na s??asn? sledovanie.</string>
     <string name="live_tv_ui_multiview_sound">Klepnut?m na kan?l zapnete jeho zvuk.</string>
     <string name="live_tv_ui_multiview_pick_three">Vyberte až tri kanály na súčasné sledovanie.</string>
+    <string name="live_tv_ui_playlists">Zoznamy</string>
+    <string name="live_tv_ui_all_playlists">Všetky zoznamy</string>
+    <string name="live_tv_ui_manage_playlists">Spravovať zoznamy</string>
 </resources>

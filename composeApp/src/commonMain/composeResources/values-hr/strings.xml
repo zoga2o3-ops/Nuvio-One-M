@@ -3991,4 +3991,7 @@
     <string name="live_tv_ui_multiview_pick">Odaberite do četiri kanala za istovremeno gledanje.</string>
     <string name="live_tv_ui_multiview_sound">Dodirnite kanal za njegov zvuk.</string>
     <string name="live_tv_ui_multiview_pick_three">Odaberite do tri kanala za istovremeno gledanje.</string>
+    <string name="live_tv_ui_playlists">Popisi</string>
+    <string name="live_tv_ui_all_playlists">Svi popisi</string>
+    <string name="live_tv_ui_manage_playlists">Upravljanje popisima</string>
 </resources>

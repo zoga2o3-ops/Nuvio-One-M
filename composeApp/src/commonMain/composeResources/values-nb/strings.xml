@@ -3936,4 +3936,7 @@ Du bruker denne funksjonen helt på eget ansvar. P2P kan deaktiveres når som he
     <string name="live_tv_ui_multiview_pick">Velg opptil fire kanaler å se samtidig.</string>
     <string name="live_tv_ui_multiview_sound">Trykk på en kanal for å høre lyden.</string>
     <string name="live_tv_ui_multiview_pick_three">Velg opptil tre kanaler å se samtidig.</string>
+    <string name="live_tv_ui_playlists">Spillelister</string>
+    <string name="live_tv_ui_all_playlists">Alle spillelister</string>
+    <string name="live_tv_ui_manage_playlists">Administrer spillelister</string>
 </resources>

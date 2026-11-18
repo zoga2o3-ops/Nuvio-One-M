@@ -3953,4 +3953,7 @@
     <string name="live_tv_ui_multiview_pick">Elige hasta cuatro canales para verlos a la vez.</string>
     <string name="live_tv_ui_multiview_sound">Toca un canal para escuchar su sonido.</string>
     <string name="live_tv_ui_multiview_pick_three">Elige hasta tres canales para verlos a la vez.</string>
+    <string name="live_tv_ui_playlists">Listas</string>
+    <string name="live_tv_ui_all_playlists">Todas las listas</string>
+    <string name="live_tv_ui_manage_playlists">Gestionar listas</string>
 </resources>

@@ -3955,4 +3955,7 @@
     <string name="live_tv_ui_multiview_pick">同時に視聴するチャンネルを最大4つ選択してください。</string>
     <string name="live_tv_ui_multiview_sound">音声を聞くにはチャンネルをタップしてください。</string>
     <string name="live_tv_ui_multiview_pick_three">同時に視聴するチャンネルを最大3つ選択してください。</string>
+    <string name="live_tv_ui_playlists">プレイリスト</string>
+    <string name="live_tv_ui_all_playlists">すべてのプレイリスト</string>
+    <string name="live_tv_ui_manage_playlists">プレイリストを管理</string>
 </resources>

@@ -3987,4 +3987,7 @@
     <string name="live_tv_ui_multiview_pick">Ch?n t?i ?a b?n k?nh ?? xem c?ng l?c.</string>
     <string name="live_tv_ui_multiview_sound">Ch?m v?o m?t k?nh ?? nghe ?m thanh c?a k?nh ??.</string>
     <string name="live_tv_ui_multiview_pick_three">Chọn tối đa ba kênh để xem cùng lúc.</string>
+    <string name="live_tv_ui_playlists">Danh sách phát</string>
+    <string name="live_tv_ui_all_playlists">Tất cả danh sách phát</string>
+    <string name="live_tv_ui_manage_playlists">Quản lý danh sách phát</string>
 </resources>

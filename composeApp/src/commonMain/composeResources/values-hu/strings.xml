@@ -3956,4 +3956,7 @@
     <string name="live_tv_ui_multiview_pick">Válasszon legfeljebb négy csatornát az egyidejű megtekintéshez.</string>
     <string name="live_tv_ui_multiview_sound">Koppintson egy csatornára a hangjához.</string>
     <string name="live_tv_ui_multiview_pick_three">Válasszon legfeljebb három csatornát az egyidejű megtekintéshez.</string>
+    <string name="live_tv_ui_playlists">Lejátszási listák</string>
+    <string name="live_tv_ui_all_playlists">Összes lista</string>
+    <string name="live_tv_ui_manage_playlists">Listák kezelése</string>
 </resources>

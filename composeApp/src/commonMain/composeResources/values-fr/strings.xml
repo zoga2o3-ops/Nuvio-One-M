@@ -3987,4 +3987,7 @@
     <string name="live_tv_ui_multiview_pick">Choisissez jusqu’à quatre chaînes à regarder en même temps.</string>
     <string name="live_tv_ui_multiview_sound">Touchez une chaîne pour entendre son son.</string>
     <string name="live_tv_ui_multiview_pick_three">Choisissez jusqu’à trois chaînes à regarder en même temps.</string>
+    <string name="live_tv_ui_playlists">Listes de lecture</string>
+    <string name="live_tv_ui_all_playlists">Toutes les listes</string>
+    <string name="live_tv_ui_manage_playlists">Gérer les listes</string>
 </resources>

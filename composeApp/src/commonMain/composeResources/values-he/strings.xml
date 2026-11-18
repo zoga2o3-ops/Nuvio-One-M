@@ -3917,4 +3917,7 @@
     <string name="live_tv_ui_multiview_pick">בחרו עד ארבעה ערוצים לצפייה בו-זמנית.</string>
     <string name="live_tv_ui_multiview_sound">הקישו על ערוץ כדי לשמוע את הקול שלו.</string>
     <string name="live_tv_ui_multiview_pick_three">בחרו עד שלושה ערוצים לצפייה בו-זמנית.</string>
+    <string name="live_tv_ui_playlists">רשימות השמעה</string>
+    <string name="live_tv_ui_all_playlists">כל רשימות ההשמעה</string>
+    <string name="live_tv_ui_manage_playlists">ניהול רשימות השמעה</string>
 </resources>

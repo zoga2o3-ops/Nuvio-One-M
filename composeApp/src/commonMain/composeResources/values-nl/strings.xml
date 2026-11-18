@@ -3960,4 +3960,7 @@
     <string name="live_tv_ui_multiview_pick">Kies maximaal vier zenders om tegelijk te bekijken.</string>
     <string name="live_tv_ui_multiview_sound">Tik op een zender om het geluid te horen.</string>
     <string name="live_tv_ui_multiview_pick_three">Kies maximaal drie zenders om tegelijk te bekijken.</string>
+    <string name="live_tv_ui_playlists">Afspeellijsten</string>
+    <string name="live_tv_ui_all_playlists">Alle afspeellijsten</string>
+    <string name="live_tv_ui_manage_playlists">Afspeellijsten beheren</string>
 </resources>

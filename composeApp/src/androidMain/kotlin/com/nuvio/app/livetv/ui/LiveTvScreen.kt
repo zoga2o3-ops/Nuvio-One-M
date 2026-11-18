@@ -23,6 +23,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items as gridItems
 import androidx.compose.foundation.lazy.items
@@ -121,6 +122,8 @@ fun LiveTvScreen(modifier: Modifier, onPlay: (LiveTvPlayRequest) -> Unit) {
     var setPinFor by remember { mutableStateOf<String?>(null) }
     var query by remember { mutableStateOf("") }
     var showPlaylists by remember { mutableStateOf(false) }
+    var showPlaylistPicker by remember { mutableStateOf(false) }
+    var sourceFilter by remember { mutableStateOf<String?>(null) }
     var showMultiviewPicker by remember { mutableStateOf(false) }
     var multiviewChannels by remember { mutableStateOf<List<LiveChannel>>(emptyList()) }
     var showAdd by remember { mutableStateOf(false) }
@@ -224,7 +227,7 @@ fun LiveTvScreen(modifier: Modifier, onPlay: (LiveTvPlayRequest) -> Unit) {
     val favorites = remember(user) { user.favorites.toSet() }
     val shown by produceState(
         initialValue = emptyList<LiveChannel>(),
-        index, group, query, favorites,
+        index, group, query, favorites, sourceFilter,
         settings.channelSort, settings.sequentialNumbers,
         user.favorites, user.recent, user.customGroups, user.channelCopies, user.channelOrder,
     ) {
@@ -247,19 +250,59 @@ fun LiveTvScreen(modifier: Modifier, onPlay: (LiveTvPlayRequest) -> Unit) {
                     else inGroup.sortedBy { c -> mine.indexOf(c.key).let { if (it < 0) Int.MAX_VALUE else it } }
                 }
             }
+            val scoped = if (sourceFilter == null) base else base.filter { it.sourceId == sourceFilter }
             val sorted = when {
-                group == ChannelGroup.FAVORITES || group == ChannelGroup.RECENT -> base
-                group != ChannelGroup.ALL && group.startsWith(ChannelGroup.CUSTOM_PREFIX) -> base
-                group != ChannelGroup.ALL && !user.channelOrder[group].isNullOrEmpty() -> base
+                group == ChannelGroup.FAVORITES || group == ChannelGroup.RECENT -> scoped
+                group != ChannelGroup.ALL && group.startsWith(ChannelGroup.CUSTOM_PREFIX) -> scoped
+                group != ChannelGroup.ALL && !user.channelOrder[group].isNullOrEmpty() -> scoped
                 settings.channelSort == com.nuvio.app.livetv.model.ChannelSort.NUMBER ->
-                    base.sortedWith(compareBy({ if (it.number > 0) it.number else Int.MAX_VALUE }, { it.name.lowercase() }))
-                settings.channelSort == com.nuvio.app.livetv.model.ChannelSort.NAME -> base.sortedBy { it.name.lowercase() }
-                else -> base
+                    scoped.sortedWith(compareBy({ if (it.number > 0) it.number else Int.MAX_VALUE }, { it.name.lowercase() }))
+                settings.channelSort == com.nuvio.app.livetv.model.ChannelSort.NAME -> scoped.sortedBy { it.name.lowercase() }
+                else -> scoped
             }
             val q = query.trim()
             val found = if (q.isEmpty()) sorted else sorted.filter { it.name.contains(q, ignoreCase = true) }
             // stringResource(Res.string.live_tv_ui_number_channels_in_order): 1, 2, 3 down the list shown.
             if (settings.sequentialNumbers) found.mapIndexed { i, c -> c.copy(number = i + 1) } else found
+        }
+    }
+
+    val heroChannel = remember(shown, user.lastChannelKey) {
+        shown.firstOrNull { it.key == user.lastChannelKey } ?: shown.firstOrNull()
+    }
+    val heroProgram = remember(programs, heroChannel, now) {
+        heroChannel?.let { c ->
+            programs[c.key]?.firstOrNull { it.isLive(now) } ?: programs[c.key]?.firstOrNull { it.startMs > now }
+        }
+    }
+    val nowNext: @Composable () -> Unit = {
+        heroChannel?.let { c ->
+            Column {
+                NowNextHero(
+                    channel = c,
+                    program = heroProgram,
+                    now = now,
+                    use24Hour = settings.use24HourClock,
+                    favorite = c.key in favorites,
+                    onWatch = { vm.recordWatched(c.key); playLive(onPlay, c.toRequest(programs[c.key], now)) },
+                    onFavorite = { vm.toggleFavorite(c.key) },
+                    onMultiview = { showMultiviewPicker = true },
+                    onGuide = {
+                        showGuide = true
+                        showRecordings = false
+                        showOnDemand = false
+                        showSports = false
+                        showCalendar = false
+                    },
+                )
+                UpNextRail(
+                    channels = shown.filter { it.key != c.key }.take(6),
+                    programs = programs,
+                    now = now,
+                    use24Hour = settings.use24HourClock,
+                    onWatch = { pick -> vm.recordWatched(pick.key); playLive(onPlay, pick.toRequest(programs[pick.key], now)) },
+                )
+            }
         }
     }
 
@@ -272,6 +315,11 @@ fun LiveTvScreen(modifier: Modifier, onPlay: (LiveTvPlayRequest) -> Unit) {
                 playLive(onPlay, c.toRequest(programs[c.key], now))
             }
         }
+    }
+
+    // A playlist has its own groups: start at All when the playlist changes.
+    LaunchedEffect(sourceFilter) {
+        if (sourceFilter != null) group = ChannelGroup.ALL
     }
 
     // Open on the group you were last in.
@@ -322,7 +370,8 @@ fun LiveTvScreen(modifier: Modifier, onPlay: (LiveTvPlayRequest) -> Unit) {
                     tabs = mainTabs,
                     query = query,
                     onQuery = { query = it },
-                    onPlaylists = { showPlaylists = true },
+                    onPlaylists = { showPlaylistPicker = true },
+                    playlistName = sourceFilter?.let { id -> playlists.firstOrNull { it.id == id }?.name },
                     hasHidden = user.hiddenChannels.isNotEmpty() || user.hiddenGroups.isNotEmpty(),
                     onHidden = { showHidden = true },
                     showViewControls = playlists.isNotEmpty() && !showRecordings && !showOnDemand && !showSports && !showCalendar,
@@ -453,6 +502,7 @@ fun LiveTvScreen(modifier: Modifier, onPlay: (LiveTvPlayRequest) -> Unit) {
                             horizontalArrangement = Arrangement.spacedBy(10.dp),
                             verticalArrangement = Arrangement.spacedBy(10.dp),
                         ) {
+                            item(key = "now-next", span = { GridItemSpan(maxLineSpan) }) { nowNext() }
                             gridItems(shown, key = { it.key }) { c ->
                                 ChannelTile(c, programs[c.key], now, c.key in favorites, { actionChannel = c }, settings, user.channelQuality[c.key]?.takeIf { settings.showQualityBadges }) {
                                     vm.recordWatched(c.key); playLive(onPlay, c.toRequest(programs[c.key], now))
@@ -466,6 +516,7 @@ fun LiveTvScreen(modifier: Modifier, onPlay: (LiveTvPlayRequest) -> Unit) {
                             horizontalArrangement = Arrangement.spacedBy(10.dp),
                             verticalArrangement = Arrangement.spacedBy(10.dp),
                         ) {
+                            item(key = "now-next", span = { GridItemSpan(maxLineSpan) }) { nowNext() }
                             gridItems(shown, key = { it.key }) { c ->
                                 ChannelRow(c, programs[c.key], now, c.key in favorites, vm::toggleFavorite, { actionChannel = c }, settings, user.channelQuality[c.key]?.takeIf { settings.showQualityBadges }) {
                                     vm.recordWatched(c.key); playLive(onPlay, c.toRequest(programs[c.key], now))
@@ -477,6 +528,7 @@ fun LiveTvScreen(modifier: Modifier, onPlay: (LiveTvPlayRequest) -> Unit) {
                             contentPadding = PaddingValues(16.dp, 4.dp, 16.dp, 96.dp),
                             verticalArrangement = Arrangement.spacedBy(10.dp),
                         ) {
+                            item(key = "now-next") { nowNext() }
                             items(shown, key = { it.key }) { c ->
                                 ChannelRow(c, programs[c.key], now, c.key in favorites, vm::toggleFavorite, { actionChannel = c }, settings, user.channelQuality[c.key]?.takeIf { settings.showQualityBadges }) {
                                     vm.recordWatched(c.key); playLive(onPlay, c.toRequest(programs[c.key], now))
@@ -649,6 +701,19 @@ fun LiveTvScreen(modifier: Modifier, onPlay: (LiveTvPlayRequest) -> Unit) {
         )
     }
 
+    if (showPlaylistPicker) {
+        PlaylistPickerDialog(
+            playlists = playlists,
+            channelCounts = remember(allChannels) { allChannels.groupingBy { it.sourceId }.eachCount() },
+            selected = sourceFilter,
+            onSelect = { id ->
+                sourceFilter = id
+                showPlaylistPicker = false
+            },
+            onManage = { showPlaylistPicker = false; showPlaylists = true },
+            onDismiss = { showPlaylistPicker = false },
+        )
+    }
     if (showPlaylists) {
         PlaylistsDialog(
             playlists = playlists,
@@ -700,6 +765,7 @@ private fun Header(
     query: String,
     onQuery: (String) -> Unit,
     onPlaylists: () -> Unit,
+    playlistName: String? = null,
     hasHidden: Boolean,
     onHidden: () -> Unit,
     lastChannel: String?,
@@ -742,7 +808,7 @@ private fun Header(
             }) {
                 Icon(Icons.Default.Search, contentDescription = if (searchOpen) stringResource(Res.string.live_tv_ui_hide_search) else stringResource(Res.string.live_tv_search_placeholder))
             }
-            TextButton(onClick = onPlaylists) { Text(stringResource(Res.string.compose_player_panel_sources)) }
+            TextButton(onClick = onPlaylists) { Text(playlistName ?: stringResource(Res.string.live_tv_ui_playlists), maxLines = 1, overflow = TextOverflow.Ellipsis) }
         }
         if (compact) {
             Spacer(Modifier.height(6.dp))

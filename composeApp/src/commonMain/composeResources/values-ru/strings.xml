@@ -3966,4 +3966,7 @@
     <string name="live_tv_ui_multiview_pick">Выберите до четырёх каналов для одновременного просмотра.</string>
     <string name="live_tv_ui_multiview_sound">Нажмите на канал, чтобы услышать его звук.</string>
     <string name="live_tv_ui_multiview_pick_three">Выберите до трёх каналов для одновременного просмотра.</string>
+    <string name="live_tv_ui_playlists">Плейлисты</string>
+    <string name="live_tv_ui_all_playlists">Все плейлисты</string>
+    <string name="live_tv_ui_manage_playlists">Управление плейлистами</string>
 </resources>
