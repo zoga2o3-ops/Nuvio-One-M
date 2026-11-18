@@ -805,7 +805,7 @@ private fun Header(
     Column(Modifier.padding(16.dp, 12.dp, 16.dp, 8.dp)) {
         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(4.dp)) {
             Text("Live TV", style = MaterialTheme.typography.titleLarge, maxLines = 1)
-            Box(Modifier.weight(1f)) { tabs() }
+            Box(Modifier.weight(1f), contentAlignment = Alignment.Center) { tabs() }
             IconButton(
                 onClick = {
                     searchOpen = !searchOpen
@@ -847,14 +847,14 @@ private fun IconTab(icon: ImageVector, label: String, selected: Boolean, onClick
             .background(if (selected) Accent else Color.Transparent)
             .border(1.dp, if (selected) Accent else MaterialTheme.colorScheme.outlineVariant, shape)
             .clickable(onClick = onClick)
-            .padding(horizontal = 4.dp, vertical = 6.dp),
+            .padding(horizontal = 5.dp, vertical = 8.dp),
         contentAlignment = Alignment.Center,
     ) {
         Icon(
             icon,
             contentDescription = label,
             tint = if (selected) Color.White else Accent,
-            modifier = Modifier.size(14.dp),
+            modifier = Modifier.size(16.dp),
         )
     }
 }
