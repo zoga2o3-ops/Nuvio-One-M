@@ -3994,4 +3994,5 @@
     <string name="live_tv_ui_playlists">Popisi</string>
     <string name="live_tv_ui_all_playlists">Svi popisi</string>
     <string name="live_tv_ui_manage_playlists">Upravljanje popisima</string>
+    <string name="live_tv_ui_groups">Grupe</string>
 </resources>

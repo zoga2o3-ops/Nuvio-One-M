@@ -3963,4 +3963,5 @@
     <string name="live_tv_ui_playlists">Playlisty</string>
     <string name="live_tv_ui_all_playlists">Všechny playlisty</string>
     <string name="live_tv_ui_manage_playlists">Spravovat playlisty</string>
+    <string name="live_tv_ui_groups">Skupiny</string>
 </resources>

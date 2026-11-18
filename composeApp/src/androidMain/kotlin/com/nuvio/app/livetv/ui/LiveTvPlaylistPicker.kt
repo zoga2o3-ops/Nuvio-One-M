@@ -68,7 +68,7 @@ internal fun PlaylistPickerDialog(
                 Column(Modifier.verticalScroll(rememberScrollState())) {
                     PickerRow(
                         title = stringResource(Res.string.live_tv_ui_all_playlists),
-                        subtitle = "${channelCounts.values.sum()} channels",
+                        subtitle = channelCounts.values.sum().let { if (it == 1) "1 channel" else "$it channels" },
                         selected = selected == null,
                         onClick = { onSelect(null) },
                     )
@@ -77,7 +77,7 @@ internal fun PlaylistPickerDialog(
                         val off = stringResource(Res.string.compose_action_off)
                         val subtitle = buildString {
                             append(count)
-                            append(" channels")
+                            append(if (count == 1) " channel" else " channels")
                             if (!playlist.enabled) {
                                 append(" · ")
                                 append(off)

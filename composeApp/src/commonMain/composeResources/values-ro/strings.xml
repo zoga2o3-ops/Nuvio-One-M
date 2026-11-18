@@ -3931,4 +3931,5 @@
     <string name="live_tv_ui_playlists">Liste de redare</string>
     <string name="live_tv_ui_all_playlists">Toate listele</string>
     <string name="live_tv_ui_manage_playlists">Gestionează listele</string>
+    <string name="live_tv_ui_groups">Grupuri</string>
 </resources>

@@ -3969,4 +3969,5 @@
     <string name="live_tv_ui_playlists">Плейлисты</string>
     <string name="live_tv_ui_all_playlists">Все плейлисты</string>
     <string name="live_tv_ui_manage_playlists">Управление плейлистами</string>
+    <string name="live_tv_ui_groups">Группы</string>
 </resources>

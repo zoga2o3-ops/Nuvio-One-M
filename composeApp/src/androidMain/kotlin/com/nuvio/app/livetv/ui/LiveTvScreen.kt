@@ -130,6 +130,7 @@ fun LiveTvScreen(modifier: Modifier, onPlay: (LiveTvPlayRequest) -> Unit) {
     var query by remember { mutableStateOf("") }
     var showPlaylists by remember { mutableStateOf(false) }
     var showPlaylistPicker by remember { mutableStateOf(false) }
+    var showGroupPicker by remember { mutableStateOf(false) }
     var sourceFilter by remember { mutableStateOf<String?>(null) }
     var showMultiviewPicker by remember { mutableStateOf(false) }
     var multiviewChannels by remember { mutableStateOf<List<LiveChannel>>(emptyList()) }
@@ -317,6 +318,7 @@ fun LiveTvScreen(modifier: Modifier, onPlay: (LiveTvPlayRequest) -> Unit) {
                     Text("Channels", style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.primary)
                     Text("${shown.size}", style = MaterialTheme.typography.labelSmall, color = LocalContentColor.current.copy(alpha = 0.6f))
                     Spacer(Modifier.weight(1f))
+                    GroupChip(stringResource(Res.string.live_tv_ui_groups) + " \u25BE", false) { showGroupPicker = true }
                     if (user.hiddenChannels.isNotEmpty() || user.hiddenGroups.isNotEmpty()) {
                         GroupChip(stringResource(Res.string.settings_homescreen_hidden), false) { showHidden = true }
                     }
@@ -324,26 +326,6 @@ fun LiveTvScreen(modifier: Modifier, onPlay: (LiveTvPlayRequest) -> Unit) {
                         vm.updateSettings { it.copy(channelGrid = !it.channelGrid) }
                     }
                     GroupChip("+", false) { newGroup = null; askNewGroup = true }
-                }
-                LazyRow(
-                    contentPadding = PaddingValues(horizontal = 16.dp),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    modifier = Modifier.padding(bottom = 8.dp),
-                ) {
-                    fun pick(id: String) { group = id; vm.setLastGroup(id) }
-                    if (settings.showAllChannelsGroup) item { GroupChip(stringResource(Res.string.collections_tab_all), group == ChannelGroup.ALL) { pick(ChannelGroup.ALL) } }
-                    if (favorites.isNotEmpty() && settings.showFavoritesGroup) item { GroupChip(stringResource(Res.string.live_tv_filter_favorites), group == ChannelGroup.FAVORITES) { pick(ChannelGroup.FAVORITES) } }
-                    if (user.recent.isNotEmpty() && settings.showRecentGroup) item { GroupChip(stringResource(Res.string.collections_editor_tmdb_sort_recent), group == ChannelGroup.RECENT) { pick(ChannelGroup.RECENT) } }
-                    items(chips, key = { it.id }) { g ->
-                        val locked = isLockedGroup(g.id, g.title) && g.id !in unlocked
-                        GroupChip(
-                            (if (locked) "\uD83D\uDD12 " else "") + g.title + if (settings.showGroupCounts && !locked) "  ${g.count}" else "",
-                            group == g.id,
-                            onLongClick = { actionGroup = g },
-                        ) {
-                            if (locked) askPinFor = g.id else pick(g.id)
-                        }
-                    }
                 }
             }
         }
@@ -394,7 +376,7 @@ fun LiveTvScreen(modifier: Modifier, onPlay: (LiveTvPlayRequest) -> Unit) {
                     if (playlists.isNotEmpty()) {
                         Row(
                             Modifier.horizontalScroll(androidx.compose.foundation.rememberScrollState()),
-                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                            horizontalArrangement = Arrangement.spacedBy(2.dp),
                         ) {
                             IconTab(Icons.Default.LiveTv, stringResource(Res.string.live_tv_section_channels), !showGuide && !showRecordings && !showOnDemand && !showSports && !showCalendar) { showGuide = false; showRecordings = false; showOnDemand = false; showSports = false; showCalendar = false }
                             IconTab(Icons.AutoMirrored.Filled.List, stringResource(Res.string.live_tv_ui_guide), showGuide) { showGuide = true; showRecordings = false; showOnDemand = false; showSports = false; showCalendar = false }
@@ -410,7 +392,6 @@ fun LiveTvScreen(modifier: Modifier, onPlay: (LiveTvPlayRequest) -> Unit) {
                     }
                 }
                 Header(
-                    compact = compact,
                     tabs = mainTabs,
                     query = query,
                     onQuery = { query = it },
@@ -715,6 +696,40 @@ fun LiveTvScreen(modifier: Modifier, onPlay: (LiveTvPlayRequest) -> Unit) {
         )
     }
 
+    if (showGroupPicker) {
+        val allLabel = stringResource(Res.string.collections_tab_all)
+        val favoritesLabel = stringResource(Res.string.live_tv_filter_favorites)
+        val recentLabel = stringResource(Res.string.collections_editor_tmdb_sort_recent)
+        val choices = mutableListOf(GroupChoice(ChannelGroup.ALL, allLabel, index.channels.size))
+        if (settings.showFavoritesGroup && favorites.isNotEmpty()) {
+            choices += GroupChoice(ChannelGroup.FAVORITES, favoritesLabel, favorites.size)
+        }
+        if (settings.showRecentGroup && user.recent.isNotEmpty()) {
+            choices += GroupChoice(ChannelGroup.RECENT, recentLabel, user.recent.size)
+        }
+        chips.forEach { g ->
+            val locked = isLockedGroup(g.id, g.title) && g.id !in unlocked
+            choices += GroupChoice(g.id, g.title, g.count, locked)
+        }
+        GroupPickerDialog(
+            choices = choices,
+            selected = group,
+            onSelect = { id ->
+                val g = chips.firstOrNull { it.id == id }
+                if (g != null && isLockedGroup(id, g.title) && id !in unlocked) {
+                    askPinFor = id
+                } else {
+                    group = id
+                    vm.setLastGroup(id)
+                }
+                showGroupPicker = false
+            },
+            onHidden = if (user.hiddenChannels.isNotEmpty() || user.hiddenGroups.isNotEmpty()) {
+                { showGroupPicker = false; showHidden = true }
+            } else null,
+            onDismiss = { showGroupPicker = false },
+        )
+    }
     if (showPlaylistPicker) {
         PlaylistPickerDialog(
             playlists = playlists,
@@ -774,7 +789,6 @@ private fun LiveChannel.toRequest(programs: List<EpgProgram>?, now: Long) = live
 
 @Composable
 private fun Header(
-    compact: Boolean,
     tabs: @Composable () -> Unit,
     query: String,
     onQuery: (String) -> Unit,
@@ -789,23 +803,19 @@ private fun Header(
             shape = RoundedCornerShape(12.dp), colors = fieldColors())
     }
     Column(Modifier.padding(16.dp, 12.dp, 16.dp, 8.dp)) {
-        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            Text("Live TV", style = MaterialTheme.typography.headlineSmall)
-            if (!compact) {
-                Box(Modifier.weight(1f)) { tabs() }
-            }
-            if (compact) Spacer(Modifier.weight(1f))
-            IconButton(onClick = {
-                searchOpen = !searchOpen
-                if (!searchOpen) onQuery("")
-            }) {
+        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+            Text("Live TV", style = MaterialTheme.typography.titleLarge, maxLines = 1)
+            Box(Modifier.weight(1f)) { tabs() }
+            IconButton(
+                onClick = {
+                    searchOpen = !searchOpen
+                    if (!searchOpen) onQuery("")
+                },
+                modifier = Modifier.size(38.dp),
+            ) {
                 Icon(Icons.Default.Search, contentDescription = if (searchOpen) stringResource(Res.string.live_tv_ui_hide_search) else stringResource(Res.string.live_tv_search_placeholder))
             }
-            TextButton(onClick = onPlaylists) { Text(playlistName ?: stringResource(Res.string.live_tv_ui_playlists), maxLines = 1, overflow = TextOverflow.Ellipsis) }
-        }
-        if (compact) {
-            Spacer(Modifier.height(6.dp))
-            tabs()
+            TextButton(onClick = onPlaylists, contentPadding = PaddingValues(horizontal = 6.dp)) { Text(playlistName ?: stringResource(Res.string.live_tv_ui_playlists), maxLines = 1, overflow = TextOverflow.Ellipsis, style = MaterialTheme.typography.labelLarge) }
         }
         if (searchOpen) search(Modifier.fillMaxWidth().padding(top = 6.dp))
     }
@@ -837,14 +847,14 @@ private fun IconTab(icon: ImageVector, label: String, selected: Boolean, onClick
             .background(if (selected) Accent else Color.Transparent)
             .border(1.dp, if (selected) Accent else MaterialTheme.colorScheme.outlineVariant, shape)
             .clickable(onClick = onClick)
-            .padding(horizontal = 11.dp, vertical = 9.dp),
+            .padding(horizontal = 4.dp, vertical = 6.dp),
         contentAlignment = Alignment.Center,
     ) {
         Icon(
             icon,
             contentDescription = label,
             tint = if (selected) Color.White else Accent,
-            modifier = Modifier.size(18.dp),
+            modifier = Modifier.size(14.dp),
         )
     }
 }

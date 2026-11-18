@@ -3939,4 +3939,5 @@ Du bruker denne funksjonen helt på eget ansvar. P2P kan deaktiveres når som he
     <string name="live_tv_ui_playlists">Spillelister</string>
     <string name="live_tv_ui_all_playlists">Alle spillelister</string>
     <string name="live_tv_ui_manage_playlists">Administrer spillelister</string>
+    <string name="live_tv_ui_groups">Grupper</string>
 </resources>

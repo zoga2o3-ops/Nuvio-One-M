@@ -3959,4 +3959,5 @@
     <string name="live_tv_ui_playlists">Lejátszási listák</string>
     <string name="live_tv_ui_all_playlists">Összes lista</string>
     <string name="live_tv_ui_manage_playlists">Listák kezelése</string>
+    <string name="live_tv_ui_groups">Csoportok</string>
 </resources>

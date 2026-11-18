@@ -3941,4 +3941,5 @@
     <string name="live_tv_ui_playlists">Listy odtwarzania</string>
     <string name="live_tv_ui_all_playlists">Wszystkie listy</string>
     <string name="live_tv_ui_manage_playlists">Zarządzaj listami</string>
+    <string name="live_tv_ui_groups">Grupy</string>
 </resources>
