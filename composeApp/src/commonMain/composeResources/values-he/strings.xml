@@ -3936,4 +3936,6 @@
     <string name="settings_section_music_description">הצג את כרטיסיית מוזיקה</string>
     <string name="settings_section_youtube_description">הצג את כרטיסיית OneTube</string>
     <string name="settings_section_live_tv_description">הצג את כרטיסיית Live TV</string>
+    <string name="live_tv_ui_all_categories">כל הקטגוריות</string>
+    <string name="live_tv_ui_search_categories">חיפוש קטגוריות</string>
 </resources>

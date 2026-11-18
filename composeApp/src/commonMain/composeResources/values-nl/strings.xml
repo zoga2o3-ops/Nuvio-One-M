@@ -3979,4 +3979,6 @@
     <string name="settings_section_music_description">Muziek-tabblad tonen</string>
     <string name="settings_section_youtube_description">OneTube-tabblad tonen</string>
     <string name="settings_section_live_tv_description">Live TV-tabblad tonen</string>
+    <string name="live_tv_ui_all_categories">Alle categorieën</string>
+    <string name="live_tv_ui_search_categories">Categorieën zoeken</string>
 </resources>

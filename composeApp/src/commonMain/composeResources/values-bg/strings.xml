@@ -4003,4 +4003,6 @@
     <string name="settings_section_music_description">Показване на раздела Музика</string>
     <string name="settings_section_youtube_description">Показване на раздела OneTube</string>
     <string name="settings_section_live_tv_description">Показване на раздела Live TV</string>
+    <string name="live_tv_ui_all_categories">Всички категории</string>
+    <string name="live_tv_ui_search_categories">Търсене на категории</string>
 </resources>

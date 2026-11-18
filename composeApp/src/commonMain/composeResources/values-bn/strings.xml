@@ -4015,4 +4015,6 @@
     <string name="settings_section_music_description">সঙ্গীত ট্যাব দেখান</string>
     <string name="settings_section_youtube_description">OneTube ট্যাব দেখান</string>
     <string name="settings_section_live_tv_description">Live TV ট্যাব দেখান</string>
+    <string name="live_tv_ui_all_categories">সমস্ত বিভাগ</string>
+    <string name="live_tv_ui_search_categories">বিভাগ খুঁজুন</string>
 </resources>

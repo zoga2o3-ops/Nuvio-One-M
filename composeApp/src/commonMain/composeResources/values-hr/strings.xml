@@ -4010,4 +4010,6 @@
     <string name="settings_section_music_description">Prikaži karticu Glazba</string>
     <string name="settings_section_youtube_description">Prikaži karticu OneTube</string>
     <string name="settings_section_live_tv_description">Prikaži karticu Live TV</string>
+    <string name="live_tv_ui_all_categories">Sve kategorije</string>
+    <string name="live_tv_ui_search_categories">Pretraži kategorije</string>
 </resources>

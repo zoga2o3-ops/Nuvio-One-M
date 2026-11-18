@@ -9,12 +9,15 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -23,10 +26,21 @@ import androidx.compose.foundation.lazy.grid.items as gridItems
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.FilterList
+import androidx.compose.material.icons.filled.GridView
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Sort
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -95,7 +109,10 @@ fun OnDemandPage(
     var sort by remember { mutableStateOf(VodSort.DEFAULT) }
     var sortSeed by remember { mutableStateOf(1L) }
     var query by remember { mutableStateOf("") }
+    var searchOpen by remember { mutableStateOf(false) }
     var pickSort by remember { mutableStateOf(false) }
+    var pickCategory by remember { mutableStateOf(false) }
+    var categoryQuery by remember { mutableStateOf("") }
     var categoryActions by remember { mutableStateOf<VodCategory?>(null) }
     var genre by remember { mutableStateOf<String?>(null) }
     var pickGenre by remember { mutableStateOf(false) }
@@ -182,39 +199,169 @@ fun OnDemandPage(
             return@Column
         }
         Row(
-            Modifier.padding(horizontal = 16.dp).padding(bottom = 6.dp),
+            Modifier.fillMaxWidth().padding(horizontal = 16.dp).padding(bottom = 6.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Chip(stringResource(Res.string.profile_insights_type_movie), kind == VodKind.MOVIE) { kind = VodKind.MOVIE; category = null }
             Chip(stringResource(Res.string.profile_insights_type_series), kind == VodKind.SERIES) { kind = VodKind.SERIES; category = null }
+            Spacer(Modifier.weight(1f))
+            IconButton(
+                onClick = {
+                    searchOpen = !searchOpen
+                    if (!searchOpen) query = ""
+                },
+                modifier = Modifier.size(36.dp),
+            ) {
+                Icon(
+                    if (searchOpen) Icons.Default.Close else Icons.Default.Search,
+                    contentDescription = stringResource(if (searchOpen) Res.string.live_tv_ui_hide_search else Res.string.live_tv_search_placeholder),
+                    tint = if (searchOpen || query.isNotBlank()) MaterialTheme.colorScheme.primary else LocalContentColor.current,
+                )
+            }
+            if (genres.isNotEmpty()) {
+                IconButton(onClick = { pickGenre = true }, modifier = Modifier.size(36.dp)) {
+                    Icon(
+                        Icons.Default.FilterList,
+                        contentDescription = stringResource(Res.string.live_tv_ui_genre),
+                        tint = if (genre != null) MaterialTheme.colorScheme.primary else LocalContentColor.current,
+                    )
+                }
+            }
+            IconButton(onClick = { pickSort = true }, modifier = Modifier.size(36.dp)) {
+                Icon(
+                    Icons.Default.Sort,
+                    contentDescription = stringResource(Res.string.live_tv_ui_sort_by),
+                    tint = if (sort != VodSort.DEFAULT) MaterialTheme.colorScheme.primary else LocalContentColor.current,
+                )
+            }
+        }
+        if (searchOpen) {
             OutlinedTextField(
                 value = query,
                 onValueChange = { query = it },
                 singleLine = true,
                 placeholder = { Text(stringResource(Res.string.collections_editor_tmdb_search)) },
-                modifier = Modifier.weight(1f),
-                shape = RoundedCornerShape(12.dp), colors = fieldColors())
-            if (genres.isNotEmpty()) TextButton(onClick = { pickGenre = true }) { Text(genre ?: stringResource(Res.string.live_tv_ui_genre), maxLines = 1) }
-            TextButton(onClick = { pickSort = true }) { Text(sort.label, maxLines = 1) }
+                leadingIcon = { Icon(Icons.Default.Search, contentDescription = null, modifier = Modifier.size(18.dp)) },
+                trailingIcon = {
+                    if (query.isNotEmpty()) {
+                        IconButton(onClick = { query = "" }) {
+                            Icon(Icons.Default.Close, contentDescription = stringResource(Res.string.action_clear), modifier = Modifier.size(18.dp))
+                        }
+                    }
+                },
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp).padding(bottom = 8.dp),
+                shape = RoundedCornerShape(12.dp),
+                colors = fieldColors(),
+            )
         }
-        if (query.isBlank()) {
-            LazyRow(
-                contentPadding = PaddingValues(horizontal = 16.dp),
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                modifier = Modifier.padding(bottom = 8.dp),
-            ) {
-                item { Chip(stringResource(Res.string.collections_tab_all), category == null) { category = null } }
-                items(categories, key = { it.uid }) { c ->
-                    val locked = c.uid in lockedCategories && c.uid !in opened
-                    Chip(
-                        (if (locked) "\uD83D\uDD12 " else "") + c.name + (if (locked) "" else "  ${c.count}"),
-                        category?.uid == c.uid,
-                        onLongClick = { categoryActions = c },
-                    ) { if (locked) askPinFor = c else category = c }
+        if (!searchOpen && query.isBlank()) {
+            Box(Modifier.fillMaxWidth().padding(horizontal = 16.dp).padding(bottom = 8.dp)) {
+                val totalCount = categories.filter { it.uid !in hiddenNow }.sumOf { it.count }
+                OutlinedButton(
+                    onClick = { pickCategory = true },
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(10.dp),
+                    contentPadding = PaddingValues(horizontal = 12.dp, vertical = 10.dp),
+                ) {
+                    Icon(Icons.Default.GridView, contentDescription = null, modifier = Modifier.size(16.dp))
+                    Spacer(Modifier.width(8.dp))
+                    Text(
+                        category?.let { nameOf(it) } ?: stringResource(Res.string.live_tv_ui_all_categories),
+                        modifier = Modifier.weight(1f),
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                    )
+                    Text(
+                        (category?.count ?: totalCount).toString(),
+                        style = MaterialTheme.typography.labelSmall,
+                        color = LocalContentColor.current.copy(alpha = 0.55f),
+                    )
+                    Spacer(Modifier.width(6.dp))
+                    Icon(Icons.Default.KeyboardArrowDown, contentDescription = null, modifier = Modifier.size(18.dp))
                 }
-                if (hiddenCategories.isNotEmpty()) item { TextButton(onClick = onShowAllCategories) { Text(stringResource(Res.string.live_tv_ui_show_hidden)) } }
-                item { TextButton(onClick = { manageGroups = true }) { Text(stringResource(Res.string.live_tv_ui_manage)) } }
+                DropdownMenu(
+                    expanded = pickCategory,
+                    onDismissRequest = { pickCategory = false; categoryQuery = "" },
+                    modifier = Modifier.widthIn(min = 280.dp, max = 340.dp),
+                ) {
+                    OutlinedTextField(
+                        value = categoryQuery,
+                        onValueChange = { categoryQuery = it },
+                        singleLine = true,
+                        placeholder = { Text(stringResource(Res.string.live_tv_ui_search_categories)) },
+                        leadingIcon = { Icon(Icons.Default.Search, contentDescription = null, modifier = Modifier.size(16.dp)) },
+                        modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp, vertical = 4.dp),
+                        shape = RoundedCornerShape(9.dp),
+                        colors = fieldColors(),
+                    )
+                    CategoryPickerRow(
+                        label = stringResource(Res.string.live_tv_ui_all_categories),
+                        count = totalCount,
+                        selected = category == null,
+                        onClick = {
+                            category = null
+                            query = ""
+                            pickCategory = false
+                            categoryQuery = ""
+                        },
+                    )
+                    categories.filter { categoryQuery.isBlank() || nameOf(it).contains(categoryQuery, true) }.forEach { c ->
+                        val locked = c.uid in lockedCategories && c.uid !in opened
+                        CategoryPickerRow(
+                            label = (if (locked) "\uD83D\uDD12 " else "") + nameOf(c),
+                            count = c.count,
+                            selected = category?.uid == c.uid,
+                            onClick = {
+                                categoryQuery = ""
+                                pickCategory = false
+                                if (locked) askPinFor = c else category = c
+                            },
+                            onLongClick = {
+                                categoryQuery = ""
+                                pickCategory = false
+                                categoryActions = c
+                            },
+                        )
+                    }
+                    if (hiddenCategories.isNotEmpty()) {
+                        TextButton(
+                            onClick = { pickCategory = false; onShowAllCategories() },
+                            modifier = Modifier.fillMaxWidth(),
+                        ) { Text(stringResource(Res.string.live_tv_ui_show_hidden)) }
+                    }
+                    TextButton(
+                        onClick = { pickCategory = false; manageGroups = true },
+                        modifier = Modifier.fillMaxWidth(),
+                    ) { Text(stringResource(Res.string.live_tv_ui_manage)) }
+                }
+            }
+        }
+        if (!searchOpen && genre != null) {
+            Row(
+                Modifier.fillMaxWidth().padding(horizontal = 16.dp).padding(bottom = 8.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                val shape = RoundedCornerShape(8.dp)
+                Row(
+                    Modifier.clip(shape)
+                        .border(1.dp, MaterialTheme.colorScheme.outlineVariant, shape)
+                        .clickable { genre = null }
+                        .padding(horizontal = 10.dp, vertical = 7.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(6.dp),
+                ) {
+                    Text(
+                        stringResource(Res.string.live_tv_ui_genre) + ": " + genre,
+                        style = MaterialTheme.typography.labelMedium,
+                        maxLines = 1,
+                    )
+                    Icon(
+                        Icons.Default.Close,
+                        contentDescription = stringResource(Res.string.action_clear),
+                        modifier = Modifier.size(14.dp),
+                    )
+                }
             }
         }
         // stringResource(Res.string.collections_tab_all) with nothing searched or sorted: a row for each category, like Nuvio's Home. A row's stringResource(Res.string.live_tv_ui_see_all) opens that category.
@@ -395,6 +542,36 @@ private fun Chip(label: String, selected: Boolean, onLongClick: (() -> Unit)? = 
             .combinedClickable(onClick = onClick, onLongClick = onLongClick)
             .padding(horizontal = 12.dp, vertical = 8.dp),
     ) { Text(label, maxLines = 1, style = MaterialTheme.typography.labelLarge) }
+}
+
+@OptIn(androidx.compose.foundation.ExperimentalFoundationApi::class)
+@Composable
+private fun CategoryPickerRow(
+    label: String,
+    count: Int,
+    selected: Boolean,
+    onClick: () -> Unit,
+    onLongClick: (() -> Unit)? = null,
+) {
+    Row(
+        Modifier
+            .fillMaxWidth()
+            .background(if (selected) MaterialTheme.colorScheme.secondaryContainer else Color.Transparent)
+            .combinedClickable(onClick = onClick, onLongClick = onLongClick)
+            .padding(horizontal = 12.dp, vertical = 10.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Text(label, modifier = Modifier.weight(1f), maxLines = 1, overflow = TextOverflow.Ellipsis)
+        Text(
+            count.toString(),
+            style = MaterialTheme.typography.labelSmall,
+            color = LocalContentColor.current.copy(alpha = 0.55f),
+        )
+        if (selected) {
+            Spacer(Modifier.width(8.dp))
+            Text("✓", color = MaterialTheme.colorScheme.primary, style = MaterialTheme.typography.labelLarge)
+        }
+    }
 }
 
 @Composable

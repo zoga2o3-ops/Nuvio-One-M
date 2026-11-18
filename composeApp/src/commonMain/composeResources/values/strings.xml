@@ -3998,4 +3998,6 @@
     <string name="settings_section_music_description">Show the Music tab</string>
     <string name="settings_section_youtube_description">Show the OneTube tab</string>
     <string name="settings_section_live_tv_description">Show the Live TV tab</string>
+    <string name="live_tv_ui_all_categories">All categories</string>
+    <string name="live_tv_ui_search_categories">Search categories</string>
 </resources>

@@ -3947,4 +3947,6 @@
     <string name="settings_section_music_description">Afișează fila Muzică</string>
     <string name="settings_section_youtube_description">Afișează fila OneTube</string>
     <string name="settings_section_live_tv_description">Afișează fila Live TV</string>
+    <string name="live_tv_ui_all_categories">Toate categoriile</string>
+    <string name="live_tv_ui_search_categories">Caută categorii</string>
 </resources>

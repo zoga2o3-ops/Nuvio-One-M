@@ -3943,4 +3943,6 @@
     <string name="settings_section_music_description">இசை தாவலைக் காட்டு</string>
     <string name="settings_section_youtube_description">OneTube தாவலைக் காட்டு</string>
     <string name="settings_section_live_tv_description">Live TV தாவலைக் காட்டு</string>
+    <string name="live_tv_ui_all_categories">அனைத்து வகைகள்</string>
+    <string name="live_tv_ui_search_categories">வகைகளைத் தேடு</string>
 </resources>

@@ -4006,4 +4006,6 @@
     <string name="settings_section_music_description">Afficher l’onglet Musique</string>
     <string name="settings_section_youtube_description">Afficher l’onglet OneTube</string>
     <string name="settings_section_live_tv_description">Afficher l’onglet Live TV</string>
+    <string name="live_tv_ui_all_categories">Toutes les catégories</string>
+    <string name="live_tv_ui_search_categories">Rechercher des catégories</string>
 </resources>
