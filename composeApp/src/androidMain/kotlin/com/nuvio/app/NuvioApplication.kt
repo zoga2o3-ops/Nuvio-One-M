@@ -16,6 +16,7 @@ import coil3.svg.SvgDecoder
 import com.nuvio.app.core.network.DnsPlatform
 import com.nuvio.app.core.network.SharedOkHttpClient
 import com.nuvio.app.core.poster.CustomPosterFallbackInterceptor
+import com.nuvio.app.features.servers.plex.PlexArtworkInterceptor
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.okhttp.OkHttp
 
@@ -137,6 +138,7 @@ class NuvioApplication : Application(), SingletonImageLoader.Factory {
             .memoryCachePolicy(CachePolicy.ENABLED)
             .components {
                 add(CustomPosterFallbackInterceptor())
+                add(PlexArtworkInterceptor())
                 add(SvgDecoder.Factory())
                 add(
                     KtorNetworkFetcherFactory(
