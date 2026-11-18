@@ -862,7 +862,7 @@ private fun IconTab(icon: ImageVector, label: String, selected: Boolean, onClick
             .background(if (selected) Accent else Color.Transparent)
             .border(1.dp, if (selected) Accent else MaterialTheme.colorScheme.outlineVariant, shape)
             .clickable(onClick = onClick)
-            .padding(horizontal = if (wide) 12.dp else 7.dp, vertical = 8.dp),
+            .padding(horizontal = if (wide) 14.dp else 16.dp, vertical = if (wide) 8.dp else 10.dp),
         contentAlignment = Alignment.Center,
     ) {
         Icon(
