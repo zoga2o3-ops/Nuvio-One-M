@@ -30,6 +30,12 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.List
+import androidx.compose.material.icons.filled.CalendarMonth
+import androidx.compose.material.icons.filled.FiberManualRecord
+import androidx.compose.material.icons.filled.LiveTv
+import androidx.compose.material.icons.filled.PlayCircleOutline
+import androidx.compose.material.icons.filled.SportsSoccer
 import androidx.compose.material.icons.filled.GridView
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Star
@@ -57,6 +63,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
@@ -389,12 +396,13 @@ fun LiveTvScreen(modifier: Modifier, onPlay: (LiveTvPlayRequest) -> Unit) {
                             Modifier.horizontalScroll(androidx.compose.foundation.rememberScrollState()),
                             horizontalArrangement = Arrangement.spacedBy(8.dp),
                         ) {
-                            TabChip(stringResource(Res.string.live_tv_section_channels), !showGuide && !showRecordings && !showOnDemand && !showSports && !showCalendar) { showGuide = false; showRecordings = false; showOnDemand = false; showSports = false; showCalendar = false }
-                            TabChip(stringResource(Res.string.live_tv_ui_guide), showGuide) { showGuide = true; showRecordings = false; showOnDemand = false; showSports = false; showCalendar = false }
-                            TabChip(stringResource(Res.string.library_calendar_title), showCalendar) { showCalendar = true; showGuide = false; showRecordings = false; showOnDemand = false; showSports = false }
-                            TabChip(stringResource(Res.string.yt_tab_sports), showSports) { showSports = true; showGuide = false; showRecordings = false; showOnDemand = false; showCalendar = false }
-                            TabChip(stringResource(Res.string.live_tv_ui_on_demand), showOnDemand) { showOnDemand = true; showGuide = false; showRecordings = false; showSports = false; showCalendar = false }
-                            TabChip(
+                            IconTab(Icons.Default.LiveTv, stringResource(Res.string.live_tv_section_channels), !showGuide && !showRecordings && !showOnDemand && !showSports && !showCalendar) { showGuide = false; showRecordings = false; showOnDemand = false; showSports = false; showCalendar = false }
+                            IconTab(Icons.AutoMirrored.Filled.List, stringResource(Res.string.live_tv_ui_guide), showGuide) { showGuide = true; showRecordings = false; showOnDemand = false; showSports = false; showCalendar = false }
+                            IconTab(Icons.Default.CalendarMonth, stringResource(Res.string.library_calendar_title), showCalendar) { showCalendar = true; showGuide = false; showRecordings = false; showOnDemand = false; showSports = false }
+                            IconTab(Icons.Default.SportsSoccer, stringResource(Res.string.yt_tab_sports), showSports) { showSports = true; showGuide = false; showRecordings = false; showOnDemand = false; showCalendar = false }
+                            IconTab(Icons.Default.PlayCircleOutline, stringResource(Res.string.live_tv_ui_on_demand), showOnDemand) { showOnDemand = true; showGuide = false; showRecordings = false; showSports = false; showCalendar = false }
+                            IconTab(
+                                Icons.Default.FiberManualRecord,
                                 if (recordings.any { it.isRecording }) stringResource(Res.string.live_tv_ui_u25cf_recordings) else stringResource(Res.string.live_tv_ui_recordings),
                                 showRecordings,
                             ) { showRecordings = true; showGuide = false; showOnDemand = false; showSports = false; showCalendar = false }
@@ -819,19 +827,25 @@ private fun GroupChip(label: String, selected: Boolean, onLongClick: (() -> Unit
     }
 }
 
-/** The page tabs (Channels, Guide, Calendar...): red, filled when it's the page you're on. */
+/** The page tabs (Channels, Guide, Calendar...): icon-only, red when it's the page you're on. */
 @Composable
-private fun TabChip(label: String, selected: Boolean, onClick: () -> Unit) {
-    val shape = RoundedCornerShape(8.dp)
+private fun IconTab(icon: ImageVector, label: String, selected: Boolean, onClick: () -> Unit) {
+    val shape = RoundedCornerShape(10.dp)
     Box(
         Modifier
             .clip(shape)
             .background(if (selected) Accent else Color.Transparent)
-            .border(1.dp, Accent, shape)
-            .combinedClickable(onClick = onClick)
-            .padding(horizontal = 12.dp, vertical = 8.dp),
+            .border(1.dp, if (selected) Accent else MaterialTheme.colorScheme.outlineVariant, shape)
+            .clickable(onClick = onClick)
+            .padding(horizontal = 11.dp, vertical = 9.dp),
+        contentAlignment = Alignment.Center,
     ) {
-        Text(label, maxLines = 1, style = MaterialTheme.typography.labelLarge, color = if (selected) Color.White else Accent)
+        Icon(
+            icon,
+            contentDescription = label,
+            tint = if (selected) Color.White else Accent,
+            modifier = Modifier.size(18.dp),
+        )
     }
 }
 
