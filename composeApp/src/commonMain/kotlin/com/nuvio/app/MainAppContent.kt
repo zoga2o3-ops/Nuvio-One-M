@@ -319,8 +319,13 @@ internal fun MainAppContent(
             warmLibraryReleaseSchedule(libraryUiState.items)
         }
         // Live TV is plugged in by the Android app (see LiveTvHost).
-        val showLiveTvInNavigation = com.nuvio.app.features.livetv.LiveTvHost.available
-        val showMusicInNavigation = com.nuvio.app.features.music.MusicHost.available
+        val sectionVisibility = rememberSectionVisibility()
+        val showLiveTvInNavigation =
+            com.nuvio.app.features.livetv.LiveTvHost.available && sectionVisibility.liveTv
+        val showMusicInNavigation =
+            com.nuvio.app.features.music.MusicHost.available && sectionVisibility.music
+        val showYouTubeInNavigation =
+            com.nuvio.app.features.youtube.YouTubeHost.available && sectionVisibility.youtube
         val authState by AuthRepository.state.collectAsStateWithLifecycle()
         val openPosterActions: (PosterActionTarget) -> Unit = { target ->
             hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
@@ -429,7 +434,8 @@ internal fun MainAppContent(
     fun activateTab(tab: AppScreenTab) {
         val destination = if (
             (tab == AppScreenTab.LiveTv && !showLiveTvInNavigation) ||
-            (tab == AppScreenTab.Music && !showMusicInNavigation)
+            (tab == AppScreenTab.Music && !showMusicInNavigation) ||
+            (tab == AppScreenTab.YouTube && !showYouTubeInNavigation)
         ) {
             AppScreenTab.Home
         } else {
@@ -470,10 +476,11 @@ internal fun MainAppContent(
         }
     }
 
-    LaunchedEffect(showLiveTvInNavigation, showMusicInNavigation, selectedTab) {
+    LaunchedEffect(showLiveTvInNavigation, showMusicInNavigation, showYouTubeInNavigation, selectedTab) {
         if (
             (!showLiveTvInNavigation && selectedTab == AppScreenTab.LiveTv) ||
-            (!showMusicInNavigation && selectedTab == AppScreenTab.Music)
+            (!showMusicInNavigation && selectedTab == AppScreenTab.Music) ||
+            (!showYouTubeInNavigation && selectedTab == AppScreenTab.YouTube)
         ) {
             activateTab(AppScreenTab.Home)
         }
@@ -489,12 +496,14 @@ internal fun MainAppContent(
         selectedTab,
         showLiveTvInNavigation,
         showMusicInNavigation,
+        showYouTubeInNavigation,
     ) {
         NativeTabBridge.requestedTabs.collectLatest { requestedTab ->
             val requestedAppTab = requestedTab.toAppScreenTab()
             if (
                 (requestedAppTab == AppScreenTab.LiveTv && !showLiveTvInNavigation) ||
-                (requestedAppTab == AppScreenTab.Music && !showMusicInNavigation)
+                (requestedAppTab == AppScreenTab.Music && !showMusicInNavigation) ||
+                (requestedAppTab == AppScreenTab.YouTube && !showYouTubeInNavigation)
             ) {
                 return@collectLatest
             }

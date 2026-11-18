@@ -4006,4 +4006,8 @@
     <string name="live_tv_ui_tables">Tablice</string>
     <string name="live_tv_ui_team">Momčad</string>
     <string name="live_tv_ui_on_channel">Na %1$s</string>
+    <string name="settings_sections_title">Glavne sekcije</string>
+    <string name="settings_section_music_description">Prikaži karticu Glazba</string>
+    <string name="settings_section_youtube_description">Prikaži karticu OneTube</string>
+    <string name="settings_section_live_tv_description">Prikaži karticu Live TV</string>
 </resources>

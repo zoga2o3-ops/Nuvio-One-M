@@ -18,6 +18,9 @@ actual object ThemeSettingsStorage {
     private const val selectedAppLanguageKey = "selected_app_language"
     private const val navBarStyleKey = "nav_bar_style"
     private const val navBarGlowEnabledKey = "nav_bar_glow_enabled"
+    private const val musicTabEnabledKey = "music_tab_enabled"
+    private const val youtubeTabEnabledKey = "youtube_tab_enabled"
+    private const val liveTvTabEnabledKey = "live_tv_tab_enabled"
     private val profileScopedSyncKeys = listOf(
         selectedThemeKey,
         customThemeColorsKey,
@@ -113,6 +116,36 @@ actual object ThemeSettingsStorage {
             forKey = "AppleLanguages",
         )
         NSUserDefaults.standardUserDefaults.synchronize()
+    }
+
+    actual fun loadMusicTabEnabled(): Boolean? {
+        val defaults = NSUserDefaults.standardUserDefaults
+        val key = ProfileScopedKey.of(musicTabEnabledKey)
+        return if (defaults.objectForKey(key) != null) defaults.boolForKey(key) else null
+    }
+
+    actual fun saveMusicTabEnabled(enabled: Boolean) {
+        NSUserDefaults.standardUserDefaults.setBool(enabled, forKey = ProfileScopedKey.of(musicTabEnabledKey))
+    }
+
+    actual fun loadYouTubeTabEnabled(): Boolean? {
+        val defaults = NSUserDefaults.standardUserDefaults
+        val key = ProfileScopedKey.of(youtubeTabEnabledKey)
+        return if (defaults.objectForKey(key) != null) defaults.boolForKey(key) else null
+    }
+
+    actual fun saveYouTubeTabEnabled(enabled: Boolean) {
+        NSUserDefaults.standardUserDefaults.setBool(enabled, forKey = ProfileScopedKey.of(youtubeTabEnabledKey))
+    }
+
+    actual fun loadLiveTvTabEnabled(): Boolean? {
+        val defaults = NSUserDefaults.standardUserDefaults
+        val key = ProfileScopedKey.of(liveTvTabEnabledKey)
+        return if (defaults.objectForKey(key) != null) defaults.boolForKey(key) else null
+    }
+
+    actual fun saveLiveTvTabEnabled(enabled: Boolean) {
+        NSUserDefaults.standardUserDefaults.setBool(enabled, forKey = ProfileScopedKey.of(liveTvTabEnabledKey))
     }
 
     actual fun loadNavBarStyle(): String? =

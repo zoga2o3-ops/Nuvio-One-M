@@ -3953,4 +3953,8 @@
     <string name="live_tv_ui_tables">Tabele</string>
     <string name="live_tv_ui_team">Drużyna</string>
     <string name="live_tv_ui_on_channel">Na %1$s</string>
+    <string name="settings_sections_title">Główne sekcje</string>
+    <string name="settings_section_music_description">Pokaż kartę Muzyka</string>
+    <string name="settings_section_youtube_description">Pokaż kartę OneTube</string>
+    <string name="settings_section_live_tv_description">Pokaż kartę Live TV</string>
 </resources>

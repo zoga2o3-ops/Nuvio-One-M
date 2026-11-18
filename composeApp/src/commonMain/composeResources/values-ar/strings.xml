@@ -3985,4 +3985,8 @@
     <string name="live_tv_ui_tables">الجداول</string>
     <string name="live_tv_ui_team">الفريق</string>
     <string name="live_tv_ui_on_channel">على %1$s</string>
+    <string name="settings_sections_title">الأقسام الرئيسية</string>
+    <string name="settings_section_music_description">إظهار علامة تبويب الموسيقى</string>
+    <string name="settings_section_youtube_description">إظهار علامة تبويب OneTube</string>
+    <string name="settings_section_live_tv_description">إظهار علامة تبويب Live TV</string>
 </resources>

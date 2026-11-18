@@ -35,6 +35,9 @@ actual object ThemeSettingsStorage {
     private const val navBarDefaultIconColorKey = "enhanced_local_nav_bar_default_icon_color"
     private const val navBarLiquidGlassBarEffectsKey = "enhanced_local_nav_bar_liquid_glass_bar_effects"
     private const val navBarLiquidGlassSelectionEffectsKey = "enhanced_local_nav_bar_liquid_glass_selection_effects"
+    private const val musicTabEnabledKey = "music_tab_enabled"
+    private const val youtubeTabEnabledKey = "youtube_tab_enabled"
+    private const val liveTvTabEnabledKey = "live_tv_tab_enabled"
     private val profileScopedSyncKeys = listOf(
         selectedThemeKey,
         customThemeColorsKey,
@@ -238,6 +241,45 @@ actual object ThemeSettingsStorage {
         preferences
             ?.edit()
             ?.putBoolean(ProfileScopedKey.of(localLiquidGlassEffectsKey), enabled)
+            ?.apply()
+    }
+
+    actual fun loadMusicTabEnabled(): Boolean? =
+        preferences?.let { prefs ->
+            val key = ProfileScopedKey.of(musicTabEnabledKey)
+            if (prefs.contains(key)) prefs.getBoolean(key, true) else null
+        }
+
+    actual fun saveMusicTabEnabled(enabled: Boolean) {
+        preferences
+            ?.edit()
+            ?.putBoolean(ProfileScopedKey.of(musicTabEnabledKey), enabled)
+            ?.apply()
+    }
+
+    actual fun loadYouTubeTabEnabled(): Boolean? =
+        preferences?.let { prefs ->
+            val key = ProfileScopedKey.of(youtubeTabEnabledKey)
+            if (prefs.contains(key)) prefs.getBoolean(key, true) else null
+        }
+
+    actual fun saveYouTubeTabEnabled(enabled: Boolean) {
+        preferences
+            ?.edit()
+            ?.putBoolean(ProfileScopedKey.of(youtubeTabEnabledKey), enabled)
+            ?.apply()
+    }
+
+    actual fun loadLiveTvTabEnabled(): Boolean? =
+        preferences?.let { prefs ->
+            val key = ProfileScopedKey.of(liveTvTabEnabledKey)
+            if (prefs.contains(key)) prefs.getBoolean(key, true) else null
+        }
+
+    actual fun saveLiveTvTabEnabled(enabled: Boolean) {
+        preferences
+            ?.edit()
+            ?.putBoolean(ProfileScopedKey.of(liveTvTabEnabledKey), enabled)
             ?.apply()
     }
 

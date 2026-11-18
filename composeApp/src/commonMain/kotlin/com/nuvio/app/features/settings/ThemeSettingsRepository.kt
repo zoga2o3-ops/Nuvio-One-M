@@ -91,6 +91,15 @@ object ThemeSettingsRepository {
     private val _liquidGlassEffectsEnabled = MutableStateFlow(true)
     val liquidGlassEffectsEnabled: StateFlow<Boolean> = _liquidGlassEffectsEnabled.asStateFlow()
 
+    private val _musicTabEnabled = MutableStateFlow(true)
+    val musicTabEnabled: StateFlow<Boolean> = _musicTabEnabled.asStateFlow()
+
+    private val _youtubeTabEnabled = MutableStateFlow(true)
+    val youtubeTabEnabled: StateFlow<Boolean> = _youtubeTabEnabled.asStateFlow()
+
+    private val _liveTvTabEnabled = MutableStateFlow(true)
+    val liveTvTabEnabled: StateFlow<Boolean> = _liveTvTabEnabled.asStateFlow()
+
     private var hasLoaded = false
     private var observesMembership = false
 
@@ -131,6 +140,9 @@ object ThemeSettingsRepository {
         _navBarStyle.value = NavBarStyle.ADAPTIVE
         _navBarPosition.value = NavBarPosition.BOTTOM
         _navBarGlass.value = LiquidGlassStyle.Default
+        _musicTabEnabled.value = true
+        _youtubeTabEnabled.value = true
+        _liveTvTabEnabled.value = true
         applyLiquidGlassEffectsEnabled(true)
     }
 
@@ -168,6 +180,9 @@ object ThemeSettingsRepository {
         _navBarDefaultIconColorEnabled.value = ThemeSettingsStorage.loadNavBarDefaultIconColorEnabled() ?: false
         _navBarDefaultIconColor.value = ThemeSettingsStorage.loadNavBarDefaultIconColor()
             ?.let(::parseHexColor) ?: DEFAULT_NAV_BAR_ICON_COLOR
+        _musicTabEnabled.value = ThemeSettingsStorage.loadMusicTabEnabled() ?: true
+        _youtubeTabEnabled.value = ThemeSettingsStorage.loadYouTubeTabEnabled() ?: true
+        _liveTvTabEnabled.value = ThemeSettingsStorage.loadLiveTvTabEnabled() ?: true
         navBarDefaultIconColorDraftDirty = false
         _navBarLiquidGlassBarEffects.value = decodeLiquidGlassEffectSettings(
             ThemeSettingsStorage.loadNavBarLiquidGlassBarEffects(),
@@ -264,6 +279,27 @@ object ThemeSettingsRepository {
         if (_navBarPosition.value == position) return
         _navBarPosition.value = position
         ThemeSettingsStorage.saveNavBarPosition(position.key)
+    }
+
+    fun setMusicTabEnabled(enabled: Boolean) {
+        ensureLoaded()
+        if (_musicTabEnabled.value == enabled) return
+        _musicTabEnabled.value = enabled
+        ThemeSettingsStorage.saveMusicTabEnabled(enabled)
+    }
+
+    fun setYouTubeTabEnabled(enabled: Boolean) {
+        ensureLoaded()
+        if (_youtubeTabEnabled.value == enabled) return
+        _youtubeTabEnabled.value = enabled
+        ThemeSettingsStorage.saveYouTubeTabEnabled(enabled)
+    }
+
+    fun setLiveTvTabEnabled(enabled: Boolean) {
+        ensureLoaded()
+        if (_liveTvTabEnabled.value == enabled) return
+        _liveTvTabEnabled.value = enabled
+        ThemeSettingsStorage.saveLiveTvTabEnabled(enabled)
     }
 
     fun setNavBarGlowEnabled(enabled: Boolean) {

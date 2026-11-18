@@ -4011,4 +4011,8 @@
     <string name="live_tv_ui_tables">Tabuľky</string>
     <string name="live_tv_ui_team">Tím</string>
     <string name="live_tv_ui_on_channel">Na %1$s</string>
+    <string name="settings_sections_title">Hlavné sekcie</string>
+    <string name="settings_section_music_description">Zobraziť kartu Hudba</string>
+    <string name="settings_section_youtube_description">Zobraziť kartu OneTube</string>
+    <string name="settings_section_live_tv_description">Zobraziť kartu Live TV</string>
 </resources>

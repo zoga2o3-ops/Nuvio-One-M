@@ -47,6 +47,7 @@ import nuvio.composeapp.generated.resources.Res
 import nuvio.composeapp.generated.resources.action_cancel
 import nuvio.composeapp.generated.resources.action_delete
 import nuvio.composeapp.generated.resources.action_delete_confirm_message
+import nuvio.composeapp.generated.resources.compose_settings_page_root
 import nuvio.composeapp.generated.resources.compose_settings_root_downloads_title
 import nuvio.composeapp.generated.resources.downloads_delete_message
 import nuvio.composeapp.generated.resources.downloads_delete_title

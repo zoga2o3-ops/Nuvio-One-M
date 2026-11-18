@@ -3988,4 +3988,8 @@ Bu özelliği tamamen kendi sorumluluğunuzda kullanırsınız. P2P istediğiniz
     <string name="live_tv_ui_tables">Tablolar</string>
     <string name="live_tv_ui_team">Takım</string>
     <string name="live_tv_ui_on_channel">%1$s üzerinde</string>
+    <string name="settings_sections_title">Ana bölümler</string>
+    <string name="settings_section_music_description">Müzik sekmesini göster</string>
+    <string name="settings_section_youtube_description">OneTube sekmesini göster</string>
+    <string name="settings_section_live_tv_description">Live TV sekmesini göster</string>
 </resources>

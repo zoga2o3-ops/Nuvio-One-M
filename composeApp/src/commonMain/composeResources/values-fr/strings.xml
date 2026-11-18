@@ -4002,4 +4002,8 @@
     <string name="live_tv_ui_tables">Classements</string>
     <string name="live_tv_ui_team">Équipe</string>
     <string name="live_tv_ui_on_channel">Sur %1$s</string>
+    <string name="settings_sections_title">Sections principales</string>
+    <string name="settings_section_music_description">Afficher l’onglet Musique</string>
+    <string name="settings_section_youtube_description">Afficher l’onglet OneTube</string>
+    <string name="settings_section_live_tv_description">Afficher l’onglet Live TV</string>
 </resources>

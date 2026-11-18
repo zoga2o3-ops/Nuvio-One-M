@@ -3951,4 +3951,8 @@ Du bruker denne funksjonen helt på eget ansvar. P2P kan deaktiveres når som he
     <string name="live_tv_ui_tables">Tabeller</string>
     <string name="live_tv_ui_team">Lag</string>
     <string name="live_tv_ui_on_channel">På %1$s</string>
+    <string name="settings_sections_title">Hovedseksjoner</string>
+    <string name="settings_section_music_description">Vis Musikk-fanen</string>
+    <string name="settings_section_youtube_description">Vis OneTube-fanen</string>
+    <string name="settings_section_live_tv_description">Vis Live TV-fanen</string>
 </resources>

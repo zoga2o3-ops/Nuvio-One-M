@@ -301,6 +301,7 @@ internal fun TabletFloatingTopBar(
 ) {
     val tokens = MaterialTheme.nuvio
     val statusBarPadding = topInset ?: (WindowInsets.statusBars.asPaddingValues().calculateTopPadding() + NuvioTokens.Space.s10)
+    val sections = rememberSectionVisibility()
 
     Box(
         modifier = modifier
@@ -370,7 +371,7 @@ internal fun TabletFloatingTopBar(
                         )
                     },
                 )
-                if (com.nuvio.app.features.music.MusicHost.available) {
+                if (com.nuvio.app.features.music.MusicHost.available && sections.music) {
                     TabletTopPillItem(
                         label = "Music",
                         selected = selectedTab == AppScreenTab.Music,
@@ -389,7 +390,7 @@ internal fun TabletFloatingTopBar(
                         },
                     )
                 }
-                if (com.nuvio.app.features.youtube.YouTubeHost.available) {
+                if (com.nuvio.app.features.youtube.YouTubeHost.available && sections.youtube) {
                     TabletTopPillItem(
                         label = "OneTube",
                         selected = selectedTab == AppScreenTab.YouTube,
@@ -408,7 +409,7 @@ internal fun TabletFloatingTopBar(
                         },
                     )
                 }
-                if (showLiveTv) {
+                if (showLiveTv && sections.liveTv) {
                     TabletTopPillItem(
                         label = stringResource(Res.string.compose_nav_live_tv),
                         selected = selectedTab == AppScreenTab.LiveTv,

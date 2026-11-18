@@ -37,9 +37,11 @@ import nuvio.composeapp.generated.resources.Res
 import nuvio.composeapp.generated.resources.collections_header
 import nuvio.composeapp.generated.resources.compose_settings_page_continue_watching
 import nuvio.composeapp.generated.resources.compose_settings_page_homescreen
+import nuvio.composeapp.generated.resources.compose_settings_page_live_tv
 import nuvio.composeapp.generated.resources.compose_settings_page_meta_screen
 import nuvio.composeapp.generated.resources.compose_settings_page_poster_customization
 import nuvio.composeapp.generated.resources.compose_settings_page_streams
+import nuvio.composeapp.generated.resources.compose_settings_page_youtube
 import nuvio.composeapp.generated.resources.compose_settings_root_streams_description
 import nuvio.composeapp.generated.resources.settings_appearance_continue_watching_description
 import nuvio.composeapp.generated.resources.settings_appearance_nav_bar_style
@@ -53,6 +55,11 @@ import nuvio.composeapp.generated.resources.settings_content_discovery_meta_scre
 import nuvio.composeapp.generated.resources.settings_nav_bar_glow_off
 import nuvio.composeapp.generated.resources.settings_nav_bar_glow_on
 import nuvio.composeapp.generated.resources.settings_nav_bar_summary
+import nuvio.composeapp.generated.resources.settings_section_live_tv_description
+import nuvio.composeapp.generated.resources.settings_section_music_description
+import nuvio.composeapp.generated.resources.settings_section_youtube_description
+import nuvio.composeapp.generated.resources.settings_sections_title
+import nuvio.composeapp.generated.resources.yt_tab_music
 import org.jetbrains.compose.resources.stringResource
 
 internal fun LazyListScope.layoutSettingsContent(
@@ -213,6 +220,41 @@ internal fun LazyListScope.layoutSettingsContent(
                     onSelectionLensEffectsChanged = ThemeSettingsRepository::updateNavBarLiquidGlassSelectionEffects,
                     onSaveLiquidGlassEffectSettings = ThemeSettingsRepository::saveNavBarLiquidGlassEffectSettings,
                     onDismiss = { showNavBarStyleSheet = false },
+                )
+            }
+        }
+    }
+    item {
+        val musicEnabled by ThemeSettingsRepository.musicTabEnabled.collectAsStateWithLifecycle()
+        val youtubeEnabled by ThemeSettingsRepository.youtubeTabEnabled.collectAsStateWithLifecycle()
+        val liveTvEnabled by ThemeSettingsRepository.liveTvTabEnabled.collectAsStateWithLifecycle()
+        SettingsSection(
+            title = stringResource(Res.string.settings_sections_title),
+            isTablet = isTablet,
+        ) {
+            SettingsGroup(isTablet = isTablet) {
+                SettingsSwitchRow(
+                    title = stringResource(Res.string.yt_tab_music),
+                    description = stringResource(Res.string.settings_section_music_description),
+                    checked = musicEnabled,
+                    isTablet = isTablet,
+                    onCheckedChange = ThemeSettingsRepository::setMusicTabEnabled,
+                )
+                SettingsGroupDivider(isTablet = isTablet)
+                SettingsSwitchRow(
+                    title = stringResource(Res.string.compose_settings_page_youtube),
+                    description = stringResource(Res.string.settings_section_youtube_description),
+                    checked = youtubeEnabled,
+                    isTablet = isTablet,
+                    onCheckedChange = ThemeSettingsRepository::setYouTubeTabEnabled,
+                )
+                SettingsGroupDivider(isTablet = isTablet)
+                SettingsSwitchRow(
+                    title = stringResource(Res.string.compose_settings_page_live_tv),
+                    description = stringResource(Res.string.settings_section_live_tv_description),
+                    checked = liveTvEnabled,
+                    isTablet = isTablet,
+                    onCheckedChange = ThemeSettingsRepository::setLiveTvTabEnabled,
                 )
             }
         }

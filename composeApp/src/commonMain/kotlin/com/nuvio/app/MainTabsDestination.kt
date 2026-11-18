@@ -103,6 +103,7 @@ internal fun MainTabsDestination(
         } else {
             liquidGlassNativeTabBarSupported && liquidGlassNativeTabBarEnabled && initialHomeReady
         }
+        val sections = rememberSectionVisibility()
         val tabsRouteActive = rootRouteActive
         val navBarScrollState = rememberNuvioNavBarScrollState()
         val navBarStyleSetting by remember { ThemeSettingsRepository.navBarStyle }.collectAsStateWithLifecycle()
@@ -189,17 +190,19 @@ internal fun MainTabsDestination(
                     val navLabelHeight = if (isTabletLayout) 4.dp else 16.dp
                     val pillBottom = floatingNavigationBarPadding().calculateBottomPadding() +
                         48.dp + navLabelHeight * navLabelFraction + 8.dp
-                    MusicHost.nowPlayingPill?.invoke(
-                        Modifier
-                            .align(Alignment.BottomCenter)
-                            .padding(start = 16.dp, end = 16.dp, bottom = pillBottom)
-                            .widthIn(max = 520.dp)
-                            .fillMaxWidth(),
-                        {
-                            onTabSelected(AppScreenTab.Music)
-                            MusicHost.openNowPlayingRequest++
-                        }
-                    )
+                    if (sections.music) {
+                        MusicHost.nowPlayingPill?.invoke(
+                            Modifier
+                                .align(Alignment.BottomCenter)
+                                .padding(start = 16.dp, end = 16.dp, bottom = pillBottom)
+                                .widthIn(max = 520.dp)
+                                .fillMaxWidth(),
+                            {
+                                onTabSelected(AppScreenTab.Music)
+                                MusicHost.openNowPlayingRequest++
+                            }
+                        )
+                    }
                 }
 
                 // CLASSIC keeps the previous per-form-factor chrome: a top rail on
@@ -288,7 +291,9 @@ internal fun mainFloatingNavigationItems(
     onAddProfileRequested: () -> Unit,
     backdrop: Backdrop?,
     defaultIconColorOverride: Color? = null,
-): List<FloatingNavigationItem> = buildList {
+): List<FloatingNavigationItem> {
+    val sections = rememberSectionVisibility()
+    return buildList {
     add(
         FloatingNavigationItem(
             selected = highlightedTab == AppScreenTab.Home,
@@ -313,7 +318,7 @@ internal fun mainFloatingNavigationItems(
             label = stringResource(Res.string.compose_nav_library),
         ),
     )
-    if (com.nuvio.app.features.youtube.YouTubeHost.available) {
+    if (com.nuvio.app.features.youtube.YouTubeHost.available && sections.youtube) {
         add(
             FloatingNavigationItem(
                 selected = highlightedTab == AppScreenTab.YouTube,
@@ -323,7 +328,7 @@ internal fun mainFloatingNavigationItems(
             ),
         )
     }
-    if (com.nuvio.app.features.music.MusicHost.available) {
+    if (com.nuvio.app.features.music.MusicHost.available && sections.music) {
         add(
             FloatingNavigationItem(
                 selected = highlightedTab == AppScreenTab.Music,
@@ -333,7 +338,7 @@ internal fun mainFloatingNavigationItems(
             ),
         )
     }
-    if (showLiveTv) {
+    if (showLiveTv && sections.liveTv) {
         add(
             FloatingNavigationItem(
                 selected = highlightedTab == AppScreenTab.LiveTv,
@@ -361,6 +366,7 @@ internal fun mainFloatingNavigationItems(
             },
         ),
     )
+    }
 }
 
 @Composable
@@ -372,6 +378,7 @@ internal fun MainClassicNavigationBar(
     onAddProfileRequested: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val sections = rememberSectionVisibility()
     NuvioClassicNavigationBar(modifier) {
         NavItem(
             selected = highlightedTab == AppScreenTab.Home,
@@ -391,7 +398,7 @@ internal fun MainClassicNavigationBar(
             icon = Res.drawable.sidebar_library,
             contentDescription = stringResource(Res.string.compose_nav_library),
         )
-        if (com.nuvio.app.features.youtube.YouTubeHost.available) {
+        if (com.nuvio.app.features.youtube.YouTubeHost.available && sections.youtube) {
             NavItem(
                 selected = highlightedTab == AppScreenTab.YouTube,
                 onClick = { onTabSelected(AppScreenTab.YouTube) },
@@ -399,7 +406,7 @@ internal fun MainClassicNavigationBar(
                 contentDescription = "OneTube",
             )
         }
-        if (com.nuvio.app.features.music.MusicHost.available) {
+        if (com.nuvio.app.features.music.MusicHost.available && sections.music) {
             NavItem(
                 selected = highlightedTab == AppScreenTab.Music,
                 onClick = { onTabSelected(AppScreenTab.Music) },
@@ -407,7 +414,7 @@ internal fun MainClassicNavigationBar(
                 contentDescription = "Music",
             )
         }
-        if (showLiveTv) {
+        if (showLiveTv && sections.liveTv) {
             NavItem(
                 selected = highlightedTab == AppScreenTab.LiveTv,
                 onClick = { onTabSelected(AppScreenTab.LiveTv) },

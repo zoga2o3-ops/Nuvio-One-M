@@ -3968,4 +3968,8 @@
     <string name="live_tv_ui_tables">Tablas</string>
     <string name="live_tv_ui_team">Equipo</string>
     <string name="live_tv_ui_on_channel">En %1$s</string>
+    <string name="settings_sections_title">Secciones principales</string>
+    <string name="settings_section_music_description">Mostrar la pestaña Música</string>
+    <string name="settings_section_youtube_description">Mostrar la pestaña OneTube</string>
+    <string name="settings_section_live_tv_description">Mostrar la pestaña Live TV</string>
 </resources>

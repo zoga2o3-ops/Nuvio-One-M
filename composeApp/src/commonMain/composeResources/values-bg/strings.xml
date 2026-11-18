@@ -3999,4 +3999,8 @@
     <string name="live_tv_ui_tables">Таблици</string>
     <string name="live_tv_ui_team">Отбор</string>
     <string name="live_tv_ui_on_channel">По %1$s</string>
+    <string name="settings_sections_title">Основни раздели</string>
+    <string name="settings_section_music_description">Показване на раздела Музика</string>
+    <string name="settings_section_youtube_description">Показване на раздела OneTube</string>
+    <string name="settings_section_live_tv_description">Показване на раздела Live TV</string>
 </resources>
