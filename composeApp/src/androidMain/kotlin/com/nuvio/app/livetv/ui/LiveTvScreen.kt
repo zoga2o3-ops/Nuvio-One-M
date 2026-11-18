@@ -804,6 +804,7 @@ private fun Header(
             shape = RoundedCornerShape(12.dp), colors = fieldColors())
     }
     Column(Modifier.padding(16.dp, 12.dp, 16.dp, 8.dp)) {
+        val compact = LocalConfiguration.current.screenWidthDp < 600
         Box(Modifier.fillMaxWidth()) {
             Row(
                 Modifier.fillMaxWidth(),
@@ -823,8 +824,11 @@ private fun Header(
                 }
                 TextButton(onClick = onPlaylists, contentPadding = PaddingValues(horizontal = 6.dp)) { Text(playlistName ?: stringResource(Res.string.live_tv_ui_playlists), maxLines = 1, overflow = TextOverflow.Ellipsis, style = MaterialTheme.typography.labelLarge) }
             }
-            // Centred on the screen, not just in the gap beside the title.
-            Box(Modifier.align(Alignment.Center)) { tabs() }
+            // On a phone the icons get their own centred row; a wide screen has room in the top row.
+            if (!compact) Box(Modifier.align(Alignment.Center)) { tabs() }
+        }
+        if (compact) {
+            Box(Modifier.fillMaxWidth().padding(top = 6.dp), contentAlignment = Alignment.Center) { tabs() }
         }
         if (searchOpen) search(Modifier.fillMaxWidth().padding(top = 6.dp))
     }
