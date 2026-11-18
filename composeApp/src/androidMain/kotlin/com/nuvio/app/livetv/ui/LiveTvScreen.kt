@@ -302,6 +302,42 @@ fun LiveTvScreen(modifier: Modifier, onPlay: (LiveTvPlayRequest) -> Unit) {
                     use24Hour = settings.use24HourClock,
                     onWatch = { pick -> vm.recordWatched(pick.key); playLive(onPlay, pick.toRequest(programs[pick.key], now)) },
                 )
+                Row(
+                    Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp, top = 12.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(6.dp),
+                ) {
+                    Text("Channels", style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.primary)
+                    Text("${shown.size}", style = MaterialTheme.typography.labelSmall, color = LocalContentColor.current.copy(alpha = 0.6f))
+                    Spacer(Modifier.weight(1f))
+                    if (user.hiddenChannels.isNotEmpty() || user.hiddenGroups.isNotEmpty()) {
+                        GroupChip(stringResource(Res.string.settings_homescreen_hidden), false) { showHidden = true }
+                    }
+                    GroupChip(if (settings.channelGrid) "\u2630" else "\u25A6", false) {
+                        vm.updateSettings { it.copy(channelGrid = !it.channelGrid) }
+                    }
+                    GroupChip("+", false) { newGroup = null; askNewGroup = true }
+                }
+                LazyRow(
+                    contentPadding = PaddingValues(horizontal = 16.dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    modifier = Modifier.padding(bottom = 8.dp),
+                ) {
+                    fun pick(id: String) { group = id; vm.setLastGroup(id) }
+                    if (settings.showAllChannelsGroup) item { GroupChip(stringResource(Res.string.collections_tab_all), group == ChannelGroup.ALL) { pick(ChannelGroup.ALL) } }
+                    if (favorites.isNotEmpty() && settings.showFavoritesGroup) item { GroupChip(stringResource(Res.string.live_tv_filter_favorites), group == ChannelGroup.FAVORITES) { pick(ChannelGroup.FAVORITES) } }
+                    if (user.recent.isNotEmpty() && settings.showRecentGroup) item { GroupChip(stringResource(Res.string.collections_editor_tmdb_sort_recent), group == ChannelGroup.RECENT) { pick(ChannelGroup.RECENT) } }
+                    items(chips, key = { it.id }) { g ->
+                        val locked = isLockedGroup(g.id, g.title) && g.id !in unlocked
+                        GroupChip(
+                            (if (locked) "\uD83D\uDD12 " else "") + g.title + if (settings.showGroupCounts && !locked) "  ${g.count}" else "",
+                            group == g.id,
+                            onLongClick = { actionGroup = g },
+                        ) {
+                            if (locked) askPinFor = g.id else pick(g.id)
+                        }
+                    }
+                }
             }
         }
     }
@@ -372,40 +408,10 @@ fun LiveTvScreen(modifier: Modifier, onPlay: (LiveTvPlayRequest) -> Unit) {
                     onQuery = { query = it },
                     onPlaylists = { showPlaylistPicker = true },
                     playlistName = sourceFilter?.let { id -> playlists.firstOrNull { it.id == id }?.name },
-                    hasHidden = user.hiddenChannels.isNotEmpty() || user.hiddenGroups.isNotEmpty(),
-                    onHidden = { showHidden = true },
-                    showViewControls = playlists.isNotEmpty() && !showRecordings && !showOnDemand && !showSports && !showCalendar,
-                    grid = settings.channelGrid,
-                    onToggleGrid = { vm.updateSettings { it.copy(channelGrid = !it.channelGrid) } },
-                    onAddGroup = { newGroup = null; askNewGroup = true },
-                    lastChannel = lastChannel?.name,
-                    onLast = {
-                        lastChannel?.let { c -> vm.recordWatched(c.key); playLive(onPlay, c.toRequest(programs[c.key], now)) }
-                    },
                 )
                 if (playlists.isEmpty()) {
                     EmptyState(onAdd = { showAdd = true })
                 } else {
-                    if (!showRecordings && !showOnDemand && !showSports && !showCalendar) LazyRow(
-                        contentPadding = PaddingValues(horizontal = 16.dp),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        modifier = Modifier.padding(bottom = 8.dp),
-                    ) {
-                        fun pick(id: String) { group = id; vm.setLastGroup(id) }
-                        if (settings.showAllChannelsGroup) item { GroupChip(stringResource(Res.string.collections_tab_all), group == ChannelGroup.ALL) { pick(ChannelGroup.ALL) } }
-                        if (favorites.isNotEmpty() && settings.showFavoritesGroup) item { GroupChip(stringResource(Res.string.live_tv_filter_favorites), group == ChannelGroup.FAVORITES) { pick(ChannelGroup.FAVORITES) } }
-                        if (user.recent.isNotEmpty() && settings.showRecentGroup) item { GroupChip(stringResource(Res.string.collections_editor_tmdb_sort_recent), group == ChannelGroup.RECENT) { pick(ChannelGroup.RECENT) } }
-                        items(chips, key = { it.id }) { g ->
-                            val locked = isLockedGroup(g.id, g.title) && g.id !in unlocked
-                            GroupChip(
-                                (if (locked) "\uD83D\uDD12 " else "") + g.title + if (settings.showGroupCounts && !locked) "  ${g.count}" else "",
-                                group == g.id,
-                                onLongClick = { actionGroup = g },
-                            ) {
-                                if (locked) askPinFor = g.id else pick(g.id)
-                            }
-                        }
-                    }
                     StatusLine(status)
                     if (showCalendar) {
                         CalendarPage(calendar = vm.calendar, use24Hour = settings.use24HourClock, now = now, onPlay = { r -> onPlay(r) })
@@ -766,24 +772,8 @@ private fun Header(
     onQuery: (String) -> Unit,
     onPlaylists: () -> Unit,
     playlistName: String? = null,
-    hasHidden: Boolean,
-    onHidden: () -> Unit,
-    lastChannel: String?,
-    onLast: () -> Unit,
-    showViewControls: Boolean = false,
-    grid: Boolean = false,
-    onToggleGrid: () -> Unit = {},
-    onAddGroup: () -> Unit = {},
 ) {
     var searchOpen by remember { mutableStateOf(false) }
-    val viewControls: @Composable () -> Unit = {
-        if (showViewControls) {
-            Row(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalAlignment = Alignment.CenterVertically) {
-                GroupChip(if (grid) (if (compact) "\u2630" else stringResource(Res.string.live_tv_ui_u2630_list)) else (if (compact) "\u25A6" else stringResource(Res.string.live_tv_ui_u25a6_grid)), false, onClick = onToggleGrid)
-                GroupChip(if (compact) "+" else "+ Group", false, onClick = onAddGroup)
-            }
-        }
-    }
     val search: @Composable (Modifier) -> Unit = { m ->
         OutlinedTextField(
             value = query, onValueChange = onQuery, singleLine = true,
@@ -796,12 +786,7 @@ private fun Header(
             if (!compact) {
                 Box(Modifier.weight(1f)) { tabs() }
             }
-            viewControls()
             if (compact) Spacer(Modifier.weight(1f))
-            if (lastChannel != null) TextButton(onClick = onLast) {
-                Text(if (compact) stringResource(Res.string.live_tv_ui_last) else "Last: $lastChannel", maxLines = 1)
-            }
-            if (hasHidden) TextButton(onClick = onHidden) { Text(stringResource(Res.string.settings_homescreen_hidden)) }
             IconButton(onClick = {
                 searchOpen = !searchOpen
                 if (!searchOpen) onQuery("")
