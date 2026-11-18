@@ -13,9 +13,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -41,7 +38,6 @@ import java.util.Date
 import java.util.Locale
 import nuvio.composeapp.generated.resources.Res
 import nuvio.composeapp.generated.resources.live_tv_ui_watch
-import nuvio.composeapp.generated.resources.settings_playback_page_up_next
 import org.jetbrains.compose.resources.stringResource
 
 private val HeroBg = Color(0xFF1B1B1F)
@@ -166,79 +162,5 @@ private fun HeroAction(
             .padding(horizontal = 11.dp, vertical = 7.dp),
     ) {
         Text(label, color = Color.White, style = MaterialTheme.typography.labelMedium, maxLines = 1)
-    }
-}
-
-/**
- * A row of the channels coming up after the hero, so there is always a next thing to tap.
- */
-@Composable
-internal fun UpNextRail(
-    channels: List<LiveChannel>,
-    programs: Map<String, List<EpgProgram>>,
-    now: Long,
-    use24Hour: Boolean,
-    onWatch: (LiveChannel) -> Unit,
-) {
-    if (channels.isEmpty()) return
-    val clock = remember(use24Hour) { SimpleDateFormat(if (use24Hour) "HH:mm" else "h:mm a", Locale.getDefault()) }
-    Column {
-        Text(
-            stringResource(Res.string.settings_playback_page_up_next),
-            style = MaterialTheme.typography.titleSmall,
-            color = MaterialTheme.colorScheme.primary,
-            modifier = Modifier.padding(start = 16.dp, top = 10.dp, bottom = 6.dp),
-        )
-        LazyRow(
-            contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 16.dp),
-            horizontalArrangement = Arrangement.spacedBy(9.dp),
-        ) {
-            items(channels, key = { it.key }) { channel ->
-                val program = programs[channel.key]?.firstOrNull { it.isLive(now) }
-                    ?: programs[channel.key]?.firstOrNull { it.startMs > now }
-                Column(
-                    Modifier
-                        .width(150.dp)
-                        .clip(RoundedCornerShape(13.dp))
-                        .background(HeroBg)
-                        .border(1.dp, Color(0x14FFFFFF), RoundedCornerShape(13.dp))
-                        .clickable { onWatch(channel) }
-                        .padding(10.dp),
-                ) {
-                    Box(
-                        Modifier.size(32.dp).clip(RoundedCornerShape(9.dp)).background(Color(0xFF26262B)),
-                        contentAlignment = Alignment.Center,
-                    ) {
-                        if (!channel.logo.isNullOrBlank()) {
-                            AsyncImage(
-                                channel.logo,
-                                contentDescription = null,
-                                contentScale = ContentScale.Fit,
-                                modifier = Modifier.fillMaxSize().padding(4.dp),
-                            )
-                        } else {
-                            Text(channel.name.take(2).uppercase(), style = MaterialTheme.typography.labelSmall, color = Color(0xFFB0B0B0))
-                        }
-                    }
-                    Text(
-                        program?.displayTitle() ?: channel.name,
-                        color = Color.White,
-                        style = MaterialTheme.typography.bodySmall,
-                        fontWeight = FontWeight.Bold,
-                        maxLines = 2,
-                        overflow = TextOverflow.Ellipsis,
-                        modifier = Modifier.padding(top = 7.dp),
-                    )
-                    Text(
-                        if (program != null) channel.name + " · " + clock.format(Date(program.startMs)) else channel.group,
-                        color = Color(0xFF9B9BA7),
-                        style = MaterialTheme.typography.labelSmall,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                        modifier = Modifier.padding(top = 2.dp),
-                    )
-                }
-            }
-        }
     }
 }

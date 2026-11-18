@@ -309,13 +309,6 @@ fun LiveTvScreen(modifier: Modifier, onPlay: (LiveTvPlayRequest) -> Unit) {
                         showCalendar = false
                     },
                 )
-                UpNextRail(
-                    channels = shown.filter { it.key != c.key }.take(6),
-                    programs = programs,
-                    now = now,
-                    use24Hour = settings.use24HourClock,
-                    onWatch = { pick -> vm.recordWatched(pick.key); playLive(onPlay, pick.toRequest(programs[pick.key], now)) },
-                )
                 Row(
                     Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp, top = 12.dp),
                     verticalAlignment = Alignment.CenterVertically,
