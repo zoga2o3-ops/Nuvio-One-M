@@ -11,6 +11,8 @@ import com.liskovsoft.mediaserviceinterfaces.data.MediaItemFormatInfo
 import com.liskovsoft.mediaserviceinterfaces.data.SearchOptions
 import com.liskovsoft.sharedutils.prefs.GlobalPreferences
 import com.liskovsoft.youtubeapi.service.YouTubeServiceManager
+import java.util.concurrent.TimeUnit
+import java.util.concurrent.TimeoutException
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
@@ -124,6 +126,11 @@ class YouTubeViewModel (private val context: Context) : ViewModel() {
     private companion object {
         const val TAG = "YouTubeVM"
         const val MAX_CLIENT_SWITCHES = 8
+        /** A single format lookup that takes longer than this is treated as stuck. */
+        const val LOOKUP_TIMEOUT_MS = 30_000L
+        /** Total time a video may spend switching clients before the user gets an error. */
+        const val LOOKUP_BUDGET_MS = 75_000L
+        const val LOOKUP_TIMEOUT_MESSAGE = "OneTube took too long to find this video. Try again."
         const val PREFETCH_DELAY_MS = 250L
         const val MAX_CACHED = 24
         /** Stops endless scrolling from growing a feed without limit; plenty to browse. */
@@ -620,8 +627,35 @@ class YouTubeViewModel (private val context: Context) : ViewModel() {
     private fun resolveBlocking(video: YtItem): YtPlayable {
         val videoId = video.videoId ?: error("Not a video")
         val startedAt = android.os.SystemClock.elapsedRealtime()
+        val deadline = startedAt + LOOKUP_BUDGET_MS
         fun since() = android.os.SystemClock.elapsedRealtime() - startedAt
-        var info = service.mediaItemService.getFormatInfoObserve(videoId).blockingFirst()
+        fun remainingMs() = (deadline - android.os.SystemClock.elapsedRealtime()).coerceAtLeast(0L)
+        // The engine's blocking call has no timeout of its own. A stuck client used to leave the
+        // spinner up for minutes; give each lookup a limit and keep the whole switch loop bounded.
+        fun nextInfo(): MediaItemFormatInfo {
+            val remaining = remainingMs()
+            if (remaining <= 0L) error(LOOKUP_TIMEOUT_MESSAGE)
+            return service.mediaItemService.getFormatInfoObserve(videoId)
+                .timeout(minOf(LOOKUP_TIMEOUT_MS, remaining), TimeUnit.MILLISECONDS)
+                .blockingFirst()
+        }
+        var info = try {
+            nextInfo()
+        } catch (e: Throwable) {
+            if (!e.isLookupTimeout()) throw e
+            Log.w(TAG, "first lookup $videoId timed out after ${since()}ms; switching client", e)
+            if (remainingMs() <= 0L) error(LOOKUP_TIMEOUT_MESSAGE)
+            service.switchNextClientNow()
+            try {
+                nextInfo()
+            } catch (e2: Throwable) {
+                if (e2.isLookupTimeout()) {
+                    Log.w(TAG, "lookup $videoId still timed out after ${since()}ms", e2)
+                    error(LOOKUP_TIMEOUT_MESSAGE)
+                }
+                throw e2
+            }
+        }
         Log.i(TAG, "first lookup $videoId client=${info.clientInfo?.clientName} at ${since()}ms")
         // YouTube answers some client types with SABR only (no plain stream URLs), which the stock
         // player can't read. Step through the engine's other clients until one returns streams we can play.
@@ -630,7 +664,15 @@ class YouTubeViewModel (private val context: Context) : ViewModel() {
             Log.i(TAG, "client ${info.clientInfo?.clientName} gave no plain streams " +
                 "(sabr=${info.containsSabrFormats()} unplayable=${info.isUnplayable}); switching")
             service.switchNextClientNow()
-            info = service.mediaItemService.getFormatInfoObserve(videoId).blockingFirst()
+            info = try {
+                nextInfo()
+            } catch (e: Throwable) {
+                if (e.isLookupTimeout()) {
+                    Log.w(TAG, "lookup $videoId timed out after ${since()}ms", e)
+                    error(LOOKUP_TIMEOUT_MESSAGE)
+                }
+                throw e
+            }
             Log.i(TAG, "lookup with client=${info.clientInfo?.clientName} at ${since()}ms")
         }
         if (info.isUnplayable) error(friendlyReason(info.playabilityReason))
@@ -665,6 +707,16 @@ class YouTubeViewModel (private val context: Context) : ViewModel() {
         val headers = info.clientInfo?.userAgent?.takeIf { it.isNotBlank() }
             ?.let { mapOf("User-Agent" to it) }.orEmpty()
         return YtPlayable(url, video.title, video.thumbnail, videoId, headers)
+    }
+
+    /** RxJava wraps the checked TimeoutException, so walk the cause chain. */
+    private fun Throwable.isLookupTimeout(): Boolean {
+        var current: Throwable? = this
+        while (current != null) {
+            if (current is TimeoutException) return true
+            current = current.cause
+        }
+        return false
     }
 
     /** One lookup per video at a time: hovering a card and then pressing OK share the same request. */
