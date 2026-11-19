@@ -2275,6 +2275,12 @@ class LiveTvRepository(
 
     private fun playlistFile(id: String) = File(playlistDir, "$id.m3u")
 
+    /** The downloaded playlist file, for the On Demand importer. */
+    fun m3uFile(id: String): File = playlistFile(id)
+
+    /** The M3U series' episode index, written by the On Demand importer. */
+    fun m3uEpisodesFile(id: String): File = File(playlistDir, "$id.episodes")
+
     /** An Xtream login's group names in the provider's order (see [PlaylistGroupOrder]). */
     private fun groupOrderFile(id: String) = File(playlistDir, "$id.groups")
 

@@ -5,6 +5,7 @@ import android.util.JsonToken
 import android.util.Log
 import com.nuvio.app.livetv.data.LiveTvPreferences
 import com.nuvio.app.livetv.data.LiveTvRepository
+import com.nuvio.app.livetv.data.M3uParser
 import com.nuvio.app.livetv.model.PlaylistSource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -99,7 +100,8 @@ data class OnDemandStatus(val loading: Boolean = false, val message: String? = n
  */
 class OnDemandRepository(
     private val db: OnDemandDatabase,
-    private val prefs: LiveTvPreferences
+    private val prefs: LiveTvPreferences,
+    private val repository: LiveTvRepository
 ) {
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
     private val mutex = Mutex()
@@ -198,7 +200,9 @@ class OnDemandRepository(
      * With [onlyId], only that provider is imported (the others are kept as they are).
      */
     suspend fun refresh(force: Boolean, onlyId: String? = null) = mutex.withLock {
-        val playlists = prefs.playlists.first().filter { it.enabled && it.isXtream && it.importVod }
+        val playlists = prefs.playlists.first().filter {
+            it.enabled && it.importVod && (it.isXtream || !it.isStalker)
+        }
         val keep = playlists.map { it.id }.toSet()
         val dropped = runCatching { db.removeExcept(keep) }.getOrDefault(emptySet())
         // A provider switched off forgets when it was last imported, so switching it back on
@@ -251,6 +255,10 @@ class OnDemandRepository(
     }
 
     private fun importKindInner(pl: PlaylistSource, kind: VodKind) {
+        if (!pl.isXtream) {
+            importM3u(pl, kind)
+            return
+        }
         val api = pl.xtreamApiUrl()
         val catAction = if (kind == VodKind.MOVIE) "get_vod_categories" else "get_series_categories"
         val listAction = if (kind == VodKind.MOVIE) "get_vod_streams" else "get_series"
@@ -321,6 +329,178 @@ class OnDemandRepository(
     private fun reportStop(pl: PlaylistSource, what: String, saved: Int, e: Throwable) {
         lastProblem = "${pl.name} stopped sending $what after ${"%,d".format(saved)} " +
             "(${e.message ?: e.javaClass.simpleName}). Those were saved; it will try again in an hour."
+    }
+
+    // ------------------------------------------------------------------ M3U movies and series
+
+    /** "S01E02", "S1 E2", "S01.E02". */
+    private val episodeTag = Regex("""\bS(\d{1,3})\s*[._-]?\s*E(\d{1,4})\b""", RegexOption.IGNORE_CASE)
+
+    /** "1x02". */
+    private val episodeXTag = Regex("""\b(\d{1,2})x(\d{1,3})\b""", RegexOption.IGNORE_CASE)
+    private val seriesLink = Regex("""/series/""", RegexOption.IGNORE_CASE)
+    private val movieLink = Regex("""/movies?/""", RegexOption.IGNORE_CASE)
+
+    private class EpisodeName(val show: String, val season: Int, val episode: Int?)
+
+    /** An episode entry: its show, season and episode ("Show S01E02", "Show 1x02", or a /series/ link). */
+    private fun episodeName(name: String, url: String): EpisodeName? {
+        if (movieLink.containsMatchIn(url)) return null
+        val onSeriesLink = seriesLink.containsMatchIn(url)
+        val match = episodeTag.find(name) ?: if (onSeriesLink) episodeXTag.find(name) else null
+        if (match != null) {
+            val show = name.substring(0, match.range.first).trim()
+                .trimEnd('-', '|', ':', '.', '_', '(', '[').trim()
+            return EpisodeName(show.ifEmpty { name }, match.groupValues[1].toIntOrNull() ?: 1, match.groupValues[2].toIntOrNull())
+        }
+        if (onSeriesLink) return EpisodeName(name, 1, null)
+        return null
+    }
+
+    private fun extOf(url: String): String? =
+        url.substringBefore('?').substringAfterLast('.', "")
+            .takeIf { it.length in 2..5 && it.all { c -> c.isLetterOrDigit() } }
+            ?.lowercase()
+
+    private fun stableHash(value: String): String {
+        var hash = -3750763034362895579L
+        value.forEach { ch ->
+            hash = hash xor ch.code.toLong()
+            hash *= 1099511628211L
+        }
+        return hash.toULong().toString(16)
+    }
+
+    private fun cleanField(value: String): String = value.replace('\t', ' ').replace('\n', ' ').replace('\r', ' ')
+
+    private fun importM3u(pl: PlaylistSource, kind: VodKind) {
+        val file = repository.m3uFile(pl.id)
+        if (!file.exists()) error("the playlist hasn't been downloaded yet")
+        // Only movie and episode links are kept, so a huge channel list isn't held in memory.
+        val parsed = file.bufferedReader().use { reader ->
+            M3uParser.parse(reader) { url -> LiveTvRepository.isVodEntry(url) }
+        }
+        val categories = LinkedHashMap<String, String>()
+        fun groupOf(entry: com.nuvio.app.livetv.data.M3uEntry): String =
+            entry.group?.trim()?.ifBlank { null } ?: "Uncategorized"
+
+        if (kind == VodKind.MOVIE) {
+            val items = ArrayList<VodItem>()
+            var order = 0L
+            for (entry in parsed.entries) {
+                if (!LiveTvRepository.isVodEntry(entry.url) || episodeName(entry.name, entry.url) != null) continue
+                val group = groupOf(entry)
+                val categoryId = stableHash(group)
+                categories.putIfAbsent(categoryId, group)
+                items += VodItem(
+                    playlistId = pl.id,
+                    kind = kind,
+                    id = M3U_ID + stableHash(entry.url),
+                    name = entry.name,
+                    icon = entry.logo?.takeIf { it.startsWith("http") },
+                    categoryId = categoryId,
+                    ext = extOf(entry.url),
+                    tmdbId = null,
+                    year = OnDemandDatabase.releaseYearInName(entry.name),
+                    rating = null,
+                    addedSec = order++,
+                    url = entry.url
+                )
+            }
+            _status.value = OnDemandStatus(true, "Storing ${items.size} movies from ${pl.name}…")
+            db.replace(pl.id, kind, categories.entries.map { it.key to it.value }, items.asSequence())
+            com.nuvio.app.livetv.model.LiveTvLoadReport.add(
+                "On Demand \"${pl.name}\": ${items.size} movies from the playlist, ${categories.size} categories"
+            )
+            return
+        }
+
+        val shows = LinkedHashMap<String, VodItem>()
+        val nextEpisode = HashMap<String, Int>()
+        val lines = ArrayList<String>()
+        var order = 0L
+        for (entry in parsed.entries) {
+            if (!LiveTvRepository.isVodEntry(entry.url)) continue
+            val episode = episodeName(entry.name, entry.url) ?: continue
+            val group = groupOf(entry)
+            val categoryId = stableHash(group)
+            val id = M3U_ID + stableHash(OnDemandDatabase.normalize(episode.show).ifEmpty { episode.show.lowercase() } + "|" + group)
+            if (id !in shows) {
+                categories.putIfAbsent(categoryId, group)
+                shows[id] = VodItem(
+                    playlistId = pl.id,
+                    kind = kind,
+                    id = id,
+                    name = episode.show,
+                    icon = entry.logo?.takeIf { it.startsWith("http") },
+                    categoryId = categoryId,
+                    ext = null,
+                    tmdbId = null,
+                    year = OnDemandDatabase.releaseYearInName(episode.show),
+                    rating = null,
+                    addedSec = order++
+                )
+            }
+            val seasonKey = "$id#${episode.season}"
+            val number = episode.episode ?: ((nextEpisode[seasonKey] ?: 0) + 1)
+            nextEpisode[seasonKey] = maxOf(nextEpisode[seasonKey] ?: 0, number)
+            lines += listOf(
+                id,
+                episode.season.toString(),
+                number.toString(),
+                cleanField(entry.name),
+                cleanField(entry.url),
+                cleanField(entry.logo?.takeIf { it.startsWith("http") }.orEmpty())
+            ).joinToString("\t")
+        }
+        repository.m3uEpisodesFile(pl.id).writeText(lines.joinToString("\n"))
+        _status.value = OnDemandStatus(true, "Storing ${shows.size} series from ${pl.name}…")
+        db.replace(pl.id, kind, categories.entries.map { it.key to it.value }, shows.values.asSequence())
+        com.nuvio.app.livetv.model.LiveTvLoadReport.add(
+            "On Demand \"${pl.name}\": ${shows.size} series (${lines.size} episodes) from the playlist, " +
+                "${categories.size} categories"
+        )
+        infoCache.keys.removeAll { it.substringAfter(':').substringBefore(':') == pl.id }
+    }
+
+    /** A series read from an M3U playlist's own entries: its episodes come from the saved index. */
+    private fun m3uInfo(item: VodItem, pl: PlaylistSource): VodInfo {
+        infoCache[item.uid]?.let { return it }
+        val rows = ArrayList<VodEpisode>()
+        val prefix = item.id + "\t"
+        runCatching {
+            val file = repository.m3uEpisodesFile(pl.id)
+            if (!file.exists()) return@runCatching
+            file.useLines { lines ->
+                for (line in lines) {
+                    if (!line.startsWith(prefix)) continue
+                    val fields = line.split('\t')
+                    if (fields.size < 5) continue
+                    val url = fields[4]
+                    rows += VodEpisode(
+                        season = fields[1].toIntOrNull() ?: 1,
+                        episode = fields[2].toIntOrNull() ?: (rows.size + 1),
+                        id = stableHash(url),
+                        ext = extOf(url) ?: "mp4",
+                        title = fields[3],
+                        plot = null,
+                        image = fields.getOrNull(5)?.takeIf { it.startsWith("http") },
+                        url = url
+                    )
+                }
+            }
+        }
+        val info = VodInfo(
+            plot = null,
+            cover = item.icon,
+            backdrop = null,
+            genre = null,
+            releaseDate = item.year?.toString(),
+            durationText = null,
+            episodes = rows.sortedWith(compareBy({ it.season }, { it.episode }))
+        )
+        infoCache[item.uid] = info
+        return info
     }
 
     /**
@@ -490,8 +670,9 @@ class OnDemandRepository(
         runCatching { db.item(parts[1], kind, parts[2]) }.getOrNull()
     }
 
-    /** Movie link: /movie/user/pass/<id>.<ext> */
+    /** Movie link: the M3U entry's own link, or Xtream's /movie/user/pass/<id>.<ext>. */
     suspend fun movieUrl(item: VodItem): String? {
+        item.url?.takeIf { it.isNotBlank() }?.let { return it }
         val pl = playlist(item.playlistId) ?: return null
         return "${pl.xtreamBase()}/movie/${enc(pl.xtreamUsername)}/${enc(pl.xtreamPassword)}/${item.id}.${item.ext ?: "mp4"}"
     }
@@ -500,6 +681,22 @@ class OnDemandRepository(
     suspend fun info(item: VodItem): VodInfo? = withContext(Dispatchers.IO) {
         infoCache[item.uid]?.let { return@withContext it }
         val pl = playlist(item.playlistId) ?: return@withContext null
+        if (item.id.startsWith(M3U_ID)) {
+            val result = if (item.kind == VodKind.SERIES) {
+                m3uInfo(item, pl)
+            } else {
+                VodInfo(
+                    plot = null,
+                    cover = item.icon,
+                    backdrop = null,
+                    genre = null,
+                    releaseDate = item.year?.toString(),
+                    durationText = null
+                )
+            }
+            infoCache[item.uid] = result
+            return@withContext result
+        }
         val api = pl.xtreamApiUrl()
         val action = if (item.kind == VodKind.MOVIE) "get_vod_info&vod_id=${item.id}" else "get_series_info&series_id=${item.id}"
         val json = runCatching { JSONObject(getText("$api&action=$action", pl.userAgent)) }.getOrNull() ?: return@withContext null
@@ -734,6 +931,8 @@ class OnDemandRepository(
         private const val TAG = "OnDemand"
         /** Re-import each provider once a day. */
         private const val REFRESH_MS = 24L * 60 * 60 * 1000
+        /** M3U series ids carry this prefix; their episodes live in the playlist's episode index. */
+        private const val M3U_ID = "m3u:"
     }
 }
 

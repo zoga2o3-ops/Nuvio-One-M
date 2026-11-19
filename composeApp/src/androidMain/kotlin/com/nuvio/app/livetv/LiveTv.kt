@@ -25,7 +25,7 @@ class LiveTv private constructor(context: Context) {
     val repository = LiveTvRepository(context, prefs, guideDb)
     val store = LiveTvChannelStore(repository, prefs, context)
     val onDemandDb by lazy { com.nuvio.app.livetv.ondemand.OnDemandDatabase(appContext) }
-    val onDemand by lazy { com.nuvio.app.livetv.ondemand.OnDemandRepository(onDemandDb, prefs).also { it.start() } }
+    val onDemand by lazy { com.nuvio.app.livetv.ondemand.OnDemandRepository(onDemandDb, prefs, repository).also { it.start() } }
     val sports by lazy { com.nuvio.app.livetv.sports.SportsRepository(appContext, prefs, repository, store, guideDb).also { it.start() } }
     val calendar by lazy { com.nuvio.app.livetv.calendar.MobileCalendar(appContext) }
     private val driveSyncLazy = lazy { com.nuvio.app.livetv.sync.LiveTvDriveSync(appContext, prefs, repository).also { it.start() } }

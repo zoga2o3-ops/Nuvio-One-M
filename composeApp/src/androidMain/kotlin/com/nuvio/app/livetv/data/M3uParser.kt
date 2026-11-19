@@ -32,7 +32,7 @@ object M3uParser {
     private val attrRegex = Regex("""([A-Za-z0-9_\-]+)\s*=\s*"([^"]*)"""")
     private val attrRegexUnquoted = Regex("""([A-Za-z0-9_\-]+)\s*=\s*([^\s",]+)""")
 
-    fun parse(reader: BufferedReader): M3uPlaylist {
+    fun parse(reader: BufferedReader, keepUrl: (String) -> Boolean = { true }): M3uPlaylist {
         val epgUrls = mutableListOf<String>()
         val entries = ArrayList<M3uEntry>(4096)
 
@@ -104,7 +104,8 @@ object M3uParser {
                                     runCatching { java.net.URLDecoder.decode(part.substringAfter('=', ""), "UTF-8") }.getOrDefault(part.substringAfter('=', ""))
                             }
                         }
-                        entries.add(buildEntry(info, pendingGroup, line, pendingHeaders.toMap(), headerCatchup).copy(drm = drmFrom(pendingProps)))
+                        val entry = buildEntry(info, pendingGroup, line, pendingHeaders.toMap(), headerCatchup).copy(drm = drmFrom(pendingProps))
+                    if (keepUrl(entry.url)) entries.add(entry)
                     }
                     pendingInfo = null
                     pendingGroup = null

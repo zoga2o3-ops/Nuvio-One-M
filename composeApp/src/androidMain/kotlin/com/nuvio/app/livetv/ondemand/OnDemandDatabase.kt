@@ -73,7 +73,9 @@ data class VodItem(
     /** The provider's genres, as sent ("Action, Comedy"). Not every provider includes them. */
     val genre: String? = null,
     /** With duplicates merged: how many copies of this title there are (qualities, providers). */
-    val copies: Int = 1
+    val copies: Int = 1,
+    /** M3U playlists: the entry's own link. Null for Xtream titles, which build their link. */
+    val url: String? = null
 ) {
     val uid: String get() = "${kind.key}:$playlistId:$id"
 }
@@ -95,7 +97,7 @@ data class VodCategory(
  * are read a page at a time.
  */
 class OnDemandDatabase(private val appContext: Context) :
-    SQLiteOpenHelper(appContext, "livetv_on_demand.db", null, 9) {
+    SQLiteOpenHelper(appContext, "livetv_on_demand.db", null, 10) {
 
     init {
         // Browsing On Demand doesn't wait while an import or genre lookup is writing.
@@ -109,6 +111,7 @@ class OnDemandDatabase(private val appContext: Context) :
                 name TEXT NOT NULL, norm TEXT NOT NULL, icon TEXT, cat TEXT NOT NULL,
                 ext TEXT, tmdb TEXT, year INTEGER, rating TEXT, added INTEGER NOT NULL DEFAULT 0,
                 genre TEXT, h INTEGER,
+                url TEXT,
                 PRIMARY KEY (pl, kind, id))"""
         )
         db.execSQL("CREATE INDEX items_cat ON items(kind, pl, cat)")
@@ -159,6 +162,8 @@ class OnDemandDatabase(private val appContext: Context) :
             createPosterFixTable(db)
             db.execSQL("DELETE FROM posters")
         }
+        // Version 10: M3U playlists carry their own movie and episode links.
+        if (oldVersion < 10) runCatching { db.execSQL("ALTER TABLE items ADD COLUMN url TEXT") }
     }
 
     private fun fixYearsFromNames(db: SQLiteDatabase) {
@@ -353,7 +358,7 @@ class OnDemandDatabase(private val appContext: Context) :
     /** A title's details as one number: the same number means nothing to write. */
     private fun fingerprint(it: VodItem): Long {
         var h = 1125899906842597L
-        for (s in arrayOf(it.name, it.icon, it.categoryId, it.ext, it.tmdbId, it.year?.toString(), it.rating, it.addedSec.toString(), it.genre)) {
+        for (s in arrayOf(it.name, it.icon, it.categoryId, it.ext, it.tmdbId, it.year?.toString(), it.rating, it.addedSec.toString(), it.genre, it.url)) {
             h = 31 * h + (s?.hashCode() ?: 7)
         }
         return if (h == 0L) 1L else h
@@ -391,7 +396,7 @@ class OnDemandDatabase(private val appContext: Context) :
                 }, SQLiteDatabase.CONFLICT_REPLACE)
             }
             val stmt = db.compileStatement(
-                "INSERT OR REPLACE INTO items (pl, kind, id, name, norm, icon, cat, ext, tmdb, year, rating, added, genre, h) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+                "INSERT OR REPLACE INTO items (pl, kind, id, name, norm, icon, cat, ext, tmdb, year, rating, added, genre, h, url) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
             )
             val seen = HashSet<String>(maxOf(16, existing.size))
             items.forEach { it ->
@@ -414,6 +419,7 @@ class OnDemandDatabase(private val appContext: Context) :
                 stmt.bindLong(12, it.addedSec)
                 it.genre?.let { v -> stmt.bindString(13, v) } ?: stmt.bindNull(13)
                 stmt.bindLong(14, h)
+                it.url?.let { v -> stmt.bindString(15, v) } ?: stmt.bindNull(15)
                 stmt.executeInsert()
                 existing[it.id] = h // a title listed twice is written once
                 written++
@@ -659,7 +665,8 @@ class OnDemandDatabase(private val appContext: Context) :
         rating = getStringOrNull("rating"),
         addedSec = getLong(getColumnIndexOrThrow("added")),
         genre = getColumnIndex("genre").takeIf { it >= 0 }?.let { i -> if (isNull(i)) null else getString(i) },
-        copies = getColumnIndex("copies").takeIf { it >= 0 }?.let { i -> getInt(i) } ?: 1
+        copies = getColumnIndex("copies").takeIf { it >= 0 }?.let { i -> getInt(i) } ?: 1,
+        url = getColumnIndex("url").takeIf { it >= 0 }?.let { i -> if (isNull(i)) null else getString(i) }
     )
 
     private fun Cursor.getStringOrNull(col: String): String? =

@@ -326,6 +326,10 @@ private fun PlaylistEditDialog(
                             }
                         }
                     }
+                } else if (!playlist.isStalker) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text(stringResource(Res.string.live_tv_ui_movies_and_series_on_demand), Modifier.weight(1f)); Switch(checked = vod, onCheckedChange = { vod = it })
+                    }
                 }
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(stringResource(Res.string.live_tv_ui_use_the_guide_the_playlist_points_to), Modifier.weight(1f)); Switch(checked = embedded, onCheckedChange = { embedded = it })
