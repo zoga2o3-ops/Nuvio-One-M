@@ -214,6 +214,8 @@ class LiveTvPreferences(
 
         val hiddenChannels = stringSetPreferencesKey("hidden_channels")
         val hiddenGroups = stringSetPreferencesKey("hidden_groups")
+        /** Playlist source ids this profile hides; the sources themselves stay shared. */
+        val hiddenPlaylists = stringSetPreferencesKey("hidden_playlists")
         val groupTagFilters = stringSetPreferencesKey("group_tag_filters")
         val favorites = stringPreferencesKey("favorites")
         val recent = stringPreferencesKey("recent")
@@ -250,7 +252,7 @@ class LiveTvPreferences(
         Keys.vodGroupOrder, Keys.vodSorts, Keys.sportsMine
     )
     private val personalSetKeys: List<Preferences.Key<Set<String>>> = listOf(
-        Keys.hiddenChannels, Keys.hiddenGroups, Keys.groupTagFilters, Keys.vodHiddenCategories
+        Keys.hiddenChannels, Keys.hiddenGroups, Keys.hiddenPlaylists, Keys.groupTagFilters, Keys.vodHiddenCategories
     )
 
     @JvmName("myString")
@@ -496,6 +498,7 @@ class LiveTvPreferences(
         LiveUserState(
             hiddenChannels = p[Keys.hiddenChannels] ?: emptySet(),
             hiddenGroups = p[Keys.hiddenGroups] ?: emptySet(),
+            hiddenPlaylists = p[Keys.hiddenPlaylists] ?: emptySet(),
             groupTagFilters = p[Keys.groupTagFilters] ?: emptySet(),
             favorites = decodeStringList(p[Keys.favorites]),
             recent = decodeStringList(p[Keys.recent]),
@@ -1094,6 +1097,15 @@ class LiveTvPreferences(
 
     // ---------- per-channel state ----------
 
+    /** Shows or hides one shared playlist for this profile; the source itself is untouched. */
+    suspend fun setPlaylistHidden(id: String, hidden: Boolean) {
+        if (id.isBlank()) return
+        store.edit { p ->
+            val cur = p[my(Keys.hiddenPlaylists)] ?: emptySet()
+            p[my(Keys.hiddenPlaylists)] = if (hidden) cur + id else cur - id
+        }
+    }
+
     suspend fun setChannelHidden(key: String, hidden: Boolean) {
         store.edit { p ->
             val cur = p[my(Keys.hiddenChannels)] ?: emptySet()
@@ -1119,6 +1131,10 @@ class LiveTvPreferences(
 
     suspend fun clearHiddenChannels() {
         store.edit { it[my(Keys.hiddenChannels)] = emptySet() }
+    }
+
+    suspend fun clearHiddenPlaylists() {
+        store.edit { it[my(Keys.hiddenPlaylists)] = emptySet() }
     }
 
     suspend fun setGroupHidden(groupId: String, hidden: Boolean) {

@@ -3193,6 +3193,8 @@
     <string name="live_tv_ui_manage">Управлять</string>
     <string name="live_tv_ui_see_all">Посмотреть все</string>
     <string name="live_tv_ui_playlists_and_guide">Плейлисты и руководство</string>
+<string name="live_tv_ui_playlists_on_this_profile">Плейлисты в этом профиле</string>
+<string name="live_tv_ui_playlists_on_this_profile_hint">Отключите плейлист, чтобы скрыть его каналы и группы в этом профиле. Другие профили сохраняют свой выбор.</string>
     <string name="live_tv_ui_add_a_playlist">Добавить плейлист</string>
     <string name="live_tv_ui_update_all">Обновить все</string>
     <string name="live_tv_ui_guide_sources">Источники руководства</string>

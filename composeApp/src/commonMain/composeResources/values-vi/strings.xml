@@ -3214,6 +3214,8 @@
     <string name="live_tv_ui_manage">Quản lý</string>
     <string name="live_tv_ui_see_all">Xem tất cả</string>
     <string name="live_tv_ui_playlists_and_guide">Danh sách phát và hướng dẫn</string>
+<string name="live_tv_ui_playlists_on_this_profile">Danh sách phát trong hồ sơ này</string>
+<string name="live_tv_ui_playlists_on_this_profile_hint">Tắt một danh sách phát để ẩn các kênh và nhóm của nó trong hồ sơ này. Các hồ sơ khác giữ lựa chọn riêng.</string>
     <string name="live_tv_ui_add_a_playlist">Thêm danh sách phát</string>
     <string name="live_tv_ui_update_all">Cập nhật tất cả</string>
     <string name="live_tv_ui_guide_sources">Nguồn hướng dẫn</string>

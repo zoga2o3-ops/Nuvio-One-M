@@ -3199,6 +3199,8 @@
     <string name="live_tv_ui_channel_logos_from">Kanaallogo's van</string>
     <string name="live_tv_ui_see_all">Bekijk alles</string>
     <string name="live_tv_ui_playlists_and_guide">Afspeellijsten en gids</string>
+<string name="live_tv_ui_playlists_on_this_profile">Afspeellijsten in dit profiel</string>
+<string name="live_tv_ui_playlists_on_this_profile_hint">Schakel een afspeellijst uit om de zenders en groepen in dit profiel te verbergen. Andere profielen houden hun eigen keuzes.</string>
     <string name="live_tv_ui_add_a_playlist">Voeg een afspeellijst toe</string>
     <string name="live_tv_ui_update_all">Alles bijwerken</string>
     <string name="live_tv_ui_guide_sources">Gids bronnen</string>

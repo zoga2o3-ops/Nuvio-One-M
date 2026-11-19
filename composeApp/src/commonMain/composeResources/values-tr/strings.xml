@@ -3200,6 +3200,8 @@ Bu özelliği tamamen kendi sorumluluğunuzda kullanırsınız. P2P istediğiniz
     <string name="live_tv_ui_the_provider_didn_t_send_details_for_this_one">Sağlayıcı bunun için ayrıntı göndermedi.</string>
     <string name="live_tv_ui_see_all">Tümünü gör</string>
     <string name="live_tv_ui_playlists_and_guide">Çalma listeleri ve rehber</string>
+<string name="live_tv_ui_playlists_on_this_profile">Bu profildeki oynatma listeleri</string>
+<string name="live_tv_ui_playlists_on_this_profile_hint">Bu profilde kanallarını ve gruplarını gizlemek için bir oynatma listesini kapatın. Diğer profiller kendi seçimlerini korur.</string>
     <string name="live_tv_ui_add_a_playlist">Çalma listesi ekle</string>
     <string name="live_tv_ui_update_all">Tümünü güncelle</string>
     <string name="live_tv_ui_guide_sources">Rehber kaynakları</string>

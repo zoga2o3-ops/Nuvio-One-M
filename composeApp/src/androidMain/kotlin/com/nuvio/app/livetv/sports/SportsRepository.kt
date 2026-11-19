@@ -978,7 +978,8 @@ class SportsRepository(
         val sp = settings.value
         val picked = SportsPickedChannels.keys(SportsPickedChannels.resolve(sp, allChannels))
         val channels: List<LiveChannel> = allChannels.filter { ch ->
-            (ch.key in picked || (ch.key !in user.hiddenChannels && ch.groupId !in user.hiddenGroups &&
+            (ch.key in picked || (ch.sourceId !in user.hiddenPlaylists &&
+                ch.key !in user.hiddenChannels && ch.groupId !in user.hiddenGroups &&
                 !user.hidesByGroupTag(ch, user.keptChannelKeys))) &&
                 !ParentalControls.isLocked(ch.groupId, ch.group, live, user.lockedGroups) &&
                 !(ParentalControls.enabled(live) && live.lockAdultContent && ParentalControls.isAdult(ch.name))

@@ -3235,6 +3235,8 @@
     <string name="live_tv_ui_the_provider_didn_t_send_details_for_this_one">Доставчикът не изпрати подробности за този.</string>
     <string name="live_tv_ui_see_all">Вижте всички</string>
     <string name="live_tv_ui_playlists_and_guide">Плейлисти и ръководство</string>
+<string name="live_tv_ui_playlists_on_this_profile">Плейлисти в този профил</string>
+<string name="live_tv_ui_playlists_on_this_profile_hint">Изключете плейлист, за да скриете каналите и групите му в този профил. Другите профили запазват своите избори.</string>
     <string name="live_tv_ui_add_a_playlist">Добавяне на плейлист</string>
     <string name="live_tv_ui_update_all">Актуализирайте всички</string>
     <string name="live_tv_ui_guide_sources">Насочващи източници</string>

@@ -115,7 +115,16 @@ class LiveTvViewModel(context: Context) : ViewModel() {
     }
 
     fun showAllHidden() {
-        viewModelScope.launch { prefs.clearHiddenChannels(); prefs.clearHiddenGroups() }
+        viewModelScope.launch {
+            prefs.clearHiddenChannels()
+            prefs.clearHiddenGroups()
+            prefs.clearHiddenPlaylists()
+        }
+    }
+
+    /** Shows or hides a shared playlist for the active profile. */
+    fun setPlaylistVisible(id: String, visible: Boolean) {
+        viewModelScope.launch { prefs.setPlaylistHidden(id, !visible) }
     }
 
     fun setGroupTagFilter(tag: String, enabled: Boolean) {

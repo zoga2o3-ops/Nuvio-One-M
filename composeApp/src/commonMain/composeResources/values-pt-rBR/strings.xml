@@ -3195,6 +3195,8 @@
     <string name="live_tv_ui_the_provider_didn_t_send_details_for_this_one">O provedor não enviou detalhes para este.</string>
     <string name="live_tv_ui_see_all">Ver tudo</string>
     <string name="live_tv_ui_playlists_and_guide">Listas de reprodução e guia</string>
+<string name="live_tv_ui_playlists_on_this_profile">Listas de reprodução neste perfil</string>
+<string name="live_tv_ui_playlists_on_this_profile_hint">Desative uma lista para ocultar os canais e grupos dela neste perfil. Os outros perfis mantêm as próprias escolhas.</string>
     <string name="live_tv_ui_add_a_playlist">Adicionar uma lista de reprodução</string>
     <string name="live_tv_ui_update_all">Atualizar tudo</string>
     <string name="live_tv_ui_guide_sources">Fontes de guia</string>

@@ -3153,6 +3153,8 @@
     <string name="live_tv_ui_manage">Zarządzać</string>
     <string name="live_tv_ui_see_all">Zobacz wszystko</string>
     <string name="live_tv_ui_playlists_and_guide">Playlisty i przewodnik</string>
+<string name="live_tv_ui_playlists_on_this_profile">Playlisty w tym profilu</string>
+<string name="live_tv_ui_playlists_on_this_profile_hint">Wyłącz playlistę, aby ukryć jej kanały i grupy w tym profilu. Inne profile zachowają własne ustawienia.</string>
     <string name="live_tv_ui_add_a_playlist">Dodaj playlistę</string>
     <string name="live_tv_ui_update_all">Zaktualizuj wszystko</string>
     <string name="live_tv_ui_guide_sources">Źródła przewodników</string>

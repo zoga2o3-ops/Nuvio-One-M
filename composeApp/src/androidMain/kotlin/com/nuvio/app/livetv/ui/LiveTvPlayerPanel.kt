@@ -67,6 +67,7 @@ fun LiveTvPlayerChannelsPanel(currentKey: String, onDismiss: () -> Unit) {
     val channels = remember(all, user, query, favoritesOnly, recentOnly) {
         // A quick switcher: what you watched lately comes first, and adult-named channels are left out.
         val visible = all.filter {
+            it.sourceId !in user.hiddenPlaylists &&
             it.key !in user.hiddenChannels && it.groupId !in user.hiddenGroups && !user.hidesByGroupTag(it, user.keptChannelKeys) && it.groupId !in user.lockedGroups && !(settings.parentalPin.length >= 4 && settings.lockAdultContent && com.nuvio.app.livetv.parental.ParentalControls.isAdult(it.group)) &&
                 !com.nuvio.app.livetv.parental.ParentalControls.isAdult(it.name) &&
                 !com.nuvio.app.livetv.parental.ParentalControls.isAdult(it.group)

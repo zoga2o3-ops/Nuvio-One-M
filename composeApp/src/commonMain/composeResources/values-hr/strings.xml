@@ -3170,6 +3170,8 @@
     <string name="music_tab_party">Zabava</string>
     <string name="live_tv_ui_see_all">Vidi sve</string>
     <string name="live_tv_ui_playlists_and_guide">Popisi za reprodukciju i vodič</string>
+<string name="live_tv_ui_playlists_on_this_profile">Popisi u ovom profilu</string>
+<string name="live_tv_ui_playlists_on_this_profile_hint">Isključite popis da biste sakrili njegove kanale i grupe u ovom profilu. Ostali profili zadržavaju svoje izbore.</string>
     <string name="live_tv_ui_add_a_playlist">Dodajte popis za reprodukciju</string>
     <string name="live_tv_ui_update_all">Ažurirajte sve</string>
     <string name="live_tv_ui_guide_sources">Izvori vodiča</string>

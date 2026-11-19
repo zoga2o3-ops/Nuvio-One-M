@@ -63,6 +63,7 @@ fun LiveTvSettingsContent() {
     val user by sources.user.collectAsStateWithLifecycle()
     val allChannels by sources.allChannels.collectAsStateWithLifecycle()
     var showPlaylists by remember { mutableStateOf(false) }
+    var showPlaylistVisibility by remember { mutableStateOf(false) }
     var showAddPlaylist by remember { mutableStateOf(false) }
     var showAddEpg by remember { mutableStateOf(false) }
     var showGroupTags by remember { mutableStateOf(false) }
@@ -90,6 +91,12 @@ fun LiveTvSettingsContent() {
                     stringResource(Res.string.live_tv_settings_source_counts, playlists.size, epgs.size)
                 },
             ) { showPlaylists = true }
+            if (playlists.isNotEmpty()) {
+                ActionLine(
+                    title = stringResource(Res.string.live_tv_ui_playlists_on_this_profile),
+                    detail = stringResource(Res.string.live_tv_ui_playlists_on_this_profile_hint),
+                ) { showPlaylistVisibility = true }
+            }
             ActionLine(
                 title = stringResource(Res.string.live_tv_ui_update_all),
                 detail = stringResource(Res.string.live_tv_settings_update_all_description),
@@ -450,6 +457,14 @@ fun LiveTvSettingsContent() {
             onEpgEnabled = sources::setEpgEnabled,
             accounts = playlistAccounts,
             onEdit = sources::updatePlaylist,
+        )
+    }
+    if (showPlaylistVisibility) {
+        PlaylistVisibilityDialog(
+            playlists = playlists,
+            hidden = user.hiddenPlaylists,
+            onToggle = sources::setPlaylistVisible,
+            onDismiss = { showPlaylistVisibility = false },
         )
     }
     if (showAddPlaylist) {

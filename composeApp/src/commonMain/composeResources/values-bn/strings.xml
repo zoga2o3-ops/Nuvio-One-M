@@ -3223,6 +3223,8 @@
     <string name="live_tv_ui_manage">পরিচালনা করুন</string>
     <string name="live_tv_ui_see_all">সব দেখুন</string>
     <string name="live_tv_ui_playlists_and_guide">প্লেলিস্ট এবং গাইড</string>
+<string name="live_tv_ui_playlists_on_this_profile">এই প্রোফাইলে প্লেলিস্ট</string>
+<string name="live_tv_ui_playlists_on_this_profile_hint">এই প্রোফাইলে একটি প্লেলিস্টের চ্যানেল ও গ্রুপ লুকাতে সেটি বন্ধ করুন। অন্য প্রোফাইলগুলি নিজেদের পছন্দ রাখে।</string>
     <string name="live_tv_ui_add_a_playlist">একটি প্লেলিস্ট যোগ করুন</string>
     <string name="live_tv_ui_update_all">সব আপডেট</string>
     <string name="live_tv_ui_guide_sources">গাইড সূত্র</string>

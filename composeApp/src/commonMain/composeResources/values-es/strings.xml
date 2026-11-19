@@ -3168,6 +3168,8 @@
     <string name="live_tv_ui_channel_count_on_groups">Recuento de canales en grupos</string>
     <string name="live_tv_ui_see_all">Ver todo</string>
     <string name="live_tv_ui_playlists_and_guide">Listas de reproducción y guía.</string>
+<string name="live_tv_ui_playlists_on_this_profile">Listas de reproducción en este perfil</string>
+<string name="live_tv_ui_playlists_on_this_profile_hint">Desactiva una lista para ocultar sus canales y grupos en este perfil. Los demás perfiles mantienen sus propias elecciones.</string>
     <string name="live_tv_ui_add_a_playlist">Agregar una lista de reproducción</string>
     <string name="live_tv_ui_update_all">Actualizar todo</string>
     <string name="live_tv_ui_guide_sources">Fuentes de guía</string>

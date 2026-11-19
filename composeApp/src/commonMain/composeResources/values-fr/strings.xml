@@ -3214,6 +3214,8 @@
     <string name="live_tv_ui_manage">Gérer</string>
     <string name="live_tv_ui_see_all">Voir tout</string>
     <string name="live_tv_ui_playlists_and_guide">Listes de lecture et guide</string>
+<string name="live_tv_ui_playlists_on_this_profile">Playlists de ce profil</string>
+<string name="live_tv_ui_playlists_on_this_profile_hint">Désactivez une playlist pour masquer ses chaînes et groupes dans ce profil. Les autres profils gardent leurs propres choix.</string>
     <string name="live_tv_ui_add_a_playlist">Ajouter une playlist</string>
     <string name="live_tv_ui_update_all">Tout mettre à jour</string>
     <string name="live_tv_ui_guide_sources">Sources guides</string>

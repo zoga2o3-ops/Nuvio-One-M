@@ -3151,6 +3151,8 @@ Du bruker denne funksjonen helt på eget ansvar. P2P kan deaktiveres når som he
     <string name="live_tv_ui_manage">Administrer</string>
     <string name="live_tv_ui_see_all">Se alle</string>
     <string name="live_tv_ui_playlists_and_guide">Spillelister og guide</string>
+<string name="live_tv_ui_playlists_on_this_profile">Spillelister i denne profilen</string>
+<string name="live_tv_ui_playlists_on_this_profile_hint">Slå av en spilleliste for å skjule kanalene og gruppene i denne profilen. Andre profiler beholder sine egne valg.</string>
     <string name="live_tv_ui_add_a_playlist">Legg til en spilleliste</string>
     <string name="live_tv_ui_update_all">Oppdater alle</string>
     <string name="live_tv_ui_guide_sources">Veiledende kilder</string>

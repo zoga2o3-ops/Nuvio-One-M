@@ -3143,6 +3143,8 @@
     <string name="live_tv_ui_manage">Gestionează</string>
     <string name="live_tv_ui_see_all">Vezi toate</string>
     <string name="live_tv_ui_playlists_and_guide">Liste de redare și ghid</string>
+<string name="live_tv_ui_playlists_on_this_profile">Liste de redare în acest profil</string>
+<string name="live_tv_ui_playlists_on_this_profile_hint">Oprește o listă pentru a-i ascunde canalele și grupurile în acest profil. Celelalte profiluri își păstrează alegerile.</string>
     <string name="live_tv_ui_add_a_playlist">Adăugați o listă de redare</string>
     <string name="live_tv_ui_update_all">Actualizați toate</string>
     <string name="live_tv_ui_guide_sources">Surse ghid</string>

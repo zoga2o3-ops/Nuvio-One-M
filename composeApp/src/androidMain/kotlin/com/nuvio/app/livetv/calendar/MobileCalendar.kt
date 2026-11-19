@@ -120,7 +120,7 @@ class MobileCalendar(private val context: Context) {
         hits.mapNotNull { (key, p) ->
             val ch = byKey[key] ?: return@mapNotNull null
             if (plain(p.title) != want) return@mapNotNull null
-            if (ch.key in user.hiddenChannels || ch.groupId in user.hiddenGroups || ch.groupId in user.lockedGroups) return@mapNotNull null
+            if (ch.sourceId in user.hiddenPlaylists || ch.key in user.hiddenChannels || ch.groupId in user.hiddenGroups || ch.groupId in user.lockedGroups) return@mapNotNull null
             if (settings.parentalPin.length >= 4 && settings.lockAdultContent && com.nuvio.app.livetv.parental.ParentalControls.isAdult(ch.group)) return@mapNotNull null
             OnMyTv(ch, p)
         }.sortedBy { it.program.startMs }.take(10)

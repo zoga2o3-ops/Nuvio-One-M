@@ -3170,6 +3170,8 @@
     <string name="live_tv_ui_search_logos">ロゴを検索する</string>
     <string name="live_tv_ui_see_all">全て見る</string>
     <string name="live_tv_ui_playlists_and_guide">プレイリストとガイド</string>
+<string name="live_tv_ui_playlists_on_this_profile">このプロフィールのプレイリスト</string>
+<string name="live_tv_ui_playlists_on_this_profile_hint">プレイリストをオフにすると、このプロフィールでそのチャンネルとグループが非表示になります。他のプロフィールの設定は変わりません。</string>
     <string name="live_tv_ui_add_a_playlist">プレイリストを追加する</string>
     <string name="live_tv_ui_update_all">すべて更新</string>
     <string name="live_tv_ui_guide_sources">ガイド情報源</string>

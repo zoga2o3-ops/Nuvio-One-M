@@ -3139,6 +3139,8 @@
     <string name="music_tab_party">Párty</string>
     <string name="live_tv_ui_see_all">Zobrazit vše</string>
     <string name="live_tv_ui_playlists_and_guide">Seznamy skladeb a průvodce</string>
+<string name="live_tv_ui_playlists_on_this_profile">Playlisty v tomto profilu</string>
+<string name="live_tv_ui_playlists_on_this_profile_hint">Vypnutím playlistu skryjete jeho kanály a skupiny v tomto profilu. Ostatní profily si ponechají vlastní volby.</string>
     <string name="live_tv_ui_add_a_playlist">Přidejte seznam skladeb</string>
     <string name="live_tv_ui_update_all">Aktualizovat vše</string>
     <string name="live_tv_ui_guide_sources">Průvodce prameny</string>

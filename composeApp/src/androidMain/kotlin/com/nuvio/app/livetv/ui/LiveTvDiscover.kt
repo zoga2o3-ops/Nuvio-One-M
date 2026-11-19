@@ -56,6 +56,7 @@ private fun rememberOpenChannels(live: LiveTv): List<LiveChannel> {
     val settings by live.prefs.settings.collectAsStateWithLifecycle(com.nuvio.app.livetv.model.LiveTvSettings())
     return remember(all, user, settings.parentalPin, settings.lockAdultContent) {
         all.filter {
+            it.sourceId !in user.hiddenPlaylists &&
             it.key !in user.hiddenChannels && it.groupId !in user.hiddenGroups && !user.hidesByGroupTag(it, user.keptChannelKeys) && it.groupId !in user.lockedGroups &&
                 !(settings.parentalPin.length >= 4 && settings.lockAdultContent && com.nuvio.app.livetv.parental.ParentalControls.isAdult(it.group))
         }

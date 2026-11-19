@@ -3149,6 +3149,8 @@
     <string name="live_tv_ui_keep_the_last">Simpan yang terakhir</string>
     <string name="live_tv_ui_see_all">Lihat semuanya</string>
     <string name="live_tv_ui_playlists_and_guide">Daftar putar dan panduan</string>
+<string name="live_tv_ui_playlists_on_this_profile">Playlist di profil ini</string>
+<string name="live_tv_ui_playlists_on_this_profile_hint">Matikan playlist untuk menyembunyikan saluran dan grupnya di profil ini. Profil lain tetap memakai pilihannya sendiri.</string>
     <string name="live_tv_ui_add_a_playlist">Tambahkan daftar putar</string>
     <string name="live_tv_ui_update_all">Perbarui semua</string>
     <string name="live_tv_ui_guide_sources">Sumber panduan</string>

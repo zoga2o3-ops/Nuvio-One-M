@@ -364,3 +364,57 @@ private fun PlaylistEditDialog(
         dismissButton = { TextButton(onClick = onDismiss) { Text(stringResource(Res.string.action_cancel)) } },
     )
 }
+
+/** Which shared playlists this profile shows. The sources themselves stay shared. */
+@Composable
+fun PlaylistVisibilityDialog(
+    playlists: List<PlaylistSource>,
+    hidden: Set<String>,
+    onToggle: (String, Boolean) -> Unit,
+    onDismiss: () -> Unit,
+) {
+    Dialog(onDismissRequest = onDismiss, properties = DialogProperties(usePlatformDefaultWidth = false)) {
+        Surface(Modifier.fillMaxSize(), color = Color(0xFF0E0E0E)) {
+            CompositionLocalProvider(LocalContentColor provides Color.White) {
+                Column(Modifier.fillMaxSize().statusBarsPadding().navigationBarsPadding()) {
+                    Row(Modifier.fillMaxWidth().padding(16.dp, 8.dp), verticalAlignment = Alignment.CenterVertically) {
+                        Text(
+                            stringResource(Res.string.live_tv_ui_playlists_on_this_profile),
+                            style = MaterialTheme.typography.titleLarge,
+                            modifier = Modifier.weight(1f),
+                        )
+                        TextButton(onClick = onDismiss) { Text(stringResource(Res.string.action_done)) }
+                    }
+                    Text(
+                        stringResource(Res.string.live_tv_ui_playlists_on_this_profile_hint),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = Color(0xFFB0B0B0),
+                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
+                    )
+                    Column(Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(horizontal = 16.dp)) {
+                        playlists.forEach { p ->
+                            Row(Modifier.fillMaxWidth().padding(vertical = 10.dp), verticalAlignment = Alignment.CenterVertically) {
+                                Column(Modifier.weight(1f).padding(end = 12.dp)) {
+                                    Text(
+                                        p.name,
+                                        style = MaterialTheme.typography.bodyLarge,
+                                        maxLines = 1,
+                                        overflow = TextOverflow.Ellipsis,
+                                    )
+                                    Text(
+                                        if (p.isStalker) stringResource(Res.string.live_tv_ui_stalker_portal)
+                                        else if (p.isXtream) "Xtream" else "M3U",
+                                        style = MaterialTheme.typography.bodySmall,
+                                        color = Color(0xFFB0B0B0),
+                                    )
+                                }
+                                Switch(checked = p.id !in hidden, onCheckedChange = { onToggle(p.id, it) })
+                            }
+                            HorizontalDivider(color = Color(0x22FFFFFF))
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -3144,6 +3144,8 @@
     <string name="live_tv_ui_the_provider_didn_t_send_details_for_this_one">הספק לא שלח פרטים עבור זה.</string>
     <string name="live_tv_ui_see_all">ראה הכל</string>
     <string name="live_tv_ui_playlists_and_guide">רשימות השמעה ומדריך</string>
+<string name="live_tv_ui_playlists_on_this_profile">פלייליסטים בפרופיל הזה</string>
+<string name="live_tv_ui_playlists_on_this_profile_hint">כבה פלייליסט כדי להסתיר את הערוצים והקבוצות שלו בפרופיל הזה. פרופילים אחרים שומרים על הבחירות שלהם.</string>
     <string name="live_tv_ui_add_a_playlist">הוסף רשימת השמעה</string>
     <string name="live_tv_ui_update_all">עדכן הכל</string>
     <string name="live_tv_ui_guide_sources">מקורות מדריכים</string>

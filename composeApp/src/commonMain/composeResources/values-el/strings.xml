@@ -3193,6 +3193,8 @@
     <string name="live_tv_ui_channel_logos_from">Λογότυπα καναλιών από</string>
     <string name="live_tv_ui_see_all">Δείτε όλα</string>
     <string name="live_tv_ui_playlists_and_guide">Λίστες αναπαραγωγής και οδηγός</string>
+<string name="live_tv_ui_playlists_on_this_profile">Λίστες αναπαραγωγής σε αυτό το προφίλ</string>
+<string name="live_tv_ui_playlists_on_this_profile_hint">Απενεργοποιήστε μια λίστα για να κρύψετε τα κανάλια και τις ομάδες της σε αυτό το προφίλ. Τα άλλα προφίλ κρατούν τις δικές τους επιλογές.</string>
     <string name="live_tv_ui_add_a_playlist">Προσθέστε μια λίστα αναπαραγωγής</string>
     <string name="live_tv_ui_update_all">Ενημέρωση όλων</string>
     <string name="live_tv_ui_guide_sources">Οδηγίες πηγών</string>

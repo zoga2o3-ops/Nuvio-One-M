@@ -3187,6 +3187,8 @@
     <string name="live_tv_ui_keep_your_playlists_guides_favorites_sports_and_calendar_cho">Majte svoje zoznamy skladieb, sprievodcov, obľúbené položky, športové a kalendárové voľby a nastavenia na každom zariadení prihlásenom do svojho účtu Nuvio.</string>
     <string name="live_tv_ui_see_all">Zobraziť všetky</string>
     <string name="live_tv_ui_playlists_and_guide">Zoznamy skladieb a sprievodca</string>
+<string name="live_tv_ui_playlists_on_this_profile">Zoznamy skladieb v tomto profile</string>
+<string name="live_tv_ui_playlists_on_this_profile_hint">Vypnutím zoznamu skryjete jeho kanály a skupiny v tomto profile. Ostatné profily si ponechajú vlastné voľby.</string>
     <string name="live_tv_ui_add_a_playlist">Pridajte zoznam skladieb</string>
     <string name="live_tv_ui_update_all">Aktualizovať všetky</string>
     <string name="live_tv_ui_guide_sources">Sprievodné zdroje</string>

@@ -3149,6 +3149,8 @@
     <string name="music_tab_party">حفلة</string>
     <string name="live_tv_ui_see_all">شاهد الكل</string>
     <string name="live_tv_ui_playlists_and_guide">قوائم التشغيل والدليل</string>
+<string name="live_tv_ui_playlists_on_this_profile">قوائم التشغيل على هذا الملف الشخصي</string>
+<string name="live_tv_ui_playlists_on_this_profile_hint">أوقف قائمة تشغيل لإخفاء قنواتها ومجموعاتها في هذا الملف الشخصي. تحتفظ الملفات الأخرى بخياراتها.</string>
     <string name="live_tv_ui_add_a_playlist">أضف قائمة تشغيل</string>
     <string name="live_tv_ui_update_all">تحديث الكل</string>
     <string name="live_tv_ui_guide_sources">مصادر الدليل</string>

@@ -3195,6 +3195,8 @@
     <string name="live_tv_ui_the_provider_didn_t_send_details_for_this_one">A szolgáltató nem küldött erről részleteket.</string>
     <string name="live_tv_ui_see_all">Az összes megtekintése</string>
     <string name="live_tv_ui_playlists_and_guide">Lejátszási listák és útmutató</string>
+<string name="live_tv_ui_playlists_on_this_profile">Lejátszási listák ebben a profilban</string>
+<string name="live_tv_ui_playlists_on_this_profile_hint">Kapcsolj ki egy lejátszási listát, hogy elrejtsd a csatornáit és csoportjait ebben a profilban. A többi profil megtartja a saját választásait.</string>
     <string name="live_tv_ui_add_a_playlist">Lejátszási lista hozzáadása</string>
     <string name="live_tv_ui_update_all">Frissítse az összeset</string>
     <string name="live_tv_ui_guide_sources">Útmutató források</string>

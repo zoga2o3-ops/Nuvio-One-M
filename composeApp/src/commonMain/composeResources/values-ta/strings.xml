@@ -3139,6 +3139,8 @@
     <string name="live_tv_ui_the_provider_didn_t_send_details_for_this_one">இதற்கான விவரங்களை வழங்குநர் அனுப்பவில்லை.</string>
     <string name="live_tv_ui_see_all">அனைத்தையும் பார்க்கவும்</string>
     <string name="live_tv_ui_playlists_and_guide">பிளேலிஸ்ட்கள் மற்றும் வழிகாட்டி</string>
+<string name="live_tv_ui_playlists_on_this_profile">இந்த சுயவிவரத்தில் பிளேலிஸ்ட்கள்</string>
+<string name="live_tv_ui_playlists_on_this_profile_hint">இந்த சுயவிவரத்தில் ஒரு பிளேலிஸ்ட்டின் சேனல்கள் மற்றும் குழுக்களை மறைக்க அதை அணைக்கவும். மற்ற சுயவிவரங்கள் தங்கள் தேர்வுகளை வைத்திருக்கும்.</string>
     <string name="live_tv_ui_add_a_playlist">பிளேலிஸ்ட்டைச் சேர்க்கவும்</string>
     <string name="live_tv_ui_update_all">அனைத்தையும் புதுப்பிக்கவும்</string>
     <string name="live_tv_ui_guide_sources">வழிகாட்டி ஆதாரங்கள்</string>

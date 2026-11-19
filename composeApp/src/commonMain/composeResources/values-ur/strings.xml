@@ -3176,6 +3176,8 @@
     <string name="live_tv_ui_search_logos">لوگو تلاش کریں۔</string>
     <string name="live_tv_ui_see_all">سب دیکھیں</string>
     <string name="live_tv_ui_playlists_and_guide">پلے لسٹس اور گائیڈ</string>
+<string name="live_tv_ui_playlists_on_this_profile">اس پروفائل میں پلے لسٹس</string>
+<string name="live_tv_ui_playlists_on_this_profile_hint">اس پروفائل میں پلے لسٹ کے چینلز اور گروپس چھپانے کے لیے اسے بند کریں۔ دوسرے پروفائلز اپنی پسند برقرار رکھتے ہیں۔</string>
     <string name="live_tv_ui_add_a_playlist">پلے لسٹ شامل کریں۔</string>
     <string name="live_tv_ui_update_all">سب کو اپ ڈیٹ کریں۔</string>
     <string name="live_tv_ui_guide_sources">رہنمائی کے ذرائع</string>

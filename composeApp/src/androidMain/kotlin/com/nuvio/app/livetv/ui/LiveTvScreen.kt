@@ -180,7 +180,8 @@ fun LiveTvScreen(modifier: Modifier, onPlay: (LiveTvPlayRequest) -> Unit) {
     ) {
         value = withContext(Dispatchers.Default) {
             val visible = allChannels.filter {
-                it.key !in user.hiddenChannels && it.groupId !in user.hiddenGroups && !user.hidesByGroupTag(it, user.keptChannelKeys) &&
+                it.sourceId !in user.hiddenPlaylists &&
+                    it.key !in user.hiddenChannels && it.groupId !in user.hiddenGroups && !user.hidesByGroupTag(it, user.keptChannelKeys) &&
                     (!isLockedGroup(it.groupId, it.group) || it.groupId in unlocked)
             }
             val seen = LinkedHashMap<String, LiveGroup>()
