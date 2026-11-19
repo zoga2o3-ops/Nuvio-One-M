@@ -3,8 +3,11 @@ package com.nuvio.app.livetv.ui
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -26,6 +29,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -34,6 +38,8 @@ import com.nuvio.app.livetv.LiveTv
 import com.nuvio.app.livetv.model.ChannelSort
 import com.nuvio.app.livetv.model.LiveTvGroupTags
 import com.nuvio.app.livetv.model.LiveTvSettings
+import com.nuvio.app.features.settings.SettingsGroup
+import com.nuvio.app.features.settings.SettingsSection
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -71,9 +77,10 @@ fun LiveTvSettingsContent() {
     var confirmReset by remember { mutableStateOf(false) }
     var editHomeRowTitle by remember { mutableStateOf(false) }
 
+    val isTablet = LocalConfiguration.current.screenWidthDp >= 600
     CompositionLocalProvider(LocalContentColor provides MaterialTheme.colorScheme.onBackground) {
         Column(Modifier.fillMaxWidth()) {
-            Section(stringResource(Res.string.live_tv_ui_playlists_and_guide))
+            SettingsBlock(stringResource(Res.string.live_tv_ui_playlists_and_guide), isTablet) {
             ActionLine(
                 title = stringResource(Res.string.live_tv_ui_playlists_and_guide),
                 detail = if (sourceStatus.loading) {
@@ -88,7 +95,8 @@ fun LiveTvSettingsContent() {
                 detail = stringResource(Res.string.live_tv_settings_update_all_description),
             ) { sources.refresh() }
 
-            Section(stringResource(Res.string.live_tv_section_channels))
+            }
+            SettingsBlock(stringResource(Res.string.live_tv_section_channels), isTablet) {
             ChoiceRow(
                 stringResource(Res.string.live_tv_ui_sort_channels),
                 when (settings.channelSort) { ChannelSort.PLAYLIST -> stringResource(Res.string.live_tv_ui_as_in_the_playlist); ChannelSort.NUMBER -> stringResource(Res.string.live_tv_ui_by_number); ChannelSort.NAME -> stringResource(Res.string.live_tv_ui_by_name) },
@@ -130,7 +138,8 @@ fun LiveTvSettingsContent() {
             }
             ActionLine(stringResource(Res.string.live_tv_ui_put_channels_back_in_playlist_order), "Forget the order you set with Move earlier / later.") { scope.launch { live.prefs.resetChannelOrder() } }
 
-            Section(stringResource(Res.string.live_tv_ui_guide))
+            }
+            SettingsBlock(stringResource(Res.string.live_tv_ui_guide), isTablet) {
             SwitchRow(stringResource(Res.string.live_tv_ui_24_hour_clock), null, settings.use24HourClock) { v -> change { it.copy(use24HourClock = v) } }
             StepperRow(stringResource(Res.string.live_tv_ui_shift_the_guide), "${settings.epgOffsetMinutes / 60.0} hours".replace(".0 ", " "),
                 onMinus = { change { it.copy(epgOffsetMinutes = (it.epgOffsetMinutes - 30).coerceAtLeast(-12 * 60)) } },
@@ -160,7 +169,8 @@ fun LiveTvSettingsContent() {
                 listOf(6, 12, 24, 48, 168).map { "Every $it hours" to it },
             ) { v -> change { it.copy(playlistRefreshHours = v) } }
 
-            Section(stringResource(Res.string.compose_settings_page_playback))
+            }
+            SettingsBlock(stringResource(Res.string.compose_settings_page_playback), isTablet) {
             SwitchRow(stringResource(Res.string.live_tv_ui_reconnect_when_a_channel_drops), "Try again a few times before giving up.", settings.autoReconnect) { v -> change { it.copy(autoReconnect = v) } }
             SwitchRow(stringResource(Res.string.live_tv_ui_prefer_hls_for_catch_up), "Gives replays a length, so you can skip around.", settings.catchupPreferHls) { v -> change { it.copy(catchupPreferHls = v) } }
             StepperRow(stringResource(Res.string.live_tv_ui_catch_up_time_shift), "${settings.catchupShiftMinutes} minutes",
@@ -181,14 +191,16 @@ fun LiveTvSettingsContent() {
                 listOf(stringResource(Res.string.live_tv_ui_leave_as_it_is) to "OFF", stringResource(Res.string.live_tv_ui_match_the_picture_motion) to "START"),
             ) { v -> change { it.copy(frameRateMode = v) } }
 
-            Section(stringResource(Res.string.live_tv_ui_pause_and_rewind))
+            }
+            SettingsBlock(stringResource(Res.string.live_tv_ui_pause_and_rewind), isTablet) {
             SwitchRow(stringResource(Res.string.live_tv_ui_pause_and_rewind), "Pausing a channel keeps recording it, so you carry on where you stopped.", settings.timeshiftEnabled) { v -> change { it.copy(timeshiftEnabled = v) } }
             StepperRow(stringResource(Res.string.live_tv_ui_keep_the_last), "${settings.timeshiftMinutes} minutes",
                 onMinus = { change { it.copy(timeshiftMinutes = (it.timeshiftMinutes - 5).coerceAtLeast(5)) } },
                 onPlus = { change { it.copy(timeshiftMinutes = (it.timeshiftMinutes + 5).coerceAtMost(30)) } })
             SwitchRow(stringResource(Res.string.live_tv_ui_rewind_anytime), "Keep the last minutes while you watch, so you can rewind without pausing. Uses a second connection to your provider.", settings.rewindAlways) { v -> change { it.copy(rewindAlways = v) } }
 
-            Section(stringResource(Res.string.yt_tab_sports))
+            }
+            SettingsBlock(stringResource(Res.string.yt_tab_sports), isTablet) {
             val sports = remember { live.sports }
             val sportsSettings by sports.settings.collectAsStateWithLifecycle()
             if (!notifications.canNotify) {
@@ -227,7 +239,8 @@ fun LiveTvSettingsContent() {
             SwitchRow(stringResource(Res.string.live_tv_ui_best_channel_first), "Put the likeliest channel at the top of a game's list.", sportsSettings.bestChannelFirst) { v -> sports.updateSettings { it.copy(bestChannelFirst = v) } }
             ActionLine(stringResource(Res.string.live_tv_ui_forget_the_channels_i_picked), "Undo every \"Wrong channel?\" fix.") { sports.clearFixes() }
 
-            Section(stringResource(Res.string.live_tv_ui_recordings))
+            }
+            SettingsBlock(stringResource(Res.string.live_tv_ui_recordings), isTablet) {
             StepperRow(stringResource(Res.string.live_tv_ui_start_recording_early), "${settings.recordPreMinutes} minutes",
                 onMinus = { change { it.copy(recordPreMinutes = (it.recordPreMinutes - 1).coerceAtLeast(0)) } },
                 onPlus = { change { it.copy(recordPreMinutes = (it.recordPreMinutes + 1).coerceAtMost(30)) } })
@@ -246,7 +259,8 @@ fun LiveTvSettingsContent() {
                 listOf(stringResource(Res.string.live_tv_ui_stop_recording) to "STOP", stringResource(Res.string.live_tv_ui_delete_the_oldest_recording) to "DELETE_OLDEST"),
             ) { v -> change { it.copy(recordingSpaceRule = v) } }
 
-            Section(stringResource(Res.string.live_tv_ui_on_screen))
+            }
+            SettingsBlock(stringResource(Res.string.live_tv_ui_on_screen), isTablet) {
             SwitchRow(stringResource(Res.string.live_tv_ui_4k_fhd_hd_badges), "Next to channels you've watched.", settings.showQualityBadges) { v -> change { it.copy(showQualityBadges = v) } }
             ChoiceRow(
                 stringResource(Res.string.live_tv_ui_clock_over_the_picture),
@@ -268,7 +282,8 @@ fun LiveTvSettingsContent() {
                 onPlus = { change { it.copy(clockOpacity = (it.clockOpacity + 10).coerceAtMost(100)) } })
             SwitchRow(stringResource(Res.string.live_tv_ui_clock_background), "A soft dark pill behind the clock.", settings.clockBackground) { v -> change { it.copy(clockBackground = v) } }
 
-            Section(stringResource(Res.string.live_tv_ui_starting))
+            }
+            SettingsBlock(stringResource(Res.string.live_tv_ui_starting), isTablet) {
             var startPage by remember { mutableStateOf(LiveTvStart.startPage(context)) }
             ChoiceRow(
                 stringResource(Res.string.live_tv_ui_open_the_app_on),
@@ -277,7 +292,8 @@ fun LiveTvSettingsContent() {
             ) { v -> LiveTvStart.setStartPage(context, v); startPage = v }
             SwitchRow(stringResource(Res.string.live_tv_ui_play_the_last_channel), "When Live TV opens, start the channel you watched last.", settings.autoPlayLastChannel) { v -> change { it.copy(autoPlayLastChannel = v) } }
 
-            Section(stringResource(Res.string.live_tv_ui_home_screen))
+            }
+            SettingsBlock(stringResource(Res.string.live_tv_ui_home_screen), isTablet) {
             val homeRowOn = settings.homeRowEnabled && profileId !in settings.homeRowHiddenProfiles
             SwitchRow(
                 stringResource(Res.string.live_tv_ui_home_row),
@@ -344,10 +360,15 @@ fun LiveTvSettingsContent() {
                 settings.onDemandHomeRowEnabled,
             ) { v -> change { it.copy(onDemandHomeRowEnabled = v) } }
 
-            AccountSyncSection(live)
-            DriveSyncSection(live)
+            }
+            SettingsBlock(stringResource(Res.string.live_tv_ui_sync_with_your_nuvio_account), isTablet) {
+                AccountSyncSection(live)
+            }
+            SettingsBlock(stringResource(Res.string.live_tv_ui_sync_with_google_drive), isTablet) {
+                DriveSyncSection(live)
+            }
 
-            Section(stringResource(Res.string.live_tv_ui_parental_controls))
+            SettingsBlock(stringResource(Res.string.live_tv_ui_parental_controls), isTablet) {
             if (settings.parentalPin.isBlank()) {
                 ActionLine(stringResource(Res.string.live_tv_ui_set_a_pin), "Then long-press a group to lock it.") { pinStep = "set" }
             } else {
@@ -370,8 +391,10 @@ fun LiveTvSettingsContent() {
                 SwitchRow(stringResource(Res.string.live_tv_ui_lock_adult_groups_automatically), "Groups with an adult name need the PIN too.", settings.lockAdultContent) { v -> change { it.copy(lockAdultContent = v) } }
             }
 
-            Section(stringResource(Res.string.compose_player_reset))
+            }
+            SettingsBlock(stringResource(Res.string.compose_player_reset), isTablet) {
             ActionLine(stringResource(Res.string.live_tv_ui_clear_names_numbers_and_group_order), "Hidden channels and favorites stay as they are.") { confirmReset = true }
+            }
         }
     }
 
@@ -498,6 +521,14 @@ private fun HomeRowTitleDialog(
 }
 
 @Composable
+private fun SettingsBlock(title: String, isTablet: Boolean, content: @Composable ColumnScope.() -> Unit) {
+    SettingsSection(title = title, isTablet = isTablet) {
+        SettingsGroup(isTablet = isTablet) { content() }
+    }
+    Spacer(Modifier.height(18.dp))
+}
+
+@Composable
 private fun Section(title: String) {
     Text(
         title,
@@ -510,35 +541,47 @@ private fun Section(title: String) {
 
 @Composable
 private fun SwitchRow(title: String, detail: String?, checked: Boolean, onChange: (Boolean) -> Unit) {
-    Row(
-        Modifier.fillMaxWidth().clickable { onChange(!checked) }.padding(vertical = 8.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Column(Modifier.weight(1f)) {
-            Text(title, style = MaterialTheme.typography.bodyLarge)
-            if (detail != null) Text(detail, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+    Column(Modifier.fillMaxWidth()) {
+        Row(
+            Modifier.fillMaxWidth().clickable { onChange(!checked) }.padding(horizontal = 16.dp, vertical = 10.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Column(Modifier.weight(1f)) {
+                Text(title, style = MaterialTheme.typography.bodyLarge)
+                if (detail != null) Text(detail, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            }
+            Switch(checked = checked, onCheckedChange = onChange)
         }
-        Switch(checked = checked, onCheckedChange = onChange)
+        HorizontalDivider(Modifier.padding(horizontal = 16.dp), color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.45f))
     }
 }
 
 @Composable
 private fun ActionLine(title: String, detail: String?, onClick: () -> Unit) {
-    Column(Modifier.fillMaxWidth().clickable(onClick = onClick).padding(vertical = 10.dp)) {
-        Text(title, style = MaterialTheme.typography.bodyLarge)
-        if (detail != null) Text(detail, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+    Column(Modifier.fillMaxWidth()) {
+        Column(Modifier.fillMaxWidth().clickable(onClick = onClick).padding(horizontal = 16.dp, vertical = 12.dp)) {
+            Text(title, style = MaterialTheme.typography.bodyLarge)
+            if (detail != null) Text(detail, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+        }
+        HorizontalDivider(Modifier.padding(horizontal = 16.dp), color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.45f))
     }
 }
 
 @Composable
 private fun StepperRow(title: String, value: String, onMinus: () -> Unit, onPlus: () -> Unit) {
-    Row(Modifier.fillMaxWidth().padding(vertical = 4.dp), verticalAlignment = Alignment.CenterVertically) {
-        Column(Modifier.weight(1f)) {
-            Text(title, style = MaterialTheme.typography.bodyLarge)
-            Text(value, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+    Column(Modifier.fillMaxWidth()) {
+        Row(
+            Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 6.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Column(Modifier.weight(1f)) {
+                Text(title, style = MaterialTheme.typography.bodyLarge)
+                Text(value, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            }
+            TextButton(onClick = onMinus) { Text("−") }
+            TextButton(onClick = onPlus) { Text("+") }
         }
-        TextButton(onClick = onMinus) { Text("−") }
-        TextButton(onClick = onPlus) { Text("+") }
+        HorizontalDivider(Modifier.padding(horizontal = 16.dp), color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.45f))
     }
 }
 
@@ -573,12 +616,11 @@ private fun AccountSyncSection(live: LiveTv) {
     val state by sync.state.collectAsStateWithLifecycle()
     var confirmDelete by remember { mutableStateOf(false) }
 
-    Section(stringResource(Res.string.live_tv_ui_sync_with_your_nuvio_account))
     if (!state.available) {
         Text(
             stringResource(Res.string.live_tv_ui_setup_sync_works_with_the_official_nuvio_server_it_isn_t_ava),
             style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier = Modifier.padding(vertical = 4.dp),
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 6.dp),
         )
         return
     }
@@ -586,13 +628,13 @@ private fun AccountSyncSection(live: LiveTv) {
         Text(
             stringResource(Res.string.live_tv_ui_sign_in_to_your_nuvio_account_profile_account_to_keep_your_l),
             style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier = Modifier.padding(vertical = 4.dp),
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 6.dp),
         )
         return
     }
     Text(
         "Signed in as ${state.email ?: "your Nuvio account"}.",
-        style = MaterialTheme.typography.bodyMedium, modifier = Modifier.padding(vertical = 4.dp),
+        style = MaterialTheme.typography.bodyMedium, modifier = Modifier.padding(horizontal = 16.dp, vertical = 6.dp),
     )
     SwitchRow(
         stringResource(Res.string.live_tv_ui_setup_sync),
@@ -607,7 +649,7 @@ private fun AccountSyncSection(live: LiveTv) {
                 ).format(java.util.Date(state.lastSyncMs)))
             } else stringResource(Res.string.live_tv_ui_not_synced_yet),
             style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier = Modifier.padding(vertical = 4.dp),
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 6.dp),
         )
         ActionLine(stringResource(Res.string.settings_simkl_sync_now), stringResource(Res.string.live_tv_ui_check_changes)) { sync.syncNow() }
         ActionLine(stringResource(Res.string.live_tv_ui_restore_the_previous_copy), stringResource(Res.string.live_tv_ui_bring_back_saved)) { sync.restorePrevious() }
@@ -615,7 +657,7 @@ private fun AccountSyncSection(live: LiveTv) {
     }
     if (state.busy) Text(stringResource(Res.string.live_tv_ui_working), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
     state.message?.let {
-        Text(it, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(vertical = 4.dp))
+        Text(it, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(horizontal = 16.dp, vertical = 6.dp))
     }
 
     if (confirmDelete) {
@@ -640,12 +682,11 @@ private fun DriveSyncSection(live: LiveTv) {
     var askRestore by remember { mutableStateOf<com.nuvio.app.livetv.sync.LiveTvDriveSync.BackupInfo?>(null) }
     var checking by remember { mutableStateOf(false) }
 
-    Section(stringResource(Res.string.live_tv_ui_sync_with_google_drive))
     if (!state.available) {
         Text(
             stringResource(Res.string.live_tv_ui_google_drive_sync_isn_t_set_up_in_this_build_no_google_clien),
             style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier = Modifier.padding(vertical = 4.dp),
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 6.dp),
         )
         return
     }
@@ -664,7 +705,7 @@ private fun DriveSyncSection(live: LiveTv) {
                 connectedBase,
                 java.text.DateFormat.getDateTimeInstance(java.text.DateFormat.MEDIUM, java.text.DateFormat.SHORT).format(java.util.Date(state.lastSyncMs)),
             ) else stringResource(Res.string.live_tv_ui_connected, connectedBase),
-            style = MaterialTheme.typography.bodyMedium, modifier = Modifier.padding(vertical = 4.dp),
+            style = MaterialTheme.typography.bodyMedium, modifier = Modifier.padding(horizontal = 16.dp, vertical = 6.dp),
         )
         SwitchRow(stringResource(Res.string.live_tv_ui_sync_automatically), stringResource(Res.string.live_tv_ui_backup_soon), state.autoSync) { sync.setAutoSync(it) }
         ActionLine(stringResource(Res.string.live_tv_ui_back_up_now), stringResource(Res.string.live_tv_ui_save_setup_to_drive)) { sync.backUpNow() }
@@ -680,7 +721,7 @@ private fun DriveSyncSection(live: LiveTv) {
         ActionLine(stringResource(Res.string.live_tv_disconnect), stringResource(Res.string.live_tv_ui_stops_syncing)) { sync.disconnect() }
     }
     if (state.busy || checking) Text(stringResource(Res.string.live_tv_ui_working), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-    state.message?.let { Text(it, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(vertical = 4.dp)) }
+    state.message?.let { Text(it, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(horizontal = 16.dp, vertical = 6.dp)) }
 
     state.signIn?.let { p ->
         // The browser opens at Google's page with the code already in it: choose your account and approve.
