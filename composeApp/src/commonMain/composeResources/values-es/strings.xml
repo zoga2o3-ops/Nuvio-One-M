@@ -3963,6 +3963,10 @@
     <string name="live_tv_ui_game">Partido</string>
     <string name="live_tv_ui_stats">Estadísticas</string>
     <string name="live_tv_ui_plays">Jugadas</string>
+<string name="live_tv_ui_highlights">Momentos destacados</string>
+<string name="live_tv_ui_condensed_game">Partido resumido</string>
+<string name="live_tv_ui_recap">Resumen</string>
+<string name="live_tv_ui_no_highlights_yet">Aún no hay momentos destacados de este partido.</string>
     <string name="live_tv_ui_leaders">Líderes</string>
     <string name="live_tv_ui_no_plays_yet">Aún no hay jugadas.</string>
     <string name="live_tv_ui_table">Tabla</string>

@@ -3997,6 +3997,10 @@
     <string name="live_tv_ui_game">Match</string>
     <string name="live_tv_ui_stats">Statistiques</string>
     <string name="live_tv_ui_plays">Actions</string>
+<string name="live_tv_ui_highlights">Temps forts</string>
+<string name="live_tv_ui_condensed_game">Match condensé</string>
+<string name="live_tv_ui_recap">Résumé</string>
+<string name="live_tv_ui_no_highlights_yet">Pas encore de temps forts pour ce match.</string>
     <string name="live_tv_ui_leaders">Leaders</string>
     <string name="live_tv_ui_no_plays_yet">Pas encore d’actions.</string>
     <string name="live_tv_ui_table">Classement</string>

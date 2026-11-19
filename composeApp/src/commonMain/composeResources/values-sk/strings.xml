@@ -4006,6 +4006,10 @@
     <string name="live_tv_ui_game">Zápas</string>
     <string name="live_tv_ui_stats">Štatistiky</string>
     <string name="live_tv_ui_plays">Hry</string>
+<string name="live_tv_ui_highlights">Zostrihy</string>
+<string name="live_tv_ui_condensed_game">Skrátený zápas</string>
+<string name="live_tv_ui_recap">Zhrnutie</string>
+<string name="live_tv_ui_no_highlights_yet">Pre tento zápas zatiaľ nie sú žiadne zostrihy.</string>
     <string name="live_tv_ui_leaders">Lídri</string>
     <string name="live_tv_ui_no_plays_yet">Zatiaľ žiadne hry.</string>
     <string name="live_tv_ui_table">Tabuľka</string>

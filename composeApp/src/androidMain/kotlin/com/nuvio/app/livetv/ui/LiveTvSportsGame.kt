@@ -25,6 +25,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalContentColor
@@ -38,6 +40,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -64,9 +67,13 @@ import com.nuvio.app.livetv.sports.Sport
 import com.nuvio.app.livetv.sports.SportsCatalog
 import com.nuvio.app.livetv.sports.SportsEvent
 import com.nuvio.app.livetv.sports.SportsRepository
+import com.nuvio.app.livetv.sports.SportsVideo
 import com.nuvio.app.livetv.sports.StatLine
 import com.nuvio.app.livetv.sports.TableRow
 import com.nuvio.app.livetv.sports.TeamInfo
+import com.nuvio.app.features.youtube.YouTubeHost
+import com.nuvio.app.features.youtube.YouTubePlayRequest
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Date
 import kotlin.math.roundToInt
@@ -96,6 +103,7 @@ internal fun SportsGameScreen(
     onAlerts: () -> Unit,
     onWatch: (ChannelMatch) -> Unit,
     onRecord: (ChannelMatch) -> Unit,
+    onPlayVideo: (String, String) -> Unit,
     onFix: () -> Unit,
     onDismiss: () -> Unit,
 ) {
@@ -104,10 +112,17 @@ internal fun SportsGameScreen(
     val showScore = ev.hasScore && !hideScore
     var plays by remember(ev.id) { mutableStateOf<List<ScoringPlay>?>(null) }
     var extras by remember(ev.id) { mutableStateOf<GameExtras?>(null) }
+    var videos by remember(ev.id) { mutableStateOf<List<SportsVideo>?>(null) }
     var tab by remember(ev.id) { mutableStateOf(0) }
+    val scope = rememberCoroutineScope()
     LaunchedEffect(ev.id) {
         plays = runCatching { repo.scoringPlays(ev) }.getOrDefault(emptyList())
         extras = runCatching { repo.gameExtras(ev) }.getOrNull()
+    }
+    LaunchedEffect(ev.id, ev.state) {
+        if (ev.state == GameState.POST) {
+            videos = runCatching { repo.highlights(ev) }.getOrDefault(emptyList())
+        }
     }
 
     Dialog(onDismissRequest = onDismiss, properties = DialogProperties(usePlatformDefaultWidth = false)) {
@@ -174,6 +189,9 @@ internal fun SportsGameScreen(
                                 GameTab(stringResource(Res.string.live_tv_ui_game), tab == 0) { tab = 0 }
                                 GameTab(stringResource(Res.string.live_tv_ui_stats), tab == 1) { tab = 1 }
                                 GameTab(stringResource(Res.string.live_tv_ui_plays), tab == 2) { tab = 2 }
+                                if (ev.state == GameState.POST) {
+                                    GameTab(stringResource(Res.string.live_tv_ui_highlights), tab == 3) { tab = 3 }
+                                }
                             }
                         }
                         val p = plays
@@ -220,6 +238,46 @@ internal fun SportsGameScreen(
                             } else {
                                 items(p.asReversed(), key = { it.clock + "|" + it.text }) { play ->
                                     PlayRow(play)
+                                }
+                            }
+                        }
+                        if (tab == 3) {
+                            val v = videos
+                            if (v == null) {
+                                item(key = "highlights-loading") {
+                                    Box(Modifier.fillMaxWidth().padding(24.dp), contentAlignment = Alignment.Center) {
+                                        CircularProgressIndicator(color = Color.White.copy(alpha = 0.7f))
+                                    }
+                                }
+                            } else if (v.isEmpty()) {
+                                item(key = "highlights-none") {
+                                    Text(
+                                        stringResource(Res.string.live_tv_ui_no_highlights_yet),
+                                        style = MaterialTheme.typography.bodyMedium,
+                                        color = Color.White.copy(alpha = 0.6f),
+                                    )
+                                }
+                            } else {
+                                items(v, key = { it.id }) { video ->
+                                    VideoRow(video) {
+                                        val youtubeId = video.youtubeId
+                                        if (youtubeId != null) {
+                                            YouTubeHost.openVideo?.invoke(
+                                                YouTubePlayRequest(
+                                                    url = video.url,
+                                                    title = video.title,
+                                                    poster = null,
+                                                    videoId = youtubeId
+                                                )
+                                            )
+                                        } else {
+                                            scope.launch {
+                                                repo.highlightUrl(video)?.takeIf { it.isNotBlank() }?.let { url ->
+                                                    onPlayVideo(url, video.title)
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -428,6 +486,47 @@ private fun PlayRow(p: ScoringPlay) {
             Text(p.text, style = MaterialTheme.typography.bodySmall, color = Color.White.copy(alpha = 0.85f), maxLines = 4, overflow = TextOverflow.Ellipsis)
         }
     }
+}
+
+@Composable
+private fun VideoRow(video: SportsVideo, onClick: () -> Unit) {
+    Row(
+        Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(10.dp))
+            .clickable(onClick = onClick)
+            .padding(vertical = 8.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(10.dp),
+    ) {
+        Icon(Icons.Default.PlayArrow, contentDescription = null, tint = Accent, modifier = Modifier.size(22.dp))
+        Column(Modifier.weight(1f)) {
+            Text(
+                video.title,
+                style = MaterialTheme.typography.bodyMedium,
+                color = Color.White,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis,
+            )
+            Text(
+                listOfNotNull(
+                    kindLabel(video.kind),
+                    video.source.takeIf { it.isNotBlank() },
+                    video.seconds?.let { seconds -> "${seconds / 60}:${(seconds % 60).toString().padStart(2, '0')}" },
+                ).joinToString("  ·  "),
+                style = MaterialTheme.typography.labelSmall,
+                color = Color.White.copy(alpha = 0.6f),
+            )
+        }
+    }
+}
+
+@Composable
+private fun kindLabel(kind: SportsVideo.Kind): String = when (kind) {
+    SportsVideo.Kind.CONDENSED -> stringResource(Res.string.live_tv_ui_condensed_game)
+    SportsVideo.Kind.RECAP -> stringResource(Res.string.live_tv_ui_recap)
+    SportsVideo.Kind.HIGHLIGHTS -> stringResource(Res.string.live_tv_ui_highlights)
+    SportsVideo.Kind.PLAY -> stringResource(Res.string.action_play)
 }
 
 @Composable

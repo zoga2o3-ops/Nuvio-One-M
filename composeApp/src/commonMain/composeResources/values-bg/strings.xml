@@ -3994,6 +3994,10 @@
     <string name="live_tv_ui_game">Мач</string>
     <string name="live_tv_ui_stats">Статистика</string>
     <string name="live_tv_ui_plays">Игра</string>
+<string name="live_tv_ui_highlights">Акценти</string>
+<string name="live_tv_ui_condensed_game">Съкратен мач</string>
+<string name="live_tv_ui_recap">Резюме</string>
+<string name="live_tv_ui_no_highlights_yet">Все още няма акценти за този мач.</string>
     <string name="live_tv_ui_leaders">Лидери</string>
     <string name="live_tv_ui_no_plays_yet">Все още няма игра.</string>
     <string name="live_tv_ui_table">Таблица</string>

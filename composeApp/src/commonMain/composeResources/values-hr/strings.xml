@@ -4001,6 +4001,10 @@
     <string name="live_tv_ui_game">Utakmica</string>
     <string name="live_tv_ui_stats">Statistika</string>
     <string name="live_tv_ui_plays">Potezi</string>
+<string name="live_tv_ui_highlights">Najbolji trenuci</string>
+<string name="live_tv_ui_condensed_game">Skraćena utakmica</string>
+<string name="live_tv_ui_recap">Sažetak</string>
+<string name="live_tv_ui_no_highlights_yet">Još nema najboljih trenutaka za ovu utakmicu.</string>
     <string name="live_tv_ui_leaders">Voditelji</string>
     <string name="live_tv_ui_no_plays_yet">Još nema poteza.</string>
     <string name="live_tv_ui_table">Tablica</string>

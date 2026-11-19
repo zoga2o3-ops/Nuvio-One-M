@@ -3970,6 +3970,10 @@
     <string name="live_tv_ui_game">Zápas</string>
     <string name="live_tv_ui_stats">Statistiky</string>
     <string name="live_tv_ui_plays">Hra</string>
+<string name="live_tv_ui_highlights">Sestřihy</string>
+<string name="live_tv_ui_condensed_game">Zkrácený zápas</string>
+<string name="live_tv_ui_recap">Rekapitulace</string>
+<string name="live_tv_ui_no_highlights_yet">Pro tento zápas zatím nejsou žádné sestřihy.</string>
     <string name="live_tv_ui_leaders">Lídři</string>
     <string name="live_tv_ui_no_plays_yet">Zatím žádná hra.</string>
     <string name="live_tv_ui_table">Tabulka</string>

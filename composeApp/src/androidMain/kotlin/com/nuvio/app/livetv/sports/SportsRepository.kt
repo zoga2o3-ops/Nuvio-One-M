@@ -1358,6 +1358,20 @@ class SportsRepository(
     /** Everything else about the game ESPN has (see [GameExtras]); null when there's nothing to ask. */
     suspend fun gameExtras(ev: SportsEvent): GameExtras? = summaryFor(ev)?.extras
 
+    /** Official highlights and YouTube highlights for a finished game (cached on the device). */
+    suspend fun highlights(ev: SportsEvent): List<SportsVideo> {
+        val summary = if (ev.source == EventSource.ESPN && ev.espnId != null) {
+            val league = SportsCatalog.league(ev.leagueId)
+            if (league != null && league.espnPath != null) {
+                runCatching { feeds.summaryJson(league, ev.espnId) }.getOrNull()
+            } else null
+        } else null
+        return SportsHighlights.load(context, ev, summary)
+    }
+
+    /** The URL to play a picked highlight; NHL links are resolved now. */
+    suspend fun highlightUrl(video: SportsVideo): String? = SportsHighlights.playableUrl(video)
+
     // ------------------------------------------------------------------ your choices
 
     fun updateSettings(transform: (SportsSettings) -> SportsSettings) {

@@ -3979,6 +3979,10 @@
     <string name="live_tv_ui_game">Partita</string>
     <string name="live_tv_ui_stats">Statistiche</string>
     <string name="live_tv_ui_plays">Azioni</string>
+<string name="live_tv_ui_highlights">Momenti salienti</string>
+<string name="live_tv_ui_condensed_game">Partita condensata</string>
+<string name="live_tv_ui_recap">Riepilogo</string>
+<string name="live_tv_ui_no_highlights_yet">Non ci sono ancora momenti salienti per questa partita.</string>
     <string name="live_tv_ui_leaders">Leader</string>
     <string name="live_tv_ui_no_plays_yet">Ancora nessuna azione.</string>
     <string name="live_tv_ui_table">Classifica</string>

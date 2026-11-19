@@ -289,6 +289,23 @@ fun SportsPage(
             },
             onWatch = { m -> if (settings.videoWindow) windowChannel = m.channel else onWatch(m.channel); opened = null },
             onRecord = { m -> onRecord(ev, m); opened = null },
+            onPlayVideo = { url, title ->
+                onWatch(
+                    LiveChannel(
+                        key = "video:$url",
+                        sourceId = "sports:video",
+                        sourceName = "Sports",
+                        name = title,
+                        tvgId = null,
+                        tvgName = null,
+                        logo = null,
+                        groupId = "sports:video",
+                        group = "Sports",
+                        number = 0,
+                        url = url,
+                    )
+                )
+            },
             onFix = { fixFor = ev; opened = null },
             onDismiss = { opened = null },
         )

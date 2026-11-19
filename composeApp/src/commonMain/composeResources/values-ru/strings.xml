@@ -3976,6 +3976,10 @@
     <string name="live_tv_ui_game">Матч</string>
     <string name="live_tv_ui_stats">Статистика</string>
     <string name="live_tv_ui_plays">Игровые моменты</string>
+<string name="live_tv_ui_highlights">Лучшие моменты</string>
+<string name="live_tv_ui_condensed_game">Сокращённый матч</string>
+<string name="live_tv_ui_recap">Обзор</string>
+<string name="live_tv_ui_no_highlights_yet">Для этого матча пока нет лучших моментов.</string>
     <string name="live_tv_ui_leaders">Лидеры</string>
     <string name="live_tv_ui_no_plays_yet">Пока нет игровых моментов.</string>
     <string name="live_tv_ui_table">Таблица</string>

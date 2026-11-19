@@ -3965,6 +3965,10 @@
     <string name="live_tv_ui_game">試合</string>
     <string name="live_tv_ui_stats">統計</string>
     <string name="live_tv_ui_plays">プレー</string>
+<string name="live_tv_ui_highlights">ハイライト</string>
+<string name="live_tv_ui_condensed_game">ダイジェスト</string>
+<string name="live_tv_ui_recap">試合結果</string>
+<string name="live_tv_ui_no_highlights_yet">この試合のハイライトはまだありません。</string>
     <string name="live_tv_ui_leaders">リーダー</string>
     <string name="live_tv_ui_no_plays_yet">まだプレーはありません。</string>
     <string name="live_tv_ui_table">順位表</string>

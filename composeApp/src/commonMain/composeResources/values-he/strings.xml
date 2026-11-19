@@ -3927,6 +3927,10 @@
     <string name="live_tv_ui_game">משחק</string>
     <string name="live_tv_ui_stats">סטטיסטיקות</string>
     <string name="live_tv_ui_plays">מהלכים</string>
+<string name="live_tv_ui_highlights">רגעים בולטים</string>
+<string name="live_tv_ui_condensed_game">משחק מקוצר</string>
+<string name="live_tv_ui_recap">סיכום</string>
+<string name="live_tv_ui_no_highlights_yet">אין עדיין רגעים בולטים למשחק הזה.</string>
     <string name="live_tv_ui_leaders">מובילים</string>
     <string name="live_tv_ui_no_plays_yet">אין מהלכים עדיין.</string>
     <string name="live_tv_ui_table">טבלה</string>

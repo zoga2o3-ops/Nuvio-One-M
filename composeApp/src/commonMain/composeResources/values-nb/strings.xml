@@ -3946,6 +3946,10 @@ Du bruker denne funksjonen helt på eget ansvar. P2P kan deaktiveres når som he
     <string name="live_tv_ui_game">Kamp</string>
     <string name="live_tv_ui_stats">Statistikk</string>
     <string name="live_tv_ui_plays">Spill</string>
+<string name="live_tv_ui_highlights">Høydepunkter</string>
+<string name="live_tv_ui_condensed_game">Kortkamp</string>
+<string name="live_tv_ui_recap">Sammendrag</string>
+<string name="live_tv_ui_no_highlights_yet">Det er ingen høydepunkter for denne kampen ennå.</string>
     <string name="live_tv_ui_leaders">Ledere</string>
     <string name="live_tv_ui_no_plays_yet">Ingen spill ennå.</string>
     <string name="live_tv_ui_table">Tabell</string>

@@ -3966,6 +3966,10 @@
     <string name="live_tv_ui_game">Mérkőzés</string>
     <string name="live_tv_ui_stats">Statisztikák</string>
     <string name="live_tv_ui_plays">Játékok</string>
+<string name="live_tv_ui_highlights">Legjobb pillanatok</string>
+<string name="live_tv_ui_condensed_game">Rövidített mérkőzés</string>
+<string name="live_tv_ui_recap">Összefoglaló</string>
+<string name="live_tv_ui_no_highlights_yet">Ehhez a mérkőzéshez még nincsenek legjobb pillanatok.</string>
     <string name="live_tv_ui_leaders">Vezetők</string>
     <string name="live_tv_ui_no_plays_yet">Még nincsenek játékok.</string>
     <string name="live_tv_ui_table">Táblázat</string>

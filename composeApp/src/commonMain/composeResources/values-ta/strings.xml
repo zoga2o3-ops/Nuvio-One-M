@@ -3934,6 +3934,10 @@
     <string name="live_tv_ui_game">ஆட்டம்</string>
     <string name="live_tv_ui_stats">புள்ளிவிவரங்கள்</string>
     <string name="live_tv_ui_plays">விளையாட்டுகள்</string>
+<string name="live_tv_ui_highlights">சிறப்பம்சங்கள்</string>
+<string name="live_tv_ui_condensed_game">சுருக்கமான ஆட்டம்</string>
+<string name="live_tv_ui_recap">சுருக்கம்</string>
+<string name="live_tv_ui_no_highlights_yet">இந்த ஆட்டத்திற்கு இன்னும் சிறப்பம்சங்கள் இல்லை.</string>
     <string name="live_tv_ui_leaders">முன்னணியில்</string>
     <string name="live_tv_ui_no_plays_yet">இன்னும் விளையாட்டுகள் இல்லை.</string>
     <string name="live_tv_ui_table">அட்டவணை</string>

@@ -3983,6 +3983,10 @@ Bu özelliği tamamen kendi sorumluluğunuzda kullanırsınız. P2P istediğiniz
     <string name="live_tv_ui_game">Maç</string>
     <string name="live_tv_ui_stats">İstatistikler</string>
     <string name="live_tv_ui_plays">Oyunlar</string>
+<string name="live_tv_ui_highlights">Öne çıkanlar</string>
+<string name="live_tv_ui_condensed_game">Kısaltılmış maç</string>
+<string name="live_tv_ui_recap">Özet</string>
+<string name="live_tv_ui_no_highlights_yet">Bu maç için henüz öne çıkanlar yok.</string>
     <string name="live_tv_ui_leaders">Liderler</string>
     <string name="live_tv_ui_no_plays_yet">Henüz oyun yok.</string>
     <string name="live_tv_ui_table">Tablo</string>
