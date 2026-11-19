@@ -572,6 +572,13 @@ fun LiveTvScreen(modifier: Modifier, onPlay: (LiveTvPlayRequest) -> Unit) {
     if (multiviewChannels.isNotEmpty()) {
         LiveTvMultiviewScreen(
             channels = multiviewChannels,
+            backupFor = { failed ->
+                allChannels.firstOrNull { candidate ->
+                    candidate.key != failed.key && candidate.groupId == failed.groupId &&
+                        com.nuvio.app.livetv.data.LiveTvRepository.normalize(candidate.name) ==
+                        com.nuvio.app.livetv.data.LiveTvRepository.normalize(failed.name)
+                }
+            },
             onClose = { multiviewChannels = emptyList() },
         )
     }

@@ -41,6 +41,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -53,6 +54,8 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.media3.common.AudioAttributes
 import androidx.media3.common.MediaItem
+import androidx.media3.common.PlaybackException
+import androidx.media3.common.Player
 import androidx.media3.datasource.DefaultDataSource
 import androidx.media3.datasource.DefaultHttpDataSource
 import androidx.media3.exoplayer.DefaultLoadControl
@@ -61,9 +64,12 @@ import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.extractor.DefaultExtractorsFactory
 import com.nuvio.app.livetv.model.LiveChannel
 import com.nuvio.app.livetv.player.StalkerPlayback
+import kotlinx.coroutines.delay
 import nuvio.composeapp.generated.resources.Res
 import nuvio.composeapp.generated.resources.action_cancel
+import nuvio.composeapp.generated.resources.action_retry
 import nuvio.composeapp.generated.resources.compose_nav_search
+import nuvio.composeapp.generated.resources.live_tv_ui_channel_wont_play
 import nuvio.composeapp.generated.resources.live_tv_ui_multiview
 import nuvio.composeapp.generated.resources.live_tv_ui_multiview_pick
 import nuvio.composeapp.generated.resources.live_tv_ui_multiview_pick_three
@@ -202,12 +208,37 @@ internal fun LiveTvMultiviewPicker(
 @Composable
 internal fun LiveTvMultiviewScreen(
     channels: List<LiveChannel>,
+    backupFor: (LiveChannel) -> LiveChannel? = { null },
     onClose: () -> Unit,
 ) {
     val context = LocalContext.current
+    var panes by remember(channels) { mutableStateOf(channels) }
     var soundIndex by remember(channels) { mutableStateOf(0) }
-    val players = remember(channels) {
-        channels.map { channel ->
+    var failedKeys by remember(channels) { mutableStateOf<Set<String>>(emptySet()) }
+    var failedIndex by remember(channels) { mutableStateOf<Int?>(null) }
+    var playerNonce by remember(channels) { mutableStateOf(0) }
+    var labelsVisible by remember { mutableStateOf(true) }
+    LaunchedEffect(labelsVisible) {
+        if (labelsVisible) {
+            delay(5_000)
+            labelsVisible = false
+        }
+    }
+    // A pane that can't play moves to another copy of the same channel when one exists. If it
+    // still can't play, the tile keeps a Retry button instead of staying black.
+    LaunchedEffect(failedIndex, panes) {
+        val index = failedIndex ?: return@LaunchedEffect
+        val channel = panes.getOrNull(index) ?: return@LaunchedEffect
+        val backup = backupFor(channel)?.takeIf { candidate -> panes.none { it.key == candidate.key } }
+        if (backup != null) {
+            panes = panes.toMutableList().also { it[index] = backup }
+        } else {
+            failedKeys = failedKeys + channel.key
+        }
+        failedIndex = null
+    }
+    val players = remember(panes, playerNonce) {
+        panes.mapIndexed { index, channel ->
             runCatching {
                 val http = DefaultHttpDataSource.Factory()
                     .setDefaultRequestProperties(channel.headers)
@@ -225,6 +256,11 @@ internal fun LiveTvMultiviewScreen(
                             DefaultMediaSourceFactory(dataSource, DefaultExtractorsFactory())
                                 .createMediaSource(MediaItem.fromUri(channel.url))
                         )
+                        addListener(object : Player.Listener {
+                            override fun onPlayerError(error: PlaybackException) {
+                                failedIndex = index
+                            }
+                        })
                         playWhenReady = true
                         volume = 0f
                         prepare()
@@ -255,7 +291,7 @@ internal fun LiveTvMultiviewScreen(
             val tablet = maxWidth >= TABLET_MIN_WIDTH_DP.dp && maxHeight >= TABLET_MIN_HEIGHT_DP.dp
             val landscape = maxWidth > maxHeight
             val limit = if (tablet) MAX_TILES_TABLET else MAX_TILES_PHONE
-            val tiles = channels.take(limit)
+            val tiles = panes.take(limit)
             Column(Modifier.fillMaxSize()) {
                 Row(
                     Modifier.fillMaxWidth().padding(horizontal = 12.dp, vertical = 8.dp),
@@ -295,7 +331,13 @@ internal fun LiveTvMultiviewScreen(
                                                     channel = channel,
                                                     player = players.getOrNull(index),
                                                     sound = index == soundIndex,
-                                                    onSelect = { soundIndex = index },
+                                                    failed = channel.key in failedKeys,
+                                                    showLabel = labelsVisible,
+                                                    onSelect = { soundIndex = index; labelsVisible = true },
+                                                    onRetry = {
+                                                        failedKeys = failedKeys - channel.key
+                                                        playerNonce++
+                                                    },
                                                 )
                                             } else {
                                                 Box(Modifier.fillMaxSize().padding(2.dp).background(Color(0xFF0A0A0C)))
@@ -313,7 +355,13 @@ internal fun LiveTvMultiviewScreen(
                                     channel = channel,
                                     player = players.getOrNull(index),
                                     sound = index == soundIndex,
-                                    onSelect = { soundIndex = index },
+                                    failed = channel.key in failedKeys,
+                                    showLabel = labelsVisible,
+                                    onSelect = { soundIndex = index; labelsVisible = true },
+                                    onRetry = {
+                                        failedKeys = failedKeys - channel.key
+                                        playerNonce++
+                                    },
                                 )
                             }
                         }
@@ -325,7 +373,13 @@ internal fun LiveTvMultiviewScreen(
                                     channel = channel,
                                     player = players.getOrNull(index),
                                     sound = index == soundIndex,
-                                    onSelect = { soundIndex = index },
+                                    failed = channel.key in failedKeys,
+                                    showLabel = labelsVisible,
+                                    onSelect = { soundIndex = index; labelsVisible = true },
+                                    onRetry = {
+                                        failedKeys = failedKeys - channel.key
+                                        playerNonce++
+                                    },
                                 )
                             }
                         }
@@ -341,7 +395,10 @@ private fun MultiviewTile(
     channel: LiveChannel,
     player: ExoPlayer?,
     sound: Boolean,
+    failed: Boolean,
+    showLabel: Boolean,
     onSelect: () -> Unit,
+    onRetry: () -> Unit,
 ) {
     Box(
         Modifier
@@ -362,6 +419,22 @@ private fun MultiviewTile(
                 modifier = Modifier.fillMaxSize(),
             )
         }
+        if (failed) {
+            Column(
+                Modifier.fillMaxSize().background(Color.Black.copy(alpha = 0.72f)),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                Text(
+                    stringResource(Res.string.live_tv_ui_channel_wont_play, channel.name),
+                    color = Color.White,
+                    style = MaterialTheme.typography.bodySmall,
+                    textAlign = androidx.compose.ui.text.style.TextAlign.Center,
+                    modifier = Modifier.padding(horizontal = 12.dp),
+                )
+                TextButton(onClick = onRetry) { Text(stringResource(Res.string.action_retry)) }
+            }
+        }
         Text(
             channel.name,
             color = Color.White,
@@ -371,6 +444,7 @@ private fun MultiviewTile(
             modifier = Modifier
                 .align(Alignment.BottomStart)
                 .fillMaxWidth()
+                .alpha(if (showLabel) 1f else 0f)
                 .background(
                     Brush.verticalGradient(
                         listOf(Color.Transparent, Color.Black.copy(alpha = 0.75f))
