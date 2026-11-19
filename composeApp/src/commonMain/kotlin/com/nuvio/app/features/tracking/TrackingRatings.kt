@@ -1,152 +1,97 @@
 package com.nuvio.app.features.tracking
 
-import kotlinx.serialization.json.JsonArray
-import kotlinx.serialization.json.JsonElement
-import kotlinx.serialization.json.JsonNull
-import kotlinx.serialization.json.JsonObject
-import kotlinx.serialization.json.JsonPrimitive
-
-/** What a personal rating is attached to. */
-enum class TrackingRatingScope {
-    MOVIE,
-    SHOW,
-    SEASON,
-    EPISODE,
-}
-
-const val TRACKING_RATING_MIN = 1
-const val TRACKING_RATING_MAX = 10
-
-/**
- * A rateable item. For [TrackingRatingScope.SEASON] only [season] is set, for
- * [TrackingRatingScope.EPISODE] both [season] and [episode] are set; [ids] always describe the
- * movie or the parent show.
- */
-data class TrackingRatingTarget(
-    val scope: TrackingRatingScope,
-    val kind: TrackingMediaKind,
-    val ids: TrackingExternalIds,
-    val title: String? = null,
-    val year: Int? = null,
-    val season: Int? = null,
-    val episode: Int? = null,
-    val episodeTitle: String? = null,
-    val catalog: TrackingCatalogReference? = null,
-) {
-    val key: String
-        get() = buildString {
-            append(scope.name.lowercase())
-            append('|')
-            append(
-                TrackingMediaReference(kind = kind, title = title, year = year, ids = ids).stableKey,
-            )
-            season?.let { append("|s").append(it) }
-            episode?.let { append("|e").append(it) }
-        }
-
-    val isValid: Boolean
-        get() = when (scope) {
-            TrackingRatingScope.MOVIE, TrackingRatingScope.SHOW -> season == null && episode == null
-            TrackingRatingScope.SEASON -> season != null && season >= 0 && episode == null
-            TrackingRatingScope.EPISODE -> season != null && season >= 0 && episode != null && episode > 0
-        }
-}
-
-/** One rating as reported by a provider's "list my ratings" endpoint. */
-data class TrackingRatingRecord(
-    val scope: TrackingRatingScope,
-    val ids: TrackingExternalIds,
-    val rating: Int,
-    val season: Int? = null,
-    val episode: Int? = null,
-) {
-    fun matches(target: TrackingRatingTarget): Boolean =
-        scope == target.scope &&
-            season == target.season &&
-            episode == target.episode &&
-            ids.sharesIdentityWith(target.ids)
-}
+import com.nuvio.app.features.profiles.ProfileRepository
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.NonCancellable
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.withContext
 
 interface TrackingRatingProvider {
     val providerId: TrackingProviderId
-    val supportedScopes: Set<TrackingRatingScope>
+    val changes: Flow<Any?>
 
-    /** Whether this provider can address [target] with the ids it carries. */
-    fun canRate(target: TrackingRatingTarget): Boolean
+    fun supports(media: TrackingMediaReference): Boolean
 
-    /**
-     * Converts a Nuvio (addon) target into the coordinates the provider uses, e.g. Trakt episode
-     * numbering. Called before reading and writing so cached records line up with writes.
-     */
-    suspend fun normalize(target: TrackingRatingTarget): TrackingRatingTarget = target
+    fun rating(media: TrackingMediaReference): Double?
 
-    /** Every rating the connected account has for [scope]. */
-    suspend fun fetchRatings(profileId: Int, scope: TrackingRatingScope): List<TrackingRatingRecord>
+    suspend fun rate(profileId: Int, media: TrackingMediaReference, rating: Int?): TrackingMutationResult
 
-    /** Throws [TrackingRatingException] (or any exception) when the provider did not store it. */
-    suspend fun setRating(profileId: Int, target: TrackingRatingTarget, rating: Int)
-
-    suspend fun removeRating(profileId: Int, target: TrackingRatingTarget)
+    fun onEnabled() = Unit
 }
 
-class TrackingRatingException(message: String) : Exception(message)
-
-fun TrackingExternalIds.sharesIdentityWith(other: TrackingExternalIds): Boolean {
-    fun String?.norm() = this?.trim()?.lowercase()?.takeIf(String::isNotEmpty)
-    return (imdb.norm() != null && imdb.norm() == other.imdb.norm()) ||
-        (tmdb != null && tmdb == other.tmdb) ||
-        (tvdb.norm() != null && tvdb.norm() == other.tvdb.norm()) ||
-        (trakt != null && trakt == other.trakt) ||
-        (simkl != null && simkl == other.simkl) ||
-        (mal != null && mal == other.mal) ||
-        (anidb != null && anidb == other.anidb) ||
-        (anilist != null && anilist == other.anilist) ||
-        (kitsu != null && kitsu == other.kitsu) ||
-        (mdblist.norm() != null && mdblist.norm() == other.mdblist.norm())
+data class TrackingRatingState(
+    val provider: TrackingProviderId? = null,
+    val rating: Double? = null,
+) {
+    val isAvailable: Boolean
+        get() = provider != null
 }
 
-/** Reads a provider `ids` object whose values may be JSON strings or numbers. */
-fun JsonElement?.toTrackingExternalIds(): TrackingExternalIds {
-    val obj = this as? JsonObject ?: return TrackingExternalIds()
-    fun raw(key: String): String? = (obj[key] as? JsonPrimitive)
-        ?.takeUnless { it is JsonNull }
-        ?.content
-        ?.trim()
-        ?.takeIf { it.isNotEmpty() && it != "null" }
-    fun long(key: String): Long? = raw(key)?.toLongOrNull()?.takeIf { it > 0L }
-    return TrackingExternalIds(
-        imdb = raw("imdb")?.takeIf { it.startsWith("tt", ignoreCase = true) },
-        tmdb = long("tmdb"),
-        tvdb = raw("tvdb")?.takeIf { it.toLongOrNull()?.let { value -> value > 0L } ?: true },
-        trakt = long("trakt"),
-        simkl = long("simkl") ?: long("simkl_id"),
-        mal = long("mal"),
-        anidb = long("anidb"),
-        anilist = long("anilist"),
-        kitsu = long("kitsu"),
-        mdblist = raw("mdblist"),
-    )
-}
+object TrackingRatings {
+    const val MAX = 10
 
-internal fun JsonElement?.objectOrNull(): JsonObject? = this as? JsonObject
+    private val recent = MutableStateFlow<Map<String, Double?>>(emptyMap())
 
-internal fun JsonElement?.arrayOrEmpty(): List<JsonElement> = (this as? JsonArray).orEmpty()
+    fun observe(media: TrackingMediaReference): Flow<TrackingRatingState> =
+        combine(
+            listOf(TrackingSettingsRepository.uiState, TrackingProviderRegistry.connectedProviderIds, recent) +
+                TrackingProviderRegistry.ratingProviders().map(TrackingRatingProvider::changes),
+        ) { current(media) }.distinctUntilChanged()
 
-internal fun JsonObject.intOrNull(key: String): Int? =
-    (this[key] as? JsonPrimitive)?.takeUnless { it is JsonNull }?.content?.toDoubleOrNull()?.toInt()
-
-/** Sums the numeric counters of a `{"movies": 1, "shows": 0, ...}` receipt object. */
-internal fun JsonElement?.countersTotal(): Int =
-    (this as? JsonObject)?.values?.sumOf { value ->
-        (value as? JsonPrimitive)?.content?.toIntOrNull() ?: 0
-    } ?: 0
-
-/** Counts entries in a `{"movies": [...], "shows": [...]}` not-found object. */
-internal fun JsonElement?.notFoundTotal(): Int =
-    (this as? JsonObject)?.values?.sumOf { value ->
-        when (value) {
-            is JsonArray -> value.size
-            is JsonPrimitive -> value.content.toIntOrNull() ?: 0
-            else -> 0
+    fun current(media: TrackingMediaReference): TrackingRatingState {
+        val provider = provider(media) ?: return TrackingRatingState()
+        val key = media.ratingKey(provider.providerId)
+        val stored = provider.rating(media)
+        val overrides = recent.value
+        val rating = if (key in overrides) {
+            if (overrides[key] == stored) recent.update { it - key }
+            overrides[key]
+        } else {
+            stored
         }
-    } ?: 0
+        return TrackingRatingState(provider.providerId, rating)
+    }
+
+    suspend fun rate(media: TrackingMediaReference, rating: Int?): Boolean = withContext(NonCancellable) {
+        require(rating == null || rating in 1..MAX)
+        val provider = provider(media) ?: return@withContext false
+        val saved = try {
+            provider.rate(ProfileRepository.activeProfileId, media, rating).isComplete
+        } catch (error: CancellationException) {
+            throw error
+        } catch (_: Exception) {
+            false
+        }
+        if (saved) recent.update { it + (media.ratingKey(provider.providerId) to rating?.toDouble()) }
+        saved
+    }
+
+    fun setSource(source: TrackingProviderId?) {
+        TrackingSettingsRepository.setRatingSource(source)
+        source?.let(TrackingProviderRegistry::ratingProvider)?.onEnabled()
+    }
+
+    private fun provider(media: TrackingMediaReference): TrackingRatingProvider? {
+        val source = TrackingSettingsRepository.uiState.value.ratingSource ?: return null
+        if (source !in TrackingProviderRegistry.connectedProviderIds.value) return null
+        return TrackingProviderRegistry.ratingProvider(source)?.takeIf { it.supports(media) }
+    }
+
+    private fun TrackingMediaReference.ratingKey(provider: TrackingProviderId): String = buildString {
+        append(ProfileRepository.activeProfileId)
+        append(':')
+        append(provider.storageId)
+        append(':')
+        append(stableKey)
+        episode?.let {
+            append(':')
+            append(it.season ?: -1)
+            append(':')
+            append(it.number)
+        }
+    }
+}

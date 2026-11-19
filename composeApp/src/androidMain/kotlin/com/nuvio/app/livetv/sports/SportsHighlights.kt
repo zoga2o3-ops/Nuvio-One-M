@@ -48,6 +48,7 @@ data class SportsVideo(
 internal object SportsHighlights {
     private const val TAG = "SportsHighlights"
     private const val TTL_MS = 6L * 60 * 60 * 1000
+    private const val MAX_CACHE_FILES = 200
     private const val NHL_LEAGUE = "hockey/nhl"
     private const val MLB_LEAGUE = "baseball/mlb"
     private const val NHL_ACCOUNT = "6415718365001"
@@ -399,6 +400,16 @@ internal object SportsHighlights {
             })
         }
         file.writeText(JSONObject().put("savedAt", System.currentTimeMillis()).put("videos", array).toString())
+        pruneCache(file.parentFile)
+    }
+
+    /** A game's list is a few KB; keep the folder bounded so browsing old games can't grow it forever. */
+    private fun pruneCache(dir: File?) {
+        val files = dir?.listFiles { f -> f.isFile && f.name.endsWith(".json") } ?: return
+        if (files.size <= MAX_CACHE_FILES) return
+        files.sortedBy { it.lastModified() }
+            .take(files.size - MAX_CACHE_FILES)
+            .forEach { runCatching { it.delete() } }
     }
 
     // ------------------------------------------------------------------ helpers

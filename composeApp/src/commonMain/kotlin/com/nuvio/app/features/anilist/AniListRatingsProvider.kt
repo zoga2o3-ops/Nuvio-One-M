@@ -7,7 +7,7 @@ import com.nuvio.app.features.tracking.TrackingMediaKind
 import com.nuvio.app.features.tracking.TrackingMediaReference
 import com.nuvio.app.features.tracking.TrackingProviderId
 import com.nuvio.app.features.tracking.TrackingRatingException
-import com.nuvio.app.features.tracking.TrackingRatingProvider
+import com.nuvio.app.features.tracking.UserRatingProvider
 import com.nuvio.app.features.tracking.TrackingRatingRecord
 import com.nuvio.app.features.tracking.TrackingRatingScope
 import com.nuvio.app.features.tracking.TrackingRatingTarget
@@ -17,7 +17,7 @@ import kotlin.math.roundToInt
 internal class AniListRatingsProvider(
     private val sync: AniListSyncRepository,
     private val writes: AniListTrackingWrites,
-) : TrackingRatingProvider {
+) : UserRatingProvider {
     override val providerId = TrackingProviderId.ANILIST
     override val supportedScopes = setOf(TrackingRatingScope.MOVIE, TrackingRatingScope.SHOW)
 

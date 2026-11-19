@@ -8,7 +8,7 @@ import com.nuvio.app.features.tracking.TRACKING_RATING_MAX
 import com.nuvio.app.features.tracking.TRACKING_RATING_MIN
 import com.nuvio.app.features.tracking.TrackingProviderId
 import com.nuvio.app.features.tracking.TrackingProviderRegistry
-import com.nuvio.app.features.tracking.TrackingRatingProvider
+import com.nuvio.app.features.tracking.UserRatingProvider
 import com.nuvio.app.features.tracking.TrackingRatingRecord
 import com.nuvio.app.features.tracking.TrackingRatingScope
 import com.nuvio.app.features.tracking.TrackingRatingTarget
@@ -58,7 +58,7 @@ data class UserRatingsUiState(
 
 /**
  * Reads and writes personal 1–10 ratings through every connected tracking service that
- * implements [TrackingRatingProvider]. Ratings are fetched per provider and scope as a full
+ * implements [UserRatingProvider]. Ratings are fetched per provider and scope as a full
  * list (one request family per provider/scope) and cached briefly, so opening many episodes
  * does not issue one request per item and edits made on other devices show up after [CACHE_TTL_MS].
  */
@@ -84,7 +84,7 @@ object UserRatingsRepository {
 
     fun hasRatingProvider(): Boolean {
         ensureRegistered()
-        return TrackingProviderRegistry.connectedRatingProviders().isNotEmpty()
+        return TrackingProviderRegistry.connectedUserRatingProviders().isNotEmpty()
     }
 
     fun isInAppRatingEnabled(): Boolean {
@@ -103,18 +103,18 @@ object UserRatingsRepository {
         syncProfile()
         if (!_uiState.value.inAppRatingEnabled) return emptyList()
         if (!target.isValid) return emptyList()
-        return TrackingProviderRegistry.connectedRatingProviders()
+        return TrackingProviderRegistry.connectedUserRatingProviders()
             .filter { provider -> target.scope in provider.supportedScopes && provider.canRate(target) }
-            .map(TrackingRatingProvider::providerId)
+            .map(UserRatingProvider::providerId)
     }
 
     fun providersFor(scope: TrackingRatingScope): List<TrackingProviderId> {
         ensureRegistered()
         syncProfile()
         if (!_uiState.value.inAppRatingEnabled) return emptyList()
-        return TrackingProviderRegistry.connectedRatingProviders()
+        return TrackingProviderRegistry.connectedUserRatingProviders()
             .filter { provider -> scope in provider.supportedScopes }
-            .map(TrackingRatingProvider::providerId)
+            .map(UserRatingProvider::providerId)
     }
 
     fun enabledProvidersFor(target: TrackingRatingTarget): List<TrackingProviderId> {
@@ -143,7 +143,7 @@ object UserRatingsRepository {
         updateEntry(key) { entry -> entry.copy(loadingProviders = entry.loadingProviders + providers) }
         providers.forEach { providerId ->
             scope.launch {
-                val provider = TrackingProviderRegistry.ratingProvider(providerId) ?: return@launch
+                val provider = TrackingProviderRegistry.userRatingProvider(providerId) ?: return@launch
                 val rating = runCatching {
                     val normalized = normalized(provider, target)
                     ratingsFor(provider, profileId, normalized.scope, maxAgeMs)
@@ -169,7 +169,7 @@ object UserRatingsRepository {
     }
 
     private suspend fun ratingsFor(
-        provider: TrackingRatingProvider,
+        provider: UserRatingProvider,
         profileId: Int,
         ratingScope: TrackingRatingScope,
         maxAgeMs: Long,
@@ -218,7 +218,7 @@ object UserRatingsRepository {
                 providers.map { providerId ->
                     async {
                         providerId to runCatching {
-                            val provider = TrackingProviderRegistry.ratingProvider(providerId)
+                            val provider = TrackingProviderRegistry.userRatingProvider(providerId)
                                 ?: error("Provider not registered")
                             val normalized = normalized(provider, target)
                             if (rating == null) {
@@ -289,7 +289,7 @@ object UserRatingsRepository {
     }
 
     private suspend fun normalized(
-        provider: TrackingRatingProvider,
+        provider: UserRatingProvider,
         target: TrackingRatingTarget,
     ): TrackingRatingTarget {
         val key = "${provider.providerId.storageId}|${target.key}"

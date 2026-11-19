@@ -10,7 +10,7 @@ import com.nuvio.app.features.tracking.TrackingMediaKind
 import com.nuvio.app.features.tracking.TrackingMediaReference
 import com.nuvio.app.features.tracking.TrackingProviderId
 import com.nuvio.app.features.tracking.TrackingRatingException
-import com.nuvio.app.features.tracking.TrackingRatingProvider
+import com.nuvio.app.features.tracking.UserRatingProvider
 import com.nuvio.app.features.tracking.TrackingRatingRecord
 import com.nuvio.app.features.tracking.TrackingRatingScope
 import com.nuvio.app.features.tracking.TrackingRatingTarget
@@ -27,7 +27,7 @@ internal class WeTrakrRatingsProvider(
     private val sync: WeTrakrSyncRepository,
     private val api: WeTrakrApiClient,
     private val writes: WeTrakrTrackingWrites,
-) : TrackingRatingProvider {
+) : UserRatingProvider {
     override val providerId = TrackingProviderId.WETRAKR
     override val supportedScopes = setOf(
         TrackingRatingScope.MOVIE,

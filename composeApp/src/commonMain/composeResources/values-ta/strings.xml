@@ -3965,4 +3965,21 @@
     <string name="live_tv_ui_show_next">அடுத்ததைக் காட்டு</string>
     <string name="live_tv_ui_compact_cards">சிறிய அட்டைகள்</string>
     <string name="live_tv_ui_continue_watching_on_home">முகப்பில் தொடரவும்</string>
+
+    <plurals name="details_season_count">
+            <item quantity="one">%1$d சீசன்</item>
+            <item quantity="other">%1$d சீசன்கள்</item>
+        </plurals>
+    <plurals name="cw_airs_in_days">
+            <item quantity="one">%1$d நாளில் ஒளிபரப்பாகும்</item>
+            <item quantity="other">%1$d நாட்களில் ஒளிபரப்பாகும்</item>
+        </plurals>
+    <plurals name="cw_airs_in_days_short">
+            <item quantity="one">%1$d நாளில்</item>
+            <item quantity="other">%1$d நாட்களில்</item>
+        </plurals>
+    <plurals name="entity_browse_title_count">
+            <item quantity="one">%d தலைப்பு</item>
+            <item quantity="other">%d தலைப்புகள்</item>
+        </plurals>
 </resources>

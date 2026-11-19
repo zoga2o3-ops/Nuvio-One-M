@@ -88,7 +88,7 @@ object PublicMetaDbTracker : TrackingAuthProvider {
         TrackingProviderRegistry.registerProgressProvider(progressProvider)
         TrackingProviderRegistry.registerWatchedProvider(watchedProvider)
         TrackingProviderRegistry.registerLibraryProvider(libraryProvider)
-        TrackingProviderRegistry.registerRatingProvider(ratingProvider)
+        TrackingProviderRegistry.registerUserRatingProvider(ratingProvider)
     }
 
     suspend fun connect(apiKey: String): Boolean {

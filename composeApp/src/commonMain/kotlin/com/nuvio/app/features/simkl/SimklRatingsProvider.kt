@@ -4,7 +4,7 @@ import com.nuvio.app.features.profiles.ProfileRepository
 import com.nuvio.app.features.tracking.TrackingMediaKind
 import com.nuvio.app.features.tracking.TrackingProviderId
 import com.nuvio.app.features.tracking.TrackingRatingException
-import com.nuvio.app.features.tracking.TrackingRatingProvider
+import com.nuvio.app.features.tracking.UserRatingProvider
 import com.nuvio.app.features.tracking.TrackingRatingRecord
 import com.nuvio.app.features.tracking.TrackingRatingScope
 import com.nuvio.app.features.tracking.TrackingRatingTarget
@@ -28,7 +28,7 @@ private const val SIMKL_ALL_RATINGS = "1,2,3,4,5,6,7,8,9,10"
  * Simkl personal ratings. Simkl only rates whole titles (movies, shows and anime), so season and
  * episode ratings are not offered for Simkl.
  */
-object SimklRatingsProvider : TrackingRatingProvider {
+object SimklRatingsProvider : UserRatingProvider {
     override val providerId = TrackingProviderId.SIMKL
     override val supportedScopes = setOf(TrackingRatingScope.MOVIE, TrackingRatingScope.SHOW)
 

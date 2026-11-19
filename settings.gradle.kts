@@ -38,6 +38,7 @@ dependencyResolutionManagement {
 
 include(":composeApp")
 include(":androidApp")
+include(":baselineprofile")
 
 // SmartTube's YouTube engine (MediaServiceCore, MIT). See mediaservicecore/LICENSE-*.
 include(":mediaservicecore:mediaserviceinterfaces")

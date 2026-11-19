@@ -53,6 +53,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.nuvio.app.core.ui.NuvioBottomSheetActionRow
 import com.nuvio.app.core.ui.NuvioBottomSheetDivider
 import com.nuvio.app.core.ui.NuvioModalBottomSheet
+import com.nuvio.app.core.ui.backdropControlColor
 import com.nuvio.app.core.ui.dismissNuvioBottomSheet
 import com.nuvio.app.core.ui.nuvioSafeBottomPadding
 import kotlinx.coroutines.delay
@@ -260,7 +261,7 @@ private fun FilterChip(
         targetValue = if (isSelected) {
             MaterialTheme.colorScheme.primary
         } else {
-            MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.6f)
+            backdropControlColor(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.6f))
         },
         animationSpec = tween(durationMillis = 180),
         label = "filter_chip_container",

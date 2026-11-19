@@ -15,7 +15,7 @@ import com.nuvio.app.features.tracking.TrackingMutationResolution
 import com.nuvio.app.features.tracking.TrackingMutationResult
 import com.nuvio.app.features.tracking.TrackingProviderId
 import com.nuvio.app.features.tracking.TrackingRatingException
-import com.nuvio.app.features.tracking.TrackingRatingProvider
+import com.nuvio.app.features.tracking.UserRatingProvider
 import com.nuvio.app.features.tracking.TrackingRatingRecord
 import com.nuvio.app.features.tracking.TrackingRatingScope
 import com.nuvio.app.features.tracking.TrackingRatingTarget
@@ -442,7 +442,7 @@ internal class PublicMetaDbRatingsProvider(
     private val api: PublicMetaDbApiClient,
     private val writes: PublicMetaDbTrackingWrites,
     private val now: () -> Long = { kotlin.time.Clock.System.now().toEpochMilliseconds() },
-) : TrackingRatingProvider {
+) : UserRatingProvider {
     override val providerId = TrackingProviderId.PUBLICMETADB
     override val supportedScopes = setOf(
         TrackingRatingScope.MOVIE,

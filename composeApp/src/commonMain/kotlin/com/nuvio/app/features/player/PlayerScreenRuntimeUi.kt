@@ -8,6 +8,7 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.fillMaxSize
@@ -30,8 +31,17 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.snapshots.Snapshot
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.KeyEventType
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.onKeyEvent
+import androidx.compose.ui.input.key.type
 import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import com.nuvio.app.features.player.seekpreview.rememberSeekPreviewController
 import com.nuvio.app.features.player.skip.PlayerNextEpisodeRules
 import com.nuvio.app.core.logging.InAppLogger
@@ -58,7 +68,11 @@ import nuvio.composeapp.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
-internal fun PlayerScreenRuntime.RenderPlayerRuntimeUi() {
+internal fun PlayerScreenRuntime.RenderPlayerRuntimeUi(
+    partyPanelWidth: Dp,
+    partyPanelInset: Dp,
+    dockPartyPanel: Boolean,
+) {
     val runtime = this
     val isEpisode = activeSeasonNumber != null && activeEpisodeNumber != null
     val currentGestureFeedback = liveGestureFeedback ?: gestureFeedback
@@ -243,6 +257,8 @@ internal fun PlayerScreenRuntime.RenderPlayerRuntimeUi() {
     Box(
         modifier = Modifier
             .fillMaxSize()
+            .padding(end = partyPanelInset)
+            .clipToBounds()
             .onSizeChanged { layoutSize = it }
             .playerKeyboardShortcuts(
                 focusRequester = keyboardFocusRequester,
@@ -265,6 +281,7 @@ internal fun PlayerScreenRuntime.RenderPlayerRuntimeUi() {
                 layoutSize = layoutSize,
                 playbackGesturesEnabled = playbackGesturesEnabled,
                 sideGestureSystemEdgeExclusionPx = sideGestureSystemEdgeExclusionPx,
+                horizontalSeekSystemEdgeExclusionPx = horizontalSeekSystemEdgeExclusionPx,
                 playerControlsLockedState = gestureCallbacks.playerControlsLocked,
                 touchGesturesEnabledState = gestureCallbacks.touchGesturesEnabled,
                 swipeToSeekEnabledState = gestureCallbacks.swipeToSeekEnabled,
@@ -289,14 +306,7 @@ internal fun PlayerScreenRuntime.RenderPlayerRuntimeUi() {
     ) {
         val playerSurfaceSourceUrl = if (isP2pPlaybackActive) p2pResolvedSourceUrl else activePlaybackSourceUrl
         val playbackKey = activePlaybackKey
-        val sourcePlaybackKey = playbackKey.copy(playbackEngine = null)
         val initialPositionRequestKey = currentInitialPositionRequestKey()
-
-        LaunchedEffect(sourcePlaybackKey) {
-            engineFailoverTriggered = false
-            engineFailoverDisarmed = false
-            playbackEngineOverride = null
-        }
 
         val resolvedAutoEngineState = remember(sourcePlaybackKey) {
             mutableStateOf<AndroidPlaybackEngine?>(null)
@@ -332,7 +342,7 @@ internal fun PlayerScreenRuntime.RenderPlayerRuntimeUi() {
                     playWhenReady = shouldPlay,
                     initialPositionMs = activeInitialPositionMs.takeIf { it > 0L },
                     initialPositionRequestKey = initialPositionRequestKey,
-                    resizeMode = resizeMode,
+                    resizeMode = if (partyPanelInset > 0.dp) PlayerResizeMode.Fit else resizeMode,
                     playbackEngine = playbackEngineOverride ?: resolvedAutoEngine,
                     onInitialPositionHandled = { key, handled ->
                         if (active.value && playbackKey == activePlaybackKey && key == currentInitialPositionRequestKey()) {
@@ -357,7 +367,10 @@ internal fun PlayerScreenRuntime.RenderPlayerRuntimeUi() {
                     },
                     onError = { message ->
                         if (!active.value || playbackKey != activePlaybackKey) return@PlatformPlayerSurface
-                        if (message != null && tryRefreshCredentialedSourceAfterError(message)) {
+                        if (message != null && tryRefreshExpiredLinkAfterError(message)) {
+                            return@PlatformPlayerSurface
+                        }
+                        if (message != null && tryFallbackToNextSourceAfterError(message)) {
                             return@PlatformPlayerSurface
                         }
                         // Engine failover is decided here, driven by its own player setting;
@@ -470,74 +483,79 @@ internal fun PlayerScreenRuntime.RenderPlayerRuntimeUi() {
             )
         }
         Box(modifier = panelModifier) {
-            RenderPlayerModals()
-            RenderParty(runtime = runtime)
-        }
-        if (isYouTube) {
-            com.nuvio.app.features.youtube.YouTubeHost.playerOverlay?.invoke(
-                activeVideoId ?: videoId.orEmpty(),
-                playbackSnapshot.positionMs,
-                playbackSnapshot.durationMs,
-                playbackSnapshot.isEnded,
-            ) { request -> com.nuvio.app.features.youtube.YouTubeHost.openVideo?.invoke(request) }
-        }
-        if ((contentType ?: parentMetaType)?.startsWith("livetv", ignoreCase = true) == true) {
-            com.nuvio.app.features.livetv.LiveTvHost.playerExtras?.invoke(activeVideoId ?: videoId.orEmpty())
-        }
-        // Casting: what's playing goes to the Cast device, this phone's picture pauses, and a panel shows where it is.
-        val castUi by com.nuvio.app.features.cast.CastHost.ui.collectAsStateWithLifecycle()
-        val casting = castUi != null
-        val castLive = (contentType ?: parentMetaType)?.startsWith("livetv", ignoreCase = true) == true
-        androidx.compose.runtime.LaunchedEffect(casting, activeSourceUrl) {
-            if (casting) {
-                val sent = com.nuvio.app.features.cast.CastHost.load?.invoke(
-                    com.nuvio.app.features.cast.CastLoad(
-                        url = activeSourceUrl, headers = activeSourceHeaders, title = title, subtitle = activeStreamTitle,
-                        poster = poster, positionMs = playbackSnapshot.positionMs, live = castLive,
-                    )
-                ) == true
-                if (!sent) com.nuvio.app.features.cast.CastHost.stop?.invoke()
-                else {
-                    // Which sound format is being sent: some (Dolby Digital Plus, DTS, TrueHD) don't play on every Cast device.
-                    // It can take a moment for the player to report it, so ask a few times.
-                    var codec: String? = null
-                    repeat(5) {
-                        if (codec == null) {
-                            codec = runCatching { playerController?.getMediaInfo()?.audioCodec }.getOrNull()
-                            if (codec == null) kotlinx.coroutines.delay(800)
+            RenderParty(
+                runtime = runtime,
+                panelWidth = partyPanelWidth,
+                modal = !dockPartyPanel,
+                panelVisible = showPartyPanel && !isInPip,
+            )
+            runtime.RenderPlayerModals()
+            if (isYouTube) {
+                com.nuvio.app.features.youtube.YouTubeHost.playerOverlay?.invoke(
+                    activeVideoId ?: videoId.orEmpty(),
+                    playbackSnapshot.positionMs,
+                    playbackSnapshot.durationMs,
+                    playbackSnapshot.isEnded,
+                ) { request -> com.nuvio.app.features.youtube.YouTubeHost.openVideo?.invoke(request) }
+            }
+            if ((contentType ?: parentMetaType)?.startsWith("livetv", ignoreCase = true) == true) {
+                com.nuvio.app.features.livetv.LiveTvHost.playerExtras?.invoke(activeVideoId ?: videoId.orEmpty())
+            }
+            // Casting: what's playing goes to the Cast device, this phone's picture pauses, and a panel shows where it is.
+            val castUi by com.nuvio.app.features.cast.CastHost.ui.collectAsStateWithLifecycle()
+            val casting = castUi != null
+            val castLive = (contentType ?: parentMetaType)?.startsWith("livetv", ignoreCase = true) == true
+            androidx.compose.runtime.LaunchedEffect(casting, activeSourceUrl) {
+                if (casting) {
+                    val sent = com.nuvio.app.features.cast.CastHost.load?.invoke(
+                        com.nuvio.app.features.cast.CastLoad(
+                            url = activeSourceUrl, headers = activeSourceHeaders, title = title, subtitle = activeStreamTitle,
+                            poster = poster, positionMs = playbackSnapshot.positionMs, live = castLive,
+                        )
+                    ) == true
+                    if (!sent) com.nuvio.app.features.cast.CastHost.stop?.invoke()
+                    else {
+                        // Which sound format is being sent: some (Dolby Digital Plus, DTS, TrueHD) don't play on every Cast device.
+                        // It can take a moment for the player to report it, so ask a few times.
+                        var codec: String? = null
+                        repeat(5) {
+                            if (codec == null) {
+                                codec = runCatching { playerController?.getMediaInfo()?.audioCodec }.getOrNull()
+                                if (codec == null) kotlinx.coroutines.delay(800)
+                            }
                         }
+                        com.nuvio.app.features.cast.CastHost.noteAudio?.invoke(codec)
                     }
-                    com.nuvio.app.features.cast.CastHost.noteAudio?.invoke(codec)
                 }
             }
-        }
-        androidx.compose.runtime.LaunchedEffect(casting, playerController) { if (casting) playerController?.pause() }
-        var wasCasting by remember { mutableStateOf(false) }
-        androidx.compose.runtime.LaunchedEffect(casting) {
-            if (!casting && wasCasting) {
-                val back = com.nuvio.app.features.cast.CastHost.lastPositionMs
-                if (!castLive && back > 0L) playerController?.seekTo(back)
-                playerController?.play()
+            androidx.compose.runtime.LaunchedEffect(casting, playerController) { if (casting) playerController?.pause() }
+            var wasCasting by remember { mutableStateOf(false) }
+            androidx.compose.runtime.LaunchedEffect(casting) {
+                if (!casting && wasCasting) {
+                    val back = com.nuvio.app.features.cast.CastHost.lastPositionMs
+                    if (!castLive && back > 0L) playerController?.seekTo(back)
+                    playerController?.play()
+                }
+                wasCasting = casting
             }
-            wasCasting = casting
-        }
-        castUi?.let { ui ->
-            // Hidden while a panel (sources, episodes...) is open on top of it.
-            if (!isPanelOpen) com.nuvio.app.features.cast.CastOverlay(
-                ui = ui, title = title, live = castLive,
-                onChangeSource = if (activeVideoId != null && !com.nuvio.app.features.livetv.isUntrackedContent(contentType ?: parentMetaType)) {
-                    { openSourcesPanel() }
-                } else null,
-                modifier = Modifier.padding(vertical = 110.dp),
-            )
-        }
-        if (showLiveTvPanel && (contentType ?: parentMetaType).equals("livetv", ignoreCase = true)) {
-            com.nuvio.app.features.livetv.LiveTvHost.channelPanel?.invoke(activeVideoId ?: videoId.orEmpty()) { showLiveTvPanel = false }
-        }
-        if (isYouTube && showYouTubePanel) {
-            com.nuvio.app.features.youtube.YouTubeHost.playerPanel?.invoke(
-                activeVideoId ?: videoId.orEmpty(),
-            ) { showYouTubePanel = false }
+            castUi?.let { ui ->
+                // Hidden while a panel (sources, episodes...) is open on top of it.
+                if (!isPanelOpen) com.nuvio.app.features.cast.CastOverlay(
+                    ui = ui, title = title, live = castLive,
+                    onChangeSource = if (activeVideoId != null && !com.nuvio.app.features.livetv.isUntrackedContent(contentType ?: parentMetaType)) {
+                        { openSourcesPanel() }
+                    } else null,
+                    modifier = Modifier.padding(vertical = 110.dp),
+                )
+            }
+            if (showLiveTvPanel && (contentType ?: parentMetaType).equals("livetv", ignoreCase = true)) {
+                com.nuvio.app.features.livetv.LiveTvHost.channelPanel?.invoke(activeVideoId ?: videoId.orEmpty()) { showLiveTvPanel = false }
+            }
+            if (isYouTube && showYouTubePanel) {
+                com.nuvio.app.features.youtube.YouTubeHost.playerPanel?.invoke(
+                    activeVideoId ?: videoId.orEmpty(),
+                ) { showYouTubePanel = false }
+            }
         }
         }
     }
@@ -918,7 +936,7 @@ private fun BoxScope.RenderPlaybackOverlays(
             p2pInitialLoadingMessage ?: playerLoadingStatusMessage(
                 showStatus = true,
                 controllerReady = playerController != null,
-                buffering = snapshotIsLoading,
+                snapshot = playbackSnapshot,
             )
         } else null,
         p2pInitialLoadingProgress = p2pInitialLoadingProgress,
@@ -1092,6 +1110,17 @@ private fun PlayerScreenRuntime.RenderPlayerModals() {
             }
         },
         onAudioModalDismissed = { showAudioModal = false },
+        showAudioDelay = playerController?.supportsAudioDelay == true,
+        audioDelayMs = audioDelayMs,
+        onAudioDelayChanged = { delayMs -> setAudioDelay(delayMs) },
+        showAudioAmplification = playerController?.supportsAudioAmplification == true,
+        audioAmplificationDb = audioAmplificationDb,
+        keepAudioAmplification = playerSettingsUiState.persistAudioAmplification,
+        onAudioAmplificationChanged = { db -> setAudioAmplification(db) },
+        onKeepAudioAmplificationChanged = { keep -> setKeepAudioAmplification(keep) },
+        showCenterMix = centerMixAvailable,
+        centerMixLevelDb = centerMixLevelDb,
+        onCenterMixLevelChanged = { db -> setCenterMixLevel(db) },
         showSubtitleModal = showSubtitleModal,
         subtitleTracks = serverSubtitleTracks.ifEmpty { subtitleTracks },
         selectedSubtitleIndex = if (serverSubtitleTracks.isEmpty()) {
@@ -1169,6 +1198,15 @@ private fun PlayerScreenRuntime.RenderPlayerModals() {
             showQualityPanel = false
             controlsVisible = true
         },
+        currentStream = PlayerCurrentStream(
+            url = activeSourceUrl,
+            name = activeStreamTitle,
+            description = activeStreamSubtitle,
+            addonId = activeProviderAddonId,
+            infoHash = activeStream?.p2pInfoHash ?: activeTorrentInfoHash,
+            fileIdx = activeStream?.p2pFileIdx ?: activeTorrentFileIdx,
+            filename = activeSourceFilename,
+        ),
         onSourceFilterSelected = PlayerStreamsRepository::selectSourceFilter,
         onSourceStreamSelected = { stream -> switchToSource(stream) },
         onReloadSources = {

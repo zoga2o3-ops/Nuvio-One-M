@@ -74,6 +74,7 @@ import com.nuvio.app.features.watchprogress.CurrentDateProvider
 import com.nuvio.app.features.watchprogress.ContinueWatchingPreferencesRepository
 import com.nuvio.app.features.watchprogress.ContinueWatchingPreferencesUiState
 import com.nuvio.app.features.watchprogress.ContinueWatchingItem
+import com.nuvio.app.features.watchprogress.ContinueWatchingClickAction
 import com.nuvio.app.features.watchprogress.ContinueWatchingSortMode
 import com.nuvio.app.features.watchprogress.isMalformedNextUpSeedContentId
 import com.nuvio.app.features.watchprogress.isSeriesTypeForContinueWatching
@@ -2100,3 +2101,16 @@ private fun ContinueWatchingItem.isCloudLibraryContinueWatchingItem(): Boolean =
 private fun WatchProgressEntry.isCloudLibraryProgressEntry(): Boolean =
     contentType.equals(CloudLibraryContentType, ignoreCase = true) ||
         parentMetaType.equals(CloudLibraryContentType, ignoreCase = true)
+
+internal fun ContinueWatchingItem.isUpcoming(nowEpochMs: Long = WatchProgressClock.nowEpochMs()): Boolean =
+    isNextUp && parseReleaseDateToEpochMs(released)
+        ?.let { releaseEpochMs -> releaseEpochMs > nowEpochMs } == true
+
+internal fun ContinueWatchingClickAction.opensDetails(
+    item: ContinueWatchingItem,
+    nowEpochMs: Long = WatchProgressClock.nowEpochMs(),
+): Boolean = when (this) {
+    ContinueWatchingClickAction.STREAM -> false
+    ContinueWatchingClickAction.DETAILS -> true
+    ContinueWatchingClickAction.DETAILS_FOR_UPCOMING -> item.isUpcoming(nowEpochMs)
+}

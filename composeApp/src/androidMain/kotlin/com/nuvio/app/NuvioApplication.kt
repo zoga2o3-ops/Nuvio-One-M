@@ -14,6 +14,7 @@ import coil3.request.CachePolicy
 import coil3.request.crossfade
 import coil3.svg.SvgDecoder
 import com.nuvio.app.core.network.DnsPlatform
+import com.nuvio.app.core.network.NetworkErrorInterceptor
 import com.nuvio.app.core.network.SharedOkHttpClient
 import com.nuvio.app.core.poster.CustomPosterFallbackInterceptor
 import com.nuvio.app.features.servers.plex.PlexArtworkInterceptor
@@ -145,7 +146,12 @@ class NuvioApplication : Application(), SingletonImageLoader.Factory {
                 add(
                     KtorNetworkFetcherFactory(
                         httpClient = {
-                            HttpClient(OkHttp) { engine { preconfigured = SharedOkHttpClient.base } }
+                            HttpClient(OkHttp) {
+                                engine {
+                                    preconfigured = SharedOkHttpClient.base
+                                    addInterceptor(NetworkErrorInterceptor())
+                                }
+                            }
                         },
                         cacheStrategy = { CacheControlCacheStrategy() },
                     ),

@@ -1524,7 +1524,7 @@ private fun ExoPlayerSurface(
                 }
             },
         )
-        StyledSubtitleOverlay(subtitlePresenter.text, currentSubtitleStyle)
+        StyledSubtitleOverlay(subtitlePresenter.cues, currentSubtitleStyle)
     }
 }
 
@@ -1582,7 +1582,12 @@ private fun LibmpvPlayerSurface(
     }
 
     val audioFocus = remember(context) {
-        PlayerAudioFocus(context) { playerViewRef?.setPaused(true) }
+        PlayerAudioFocus(
+            context = context,
+            playWhenReady = { latestPlayWhenReady.value },
+            pause = { playerViewRef?.setPaused(true) },
+            resume = { playerViewRef?.setPaused(false) },
+        )
     }
 
     DisposableEffect(audioFocus) {
@@ -1855,7 +1860,9 @@ private fun LibmpvPlayerSurface(
                 view.releaseMpv()
             },
         )
-        playerViewRef?.let { view -> StyledSubtitleOverlay(view.subtitleText, view.subtitleStyle) }
+        playerViewRef?.let { view ->
+            StyledSubtitleOverlay(parseMpvSubtitleText(view.subtitleText), view.subtitleStyle)
+        }
     }
 }
 
@@ -2616,7 +2623,7 @@ private class NuvioLibmpvView(
         if (!released.compareAndSet(false, true)) return
         holder.removeCallback(this)
         mpvScope.launch {
-            runCatching { mpv.destroy() }
+            runCatching { mpv.close() }
             mpvDispatcher.close()
         }
     }

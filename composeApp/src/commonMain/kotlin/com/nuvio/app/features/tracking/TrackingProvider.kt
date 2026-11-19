@@ -86,6 +86,7 @@ object TrackingProviderRegistry {
     private val watchedProviders = mutableMapOf<TrackingProviderId, TrackingWatchedProvider>()
     private val progressProviders = mutableMapOf<TrackingProviderId, TrackingProgressProvider>()
     private val ratingProviders = mutableMapOf<TrackingProviderId, TrackingRatingProvider>()
+    private val userRatingProviders = mutableMapOf<TrackingProviderId, UserRatingProvider>()
 
     private val _connectedProviderIds = MutableStateFlow<Set<TrackingProviderId>>(emptySet())
     val connectedProviderIds: StateFlow<Set<TrackingProviderId>> = _connectedProviderIds.asStateFlow()
@@ -141,12 +142,16 @@ object TrackingProviderRegistry {
         ratingProviders[provider.providerId] = provider
     }
 
-    fun ratingProvider(id: TrackingProviderId): TrackingRatingProvider? = synchronized(lock) {
-        ratingProviders[id]
+    fun registerUserRatingProvider(provider: UserRatingProvider) = synchronized(lock) {
+        userRatingProviders[provider.providerId] = provider
     }
 
-    fun connectedRatingProviders(): List<TrackingRatingProvider> =
-        connectedPorts(ratingProviders, TrackingCapability.RATINGS)
+    fun userRatingProvider(id: TrackingProviderId): UserRatingProvider? = synchronized(lock) {
+        userRatingProviders[id]
+    }
+
+    fun connectedUserRatingProviders(): List<UserRatingProvider> =
+        connectedPorts(userRatingProviders, TrackingCapability.RATINGS)
 
     fun authProvider(id: TrackingProviderId): TrackingAuthProvider? = synchronized(lock) {
         authProviders[id]
@@ -201,6 +206,14 @@ object TrackingProviderRegistry {
         progressProviders.entries
             .sortedBy { (id, _) -> id.ordinal }
             .map { (_, provider) -> provider }
+    }
+
+    fun ratingProvider(id: TrackingProviderId): TrackingRatingProvider? = synchronized(lock) {
+        ratingProviders[id]
+    }
+
+    fun ratingProviders(): List<TrackingRatingProvider> = synchronized(lock) {
+        ratingProviders.values.toList()
     }
 
     fun connectedListWriters(): List<TrackingListWriter> =

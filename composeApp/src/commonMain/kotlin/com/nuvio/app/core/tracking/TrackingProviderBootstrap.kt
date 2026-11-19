@@ -5,6 +5,7 @@ import com.nuvio.app.features.simkl.SimklAuthRepository
 import com.nuvio.app.features.simkl.SimklMutationRepository
 import com.nuvio.app.features.simkl.SimklLibraryRepository
 import com.nuvio.app.features.simkl.SimklProgressRepository
+import com.nuvio.app.features.simkl.SimklRatings
 import com.nuvio.app.features.simkl.SimklTrackingLibraryProvider
 import com.nuvio.app.features.simkl.SimklTrackingProgressProvider
 import com.nuvio.app.features.simkl.SimklWatchedSyncAdapter
@@ -39,6 +40,7 @@ fun ensureTrackingProvidersRegistered() {
     TrackingProviderRegistry.registerWatchedProvider(SimklWatchedSyncAdapter)
     TrackingProviderRegistry.registerProgressProvider(TraktTrackingProgressProvider)
     TrackingProviderRegistry.registerProgressProvider(SimklTrackingProgressProvider)
-    TrackingProviderRegistry.registerRatingProvider(TraktRatingsProvider)
-    TrackingProviderRegistry.registerRatingProvider(SimklRatingsProvider)
+    TrackingProviderRegistry.registerUserRatingProvider(TraktRatingsProvider)
+    TrackingProviderRegistry.registerUserRatingProvider(SimklRatingsProvider)
+    TrackingProviderRegistry.registerRatingProvider(SimklRatings)
 }

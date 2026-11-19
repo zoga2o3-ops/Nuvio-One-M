@@ -3,7 +3,7 @@ package com.nuvio.app.features.mdblist
 import com.nuvio.app.features.tracking.TrackingExternalIds
 import com.nuvio.app.features.tracking.TrackingProviderId
 import com.nuvio.app.features.tracking.TrackingRatingException
-import com.nuvio.app.features.tracking.TrackingRatingProvider
+import com.nuvio.app.features.tracking.UserRatingProvider
 import com.nuvio.app.features.tracking.TrackingRatingRecord
 import com.nuvio.app.features.tracking.TrackingRatingScope
 import com.nuvio.app.features.tracking.TrackingRatingTarget
@@ -36,7 +36,7 @@ private const val MDBLIST_RATINGS_REUSE_MS = 15_000L
 internal class MdbListRatingsProvider(
     private val api: MdbListApiClient,
     private val store: MdbListAuthStore,
-) : TrackingRatingProvider {
+) : UserRatingProvider {
     override val providerId = TrackingProviderId.MDBLIST
     override val supportedScopes = TrackingRatingScope.entries.toSet()
 

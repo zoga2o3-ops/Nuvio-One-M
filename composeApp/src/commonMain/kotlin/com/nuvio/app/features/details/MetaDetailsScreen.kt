@@ -174,6 +174,7 @@ import com.nuvio.app.features.watchprogress.ContinueWatchingPreferencesRepositor
 import com.nuvio.app.features.watching.application.WatchingActions
 import com.nuvio.app.features.watching.application.WatchingState
 import com.nuvio.app.core.ui.rememberArtworkDominantColor
+import com.nuvio.app.core.ui.rememberArtworkBackdrop
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -1185,6 +1186,10 @@ fun MetaDetailsScreen(
                             !isHeroCollapsed.value
                     }
                     var heroBackdropPainter by remember(backdropUrl) { mutableStateOf<Painter?>(null) }
+                    val cinematicBackdrop = rememberArtworkBackdrop(
+                        imageUrl = backdropUrl.takeIf { backgroundMode == MetaScreenBackgroundMode.Cinematic },
+                        enabled = deferredMetaWorkAllowed,
+                    )
                     val onBackdropLoaded: (Painter, ImageBitmap?) -> Unit = { painter, _ ->
                         heroBackdropPainter = painter
                     }
@@ -1221,6 +1226,7 @@ fun MetaDetailsScreen(
                                         TabletDetailBackdrop(
                                             meta = meta,
                                             cinematic = backgroundMode == MetaScreenBackgroundMode.Cinematic,
+                                            backdropImage = cinematicBackdrop,
                                             scrollOffsetPx = detailScrollOffsetPx,
                                             heroHeightPx = { heroHeightPx.intValue },
                                             heroTrailerSourceUrl = heroTrailerSourceUrl,

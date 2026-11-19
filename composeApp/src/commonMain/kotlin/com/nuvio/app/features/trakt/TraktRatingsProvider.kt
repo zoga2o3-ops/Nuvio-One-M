@@ -8,7 +8,7 @@ import com.nuvio.app.features.tracking.TrackingExternalIds
 import com.nuvio.app.features.tracking.TrackingMediaKind
 import com.nuvio.app.features.tracking.TrackingProviderId
 import com.nuvio.app.features.tracking.TrackingRatingException
-import com.nuvio.app.features.tracking.TrackingRatingProvider
+import com.nuvio.app.features.tracking.UserRatingProvider
 import com.nuvio.app.features.tracking.TrackingRatingRecord
 import com.nuvio.app.features.tracking.TrackingRatingScope
 import com.nuvio.app.features.tracking.TrackingRatingTarget
@@ -34,7 +34,7 @@ private const val TRAKT_RATINGS_MAX_PAGES = 50
  * Trakt personal ratings: `GET /sync/ratings/{type}`, `POST /sync/ratings` and
  * `POST /sync/ratings/remove`. Trakt rates movies, shows, seasons and episodes on 1–10.
  */
-object TraktRatingsProvider : TrackingRatingProvider {
+object TraktRatingsProvider : UserRatingProvider {
     override val providerId = TrackingProviderId.TRAKT
     override val supportedScopes = TrackingRatingScope.entries.toSet()
 
