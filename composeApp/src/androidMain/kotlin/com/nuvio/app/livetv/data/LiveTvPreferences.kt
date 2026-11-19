@@ -11,6 +11,7 @@ import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.core.stringSetPreferencesKey
 import androidx.datastore.preferences.preferencesDataStoreFile
+import com.nuvio.app.features.profiles.MAX_PROFILES
 import com.nuvio.app.livetv.model.ChannelSort
 import com.nuvio.app.livetv.model.matchFrameRate
 import com.nuvio.app.livetv.model.CustomGroup
@@ -1103,6 +1104,91 @@ class LiveTvPreferences(
         store.edit { p ->
             val cur = p[my(Keys.hiddenPlaylists)] ?: emptySet()
             p[my(Keys.hiddenPlaylists)] = if (hidden) cur + id else cur - id
+        }
+    }
+
+    /**
+     * Removes everything a deleted playlist left behind: favourites, hidden channels and groups,
+     * custom-group channels, channel order, reminders, group order, its account, and its rows in
+     * the sports picks. The playlist itself is already out of [Keys.playlists].
+     */
+    suspend fun forgetPlaylist(id: String) {
+        if (id.isBlank()) return
+        val channelPrefix = "$id|"
+        val groupPrefix = "$id::"
+        store.edit { p ->
+            val last = decodePlaylists(p[Keys.playlists]).isEmpty()
+            fun goneChannel(key: String) = last || key.startsWith(channelPrefix)
+            fun goneGroup(key: String) = last || key.startsWith(groupPrefix)
+
+            fun cleanSet(key: Preferences.Key<Set<String>>, drop: (String) -> Boolean) {
+                val cur = p[key] ?: return
+                val next = cur.filterNot(drop).toSet()
+                if (next != cur) {
+                    if (next.isEmpty()) p.remove(key) else p[key] = next
+                }
+            }
+
+            fun cleanString(key: Preferences.Key<String>, transform: (String) -> String) {
+                val raw = p[key] ?: return
+                val next = transform(raw)
+                if (next.isBlank() || next == "[]" || next == "{}") p.remove(key) else p[key] = next
+            }
+
+            fun cleanListMap(raw: String): String = encodeListMap(
+                decodeListMap(raw)
+                    .filterKeys { !goneGroup(it) }
+                    .mapValues { (_, keys) -> keys.filterNot(::goneChannel) }
+                    .filterValues { it.isNotEmpty() }
+            )
+
+            cleanSet(Keys.lockedGroups) { goneGroup(it) }
+            cleanString(Keys.groupNames) { raw ->
+                encodeStringMap(decodeStringMap(raw).filterKeys { !goneGroup(it) })
+            }
+
+            for (profile in 1..MAX_PROFILES) {
+                cleanSet(my(Keys.hiddenChannels, profile)) { goneChannel(it) }
+                cleanSet(my(Keys.hiddenGroups, profile)) { goneGroup(it) }
+                cleanSet(my(Keys.hiddenPlaylists, profile)) { it == id }
+                cleanString(my(Keys.favorites, profile)) { raw ->
+                    encodeStringList(decodeStringList(raw).filterNot(::goneChannel))
+                }
+                cleanString(my(Keys.recent, profile)) { raw ->
+                    encodeStringList(decodeStringList(raw).filterNot(::goneChannel))
+                }
+                cleanString(my(Keys.customGroups, profile)) { raw ->
+                    encodeCustomGroups(
+                        decodeCustomGroups(raw).map { g ->
+                            g.copy(channelKeys = g.channelKeys.filterNot(::goneChannel))
+                        }
+                    )
+                }
+                cleanString(my(Keys.reminders, profile)) { raw ->
+                    encodeReminders(decodeReminders(raw).filterNot { goneChannel(it.channelKey) })
+                }
+                cleanString(my(Keys.channelOrder, profile), ::cleanListMap)
+                cleanString(my(Keys.channelCopies, profile), ::cleanListMap)
+                cleanString(my(Keys.groupOrder, profile)) { raw ->
+                    encodeStringMap(decodeStringMap(raw).filterKeys { !goneGroup(it) })
+                }
+                for (k in listOf(Keys.lastChannel, Keys.previousChannel)) {
+                    val key = my(k, profile)
+                    val value = p[key]
+                    if (value != null && goneChannel(value)) p.remove(key)
+                }
+                val lastGroup = my(Keys.lastGroup, profile)
+                val group = p[lastGroup]
+                if (group != null && goneGroup(group)) p.remove(lastGroup)
+            }
+        }
+        deviceStore.edit { p ->
+            val raw = p[Keys.playlistAccounts] ?: return@edit
+            val accounts = runCatching { JSONObject(raw) }.getOrDefault(JSONObject())
+            if (accounts.has(id)) {
+                accounts.remove(id)
+                p[Keys.playlistAccounts] = accounts.toString()
+            }
         }
     }
 

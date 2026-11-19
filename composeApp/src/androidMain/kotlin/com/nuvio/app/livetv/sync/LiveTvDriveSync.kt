@@ -27,6 +27,7 @@ import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
+import org.json.JSONArray
 import org.json.JSONObject
 import java.security.MessageDigest
 import java.util.UUID
@@ -486,6 +487,18 @@ class LiveTvDriveSync(
                 runCatching { unionSources(a.optString("v"), b.optString("v"), removedHere) }.getOrNull()
                     ?.let { out.put(k, JSONObject(a.toString()).put("v", it)) }
             }
+            // Personal choices made on either device are kept; taking one side's whole list
+            // lost the other device's favourites and hidden channels.
+            for (k in PERSONAL_UNION_KEYS) {
+                val a = first.optJSONObject(k) ?: continue
+                val b = second.optJSONObject(k) ?: continue
+                runCatching { unionEntry(a, b) }.getOrNull()?.let { out.put(k, it) }
+            }
+            first.optJSONObject(CUSTOM_GROUPS_KEY)?.let { a ->
+                second.optJSONObject(CUSTOM_GROUPS_KEY)?.let { b ->
+                    runCatching { unionCustomGroups(a, b) }.getOrNull()?.let { out.put(CUSTOM_GROUPS_KEY, it) }
+                }
+            }
             return out
         }
         val out = JSONObject(remote.toString())
@@ -512,14 +525,78 @@ class LiveTvDriveSync(
                         )
                     }.getOrNull()
                 } else null
+                val personalMerged = when {
+                    k in PERSONAL_UNION_KEYS -> local.optJSONObject(k)?.let { l ->
+                        remote.optJSONObject(k)?.let { r -> runCatching { unionEntry(l, r) }.getOrNull() }
+                    }
+                    k == CUSTOM_GROUPS_KEY -> local.optJSONObject(k)?.let { l ->
+                        remote.optJSONObject(k)?.let { r -> runCatching { unionCustomGroups(l, r) }.getOrNull() }
+                    }
+                    else -> null
+                }
                 val shell = (local.optJSONObject(k) ?: remote.optJSONObject(k))
                 when {
+                    personalMerged != null -> out.put(k, personalMerged)
                     listMerged != null && shell != null -> out.put(k, JSONObject(shell.toString()).put("v", listMerged))
                     local.has(k) -> out.put(k, local.get(k))
                     else -> out.remove(k)
                 }
             }
         }
+        return out
+    }
+
+    /**
+     * Combines personal choices made on either device. Sets are exported as arrays
+     * (`t = "s"`) and favourites as a JSON array string (`t = "str"`).
+     */
+    private fun unionEntry(first: JSONObject, second: JSONObject): JSONObject {
+        val out = JSONObject(first.toString())
+        val type = out.optString("t").ifBlank { second.optString("t") }
+        val values = LinkedHashSet<String>()
+        values.addAll(readStringValues(first.opt("v")))
+        values.addAll(readStringValues(second.opt("v")))
+        if (type == "s") out.put("v", JSONArray(values.toList()))
+        else out.put("v", JSONArray(values.toList()).toString())
+        return out
+    }
+
+    private fun readStringValues(value: Any?): List<String> = when (value) {
+        is JSONArray -> (0 until value.length()).mapNotNull { value.optString(it).takeIf(String::isNotBlank) }
+        is String -> runCatching {
+            val arr = JSONArray(value)
+            (0 until arr.length()).mapNotNull { arr.optString(it).takeIf(String::isNotBlank) }
+        }.getOrDefault(emptyList())
+        else -> emptyList()
+    }
+
+    /** Custom groups from both devices: same id keeps one group, with both channel lists combined. */
+    private fun unionCustomGroups(first: JSONObject, second: JSONObject): JSONObject {
+        val out = JSONObject(first.toString())
+        val merged = LinkedHashMap<String, JSONObject>()
+        fun add(entry: JSONObject?) {
+            val raw = entry?.optString("v") ?: return
+            runCatching {
+                val arr = JSONArray(raw)
+                for (i in 0 until arr.length()) {
+                    val group = arr.optJSONObject(i) ?: continue
+                    val id = group.optString("id").ifBlank { "group-$i" }
+                    val existing = merged[id]
+                    if (existing == null) {
+                        merged[id] = JSONObject(group.toString())
+                    } else {
+                        val keys = LinkedHashSet<String>()
+                        existing.optJSONArray("keys")?.let { a -> for (j in 0 until a.length()) keys += a.getString(j) }
+                        group.optJSONArray("keys")?.let { a -> for (j in 0 until a.length()) keys += a.getString(j) }
+                        existing.put("keys", JSONArray(keys.toList()))
+                        if (existing.optString("name").isBlank()) existing.put("name", group.optString("name"))
+                    }
+                }
+            }
+        }
+        add(first)
+        add(second)
+        out.put("v", JSONArray(merged.values.toList()).toString())
         return out
     }
 
@@ -701,6 +778,9 @@ class LiveTvDriveSync(
         const val TAG = "LiveTvDriveSync"
         /** Settings that are lists of sources, merged source by source. */
         val SOURCE_LISTS = setOf("playlists", "epg_sources", "music_liked", "music_playlists")
+        /** Personal choices that combine between devices instead of one side overwriting the other. */
+        val PERSONAL_UNION_KEYS = setOf("favorites", "hidden_channels", "hidden_groups", "hidden_playlists")
+        const val CUSTOM_GROUPS_KEY = "custom_groups"
         const val MODE_APPDATA = "appdata"
         const val MODE_FILE = "file"
         /** Tried in order until Google accepts one. */

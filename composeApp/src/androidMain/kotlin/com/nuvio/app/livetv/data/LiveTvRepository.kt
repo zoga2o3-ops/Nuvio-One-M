@@ -239,6 +239,7 @@ class LiveTvRepository(
 
     suspend fun removePlaylist(id: String) {
         prefs.updatePlaylists { list -> list.filterNot { it.id == id } }
+        prefs.forgetPlaylist(id)
         File(playlistDir, "$id.m3u").delete()
         groupOrderFile(id).delete()
         embeddedEpgUrls.remove(id)

@@ -352,7 +352,10 @@ class LiveTvViewModel(context: Context) : ViewModel() {
     }
 
     fun removePlaylist(id: String) {
-        viewModelScope.launch { repository.removePlaylist(id) }
+        viewModelScope.launch {
+            repository.removePlaylist(id)
+            live.scheduler.forgetPlaylist(id)
+        }
     }
 
     fun setPlaylistEnabled(id: String, enabled: Boolean) {

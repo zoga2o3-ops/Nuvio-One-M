@@ -320,6 +320,20 @@ class LiveTvRecordingScheduler(
         }
     }
 
+    /** Drops manual and series recordings for a playlist that has been deleted. */
+    fun forgetPlaylist(id: String) {
+        val prefix = "$id|"
+        scope.launch {
+            mutex.withLock {
+                val gone = _schedules.value.filter { it.channel.key.startsWith(prefix) }
+                gone.forEach { disarm(it) }
+                _schedules.value = _schedules.value - gone.toSet()
+                _series.value = _series.value.filterNot { it.channel.key.startsWith(prefix) }
+                save()
+            }
+        }
+    }
+
     /** "Keep the last N" for a series. */
     fun setKeep(seriesId: String, keepLast: Int) {
         scope.launch {
