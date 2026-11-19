@@ -302,6 +302,8 @@ class LiveTvRecordingScheduler(
                 _series.value = _series.value + rule
                 save()
             }
+            // The airing you picked: record that one now instead of waiting for a later repeat.
+            if (program.stopMs > System.currentTimeMillis()) add(channel, program, seriesId = rule.id)
             expandSeries()
         }
         return "Recording every \"$title\" on ${channel.name}"
