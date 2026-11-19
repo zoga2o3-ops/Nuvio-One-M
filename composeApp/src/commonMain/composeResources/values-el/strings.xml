@@ -3902,6 +3902,7 @@
     <string name="live_tv_ui_extra_large">Πολύ μεγάλο</string>
     <string name="live_tv_ui_normal">Κανονικός</string>
     <string name="music_ui_playing_from_nuvio">ΠΑΙΖΟΝΤΑΣ ΑΠΟ NUVIO MUSIC</string>
+<string name="music_ui_playing_from_source">ΑΝΑΠΑΡΑΓΩΓΗ ΑΠΟ %1$s</string>
     <string name="music_ui_repeat_all">Επαναλάβετε όλα</string>
     <string name="music_ui_repeat_one">Επαναλάβετε ένα</string>
     <string name="music_ui_unknown_artist">Άγνωστος καλλιτέχνης</string>

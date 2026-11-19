@@ -3917,6 +3917,7 @@
     <string name="live_tv_ui_after_n_minutes">Dopo %1$d minuti</string>
     <string name="live_tv_ui_connected_last_synced_short">%1$s.  Ultima sincronizzazione %2$s</string>
     <string name="music_ui_playing_from_nuvio">RIPRODUZIONE DELLA MUSICA NUVIO</string>
+<string name="music_ui_playing_from_source">RIPRODUZIONE DA %1$s</string>
     <string name="music_ui_repeat_all">Ripeti tutto</string>
     <string name="music_ui_repeat_one">Ripeti uno</string>
     <string name="music_ui_unknown_artist">Artista sconosciuto</string>

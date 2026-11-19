@@ -3935,6 +3935,7 @@
     <string name="live_tv_ui_after_15_minutes">Après 15 minutes</string>
     <string name="live_tv_ui_after_1_hour">Après 1 heure</string>
     <string name="music_ui_playing_from_nuvio">LECTURE À PARTIR DE NUVIO MUSIC</string>
+<string name="music_ui_playing_from_source">LECTURE DEPUIS %1$s</string>
     <string name="music_ui_repeat_all">Répétez tout</string>
     <string name="music_ui_repeat_one">Répétez-en un</string>
     <string name="music_ui_unknown_artist">Artiste inconnu</string>

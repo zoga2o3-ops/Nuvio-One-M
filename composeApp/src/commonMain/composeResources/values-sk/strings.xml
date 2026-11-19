@@ -3956,6 +3956,7 @@
     <string name="music_ui_download_this_track">Stiahnite si túto skladbu</string>
     <string name="music_ui_playing_from_device">PREHRÁVANIE Z TOHTO ZARIADENIA</string>
     <string name="music_ui_playing_from_nuvio">PREHRÁVANIE Z NUVIO MUSIC</string>
+<string name="music_ui_playing_from_source">PREHRÁVANIE Z %1$s</string>
     <string name="music_ui_repeat_all">Opakujte všetko</string>
     <string name="music_ui_repeat_one">Opakujte jeden</string>
     <string name="music_ui_unknown_artist">Neznámy umelec</string>

@@ -3898,6 +3898,7 @@
     <string name="music_ui_download_this_track">Pobierz ten utwór</string>
     <string name="music_ui_playing_from_device">GRA Z TEGO URZĄDZENIA</string>
     <string name="music_ui_playing_from_nuvio">ODTWARZANIE MUZYKI NUVIO</string>
+<string name="music_ui_playing_from_source">ODTWARZANIE Z %1$s</string>
     <string name="music_ui_repeat_all">Powtórz wszystko</string>
     <string name="music_ui_repeat_one">Powtórz jedno</string>
     <string name="music_ui_unknown_artist">Nieznany artysta</string>

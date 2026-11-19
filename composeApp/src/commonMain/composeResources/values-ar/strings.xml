@@ -3918,6 +3918,7 @@
     <string name="live_tv_ui_after_n_minutes">بعد %1$d دقيقة</string>
     <string name="live_tv_ui_connected_last_synced_short">%1$s.  آخر مزامنة %2$s</string>
     <string name="music_ui_playing_from_nuvio">التشغيل من موسيقى NUVIO</string>
+<string name="music_ui_playing_from_source">التشغيل من %1$s</string>
     <string name="music_ui_repeat_all">كرر كل شيء</string>
     <string name="music_ui_repeat_one">كرر واحدة</string>
     <string name="music_ui_unknown_artist">فنان غير معروف</string>

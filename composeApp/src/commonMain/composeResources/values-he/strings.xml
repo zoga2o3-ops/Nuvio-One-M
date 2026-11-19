@@ -3877,6 +3877,7 @@
     <string name="music_ui_download_this_track">הורד את המסלול הזה</string>
     <string name="music_ui_playing_from_device">משחק מהמכשיר הזה</string>
     <string name="music_ui_playing_from_nuvio">מנגן מתוך NUVIO MUSIC</string>
+<string name="music_ui_playing_from_source">מתנגן מ-%1$s</string>
     <string name="music_ui_repeat_all">חזור על הכל</string>
     <string name="music_ui_repeat_one">חזור על אחד</string>
     <string name="music_ui_unknown_artist">אמן לא ידוע</string>

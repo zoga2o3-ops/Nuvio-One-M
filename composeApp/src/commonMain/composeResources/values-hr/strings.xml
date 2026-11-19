@@ -3951,6 +3951,7 @@
     <string name="music_ui_download_this_track">Preuzmite ovu pjesmu</string>
     <string name="music_ui_playing_from_device">REPRODUCIRANJE S OVOG UREĐAJA</string>
     <string name="music_ui_playing_from_nuvio">SVIRANJE IZ NUVIO MUSIC</string>
+<string name="music_ui_playing_from_source">REPRODUKCIJA IZ %1$s</string>
     <string name="music_ui_repeat_all">Ponovi sve</string>
     <string name="music_ui_repeat_one">Ponovi jedno</string>
     <string name="music_ui_unknown_artist">Nepoznati umjetnik</string>

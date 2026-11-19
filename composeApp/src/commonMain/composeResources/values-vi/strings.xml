@@ -3935,6 +3935,7 @@
     <string name="live_tv_ui_after_15_minutes">Sau 15 phút</string>
     <string name="live_tv_ui_after_1_hour">Sau 1 giờ</string>
     <string name="music_ui_playing_from_nuvio">CHƠI TỪ NHẠC NUVIO</string>
+<string name="music_ui_playing_from_source">ĐANG PHÁT TỪ %1$s</string>
     <string name="music_ui_repeat_all">Lặp lại tất cả</string>
     <string name="music_ui_repeat_one">Lặp lại một</string>
     <string name="music_ui_unknown_artist">Nghệ sĩ vô danh</string>

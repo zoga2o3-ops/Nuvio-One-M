@@ -3870,6 +3870,7 @@
     <string name="live_tv_ui_after_15_minutes">Setelah 15 menit</string>
     <string name="live_tv_ui_after_1_hour">Setelah 1 jam</string>
     <string name="music_ui_playing_from_nuvio">BERMAIN DARI MUSIK NUVIO</string>
+<string name="music_ui_playing_from_source">MEMUTAR DARI %1$s</string>
     <string name="music_ui_repeat_all">Ulangi semuanya</string>
     <string name="music_ui_repeat_one">Ulangi satu</string>
     <string name="music_ui_unknown_artist">Artis tidak dikenal</string>

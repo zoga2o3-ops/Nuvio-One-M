@@ -3939,6 +3939,7 @@
     <string name="music_ui_download_this_track">Download this track</string>
     <string name="music_ui_playing_from_device">PLAYING FROM THIS DEVICE</string>
     <string name="music_ui_playing_from_nuvio">PLAYING FROM NUVIO MUSIC</string>
+<string name="music_ui_playing_from_source">PLAYING FROM %1$s</string>
     <string name="music_ui_repeat_all">Repeat all</string>
     <string name="music_ui_repeat_one">Repeat one</string>
     <string name="music_ui_unknown_artist">Unknown artist</string>

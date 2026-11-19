@@ -3933,6 +3933,7 @@ Bu özelliği tamamen kendi sorumluluğunuzda kullanırsınız. P2P istediğiniz
     <string name="music_ui_download_this_track">Bu parçayı indir</string>
     <string name="music_ui_playing_from_device">BU CİHAZDAN OYNATMA</string>
     <string name="music_ui_playing_from_nuvio">NUVIO MUSIC'TEN ÇALMA</string>
+<string name="music_ui_playing_from_source">%1$s KAYNAĞINDAN ÇALINIYOR</string>
     <string name="music_ui_repeat_all">Tümünü tekrarla</string>
     <string name="music_ui_repeat_one">Birini tekrarla</string>
     <string name="music_ui_unknown_artist">Bilinmeyen sanatçı</string>

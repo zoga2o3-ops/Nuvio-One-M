@@ -3920,6 +3920,7 @@
     <string name="music_ui_download_this_track">Download dit nummer</string>
     <string name="music_ui_playing_from_device">SPELEN VANAF DIT APPARAAT</string>
     <string name="music_ui_playing_from_nuvio">SPELEN VAN NUVIO-MUZIEK</string>
+<string name="music_ui_playing_from_source">SPELEN VANAF %1$s</string>
     <string name="music_ui_repeat_all">Herhaal alles</string>
     <string name="music_ui_repeat_one">Herhaal er één</string>
     <string name="music_ui_unknown_artist">Onbekende artiest</string>

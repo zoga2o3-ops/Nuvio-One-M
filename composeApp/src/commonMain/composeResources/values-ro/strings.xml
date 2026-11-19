@@ -3876,6 +3876,7 @@
     <string name="live_tv_ui_after_n_minutes">După %1$d minute</string>
     <string name="live_tv_ui_connected_last_synced_short">%1$s.  Ultima sincronizare %2$s</string>
     <string name="music_ui_playing_from_nuvio">CĂRĂ DIN NUVIO MUSIC</string>
+<string name="music_ui_playing_from_source">REDARE DIN %1$s</string>
     <string name="music_ui_repeat_all">Repetați totul</string>
     <string name="music_ui_repeat_one">Repetați unul</string>
     <string name="music_ui_unknown_artist">Artist necunoscut</string>

@@ -347,10 +347,15 @@ internal fun MusicNowPlayingScreen(
                         verticalArrangement = Arrangement.Center
                     ) {
                         Text(
-                            text = if (song?.localUri != null) {
-                                kotlinx.coroutines.runBlocking { getString(Res.string.music_ui_playing_from_device) }
+                            text = state.playbackSource?.let { source ->
+                                stringResource(
+                                    Res.string.music_ui_playing_from_source,
+                                    source.uppercase()
+                                )
+                            } ?: if (song?.localUri != null) {
+                                stringResource(Res.string.music_ui_playing_from_device)
                             } else {
-                                kotlinx.coroutines.runBlocking { getString(Res.string.music_ui_playing_from_nuvio) }
+                                stringResource(Res.string.music_ui_playing_from_nuvio)
                             },
                             color = MusicPalette.accentTeal,
                             fontSize = 10.sp,

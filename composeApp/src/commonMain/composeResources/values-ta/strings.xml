@@ -3872,6 +3872,7 @@
     <string name="live_tv_ui_extra_large">கூடுதல் பெரியது</string>
     <string name="live_tv_ui_normal">இயல்பானது</string>
     <string name="music_ui_playing_from_nuvio">நுவியோ மியூசிக்கில் இருந்து விளையாடுகிறேன்</string>
+<string name="music_ui_playing_from_source">%1$s இலிருந்து இயக்கப்படுகிறது</string>
     <string name="music_ui_repeat_all">அனைத்தையும் மீண்டும் செய்யவும்</string>
     <string name="music_ui_repeat_one">ஒன்றை மீண்டும் செய்யவும்</string>
     <string name="music_ui_unknown_artist">அறியப்படாத கலைஞர்</string>

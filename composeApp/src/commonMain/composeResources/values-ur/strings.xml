@@ -3921,6 +3921,7 @@
     <string name="music_ui_download_this_track">اس ٹریک کو ڈاؤن لوڈ کریں۔</string>
     <string name="music_ui_playing_from_device">اس ڈیوائس سے چل رہا ہے۔</string>
     <string name="music_ui_playing_from_nuvio">نیویو میوزک سے چل رہا ہے۔</string>
+<string name="music_ui_playing_from_source">%1$s سے چل رہا ہے</string>
     <string name="music_ui_repeat_all">سب کو دہرائیں۔</string>
     <string name="music_ui_repeat_one">ایک دہرائیں۔</string>
     <string name="music_ui_unknown_artist">نامعلوم فنکار</string>

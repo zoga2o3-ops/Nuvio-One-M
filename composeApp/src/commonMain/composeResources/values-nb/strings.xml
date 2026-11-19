@@ -3896,6 +3896,7 @@ Du bruker denne funksjonen helt på eget ansvar. P2P kan deaktiveres når som he
     <string name="music_ui_download_this_track">Last ned dette sporet</string>
     <string name="music_ui_playing_from_device">SPILLER FRA DENNE ENHETEN</string>
     <string name="music_ui_playing_from_nuvio">SPILLER FRA NUVIO MUSIC</string>
+<string name="music_ui_playing_from_source">SPILLER FRA %1$s</string>
     <string name="music_ui_repeat_all">Gjenta alt</string>
     <string name="music_ui_repeat_one">Gjenta en</string>
     <string name="music_ui_unknown_artist">Ukjent artist</string>

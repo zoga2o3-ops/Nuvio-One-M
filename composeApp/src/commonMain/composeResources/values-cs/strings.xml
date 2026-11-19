@@ -3920,6 +3920,7 @@
     <string name="music_ui_download_this_track">Stáhněte si tuto skladbu</string>
     <string name="music_ui_playing_from_device">PŘEHRÁVÁNÍ Z TOHOTO ZAŘÍZENÍ</string>
     <string name="music_ui_playing_from_nuvio">PŘEHRÁVÁNÍ Z NUVIO MUSIC</string>
+<string name="music_ui_playing_from_source">PŘEHRÁVÁNÍ Z %1$s</string>
     <string name="music_ui_repeat_all">Opakujte vše</string>
     <string name="music_ui_repeat_one">Opakujte jeden</string>
     <string name="music_ui_unknown_artist">Neznámý umělec</string>

@@ -3884,6 +3884,7 @@
     <string name="music_ui_download_this_track">Descarregue esta faixa</string>
     <string name="music_ui_playing_from_device">JOGANDO COM ESTE DISPOSITIVO</string>
     <string name="music_ui_playing_from_nuvio">A TOCAR MÚSICA NUVIO</string>
+<string name="music_ui_playing_from_source">A REPRODUZIR DE %1$s</string>
     <string name="music_ui_repeat_all">Repita tudo</string>
     <string name="music_ui_repeat_one">Repita um</string>
     <string name="music_ui_unknown_artist">Artista desconhecido</string>

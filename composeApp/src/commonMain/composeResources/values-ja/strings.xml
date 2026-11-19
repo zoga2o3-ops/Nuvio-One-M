@@ -3915,6 +3915,7 @@
     <string name="music_ui_download_this_track">このトラックをダウンロード</string>
     <string name="music_ui_playing_from_device">このデバイスからの再生</string>
     <string name="music_ui_playing_from_nuvio">NUVIO MUSIC からの再生</string>
+<string name="music_ui_playing_from_source">%1$s から再生中</string>
     <string name="music_ui_repeat_all">すべて繰り返す</string>
     <string name="music_ui_repeat_one">1 つ繰り返します</string>
     <string name="music_ui_unknown_artist">不明なアーティスト</string>

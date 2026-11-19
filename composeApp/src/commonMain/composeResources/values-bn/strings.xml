@@ -3956,6 +3956,7 @@
     <string name="music_ui_download_this_track">এই ট্র্যাক ডাউনলোড করুন</string>
     <string name="music_ui_playing_from_device">এই ডিভাইস থেকে বাজানো হচ্ছে</string>
     <string name="music_ui_playing_from_nuvio">নুভিও মিউজিক থেকে বাজানো হচ্ছে</string>
+<string name="music_ui_playing_from_source">%1$s থেকে চালানো হচ্ছে</string>
     <string name="music_ui_repeat_all">সব পুনরাবৃত্তি করুন</string>
     <string name="music_ui_repeat_one">একটি পুনরাবৃত্তি</string>
     <string name="music_ui_unknown_artist">অচেনা শিল্পী</string>

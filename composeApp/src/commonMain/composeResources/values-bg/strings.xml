@@ -3932,6 +3932,7 @@
     <string name="live_tv_ui_after_15_minutes">След 15 минути</string>
     <string name="live_tv_ui_after_1_hour">След 1 час</string>
     <string name="music_ui_playing_from_nuvio">ПУСКАНЕ ОТ NUVIO MUSIC</string>
+<string name="music_ui_playing_from_source">ВЪЗПРОИЗВЕЖДАНЕ ОТ %1$s</string>
     <string name="music_ui_repeat_all">Повторете всички</string>
     <string name="music_ui_repeat_one">Повторете едно</string>
     <string name="music_ui_unknown_artist">Неизвестен художник</string>

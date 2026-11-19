@@ -3916,6 +3916,7 @@
     <string name="music_ui_download_this_track">Töltse le ezt a számot</string>
     <string name="music_ui_playing_from_device">JÁTSZÁS ERŐL AZ ESZKÖZÖRŐL</string>
     <string name="music_ui_playing_from_nuvio">JÁTSZÁS A NUVIO ZENÉBŐL</string>
+<string name="music_ui_playing_from_source">LEJÁTSZÁS INNEN: %1$s</string>
     <string name="music_ui_repeat_all">Ismételje meg az összeset</string>
     <string name="music_ui_repeat_one">Ismételje meg az egyiket</string>
     <string name="music_ui_unknown_artist">Ismeretlen művész</string>

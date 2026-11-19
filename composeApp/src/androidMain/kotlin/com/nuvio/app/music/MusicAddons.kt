@@ -39,7 +39,9 @@ data class MusicAddonConfig(
     val requiresLossless: Boolean = false,
     /** Manifest `bitchordAuth`: the addon only serves the signed BitChord app. */
     val requiresBitChordAuth: Boolean = false
-)
+) {
+    val displayName: String get() = name.ifBlank { id }
+}
 
 data class MusicAddonOption(val value: String, val label: String)
 
@@ -83,7 +85,9 @@ data class MusicAddonStream(
     val format: String?,
     val quality: String?,
     val manifest: String?,
-    val mimeType: String?
+    val mimeType: String?,
+    /** The configured source's display name, filled in by the registry. */
+    val sourceName: String? = null
 )
 
 data class MusicAddonSearchHit(
@@ -431,6 +435,12 @@ object MusicAddonRegistry {
 
     fun isAddonTrack(videoId: String): Boolean = videoId.startsWith(TRACK_PREFIX)
 
+    /** The configured source name behind an addon track key, for the Now Playing tagline. */
+    fun sourceName(videoId: String): String? {
+        val (configId, _) = parseTrackKey(videoId) ?: return null
+        return _configs.value.firstOrNull { it.id == configId }?.displayName
+    }
+
     fun trackKey(configId: String, trackId: String): String {
         val encoded = Base64.encodeToString(
             trackId.toByteArray(Charsets.UTF_8),
@@ -579,7 +589,8 @@ object MusicAddonRegistry {
                     format = hit.track.format,
                     quality = hit.track.quality,
                     manifest = null,
-                    mimeType = null
+                    mimeType = null,
+                    sourceName = hit.config.displayName
                 )
         }
     }
@@ -672,7 +683,9 @@ object MusicAddonRegistry {
             }
             directStreams.remove(videoId)
         }
-        return clientFor(config).stream(trackId)
+        return clientFor(config).stream(trackId).map { stream ->
+            stream.copy(sourceName = config.displayName)
+        }
     }
 
     private fun clientFor(config: MusicAddonConfig): MusicAddonClient =
