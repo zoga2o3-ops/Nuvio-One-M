@@ -117,6 +117,7 @@ open class MainActivity : AppCompatActivity() {
         AppIconPlatform.initialize(applicationContext)
         SentrySettingsStorage.initialize(applicationContext)
         SentryInitializer.start(application)
+        com.nuvio.app.core.diagnostics.LastCrashStore.install(application)
         super.onCreate(savedInstanceState)
         ProfileBiometricAuth.initialize(this)
         AutoSyncPreferencesAndroid.initialize(applicationContext) // AutoSync hook

@@ -1,8 +1,12 @@
 package com.nuvio.app.core.diagnostics
 
+import android.annotation.SuppressLint
+import android.app.ActivityManager
+import android.app.ApplicationExitInfo
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
+import android.os.Debug
 import android.os.Process
 import com.nuvio.app.core.auth.AuthRepository
 import com.nuvio.app.core.auth.AuthState
@@ -11,6 +15,7 @@ import com.nuvio.app.core.logging.InAppLogger
 import com.nuvio.app.livetv.model.LiveTvLoadReport
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -51,6 +56,12 @@ object DebugReportBuilder {
                 }
             )
 
+            section("LAST CRASH")
+            appendLine(LastCrashStore.read(context) ?: "No uncaught Java crash was recorded.")
+
+            section("LAST EXIT")
+            appendLine(lastExitInfo(context))
+
             section("DEVICE")
             appendLine("manufacturer=${Build.MANUFACTURER}")
             appendLine("brand=${Build.BRAND}")
@@ -67,6 +78,9 @@ object DebugReportBuilder {
             appendLine("leanback=${packageManager.hasSystemFeature(PackageManager.FEATURE_LEANBACK)}")
             appendLine("television=${packageManager.hasSystemFeature(PackageManager.FEATURE_TELEVISION)}")
 
+            section("MEMORY")
+            appendLine(memoryInfo(context))
+
             section("LIVE TV")
             appendLine(LiveTvLoadReport.shortText(limit = 8_000))
 
@@ -78,7 +92,13 @@ object DebugReportBuilder {
             fileName = "debug-report-$id.txt",
             text = DebugReportRedactor.redact(raw, DebugReportConfig.DISCORD_WEBHOOK)
         )
+        // Debug builds keep a copy so it can be pulled with `adb shell run-as` while testing.
+        if (isDebuggable(context)) {
+            runCatching { File(context.filesDir, report.fileName).writeText(report.text) }
+        }
         DebugReportUploader.upload(report)
+        // The crash reached the server with this report, so the next report can start clean.
+        LastCrashStore.clear(context)
         id
     }
 
@@ -95,25 +115,108 @@ object DebugReportBuilder {
     private fun isDebuggable(context: Context): Boolean =
         context.applicationInfo.flags and android.content.pm.ApplicationInfo.FLAG_DEBUGGABLE != 0
 
+    private fun memoryInfo(context: Context): String {
+        val mb = 1024L * 1024L
+        return buildString {
+            runCatching {
+                val manager = context.getSystemService(ActivityManager::class.java)
+                val info = ActivityManager.MemoryInfo()
+                manager?.getMemoryInfo(info)
+                appendLine("ramTotalMb=${info.totalMem / mb} ramAvailableMb=${info.availMem / mb}")
+                appendLine("lowMemory=${info.lowMemory} lowMemoryThresholdMb=${info.threshold / mb}")
+                appendLine("lowRamDevice=${manager?.isLowRamDevice} memoryClass=${manager?.memoryClass} largeMemoryClass=${manager?.largeMemoryClass}")
+            }.onFailure { appendLine("device memory unavailable: ${it.message}") }
+            runCatching {
+                val runtime = Runtime.getRuntime()
+                appendLine("javaHeapUsedMb=${(runtime.totalMemory() - runtime.freeMemory()) / mb} javaHeapMaxMb=${runtime.maxMemory() / mb}")
+                val memory = Debug.MemoryInfo()
+                Debug.getMemoryInfo(memory)
+                appendLine("pssKb=${memory.totalPss}")
+            }.onFailure { appendLine("app memory unavailable: ${it.message}") }
+        }.trimEnd()
+    }
+
+    @SuppressLint("NewApi") // Every call is behind the SDK check at the top of the function.
+    private fun lastExitInfo(context: Context): String {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
+            return "Android 11 or newer is needed for recorded exit reasons."
+        }
+        val manager = context.getSystemService(ActivityManager::class.java) ?: return "ActivityManager was unavailable."
+        return runCatching {
+            val exits = manager.getHistoricalProcessExitReasons(context.packageName, 0, 8)
+            if (exits.isEmpty()) {
+                "No process exits were recorded."
+            } else {
+                exits.joinToString("\n\n") { info ->
+                    buildString {
+                        appendLine("reason=${exitReason(info.reason)} (${info.reason})")
+                        appendLine("importance=${info.importance}")
+                        appendLine("when=${formatTimestamp(info.timestamp)}")
+                        info.description?.takeIf { it.isNotBlank() }?.let { appendLine("description=$it") }
+                        runCatching {
+                            info.traceInputStream?.bufferedReader()?.use { reader -> reader.readText().take(60_000) }
+                        }.getOrNull()?.takeIf { it.isNotBlank() }?.let { appendLine(it) }
+                    }
+                }
+            }
+        }.getOrElse { "Could not read exit reasons: ${it.message}" }
+    }
+
+    @SuppressLint("NewApi") // Only reached from lastExitInfo, after its SDK check.
+    private fun exitReason(reason: Int): String = when (reason) {
+        ApplicationExitInfo.REASON_CRASH -> "crash"
+        ApplicationExitInfo.REASON_CRASH_NATIVE -> "native crash"
+        ApplicationExitInfo.REASON_ANR -> "ANR"
+        ApplicationExitInfo.REASON_LOW_MEMORY -> "low memory"
+        ApplicationExitInfo.REASON_SIGNALED -> "signaled"
+        ApplicationExitInfo.REASON_EXIT_SELF -> "exit self"
+        ApplicationExitInfo.REASON_USER_REQUESTED -> "user requested"
+        ApplicationExitInfo.REASON_OTHER -> "other"
+        else -> "reason $reason"
+    }
+
+    private fun formatTimestamp(ms: Long): String =
+        SimpleDateFormat("yyyy-MM-dd HH:mm:ss z", Locale.US).apply {
+            timeZone = TimeZone.getDefault()
+        }.format(Date(ms))
+
     /**
      * The app's own logcat tail plus the in-app log. Android only lets an app read its own UID's
-     * log, which is exactly what a report needs.
+     * log, which is exactly what a report needs. The crash buffer and the unfiltered tail are
+     * included because they can still hold a crash from an earlier process of the same app, which
+     * is the case that matters most when someone reports that the app closed.
      */
     private fun readRecentLogs(maxLines: Int = 600): String {
         val inApp = runCatching {
             InAppLogger.lines.value.takeLast(maxLines).joinToString("\n")
         }.getOrDefault("")
-        val logcat = runCatching {
-            val process = ProcessBuilder(
-                "logcat", "-d", "-v", "time", "-t", maxLines.toString(), "--pid=${Process.myPid()}"
-            ).redirectErrorStream(true).start()
-            val output = process.inputStream.bufferedReader().use { it.readText() }
-            process.waitFor()
-            output.trimEnd().takeLast(120_000)
-        }.getOrDefault("")
-        return listOf(inApp, logcat).filter { it.isNotBlank() }.joinToString("\n\n")
+        val thisSession = logcatTail(buffer = "main", maxLines = 1_000, pid = Process.myPid())
+        val olderSession = logcatTail(buffer = "main", maxLines = 20_000, pid = null)
+            .takeIf { it.contains("FATAL EXCEPTION") || it.contains("beginning of crash") }
+        val crashBuffer = logcatTail(buffer = "crash", maxLines = 300, pid = null)
+        val sections = buildList {
+            if (inApp.isNotBlank()) add("-- in-app log --\n$inApp")
+            if (thisSession.isNotBlank()) add("-- logcat, this session --\n$thisSession")
+            if (!olderSession.isNullOrBlank()) add("-- logcat, this app --\n$olderSession")
+            if (crashBuffer.isNotBlank()) add("-- logcat, crash buffer --\n$crashBuffer")
+        }
+        return sections.joinToString("\n\n").takeLast(180_000)
             .ifBlank { "No recent log lines were available." }
     }
+
+    private fun logcatTail(buffer: String, maxLines: Int, pid: Int?): String = runCatching {
+        val command = mutableListOf("logcat", "-d", "-v", "time", "-b", buffer, "-t", maxLines.toString())
+        if (pid != null) command += "--pid=$pid" else command += "--uid=${Process.myUid()}"
+        val process = ProcessBuilder(command).redirectErrorStream(true).start()
+        val output = process.inputStream.bufferedReader().use { it.readText() }
+        process.waitFor()
+        // The YouTube engine logs a "Path not found" line for every optional JSON field it reads.
+        // One video lookup can fill the buffer and push the app's own lines out of the report.
+        output.lineSequence()
+            .filterNot { it.contains("JsonPathTypeAdapter") }
+            .joinToString("\n")
+            .trimEnd()
+    }.getOrDefault("")
 }
 
 /**
