@@ -3982,4 +3982,17 @@
     <string name="settings_section_live_tv_description">Live TV ٹیب دکھائیں</string>
     <string name="live_tv_ui_all_categories">تمام زمرے</string>
     <string name="live_tv_ui_search_categories">زمرے تلاش کریں</string>
+    <string name="live_tv_ui_home_screen">ہوم اسکرین</string>
+    <string name="live_tv_ui_home_row">ہوم پر Live TV قطار</string>
+    <string name="live_tv_ui_channels_in_the_row">قطار میں چینلز</string>
+    <string name="live_tv_ui_recently_watched">حال ہی میں دیکھے گئے</string>
+    <string name="live_tv_ui_row_title">قطار کا عنوان</string>
+    <string name="live_tv_ui_row_order">قطار کی ترتیب</string>
+    <string name="live_tv_ui_your_order">آپ کی ترتیب</string>
+    <string name="live_tv_ui_ending_soonest">پہلے ختم ہونے والے</string>
+    <string name="live_tv_ui_channels_shown">دکھائے گئے چینلز</string>
+    <string name="live_tv_ui_hide_no_listings">بغیر پروگرام چینلز چھپائیں</string>
+    <string name="live_tv_ui_show_next">اگلا دکھائیں</string>
+    <string name="live_tv_ui_compact_cards">کمپیکٹ کارڈز</string>
+    <string name="live_tv_ui_continue_watching_on_home">ہوم پر جاری رکھیں</string>
 </resources>

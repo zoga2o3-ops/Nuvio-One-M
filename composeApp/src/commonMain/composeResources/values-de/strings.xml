@@ -3945,4 +3945,17 @@
     <string name="settings_section_live_tv_description">Live-TV-Tab anzeigen</string>
     <string name="live_tv_ui_all_categories">Alle Kategorien</string>
     <string name="live_tv_ui_search_categories">Kategorien durchsuchen</string>
+    <string name="live_tv_ui_home_screen">Startseite</string>
+    <string name="live_tv_ui_home_row">Live-TV-Zeile auf Start</string>
+    <string name="live_tv_ui_channels_in_the_row">Sender in der Zeile</string>
+    <string name="live_tv_ui_recently_watched">Zuletzt gesehen</string>
+    <string name="live_tv_ui_row_title">Zeilentitel</string>
+    <string name="live_tv_ui_row_order">Zeilenreihenfolge</string>
+    <string name="live_tv_ui_your_order">Deine Reihenfolge</string>
+    <string name="live_tv_ui_ending_soonest">Endet zuerst</string>
+    <string name="live_tv_ui_channels_shown">Sender angezeigt</string>
+    <string name="live_tv_ui_hide_no_listings">Sender ohne Programminfo ausblenden</string>
+    <string name="live_tv_ui_show_next">Zeige als Nächstes</string>
+    <string name="live_tv_ui_compact_cards">Kompakte Karten</string>
+    <string name="live_tv_ui_continue_watching_on_home">Weiterschauen auf Start</string>
 </resources>

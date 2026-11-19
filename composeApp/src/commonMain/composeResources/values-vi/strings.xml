@@ -4008,4 +4008,17 @@
     <string name="settings_section_live_tv_description">Hiển thị tab Live TV</string>
     <string name="live_tv_ui_all_categories">Tất cả danh mục</string>
     <string name="live_tv_ui_search_categories">Tìm kiếm danh mục</string>
+    <string name="live_tv_ui_home_screen">Màn hình chính</string>
+    <string name="live_tv_ui_home_row">Hàng Live TV trên Trang chủ</string>
+    <string name="live_tv_ui_channels_in_the_row">Kênh trong hàng</string>
+    <string name="live_tv_ui_recently_watched">Xem gần đây</string>
+    <string name="live_tv_ui_row_title">Tiêu đề hàng</string>
+    <string name="live_tv_ui_row_order">Thứ tự hàng</string>
+    <string name="live_tv_ui_your_order">Thứ tự của bạn</string>
+    <string name="live_tv_ui_ending_soonest">Kết thúc sớm nhất</string>
+    <string name="live_tv_ui_channels_shown">Kênh hiển thị</string>
+    <string name="live_tv_ui_hide_no_listings">Ẩn kênh không có lịch</string>
+    <string name="live_tv_ui_show_next">Hiện nội dung tiếp theo</string>
+    <string name="live_tv_ui_compact_cards">Thẻ gọn</string>
+    <string name="live_tv_ui_continue_watching_on_home">Tiếp tục trên Trang chủ</string>
 </resources>

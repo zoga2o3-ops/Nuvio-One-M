@@ -3981,4 +3981,17 @@
     <string name="settings_section_live_tv_description">Live TV-tabblad tonen</string>
     <string name="live_tv_ui_all_categories">Alle categorieën</string>
     <string name="live_tv_ui_search_categories">Categorieën zoeken</string>
+    <string name="live_tv_ui_home_screen">Startscherm</string>
+    <string name="live_tv_ui_home_row">Live TV-rij op Start</string>
+    <string name="live_tv_ui_channels_in_the_row">Zenders in de rij</string>
+    <string name="live_tv_ui_recently_watched">Onlangs bekeken</string>
+    <string name="live_tv_ui_row_title">Rijtitel</string>
+    <string name="live_tv_ui_row_order">Rijvolgorde</string>
+    <string name="live_tv_ui_your_order">Jouw volgorde</string>
+    <string name="live_tv_ui_ending_soonest">Eindigt eerst</string>
+    <string name="live_tv_ui_channels_shown">Getoonde zenders</string>
+    <string name="live_tv_ui_hide_no_listings">Zenders zonder programma verbergen</string>
+    <string name="live_tv_ui_show_next">Volgende tonen</string>
+    <string name="live_tv_ui_compact_cards">Compacte kaarten</string>
+    <string name="live_tv_ui_continue_watching_on_home">Verderkijken op Start</string>
 </resources>

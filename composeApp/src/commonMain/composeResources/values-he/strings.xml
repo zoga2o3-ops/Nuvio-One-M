@@ -3938,4 +3938,17 @@
     <string name="settings_section_live_tv_description">הצג את כרטיסיית Live TV</string>
     <string name="live_tv_ui_all_categories">כל הקטגוריות</string>
     <string name="live_tv_ui_search_categories">חיפוש קטגוריות</string>
+    <string name="live_tv_ui_home_screen">מסך הבית</string>
+    <string name="live_tv_ui_home_row">שורת Live TV בדף הבית</string>
+    <string name="live_tv_ui_channels_in_the_row">ערוצים בשורה</string>
+    <string name="live_tv_ui_recently_watched">נצפו לאחרונה</string>
+    <string name="live_tv_ui_row_title">כותרת השורה</string>
+    <string name="live_tv_ui_row_order">סדר השורה</string>
+    <string name="live_tv_ui_your_order">הסדר שלך</string>
+    <string name="live_tv_ui_ending_soonest">מסתיימים ראשונים</string>
+    <string name="live_tv_ui_channels_shown">ערוצים מוצגים</string>
+    <string name="live_tv_ui_hide_no_listings">הסתר ערוצים ללא לוח שידורים</string>
+    <string name="live_tv_ui_show_next">הצג הבא</string>
+    <string name="live_tv_ui_compact_cards">כרטיסים קומפקטיים</string>
+    <string name="live_tv_ui_continue_watching_on_home">המשך צפייה בדף הבית</string>
 </resources>

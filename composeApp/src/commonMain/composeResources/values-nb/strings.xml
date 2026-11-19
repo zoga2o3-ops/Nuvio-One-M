@@ -3957,4 +3957,17 @@ Du bruker denne funksjonen helt på eget ansvar. P2P kan deaktiveres når som he
     <string name="settings_section_live_tv_description">Vis Live TV-fanen</string>
     <string name="live_tv_ui_all_categories">Alle kategorier</string>
     <string name="live_tv_ui_search_categories">Søk i kategorier</string>
+    <string name="live_tv_ui_home_screen">Hjem-skjerm</string>
+    <string name="live_tv_ui_home_row">Live TV-rad på Hjem</string>
+    <string name="live_tv_ui_channels_in_the_row">Kanaler i raden</string>
+    <string name="live_tv_ui_recently_watched">Nylig sett</string>
+    <string name="live_tv_ui_row_title">Radtittel</string>
+    <string name="live_tv_ui_row_order">Radrekkefølge</string>
+    <string name="live_tv_ui_your_order">Din rekkefølge</string>
+    <string name="live_tv_ui_ending_soonest">Slutter først</string>
+    <string name="live_tv_ui_channels_shown">Kanaler vist</string>
+    <string name="live_tv_ui_hide_no_listings">Skjul kanaler uten program</string>
+    <string name="live_tv_ui_show_next">Vis neste</string>
+    <string name="live_tv_ui_compact_cards">Kompakte kort</string>
+    <string name="live_tv_ui_continue_watching_on_home">Fortsett på Hjem</string>
 </resources>

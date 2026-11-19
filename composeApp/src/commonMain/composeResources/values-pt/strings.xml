@@ -3945,4 +3945,17 @@
     <string name="settings_section_live_tv_description">Mostrar o separador Live TV</string>
     <string name="live_tv_ui_all_categories">Todas as categorias</string>
     <string name="live_tv_ui_search_categories">Pesquisar categorias</string>
+    <string name="live_tv_ui_home_screen">Início</string>
+    <string name="live_tv_ui_home_row">Linha Live TV no Início</string>
+    <string name="live_tv_ui_channels_in_the_row">Canais na linha</string>
+    <string name="live_tv_ui_recently_watched">Vistos recentemente</string>
+    <string name="live_tv_ui_row_title">Título da linha</string>
+    <string name="live_tv_ui_row_order">Ordem da linha</string>
+    <string name="live_tv_ui_your_order">A tua ordem</string>
+    <string name="live_tv_ui_ending_soonest">Termina primeiro</string>
+    <string name="live_tv_ui_channels_shown">Canais mostrados</string>
+    <string name="live_tv_ui_hide_no_listings">Ocultar canais sem programação</string>
+    <string name="live_tv_ui_show_next">Mostrar o seguinte</string>
+    <string name="live_tv_ui_compact_cards">Cartões compactos</string>
+    <string name="live_tv_ui_continue_watching_on_home">Continuar no Início</string>
 </resources>

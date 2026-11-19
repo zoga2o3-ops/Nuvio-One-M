@@ -332,6 +332,8 @@ data class LiveTvSettings(
     val frameRateMode: String = "OFF",
     /** Show On Demand in Nuvio's side menu (when there's something to show). */
     val onDemandInSidebar: Boolean = true,
+    /** Show On Demand titles you started in the Home screen's Continue watching row. */
+    val onDemandHomeRowEnabled: Boolean = true,
     /** Recordings in the side menu (once anything is recorded or set to record). */
     val recordingsInSidebar: Boolean = true,
     /**

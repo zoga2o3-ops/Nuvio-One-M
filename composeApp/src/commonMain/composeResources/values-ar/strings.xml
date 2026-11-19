@@ -3991,4 +3991,17 @@
     <string name="settings_section_live_tv_description">إظهار علامة تبويب Live TV</string>
     <string name="live_tv_ui_all_categories">كل الفئات</string>
     <string name="live_tv_ui_search_categories">بحث في الفئات</string>
+    <string name="live_tv_ui_home_screen">الشاشة الرئيسية</string>
+    <string name="live_tv_ui_home_row">صف Live TV في الرئيسية</string>
+    <string name="live_tv_ui_channels_in_the_row">القنوات في الصف</string>
+    <string name="live_tv_ui_recently_watched">شوهدت مؤخرًا</string>
+    <string name="live_tv_ui_row_title">عنوان الصف</string>
+    <string name="live_tv_ui_row_order">ترتيب الصف</string>
+    <string name="live_tv_ui_your_order">ترتيبك</string>
+    <string name="live_tv_ui_ending_soonest">تنتهي أولًا</string>
+    <string name="live_tv_ui_channels_shown">القنوات المعروضة</string>
+    <string name="live_tv_ui_hide_no_listings">إخفاء القنوات بلا برامج</string>
+    <string name="live_tv_ui_show_next">إظهار التالي</string>
+    <string name="live_tv_ui_compact_cards">بطاقات مدمجة</string>
+    <string name="live_tv_ui_continue_watching_on_home">متابعة المشاهدة في الرئيسية</string>
 </resources>

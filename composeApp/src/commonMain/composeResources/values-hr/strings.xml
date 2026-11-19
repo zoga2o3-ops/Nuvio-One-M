@@ -4012,4 +4012,17 @@
     <string name="settings_section_live_tv_description">Prikaži karticu Live TV</string>
     <string name="live_tv_ui_all_categories">Sve kategorije</string>
     <string name="live_tv_ui_search_categories">Pretraži kategorije</string>
+    <string name="live_tv_ui_home_screen">Početni zaslon</string>
+    <string name="live_tv_ui_home_row">Redak Live TV na početnom</string>
+    <string name="live_tv_ui_channels_in_the_row">Kanali u retku</string>
+    <string name="live_tv_ui_recently_watched">Nedavno gledano</string>
+    <string name="live_tv_ui_row_title">Naslov retka</string>
+    <string name="live_tv_ui_row_order">Redoslijed retka</string>
+    <string name="live_tv_ui_your_order">Vaš redoslijed</string>
+    <string name="live_tv_ui_ending_soonest">Završava najprije</string>
+    <string name="live_tv_ui_channels_shown">Prikazani kanali</string>
+    <string name="live_tv_ui_hide_no_listings">Sakrij kanale bez programa</string>
+    <string name="live_tv_ui_show_next">Prikaži sljedeće</string>
+    <string name="live_tv_ui_compact_cards">Kompaktne kartice</string>
+    <string name="live_tv_ui_continue_watching_on_home">Nastavi na početnom</string>
 </resources>

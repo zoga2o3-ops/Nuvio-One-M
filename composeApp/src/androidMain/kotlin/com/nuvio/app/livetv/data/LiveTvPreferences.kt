@@ -123,6 +123,7 @@ class LiveTvPreferences(
         val matchFrameRate = booleanPreferencesKey("match_frame_rate")
         val frameRateMode = stringPreferencesKey("frame_rate_mode")
         val onDemandInSidebar = booleanPreferencesKey("on_demand_in_sidebar")
+        val onDemandHomeRowEnabled = booleanPreferencesKey("on_demand_home_row_enabled")
         val recordingsInSidebar = booleanPreferencesKey("recordings_in_sidebar")
         val sideMenuOrder = stringPreferencesKey("side_menu_order")
         val sideMenuHidden = stringPreferencesKey("side_menu_hidden")
@@ -386,6 +387,7 @@ class LiveTvPreferences(
             // Before the three choices it was on or off; on worked like "On start/stop".
             frameRateMode = p[Keys.frameRateMode] ?: if (p[Keys.matchFrameRate] == true) "START_STOP" else d.frameRateMode,
             onDemandInSidebar = p[Keys.onDemandInSidebar] ?: d.onDemandInSidebar,
+            onDemandHomeRowEnabled = p[Keys.onDemandHomeRowEnabled] ?: d.onDemandHomeRowEnabled,
             recordingsInSidebar = p[Keys.recordingsInSidebar] ?: d.recordingsInSidebar,
             sideMenuOrder = p[Keys.sideMenuOrder] ?: d.sideMenuOrder,
             sideMenuHidden = p[Keys.sideMenuHidden] ?: d.sideMenuHidden,
@@ -672,6 +674,7 @@ class LiveTvPreferences(
         p[Keys.frameRateMode] = s.frameRateMode
         p[Keys.matchFrameRate] = s.matchFrameRate
         p[Keys.onDemandInSidebar] = s.onDemandInSidebar
+        p[Keys.onDemandHomeRowEnabled] = s.onDemandHomeRowEnabled
         p[Keys.recordingsInSidebar] = s.recordingsInSidebar
         p[Keys.sideMenuOrder] = s.sideMenuOrder
         p[Keys.sideMenuHidden] = s.sideMenuHidden

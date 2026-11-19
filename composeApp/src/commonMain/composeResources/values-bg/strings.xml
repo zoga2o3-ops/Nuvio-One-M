@@ -4005,4 +4005,17 @@
     <string name="settings_section_live_tv_description">Показване на раздела Live TV</string>
     <string name="live_tv_ui_all_categories">Всички категории</string>
     <string name="live_tv_ui_search_categories">Търсене на категории</string>
+    <string name="live_tv_ui_home_screen">Начален екран</string>
+    <string name="live_tv_ui_home_row">Ред Live TV на началния</string>
+    <string name="live_tv_ui_channels_in_the_row">Канали в реда</string>
+    <string name="live_tv_ui_recently_watched">Наскоро гледани</string>
+    <string name="live_tv_ui_row_title">Заглавие на реда</string>
+    <string name="live_tv_ui_row_order">Ред на реда</string>
+    <string name="live_tv_ui_your_order">Вашият ред</string>
+    <string name="live_tv_ui_ending_soonest">Завършват първи</string>
+    <string name="live_tv_ui_channels_shown">Показани канали</string>
+    <string name="live_tv_ui_hide_no_listings">Скриване на канали без програма</string>
+    <string name="live_tv_ui_show_next">Покажи следващото</string>
+    <string name="live_tv_ui_compact_cards">Компактни карти</string>
+    <string name="live_tv_ui_continue_watching_on_home">Продължаване на началния</string>
 </resources>

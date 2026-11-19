@@ -4017,4 +4017,17 @@
     <string name="settings_section_live_tv_description">Zobraziť kartu Live TV</string>
     <string name="live_tv_ui_all_categories">Všetky kategórie</string>
     <string name="live_tv_ui_search_categories">Hľadať kategórie</string>
+    <string name="live_tv_ui_home_screen">Domovská obrazovka</string>
+    <string name="live_tv_ui_home_row">Riadok Live TV na domovskej</string>
+    <string name="live_tv_ui_channels_in_the_row">Kanály v riadku</string>
+    <string name="live_tv_ui_recently_watched">Nedávno sledované</string>
+    <string name="live_tv_ui_row_title">Názov riadku</string>
+    <string name="live_tv_ui_row_order">Poradie riadku</string>
+    <string name="live_tv_ui_your_order">Vaše poradie</string>
+    <string name="live_tv_ui_ending_soonest">Končí najskôr</string>
+    <string name="live_tv_ui_channels_shown">Zobrazené kanály</string>
+    <string name="live_tv_ui_hide_no_listings">Skryť kanály bez programu</string>
+    <string name="live_tv_ui_show_next">Zobraziť ďalšie</string>
+    <string name="live_tv_ui_compact_cards">Kompaktné karty</string>
+    <string name="live_tv_ui_continue_watching_on_home">Pokračovať na domovskej</string>
 </resources>

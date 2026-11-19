@@ -3945,4 +3945,17 @@
     <string name="settings_section_live_tv_description">Live TV தாவலைக் காட்டு</string>
     <string name="live_tv_ui_all_categories">அனைத்து வகைகள்</string>
     <string name="live_tv_ui_search_categories">வகைகளைத் தேடு</string>
+    <string name="live_tv_ui_home_screen">முகப்புத் திரை</string>
+    <string name="live_tv_ui_home_row">முகப்பில் Live TV வரிசை</string>
+    <string name="live_tv_ui_channels_in_the_row">வரிசையில் சேனல்கள்</string>
+    <string name="live_tv_ui_recently_watched">சமீபத்தில் பார்த்தவை</string>
+    <string name="live_tv_ui_row_title">வரிசை தலைப்பு</string>
+    <string name="live_tv_ui_row_order">வரிசை வரிசை</string>
+    <string name="live_tv_ui_your_order">உங்கள் வரிசை</string>
+    <string name="live_tv_ui_ending_soonest">முதலில் முடிவடையும்</string>
+    <string name="live_tv_ui_channels_shown">காட்டப்படும் சேனல்கள்</string>
+    <string name="live_tv_ui_hide_no_listings">நிகழ்ச்சி இல்லாத சேனல்களை மறை</string>
+    <string name="live_tv_ui_show_next">அடுத்ததைக் காட்டு</string>
+    <string name="live_tv_ui_compact_cards">சிறிய அட்டைகள்</string>
+    <string name="live_tv_ui_continue_watching_on_home">முகப்பில் தொடரவும்</string>
 </resources>

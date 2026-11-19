@@ -4000,4 +4000,17 @@
     <string name="settings_section_live_tv_description">Show the Live TV tab</string>
     <string name="live_tv_ui_all_categories">All categories</string>
     <string name="live_tv_ui_search_categories">Search categories</string>
+    <string name="live_tv_ui_home_screen">Home screen</string>
+    <string name="live_tv_ui_home_row">Live TV row on Home</string>
+    <string name="live_tv_ui_channels_in_the_row">Channels in the row</string>
+    <string name="live_tv_ui_recently_watched">Recently watched</string>
+    <string name="live_tv_ui_row_title">Row title</string>
+    <string name="live_tv_ui_row_order">Row order</string>
+    <string name="live_tv_ui_your_order">Your order</string>
+    <string name="live_tv_ui_ending_soonest">Ending soonest</string>
+    <string name="live_tv_ui_channels_shown">Channels shown</string>
+    <string name="live_tv_ui_hide_no_listings">Hide channels with no listings</string>
+    <string name="live_tv_ui_show_next">Show what's next</string>
+    <string name="live_tv_ui_compact_cards">Compact cards</string>
+    <string name="live_tv_ui_continue_watching_on_home">Continue watching on Home</string>
 </resources>

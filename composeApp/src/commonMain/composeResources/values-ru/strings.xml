@@ -3987,4 +3987,17 @@
     <string name="settings_section_live_tv_description">Показывать вкладку Live TV</string>
     <string name="live_tv_ui_all_categories">Все категории</string>
     <string name="live_tv_ui_search_categories">Поиск категорий</string>
+    <string name="live_tv_ui_home_screen">Главный экран</string>
+    <string name="live_tv_ui_home_row">Строка Live TV на главном</string>
+    <string name="live_tv_ui_channels_in_the_row">Каналы в строке</string>
+    <string name="live_tv_ui_recently_watched">Недавно просмотренные</string>
+    <string name="live_tv_ui_row_title">Название строки</string>
+    <string name="live_tv_ui_row_order">Порядок строки</string>
+    <string name="live_tv_ui_your_order">Ваш порядок</string>
+    <string name="live_tv_ui_ending_soonest">Скоро заканчиваются</string>
+    <string name="live_tv_ui_channels_shown">Показано каналов</string>
+    <string name="live_tv_ui_hide_no_listings">Скрыть каналы без программы</string>
+    <string name="live_tv_ui_show_next">Показать далее</string>
+    <string name="live_tv_ui_compact_cards">Компактные карточки</string>
+    <string name="live_tv_ui_continue_watching_on_home">Продолжить на главном</string>
 </resources>

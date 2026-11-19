@@ -69,10 +69,12 @@ private fun open(live: LiveTv, c: LiveChannel, onPlay: (LiveTvPlayRequest) -> Un
 }
 
 @Composable
-private fun Tile(title: String, subtitle: String?, image: String?, onClick: () -> Unit) {
-    Column(Modifier.width(112.dp).clickable(onClick = onClick), horizontalAlignment = Alignment.CenterHorizontally) {
-        Box(Modifier.size(112.dp, 72.dp).clip(RoundedCornerShape(10.dp)).background(Color(0xFF26262B))) {
-            if (!image.isNullOrBlank()) AsyncImage(image, null, Modifier.fillMaxWidth().padding(8.dp), contentScale = ContentScale.Fit)
+private fun Tile(title: String, subtitle: String?, image: String?, compact: Boolean = false, onClick: () -> Unit) {
+    val width = if (compact) 84.dp else 112.dp
+    val height = if (compact) 48.dp else 72.dp
+    Column(Modifier.width(width).clickable(onClick = onClick), horizontalAlignment = Alignment.CenterHorizontally) {
+        Box(Modifier.size(width, height).clip(RoundedCornerShape(10.dp)).background(Color(0xFF26262B))) {
+            if (!image.isNullOrBlank()) AsyncImage(image, null, Modifier.fillMaxWidth().padding(if (compact) 5.dp else 8.dp), contentScale = ContentScale.Fit)
         }
         Text(title, Modifier.padding(top = 4.dp), maxLines = 1, overflow = TextOverflow.Ellipsis, style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onBackground, textAlign = TextAlign.Center)
         if (subtitle != null) Text(subtitle, maxLines = 1, overflow = TextOverflow.Ellipsis, style = MaterialTheme.typography.labelSmall, color = Color.Gray, textAlign = TextAlign.Center)
@@ -156,13 +158,16 @@ fun LiveTvHomeRow(onPlay: (LiveTvPlayRequest) -> Unit) {
     val live = remember { LiveTv.get(context) }
     val open = rememberOpenChannels(live)
     val user by live.userState.collectAsStateWithLifecycle()
-    val list = remember(open, user.favorites, user.recent) {
-        val byKey = open.associateBy { it.key }
-        (user.recent + user.favorites).distinct().mapNotNull { byKey[it] }.take(20)
+    val settings by live.prefs.settings.collectAsStateWithLifecycle(com.nuvio.app.livetv.model.LiveTvSettings())
+    val profileId by live.profile.activeProfileId.collectAsStateWithLifecycle()
+    val programs by live.repository.programs.collectAsStateWithLifecycle()
+    val now = System.currentTimeMillis()
+    LaunchedEffect(Unit) {
+        runCatching { live.repository.ensureRange(now - 30 * 60_000L, now + 6 * 3_600_000L) }
     }
     var resume by remember { mutableStateOf<List<com.nuvio.app.livetv.ondemand.VodResume.Entry>>(emptyList()) }
     LaunchedEffect(Unit) { resume = com.nuvio.app.livetv.ondemand.VodResume.unfinished(context).take(15) }
-    if (resume.isNotEmpty()) Column(Modifier.padding(bottom = 12.dp)) {
+    if (settings.onDemandHomeRowEnabled && resume.isNotEmpty()) Column(Modifier.padding(bottom = 12.dp)) {
         Text(stringResource(Res.string.live_tv_ui_continue_watching_u00b7_on_demand), Modifier.padding(horizontal = 16.dp, vertical = 6.dp), style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onBackground)
         LazyRow(contentPadding = PaddingValues(horizontal = 16.dp), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
             items(resume, key = { it.key }) { e ->
@@ -173,14 +178,55 @@ fun LiveTvHomeRow(onPlay: (LiveTvPlayRequest) -> Unit) {
             }
         }
     }
+    val homeRowOn = settings.homeRowEnabled && profileId !in settings.homeRowHiddenProfiles
+    if (!homeRowOn) return
+    val list = remember(open, user, settings, programs) {
+        val byKey = open.associateBy { it.key }
+        val sourceKeys = when (settings.homeRowSource) {
+            "recent" -> user.recent
+            "favorites", "" -> user.favorites.ifEmpty { user.recent }
+            else -> user.customGroups.firstOrNull { it.id == settings.homeRowSource }?.channelKeys.orEmpty()
+        }
+        val channels = sourceKeys.mapNotNull { byKey[it] }.distinct()
+        val t = System.currentTimeMillis()
+        val sorted = when (settings.homeRowSort) {
+            "number" -> channels.sortedBy { it.number }
+            "ending" -> channels.sortedWith(compareBy { c -> programs[c.key]?.firstOrNull { it.stopMs > t }?.stopMs ?: Long.MAX_VALUE })
+            else -> channels
+        }
+        val visible = if (settings.homeRowHidePlaceholders && programs.isNotEmpty()) {
+            sorted.filter { c ->
+                programs[c.key]?.any { it.isLive(t) && !it.title.isPlaceholderTitle() } == true
+            }
+        } else sorted
+        if (settings.homeRowLimit > 0) visible.take(settings.homeRowLimit) else visible
+    }
     if (list.isEmpty()) return
+    val clock = remember(settings.use24HourClock) {
+        java.text.SimpleDateFormat(if (settings.use24HourClock) "HH:mm" else "h:mm a", java.util.Locale.getDefault())
+    }
     Column(Modifier.padding(bottom = 12.dp)) {
-        Text("Live TV", Modifier.padding(horizontal = 16.dp, vertical = 6.dp), style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onBackground)
+        val liveTvTitle = stringResource(Res.string.live_tv_title)
+        Text(
+            settings.homeRowTitle.ifBlank { liveTvTitle },
+            Modifier.padding(horizontal = 16.dp, vertical = 6.dp),
+            style = MaterialTheme.typography.titleMedium,
+            color = MaterialTheme.colorScheme.onBackground,
+        )
         LazyRow(contentPadding = PaddingValues(horizontal = 16.dp), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-            items(list, key = { it.key }) { c -> Tile(c.name, null, c.logo) { open(live, c, onPlay) } }
+            items(list, key = { it.key }) { c ->
+                val next = programs[c.key]?.firstOrNull { it.startMs > now }
+                val subtitle = if (!settings.homeRowCompact && settings.homeRowShowNext && next != null) {
+                    "Next: ${clock.format(java.util.Date(next.startMs))} ${next.displayTitle()}"
+                } else null
+                Tile(c.name, subtitle, c.logo, compact = settings.homeRowCompact) { open(live, c, onPlay) }
+            }
         }
     }
 }
+
+private fun String.isPlaceholderTitle(): Boolean =
+    isBlank() || equals("Programming", ignoreCase = true) || equals("No information", ignoreCase = true)
 
 /** New episodes of your shows: what aired in the last few days and what's coming up. */
 @Composable

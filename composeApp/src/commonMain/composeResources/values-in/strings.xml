@@ -3943,4 +3943,17 @@
     <string name="settings_section_live_tv_description">Tampilkan tab Live TV</string>
     <string name="live_tv_ui_all_categories">Semua kategori</string>
     <string name="live_tv_ui_search_categories">Cari kategori</string>
+    <string name="live_tv_ui_home_screen">Layar utama</string>
+    <string name="live_tv_ui_home_row">Baris Live TV di Beranda</string>
+    <string name="live_tv_ui_channels_in_the_row">Saluran di baris</string>
+    <string name="live_tv_ui_recently_watched">Baru ditonton</string>
+    <string name="live_tv_ui_row_title">Judul baris</string>
+    <string name="live_tv_ui_row_order">Urutan baris</string>
+    <string name="live_tv_ui_your_order">Urutan Anda</string>
+    <string name="live_tv_ui_ending_soonest">Berakhir lebih dulu</string>
+    <string name="live_tv_ui_channels_shown">Saluran ditampilkan</string>
+    <string name="live_tv_ui_hide_no_listings">Sembunyikan saluran tanpa jadwal</string>
+    <string name="live_tv_ui_show_next">Tampilkan berikutnya</string>
+    <string name="live_tv_ui_compact_cards">Kartu ringkas</string>
+    <string name="live_tv_ui_continue_watching_on_home">Lanjutkan di Beranda</string>
 </resources>

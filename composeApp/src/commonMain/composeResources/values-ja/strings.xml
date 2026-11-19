@@ -3976,4 +3976,17 @@
     <string name="settings_section_live_tv_description">Live TVタブを表示</string>
     <string name="live_tv_ui_all_categories">すべてのカテゴリ</string>
     <string name="live_tv_ui_search_categories">カテゴリを検索</string>
+    <string name="live_tv_ui_home_screen">ホーム画面</string>
+    <string name="live_tv_ui_home_row">ホームのLive TV行</string>
+    <string name="live_tv_ui_channels_in_the_row">行のチャンネル</string>
+    <string name="live_tv_ui_recently_watched">最近視聴した</string>
+    <string name="live_tv_ui_row_title">行のタイトル</string>
+    <string name="live_tv_ui_row_order">行の並び順</string>
+    <string name="live_tv_ui_your_order">自分の順序</string>
+    <string name="live_tv_ui_ending_soonest">終了が早い順</string>
+    <string name="live_tv_ui_channels_shown">表示チャンネル数</string>
+    <string name="live_tv_ui_hide_no_listings">番組情報のないチャンネルを隠す</string>
+    <string name="live_tv_ui_show_next">次を表示</string>
+    <string name="live_tv_ui_compact_cards">コンパクトカード</string>
+    <string name="live_tv_ui_continue_watching_on_home">ホームで続きから</string>
 </resources>

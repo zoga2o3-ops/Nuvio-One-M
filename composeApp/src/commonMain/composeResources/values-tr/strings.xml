@@ -3994,4 +3994,17 @@ Bu özelliği tamamen kendi sorumluluğunuzda kullanırsınız. P2P istediğiniz
     <string name="settings_section_live_tv_description">Live TV sekmesini göster</string>
     <string name="live_tv_ui_all_categories">Tüm kategoriler</string>
     <string name="live_tv_ui_search_categories">Kategorilerde ara</string>
+    <string name="live_tv_ui_home_screen">Ana ekran</string>
+    <string name="live_tv_ui_home_row">Ana ekranda Live TV satırı</string>
+    <string name="live_tv_ui_channels_in_the_row">Satırdaki kanallar</string>
+    <string name="live_tv_ui_recently_watched">Son izlenenler</string>
+    <string name="live_tv_ui_row_title">Satır başlığı</string>
+    <string name="live_tv_ui_row_order">Satır sırası</string>
+    <string name="live_tv_ui_your_order">Sizin sıranız</string>
+    <string name="live_tv_ui_ending_soonest">Önce bitenler</string>
+    <string name="live_tv_ui_channels_shown">Gösterilen kanallar</string>
+    <string name="live_tv_ui_hide_no_listings">Programı olmayan kanalları gizle</string>
+    <string name="live_tv_ui_show_next">Sonrakini göster</string>
+    <string name="live_tv_ui_compact_cards">Kompakt kartlar</string>
+    <string name="live_tv_ui_continue_watching_on_home">Ana ekranda devam et</string>
 </resources>

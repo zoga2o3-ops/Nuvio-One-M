@@ -3977,4 +3977,17 @@
     <string name="settings_section_live_tv_description">Live TV lap megjelenítése</string>
     <string name="live_tv_ui_all_categories">Minden kategória</string>
     <string name="live_tv_ui_search_categories">Kategóriák keresése</string>
+    <string name="live_tv_ui_home_screen">Kezdőképernyő</string>
+    <string name="live_tv_ui_home_row">Live TV sor a kezdőlapon</string>
+    <string name="live_tv_ui_channels_in_the_row">Csatornák a sorban</string>
+    <string name="live_tv_ui_recently_watched">Nemrég nézett</string>
+    <string name="live_tv_ui_row_title">Sor címe</string>
+    <string name="live_tv_ui_row_order">Sorrend</string>
+    <string name="live_tv_ui_your_order">Saját sorrend</string>
+    <string name="live_tv_ui_ending_soonest">Leghamarabb végződő</string>
+    <string name="live_tv_ui_channels_shown">Megjelenített csatornák</string>
+    <string name="live_tv_ui_hide_no_listings">Csatornák elrejtése műsor nélkül</string>
+    <string name="live_tv_ui_show_next">Következő megjelenítése</string>
+    <string name="live_tv_ui_compact_cards">Kompakt kártyák</string>
+    <string name="live_tv_ui_continue_watching_on_home">Folytatás a kezdőlapon</string>
 </resources>

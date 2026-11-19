@@ -3949,4 +3949,17 @@
     <string name="settings_section_live_tv_description">Afișează fila Live TV</string>
     <string name="live_tv_ui_all_categories">Toate categoriile</string>
     <string name="live_tv_ui_search_categories">Caută categorii</string>
+    <string name="live_tv_ui_home_screen">Ecran principal</string>
+    <string name="live_tv_ui_home_row">Rândul Live TV pe ecranul principal</string>
+    <string name="live_tv_ui_channels_in_the_row">Canale în rând</string>
+    <string name="live_tv_ui_recently_watched">Vizualizate recent</string>
+    <string name="live_tv_ui_row_title">Titlul rândului</string>
+    <string name="live_tv_ui_row_order">Ordinea rândului</string>
+    <string name="live_tv_ui_your_order">Ordinea ta</string>
+    <string name="live_tv_ui_ending_soonest">Se termină primele</string>
+    <string name="live_tv_ui_channels_shown">Canale afișate</string>
+    <string name="live_tv_ui_hide_no_listings">Ascunde canalele fără program</string>
+    <string name="live_tv_ui_show_next">Afișează următorul</string>
+    <string name="live_tv_ui_compact_cards">Carduri compacte</string>
+    <string name="live_tv_ui_continue_watching_on_home">Continuă pe ecranul principal</string>
 </resources>

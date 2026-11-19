@@ -13,6 +13,7 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -46,6 +47,7 @@ fun LiveTvSettingsContent() {
     val context = LocalContext.current.applicationContext
     val live = remember { LiveTv.get(context) }
     val settings by live.prefs.settings.collectAsStateWithLifecycle(initialValue = LiveTvSettings())
+    val profileId by live.profile.activeProfileId.collectAsStateWithLifecycle()
     // The same sources the Live TV page uses, so playlists and guides can be managed here too.
     val sources: LiveTvViewModel = viewModel { LiveTvViewModel(context) }
     val playlists by sources.playlists.collectAsStateWithLifecycle()
@@ -67,6 +69,7 @@ fun LiveTvSettingsContent() {
     }
     var pinStep by remember { mutableStateOf<String?>(null) }
     var confirmReset by remember { mutableStateOf(false) }
+    var editHomeRowTitle by remember { mutableStateOf(false) }
 
     CompositionLocalProvider(LocalContentColor provides MaterialTheme.colorScheme.onBackground) {
         Column(Modifier.fillMaxWidth()) {
@@ -274,6 +277,73 @@ fun LiveTvSettingsContent() {
             ) { v -> LiveTvStart.setStartPage(context, v); startPage = v }
             SwitchRow(stringResource(Res.string.live_tv_ui_play_the_last_channel), "When Live TV opens, start the channel you watched last.", settings.autoPlayLastChannel) { v -> change { it.copy(autoPlayLastChannel = v) } }
 
+            Section(stringResource(Res.string.live_tv_ui_home_screen))
+            val homeRowOn = settings.homeRowEnabled && profileId !in settings.homeRowHiddenProfiles
+            SwitchRow(
+                stringResource(Res.string.live_tv_ui_home_row),
+                "Show your channels on Nuvio's Home screen for this profile.",
+                homeRowOn,
+            ) { v ->
+                change {
+                    it.copy(
+                        homeRowEnabled = true,
+                        homeRowHiddenProfiles = if (v) it.homeRowHiddenProfiles - profileId else it.homeRowHiddenProfiles + profileId,
+                    )
+                }
+            }
+            if (homeRowOn) {
+                ChoiceRow(
+                    stringResource(Res.string.live_tv_ui_channels_in_the_row),
+                    when (settings.homeRowSource) {
+                        "recent" -> stringResource(Res.string.live_tv_ui_recently_watched)
+                        "favorites", "" -> stringResource(Res.string.live_tv_filter_favorites)
+                        else -> user.customGroups.firstOrNull { it.id == settings.homeRowSource }?.name
+                            ?: stringResource(Res.string.live_tv_filter_favorites)
+                    },
+                    buildList {
+                        add(stringResource(Res.string.live_tv_filter_favorites) to "favorites")
+                        add(stringResource(Res.string.live_tv_ui_recently_watched) to "recent")
+                        user.customGroups.forEach { add(it.name to it.id) }
+                    },
+                ) { v -> change { it.copy(homeRowSource = v) } }
+                val liveTvTitle = stringResource(Res.string.live_tv_title)
+                ActionLine(
+                    stringResource(Res.string.live_tv_ui_row_title),
+                    settings.homeRowTitle.ifBlank { liveTvTitle },
+                ) { editHomeRowTitle = true }
+                ChoiceRow(
+                    stringResource(Res.string.live_tv_ui_row_order),
+                    when (settings.homeRowSort) {
+                        "number" -> stringResource(Res.string.live_tv_ui_channel_number)
+                        "ending" -> stringResource(Res.string.live_tv_ui_ending_soonest)
+                        else -> stringResource(Res.string.live_tv_ui_your_order)
+                    },
+                    listOf(
+                        stringResource(Res.string.live_tv_ui_your_order) to "yours",
+                        stringResource(Res.string.live_tv_ui_channel_number) to "number",
+                        stringResource(Res.string.live_tv_ui_ending_soonest) to "ending",
+                    ),
+                ) { v -> change { it.copy(homeRowSort = v) } }
+                ChoiceRow(
+                    stringResource(Res.string.live_tv_ui_channels_shown),
+                    if (settings.homeRowLimit == 0) stringResource(Res.string.live_tv_ui_filter_all) else "${settings.homeRowLimit}",
+                    listOf(
+                        "10" to 10,
+                        "20" to 20,
+                        "40" to 40,
+                        stringResource(Res.string.live_tv_ui_filter_all) to 0,
+                    ),
+                ) { v -> change { it.copy(homeRowLimit = v) } }
+                SwitchRow(stringResource(Res.string.live_tv_ui_hide_no_listings), null, settings.homeRowHidePlaceholders) { v -> change { it.copy(homeRowHidePlaceholders = v) } }
+                SwitchRow(stringResource(Res.string.live_tv_ui_show_next), null, settings.homeRowShowNext) { v -> change { it.copy(homeRowShowNext = v) } }
+                SwitchRow(stringResource(Res.string.live_tv_ui_compact_cards), null, settings.homeRowCompact) { v -> change { it.copy(homeRowCompact = v) } }
+            }
+            SwitchRow(
+                stringResource(Res.string.live_tv_ui_continue_watching_on_home),
+                "Show On Demand titles you started.",
+                settings.onDemandHomeRowEnabled,
+            ) { v -> change { it.copy(onDemandHomeRowEnabled = v) } }
+
             AccountSyncSection(live)
             DriveSyncSection(live)
 
@@ -391,6 +461,40 @@ fun LiveTvSettingsContent() {
             onDismiss = { showGroupTags = false },
         )
     }
+    if (editHomeRowTitle) {
+        HomeRowTitleDialog(
+            initial = settings.homeRowTitle,
+            onSave = { title ->
+                change { it.copy(homeRowTitle = title) }
+                editHomeRowTitle = false
+            },
+            onDismiss = { editHomeRowTitle = false },
+        )
+    }
+}
+
+@Composable
+private fun HomeRowTitleDialog(
+    initial: String,
+    onSave: (String) -> Unit,
+    onDismiss: () -> Unit,
+) {
+    var value by remember(initial) { mutableStateOf(initial) }
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text(stringResource(Res.string.live_tv_ui_row_title)) },
+        text = {
+            OutlinedTextField(
+                value = value,
+                onValueChange = { value = it },
+                singleLine = true,
+                label = { Text(stringResource(Res.string.live_tv_title)) },
+                modifier = Modifier.fillMaxWidth(),
+            )
+        },
+        confirmButton = { TextButton(onClick = { onSave(value.trim()) }) { Text(stringResource(Res.string.action_save)) } },
+        dismissButton = { TextButton(onClick = onDismiss) { Text(stringResource(Res.string.action_cancel)) } },
+    )
 }
 
 @Composable

@@ -3990,4 +3990,17 @@
     <string name="settings_section_live_tv_description">Mostra la scheda Live TV</string>
     <string name="live_tv_ui_all_categories">Tutte le categorie</string>
     <string name="live_tv_ui_search_categories">Cerca categorie</string>
+    <string name="live_tv_ui_home_screen">Home</string>
+    <string name="live_tv_ui_home_row">Riga Live TV nella Home</string>
+    <string name="live_tv_ui_channels_in_the_row">Canali nella riga</string>
+    <string name="live_tv_ui_recently_watched">Visti di recente</string>
+    <string name="live_tv_ui_row_title">Titolo della riga</string>
+    <string name="live_tv_ui_row_order">Ordine della riga</string>
+    <string name="live_tv_ui_your_order">Il tuo ordine</string>
+    <string name="live_tv_ui_ending_soonest">Termina prima</string>
+    <string name="live_tv_ui_channels_shown">Canali mostrati</string>
+    <string name="live_tv_ui_hide_no_listings">Nascondi canali senza palinsesto</string>
+    <string name="live_tv_ui_show_next">Mostra il prossimo</string>
+    <string name="live_tv_ui_compact_cards">Schede compatte</string>
+    <string name="live_tv_ui_continue_watching_on_home">Continua nella Home</string>
 </resources>
