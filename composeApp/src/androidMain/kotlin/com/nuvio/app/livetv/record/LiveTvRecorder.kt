@@ -42,6 +42,7 @@ class LiveTvRecorder(
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
     private val jobs = ConcurrentHashMap<String, Job>()
     private val stopRequested = ConcurrentHashMap.newKeySet<String>()
+    private val smbMirrors = ConcurrentHashMap<String, SmbMirror>()
     /** Catch-up downloads going on: recording id -> the provider (playlist) it's from. */
     private val catchupSources = ConcurrentHashMap<String, String>()
 
@@ -90,10 +91,19 @@ class LiveTvRecorder(
     fun playlistFile(rec: LiveTvRecording): File = File(rec.dir, "index.m3u8")
 
     /** A link the player can open (recordings are served to the player on this device only). */
-    fun playUrl(rec: LiveTvRecording): String = LiveTvRecordingServer.urlFor(rec.id, File(rec.dir))
+    fun playUrl(rec: LiveTvRecording): String = LiveTvRecordingServer.urlFor(
+        id = rec.id,
+        dir = File(rec.dir),
+        smb = if (rec.smb) SmbSettings.load(context) else null,
+        remoteDir = if (rec.smb) "recordings/${rec.id}/" else null,
+    )
 
     /** Roughly how much room there is where new recordings go. */
-    fun freeBytes(): Long = currentStorage().freeBytes
+    fun freeBytes(): Long {
+        val smb = if (settings.recordingSmbEnabled) SmbSettings.load(context) else null
+        if (smb != null) return SmbClient.freeBytes(smb)
+        return currentStorage().freeBytes
+    }
 
     /**
      * Starts recording [channel] from [url] until [stopAtMs]. Returns the new recording, or the
@@ -133,6 +143,10 @@ class LiveTvRecorder(
             LiveTvNotice.show("The drive for recordings isn't plugged in, so \"$title\" is saved to this device")
         }
         val dir = File(storage.dir, id).apply { mkdirs() }
+        val smb = if (settings.recordingSmbEnabled) SmbSettings.load(context) else null
+        if (settings.recordingSmbEnabled && smb == null) {
+            LiveTvNotice.show("SMB recording is on, but no share is set; saving \"$title\" to this device")
+        }
         val rec = LiveTvRecording(
             id = id,
             channelKey = channel.key,
@@ -147,7 +161,8 @@ class LiveTvRecorder(
             stopAtMs = stopAtMs,
             dir = dir.absolutePath,
             seriesId = seriesId,
-            fromCatchup = finite
+            fromCatchup = finite,
+            smb = smb != null,
         )
         // Not enough room to start: make room (if allowed) or say so.
         if (!ensureSpace(dir, protect = id)) {
@@ -159,6 +174,16 @@ class LiveTvRecorder(
         }
         save(rec)
         update(rec)
+        if (smb != null) {
+            val mirror = SmbMirror(
+                config = smb,
+                localDir = dir,
+                remoteDir = "recordings/$id/",
+                onProblem = { problem -> Log.w(TAG, "SMB mirror ${rec.id}: $problem") },
+            )
+            smbMirrors[id] = mirror
+            mirror.start()
+        }
         LiveTvRecordingService.start(context)
         if (finite) channel.sourceId?.let { catchupSources[id] = it }
         jobs[id] = scope.launch {
@@ -193,10 +218,20 @@ class LiveTvRecorder(
         val dir = File(latest.dir)
         val hasPieces = playlistFileOf(dir).exists()
         if (hasPieces) runCatching { ensureEnded(playlistFileOf(dir)) }
+        val mirror = smbMirrors.remove(id)
+        val mirrored = mirror?.finish() == true
+        val sizeBeforeMirror = dirSize(dir)
+        if (mirrored) {
+            runCatching {
+                dir.listFiles()?.filter { file ->
+                    file.isFile && !file.name.endsWith(".json", true) && !file.name.endsWith(".m3u8", true)
+                }?.forEach { it.delete() }
+            }
+        }
         val done = latest.copy(
             status = if (hasPieces) RecordingStatus.DONE else RecordingStatus.FAILED,
             endedAtMs = System.currentTimeMillis(),
-            sizeBytes = dirSize(dir),
+            sizeBytes = if (mirrored) sizeBeforeMirror else dirSize(dir),
             problem = if (hasPieces) null else "Stopped before anything was recorded"
         )
         save(done); update(done)
@@ -213,7 +248,17 @@ class LiveTvRecorder(
         RecordingResume.clear(context, id)
         val rec = _recordings.value.firstOrNull { it.id == id }
         _recordings.value = _recordings.value.filterNot { it.id == id }
-        rec?.let { r -> scope.launch { runCatching { File(r.dir).deleteRecursively() } } }
+        rec?.let { r ->
+            scope.launch {
+                smbMirrors.remove(id)?.stop()
+                if (r.smb) {
+                    SmbSettings.load(context)?.let { config ->
+                        runCatching { SmbClient.deleteRecursively(config, "recordings/$id/") }
+                    }
+                }
+                runCatching { File(r.dir).deleteRecursively() }
+            }
+        }
         stopServiceIfIdle()
     }
 
@@ -342,12 +387,27 @@ class LiveTvRecorder(
                 val latest = _recordings.value.firstOrNull { it.id == rec.id } ?: rec
                 val hasPieces = playlistFileOf(dir).exists()
                 if (hasPieces) ensureEnded(playlistFileOf(dir))
+                val mirror = smbMirrors.remove(rec.id)
+                val mirrored = mirror?.finish() == true
+                val sizeBeforeMirror = dirSize(dir)
+                if (mirrored) {
+                    // Metadata and the playlist stay local; the server reads the media from SMB.
+                    runCatching {
+                        dir.listFiles()?.filter { file ->
+                            file.isFile && !file.name.endsWith(".json", true) && !file.name.endsWith(".m3u8", true)
+                        }?.forEach { it.delete() }
+                    }
+                }
                 val done = latest.copy(
                     status = if (hasPieces) RecordingStatus.DONE else RecordingStatus.FAILED,
                     endedAtMs = System.currentTimeMillis(),
-                    sizeBytes = dirSize(dir),
-                    problem = if (hasPieces) problem?.takeIf { latest.durationSec < (latest.stopAtMs - latest.startedAtMs) / 1000.0 * 0.9 }
-                    else (problem ?: "Nothing could be recorded from this channel")
+                    sizeBytes = if (mirrored) sizeBeforeMirror else dirSize(dir),
+                    problem = if (hasPieces) {
+                        problem?.takeIf { latest.durationSec < (latest.stopAtMs - latest.startedAtMs) / 1000.0 * 0.9 }
+                            ?: if (latest.smb && !mirrored) "SMB upload failed; the recording is still on this device" else null
+                    } else {
+                        problem ?: "Nothing could be recorded from this channel"
+                    },
                 )
                 if (_recordings.value.any { it.id == done.id }) { save(done); update(done) }
                 jobs.remove(rec.id)
@@ -532,7 +592,7 @@ class LiveTvRecorder(
         if (settings.recordingSpaceRule != "DELETE_OLDEST") return false
         val drive = dir.parentFile?.absolutePath ?: return false
         val oldest = _recordings.value
-            .filter { !it.isRecording && it.id != protect && File(it.dir).parentFile?.absolutePath == drive }
+            .filter { !it.isRecording && !it.smb && it.id != protect && File(it.dir).parentFile?.absolutePath == drive }
             .sortedBy { it.startedAtMs }
         for (r in oldest) {
             if (free() >= MIN_FREE) break

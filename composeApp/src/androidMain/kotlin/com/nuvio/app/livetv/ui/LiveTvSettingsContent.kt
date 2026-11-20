@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.LocalContentColor
@@ -31,6 +33,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -38,6 +41,9 @@ import com.nuvio.app.livetv.LiveTv
 import com.nuvio.app.livetv.model.ChannelSort
 import com.nuvio.app.livetv.model.LiveTvGroupTags
 import com.nuvio.app.livetv.model.LiveTvSettings
+import com.nuvio.app.livetv.record.SmbClient
+import com.nuvio.app.livetv.record.SmbConfig
+import com.nuvio.app.livetv.record.SmbSettings
 import com.nuvio.app.features.settings.SettingsGroup
 import com.nuvio.app.features.settings.SettingsSection
 import kotlinx.coroutines.Dispatchers
@@ -77,6 +83,8 @@ fun LiveTvSettingsContent() {
     var pinStep by remember { mutableStateOf<String?>(null) }
     var confirmReset by remember { mutableStateOf(false) }
     var editHomeRowTitle by remember { mutableStateOf(false) }
+    var showSmbConfig by remember { mutableStateOf(false) }
+    var smbConfig by remember { mutableStateOf(SmbSettings.load(context)) }
 
     val isTablet = LocalConfiguration.current.screenWidthDp >= 600
     CompositionLocalProvider(LocalContentColor provides MaterialTheme.colorScheme.onBackground) {
@@ -260,6 +268,22 @@ fun LiveTvSettingsContent() {
                 storage.firstOrNull { it.id == settings.recordingStorage }?.label ?: stringResource(Res.string.live_tv_ui_this_device),
                 storage.map { "${it.label}  (${com.nuvio.app.livetv.record.RecordingStorage.sizeLabel(it.freeBytes)} free)" to it.id },
             ) { v -> change { it.copy(recordingStorage = v) } }
+            SwitchRow(
+                stringResource(Res.string.live_tv_ui_save_recordings_to_smb),
+                "Mirror new recordings to a network share while they are made.",
+                settings.recordingSmbEnabled,
+            ) { enabled ->
+                if (enabled && smbConfig == null) {
+                    showSmbConfig = true
+                } else {
+                    change { it.copy(recordingSmbEnabled = enabled) }
+                }
+            }
+            ActionLine(
+                title = stringResource(Res.string.live_tv_ui_smb_share),
+                detail = smbConfig?.label ?: stringResource(Res.string.live_tv_ui_smb_not_set),
+                onClick = { showSmbConfig = true },
+            )
             ChoiceRow(
                 stringResource(Res.string.live_tv_ui_when_space_runs_low),
                 if (settings.recordingSpaceRule == "DELETE_OLDEST") stringResource(Res.string.live_tv_ui_delete_the_oldest_recording) else stringResource(Res.string.live_tv_ui_stop_recording),
@@ -509,6 +533,121 @@ fun LiveTvSettingsContent() {
             onDismiss = { editHomeRowTitle = false },
         )
     }
+    if (showSmbConfig) {
+        SmbConfigDialog(
+            initial = smbConfig,
+            onSave = { config ->
+                SmbSettings.save(context, config)
+                smbConfig = config
+                if (!settings.recordingSmbEnabled) {
+                    change { it.copy(recordingSmbEnabled = true) }
+                }
+                showSmbConfig = false
+            },
+            onClear = {
+                SmbSettings.clear(context)
+                smbConfig = null
+                change { it.copy(recordingSmbEnabled = false) }
+                showSmbConfig = false
+            },
+            onDismiss = { showSmbConfig = false },
+        )
+    }
+}
+
+@Composable
+private fun SmbConfigDialog(
+    initial: SmbConfig?,
+    onSave: (SmbConfig) -> Unit,
+    onClear: () -> Unit,
+    onDismiss: () -> Unit,
+) {
+    val scope = rememberCoroutineScope()
+    var host by remember(initial) { mutableStateOf(initial?.host.orEmpty()) }
+    var port by remember(initial) { mutableStateOf((initial?.port ?: 445).toString()) }
+    var share by remember(initial) { mutableStateOf(initial?.share.orEmpty()) }
+    var folder by remember(initial) { mutableStateOf(initial?.folder.orEmpty()) }
+    var domain by remember(initial) { mutableStateOf(initial?.domain.orEmpty()) }
+    var username by remember(initial) { mutableStateOf(initial?.username.orEmpty()) }
+    var password by remember(initial) { mutableStateOf(initial?.password.orEmpty()) }
+    var testing by remember { mutableStateOf(false) }
+    var testResult by remember { mutableStateOf<String?>(null) }
+
+    fun current(): SmbConfig? {
+        val hostValue = host.trim()
+        val shareValue = share.trim()
+        if (hostValue.isBlank() || shareValue.isBlank()) return null
+        return SmbConfig(
+            host = hostValue,
+            port = (port.toIntOrNull() ?: 445).coerceIn(1, 65535),
+            share = shareValue,
+            folder = folder.trim('/'),
+            domain = domain.trim(),
+            username = username,
+            password = password,
+        )
+    }
+
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text(stringResource(Res.string.live_tv_ui_smb_share)) },
+        text = {
+            Column(
+                Modifier.heightIn(max = 420.dp).verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+                OutlinedTextField(host, { host = it }, label = { Text(stringResource(Res.string.live_tv_ui_smb_host)) }, singleLine = true, modifier = Modifier.fillMaxWidth())
+                OutlinedTextField(port, { port = it }, label = { Text(stringResource(Res.string.live_tv_ui_smb_port)) }, singleLine = true, modifier = Modifier.fillMaxWidth())
+                OutlinedTextField(share, { share = it }, label = { Text(stringResource(Res.string.live_tv_ui_smb_share_name)) }, singleLine = true, modifier = Modifier.fillMaxWidth())
+                OutlinedTextField(folder, { folder = it }, label = { Text(stringResource(Res.string.live_tv_ui_smb_folder)) }, singleLine = true, modifier = Modifier.fillMaxWidth())
+                OutlinedTextField(domain, { domain = it }, label = { Text(stringResource(Res.string.live_tv_ui_smb_domain)) }, singleLine = true, modifier = Modifier.fillMaxWidth())
+                OutlinedTextField(username, { username = it }, label = { Text(stringResource(Res.string.live_tv_ui_smb_username)) }, singleLine = true, modifier = Modifier.fillMaxWidth())
+                OutlinedTextField(
+                    password,
+                    { password = it },
+                    label = { Text(stringResource(Res.string.live_tv_ui_smb_password)) },
+                    singleLine = true,
+                    visualTransformation = PasswordVisualTransformation(),
+                    modifier = Modifier.fillMaxWidth(),
+                )
+                val result = testResult
+                if (result != null) {
+                    Text(
+                        text = result,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
+            }
+        },
+        confirmButton = {
+            TextButton(
+                onClick = { current()?.let(onSave) },
+                enabled = !testing && current() != null,
+            ) { Text(stringResource(Res.string.live_tv_ui_smb_save)) }
+        },
+        dismissButton = {
+            Row {
+                TextButton(
+                    onClick = {
+                        val config = current() ?: return@TextButton
+                        testing = true
+                        testResult = null
+                        scope.launch {
+                            val result = withContext(Dispatchers.IO) { SmbClient.test(config) }
+                            testing = false
+                            testResult = result.getOrElse { it.message ?: "Could not connect." }
+                        }
+                    },
+                    enabled = !testing && current() != null,
+                ) { Text(if (testing) stringResource(Res.string.live_tv_ui_smb_testing) else stringResource(Res.string.live_tv_ui_smb_test)) }
+                if (initial != null) {
+                    TextButton(onClick = onClear, enabled = !testing) { Text(stringResource(Res.string.live_tv_ui_smb_clear)) }
+                }
+                TextButton(onClick = onDismiss, enabled = !testing) { Text(stringResource(Res.string.action_cancel)) }
+            }
+        },
+    )
 }
 
 @Composable
