@@ -125,6 +125,7 @@ internal object SmbSettings {
 
 /** One cached SMB context per destination, so a recording doesn't reconnect for every file. */
 internal object SmbClient {
+    private const val TAG = "SmbClient"
     private val contexts = ConcurrentHashMap<String, CIFSContext>()
 
     private fun context(config: SmbConfig): CIFSContext =
@@ -184,16 +185,37 @@ internal object SmbClient {
         }
     }
 
-    fun deleteRecursively(config: SmbConfig, relative: String) {
-        val root = runCatching { file(config, relative) }.getOrNull() ?: return
-        if (!runCatching { root.exists() }.getOrDefault(false)) return
-        fun delete(resource: SmbFile) {
-            if (runCatching { resource.isDirectory }.getOrDefault(false)) {
-                runCatching { resource.listFiles() }.getOrDefault(emptyArray()).forEach(::delete)
+    fun deleteRecursively(config: SmbConfig, relative: String): Boolean {
+        val clean = relative.trim('/')
+        if (clean.isEmpty()) return false
+        repeat(2) { attempt ->
+            val ok = runCatching {
+                val root = SmbFile(config.baseUrl + clean.split('/').joinToString("/") { SmbConfig.encode(it) } + "/", context(config))
+                if (!root.exists()) {
+                    if (attempt == 0) error("SMB path not visible yet")
+                    return true
+                }
+                fun delete(resource: SmbFile): Boolean {
+                    var success = true
+                    if (runCatching { resource.isDirectory }.getOrDefault(false)) {
+                        runCatching { resource.listFiles() }.getOrDefault(emptyArray())
+                            .forEach { child -> if (!delete(child)) success = false }
+                    }
+                    if (!runCatching { resource.delete(); true }.getOrDefault(false)) {
+                        Log.w(TAG, "Could not delete SMB file $resource")
+                        success = false
+                    }
+                    return success
+                }
+                delete(root)
+            }.getOrElse { failure ->
+                Log.w(TAG, "SMB delete of $relative failed: ${failure.message}", failure)
+                false
             }
-            runCatching { resource.delete() }
+            if (ok) return true
+            if (attempt == 0) runCatching { Thread.sleep(500L) }
         }
-        delete(root)
+        return false
     }
 
     fun freeBytes(config: SmbConfig): Long =

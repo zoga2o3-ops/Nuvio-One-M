@@ -98,12 +98,8 @@ class LiveTvRecorder(
         remoteDir = if (rec.smb) "recordings/${rec.id}/" else null,
     )
 
-    /** Roughly how much room there is where new recordings go. */
-    fun freeBytes(): Long {
-        val smb = if (settings.recordingSmbEnabled) SmbSettings.load(context) else null
-        if (smb != null) return SmbClient.freeBytes(smb)
-        return currentStorage().freeBytes
-    }
+    /** Roughly how much room there is for the local copy of new recordings. */
+    fun freeBytes(): Long = currentStorage().freeBytes
 
     /**
      * Starts recording [channel] from [url] until [stopAtMs]. Returns the new recording, or the
@@ -218,9 +214,9 @@ class LiveTvRecorder(
         val dir = File(latest.dir)
         val hasPieces = playlistFileOf(dir).exists()
         if (hasPieces) runCatching { ensureEnded(playlistFileOf(dir)) }
+        val sizeBeforeMirror = dirSize(dir)
         val mirror = smbMirrors.remove(id)
         val mirrored = mirror?.finish() == true
-        val sizeBeforeMirror = dirSize(dir)
         if (mirrored) {
             runCatching {
                 dir.listFiles()?.filter { file ->
@@ -253,7 +249,11 @@ class LiveTvRecorder(
                 smbMirrors.remove(id)?.stop()
                 if (r.smb) {
                     SmbSettings.load(context)?.let { config ->
-                        runCatching { SmbClient.deleteRecursively(config, "recordings/$id/") }
+                        runCatching {
+                            if (!SmbClient.deleteRecursively(config, "recordings/$id/")) {
+                                Log.w(TAG, "SMB folder for recording $id could not be removed")
+                            }
+                        }
                     }
                 }
                 runCatching { File(r.dir).deleteRecursively() }
@@ -387,9 +387,9 @@ class LiveTvRecorder(
                 val latest = _recordings.value.firstOrNull { it.id == rec.id } ?: rec
                 val hasPieces = playlistFileOf(dir).exists()
                 if (hasPieces) ensureEnded(playlistFileOf(dir))
+                val sizeBeforeMirror = dirSize(dir)
                 val mirror = smbMirrors.remove(rec.id)
                 val mirrored = mirror?.finish() == true
-                val sizeBeforeMirror = dirSize(dir)
                 if (mirrored) {
                     // Metadata and the playlist stay local; the server reads the media from SMB.
                     runCatching {
