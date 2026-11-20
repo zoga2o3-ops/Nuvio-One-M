@@ -4015,4 +4015,29 @@
             <item quantity="one">%1$dটি সিজন</item>
             <item quantity="other">%1$dটি সিজন</item>
         </plurals>
+
+    <string name="youtube_continue_watching">YouTube-এ দেখা চালিয়ে যান</string>
+    <string name="youtube_settings_continue_watching">হোমে দেখান</string>
+    <string name="youtube_settings_continue_watching_description">OneTube-এ শুরু করা ভিডিওগুলো হোমের &quot;দেখা চালিয়ে যান&quot; সারিতে যোগ করুন।</string>
+    <string name="youtube_continue_unavailable">এই ভিডিওটি এখন চালিয়ে যাওয়া যাচ্ছে না।</string>
+    <string name="live_tv_ui_save_recordings_to_smb">রেকর্ডিং SMB-তে সংরক্ষণ করুন</string>
+    <string name="live_tv_ui_smb_mirror_description">নতুন রেকর্ডিং তৈরি হওয়ার সময়ই তা একটি নেটওয়ার্ক শেয়ারে কপি করুন।</string>
+    <string name="live_tv_ui_smb_share">SMB শেয়ার</string>
+    <string name="live_tv_ui_smb_not_set">সেট করা নেই</string>
+    <string name="live_tv_ui_smb_host">সার্ভার</string>
+    <string name="live_tv_ui_smb_port">পোর্ট</string>
+    <string name="live_tv_ui_smb_share_name">শেয়ার</string>
+    <string name="live_tv_ui_smb_folder">ফোল্ডার (ঐচ্ছিক)</string>
+    <string name="live_tv_ui_smb_domain">ডোমেইন (ঐচ্ছিক)</string>
+    <string name="live_tv_ui_smb_username">ব্যবহারকারীর নাম</string>
+    <string name="live_tv_ui_smb_password">পাসওয়ার্ড</string>
+    <string name="live_tv_ui_smb_save">সংরক্ষণ</string>
+    <string name="live_tv_ui_smb_test">পরীক্ষা</string>
+    <string name="live_tv_ui_smb_testing">পরীক্ষা চলছে...</string>
+    <string name="live_tv_ui_smb_clear">মুছুন</string>
+    <string name="live_tv_ui_smb_connected">সংযুক্ত।</string>
+    <string name="live_tv_ui_smb_connected_free">সংযুক্ত। %1$s খালি আছে।</string>
+    <string name="live_tv_ui_smb_connection_failed">সংযোগ করা যায়নি।</string>
+    <string name="live_tv_ui_smb_no_share">SMB রেকর্ডিং চালু আছে, কিন্তু কোনো শেয়ার সেট করা নেই; &quot;%1$s&quot; এই ডিভাইসে সংরক্ষণ করা হচ্ছে</string>
+    <string name="live_tv_ui_smb_upload_failed">SMB আপলোড ব্যর্থ হয়েছে; রেকর্ডিংটি এখনও এই ডিভাইসে আছে</string>
 </resources>

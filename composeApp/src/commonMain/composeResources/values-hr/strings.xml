@@ -4006,4 +4006,29 @@
             <item quantity="few">%d naslova</item>
             <item quantity="other">%d naslova</item>
         </plurals>
+
+    <string name="youtube_continue_watching">Nastavi gledati na YouTubeu</string>
+    <string name="youtube_settings_continue_watching">Prikaži na početnom zaslonu</string>
+    <string name="youtube_settings_continue_watching_description">Dodaj videozapise započete u OneTubeu u redak „Nastavi gledati“ na početnom zaslonu.</string>
+    <string name="youtube_continue_unavailable">Ovaj se videozapis trenutačno ne može nastaviti.</string>
+    <string name="live_tv_ui_save_recordings_to_smb">Spremi snimke na SMB</string>
+    <string name="live_tv_ui_smb_mirror_description">Kopiraj nove snimke na mrežni resurs tijekom snimanja.</string>
+    <string name="live_tv_ui_smb_share">SMB resurs</string>
+    <string name="live_tv_ui_smb_not_set">Nije postavljeno</string>
+    <string name="live_tv_ui_smb_host">Poslužitelj</string>
+    <string name="live_tv_ui_smb_port">Port</string>
+    <string name="live_tv_ui_smb_share_name">Resurs</string>
+    <string name="live_tv_ui_smb_folder">Mapa (neobavezno)</string>
+    <string name="live_tv_ui_smb_domain">Domena (neobavezno)</string>
+    <string name="live_tv_ui_smb_username">Korisničko ime</string>
+    <string name="live_tv_ui_smb_password">Lozinka</string>
+    <string name="live_tv_ui_smb_save">Spremi</string>
+    <string name="live_tv_ui_smb_test">Testiraj</string>
+    <string name="live_tv_ui_smb_testing">Testiranje...</string>
+    <string name="live_tv_ui_smb_clear">Očisti</string>
+    <string name="live_tv_ui_smb_connected">Povezano.</string>
+    <string name="live_tv_ui_smb_connected_free">Povezano. Slobodno: %1$s.</string>
+    <string name="live_tv_ui_smb_connection_failed">Povezivanje nije uspjelo.</string>
+    <string name="live_tv_ui_smb_no_share">Snimanje na SMB je uključeno, ali resurs nije postavljen; „%1$s“ sprema se na ovaj uređaj</string>
+    <string name="live_tv_ui_smb_upload_failed">Prijenos na SMB nije uspio; snimka je još na ovom uređaju</string>
 </resources>

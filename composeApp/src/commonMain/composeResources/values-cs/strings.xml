@@ -3978,4 +3978,29 @@
             <item quantity="few">%d tituly</item>
             <item quantity="other">%d titulů</item>
         </plurals>
+
+    <string name="youtube_continue_watching">Pokračovat ve sledování na YouTube</string>
+    <string name="youtube_settings_continue_watching">Zobrazit na domovské obrazovce</string>
+    <string name="youtube_settings_continue_watching_description">Přidávejte videa spuštěná v OneTube do řady „Pokračovat ve sledování“ na domovské obrazovce.</string>
+    <string name="youtube_continue_unavailable">V tomto videu teď nelze pokračovat.</string>
+    <string name="live_tv_ui_save_recordings_to_smb">Ukládat nahrávky do SMB</string>
+    <string name="live_tv_ui_smb_mirror_description">Kopírovat nové nahrávky na síťové úložiště už při jejich vytváření.</string>
+    <string name="live_tv_ui_smb_share">Sdílení SMB</string>
+    <string name="live_tv_ui_smb_not_set">Nenastaveno</string>
+    <string name="live_tv_ui_smb_host">Server</string>
+    <string name="live_tv_ui_smb_port">Port</string>
+    <string name="live_tv_ui_smb_share_name">Sdílení</string>
+    <string name="live_tv_ui_smb_folder">Složka (volitelné)</string>
+    <string name="live_tv_ui_smb_domain">Doména (volitelné)</string>
+    <string name="live_tv_ui_smb_username">Uživatelské jméno</string>
+    <string name="live_tv_ui_smb_password">Heslo</string>
+    <string name="live_tv_ui_smb_save">Uložit</string>
+    <string name="live_tv_ui_smb_test">Otestovat</string>
+    <string name="live_tv_ui_smb_testing">Testování...</string>
+    <string name="live_tv_ui_smb_clear">Vymazat</string>
+    <string name="live_tv_ui_smb_connected">Připojeno.</string>
+    <string name="live_tv_ui_smb_connected_free">Připojeno. Volné místo: %1$s.</string>
+    <string name="live_tv_ui_smb_connection_failed">Připojení se nezdařilo.</string>
+    <string name="live_tv_ui_smb_no_share">Nahrávání do SMB je zapnuté, ale není nastaveno sdílení; „%1$s“ se ukládá do tohoto zařízení</string>
+    <string name="live_tv_ui_smb_upload_failed">Nahrání do SMB se nezdařilo; nahrávka zůstává v tomto zařízení</string>
 </resources>

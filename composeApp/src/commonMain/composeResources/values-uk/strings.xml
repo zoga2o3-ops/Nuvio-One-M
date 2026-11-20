@@ -2584,4 +2584,29 @@
     <string name="subtitle_shadow_opacity">Непрозорість тіні</string>
     <string name="subtitle_shadow_size">Розмір тіні</string>
     <string name="subtitle_reset_appearance">Скинути вигляд</string>
+
+    <string name="youtube_continue_watching">Продовжити перегляд на YouTube</string>
+    <string name="youtube_settings_continue_watching">Показувати на головній</string>
+    <string name="youtube_settings_continue_watching_description">Додавати відео, розпочаті в OneTube, до рядка «Продовжити перегляд» на головному екрані.</string>
+    <string name="youtube_continue_unavailable">Зараз це відео неможливо продовжити.</string>
+    <string name="live_tv_ui_save_recordings_to_smb">Зберігати записи на SMB</string>
+    <string name="live_tv_ui_smb_mirror_description">Копіювати нові записи до мережевої папки під час їх створення.</string>
+    <string name="live_tv_ui_smb_share">Ресурс SMB</string>
+    <string name="live_tv_ui_smb_not_set">Не задано</string>
+    <string name="live_tv_ui_smb_host">Сервер</string>
+    <string name="live_tv_ui_smb_port">Порт</string>
+    <string name="live_tv_ui_smb_share_name">Ресурс</string>
+    <string name="live_tv_ui_smb_folder">Папка (необов'язково)</string>
+    <string name="live_tv_ui_smb_domain">Домен (необов'язково)</string>
+    <string name="live_tv_ui_smb_username">Ім'я користувача</string>
+    <string name="live_tv_ui_smb_password">Пароль</string>
+    <string name="live_tv_ui_smb_save">Зберегти</string>
+    <string name="live_tv_ui_smb_test">Перевірити</string>
+    <string name="live_tv_ui_smb_testing">Перевірка...</string>
+    <string name="live_tv_ui_smb_clear">Очистити</string>
+    <string name="live_tv_ui_smb_connected">Підключено.</string>
+    <string name="live_tv_ui_smb_connected_free">Підключено. Вільно: %1$s.</string>
+    <string name="live_tv_ui_smb_connection_failed">Не вдалося підключитися.</string>
+    <string name="live_tv_ui_smb_no_share">Запис на SMB увімкнено, але ресурс не задано; «%1$s» зберігається на цьому пристрої</string>
+    <string name="live_tv_ui_smb_upload_failed">Не вдалося вивантажити на SMB; запис залишається на цьому пристрої</string>
 </resources>

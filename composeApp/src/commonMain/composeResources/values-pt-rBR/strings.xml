@@ -4037,4 +4037,29 @@
             <item quantity="one">%d título</item>
             <item quantity="other">%d títulos</item>
         </plurals>
+
+    <string name="youtube_continue_watching">Continuar assistindo no YouTube</string>
+    <string name="youtube_settings_continue_watching">Mostrar na tela inicial</string>
+    <string name="youtube_settings_continue_watching_description">Adicione os vídeos iniciados no OneTube a uma linha &quot;Continuar assistindo&quot; na tela inicial.</string>
+    <string name="youtube_continue_unavailable">Não é possível retomar este vídeo agora.</string>
+    <string name="live_tv_ui_save_recordings_to_smb">Salvar gravações no SMB</string>
+    <string name="live_tv_ui_smb_mirror_description">Copie as novas gravações para um compartilhamento de rede enquanto são feitas.</string>
+    <string name="live_tv_ui_smb_share">Compartilhamento SMB</string>
+    <string name="live_tv_ui_smb_not_set">Não definido</string>
+    <string name="live_tv_ui_smb_host">Servidor</string>
+    <string name="live_tv_ui_smb_port">Porta</string>
+    <string name="live_tv_ui_smb_share_name">Compartilhamento</string>
+    <string name="live_tv_ui_smb_folder">Pasta (opcional)</string>
+    <string name="live_tv_ui_smb_domain">Domínio (opcional)</string>
+    <string name="live_tv_ui_smb_username">Nome de usuário</string>
+    <string name="live_tv_ui_smb_password">Senha</string>
+    <string name="live_tv_ui_smb_save">Salvar</string>
+    <string name="live_tv_ui_smb_test">Testar</string>
+    <string name="live_tv_ui_smb_testing">Testando...</string>
+    <string name="live_tv_ui_smb_clear">Limpar</string>
+    <string name="live_tv_ui_smb_connected">Conectado.</string>
+    <string name="live_tv_ui_smb_connected_free">Conectado. %1$s livres.</string>
+    <string name="live_tv_ui_smb_connection_failed">Não foi possível conectar.</string>
+    <string name="live_tv_ui_smb_no_share">A gravação em SMB está ativada, mas nenhum compartilhamento foi definido; &quot;%1$s&quot; está sendo salvo neste dispositivo</string>
+    <string name="live_tv_ui_smb_upload_failed">Falha no envio para o SMB; a gravação continua neste dispositivo</string>
 </resources>

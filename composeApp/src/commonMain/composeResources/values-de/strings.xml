@@ -3972,4 +3972,29 @@
     <string name="live_tv_ui_show_next">Zeige als Nächstes</string>
     <string name="live_tv_ui_compact_cards">Kompakte Karten</string>
     <string name="live_tv_ui_continue_watching_on_home">Weiterschauen auf Start</string>
+
+    <string name="youtube_continue_watching">Auf YouTube weiterschauen</string>
+    <string name="youtube_settings_continue_watching">Auf Startseite anzeigen</string>
+    <string name="youtube_settings_continue_watching_description">Videos, die du in OneTube begonnen hast, in einer Zeile „Weiterschauen“ auf der Startseite anzeigen.</string>
+    <string name="youtube_continue_unavailable">Dieses Video kann gerade nicht fortgesetzt werden.</string>
+    <string name="live_tv_ui_save_recordings_to_smb">Aufnahmen auf SMB speichern</string>
+    <string name="live_tv_ui_smb_mirror_description">Neue Aufnahmen während der Erstellung auf eine Netzwerkfreigabe spiegeln.</string>
+    <string name="live_tv_ui_smb_share">SMB-Freigabe</string>
+    <string name="live_tv_ui_smb_not_set">Nicht festgelegt</string>
+    <string name="live_tv_ui_smb_host">Server</string>
+    <string name="live_tv_ui_smb_port">Port</string>
+    <string name="live_tv_ui_smb_share_name">Freigabe</string>
+    <string name="live_tv_ui_smb_folder">Ordner (optional)</string>
+    <string name="live_tv_ui_smb_domain">Domäne (optional)</string>
+    <string name="live_tv_ui_smb_username">Benutzername</string>
+    <string name="live_tv_ui_smb_password">Passwort</string>
+    <string name="live_tv_ui_smb_save">Speichern</string>
+    <string name="live_tv_ui_smb_test">Testen</string>
+    <string name="live_tv_ui_smb_testing">Wird getestet...</string>
+    <string name="live_tv_ui_smb_clear">Löschen</string>
+    <string name="live_tv_ui_smb_connected">Verbunden.</string>
+    <string name="live_tv_ui_smb_connected_free">Verbunden. %1$s frei.</string>
+    <string name="live_tv_ui_smb_connection_failed">Verbindung fehlgeschlagen.</string>
+    <string name="live_tv_ui_smb_no_share">SMB-Aufnahme ist aktiv, aber keine Freigabe festgelegt; „%1$s“ wird auf diesem Gerät gespeichert</string>
+    <string name="live_tv_ui_smb_upload_failed">SMB-Upload fehlgeschlagen; die Aufnahme befindet sich weiterhin auf diesem Gerät</string>
 </resources>

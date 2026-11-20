@@ -3658,6 +3658,7 @@
 <string name="live_tv_ui_all_regions">All regions</string>
 <string name="live_tv_ui_save_recordings_to">Save recordings to</string>
 <string name="live_tv_ui_save_recordings_to_smb">Save recordings to SMB</string>
+<string name="live_tv_ui_smb_mirror_description">Mirror new recordings to a network share while they are made.</string>
 <string name="live_tv_ui_smb_share">SMB share</string>
 <string name="live_tv_ui_smb_not_set">Not set</string>
 <string name="live_tv_ui_smb_host">Server</string>
@@ -3671,6 +3672,11 @@
 <string name="live_tv_ui_smb_test">Test</string>
 <string name="live_tv_ui_smb_testing">Testing...</string>
 <string name="live_tv_ui_smb_clear">Clear</string>
+<string name="live_tv_ui_smb_connected">Connected.</string>
+<string name="live_tv_ui_smb_connected_free">Connected. %1$s free.</string>
+<string name="live_tv_ui_smb_connection_failed">Could not connect.</string>
+<string name="live_tv_ui_smb_no_share">SMB recording is on, but no share is set; saving &quot;%1$s&quot; to this device</string>
+<string name="live_tv_ui_smb_upload_failed">SMB upload failed; the recording is still on this device</string>
 <string name="live_tv_ui_this_device">This device</string>
 <string name="live_tv_ui_when_space_runs_low">When space runs low</string>
 <string name="live_tv_ui_clock_over_the_picture">Clock over the picture</string>

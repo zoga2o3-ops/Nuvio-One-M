@@ -5532,4 +5532,29 @@
             <item quantity="many">%1$d sezonów</item>
             <item quantity="other">%1$d sezonu</item>
         </plurals>
+
+    <string name="youtube_continue_watching">Kontynuuj oglądanie w YouTube</string>
+    <string name="youtube_settings_continue_watching">Pokaż na ekranie głównym</string>
+    <string name="youtube_settings_continue_watching_description">Dodawaj filmy rozpoczęte w OneTube do wiersza „Kontynuuj oglądanie” na ekranie głównym.</string>
+    <string name="youtube_continue_unavailable">Nie można teraz wznowić tego filmu.</string>
+    <string name="live_tv_ui_save_recordings_to_smb">Zapisuj nagrania w SMB</string>
+    <string name="live_tv_ui_smb_mirror_description">Kopiuj nowe nagrania do udziału sieciowego podczas ich tworzenia.</string>
+    <string name="live_tv_ui_smb_share">Udział SMB</string>
+    <string name="live_tv_ui_smb_not_set">Nie ustawiono</string>
+    <string name="live_tv_ui_smb_host">Serwer</string>
+    <string name="live_tv_ui_smb_port">Port</string>
+    <string name="live_tv_ui_smb_share_name">Udział</string>
+    <string name="live_tv_ui_smb_folder">Folder (opcjonalnie)</string>
+    <string name="live_tv_ui_smb_domain">Domena (opcjonalnie)</string>
+    <string name="live_tv_ui_smb_username">Nazwa użytkownika</string>
+    <string name="live_tv_ui_smb_password">Hasło</string>
+    <string name="live_tv_ui_smb_save">Zapisz</string>
+    <string name="live_tv_ui_smb_test">Testuj</string>
+    <string name="live_tv_ui_smb_testing">Testowanie...</string>
+    <string name="live_tv_ui_smb_clear">Wyczyść</string>
+    <string name="live_tv_ui_smb_connected">Połączono.</string>
+    <string name="live_tv_ui_smb_connected_free">Połączono. Wolne: %1$s.</string>
+    <string name="live_tv_ui_smb_connection_failed">Nie można się połączyć.</string>
+    <string name="live_tv_ui_smb_no_share">Nagrywanie do SMB jest włączone, ale nie ustawiono udziału; „%1$s” zostanie zapisane na tym urządzeniu</string>
+    <string name="live_tv_ui_smb_upload_failed">Przesyłanie do SMB nie powiodło się; nagranie nadal znajduje się na tym urządzeniu</string>
 </resources>

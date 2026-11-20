@@ -4024,4 +4024,29 @@
             <item quantity="one">%d כותרת</item>
             <item quantity="other">%d כותרות</item>
         </plurals>
+
+    <string name="youtube_continue_watching">המשך צפייה ב-YouTube</string>
+    <string name="youtube_settings_continue_watching">הצג במסך הבית</string>
+    <string name="youtube_settings_continue_watching_description">הוסף סרטונים שהתחלת ב-OneTube לשורת &quot;המשך צפייה&quot; במסך הבית.</string>
+    <string name="youtube_continue_unavailable">לא ניתן להמשיך את הסרטון הזה כרגע.</string>
+    <string name="live_tv_ui_save_recordings_to_smb">שמור הקלטות ב-SMB</string>
+    <string name="live_tv_ui_smb_mirror_description">שכפל הקלטות חדשות לשיתוף רשת בזמן ההקלטה.</string>
+    <string name="live_tv_ui_smb_share">שיתוף SMB</string>
+    <string name="live_tv_ui_smb_not_set">לא הוגדר</string>
+    <string name="live_tv_ui_smb_host">שרת</string>
+    <string name="live_tv_ui_smb_port">יציאה</string>
+    <string name="live_tv_ui_smb_share_name">שיתוף</string>
+    <string name="live_tv_ui_smb_folder">תיקייה (אופציונלי)</string>
+    <string name="live_tv_ui_smb_domain">דומיין (אופציונלי)</string>
+    <string name="live_tv_ui_smb_username">שם משתמש</string>
+    <string name="live_tv_ui_smb_password">סיסמה</string>
+    <string name="live_tv_ui_smb_save">שמור</string>
+    <string name="live_tv_ui_smb_test">בדוק</string>
+    <string name="live_tv_ui_smb_testing">בודק...</string>
+    <string name="live_tv_ui_smb_clear">נקה</string>
+    <string name="live_tv_ui_smb_connected">מחובר.</string>
+    <string name="live_tv_ui_smb_connected_free">מחובר. %1$s פנוי.</string>
+    <string name="live_tv_ui_smb_connection_failed">לא ניתן להתחבר.</string>
+    <string name="live_tv_ui_smb_no_share">הקלטה ל-SMB מופעלת, אך לא הוגדר שיתוף; &quot;%1$s&quot; נשמר במכשיר הזה</string>
+    <string name="live_tv_ui_smb_upload_failed">ההעלאה ל-SMB נכשלה; ההקלטה עדיין במכשיר הזה</string>
 </resources>

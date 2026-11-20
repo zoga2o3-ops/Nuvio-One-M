@@ -3989,4 +3989,29 @@ Bu özelliği tamamen kendi sorumluluğunuzda kullanırsınız. P2P istediğiniz
             <item quantity="one">%1$d Sezon</item>
             <item quantity="other">%1$d Sezon</item>
         </plurals>
+
+    <string name="youtube_continue_watching">YouTube'da izlemeye devam et</string>
+    <string name="youtube_settings_continue_watching">Ana sayfada göster</string>
+    <string name="youtube_settings_continue_watching_description">OneTube'da başladığınız videoları ana sayfadaki &quot;İzlemeye devam et&quot; satırına ekleyin.</string>
+    <string name="youtube_continue_unavailable">Bu video şu anda devam ettirilemiyor.</string>
+    <string name="live_tv_ui_save_recordings_to_smb">Kayıtları SMB'ye kaydet</string>
+    <string name="live_tv_ui_smb_mirror_description">Yeni kayıtları oluşturulurken bir ağ paylaşımına kopyala.</string>
+    <string name="live_tv_ui_smb_share">SMB paylaşımı</string>
+    <string name="live_tv_ui_smb_not_set">Ayarlanmadı</string>
+    <string name="live_tv_ui_smb_host">Sunucu</string>
+    <string name="live_tv_ui_smb_port">Bağlantı noktası</string>
+    <string name="live_tv_ui_smb_share_name">Paylaşım</string>
+    <string name="live_tv_ui_smb_folder">Klasör (isteğe bağlı)</string>
+    <string name="live_tv_ui_smb_domain">Etki alanı (isteğe bağlı)</string>
+    <string name="live_tv_ui_smb_username">Kullanıcı adı</string>
+    <string name="live_tv_ui_smb_password">Parola</string>
+    <string name="live_tv_ui_smb_save">Kaydet</string>
+    <string name="live_tv_ui_smb_test">Test et</string>
+    <string name="live_tv_ui_smb_testing">Test ediliyor...</string>
+    <string name="live_tv_ui_smb_clear">Temizle</string>
+    <string name="live_tv_ui_smb_connected">Bağlandı.</string>
+    <string name="live_tv_ui_smb_connected_free">Bağlandı. %1$s boş.</string>
+    <string name="live_tv_ui_smb_connection_failed">Bağlanılamadı.</string>
+    <string name="live_tv_ui_smb_no_share">SMB kaydı açık ancak paylaşım ayarlanmamış; &quot;%1$s&quot; bu cihaza kaydediliyor</string>
+    <string name="live_tv_ui_smb_upload_failed">SMB yüklemesi başarısız oldu; kayıt hâlâ bu cihazda</string>
 </resources>

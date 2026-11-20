@@ -4014,4 +4014,29 @@
     <string name="live_tv_ui_show_next">Εμφάνιση επόμενου</string>
     <string name="live_tv_ui_compact_cards">Συμπαγείς κάρτες</string>
     <string name="live_tv_ui_continue_watching_on_home">Συνέχεια στην Αρχική</string>
+
+    <string name="youtube_continue_watching">Συνέχεια παρακολούθησης στο YouTube</string>
+    <string name="youtube_settings_continue_watching">Εμφάνιση στην αρχική</string>
+    <string name="youtube_settings_continue_watching_description">Προσθέστε τα βίντεο που ξεκινήσατε στο OneTube σε μια σειρά «Συνέχεια παρακολούθησης» στην αρχική.</string>
+    <string name="youtube_continue_unavailable">Δεν είναι δυνατή η συνέχιση αυτού του βίντεο αυτή τη στιγμή.</string>
+    <string name="live_tv_ui_save_recordings_to_smb">Αποθήκευση εγγραφών στο SMB</string>
+    <string name="live_tv_ui_smb_mirror_description">Αντιγραφή των νέων εγγραφών σε κοινόχρηστο χώρο δικτύου κατά τη δημιουργία τους.</string>
+    <string name="live_tv_ui_smb_share">Κοινόχρηστος χώρος SMB</string>
+    <string name="live_tv_ui_smb_not_set">Δεν έχει οριστεί</string>
+    <string name="live_tv_ui_smb_host">Διακομιστής</string>
+    <string name="live_tv_ui_smb_port">Θύρα</string>
+    <string name="live_tv_ui_smb_share_name">Κοινόχρηστος χώρος</string>
+    <string name="live_tv_ui_smb_folder">Φάκελος (προαιρετικό)</string>
+    <string name="live_tv_ui_smb_domain">Τομέας (προαιρετικό)</string>
+    <string name="live_tv_ui_smb_username">Όνομα χρήστη</string>
+    <string name="live_tv_ui_smb_password">Κωδικός πρόσβασης</string>
+    <string name="live_tv_ui_smb_save">Αποθήκευση</string>
+    <string name="live_tv_ui_smb_test">Δοκιμή</string>
+    <string name="live_tv_ui_smb_testing">Δοκιμή...</string>
+    <string name="live_tv_ui_smb_clear">Εκκαθάριση</string>
+    <string name="live_tv_ui_smb_connected">Συνδέθηκε.</string>
+    <string name="live_tv_ui_smb_connected_free">Συνδέθηκε. %1$s διαθέσιμα.</string>
+    <string name="live_tv_ui_smb_connection_failed">Η σύνδεση απέτυχε.</string>
+    <string name="live_tv_ui_smb_no_share">Η εγγραφή SMB είναι ενεργή, αλλά δεν έχει οριστεί κοινόχρηστος χώρος· το «%1$s» αποθηκεύεται σε αυτή τη συσκευή</string>
+    <string name="live_tv_ui_smb_upload_failed">Η μεταφόρτωση στο SMB απέτυχε· η εγγραφή παραμένει σε αυτή τη συσκευή</string>
 </resources>

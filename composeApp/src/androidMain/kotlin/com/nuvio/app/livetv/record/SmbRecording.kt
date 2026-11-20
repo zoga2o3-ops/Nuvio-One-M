@@ -155,7 +155,7 @@ internal object SmbClient {
     fun recordingDir(config: SmbConfig, id: String): SmbFile =
         SmbFile(config.baseUrl + SmbConfig.encode(id) + "/", context(config))
 
-    fun test(config: SmbConfig): Result<String> = runCatching {
+    fun test(config: SmbConfig): Result<Long> = runCatching {
         val dir = file(config, "")
         dir.mkdirs()
         val probe = file(config, ".nuvio-write-test-${System.nanoTime()}.tmp")
@@ -164,8 +164,7 @@ internal object SmbClient {
         } finally {
             runCatching { probe.delete() }
         }
-        val free = runCatching { dir.getDiskFreeSpace() }.getOrDefault(0L)
-        if (free > 0) "Connected. ${RecordingStorage.sizeLabel(free)} free." else "Connected."
+        runCatching { dir.getDiskFreeSpace() }.getOrDefault(0L)
     }
 
     fun upload(config: SmbConfig, local: File, relative: String) {

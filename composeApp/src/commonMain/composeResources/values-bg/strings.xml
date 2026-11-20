@@ -4066,4 +4066,29 @@
     <string name="live_tv_ui_show_next">Покажи следващото</string>
     <string name="live_tv_ui_compact_cards">Компактни карти</string>
     <string name="live_tv_ui_continue_watching_on_home">Продължаване на началния</string>
+
+    <string name="youtube_continue_watching">Продължи гледането в YouTube</string>
+    <string name="youtube_settings_continue_watching">Показвай в начало</string>
+    <string name="youtube_settings_continue_watching_description">Добавяй видеоклиповете, които си започнал в OneTube, в ред „Продължи гледането“ на началния екран.</string>
+    <string name="youtube_continue_unavailable">Този видеоклип не може да бъде продължен сега.</string>
+    <string name="live_tv_ui_save_recordings_to_smb">Запазване на записите в SMB</string>
+    <string name="live_tv_ui_smb_mirror_description">Копирай новите записи към мрежово споделяне, докато се създават.</string>
+    <string name="live_tv_ui_smb_share">SMB споделяне</string>
+    <string name="live_tv_ui_smb_not_set">Не е зададено</string>
+    <string name="live_tv_ui_smb_host">Сървър</string>
+    <string name="live_tv_ui_smb_port">Порт</string>
+    <string name="live_tv_ui_smb_share_name">Споделяне</string>
+    <string name="live_tv_ui_smb_folder">Папка (по избор)</string>
+    <string name="live_tv_ui_smb_domain">Домейн (по избор)</string>
+    <string name="live_tv_ui_smb_username">Потребителско име</string>
+    <string name="live_tv_ui_smb_password">Парола</string>
+    <string name="live_tv_ui_smb_save">Запази</string>
+    <string name="live_tv_ui_smb_test">Тест</string>
+    <string name="live_tv_ui_smb_testing">Тестване...</string>
+    <string name="live_tv_ui_smb_clear">Изчисти</string>
+    <string name="live_tv_ui_smb_connected">Свързано.</string>
+    <string name="live_tv_ui_smb_connected_free">Свързано. Свободни: %1$s.</string>
+    <string name="live_tv_ui_smb_connection_failed">Неуспешно свързване.</string>
+    <string name="live_tv_ui_smb_no_share">Записването в SMB е включено, но няма зададено споделяне; „%1$s“ се запазва на това устройство</string>
+    <string name="live_tv_ui_smb_upload_failed">Качването в SMB не бе успешно; записът остава на това устройство</string>
 </resources>

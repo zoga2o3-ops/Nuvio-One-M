@@ -270,7 +270,7 @@ fun LiveTvSettingsContent() {
             ) { v -> change { it.copy(recordingStorage = v) } }
             SwitchRow(
                 stringResource(Res.string.live_tv_ui_save_recordings_to_smb),
-                "Mirror new recordings to a network share while they are made.",
+                stringResource(Res.string.live_tv_ui_smb_mirror_description),
                 settings.recordingSmbEnabled,
             ) { enabled ->
                 if (enabled && smbConfig == null) {
@@ -636,7 +636,20 @@ private fun SmbConfigDialog(
                         scope.launch {
                             val result = withContext(Dispatchers.IO) { SmbClient.test(config) }
                             testing = false
-                            testResult = result.getOrElse { it.message ?: "Could not connect." }
+                            testResult = if (result.isSuccess) {
+                                val free = result.getOrDefault(0L)
+                                if (free > 0) {
+                                    getString(
+                                        Res.string.live_tv_ui_smb_connected_free,
+                                        com.nuvio.app.livetv.record.RecordingStorage.sizeLabel(free),
+                                    )
+                                } else {
+                                    getString(Res.string.live_tv_ui_smb_connected)
+                                }
+                            } else {
+                                result.exceptionOrNull()?.message
+                                    ?: getString(Res.string.live_tv_ui_smb_connection_failed)
+                            }
                         }
                     },
                     enabled = !testing && current() != null,

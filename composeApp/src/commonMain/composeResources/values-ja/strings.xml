@@ -4014,4 +4014,29 @@
             <item quantity="one">%d 作品</item>
             <item quantity="other">%d 作品</item>
         </plurals>
+
+    <string name="youtube_continue_watching">YouTubeで続きを見る</string>
+    <string name="youtube_settings_continue_watching">ホームに表示</string>
+    <string name="youtube_settings_continue_watching_description">OneTubeで再生を始めた動画を、ホームの「続きを見る」行に追加します。</string>
+    <string name="youtube_continue_unavailable">この動画は現在再開できません。</string>
+    <string name="live_tv_ui_save_recordings_to_smb">録画をSMBに保存</string>
+    <string name="live_tv_ui_smb_mirror_description">新しい録画を、作成中にネットワーク共有へコピーします。</string>
+    <string name="live_tv_ui_smb_share">SMB共有</string>
+    <string name="live_tv_ui_smb_not_set">未設定</string>
+    <string name="live_tv_ui_smb_host">サーバー</string>
+    <string name="live_tv_ui_smb_port">ポート</string>
+    <string name="live_tv_ui_smb_share_name">共有</string>
+    <string name="live_tv_ui_smb_folder">フォルダー（任意）</string>
+    <string name="live_tv_ui_smb_domain">ドメイン（任意）</string>
+    <string name="live_tv_ui_smb_username">ユーザー名</string>
+    <string name="live_tv_ui_smb_password">パスワード</string>
+    <string name="live_tv_ui_smb_save">保存</string>
+    <string name="live_tv_ui_smb_test">テスト</string>
+    <string name="live_tv_ui_smb_testing">テスト中...</string>
+    <string name="live_tv_ui_smb_clear">クリア</string>
+    <string name="live_tv_ui_smb_connected">接続しました。</string>
+    <string name="live_tv_ui_smb_connected_free">接続しました。空き容量 %1$s。</string>
+    <string name="live_tv_ui_smb_connection_failed">接続できませんでした。</string>
+    <string name="live_tv_ui_smb_no_share">SMB録画はオンですが、共有が設定されていません。「%1$s」をこのデバイスに保存します</string>
+    <string name="live_tv_ui_smb_upload_failed">SMBへのアップロードに失敗しました。録画はこのデバイスに残っています</string>
 </resources>

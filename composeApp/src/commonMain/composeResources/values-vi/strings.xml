@@ -4032,4 +4032,29 @@
             <item quantity="one">%d tiêu đề</item>
             <item quantity="other">%d tiêu đề</item>
         </plurals>
+
+    <string name="youtube_continue_watching">Tiếp tục xem trên YouTube</string>
+    <string name="youtube_settings_continue_watching">Hiển thị trên Trang chủ</string>
+    <string name="youtube_settings_continue_watching_description">Thêm các video bạn đã bắt đầu trên OneTube vào hàng &quot;Tiếp tục xem&quot; trên Trang chủ.</string>
+    <string name="youtube_continue_unavailable">Không thể tiếp tục video này ngay bây giờ.</string>
+    <string name="live_tv_ui_save_recordings_to_smb">Lưu bản ghi vào SMB</string>
+    <string name="live_tv_ui_smb_mirror_description">Sao chép các bản ghi mới sang thư mục chia sẻ mạng ngay khi đang ghi.</string>
+    <string name="live_tv_ui_smb_share">Chia sẻ SMB</string>
+    <string name="live_tv_ui_smb_not_set">Chưa đặt</string>
+    <string name="live_tv_ui_smb_host">Máy chủ</string>
+    <string name="live_tv_ui_smb_port">Cổng</string>
+    <string name="live_tv_ui_smb_share_name">Chia sẻ</string>
+    <string name="live_tv_ui_smb_folder">Thư mục (tùy chọn)</string>
+    <string name="live_tv_ui_smb_domain">Miền (tùy chọn)</string>
+    <string name="live_tv_ui_smb_username">Tên người dùng</string>
+    <string name="live_tv_ui_smb_password">Mật khẩu</string>
+    <string name="live_tv_ui_smb_save">Lưu</string>
+    <string name="live_tv_ui_smb_test">Kiểm tra</string>
+    <string name="live_tv_ui_smb_testing">Đang kiểm tra...</string>
+    <string name="live_tv_ui_smb_clear">Xóa</string>
+    <string name="live_tv_ui_smb_connected">Đã kết nối.</string>
+    <string name="live_tv_ui_smb_connected_free">Đã kết nối. Còn trống %1$s.</string>
+    <string name="live_tv_ui_smb_connection_failed">Không thể kết nối.</string>
+    <string name="live_tv_ui_smb_no_share">Ghi SMB đang bật nhưng chưa đặt thư mục chia sẻ; &quot;%1$s&quot; đang được lưu vào thiết bị này</string>
+    <string name="live_tv_ui_smb_upload_failed">Tải lên SMB thất bại; bản ghi vẫn còn trên thiết bị này</string>
 </resources>

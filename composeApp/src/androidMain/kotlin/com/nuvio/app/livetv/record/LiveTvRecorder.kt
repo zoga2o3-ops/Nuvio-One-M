@@ -16,6 +16,11 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import nuvio.composeapp.generated.resources.Res
+import nuvio.composeapp.generated.resources.live_tv_ui_smb_no_share
+import nuvio.composeapp.generated.resources.live_tv_ui_smb_upload_failed
+import org.jetbrains.compose.resources.getString
 import org.json.JSONObject
 import java.io.File
 import java.net.HttpURLConnection
@@ -141,7 +146,7 @@ class LiveTvRecorder(
         val dir = File(storage.dir, id).apply { mkdirs() }
         val smb = if (settings.recordingSmbEnabled) SmbSettings.load(context) else null
         if (settings.recordingSmbEnabled && smb == null) {
-            LiveTvNotice.show("SMB recording is on, but no share is set; saving \"$title\" to this device")
+            LiveTvNotice.show(runBlocking { getString(Res.string.live_tv_ui_smb_no_share, title) })
         }
         val rec = LiveTvRecording(
             id = id,
@@ -404,7 +409,9 @@ class LiveTvRecorder(
                     sizeBytes = if (mirrored) sizeBeforeMirror else dirSize(dir),
                     problem = if (hasPieces) {
                         problem?.takeIf { latest.durationSec < (latest.stopAtMs - latest.startedAtMs) / 1000.0 * 0.9 }
-                            ?: if (latest.smb && !mirrored) "SMB upload failed; the recording is still on this device" else null
+                            ?: if (latest.smb && !mirrored) {
+                                runBlocking { getString(Res.string.live_tv_ui_smb_upload_failed) }
+                            } else null
                     } else {
                         problem ?: "Nothing could be recorded from this channel"
                     },

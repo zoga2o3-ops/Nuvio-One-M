@@ -3970,4 +3970,29 @@
     <string name="live_tv_ui_show_next">Tampilkan berikutnya</string>
     <string name="live_tv_ui_compact_cards">Kartu ringkas</string>
     <string name="live_tv_ui_continue_watching_on_home">Lanjutkan di Beranda</string>
+
+    <string name="youtube_continue_watching">Lanjutkan menonton di YouTube</string>
+    <string name="youtube_settings_continue_watching">Tampilkan di Beranda</string>
+    <string name="youtube_settings_continue_watching_description">Tambahkan video yang Anda mulai di OneTube ke baris Lanjutkan Menonton di Beranda.</string>
+    <string name="youtube_continue_unavailable">Video ini tidak dapat dilanjutkan saat ini.</string>
+    <string name="live_tv_ui_save_recordings_to_smb">Simpan rekaman ke SMB</string>
+    <string name="live_tv_ui_smb_mirror_description">Salin rekaman baru ke berbagi jaringan saat rekaman dibuat.</string>
+    <string name="live_tv_ui_smb_share">Berbagi SMB</string>
+    <string name="live_tv_ui_smb_not_set">Belum diatur</string>
+    <string name="live_tv_ui_smb_host">Server</string>
+    <string name="live_tv_ui_smb_port">Port</string>
+    <string name="live_tv_ui_smb_share_name">Berbagi</string>
+    <string name="live_tv_ui_smb_folder">Folder (opsional)</string>
+    <string name="live_tv_ui_smb_domain">Domain (opsional)</string>
+    <string name="live_tv_ui_smb_username">Nama pengguna</string>
+    <string name="live_tv_ui_smb_password">Kata sandi</string>
+    <string name="live_tv_ui_smb_save">Simpan</string>
+    <string name="live_tv_ui_smb_test">Uji</string>
+    <string name="live_tv_ui_smb_testing">Menguji...</string>
+    <string name="live_tv_ui_smb_clear">Hapus</string>
+    <string name="live_tv_ui_smb_connected">Terhubung.</string>
+    <string name="live_tv_ui_smb_connected_free">Terhubung. %1$s kosong.</string>
+    <string name="live_tv_ui_smb_connection_failed">Tidak dapat terhubung.</string>
+    <string name="live_tv_ui_smb_no_share">Perekaman SMB aktif, tetapi berbagi belum diatur; &quot;%1$s&quot; disimpan ke perangkat ini</string>
+    <string name="live_tv_ui_smb_upload_failed">Unggahan SMB gagal; rekaman masih ada di perangkat ini</string>
 </resources>

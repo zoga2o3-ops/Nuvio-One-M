@@ -4015,4 +4015,29 @@
             <item quantity="one">%d titolo</item>
             <item quantity="other">%d titoli</item>
         </plurals>
+
+    <string name="youtube_continue_watching">Continua a guardare su YouTube</string>
+    <string name="youtube_settings_continue_watching">Mostra nella Home</string>
+    <string name="youtube_settings_continue_watching_description">Aggiungi i video iniziati in OneTube a una riga &quot;Continua a guardare&quot; nella Home.</string>
+    <string name="youtube_continue_unavailable">Impossibile riprendere questo video al momento.</string>
+    <string name="live_tv_ui_save_recordings_to_smb">Salva registrazioni su SMB</string>
+    <string name="live_tv_ui_smb_mirror_description">Copia le nuove registrazioni su una condivisione di rete mentre vengono create.</string>
+    <string name="live_tv_ui_smb_share">Condivisione SMB</string>
+    <string name="live_tv_ui_smb_not_set">Non impostata</string>
+    <string name="live_tv_ui_smb_host">Server</string>
+    <string name="live_tv_ui_smb_port">Porta</string>
+    <string name="live_tv_ui_smb_share_name">Condivisione</string>
+    <string name="live_tv_ui_smb_folder">Cartella (facoltativo)</string>
+    <string name="live_tv_ui_smb_domain">Dominio (facoltativo)</string>
+    <string name="live_tv_ui_smb_username">Nome utente</string>
+    <string name="live_tv_ui_smb_password">Password</string>
+    <string name="live_tv_ui_smb_save">Salva</string>
+    <string name="live_tv_ui_smb_test">Prova</string>
+    <string name="live_tv_ui_smb_testing">Prova in corso...</string>
+    <string name="live_tv_ui_smb_clear">Cancella</string>
+    <string name="live_tv_ui_smb_connected">Connesso.</string>
+    <string name="live_tv_ui_smb_connected_free">Connesso. %1$s liberi.</string>
+    <string name="live_tv_ui_smb_connection_failed">Impossibile connettersi.</string>
+    <string name="live_tv_ui_smb_no_share">La registrazione SMB è attiva, ma non è impostata alcuna condivisione; &quot;%1$s&quot; verrà salvato su questo dispositivo</string>
+    <string name="live_tv_ui_smb_upload_failed">Caricamento SMB non riuscito; la registrazione è ancora su questo dispositivo</string>
 </resources>
