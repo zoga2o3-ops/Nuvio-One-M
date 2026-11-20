@@ -175,6 +175,18 @@ private fun YouTubeSettingsBody() {
                 isTablet = isTablet,
             ) { changed { YouTubeSettings.setAutoplayNext(context, it) } }
             SettingsGroupDivider(isTablet)
+            SettingsSwitchRow(
+                title = stringResource(Res.string.youtube_settings_continue_watching),
+                description = stringResource(Res.string.youtube_settings_continue_watching_description),
+                checked = YouTubeSettings.continueWatchingOnHome(context),
+                isTablet = isTablet,
+            ) {
+                changed {
+                    YouTubeSettings.setContinueWatchingOnHome(context, it)
+                    YouTubeContinueWatchingRepository.refresh(context)
+                }
+            }
+            SettingsGroupDivider(isTablet)
             SettingsNavigationRow(
                 title = stringResource(Res.string.youtube_settings_start_at),
                 description = null,

@@ -4029,4 +4029,29 @@
             <item quantity="many">%d titulov</item>
             <item quantity="other">%d titulov</item>
         </plurals>
+
+    <string name="youtube_continue_watching">Pokračovať v sledovaní na YouTube</string>
+    <string name="youtube_settings_continue_watching">Zobraziť na domovskej obrazovke</string>
+    <string name="youtube_settings_continue_watching_description">Pridávať videá spustené v OneTube do radu „Pokračovať v sledovaní“ na domovskej obrazovke.</string>
+    <string name="youtube_continue_unavailable">Toto video teraz nie je možné obnoviť.</string>
+    <string name="live_tv_ui_save_recordings_to_smb">Ukladať nahrávky do SMB</string>
+    <string name="live_tv_ui_smb_mirror_description">Kopírovať nové nahrávky do sieťového zdieľania už počas ich vytvárania.</string>
+    <string name="live_tv_ui_smb_share">Zdieľanie SMB</string>
+    <string name="live_tv_ui_smb_not_set">Nenastavené</string>
+    <string name="live_tv_ui_smb_host">Server</string>
+    <string name="live_tv_ui_smb_port">Port</string>
+    <string name="live_tv_ui_smb_share_name">Zdieľanie</string>
+    <string name="live_tv_ui_smb_folder">Priečinok (voliteľné)</string>
+    <string name="live_tv_ui_smb_domain">Doména (voliteľné)</string>
+    <string name="live_tv_ui_smb_username">Používateľské meno</string>
+    <string name="live_tv_ui_smb_password">Heslo</string>
+    <string name="live_tv_ui_smb_save">Uložiť</string>
+    <string name="live_tv_ui_smb_test">Otestovať</string>
+    <string name="live_tv_ui_smb_testing">Testovanie...</string>
+    <string name="live_tv_ui_smb_clear">Vymazať</string>
+    <string name="live_tv_ui_smb_connected">Pripojené.</string>
+    <string name="live_tv_ui_smb_connected_free">Pripojené. Voľné: %1$s.</string>
+    <string name="live_tv_ui_smb_connection_failed">Nepodarilo sa pripojiť.</string>
+    <string name="live_tv_ui_smb_no_share">Nahrávanie do SMB je zapnuté, ale nie je nastavené zdieľanie; „%1$s“ sa ukladá do tohto zariadenia</string>
+    <string name="live_tv_ui_smb_upload_failed">Nahratie do SMB zlyhalo; nahrávka zostáva v tomto zariadení</string>
 </resources>

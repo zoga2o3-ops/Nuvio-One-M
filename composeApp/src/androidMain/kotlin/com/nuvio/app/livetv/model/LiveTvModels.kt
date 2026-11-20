@@ -401,6 +401,8 @@ data class LiveTvSettings(
     val vodDefaultSort: String = "DEFAULT",
     /** Recordings: where new ones are saved ("" = this device, else a storage volume's id). */
     val recordingStorage: String = "",
+    /** Recordings: mirror them to the configured SMB share while they are being made. */
+    val recordingSmbEnabled: Boolean = false,
     /** Recordings: when storage runs low, "STOP" (stop recording) or "DELETE_OLDEST". */
     val recordingSpaceRule: String = "STOP",
     /** Recordings start this many minutes before the show and keep going this many after. */

@@ -4005,4 +4005,29 @@
             <item quantity="one">%1$d évad</item>
             <item quantity="other">%1$d évad</item>
         </plurals>
+
+    <string name="youtube_continue_watching">Folytatás a YouTube-on</string>
+    <string name="youtube_settings_continue_watching">Megjelenítés a főoldalon</string>
+    <string name="youtube_settings_continue_watching_description">A OneTube-ban elkezdett videók megjelenítése egy „Folytatás” sorban a főoldalon.</string>
+    <string name="youtube_continue_unavailable">Ez a videó most nem folytatható.</string>
+    <string name="live_tv_ui_save_recordings_to_smb">Felvételek mentése SMB-re</string>
+    <string name="live_tv_ui_smb_mirror_description">Az új felvételek másolása egy hálózati megosztásra készítés közben.</string>
+    <string name="live_tv_ui_smb_share">SMB-megosztás</string>
+    <string name="live_tv_ui_smb_not_set">Nincs beállítva</string>
+    <string name="live_tv_ui_smb_host">Kiszolgáló</string>
+    <string name="live_tv_ui_smb_port">Port</string>
+    <string name="live_tv_ui_smb_share_name">Megosztás</string>
+    <string name="live_tv_ui_smb_folder">Mappa (nem kötelező)</string>
+    <string name="live_tv_ui_smb_domain">Tartomány (nem kötelező)</string>
+    <string name="live_tv_ui_smb_username">Felhasználónév</string>
+    <string name="live_tv_ui_smb_password">Jelszó</string>
+    <string name="live_tv_ui_smb_save">Mentés</string>
+    <string name="live_tv_ui_smb_test">Tesztelés</string>
+    <string name="live_tv_ui_smb_testing">Tesztelés...</string>
+    <string name="live_tv_ui_smb_clear">Törlés</string>
+    <string name="live_tv_ui_smb_connected">Csatlakoztatva.</string>
+    <string name="live_tv_ui_smb_connected_free">Csatlakoztatva. %1$s szabad.</string>
+    <string name="live_tv_ui_smb_connection_failed">Nem sikerült csatlakozni.</string>
+    <string name="live_tv_ui_smb_no_share">Az SMB-felvétel be van kapcsolva, de nincs megosztás beállítva; a(z) „%1$s” mentése erre az eszközre történik</string>
+    <string name="live_tv_ui_smb_upload_failed">Az SMB-feltöltés sikertelen; a felvétel továbbra is ezen az eszközön van</string>
 </resources>

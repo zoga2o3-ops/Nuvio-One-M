@@ -4020,4 +4020,29 @@
             <item quantity="many">%d عنوانًا</item>
             <item quantity="other">%d عنوان</item>
         </plurals>
+
+    <string name="youtube_continue_watching">متابعة المشاهدة على YouTube</string>
+    <string name="youtube_settings_continue_watching">إظهار في الرئيسية</string>
+    <string name="youtube_settings_continue_watching_description">أضف مقاطع الفيديو التي بدأتها في OneTube إلى صف &quot;متابعة المشاهدة&quot; في الرئيسية.</string>
+    <string name="youtube_continue_unavailable">لا يمكن استئناف هذا الفيديو الآن.</string>
+    <string name="live_tv_ui_save_recordings_to_smb">حفظ التسجيلات على SMB</string>
+    <string name="live_tv_ui_smb_mirror_description">انسخ التسجيلات الجديدة إلى مشاركة شبكية أثناء إنشائها.</string>
+    <string name="live_tv_ui_smb_share">مشاركة SMB</string>
+    <string name="live_tv_ui_smb_not_set">غير محدد</string>
+    <string name="live_tv_ui_smb_host">الخادم</string>
+    <string name="live_tv_ui_smb_port">المنفذ</string>
+    <string name="live_tv_ui_smb_share_name">المشاركة</string>
+    <string name="live_tv_ui_smb_folder">المجلد (اختياري)</string>
+    <string name="live_tv_ui_smb_domain">النطاق (اختياري)</string>
+    <string name="live_tv_ui_smb_username">اسم المستخدم</string>
+    <string name="live_tv_ui_smb_password">كلمة المرور</string>
+    <string name="live_tv_ui_smb_save">حفظ</string>
+    <string name="live_tv_ui_smb_test">اختبار</string>
+    <string name="live_tv_ui_smb_testing">جارٍ الاختبار...</string>
+    <string name="live_tv_ui_smb_clear">مسح</string>
+    <string name="live_tv_ui_smb_connected">تم الاتصال.</string>
+    <string name="live_tv_ui_smb_connected_free">تم الاتصال. %1$s متاحة.</string>
+    <string name="live_tv_ui_smb_connection_failed">تعذّر الاتصال.</string>
+    <string name="live_tv_ui_smb_no_share">تسجيل SMB مفعّل، لكن لم يتم تعيين مشاركة؛ سيتم حفظ &quot;%1$s&quot; على هذا الجهاز</string>
+    <string name="live_tv_ui_smb_upload_failed">فشل رفع SMB؛ لا يزال التسجيل على هذا الجهاز</string>
 </resources>

@@ -165,6 +165,7 @@ class LiveTvPreferences(
         val vodMergeDuplicates = booleanPreferencesKey("vod_merge_duplicates")
         val vodDefaultSort = stringPreferencesKey("vod_default_sort")
         val recordingStorage = stringPreferencesKey("recording_storage")
+    val recordingSmbEnabled = booleanPreferencesKey("recording_smb_enabled")
         val recordingSpaceRule = stringPreferencesKey("recording_space_rule")
         val recordPre = intPreferencesKey("record_pre_minutes")
         val recordPost = intPreferencesKey("record_post_minutes")
@@ -423,6 +424,7 @@ class LiveTvPreferences(
             vodMergeDuplicates = p[Keys.vodMergeDuplicates] ?: d.vodMergeDuplicates,
             vodDefaultSort = p[Keys.vodDefaultSort] ?: d.vodDefaultSort,
             recordingStorage = p[Keys.recordingStorage] ?: d.recordingStorage,
+            recordingSmbEnabled = p[Keys.recordingSmbEnabled] ?: d.recordingSmbEnabled,
             recordingSpaceRule = p[Keys.recordingSpaceRule] ?: d.recordingSpaceRule,
             recordPreMinutes = p[Keys.recordPre] ?: d.recordPreMinutes,
             recordPostMinutes = p[Keys.recordPost] ?: d.recordPostMinutes,
@@ -711,6 +713,7 @@ class LiveTvPreferences(
         p[Keys.vodMergeDuplicates] = s.vodMergeDuplicates
         p[Keys.vodDefaultSort] = s.vodDefaultSort
         p[Keys.recordingStorage] = s.recordingStorage
+        p[Keys.recordingSmbEnabled] = s.recordingSmbEnabled
         p[Keys.recordingSpaceRule] = s.recordingSpaceRule
         p[Keys.recordPre] = s.recordPreMinutes
         p[Keys.recordPost] = s.recordPostMinutes
@@ -1534,7 +1537,7 @@ class LiveTvPreferences(
     private companion object {
         const val EPG_SEP = "\u0001"
         /** Per-TV keys that Google Drive sync never copies. */
-        private val SYNC_EXCLUDED_BASE = setOf("last_channel", "previous_channel", "last_group", "recent", "on_demand_imports", "channel_quality", "developer_tools", "recording_storage")
+        private val SYNC_EXCLUDED_BASE = setOf("last_channel", "previous_channel", "last_group", "recent", "on_demand_imports", "channel_quality", "developer_tools", "recording_storage", "recording_smb_enabled")
         private val PROFILE_SUFFIX = Regex("""_p\d+$""")
         /** Also matches each profile's own copy ("recent_p2"). */
         val SYNC_EXCLUDED = object : AbstractSet<String>() {

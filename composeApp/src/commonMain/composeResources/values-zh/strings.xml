@@ -2537,4 +2537,29 @@
     <string name="subtitle_shadow_opacity">阴影不透明度</string>
     <string name="subtitle_shadow_size">阴影大小</string>
     <string name="subtitle_reset_appearance">重置外观</string>
+
+    <string name="youtube_continue_watching">在 YouTube 上继续观看</string>
+    <string name="youtube_settings_continue_watching">在首页显示</string>
+    <string name="youtube_settings_continue_watching_description">将你在 OneTube 中开始观看的视频添加到首页的“继续观看”行。</string>
+    <string name="youtube_continue_unavailable">目前无法继续播放此视频。</string>
+    <string name="live_tv_ui_save_recordings_to_smb">将录制保存到 SMB</string>
+    <string name="live_tv_ui_smb_mirror_description">录制时同步将新录制内容镜像到网络共享。</string>
+    <string name="live_tv_ui_smb_share">SMB 共享</string>
+    <string name="live_tv_ui_smb_not_set">未设置</string>
+    <string name="live_tv_ui_smb_host">服务器</string>
+    <string name="live_tv_ui_smb_port">端口</string>
+    <string name="live_tv_ui_smb_share_name">共享</string>
+    <string name="live_tv_ui_smb_folder">文件夹（可选）</string>
+    <string name="live_tv_ui_smb_domain">域（可选）</string>
+    <string name="live_tv_ui_smb_username">用户名</string>
+    <string name="live_tv_ui_smb_password">密码</string>
+    <string name="live_tv_ui_smb_save">保存</string>
+    <string name="live_tv_ui_smb_test">测试</string>
+    <string name="live_tv_ui_smb_testing">正在测试...</string>
+    <string name="live_tv_ui_smb_clear">清除</string>
+    <string name="live_tv_ui_smb_connected">已连接。</string>
+    <string name="live_tv_ui_smb_connected_free">已连接。可用空间 %1$s。</string>
+    <string name="live_tv_ui_smb_connection_failed">无法连接。</string>
+    <string name="live_tv_ui_smb_no_share">SMB 录制已开启，但未设置共享；正在将“%1$s”保存到此设备</string>
+    <string name="live_tv_ui_smb_upload_failed">SMB 上传失败；录制内容仍保存在此设备上</string>
 </resources>

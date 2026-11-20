@@ -3984,4 +3984,29 @@
     <string name="live_tv_ui_show_next">Mostrar o seguinte</string>
     <string name="live_tv_ui_compact_cards">Cartões compactos</string>
     <string name="live_tv_ui_continue_watching_on_home">Continuar no Início</string>
+
+    <string name="youtube_continue_watching">Continuar a ver no YouTube</string>
+    <string name="youtube_settings_continue_watching">Mostrar no ecrã inicial</string>
+    <string name="youtube_settings_continue_watching_description">Adiciona os vídeos iniciados no OneTube a uma linha &quot;Continuar a ver&quot; no ecrã inicial.</string>
+    <string name="youtube_continue_unavailable">Não é possível retomar este vídeo agora.</string>
+    <string name="live_tv_ui_save_recordings_to_smb">Guardar gravações em SMB</string>
+    <string name="live_tv_ui_smb_mirror_description">Copiar as novas gravações para uma partilha de rede à medida que são criadas.</string>
+    <string name="live_tv_ui_smb_share">Partilha SMB</string>
+    <string name="live_tv_ui_smb_not_set">Não definida</string>
+    <string name="live_tv_ui_smb_host">Servidor</string>
+    <string name="live_tv_ui_smb_port">Porta</string>
+    <string name="live_tv_ui_smb_share_name">Partilha</string>
+    <string name="live_tv_ui_smb_folder">Pasta (opcional)</string>
+    <string name="live_tv_ui_smb_domain">Domínio (opcional)</string>
+    <string name="live_tv_ui_smb_username">Nome de utilizador</string>
+    <string name="live_tv_ui_smb_password">Palavra-passe</string>
+    <string name="live_tv_ui_smb_save">Guardar</string>
+    <string name="live_tv_ui_smb_test">Testar</string>
+    <string name="live_tv_ui_smb_testing">A testar...</string>
+    <string name="live_tv_ui_smb_clear">Limpar</string>
+    <string name="live_tv_ui_smb_connected">Ligado.</string>
+    <string name="live_tv_ui_smb_connected_free">Ligado. %1$s livres.</string>
+    <string name="live_tv_ui_smb_connection_failed">Não foi possível ligar.</string>
+    <string name="live_tv_ui_smb_no_share">A gravação SMB está ativa, mas não há partilha definida; &quot;%1$s&quot; está a ser guardado neste dispositivo</string>
+    <string name="live_tv_ui_smb_upload_failed">Falha no envio para SMB; a gravação continua neste dispositivo</string>
 </resources>

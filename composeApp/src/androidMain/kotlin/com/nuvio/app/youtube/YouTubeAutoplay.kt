@@ -88,7 +88,10 @@ fun YouTubePlayerOverlay(
     fun start() {
         if (started) return
         started = true
-        vm.playNext(videoId, { p -> playNext(YouTubePlayRequest(p.url, p.title, p.poster, p.videoId, 0L)) }, {})
+        vm.playNext(videoId, { p ->
+            YouTubeProgress.remember(context, p.videoId, p.title, p.poster)
+            playNext(YouTubePlayRequest(p.url, p.title, p.poster, p.videoId, 0L))
+        }, {})
     }
 
     // Pick the next video early enough that it's ready, and its stream is looked up.

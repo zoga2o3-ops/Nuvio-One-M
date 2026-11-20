@@ -41,6 +41,7 @@ object YouTubeSettings {
     private const val KEY_CODEC = "codec_preference"
     private const val KEY_FEED_PREVIEW = "feed_preview"
     private const val KEY_CONTENT_REGION = "content_region"
+    private const val KEY_CONTINUE_WATCHING_HOME = "continue_watching_home"
 
     /** SponsorBlock's segment types, in the order they're listed. */
     val sponsorCategories: List<Pair<String, StringResource>> = listOf(
@@ -190,6 +191,11 @@ object YouTubeSettings {
     fun setAutoplayNext(context: Context, on: Boolean) {
         prefs(context).edit().putBoolean(KEY_AUTOPLAY, on).apply()
     }
+
+    /** Show videos started on the YouTube page in a Continue Watching row on Home. */
+    fun continueWatchingOnHome(context: Context) = prefs(context).getBoolean(KEY_CONTINUE_WATCHING_HOME, false)
+    fun setContinueWatchingOnHome(context: Context, on: Boolean) =
+        prefs(context).edit().putBoolean(KEY_CONTINUE_WATCHING_HOME, on).apply()
 
     /** Which video format to prefer when YouTube offers the same size in several. */
     val codecChoices = listOf("auto", "avc", "vp9", "av1")

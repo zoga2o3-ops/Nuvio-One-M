@@ -3970,4 +3970,29 @@
             <item quantity="one">%d title</item>
             <item quantity="other">%d titles</item>
         </plurals>
+
+    <string name="youtube_continue_watching">YouTube پر دیکھنا جاری رکھیں</string>
+    <string name="youtube_settings_continue_watching">ہوم پر دکھائیں</string>
+    <string name="youtube_settings_continue_watching_description">OneTube میں شروع کی گئی ویڈیوز کو ہوم پر &quot;دیکھنا جاری رکھیں&quot; قطار میں شامل کریں۔</string>
+    <string name="youtube_continue_unavailable">یہ ویڈیو ابھی جاری نہیں کی جا سکتی۔</string>
+    <string name="live_tv_ui_save_recordings_to_smb">ریکارڈنگز SMB پر محفوظ کریں</string>
+    <string name="live_tv_ui_smb_mirror_description">نئی ریکارڈنگز بنتے وقت ہی انہیں نیٹ ورک شیئر پر کاپی کریں۔</string>
+    <string name="live_tv_ui_smb_share">SMB شیئر</string>
+    <string name="live_tv_ui_smb_not_set">مقرر نہیں</string>
+    <string name="live_tv_ui_smb_host">سرور</string>
+    <string name="live_tv_ui_smb_port">پورٹ</string>
+    <string name="live_tv_ui_smb_share_name">شیئر</string>
+    <string name="live_tv_ui_smb_folder">فولڈر (اختیاری)</string>
+    <string name="live_tv_ui_smb_domain">ڈومین (اختیاری)</string>
+    <string name="live_tv_ui_smb_username">صارف نام</string>
+    <string name="live_tv_ui_smb_password">پاس ورڈ</string>
+    <string name="live_tv_ui_smb_save">محفوظ کریں</string>
+    <string name="live_tv_ui_smb_test">جانچیں</string>
+    <string name="live_tv_ui_smb_testing">جانچ جاری ہے...</string>
+    <string name="live_tv_ui_smb_clear">صاف کریں</string>
+    <string name="live_tv_ui_smb_connected">منسلک۔</string>
+    <string name="live_tv_ui_smb_connected_free">منسلک۔ %1$s خالی ہے۔</string>
+    <string name="live_tv_ui_smb_connection_failed">منسلک نہیں ہو سکا۔</string>
+    <string name="live_tv_ui_smb_no_share">SMB ریکارڈنگ آن ہے، لیکن کوئی شیئر مقرر نہیں؛ &quot;%1$s&quot; اس ڈیوائس پر محفوظ کیا جا رہا ہے</string>
+    <string name="live_tv_ui_smb_upload_failed">SMB اپ لوڈ ناکام ہو گیا؛ ریکارڈنگ اب بھی اس ڈیوائس پر ہے</string>
 </resources>

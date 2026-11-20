@@ -3978,4 +3978,29 @@ Du bruker denne funksjonen helt på eget ansvar. P2P kan deaktiveres når som he
             <item quantity="one">%d tittel</item>
             <item quantity="other">%d titler</item>
         </plurals>
+
+    <string name="youtube_continue_watching">Fortsett å se på YouTube</string>
+    <string name="youtube_settings_continue_watching">Vis på Hjem</string>
+    <string name="youtube_settings_continue_watching_description">Legg til videoer du har startet i OneTube i en «Fortsett å se»-rad på Hjem.</string>
+    <string name="youtube_continue_unavailable">Denne videoen kan ikke gjenopptas akkurat nå.</string>
+    <string name="live_tv_ui_save_recordings_to_smb">Lagre opptak til SMB</string>
+    <string name="live_tv_ui_smb_mirror_description">Kopier nye opptak til en nettverksdeling mens de lages.</string>
+    <string name="live_tv_ui_smb_share">SMB-deling</string>
+    <string name="live_tv_ui_smb_not_set">Ikke angitt</string>
+    <string name="live_tv_ui_smb_host">Server</string>
+    <string name="live_tv_ui_smb_port">Port</string>
+    <string name="live_tv_ui_smb_share_name">Deling</string>
+    <string name="live_tv_ui_smb_folder">Mappe (valgfritt)</string>
+    <string name="live_tv_ui_smb_domain">Domene (valgfritt)</string>
+    <string name="live_tv_ui_smb_username">Brukernavn</string>
+    <string name="live_tv_ui_smb_password">Passord</string>
+    <string name="live_tv_ui_smb_save">Lagre</string>
+    <string name="live_tv_ui_smb_test">Test</string>
+    <string name="live_tv_ui_smb_testing">Tester...</string>
+    <string name="live_tv_ui_smb_clear">Fjern</string>
+    <string name="live_tv_ui_smb_connected">Tilkoblet.</string>
+    <string name="live_tv_ui_smb_connected_free">Tilkoblet. %1$s ledig.</string>
+    <string name="live_tv_ui_smb_connection_failed">Kunne ikke koble til.</string>
+    <string name="live_tv_ui_smb_no_share">SMB-opptak er på, men ingen deling er angitt; «%1$s» lagres på denne enheten</string>
+    <string name="live_tv_ui_smb_upload_failed">SMB-opplasting mislyktes; opptaket ligger fortsatt på denne enheten</string>
 </resources>

@@ -4015,4 +4015,29 @@
             <item quantity="one">%d titel</item>
             <item quantity="other">%d titels</item>
         </plurals>
+
+    <string name="youtube_continue_watching">Verder kijken op YouTube</string>
+    <string name="youtube_settings_continue_watching">Tonen op Start</string>
+    <string name="youtube_settings_continue_watching_description">Voeg video's die je in OneTube bent begonnen toe aan een rij 'Verder kijken' op Start.</string>
+    <string name="youtube_continue_unavailable">Deze video kan nu niet worden hervat.</string>
+    <string name="live_tv_ui_save_recordings_to_smb">Opnamen opslaan op SMB</string>
+    <string name="live_tv_ui_smb_mirror_description">Kopieer nieuwe opnamen naar een netwerkshare terwijl ze worden gemaakt.</string>
+    <string name="live_tv_ui_smb_share">SMB-share</string>
+    <string name="live_tv_ui_smb_not_set">Niet ingesteld</string>
+    <string name="live_tv_ui_smb_host">Server</string>
+    <string name="live_tv_ui_smb_port">Poort</string>
+    <string name="live_tv_ui_smb_share_name">Share</string>
+    <string name="live_tv_ui_smb_folder">Map (optioneel)</string>
+    <string name="live_tv_ui_smb_domain">Domein (optioneel)</string>
+    <string name="live_tv_ui_smb_username">Gebruikersnaam</string>
+    <string name="live_tv_ui_smb_password">Wachtwoord</string>
+    <string name="live_tv_ui_smb_save">Opslaan</string>
+    <string name="live_tv_ui_smb_test">Testen</string>
+    <string name="live_tv_ui_smb_testing">Testen...</string>
+    <string name="live_tv_ui_smb_clear">Wissen</string>
+    <string name="live_tv_ui_smb_connected">Verbonden.</string>
+    <string name="live_tv_ui_smb_connected_free">Verbonden. %1$s vrij.</string>
+    <string name="live_tv_ui_smb_connection_failed">Kan niet verbinden.</string>
+    <string name="live_tv_ui_smb_no_share">SMB-opnemen staat aan, maar er is geen share ingesteld; '%1$s' wordt op dit apparaat opgeslagen</string>
+    <string name="live_tv_ui_smb_upload_failed">SMB-upload mislukt; de opname staat nog op dit apparaat</string>
 </resources>

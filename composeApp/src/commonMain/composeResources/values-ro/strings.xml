@@ -3970,4 +3970,29 @@
             <item quantity="one">%d titlu</item>
             <item quantity="other">%d titluri</item>
         </plurals>
+
+    <string name="youtube_continue_watching">Continuă vizionarea pe YouTube</string>
+    <string name="youtube_settings_continue_watching">Afișează pe Acasă</string>
+    <string name="youtube_settings_continue_watching_description">Adaugă videoclipurile începute în OneTube într-un rând „Continuă vizionarea” pe Acasă.</string>
+    <string name="youtube_continue_unavailable">Acest videoclip nu poate fi reluat acum.</string>
+    <string name="live_tv_ui_save_recordings_to_smb">Salvează înregistrările pe SMB</string>
+    <string name="live_tv_ui_smb_mirror_description">Copiază înregistrările noi pe un partaj de rețea în timp ce sunt create.</string>
+    <string name="live_tv_ui_smb_share">Partaj SMB</string>
+    <string name="live_tv_ui_smb_not_set">Nesetat</string>
+    <string name="live_tv_ui_smb_host">Server</string>
+    <string name="live_tv_ui_smb_port">Port</string>
+    <string name="live_tv_ui_smb_share_name">Partaj</string>
+    <string name="live_tv_ui_smb_folder">Folder (opțional)</string>
+    <string name="live_tv_ui_smb_domain">Domeniu (opțional)</string>
+    <string name="live_tv_ui_smb_username">Nume de utilizator</string>
+    <string name="live_tv_ui_smb_password">Parolă</string>
+    <string name="live_tv_ui_smb_save">Salvează</string>
+    <string name="live_tv_ui_smb_test">Testează</string>
+    <string name="live_tv_ui_smb_testing">Se testează...</string>
+    <string name="live_tv_ui_smb_clear">Șterge</string>
+    <string name="live_tv_ui_smb_connected">Conectat.</string>
+    <string name="live_tv_ui_smb_connected_free">Conectat. %1$s liberi.</string>
+    <string name="live_tv_ui_smb_connection_failed">Conectarea a eșuat.</string>
+    <string name="live_tv_ui_smb_no_share">Înregistrarea pe SMB este activă, dar nu este setat niciun partaj; „%1$s” este salvat pe acest dispozitiv</string>
+    <string name="live_tv_ui_smb_upload_failed">Încărcarea pe SMB a eșuat; înregistrarea este încă pe acest dispozitiv</string>
 </resources>

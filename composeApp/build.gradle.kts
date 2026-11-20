@@ -580,6 +580,8 @@ kotlin {
                 implementation("com.google.zxing:core:3.5.3")
                 implementation("org.nanohttpd:nanohttpd:2.3.1")
                 implementation("androidx.security:security-crypto:1.1.0-alpha06")
+                implementation("eu.agno3.jcifs:jcifs-ng:2.1.10")
+                implementation("org.slf4j:slf4j-android:1.7.30")
                 // 1Tube: SmartTube's YouTube engine (MediaServiceCore), Android only
                 implementation(project(":mediaservicecore:youtubeapi"))
                 implementation(project(":mediaservicecore:mediaserviceinterfaces"))
