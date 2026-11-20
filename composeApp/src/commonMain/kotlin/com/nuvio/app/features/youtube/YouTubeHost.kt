@@ -12,6 +12,15 @@ data class YouTubePlayRequest(
     val startPositionMs: Long = 0L,
 )
 
+/** A video started in OneTube, shown in the YouTube Continue Watching row on Home. */
+data class YouTubeContinueWatchingItem(
+    val videoId: String,
+    val title: String,
+    val poster: String?,
+    val positionMs: Long,
+    val durationMs: Long,
+)
+
 /**
  * The YouTube page lives in Android-only code (it needs SmartTube's engine). The Android app sets
  * [screen] at start-up; on other platforms it stays empty and the tab is not shown.
@@ -63,6 +72,12 @@ object YouTubeHost {
 
     /** Where a YouTube video has got to, so it keeps its watched bar and, when signed in, shows in your YouTube history. */
     var recordProgress: ((contentId: String, positionMs: Long, durationMs: Long) -> Unit)? = null
+
+    /** The optional YouTube Continue Watching row on Home. Null on builds without OneTube. */
+    var continueWatchingRow: (@Composable () -> Unit)? = null
+
+    /** Resolves and opens a video picked from the YouTube Continue Watching row. */
+    var openContinuation: ((YouTubeContinueWatchingItem) -> Unit)? = null
 
     /** Leaves the player, back to the page underneath. */
     var closePlayer: (() -> Unit)? = null

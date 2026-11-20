@@ -121,6 +121,7 @@ fun YouTubeScreen(modifier: Modifier = Modifier, onPlay: (YouTubePlayRequest) ->
 
     fun play(item: YtItem, from: List<YtItem>) {
         vm.activate(item, from) { p ->
+            YouTubeProgress.remember(context, p.videoId, p.title, p.poster)
             onPlay(YouTubePlayRequest(p.url, p.title, p.poster, p.videoId, p.startPositionMs))
         }
     }

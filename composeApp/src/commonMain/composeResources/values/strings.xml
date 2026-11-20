@@ -3042,6 +3042,10 @@
 <string name="youtube_settings_linked_elsewhere">Linked to Nuvio One · %1$s as %2$s. Sign in on this device to use it.</string>
 <string name="youtube_settings_autoplay">Autoplay next video</string>
 <string name="youtube_settings_autoplay_description">When a video ends, play the next one</string>
+<string name="youtube_continue_watching">Continue watching on YouTube</string>
+<string name="youtube_settings_continue_watching">Show on Home</string>
+<string name="youtube_settings_continue_watching_description">Add videos you started in OneTube to a Continue Watching row on Home.</string>
+<string name="youtube_continue_unavailable">This video can't be resumed right now.</string>
 <string name="youtube_settings_start_at">Start at</string>
 <string name="youtube_settings_preferred_codec">Preferred codec</string>
 <string name="youtube_settings_remember_tab">Open on the last tab</string>

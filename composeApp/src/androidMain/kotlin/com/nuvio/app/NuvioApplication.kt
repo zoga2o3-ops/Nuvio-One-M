@@ -101,6 +101,12 @@ class NuvioApplication : Application(), SingletonImageLoader.Factory {
         com.nuvio.app.features.youtube.YouTubeHost.screen = { modifier, onPlay ->
             com.nuvio.app.youtube.YouTubeScreen(modifier, onPlay)
         }
+        // Full builds add OneTube's Continue Watching row; the extractor isn't in Play Store builds.
+        runCatching {
+            Class.forName("com.nuvio.app.youtube.YouTubeContinueWatchingFull")
+                .getMethod("install", android.content.Context::class.java)
+                .invoke(null, this)
+        }
         // OneTube's seek previews come from YouTube's own sprite sheets, not a second decoder.
         com.nuvio.app.features.player.seekpreview.SeekPreviewExtraSource.forVideo = { videoId ->
             com.nuvio.app.youtube.YouTubeStoryboards.getOrFetch(videoId)?.let { storyboard ->

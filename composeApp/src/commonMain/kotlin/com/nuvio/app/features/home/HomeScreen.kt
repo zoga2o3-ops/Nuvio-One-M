@@ -1267,6 +1267,11 @@ private fun LazyListScope.homeContinueWatchingSections(
     onItemLongPress: ((ContinueWatchingItem) -> Unit)?,
     disintegrationRequest: DisintegrationRequest<String>?,
 ) {
+    // OneTube videos get their own row, independent of the Nuvio Continue Watching switch.
+    com.nuvio.app.features.youtube.YouTubeHost.continueWatchingRow?.let { row ->
+        item(key = "youtube_continue_watching") { row() }
+    }
+
     if (!preferences.isVisible) return
 
     if (continueWatchingItems.isNotEmpty()) {
