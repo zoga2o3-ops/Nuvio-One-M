@@ -11,7 +11,7 @@
 [![License](https://img.shields.io/badge/license-GPL--3.0-blue?style=for-the-badge)](LICENSE)
 ![Android](https://img.shields.io/badge/Android-7.0%2B-3DDC84?style=for-the-badge&logo=android&logoColor=white)
 
-[What is it](#what-is-it) · [What you get](#what-you-get) · [Install](#install) · [Getting started](#getting-started) · [FAQ](#faq) · [Credits](#credits)
+[What is it](#what-is-it) · [What you get](#what-you-get) · [Install](#install) · [Getting started](#getting-started) · [Credits](#credits)
 
 </div>
 
@@ -126,56 +126,6 @@ Download the APK for your phone from the [Releases](https://github.com/zoga2o3-o
 2. Go to **Live TV → Sources** and add an M3U link, Xtream login or Stalker portal, plus a guide if you have one.
 3. The OneTube tab works straight away. To cast, press the Cast button in the player.
 4. To use the VPN, open **Profile → VPN**, import a WireGuard `.conf` file, pick the profile, and choose a protection mode.
-
-## FAQ
-
-<details>
-<summary>Does it come with channels, movies or videos?</summary>
-
-No. It plays what you add yourself: your own playlists, guides, Xtream logins and addons, plus YouTube.
-</details>
-
-<details>
-<summary>Will it replace my Nuvio app?</summary>
-
-No. It has its own package name and installs next to it.
-</details>
-
-<details>
-<summary>What does Google Drive sync store?</summary>
-
-Your Live TV setup, in a file in your own Google Drive.
-</details>
-
-<details>
-<summary>Do VPN profiles sync to my other devices?</summary>
-
-No. They are encrypted on this device and never leave it. Import the profile again on each device.
-</details>
-
-<details>
-<summary>Can I record Live TV to an SMB share?</summary>
-
-Yes. Open **Live TV → Settings → Recordings**, turn on **Save recordings to SMB**, and enter the share details. The app mirrors recordings while they are made and can play them back from the share.
-</details>
-
-<details>
-<summary>Does YouTube Continue Watching need a YouTube account?</summary>
-
-No. It uses local progress from videos you start in OneTube. Turn on **Show on Home** in OneTube settings to add the row.
-</details>
-
-<details>
-<summary>Why does the Home spotlight show a live TV channel?</summary>
-
-The spotlight is the Home hero, not the Live TV row. It uses the hero sources selected under **Settings → Layout → Home screen → Hero sources**. If an IPTV/Live TV catalog is enabled there, turn it off. The Live TV row toggle only controls the channel row on Home.
-</details>
-
-<details>
-<summary>Does the VPN protect other apps?</summary>
-
-The two playback modes protect the player's HTTP and HTTPS traffic. Full app mode protects traffic from Nuvio itself; other apps are unaffected.
-</details>
 
 ## Credits
 
