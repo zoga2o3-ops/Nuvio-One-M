@@ -31,7 +31,7 @@ Nuvio One M is a phone and tablet app built on **Nuvio 1.1.0**, with five parts 
 4. **OneTube:** a YouTube section of its own, played in the same player.
 5. **VPN:** built-in WireGuard protection for playback, with profiles stored on this device.
 
-It is the phone companion to the **[Nuvio + IPTV + 1Tube TV app](https://github.com/zoga2o3-ops/NuvioPlusIPTV-1T)**, and the two share your Live TV setup through Google Drive. It has its own package name, so it installs next to the official Nuvio app.
+It is the phone companion to the **[Nuvio One](https://github.com/zoga2o3-ops/Nuvio-One)**, and the two share your Live TV setup through Google Drive. It has its own package name, so it installs next to the official Nuvio app.
 
 ## What you get
 
