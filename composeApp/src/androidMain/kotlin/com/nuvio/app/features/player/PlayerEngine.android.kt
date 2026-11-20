@@ -184,7 +184,9 @@ actual fun PlatformPlayerSurface(
         } catch (cancellation: kotlinx.coroutines.CancellationException) {
             throw cancellation
         } catch (error: Throwable) {
-            vpnError = error.message ?: "VPN protection is not ready. Playback was not started."
+            val message = error.message ?: "VPN protection is not ready. Playback was not started."
+            vpnError = message
+            onError(message)
         }
     }
     if (!vpnReady) {
