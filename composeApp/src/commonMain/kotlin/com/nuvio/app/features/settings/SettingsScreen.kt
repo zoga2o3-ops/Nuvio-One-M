@@ -118,6 +118,7 @@ private fun SettingsPage.isEnabledByPolicy(): Boolean =
         SettingsPage.SupportersContributors -> AppFeaturePolicy.supportersContributorsPageEnabled
         SettingsPage.PlaybackP2p -> P2pSettingsRepository.isVisible
         SettingsPage.PlaybackBuffer -> !isIos
+        SettingsPage.Vpn -> com.nuvio.app.features.vpn.VpnHost.available
         else -> true
     }
 
@@ -692,6 +693,7 @@ private fun MobileSettingsScreen(
                 }
                 SettingsPage.YouTube -> item { com.nuvio.app.features.youtube.YouTubeHost.settingsContent?.invoke() }
                 SettingsPage.LiveTv -> item { com.nuvio.app.features.livetv.LiveTvHost.settingsContent?.invoke() }
+                SettingsPage.Vpn -> item { com.nuvio.app.features.vpn.VpnHost.settingsContent?.invoke() }
                 SettingsPage.Account -> accountSettingsContent(
                     isTablet = false,
                 )
@@ -1143,6 +1145,7 @@ private fun TabletSettingsScreen(
                     }
                     SettingsPage.YouTube -> item { com.nuvio.app.features.youtube.YouTubeHost.settingsContent?.invoke() }
                 SettingsPage.LiveTv -> item { com.nuvio.app.features.livetv.LiveTvHost.settingsContent?.invoke() }
+                    SettingsPage.Vpn -> item { com.nuvio.app.features.vpn.VpnHost.settingsContent?.invoke() }
                     SettingsPage.Account -> accountSettingsContent(
                         isTablet = true,
                     )

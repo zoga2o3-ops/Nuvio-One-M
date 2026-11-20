@@ -543,6 +543,7 @@ kotlin {
             dependencies {
                 implementation(libs.compose.uiToolingPreview)
                 implementation(libs.androidx.appcompat)
+                implementation(project(":vpn-android"))
                 // Google Cast: send what's playing to a Chromecast, Google TV or Android TV.
                 implementation("com.google.android.gms:play-services-cast-framework:21.5.0")
                 implementation("androidx.mediarouter:mediarouter:1.7.0")

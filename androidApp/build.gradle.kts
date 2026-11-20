@@ -202,6 +202,7 @@ sentry {
 
 dependencies {
     implementation(project(":composeApp"))
+    implementation(project(":vpn-android"))
     implementation(libs.androidx.appcompat)
     implementation(libs.compose.runtime)
     coreLibraryDesugaring(libs.desugar.jdk.libs)

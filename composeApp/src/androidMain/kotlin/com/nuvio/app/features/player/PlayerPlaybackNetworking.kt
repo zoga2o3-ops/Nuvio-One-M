@@ -99,7 +99,7 @@ internal object PlayerPlaybackNetworking {
                 .build()
         } ?: baseClient
 
-        return OkHttpDataSource.Factory(client).apply {
+        return OkHttpDataSource.Factory(com.nuvio.vpn.android.VpnHttpClient.wrap(client)).apply {
             setDefaultRequestProperties(requestHeaders)
             if (requestHeaders.headerValue("User-Agent") == null) {
                 setUserAgent(DEFAULT_USER_AGENT)

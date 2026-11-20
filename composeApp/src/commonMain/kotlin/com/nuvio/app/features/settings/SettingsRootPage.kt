@@ -126,6 +126,15 @@ internal fun LazyListScope.settingsRootContent(
                                 onPageClick = onPageClick,
                             )
                         }
+                        if (com.nuvio.app.features.vpn.VpnHost.available) {
+                            SettingsGroupDivider(isTablet = isTablet)
+                            SettingsPageRow(
+                                page = SettingsPage.Vpn,
+                                description = Res.string.compose_settings_root_vpn_description,
+                                isTablet = isTablet,
+                                onPageClick = onPageClick,
+                            )
+                        }
                     }
                     SettingsCategory.Services -> {
                         SettingsPageRow(

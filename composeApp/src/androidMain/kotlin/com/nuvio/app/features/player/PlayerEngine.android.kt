@@ -2,6 +2,9 @@ package com.nuvio.app.features.player
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Text
 
 import android.app.Activity
 import android.content.Context
@@ -23,18 +26,25 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.key
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.IntSize
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.Lifecycle
 import com.nuvio.app.features.streams.redactedForLogs
+import com.nuvio.app.features.player.vpn.awaitNativeVpnProxy
+import com.nuvio.vpn.android.VpnPlaybackProtection
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withTimeoutOrNull
 import nuvio.composeapp.generated.resources.*
@@ -156,6 +166,44 @@ actual fun PlatformPlayerSurface(
     onSnapshot: (PlayerPlaybackSnapshot) -> Unit,
     onError: (String?) -> Unit,
 ) {
+    var vpnRevision by remember { mutableStateOf(0) }
+    DisposableEffect(Unit) {
+        val observer = VpnPlaybackProtection.observeSettings { vpnRevision++ }
+        onDispose { observer.close() }
+    }
+    key(vpnRevision) {
+    val vpnContext = LocalContext.current
+    var vpnReady by remember(sourceUrl) { mutableStateOf(false) }
+    var vpnError by remember(sourceUrl) { mutableStateOf<String?>(null) }
+    LaunchedEffect(sourceUrl) {
+        vpnReady = false
+        vpnError = null
+        try {
+            com.nuvio.app.features.player.vpn.awaitVpnForPlayback(vpnContext, sourceUrl)
+            vpnReady = true
+        } catch (cancellation: kotlinx.coroutines.CancellationException) {
+            throw cancellation
+        } catch (error: Throwable) {
+            vpnError = error.message ?: "VPN protection is not ready. Playback was not started."
+        }
+    }
+    if (!vpnReady) {
+        Box(modifier = modifier, contentAlignment = Alignment.Center) {
+            val message = vpnError
+            if (message == null) {
+                CircularProgressIndicator(color = Color.White)
+            } else {
+                Text(
+                    text = message,
+                    color = Color.White,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.padding(24.dp),
+                )
+            }
+        }
+        return
+    }
+
     val playerSettings = remember {
         PlayerSettingsRepository.ensureLoaded()
         PlayerSettingsRepository.uiState.value
@@ -232,6 +280,7 @@ actual fun PlatformPlayerSurface(
                 onError = surfaceOnError,
             )
         }
+    }
     }
 }
 
@@ -1563,6 +1612,10 @@ private fun LibmpvPlayerSurface(
         preferredSubtitleLanguage = preferredSubtitleLanguage,
     )
     var playerViewRef by remember { mutableStateOf<NuvioLibmpvView?>(null) }
+    val vpnProxyLease = remember { mutableStateOf<VpnPlaybackProtection.NativeProxy?>(null) }
+    DisposableEffect(Unit) {
+        onDispose { vpnProxyLease.value?.close() }
+    }
     val nowPlayingController = remember(context, playerViewRef) {
         playerViewRef?.let { view ->
             AndroidPlayerNowPlayingController(
@@ -1774,6 +1827,17 @@ private fun LibmpvPlayerSurface(
             "mpv_prepare_begin attempt=${playbackDiagnostics.attempt} " +
                 "source=${diagnosticPlaybackSource(sourceUrl)} audioSource=${!sourceAudioUrl.isNullOrBlank()}",
         )
+        val vpnProxy = try {
+            awaitNativeVpnProxy(context)
+        } catch (cancellation: kotlinx.coroutines.CancellationException) {
+            throw cancellation
+        } catch (error: Throwable) {
+            latestOnError.value(error.message ?: "VPN protection is not ready. Playback was not started.")
+            return@LaunchedEffect
+        }
+        vpnProxyLease.value?.close()
+        vpnProxyLease.value = vpnProxy
+        view.applyHttpProxy(vpnProxy?.address())
         val snapshot = PlayerPlaybackSnapshot()
         latestOnSnapshot.value(snapshot)
         nowPlayingController?.syncPlayback(snapshot)
@@ -2616,6 +2680,14 @@ private class NuvioLibmpvView(
         executeMpv {
             latestAudioTracks = extractLibmpvTracks(context, type = "audio")
             latestSubtitleTracks = extractLibmpvTracks(context, type = "sub")
+        }
+    }
+
+    fun applyHttpProxy(address: String?) {
+        executeMpv {
+            val value = address.orEmpty()
+            runCatching { mpv.setPropertyString("http-proxy", value) }
+            runCatching { mpv.setPropertyString("https-proxy", value) }
         }
     }
 
