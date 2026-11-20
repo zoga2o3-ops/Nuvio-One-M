@@ -180,8 +180,8 @@ fun VpnSettingsContent() {
         }
 
         Text(
-            text = "Profiles are encrypted on this device. Android system backup stays excluded; " +
-                "Setup Sync carries them to your other Nuvio devices.",
+            text = "Profiles are encrypted on this device. They are not synced to other devices; " +
+                "import the configuration again on each device. Android system backup stays excluded.",
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.padding(horizontal = 4.dp, vertical = 8.dp),
