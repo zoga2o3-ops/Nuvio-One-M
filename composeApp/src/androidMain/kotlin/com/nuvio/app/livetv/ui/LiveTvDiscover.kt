@@ -36,6 +36,7 @@ import coil3.compose.AsyncImage
 import com.nuvio.app.features.livetv.LiveTvPlayRequest
 import com.nuvio.app.livetv.LiveTv
 import com.nuvio.app.livetv.model.LiveChannel
+import com.nuvio.app.livetv.model.LiveTvSettings
 import com.nuvio.app.livetv.ondemand.VodItem
 import com.nuvio.app.livetv.ondemand.VodKind
 import kotlinx.coroutines.delay
@@ -234,6 +235,8 @@ private fun String.isPlaceholderTitle(): Boolean =
 fun LiveTvHomeEpisodes(onOpenShow: (imdb: String, name: String, image: String?) -> Unit) {
     val context = LocalContext.current.applicationContext
     val live = remember { LiveTv.get(context) }
+    val settings by live.prefs.settings.collectAsStateWithLifecycle(initialValue = LiveTvSettings())
+    if (!settings.calendarNewEpisodeCards) return
     val state by live.calendar.state.collectAsStateWithLifecycle()
     LaunchedEffect(Unit) { live.calendar.refresh() }
     val list = remember(state.upcoming, state.recent) {

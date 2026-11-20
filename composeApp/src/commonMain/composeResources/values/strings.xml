@@ -3172,6 +3172,8 @@
 <string name="live_tv_ui_on_tv">On TV</string>
 <string name="live_tv_ui_continue_watching_u00b7_on_demand">Continue watching \u00B7 On Demand</string>
 <string name="live_tv_ui_new_episodes">New episodes</string>
+<string name="live_tv_ui_new_episodes_on_home">New episodes on Home</string>
+<string name="live_tv_ui_new_episodes_on_home_description">Show new episodes of your Calendar shows above Continue Watching.</string>
 <string name="live_tv_ui_record_series">Record series</string>
 <string name="live_tv_ui_from_the_start">From the start</string>
 <string name="live_tv_ui_search_logos">Search logos</string>

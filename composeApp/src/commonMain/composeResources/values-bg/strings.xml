@@ -4114,4 +4114,7 @@
 
     <string name="compose_settings_page_vpn">VPN</string>
     <string name="compose_settings_root_vpn_description">WireGuard защита за възпроизвеждане на видео.</string>
+
+    <string name="live_tv_ui_new_episodes_on_home">Нови епизоди в начало</string>
+    <string name="live_tv_ui_new_episodes_on_home_description">Показвай новите епизоди от предаванията в Calendar над Continue Watching.</string>
 </resources>

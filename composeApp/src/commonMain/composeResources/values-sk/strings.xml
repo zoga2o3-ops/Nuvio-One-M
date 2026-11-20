@@ -4077,4 +4077,7 @@
 
     <string name="compose_settings_page_vpn">VPN</string>
     <string name="compose_settings_root_vpn_description">Ochrana WireGuard pre streamované prehrávanie.</string>
+
+    <string name="live_tv_ui_new_episodes_on_home">Nové epizódy na domovskej obrazovke</string>
+    <string name="live_tv_ui_new_episodes_on_home_description">Zobrazovať nové epizódy relácií z Calendar nad Continue Watching.</string>
 </resources>

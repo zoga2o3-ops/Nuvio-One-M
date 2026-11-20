@@ -4068,4 +4068,7 @@
 
     <string name="compose_settings_page_vpn">VPN</string>
     <string name="compose_settings_root_vpn_description">حماية WireGuard لبث الفيديو.</string>
+
+    <string name="live_tv_ui_new_episodes_on_home">حلقات جديدة في الرئيسية</string>
+    <string name="live_tv_ui_new_episodes_on_home_description">عرض الحلقات الجديدة من مسلسلات Calendar فوق Continue Watching.</string>
 </resources>

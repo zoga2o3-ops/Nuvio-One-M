@@ -4018,4 +4018,7 @@
 
     <string name="compose_settings_page_vpn">VPN</string>
     <string name="compose_settings_root_vpn_description">Perlindungan WireGuard untuk pemutaran streaming.</string>
+
+    <string name="live_tv_ui_new_episodes_on_home">Episode baru di Beranda</string>
+    <string name="live_tv_ui_new_episodes_on_home_description">Tampilkan episode baru dari acara Calendar Anda di atas Continue Watching.</string>
 </resources>

@@ -4054,4 +4054,7 @@
 
     <string name="compose_settings_page_vpn">VPN</string>
     <string name="compose_settings_root_vpn_description">WireGuard zaštita za strujanje reprodukcije.</string>
+
+    <string name="live_tv_ui_new_episodes_on_home">Nove epizode na početnom zaslonu</string>
+    <string name="live_tv_ui_new_episodes_on_home_description">Prikaži nove epizode emisija iz Calendar iznad Continue Watching.</string>
 </resources>

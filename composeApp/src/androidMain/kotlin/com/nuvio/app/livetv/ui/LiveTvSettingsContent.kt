@@ -386,6 +386,11 @@ fun LiveTvSettingsContent() {
                 SwitchRow(stringResource(Res.string.live_tv_ui_compact_cards), null, settings.homeRowCompact) { v -> change { it.copy(homeRowCompact = v) } }
             }
             SwitchRow(
+                stringResource(Res.string.live_tv_ui_new_episodes_on_home),
+                stringResource(Res.string.live_tv_ui_new_episodes_on_home_description),
+                settings.calendarNewEpisodeCards,
+            ) { v -> change { it.copy(calendarNewEpisodeCards = v) } }
+            SwitchRow(
                 stringResource(Res.string.live_tv_ui_continue_watching_on_home),
                 "Show On Demand titles you started.",
                 settings.onDemandHomeRowEnabled,

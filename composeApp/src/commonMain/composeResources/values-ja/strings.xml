@@ -4062,4 +4062,7 @@
 
     <string name="compose_settings_page_vpn">VPN</string>
     <string name="compose_settings_root_vpn_description">ストリーミング再生を WireGuard で保護します。</string>
+
+    <string name="live_tv_ui_new_episodes_on_home">ホームに新しいエピソード</string>
+    <string name="live_tv_ui_new_episodes_on_home_description">Calendarの番組の新しいエピソードをContinue Watchingの上に表示します。</string>
 </resources>

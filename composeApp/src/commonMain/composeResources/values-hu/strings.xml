@@ -4053,4 +4053,7 @@
 
     <string name="compose_settings_page_vpn">VPN</string>
     <string name="compose_settings_root_vpn_description">WireGuard-védelem streamelt lejátszáshoz.</string>
+
+    <string name="live_tv_ui_new_episodes_on_home">Új epizódok a főoldalon</string>
+    <string name="live_tv_ui_new_episodes_on_home_description">A Calendar-műsorok új epizódjainak megjelenítése a Continue Watching felett.</string>
 </resources>

@@ -4063,4 +4063,7 @@
 
     <string name="compose_settings_page_vpn">VPN</string>
     <string name="compose_settings_root_vpn_description">স্ট্রিমিং প্লেব্যাকের জন্য WireGuard সুরক্ষা।</string>
+
+    <string name="live_tv_ui_new_episodes_on_home">হোমে নতুন এপিসোড</string>
+    <string name="live_tv_ui_new_episodes_on_home_description">Calendar-এর অনুষ্ঠানগুলোর নতুন এপিসোড Continue Watching-এর উপরে দেখান।</string>
 </resources>

@@ -4035,4 +4035,7 @@
 
     <string name="compose_settings_page_vpn">VPN</string>
     <string name="compose_settings_root_vpn_description">WireGuard-Schutz für die Wiedergabe von Streams.</string>
+
+    <string name="live_tv_ui_new_episodes_on_home">Neue Folgen auf der Startseite</string>
+    <string name="live_tv_ui_new_episodes_on_home_description">Neue Folgen deiner Calendar-Sendungen über Continue Watching anzeigen.</string>
 </resources>

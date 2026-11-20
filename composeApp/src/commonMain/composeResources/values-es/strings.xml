@@ -4064,4 +4064,7 @@
 
     <string name="compose_settings_page_vpn">VPN</string>
     <string name="compose_settings_root_vpn_description">Protección WireGuard para la reproducción en streaming.</string>
+
+    <string name="live_tv_ui_new_episodes_on_home">Nuevos episodios en Inicio</string>
+    <string name="live_tv_ui_new_episodes_on_home_description">Mostrar los nuevos episodios de tus programas de Calendar encima de Continue Watching.</string>
 </resources>
