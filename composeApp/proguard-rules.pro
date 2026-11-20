@@ -88,3 +88,18 @@
 -keep class retrofit2.** { *; }
 -keep class * extends com.google.gson.reflect.TypeToken
 -keep class com.google.gson.** { *; }
+
+# YouTube Continue Watching is installed by reflection in full builds.
+-keep class com.nuvio.app.youtube.YouTubeContinueWatchingFull { *; }
+
+# SMB recording uses jcifs-ng, including optional/reflective provider paths.
+-keep class jcifs.** { *; }
+-keep interface jcifs.** { *; }
+-dontwarn jcifs.**
+-keep class org.bouncycastle.** { *; }
+
+# WireGuard VPN engine: JNI backends and encrypted profile storage.
+-keep class com.wireguard.** { *; }
+-keep interface com.wireguard.** { *; }
+-keep class com.nuvio.vpn.** { *; }
+-keep interface com.nuvio.vpn.** { *; }
