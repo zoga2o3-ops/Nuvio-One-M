@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="vpn_connection_unavailable">לא מחובר</string>
+    <string name="vpn_connected_app">מחובר · האפליקציה כולה</string>
+    <string name="vpn_connected_http">מחובר · זרמי HTTP בלבד</string>
+    <string name="vpn_connected_web">מחובר · זרמי HTTP + HTTPS</string>
+    <string name="vpn_connecting">מתחבר…</string>
+    <string name="vpn_waiting_handshake">ממתין לחיבור VPN מאומת</string>
+    <string name="vpn_connection_failed">לא ניתן לאמת חיבור VPN</string>
+    <string name="vpn_auth_rejected">שרת OpenVPN דחה את האימות. בדוק את פרטי הגישה של השירות בפרופיל לפני ניסיון הפעלה חוזר.</string>
+    <string name="vpn_connection_error_detail">הגנת ה-VPN לא אומתה. התנתק לפני ניסיון נוסף.</string>
+    <string name="vpn_credentials_required">הגדר את פרטי הגישה של השירות עבור פרופיל OpenVPN זה.</string>
+    <string name="vpn_requires_app_scope">בחר HTTP, HTTP + HTTPS או האפליקציה כולה כדי להפעיל הגנה אוטומטית.</string>
+    <string name="vpn_ready_web">מתחבר אוטומטית עבור זרמי HTTP ו-HTTPS, כולל טעינה מראש.</string>
+    <string name="vpn_ready_http">מתחבר אוטומטית עבור זרמי HTTP. HTTPS לא משתמש ב-VPN הזה.</string>
+    <string name="vpn_ready_to_connect">הגנת האפליקציה כולה מתחילה אוטומטית כש-Nuvio פתוח, לאחר מתן הרשאת ה-VPN של Android.</string>
+    <string name="vpn_active_web_detail">הפעלת HTTP ו-HTTPS משתמשת ב-VPN. שאר תעבורת האפליקציה נשארת בחיבור הרגיל שלה.</string>
+    <string name="vpn_active_http_detail">הפעלת HTTP משתמשת ב-VPN. HTTPS ושאר תעבורת האפליקציה נשארים בחיבור הרגיל שלהם.</string>
+    <string name="vpn_active_app_detail">כל תעבורת הרשת של האפליקציה הזו עוברת ב-VPN. אפליקציות אחרות אינן מושפעות.</string>
+    <string name="vpn_verification_pending">חיבור ה-VPN עדיין לא אומת. השאר אותו פעיל כדי לנסות שוב, או התנתק.</string>
+    <string name="vpn_select_wireguard_profile">בחר פרופיל VPN שמור כדי להתחבר.</string>
+    <string name="vpn_egress_address">כתובת IP של VPN: %1$s</string>
+    <string name="vpn_connection_traffic">התקבל %1$s · נשלח %2$s</string>
+    <string name="vpn_profiles_unreadable">לא ניתן לפתוח את הפרופיל השמור</string>
+    <string name="vpn_profiles_selection_unavailable">הפרופיל שנבחר אינו זמין. הבחירה נוקתה והיקף ה-VPN הוגדר לכבוי.</string>
+    <string name="vpn_profiles_imported">התצורה יובאה.</string>
+    <string name="vpn_profiles_removed">הפרופיל השמור הוסר.</string>
+    <string name="vpn_profiles_selection_saved">בחירת הפרופיל נשמרה.</string>
+    <string name="vpn_scope_saved">היקף ה-VPN נשמר.</string>
+    <string name="vpn_credentials_failed">לא ניתן לעדכן את פרטי הגישה של השירות. בדוק את הפרופיל ונסה שוב.</string>
+    <string name="vpn_credentials_saved">פרטי הגישה של השירות נשמרו.</string>
+    <string name="vpn_profiles_import_failed">לא ניתן לייבא תצורה זו. השתמש בקובץ WireGuard ‎.conf בגודל עד 1 MiB.</string>
+    <string name="vpn_profiles_remove_failed">לא ניתן להסיר את הפרופיל השמור.</string>
+    <string name="vpn_profiles_selection_failed">לא ניתן לבחור את הפרופיל השמור.</string>
+    <string name="vpn_scope_failed">לא ניתן לשמור את היקף ה-VPN.</string>
+    <string name="vpn_import_reason_storage">לא ניתן היה לאחסן את הפרופיל באופן מאובטח במכשיר זה.</string>
+    <string name="vpn_import_reason_engine">לא ניתן היה לטעון את מנוע ה-VPN במכשיר זה.</string>
+    <string name="vpn_profiles_import_reason">סיבה: %1$s</string>
+    <string name="vpn_import_reason_other">משהו בלתי צפוי השתבש במהלך השמירה.</string>
+    <string name="vpn_profiles_importing">מייבא תצורה…</string>
+    <string name="vpn_profiles_storage_failed">לא ניתן לפתוח את אחסון הפרופילים המוצפן.</string>
+    <string name="vpn_scope_needs_profile">בחר תחילה פרופיל VPN. ה-VPN יישאר כבוי עד לבחירת פרופיל.</string>
+    <string name="vpn_scope_off_detail">להשאיר את הגנת ה-VPN כבויה</string>
+    <string name="vpn_scope_http_detail">להגן על הפעלת HTTP; להשאיר את HTTPS ללא שינוי</string>
+    <string name="vpn_scope_app_detail">כל תעבורת האפליקציה הזו, כולל HTTPS</string>
+</resources>

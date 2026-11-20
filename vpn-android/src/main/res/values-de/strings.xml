@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="vpn_connection_unavailable">Nicht verbunden</string>
+    <string name="vpn_connected_app">Verbunden · Gesamte App</string>
+    <string name="vpn_connected_http">Verbunden · Nur HTTP-Streams</string>
+    <string name="vpn_connected_web">Verbunden · HTTP + HTTPS-Streams</string>
+    <string name="vpn_connecting">Verbinden…</string>
+    <string name="vpn_waiting_handshake">Warten auf eine bestätigte VPN-Verbindung</string>
+    <string name="vpn_connection_failed">VPN-Verbindung konnte nicht bestätigt werden</string>
+    <string name="vpn_auth_rejected">Der OpenVPN-Server hat die Authentifizierung abgelehnt. Prüfe die Dienst-Zugangsdaten des Profils, bevor du die Wiedergabe erneut versuchst.</string>
+    <string name="vpn_connection_error_detail">Der VPN-Schutz ist nicht bestätigt. Trenne die Verbindung, bevor du es erneut versuchst.</string>
+    <string name="vpn_credentials_required">Lege die Dienst-Zugangsdaten für dieses OpenVPN-Profil fest.</string>
+    <string name="vpn_requires_app_scope">Wähle HTTP, HTTP + HTTPS oder Gesamte App, um den automatischen Schutz zu aktivieren.</string>
+    <string name="vpn_ready_web">Verbindet sich automatisch für HTTP- und HTTPS-Streams, einschließlich Vorabladen.</string>
+    <string name="vpn_ready_http">Verbindet sich automatisch für HTTP-Streams. HTTPS nutzt dieses VPN nicht.</string>
+    <string name="vpn_ready_to_connect">Der Schutz für die gesamte App startet automatisch, solange Nuvio geöffnet ist, sobald die Android-VPN-Berechtigung erteilt wurde.</string>
+    <string name="vpn_active_web_detail">Wiedergabe über HTTP und HTTPS nutzt das VPN. Anderer App-Datenverkehr behält seine normale Verbindung.</string>
+    <string name="vpn_active_http_detail">Wiedergabe über HTTP nutzt das VPN. HTTPS und anderer App-Datenverkehr behalten ihre normale Verbindung.</string>
+    <string name="vpn_active_app_detail">Der gesamte Netzwerkverkehr dieser App nutzt das VPN. Andere Apps sind nicht betroffen.</string>
+    <string name="vpn_verification_pending">Die VPN-Verbindung ist noch nicht bestätigt. Lass sie an, um es erneut zu versuchen, oder trenne die Verbindung.</string>
+    <string name="vpn_select_wireguard_profile">Wähle ein gespeichertes VPN-Profil zum Verbinden.</string>
+    <string name="vpn_egress_address">VPN-IP: %1$s</string>
+    <string name="vpn_connection_traffic">Empfangen %1$s · Gesendet %2$s</string>
+    <string name="vpn_profiles_unreadable">Gespeichertes Profil kann nicht entsperrt werden</string>
+    <string name="vpn_profiles_selection_unavailable">Das ausgewählte Profil ist nicht verfügbar. Auswahl gelöscht und VPN-Umfang auf Aus gesetzt.</string>
+    <string name="vpn_profiles_imported">Konfiguration importiert.</string>
+    <string name="vpn_profiles_removed">Gespeichertes Profil entfernt.</string>
+    <string name="vpn_profiles_selection_saved">Profilauswahl gespeichert.</string>
+    <string name="vpn_scope_saved">VPN-Umfang gespeichert.</string>
+    <string name="vpn_credentials_failed">Dienst-Zugangsdaten konnten nicht aktualisiert werden. Prüfe das Profil und versuche es erneut.</string>
+    <string name="vpn_credentials_saved">Dienst-Zugangsdaten gespeichert.</string>
+    <string name="vpn_profiles_import_failed">Diese Konfiguration konnte nicht importiert werden. Verwende eine WireGuard-.conf-Datei bis 1 MiB.</string>
+    <string name="vpn_profiles_remove_failed">Gespeichertes Profil konnte nicht entfernt werden.</string>
+    <string name="vpn_profiles_selection_failed">Gespeichertes Profil konnte nicht ausgewählt werden.</string>
+    <string name="vpn_scope_failed">VPN-Umfang konnte nicht gespeichert werden.</string>
+    <string name="vpn_import_reason_storage">Das Profil konnte auf diesem Gerät nicht sicher gespeichert werden.</string>
+    <string name="vpn_import_reason_engine">Die VPN-Engine konnte auf diesem Gerät nicht geladen werden.</string>
+    <string name="vpn_profiles_import_reason">Grund: %1$s</string>
+    <string name="vpn_import_reason_other">Beim Speichern ist ein unerwarteter Fehler aufgetreten.</string>
+    <string name="vpn_profiles_importing">Konfiguration wird importiert…</string>
+    <string name="vpn_profiles_storage_failed">Der verschlüsselte Profilspeicher konnte nicht geöffnet werden.</string>
+    <string name="vpn_scope_needs_profile">Wähle zuerst ein VPN-Profil. Das VPN bleibt aus, bis eines ausgewählt wird.</string>
+    <string name="vpn_scope_off_detail">VPN-Schutz ausgeschaltet lassen</string>
+    <string name="vpn_scope_http_detail">HTTP-Wiedergabe schützen; HTTPS unverändert lassen</string>
+    <string name="vpn_scope_app_detail">Der gesamte Datenverkehr dieser App, einschließlich HTTPS</string>
+</resources>

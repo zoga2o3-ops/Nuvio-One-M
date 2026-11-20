@@ -4039,4 +4039,27 @@
     <string name="live_tv_ui_smb_connection_failed">Η σύνδεση απέτυχε.</string>
     <string name="live_tv_ui_smb_no_share">Η εγγραφή SMB είναι ενεργή, αλλά δεν έχει οριστεί κοινόχρηστος χώρος· το «%1$s» αποθηκεύεται σε αυτή τη συσκευή</string>
     <string name="live_tv_ui_smb_upload_failed">Η μεταφόρτωση στο SMB απέτυχε· η εγγραφή παραμένει σε αυτή τη συσκευή</string>
+
+    <string name="vpn_status">Κατάσταση VPN</string>
+    <string name="vpn_not_connected">Μη συνδεδεμένο</string>
+    <string name="vpn_off">VPN ανενεργό</string>
+    <string name="vpn_wireguard_profile">Προφίλ WireGuard</string>
+    <string name="vpn_import_conf">Εισαγωγή αρχείου .conf για έναρξη</string>
+    <string name="vpn_choose_profile">Επιλέξτε το προφίλ για αναπαραγωγή</string>
+    <string name="vpn_selected">Επιλεγμένο</string>
+    <string name="vpn_remove">Αφαίρεση</string>
+    <string name="vpn_mode_off">Ανενεργό</string>
+    <string name="vpn_mode_off_detail">Διατήρηση της προστασίας VPN ανενεργής</string>
+    <string name="vpn_mode_http">Μόνο ροές HTTP</string>
+    <string name="vpn_mode_http_detail">Προστασία αναπαραγωγής HTTP· αφήστε το HTTPS ως έχει</string>
+    <string name="vpn_mode_http_https">Ροές HTTP + HTTPS</string>
+    <string name="vpn_mode_http_https_detail">Προστασία αναπαραγωγής HTTP και HTTPS, μαζί με προφορτώσεις</string>
+    <string name="vpn_mode_app">Ολόκληρη η εφαρμογή</string>
+    <string name="vpn_mode_app_detail">Όλη η κίνηση του Nuvio· οι άλλες εφαρμογές δεν επηρεάζονται</string>
+    <string name="vpn_use_all_profiles">Χρήση για όλα τα προφίλ</string>
+    <string name="vpn_use_all_profiles_detail">Κοινή χρήση αυτής της ρύθμισης VPN σε όλα τα προφίλ Nuvio</string>
+    <string name="vpn_profiles_encrypted">Τα προφίλ κρυπτογραφούνται σε αυτή τη συσκευή. Δεν συγχρονίζονται με άλλες συσκευές· εισαγάγετε ξανά τη διαμόρφωση σε κάθε συσκευή. Το αντίγραφο ασφαλείας του Android παραμένει εξαιρούμενο.</string>
+
+    <string name="compose_settings_page_vpn">VPN</string>
+    <string name="compose_settings_root_vpn_description">Προστασία WireGuard για αναπαραγωγή ροών.</string>
 </resources>

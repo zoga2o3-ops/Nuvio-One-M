@@ -4031,4 +4031,27 @@
     <string name="live_tv_ui_smb_connection_failed">Povezivanje nije uspjelo.</string>
     <string name="live_tv_ui_smb_no_share">Snimanje na SMB je uključeno, ali resurs nije postavljen; „%1$s“ sprema se na ovaj uređaj</string>
     <string name="live_tv_ui_smb_upload_failed">Prijenos na SMB nije uspio; snimka je još na ovom uređaju</string>
+
+    <string name="vpn_status">Stanje VPN-a</string>
+    <string name="vpn_not_connected">Nije povezano</string>
+    <string name="vpn_off">VPN isključen</string>
+    <string name="vpn_wireguard_profile">WireGuard profil</string>
+    <string name="vpn_import_conf">Uvezite .conf datoteku za početak</string>
+    <string name="vpn_choose_profile">Odaberite profil za reprodukciju</string>
+    <string name="vpn_selected">Odabrano</string>
+    <string name="vpn_remove">Ukloni</string>
+    <string name="vpn_mode_off">Isključeno</string>
+    <string name="vpn_mode_off_detail">Zadrži VPN zaštitu isključenom</string>
+    <string name="vpn_mode_http">Samo HTTP streamovi</string>
+    <string name="vpn_mode_http_detail">Zaštiti HTTP reprodukciju; ostavi HTTPS nepromijenjen</string>
+    <string name="vpn_mode_http_https">HTTP + HTTPS streamovi</string>
+    <string name="vpn_mode_http_https_detail">Zaštiti HTTP i HTTPS reprodukciju, uključujući predučitavanja</string>
+    <string name="vpn_mode_app">Cijela aplikacija</string>
+    <string name="vpn_mode_app_detail">Sav promet od Nuvio; druge aplikacije nisu pogođene</string>
+    <string name="vpn_use_all_profiles">Koristi za sve profile</string>
+    <string name="vpn_use_all_profiles_detail">Podijeli ovu VPN postavku sa svim Nuvio profilima</string>
+    <string name="vpn_profiles_encrypted">Profili su šifrirani na ovom uređaju. Ne sinkroniziraju se s drugim uređajima; ponovno uvezite konfiguraciju na svakom uređaju. Android sigurnosna kopija ostaje isključena.</string>
+
+    <string name="compose_settings_page_vpn">VPN</string>
+    <string name="compose_settings_root_vpn_description">WireGuard zaštita za strujanje reprodukcije.</string>
 </resources>

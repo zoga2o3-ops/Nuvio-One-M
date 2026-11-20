@@ -30,6 +30,8 @@ import com.nuvio.app.features.vpn.VpnHost
 import com.nuvio.vpn.android.VpnSettingsController
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
+import nuvio.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 
 /**
  * WireGuard-only VPN settings. OpenVPN is deliberately not exposed.
@@ -76,15 +78,15 @@ fun VpnSettingsContent() {
     ) {
         SettingsGroup(isTablet = false) {
             SettingsNavigationRow(
-                title = "VPN status",
-                description = connection?.detail ?: "Not connected",
+                title = stringResource(Res.string.vpn_status),
+                description = connection?.detail ?: stringResource(Res.string.vpn_not_connected),
                 icon = Icons.Default.Security,
                 isTablet = false,
                 onClick = { connection = controller.connection() },
             )
             SettingsGroupDivider(isTablet = false)
             SettingsNavigationRow(
-                title = connection?.title ?: "VPN off",
+                title = connection?.title ?: stringResource(Res.string.vpn_off),
                 description = connection?.traffic,
                 isTablet = false,
                 onClick = { controller.turnOff() },
@@ -93,11 +95,11 @@ fun VpnSettingsContent() {
 
         SettingsGroup(isTablet = false) {
             SettingsNavigationRow(
-                title = "WireGuard profile",
+                title = stringResource(Res.string.vpn_wireguard_profile),
                 description = if (ui?.profiles?.isEmpty() != false) {
-                    "Import a .conf file to get started"
+                    stringResource(Res.string.vpn_import_conf)
                 } else {
-                    "Choose the profile used for playback"
+                    stringResource(Res.string.vpn_choose_profile)
                 },
                 isTablet = false,
                 onClick = { picker.launch(arrayOf("*/*")) },
@@ -112,10 +114,10 @@ fun VpnSettingsContent() {
                     enabled = ui?.busy != true && profile.readable,
                     trailingContent = {
                         if (profile.selected) {
-                            Icon(Icons.Default.Check, contentDescription = "Selected")
+                            Icon(Icons.Default.Check, contentDescription = stringResource(Res.string.vpn_selected))
                         }
                         IconButton(onClick = { controller.remove(profile.id) }) {
-                            Icon(Icons.Default.Close, contentDescription = "Remove")
+                            Icon(Icons.Default.Close, contentDescription = stringResource(Res.string.vpn_remove))
                         }
                     },
                     onClick = { controller.selectProfile(profile.id) },
@@ -126,29 +128,29 @@ fun VpnSettingsContent() {
         SettingsGroup(isTablet = false) {
             val currentMode = ui?.mode ?: VpnSettingsController.MODE_OFF
             VpnModeRow(
-                label = "Off",
-                detail = "Keep VPN protection off",
+                label = stringResource(Res.string.vpn_mode_off),
+                detail = stringResource(Res.string.vpn_mode_off_detail),
                 selected = currentMode == VpnSettingsController.MODE_OFF,
                 enabled = ui?.busy != true,
             ) { controller.setMode(VpnSettingsController.MODE_OFF) }
             SettingsGroupDivider(isTablet = false)
             VpnModeRow(
-                label = "HTTP streams only",
-                detail = "Protect HTTP playback; leave HTTPS unchanged",
+                label = stringResource(Res.string.vpn_mode_http),
+                detail = stringResource(Res.string.vpn_mode_http_detail),
                 selected = currentMode == VpnSettingsController.MODE_HTTP,
                 enabled = ui?.busy != true,
             ) { controller.setMode(VpnSettingsController.MODE_HTTP) }
             SettingsGroupDivider(isTablet = false)
             VpnModeRow(
-                label = "HTTP + HTTPS streams",
-                detail = "Protect HTTP and HTTPS playback, including preloads",
+                label = stringResource(Res.string.vpn_mode_http_https),
+                detail = stringResource(Res.string.vpn_mode_http_https_detail),
                 selected = currentMode == VpnSettingsController.MODE_HTTP_HTTPS,
                 enabled = ui?.busy != true,
             ) { controller.setMode(VpnSettingsController.MODE_HTTP_HTTPS) }
             SettingsGroupDivider(isTablet = false)
             VpnModeRow(
-                label = "Full app",
-                detail = "All traffic from Nuvio; other apps are unaffected",
+                label = stringResource(Res.string.vpn_mode_app),
+                detail = stringResource(Res.string.vpn_mode_app_detail),
                 selected = currentMode == VpnSettingsController.MODE_APP,
                 enabled = ui?.busy != true,
             ) { controller.setMode(VpnSettingsController.MODE_APP) }
@@ -156,8 +158,8 @@ fun VpnSettingsContent() {
 
         SettingsGroup(isTablet = false) {
             SettingsSwitchRow(
-                title = "Use for all profiles",
-                description = "Share this VPN setup with every Nuvio profile",
+                title = stringResource(Res.string.vpn_use_all_profiles),
+                description = stringResource(Res.string.vpn_use_all_profiles_detail),
                 checked = ui?.shared ?: true,
                 enabled = ui?.busy != true,
                 isTablet = false,
@@ -180,8 +182,7 @@ fun VpnSettingsContent() {
         }
 
         Text(
-            text = "Profiles are encrypted on this device. They are not synced to other devices; " +
-                "import the configuration again on each device. Android system backup stays excluded.",
+            text = stringResource(Res.string.vpn_profiles_encrypted),
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.padding(horizontal = 4.dp, vertical = 8.dp),
@@ -204,7 +205,7 @@ private fun VpnModeRow(
         enabled = enabled,
         trailingContent = {
             if (selected) {
-                Icon(Icons.Default.Check, contentDescription = "Selected")
+                Icon(Icons.Default.Check, contentDescription = stringResource(Res.string.vpn_selected))
             }
         },
         onClick = onClick,

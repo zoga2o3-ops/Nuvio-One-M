@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="vpn_connection_unavailable">সংযুক্ত নয়</string>
+    <string name="vpn_connected_app">সংযুক্ত · সম্পূর্ণ অ্যাপ</string>
+    <string name="vpn_connected_http">সংযুক্ত · শুধুমাত্র HTTP স্ট্রিম</string>
+    <string name="vpn_connected_web">সংযুক্ত · HTTP + HTTPS স্ট্রিম</string>
+    <string name="vpn_connecting">সংযুক্ত হচ্ছে…</string>
+    <string name="vpn_waiting_handshake">যাচাইকৃত VPN সংযোগের জন্য অপেক্ষা করা হচ্ছে</string>
+    <string name="vpn_connection_failed">VPN সংযোগ যাচাই করা যায়নি</string>
+    <string name="vpn_auth_rejected">OpenVPN সার্ভার প্রমাণীকরণ প্রত্যাখ্যান করেছে। প্লেব্যাক আবার চেষ্টা করার আগে প্রোফাইলের পরিষেবার লগইন তথ্য যাচাই করুন।</string>
+    <string name="vpn_connection_error_detail">VPN সুরক্ষা যাচাই করা হয়নি। আবার চেষ্টা করার আগে সংযোগ বিচ্ছিন্ন করুন।</string>
+    <string name="vpn_credentials_required">এই OpenVPN প্রোফাইলের জন্য পরিষেবার লগইন তথ্য সেট করুন।</string>
+    <string name="vpn_requires_app_scope">স্বয়ংক্রিয় সুরক্ষা চালু করতে HTTP, HTTP + HTTPS বা সম্পূর্ণ অ্যাপ বেছে নিন।</string>
+    <string name="vpn_ready_web">প্রিলোডসহ HTTP ও HTTPS স্ট্রিমের জন্য স্বয়ংক্রিয়ভাবে সংযুক্ত হয়।</string>
+    <string name="vpn_ready_http">HTTP স্ট্রিমের জন্য স্বয়ংক্রিয়ভাবে সংযুক্ত হয়। HTTPS এই VPN ব্যবহার করে না।</string>
+    <string name="vpn_ready_to_connect">Android VPN অনুমতি দেওয়ার পর Nuvio খোলা থাকাকালীন সম্পূর্ণ অ্যাপ সুরক্ষা স্বয়ংক্রিয়ভাবে শুরু হয়।</string>
+    <string name="vpn_active_web_detail">HTTP ও HTTPS প্লেব্যাক VPN ব্যবহার করে। অ্যাপের অন্যান্য ট্রাফিক স্বাভাবিক সংযোগেই থাকে।</string>
+    <string name="vpn_active_http_detail">HTTP প্লেব্যাক VPN ব্যবহার করে। HTTPS ও অ্যাপের অন্যান্য ট্রাফিক স্বাভাবিক সংযোগেই থাকে।</string>
+    <string name="vpn_active_app_detail">এই অ্যাপের সমস্ত নেটওয়ার্ক ট্রাফিক VPN ব্যবহার করে। অন্যান্য অ্যাপ প্রভাবিত হয় না।</string>
+    <string name="vpn_verification_pending">VPN সংযোগ এখনও যাচাই হয়নি। আবার চেষ্টা করতে এটি চালু রাখুন, অথবা সংযোগ বিচ্ছিন্ন করুন।</string>
+    <string name="vpn_select_wireguard_profile">সংযুক্ত হতে একটি সংরক্ষিত VPN প্রোফাইল বেছে নিন।</string>
+    <string name="vpn_egress_address">VPN IP: %1$s</string>
+    <string name="vpn_connection_traffic">গৃহীত %1$s · প্রেরিত %2$s</string>
+    <string name="vpn_profiles_unreadable">সংরক্ষিত প্রোফাইল আনলক করা যায় না</string>
+    <string name="vpn_profiles_selection_unavailable">নির্বাচিত প্রোফাইলটি উপলভ্য নয়। নির্বাচন মুছে ফেলা হয়েছে এবং VPN পরিসর বন্ধ করা হয়েছে।</string>
+    <string name="vpn_profiles_imported">কনফিগারেশন আমদানি করা হয়েছে।</string>
+    <string name="vpn_profiles_removed">সংরক্ষিত প্রোফাইল সরানো হয়েছে।</string>
+    <string name="vpn_profiles_selection_saved">প্রোফাইল নির্বাচন সংরক্ষণ করা হয়েছে।</string>
+    <string name="vpn_scope_saved">VPN পরিসর সংরক্ষণ করা হয়েছে।</string>
+    <string name="vpn_credentials_failed">পরিষেবার লগইন তথ্য আপডেট করা যায়নি। প্রোফাইল যাচাই করে আবার চেষ্টা করুন।</string>
+    <string name="vpn_credentials_saved">পরিষেবার লগইন তথ্য সংরক্ষণ করা হয়েছে।</string>
+    <string name="vpn_profiles_import_failed">এই কনফিগারেশনটি আমদানি করা যায়নি। 1 MiB পর্যন্ত WireGuard .conf ফাইল ব্যবহার করুন।</string>
+    <string name="vpn_profiles_remove_failed">সংরক্ষিত প্রোফাইল সরানো যায়নি।</string>
+    <string name="vpn_profiles_selection_failed">সংরক্ষিত প্রোফাইল নির্বাচন করা যায়নি।</string>
+    <string name="vpn_scope_failed">VPN পরিসর সংরক্ষণ করা যায়নি।</string>
+    <string name="vpn_import_reason_storage">এই ডিভাইসে প্রোফাইলটি নিরাপদে সংরক্ষণ করা যায়নি।</string>
+    <string name="vpn_import_reason_engine">এই ডিভাইসে VPN ইঞ্জিন লোড করা যায়নি।</string>
+    <string name="vpn_profiles_import_reason">কারণ: %1$s</string>
+    <string name="vpn_import_reason_other">সংরক্ষণ করার সময় অপ্রত্যাশিত কিছু সমস্যা হয়েছে।</string>
+    <string name="vpn_profiles_importing">কনফিগারেশন আমদানি করা হচ্ছে…</string>
+    <string name="vpn_profiles_storage_failed">এনক্রিপ্ট করা প্রোফাইল স্টোরেজ খোলা যায়নি।</string>
+    <string name="vpn_scope_needs_profile">প্রথমে একটি VPN প্রোফাইল বেছে নিন। একটি নির্বাচন না করা পর্যন্ত VPN বন্ধ থাকবে।</string>
+    <string name="vpn_scope_off_detail">VPN সুরক্ষা বন্ধ রাখুন</string>
+    <string name="vpn_scope_http_detail">HTTP প্লেব্যাক সুরক্ষিত করুন; HTTPS অপরিবর্তিত রাখুন</string>
+    <string name="vpn_scope_app_detail">HTTPS সহ এই অ্যাপের সমস্ত ট্রাফিক</string>
+</resources>

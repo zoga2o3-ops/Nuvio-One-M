@@ -4049,4 +4049,27 @@
     <string name="live_tv_ui_smb_connection_failed">לא ניתן להתחבר.</string>
     <string name="live_tv_ui_smb_no_share">הקלטה ל-SMB מופעלת, אך לא הוגדר שיתוף; &quot;%1$s&quot; נשמר במכשיר הזה</string>
     <string name="live_tv_ui_smb_upload_failed">ההעלאה ל-SMB נכשלה; ההקלטה עדיין במכשיר הזה</string>
+
+    <string name="vpn_status">מצב VPN</string>
+    <string name="vpn_not_connected">לא מחובר</string>
+    <string name="vpn_off">VPN כבוי</string>
+    <string name="vpn_wireguard_profile">פרופיל WireGuard</string>
+    <string name="vpn_import_conf">ייבא קובץ .conf כדי להתחיל</string>
+    <string name="vpn_choose_profile">בחר את הפרופיל שישמש לניגון</string>
+    <string name="vpn_selected">נבחר</string>
+    <string name="vpn_remove">הסר</string>
+    <string name="vpn_mode_off">כבוי</string>
+    <string name="vpn_mode_off_detail">השאר את הגנת VPN כבויה</string>
+    <string name="vpn_mode_http">זרמי HTTP בלבד</string>
+    <string name="vpn_mode_http_detail">הגן על ניגון HTTP; השאר את HTTPS ללא שינוי</string>
+    <string name="vpn_mode_http_https">זרמי HTTP + HTTPS</string>
+    <string name="vpn_mode_http_https_detail">הגן על ניגון HTTP ו-HTTPS, כולל טעינה מוקדמת</string>
+    <string name="vpn_mode_app">האפליקציה כולה</string>
+    <string name="vpn_mode_app_detail">כל התעבורה של Nuvio; אפליקציות אחרות אינן מושפעות</string>
+    <string name="vpn_use_all_profiles">השתמש בכל הפרופילים</string>
+    <string name="vpn_use_all_profiles_detail">שתף הגדרת VPN זו עם כל פרופילי Nuvio</string>
+    <string name="vpn_profiles_encrypted">הפרופילים מוצפנים במכשיר זה. הם אינם מסונכרנים למכשירים אחרים; ייבא את התצורה שוב בכל מכשיר. הגיבוי של Android נשאר מוחרג.</string>
+
+    <string name="compose_settings_page_vpn">VPN</string>
+    <string name="compose_settings_root_vpn_description">הגנת WireGuard לניגון סטרימינג.</string>
 </resources>

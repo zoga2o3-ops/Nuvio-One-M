@@ -4045,4 +4045,27 @@
     <string name="live_tv_ui_smb_connection_failed">تعذّر الاتصال.</string>
     <string name="live_tv_ui_smb_no_share">تسجيل SMB مفعّل، لكن لم يتم تعيين مشاركة؛ سيتم حفظ &quot;%1$s&quot; على هذا الجهاز</string>
     <string name="live_tv_ui_smb_upload_failed">فشل رفع SMB؛ لا يزال التسجيل على هذا الجهاز</string>
+
+    <string name="vpn_status">حالة VPN</string>
+    <string name="vpn_not_connected">غير متصل</string>
+    <string name="vpn_off">VPN متوقف</string>
+    <string name="vpn_wireguard_profile">ملف WireGuard</string>
+    <string name="vpn_import_conf">استورد ملف .conf للبدء</string>
+    <string name="vpn_choose_profile">اختر الملف الشخصي المستخدم للتشغيل</string>
+    <string name="vpn_selected">محدد</string>
+    <string name="vpn_remove">إزالة</string>
+    <string name="vpn_mode_off">متوقف</string>
+    <string name="vpn_mode_off_detail">إبقاء حماية VPN متوقفة</string>
+    <string name="vpn_mode_http">بث HTTP فقط</string>
+    <string name="vpn_mode_http_detail">حماية تشغيل HTTP؛ اترك HTTPS دون تغيير</string>
+    <string name="vpn_mode_http_https">بث HTTP + HTTPS</string>
+    <string name="vpn_mode_http_https_detail">حماية تشغيل HTTP وHTTPS، بما في ذلك التحميل المسبق</string>
+    <string name="vpn_mode_app">التطبيق بالكامل</string>
+    <string name="vpn_mode_app_detail">كل بيانات Nuvio؛ التطبيقات الأخرى غير متأثرة</string>
+    <string name="vpn_use_all_profiles">استخدام لجميع الملفات الشخصية</string>
+    <string name="vpn_use_all_profiles_detail">مشاركة إعداد VPN هذا مع كل ملفات Nuvio الشخصية</string>
+    <string name="vpn_profiles_encrypted">الملفات الشخصية مشفرة على هذا الجهاز. لا تتم مزامنتها مع أجهزة أخرى؛ استورد التكوين مجددًا على كل جهاز. يبقى النسخ الاحتياطي لنظام Android مستبعدًا.</string>
+
+    <string name="compose_settings_page_vpn">VPN</string>
+    <string name="compose_settings_root_vpn_description">حماية WireGuard لبث الفيديو.</string>
 </resources>

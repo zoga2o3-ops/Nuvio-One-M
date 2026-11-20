@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="vpn_connection_unavailable">Nincs kapcsolat</string>
+    <string name="vpn_connected_app">Kapcsolódva · Teljes alkalmazás</string>
+    <string name="vpn_connected_http">Kapcsolódva · Csak HTTP-streamek</string>
+    <string name="vpn_connected_web">Kapcsolódva · HTTP + HTTPS-streamek</string>
+    <string name="vpn_connecting">Kapcsolódás…</string>
+    <string name="vpn_waiting_handshake">Ellenőrzött VPN-kapcsolatra várakozás</string>
+    <string name="vpn_connection_failed">Nem sikerült ellenőrizni a VPN-kapcsolatot</string>
+    <string name="vpn_auth_rejected">Az OpenVPN szerver elutasította a hitelesítést. A lejátszás újbóli megkísérlése előtt ellenőrizd a profil szolgáltatásának hitelesítő adatait.</string>
+    <string name="vpn_connection_error_detail">A VPN-védelem nincs ellenőrizve. A következő próbálkozás előtt bontsd a kapcsolatot.</string>
+    <string name="vpn_credentials_required">Add meg a szolgáltatás hitelesítő adatait ehhez az OpenVPN-profilhoz.</string>
+    <string name="vpn_requires_app_scope">Válaszd a HTTP, a HTTP + HTTPS vagy a Teljes alkalmazás lehetőséget az automatikus védelem engedélyezéséhez.</string>
+    <string name="vpn_ready_web">Automatikusan csatlakozik HTTP- és HTTPS-streamekhez, az előbetöltéseket is beleértve.</string>
+    <string name="vpn_ready_http">Automatikusan csatlakozik HTTP-streamekhez. A HTTPS nem használja ezt a VPN-t.</string>
+    <string name="vpn_ready_to_connect">A teljes alkalmazás védelme automatikusan elindul, amíg a Nuvio nyitva van, miután megadtad az Android VPN-engedélyét.</string>
+    <string name="vpn_active_web_detail">A HTTP- és HTTPS-lejátszás a VPN-t használja. Az alkalmazás többi forgalma a szokásos kapcsolatán marad.</string>
+    <string name="vpn_active_http_detail">A HTTP-lejátszás a VPN-t használja. A HTTPS és az alkalmazás többi forgalma a szokásos kapcsolatán marad.</string>
+    <string name="vpn_active_app_detail">Az alkalmazás teljes hálózati forgalma a VPN-t használja. A többi alkalmazást ez nem érinti.</string>
+    <string name="vpn_verification_pending">A VPN-kapcsolat még nincs ellenőrizve. Hagyd bekapcsolva az újrapróbálkozáshoz, vagy bontsd a kapcsolatot.</string>
+    <string name="vpn_select_wireguard_profile">Válassz egy mentett VPN-profilt a csatlakozáshoz.</string>
+    <string name="vpn_egress_address">VPN IP-cím: %1$s</string>
+    <string name="vpn_connection_traffic">Fogadva %1$s · Küldve %2$s</string>
+    <string name="vpn_profiles_unreadable">A mentett profil nem oldható fel</string>
+    <string name="vpn_profiles_selection_unavailable">A kiválasztott profil nem érhető el. A kijelölés törölve, a VPN-hatókör pedig Ki értékre állítva.</string>
+    <string name="vpn_profiles_imported">A konfiguráció importálva.</string>
+    <string name="vpn_profiles_removed">A mentett profil eltávolítva.</string>
+    <string name="vpn_profiles_selection_saved">A profil kiválasztása mentve.</string>
+    <string name="vpn_scope_saved">A VPN-hatókör mentve.</string>
+    <string name="vpn_credentials_failed">Nem sikerült frissíteni a szolgáltatás hitelesítő adatait. Ellenőrizd a profilt, és próbáld újra.</string>
+    <string name="vpn_credentials_saved">A szolgáltatás hitelesítő adatai mentve.</string>
+    <string name="vpn_profiles_import_failed">Nem sikerült importálni ezt a konfigurációt. Használj legfeljebb 1 MiB méretű WireGuard .conf fájlt.</string>
+    <string name="vpn_profiles_remove_failed">A mentett profil nem távolítható el.</string>
+    <string name="vpn_profiles_selection_failed">A mentett profil nem választható ki.</string>
+    <string name="vpn_scope_failed">A VPN-hatókör nem menthető.</string>
+    <string name="vpn_import_reason_storage">A profil nem tárolható biztonságosan ezen az eszközön.</string>
+    <string name="vpn_import_reason_engine">A VPN-motor nem tölthető be ezen az eszközön.</string>
+    <string name="vpn_profiles_import_reason">Ok: %1$s</string>
+    <string name="vpn_import_reason_other">Váratlan hiba történt a mentés során.</string>
+    <string name="vpn_profiles_importing">Konfiguráció importálása…</string>
+    <string name="vpn_profiles_storage_failed">A titkosított profiltár nem nyitható meg.</string>
+    <string name="vpn_scope_needs_profile">Először válassz VPN-profilt. A VPN kikapcsolva marad, amíg nincs kiválasztva egy.</string>
+    <string name="vpn_scope_off_detail">A VPN-védelem maradjon kikapcsolva</string>
+    <string name="vpn_scope_http_detail">HTTP-lejátszás védelme; a HTTPS maradjon változatlan</string>
+    <string name="vpn_scope_app_detail">Az alkalmazás teljes forgalma, a HTTPS-t is beleértve</string>
+</resources>

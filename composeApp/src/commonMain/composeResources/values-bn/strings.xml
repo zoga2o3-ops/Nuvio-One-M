@@ -4040,4 +4040,27 @@
     <string name="live_tv_ui_smb_connection_failed">সংযোগ করা যায়নি।</string>
     <string name="live_tv_ui_smb_no_share">SMB রেকর্ডিং চালু আছে, কিন্তু কোনো শেয়ার সেট করা নেই; &quot;%1$s&quot; এই ডিভাইসে সংরক্ষণ করা হচ্ছে</string>
     <string name="live_tv_ui_smb_upload_failed">SMB আপলোড ব্যর্থ হয়েছে; রেকর্ডিংটি এখনও এই ডিভাইসে আছে</string>
+
+    <string name="vpn_status">VPN অবস্থা</string>
+    <string name="vpn_not_connected">সংযুক্ত নয়</string>
+    <string name="vpn_off">VPN বন্ধ</string>
+    <string name="vpn_wireguard_profile">WireGuard প্রোফাইল</string>
+    <string name="vpn_import_conf">শুরু করতে একটি .conf ফাইল আমদানি করুন</string>
+    <string name="vpn_choose_profile">প্লেব্যাকের জন্য ব্যবহৃত প্রোফাইল বেছে নিন</string>
+    <string name="vpn_selected">নির্বাচিত</string>
+    <string name="vpn_remove">সরান</string>
+    <string name="vpn_mode_off">বন্ধ</string>
+    <string name="vpn_mode_off_detail">VPN সুরক্ষা বন্ধ রাখুন</string>
+    <string name="vpn_mode_http">শুধু HTTP স্ট্রিম</string>
+    <string name="vpn_mode_http_detail">HTTP প্লেব্যাক সুরক্ষিত করুন; HTTPS অপরিবর্তিত রাখুন</string>
+    <string name="vpn_mode_http_https">HTTP + HTTPS স্ট্রিম</string>
+    <string name="vpn_mode_http_https_detail">প্রিলোডসহ HTTP ও HTTPS প্লেব্যাক সুরক্ষিত করুন</string>
+    <string name="vpn_mode_app">সম্পূর্ণ অ্যাপ</string>
+    <string name="vpn_mode_app_detail">Nuvio-র সমস্ত ট্রাফিক; অন্য অ্যাপ প্রভাবিত হয় না</string>
+    <string name="vpn_use_all_profiles">সব প্রোফাইলে ব্যবহার করুন</string>
+    <string name="vpn_use_all_profiles_detail">এই VPN সেটআপ প্রতিটি Nuvio প্রোফাইলের সাথে ভাগ করুন</string>
+    <string name="vpn_profiles_encrypted">প্রোফাইলগুলো এই ডিভাইসে এনক্রিপ্ট করা। এগুলো অন্য ডিভাইসে সিঙ্ক হয় না; প্রতিটি ডিভাইসে কনফিগারেশন আবার আমদানি করুন। Android সিস্টেম ব্যাকআপ বাদ থাকবে।</string>
+
+    <string name="compose_settings_page_vpn">VPN</string>
+    <string name="compose_settings_root_vpn_description">স্ট্রিমিং প্লেব্যাকের জন্য WireGuard সুরক্ষা।</string>
 </resources>

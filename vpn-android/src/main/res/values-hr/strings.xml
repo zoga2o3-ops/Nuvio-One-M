@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="vpn_connection_unavailable">Nije povezano</string>
+    <string name="vpn_connected_app">Povezano · Cijela aplikacija</string>
+    <string name="vpn_connected_http">Povezano · Samo HTTP streamovi</string>
+    <string name="vpn_connected_web">Povezano · HTTP + HTTPS streamovi</string>
+    <string name="vpn_connecting">Povezivanje…</string>
+    <string name="vpn_waiting_handshake">Čekanje na potvrđenu VPN vezu</string>
+    <string name="vpn_connection_failed">Nije moguće potvrditi VPN vezu</string>
+    <string name="vpn_auth_rejected">OpenVPN poslužitelj odbio je autentifikaciju. Provjerite vjerodajnice usluge u profilu prije ponovnog pokušaja reprodukcije.</string>
+    <string name="vpn_connection_error_detail">VPN zaštita nije potvrđena. Odspojite se prije ponovnog pokušaja.</string>
+    <string name="vpn_credentials_required">Postavite vjerodajnice usluge za ovaj OpenVPN profil.</string>
+    <string name="vpn_requires_app_scope">Odaberite HTTP, HTTP + HTTPS ili Cijela aplikacija za uključivanje automatske zaštite.</string>
+    <string name="vpn_ready_web">Automatski se povezuje za HTTP i HTTPS streamove, uključujući predučitavanje.</string>
+    <string name="vpn_ready_http">Automatski se povezuje za HTTP streamove. HTTPS ne koristi ovaj VPN.</string>
+    <string name="vpn_ready_to_connect">Zaštita cijele aplikacije počinje automatski dok je Nuvio otvoren, nakon odobrenja Android VPN dozvole.</string>
+    <string name="vpn_active_web_detail">HTTP i HTTPS reprodukcija koristi VPN. Ostali promet aplikacije zadržava uobičajenu vezu.</string>
+    <string name="vpn_active_http_detail">HTTP reprodukcija koristi VPN. HTTPS i ostali promet aplikacije zadržavaju uobičajenu vezu.</string>
+    <string name="vpn_active_app_detail">Sav mrežni promet ove aplikacije koristi VPN. Druge aplikacije nisu pogođene.</string>
+    <string name="vpn_verification_pending">VPN veza još nije potvrđena. Ostavite je uključenu za ponovni pokušaj ili se odspojite.</string>
+    <string name="vpn_select_wireguard_profile">Odaberite spremljeni VPN profil za povezivanje.</string>
+    <string name="vpn_egress_address">VPN IP: %1$s</string>
+    <string name="vpn_connection_traffic">Primljeno %1$s · Poslano %2$s</string>
+    <string name="vpn_profiles_unreadable">Spremljeni profil nije moguće otključati</string>
+    <string name="vpn_profiles_selection_unavailable">Odabrani profil nije dostupan. Odabir je očišćen, a VPN opseg postavljen na Isključeno.</string>
+    <string name="vpn_profiles_imported">Konfiguracija je uvezena.</string>
+    <string name="vpn_profiles_removed">Spremljeni profil je uklonjen.</string>
+    <string name="vpn_profiles_selection_saved">Odabir profila je spremljen.</string>
+    <string name="vpn_scope_saved">VPN opseg je spremljen.</string>
+    <string name="vpn_credentials_failed">Vjerodajnice usluge nije moguće ažurirati. Provjerite profil i pokušajte ponovno.</string>
+    <string name="vpn_credentials_saved">Vjerodajnice usluge su spremljene.</string>
+    <string name="vpn_profiles_import_failed">Nije moguće uvesti ovu konfiguraciju. Upotrijebite WireGuard .conf datoteku do 1 MiB.</string>
+    <string name="vpn_profiles_remove_failed">Spremljeni profil nije moguće ukloniti.</string>
+    <string name="vpn_profiles_selection_failed">Spremljeni profil nije moguće odabrati.</string>
+    <string name="vpn_scope_failed">VPN opseg nije moguće spremiti.</string>
+    <string name="vpn_import_reason_storage">Profil nije bilo moguće sigurno pohraniti na ovom uređaju.</string>
+    <string name="vpn_import_reason_engine">VPN mehanizam nije bilo moguće učitati na ovom uređaju.</string>
+    <string name="vpn_profiles_import_reason">Razlog: %1$s</string>
+    <string name="vpn_import_reason_other">Tijekom spremanja dogodila se neočekivana pogreška.</string>
+    <string name="vpn_profiles_importing">Uvoz konfiguracije…</string>
+    <string name="vpn_profiles_storage_failed">Šifrirano spremište profila nije moguće otvoriti.</string>
+    <string name="vpn_scope_needs_profile">Najprije odaberite VPN profil. VPN ostaje isključen dok se ne odabere.</string>
+    <string name="vpn_scope_off_detail">Zadrži VPN zaštitu isključenom</string>
+    <string name="vpn_scope_http_detail">Zaštiti HTTP reprodukciju; ostavi HTTPS nepromijenjen</string>
+    <string name="vpn_scope_app_detail">Sav promet ove aplikacije, uključujući HTTPS</string>
+</resources>

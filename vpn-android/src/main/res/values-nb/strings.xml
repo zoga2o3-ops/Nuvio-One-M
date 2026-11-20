@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="vpn_connection_unavailable">Ikke tilkoblet</string>
+    <string name="vpn_connected_app">Tilkoblet · Hele appen</string>
+    <string name="vpn_connected_http">Tilkoblet · Kun HTTP-strømmer</string>
+    <string name="vpn_connected_web">Tilkoblet · HTTP + HTTPS-strømmer</string>
+    <string name="vpn_connecting">Kobler til…</string>
+    <string name="vpn_waiting_handshake">Venter på en bekreftet VPN-tilkobling</string>
+    <string name="vpn_connection_failed">Kunne ikke bekrefte VPN-tilkoblingen</string>
+    <string name="vpn_auth_rejected">OpenVPN-serveren avviste autentiseringen. Kontroller tjenestepåloggingsinformasjonen for profilen før du prøver avspillingen igjen.</string>
+    <string name="vpn_connection_error_detail">VPN-beskyttelsen er ikke bekreftet. Koble fra før du prøver igjen.</string>
+    <string name="vpn_credentials_required">Angi tjenestepåloggingsinformasjonen for denne OpenVPN-profilen.</string>
+    <string name="vpn_requires_app_scope">Velg HTTP, HTTP + HTTPS eller Hele appen for å aktivere automatisk beskyttelse.</string>
+    <string name="vpn_ready_web">Kobler til automatisk for HTTP- og HTTPS-strømmer, inkludert forhåndslasting.</string>
+    <string name="vpn_ready_http">Kobler til automatisk for HTTP-strømmer. HTTPS bruker ikke denne VPN-en.</string>
+    <string name="vpn_ready_to_connect">Beskyttelse for hele appen starter automatisk mens Nuvio er åpen, etter at VPN-tillatelsen er gitt i Android.</string>
+    <string name="vpn_active_web_detail">Avspilling over HTTP og HTTPS bruker VPN-en. Annen apptrafikk beholder den vanlige tilkoblingen.</string>
+    <string name="vpn_active_http_detail">Avspilling over HTTP bruker VPN-en. HTTPS og annen apptrafikk beholder den vanlige tilkoblingen.</string>
+    <string name="vpn_active_app_detail">All nettverkstrafikk fra denne appen bruker VPN-en. Andre apper påvirkes ikke.</string>
+    <string name="vpn_verification_pending">VPN-tilkoblingen er ikke bekreftet ennå. La den være på for å prøve igjen, eller koble fra.</string>
+    <string name="vpn_select_wireguard_profile">Velg en lagret VPN-profil for å koble til.</string>
+    <string name="vpn_egress_address">VPN-IP: %1$s</string>
+    <string name="vpn_connection_traffic">Mottatt %1$s · Sendt %2$s</string>
+    <string name="vpn_profiles_unreadable">Den lagrede profilen kan ikke låses opp</string>
+    <string name="vpn_profiles_selection_unavailable">Den valgte profilen er utilgjengelig. Valget er fjernet, og VPN-omfanget er satt til Av.</string>
+    <string name="vpn_profiles_imported">Konfigurasjonen er importert.</string>
+    <string name="vpn_profiles_removed">Den lagrede profilen er fjernet.</string>
+    <string name="vpn_profiles_selection_saved">Profilvalget er lagret.</string>
+    <string name="vpn_scope_saved">VPN-omfanget er lagret.</string>
+    <string name="vpn_credentials_failed">Kunne ikke oppdatere tjenestepåloggingsinformasjonen. Kontroller profilen og prøv igjen.</string>
+    <string name="vpn_credentials_saved">Tjenestepåloggingsinformasjonen er lagret.</string>
+    <string name="vpn_profiles_import_failed">Kunne ikke importere denne konfigurasjonen. Bruk en WireGuard .conf-fil på opptil 1 MiB.</string>
+    <string name="vpn_profiles_remove_failed">Kunne ikke fjerne den lagrede profilen.</string>
+    <string name="vpn_profiles_selection_failed">Kunne ikke velge den lagrede profilen.</string>
+    <string name="vpn_scope_failed">Kunne ikke lagre VPN-omfanget.</string>
+    <string name="vpn_import_reason_storage">Profilen kunne ikke lagres sikkert på denne enheten.</string>
+    <string name="vpn_import_reason_engine">VPN-motoren kunne ikke lastes på denne enheten.</string>
+    <string name="vpn_profiles_import_reason">Årsak: %1$s</string>
+    <string name="vpn_import_reason_other">Noe uventet gikk galt under lagringen.</string>
+    <string name="vpn_profiles_importing">Importerer konfigurasjon…</string>
+    <string name="vpn_profiles_storage_failed">Kunne ikke åpne den krypterte profillagringen.</string>
+    <string name="vpn_scope_needs_profile">Velg en VPN-profil først. VPN-en forblir av til en er valgt.</string>
+    <string name="vpn_scope_off_detail">La VPN-beskyttelsen være av</string>
+    <string name="vpn_scope_http_detail">Beskytt HTTP-avspilling; la HTTPS være uendret</string>
+    <string name="vpn_scope_app_detail">All trafikk fra denne appen, inkludert HTTPS</string>
+</resources>

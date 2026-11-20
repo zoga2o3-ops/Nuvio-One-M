@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="vpn_connection_unavailable">Bağlı değil</string>
+    <string name="vpn_connected_app">Bağlı · Tüm uygulama</string>
+    <string name="vpn_connected_http">Bağlı · Yalnızca HTTP akışları</string>
+    <string name="vpn_connected_web">Bağlı · HTTP + HTTPS akışları</string>
+    <string name="vpn_connecting">Bağlanıyor…</string>
+    <string name="vpn_waiting_handshake">Doğrulanmış VPN bağlantısı bekleniyor</string>
+    <string name="vpn_connection_failed">VPN bağlantısı doğrulanamadı</string>
+    <string name="vpn_auth_rejected">OpenVPN sunucusu kimlik doğrulamayı reddetti. Oynatmayı yeniden denemeden önce profilin hizmet kimlik bilgilerini kontrol edin.</string>
+    <string name="vpn_connection_error_detail">VPN koruması doğrulanmadı. Yeniden denemeden önce bağlantıyı kesin.</string>
+    <string name="vpn_credentials_required">Bu OpenVPN profili için hizmet kimlik bilgilerini ayarlayın.</string>
+    <string name="vpn_requires_app_scope">Otomatik korumayı etkinleştirmek için HTTP, HTTP + HTTPS veya Tüm uygulama seçeneğini seçin.</string>
+    <string name="vpn_ready_web">Ön yüklemeler dahil HTTP ve HTTPS akışları için otomatik bağlanır.</string>
+    <string name="vpn_ready_http">HTTP akışları için otomatik bağlanır. HTTPS bu VPN’i kullanmaz.</string>
+    <string name="vpn_ready_to_connect">Android VPN izni verildikten sonra Nuvio açıkken tüm uygulama koruması otomatik olarak başlar.</string>
+    <string name="vpn_active_web_detail">HTTP ve HTTPS oynatma VPN’i kullanır. Uygulamanın diğer trafiği normal bağlantısında kalır.</string>
+    <string name="vpn_active_http_detail">HTTP oynatma VPN’i kullanır. HTTPS ve uygulamanın diğer trafiği normal bağlantısında kalır.</string>
+    <string name="vpn_active_app_detail">Bu uygulamanın tüm ağ trafiği VPN’i kullanır. Diğer uygulamalar etkilenmez.</string>
+    <string name="vpn_verification_pending">VPN bağlantısı henüz doğrulanmadı. Yeniden denemek için açık bırakın veya bağlantıyı kesin.</string>
+    <string name="vpn_select_wireguard_profile">Bağlanmak için kayıtlı bir VPN profili seçin.</string>
+    <string name="vpn_egress_address">VPN IP: %1$s</string>
+    <string name="vpn_connection_traffic">Alınan %1$s · Gönderilen %2$s</string>
+    <string name="vpn_profiles_unreadable">Kayıtlı profilin kilidi açılamıyor</string>
+    <string name="vpn_profiles_selection_unavailable">Seçili profil kullanılamıyor. Seçim temizlendi ve VPN kapsamı Kapalı olarak ayarlandı.</string>
+    <string name="vpn_profiles_imported">Yapılandırma içe aktarıldı.</string>
+    <string name="vpn_profiles_removed">Kayıtlı profil kaldırıldı.</string>
+    <string name="vpn_profiles_selection_saved">Profil seçimi kaydedildi.</string>
+    <string name="vpn_scope_saved">VPN kapsamı kaydedildi.</string>
+    <string name="vpn_credentials_failed">Hizmet kimlik bilgileri güncellenemedi. Profili kontrol edip yeniden deneyin.</string>
+    <string name="vpn_credentials_saved">Hizmet kimlik bilgileri kaydedildi.</string>
+    <string name="vpn_profiles_import_failed">Bu yapılandırma içe aktarılamadı. 1 MiB\'e kadar bir WireGuard .conf dosyası kullanın.</string>
+    <string name="vpn_profiles_remove_failed">Kayıtlı profil kaldırılamadı.</string>
+    <string name="vpn_profiles_selection_failed">Kayıtlı profil seçilemedi.</string>
+    <string name="vpn_scope_failed">VPN kapsamı kaydedilemedi.</string>
+    <string name="vpn_import_reason_storage">Profil bu cihazda güvenli şekilde depolanamadı.</string>
+    <string name="vpn_import_reason_engine">VPN motoru bu cihazda yüklenemedi.</string>
+    <string name="vpn_profiles_import_reason">Neden: %1$s</string>
+    <string name="vpn_import_reason_other">Kaydedilirken beklenmeyen bir sorun oluştu.</string>
+    <string name="vpn_profiles_importing">Yapılandırma içe aktarılıyor…</string>
+    <string name="vpn_profiles_storage_failed">Şifrelenmiş profil depolama açılamadı.</string>
+    <string name="vpn_scope_needs_profile">Önce bir VPN profili seçin. Bir profil seçilene kadar VPN kapalı kalır.</string>
+    <string name="vpn_scope_off_detail">VPN korumasını kapalı tut</string>
+    <string name="vpn_scope_http_detail">HTTP oynatmayı koru; HTTPS’i değiştirme</string>
+    <string name="vpn_scope_app_detail">HTTPS dahil bu uygulamanın tüm trafiği</string>
+</resources>

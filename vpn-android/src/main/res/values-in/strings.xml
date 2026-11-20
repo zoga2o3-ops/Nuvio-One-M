@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="vpn_connection_unavailable">Tidak terhubung</string>
+    <string name="vpn_connected_app">Terhubung · Seluruh aplikasi</string>
+    <string name="vpn_connected_http">Terhubung · Hanya stream HTTP</string>
+    <string name="vpn_connected_web">Terhubung · Stream HTTP + HTTPS</string>
+    <string name="vpn_connecting">Menghubungkan…</string>
+    <string name="vpn_waiting_handshake">Menunggu koneksi VPN yang terverifikasi</string>
+    <string name="vpn_connection_failed">Tidak dapat memverifikasi koneksi VPN</string>
+    <string name="vpn_auth_rejected">Server OpenVPN menolak autentikasi. Periksa kredensial layanan profil sebelum mencoba pemutaran lagi.</string>
+    <string name="vpn_connection_error_detail">Perlindungan VPN belum terverifikasi. Putuskan koneksi sebelum mencoba lagi.</string>
+    <string name="vpn_credentials_required">Atur kredensial layanan untuk profil OpenVPN ini.</string>
+    <string name="vpn_requires_app_scope">Pilih HTTP, HTTP + HTTPS, atau Seluruh aplikasi untuk mengaktifkan perlindungan otomatis.</string>
+    <string name="vpn_ready_web">Terhubung otomatis untuk stream HTTP dan HTTPS, termasuk pramuat.</string>
+    <string name="vpn_ready_http">Terhubung otomatis untuk stream HTTP. HTTPS tidak menggunakan VPN ini.</string>
+    <string name="vpn_ready_to_connect">Perlindungan seluruh aplikasi dimulai otomatis selama Nuvio terbuka, setelah izin VPN Android diberikan.</string>
+    <string name="vpn_active_web_detail">Pemutaran HTTP dan HTTPS menggunakan VPN. Lalu lintas aplikasi lainnya tetap menggunakan koneksi normalnya.</string>
+    <string name="vpn_active_http_detail">Pemutaran HTTP menggunakan VPN. HTTPS dan lalu lintas aplikasi lainnya tetap menggunakan koneksi normalnya.</string>
+    <string name="vpn_active_app_detail">Semua lalu lintas jaringan dari aplikasi ini menggunakan VPN. Aplikasi lain tidak terpengaruh.</string>
+    <string name="vpn_verification_pending">Koneksi VPN belum terverifikasi. Biarkan tetap aktif untuk mencoba lagi, atau putuskan.</string>
+    <string name="vpn_select_wireguard_profile">Pilih profil VPN tersimpan untuk terhubung.</string>
+    <string name="vpn_egress_address">IP VPN: %1$s</string>
+    <string name="vpn_connection_traffic">Diterima %1$s · Dikirim %2$s</string>
+    <string name="vpn_profiles_unreadable">Kunci profil tersimpan tidak dapat dibuka</string>
+    <string name="vpn_profiles_selection_unavailable">Profil yang dipilih tidak tersedia. Pilihan dihapus dan cakupan VPN diatur ke Nonaktif.</string>
+    <string name="vpn_profiles_imported">Konfigurasi diimpor.</string>
+    <string name="vpn_profiles_removed">Profil tersimpan dihapus.</string>
+    <string name="vpn_profiles_selection_saved">Pilihan profil disimpan.</string>
+    <string name="vpn_scope_saved">Cakupan VPN disimpan.</string>
+    <string name="vpn_credentials_failed">Tidak dapat memperbarui kredensial layanan. Periksa profil dan coba lagi.</string>
+    <string name="vpn_credentials_saved">Kredensial layanan disimpan.</string>
+    <string name="vpn_profiles_import_failed">Tidak dapat mengimpor konfigurasi ini. Gunakan file WireGuard .conf hingga 1 MiB.</string>
+    <string name="vpn_profiles_remove_failed">Tidak dapat menghapus profil tersimpan.</string>
+    <string name="vpn_profiles_selection_failed">Tidak dapat memilih profil tersimpan.</string>
+    <string name="vpn_scope_failed">Tidak dapat menyimpan cakupan VPN.</string>
+    <string name="vpn_import_reason_storage">Profil tidak dapat disimpan dengan aman di perangkat ini.</string>
+    <string name="vpn_import_reason_engine">Mesin VPN tidak dapat dimuat di perangkat ini.</string>
+    <string name="vpn_profiles_import_reason">Alasan: %1$s</string>
+    <string name="vpn_import_reason_other">Terjadi kesalahan tak terduga saat menyimpannya.</string>
+    <string name="vpn_profiles_importing">Mengimpor konfigurasi…</string>
+    <string name="vpn_profiles_storage_failed">Tidak dapat membuka penyimpanan profil terenkripsi.</string>
+    <string name="vpn_scope_needs_profile">Pilih profil VPN terlebih dahulu. VPN tetap nonaktif sampai satu profil dipilih.</string>
+    <string name="vpn_scope_off_detail">Biarkan perlindungan VPN nonaktif</string>
+    <string name="vpn_scope_http_detail">Lindungi pemutaran HTTP; biarkan HTTPS tetap seperti semula</string>
+    <string name="vpn_scope_app_detail">Semua lalu lintas dari aplikasi ini, termasuk HTTPS</string>
+</resources>

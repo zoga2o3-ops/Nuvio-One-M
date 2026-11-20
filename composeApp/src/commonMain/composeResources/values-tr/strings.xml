@@ -4014,4 +4014,27 @@ Bu özelliği tamamen kendi sorumluluğunuzda kullanırsınız. P2P istediğiniz
     <string name="live_tv_ui_smb_connection_failed">Bağlanılamadı.</string>
     <string name="live_tv_ui_smb_no_share">SMB kaydı açık ancak paylaşım ayarlanmamış; &quot;%1$s&quot; bu cihaza kaydediliyor</string>
     <string name="live_tv_ui_smb_upload_failed">SMB yüklemesi başarısız oldu; kayıt hâlâ bu cihazda</string>
+
+    <string name="vpn_status">VPN durumu</string>
+    <string name="vpn_not_connected">Bağlı değil</string>
+    <string name="vpn_off">VPN kapalı</string>
+    <string name="vpn_wireguard_profile">WireGuard profili</string>
+    <string name="vpn_import_conf">Başlamak için bir .conf dosyası içe aktarın</string>
+    <string name="vpn_choose_profile">Oynatma için kullanılacak profili seçin</string>
+    <string name="vpn_selected">Seçildi</string>
+    <string name="vpn_remove">Kaldır</string>
+    <string name="vpn_mode_off">Kapalı</string>
+    <string name="vpn_mode_off_detail">VPN korumasını kapalı tut</string>
+    <string name="vpn_mode_http">Yalnızca HTTP akışları</string>
+    <string name="vpn_mode_http_detail">HTTP oynatmayı koru; HTTPS'i değiştirme</string>
+    <string name="vpn_mode_http_https">HTTP + HTTPS akışları</string>
+    <string name="vpn_mode_http_https_detail">Ön yüklemeler dahil HTTP ve HTTPS oynatmayı koru</string>
+    <string name="vpn_mode_app">Tüm uygulama</string>
+    <string name="vpn_mode_app_detail">Nuvio'nun tüm trafiği; diğer uygulamalar etkilenmez</string>
+    <string name="vpn_use_all_profiles">Tüm profiller için kullan</string>
+    <string name="vpn_use_all_profiles_detail">Bu VPN ayarını tüm Nuvio profilleriyle paylaş</string>
+    <string name="vpn_profiles_encrypted">Profiller bu cihazda şifrelenir. Diğer cihazlarla eşitlenmez; yapılandırmayı her cihazda yeniden içe aktarın. Android sistem yedeği hariç tutulmaya devam eder.</string>
+
+    <string name="compose_settings_page_vpn">VPN</string>
+    <string name="compose_settings_root_vpn_description">Akış oynatımı için WireGuard koruması.</string>
 </resources>

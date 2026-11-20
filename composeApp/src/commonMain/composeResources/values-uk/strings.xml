@@ -2609,4 +2609,27 @@
     <string name="live_tv_ui_smb_connection_failed">Не вдалося підключитися.</string>
     <string name="live_tv_ui_smb_no_share">Запис на SMB увімкнено, але ресурс не задано; «%1$s» зберігається на цьому пристрої</string>
     <string name="live_tv_ui_smb_upload_failed">Не вдалося вивантажити на SMB; запис залишається на цьому пристрої</string>
+
+    <string name="vpn_status">Стан VPN</string>
+    <string name="vpn_not_connected">Не підключено</string>
+    <string name="vpn_off">VPN вимкнено</string>
+    <string name="vpn_wireguard_profile">Профіль WireGuard</string>
+    <string name="vpn_import_conf">Імпортуйте файл .conf, щоб почати</string>
+    <string name="vpn_choose_profile">Виберіть профіль для відтворення</string>
+    <string name="vpn_selected">Вибрано</string>
+    <string name="vpn_remove">Видалити</string>
+    <string name="vpn_mode_off">Вимкнено</string>
+    <string name="vpn_mode_off_detail">Залишити захист VPN вимкненим</string>
+    <string name="vpn_mode_http">Лише HTTP-потоки</string>
+    <string name="vpn_mode_http_detail">Захищати відтворення HTTP; залишити HTTPS без змін</string>
+    <string name="vpn_mode_http_https">Потоки HTTP + HTTPS</string>
+    <string name="vpn_mode_http_https_detail">Захищати відтворення HTTP і HTTPS, включно з попереднім завантаженням</string>
+    <string name="vpn_mode_app">Увесь застосунок</string>
+    <string name="vpn_mode_app_detail">Увесь трафік Nuvio; інші застосунки не зачіпаються</string>
+    <string name="vpn_use_all_profiles">Використовувати для всіх профілів</string>
+    <string name="vpn_use_all_profiles_detail">Поділитися цим налаштуванням VPN з усіма профілями Nuvio</string>
+    <string name="vpn_profiles_encrypted">Профілі шифруються на цьому пристрої. Вони не синхронізуються з іншими пристроями; імпортуйте конфігурацію знову на кожному пристрої. Системна резервна копія Android залишається виключеною.</string>
+
+    <string name="compose_settings_page_vpn">VPN</string>
+    <string name="compose_settings_root_vpn_description">Захист WireGuard для потокового відтворення.</string>
 </resources>

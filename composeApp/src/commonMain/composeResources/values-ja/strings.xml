@@ -4039,4 +4039,27 @@
     <string name="live_tv_ui_smb_connection_failed">接続できませんでした。</string>
     <string name="live_tv_ui_smb_no_share">SMB録画はオンですが、共有が設定されていません。「%1$s」をこのデバイスに保存します</string>
     <string name="live_tv_ui_smb_upload_failed">SMBへのアップロードに失敗しました。録画はこのデバイスに残っています</string>
+
+    <string name="vpn_status">VPNの状態</string>
+    <string name="vpn_not_connected">未接続</string>
+    <string name="vpn_off">VPNオフ</string>
+    <string name="vpn_wireguard_profile">WireGuardプロフィール</string>
+    <string name="vpn_import_conf">開始するには.confファイルをインポート</string>
+    <string name="vpn_choose_profile">再生に使用するプロフィールを選択</string>
+    <string name="vpn_selected">選択済み</string>
+    <string name="vpn_remove">削除</string>
+    <string name="vpn_mode_off">オフ</string>
+    <string name="vpn_mode_off_detail">VPN保護をオフのままにする</string>
+    <string name="vpn_mode_http">HTTPストリームのみ</string>
+    <string name="vpn_mode_http_detail">HTTP再生を保護し、HTTPSは変更しない</string>
+    <string name="vpn_mode_http_https">HTTP + HTTPSストリーム</string>
+    <string name="vpn_mode_http_https_detail">プリロードを含め、HTTPとHTTPSの再生を保護</string>
+    <string name="vpn_mode_app">アプリ全体</string>
+    <string name="vpn_mode_app_detail">Nuvioのすべての通信を対象。他のアプリには影響しません</string>
+    <string name="vpn_use_all_profiles">すべてのプロフィールで使用</string>
+    <string name="vpn_use_all_profiles_detail">このVPN設定をすべてのNuvioプロフィールで共有</string>
+    <string name="vpn_profiles_encrypted">プロフィールはこのデバイス上で暗号化されます。他のデバイスには同期されません。各デバイスで設定を再インポートしてください。Androidのシステムバックアップは引き続き除外されます。</string>
+
+    <string name="compose_settings_page_vpn">VPN</string>
+    <string name="compose_settings_root_vpn_description">ストリーミング再生を WireGuard で保護します。</string>
 </resources>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="vpn_connection_unavailable">Niet verbonden</string>
+    <string name="vpn_connected_app">Verbonden · Hele app</string>
+    <string name="vpn_connected_http">Verbonden · Alleen HTTP-streams</string>
+    <string name="vpn_connected_web">Verbonden · HTTP + HTTPS-streams</string>
+    <string name="vpn_connecting">Verbinden…</string>
+    <string name="vpn_waiting_handshake">Wachten op een geverifieerde VPN-verbinding</string>
+    <string name="vpn_connection_failed">Kan VPN-verbinding niet verifiëren</string>
+    <string name="vpn_auth_rejected">De OpenVPN-server heeft de authenticatie geweigerd. Controleer de inloggegevens van de dienst van het profiel voordat je het afspelen opnieuw probeert.</string>
+    <string name="vpn_connection_error_detail">De VPN-beveiliging is niet geverifieerd. Verbreek de verbinding voordat je het opnieuw probeert.</string>
+    <string name="vpn_credentials_required">Stel de inloggegevens van de dienst in voor dit OpenVPN-profiel.</string>
+    <string name="vpn_requires_app_scope">Kies HTTP, HTTP + HTTPS of Hele app om automatische beveiliging in te schakelen.</string>
+    <string name="vpn_ready_web">Maakt automatisch verbinding voor HTTP- en HTTPS-streams, inclusief voorladen.</string>
+    <string name="vpn_ready_http">Maakt automatisch verbinding voor HTTP-streams. HTTPS gebruikt deze VPN niet.</string>
+    <string name="vpn_ready_to_connect">Beveiliging van de hele app start automatisch zolang Nuvio open is, nadat de Android VPN-machtiging is verleend.</string>
+    <string name="vpn_active_web_detail">Afspelen via HTTP en HTTPS gebruikt de VPN. Overig appverkeer behoudt zijn normale verbinding.</string>
+    <string name="vpn_active_http_detail">Afspelen via HTTP gebruikt de VPN. HTTPS en overig appverkeer behouden hun normale verbinding.</string>
+    <string name="vpn_active_app_detail">Al het netwerkverkeer van deze app gebruikt de VPN. Andere apps hebben er geen last van.</string>
+    <string name="vpn_verification_pending">De VPN-verbinding is nog niet geverifieerd. Laat deze aan om het opnieuw te proberen, of verbreek de verbinding.</string>
+    <string name="vpn_select_wireguard_profile">Selecteer een opgeslagen VPN-profiel om verbinding te maken.</string>
+    <string name="vpn_egress_address">VPN-IP: %1$s</string>
+    <string name="vpn_connection_traffic">Ontvangen %1$s · Verzonden %2$s</string>
+    <string name="vpn_profiles_unreadable">Opgeslagen profiel kan niet worden ontgrendeld</string>
+    <string name="vpn_profiles_selection_unavailable">Het geselecteerde profiel is niet beschikbaar. Selectie gewist en VPN-bereik op Uit gezet.</string>
+    <string name="vpn_profiles_imported">Configuratie geïmporteerd.</string>
+    <string name="vpn_profiles_removed">Opgeslagen profiel verwijderd.</string>
+    <string name="vpn_profiles_selection_saved">Profielselectie opgeslagen.</string>
+    <string name="vpn_scope_saved">VPN-bereik opgeslagen.</string>
+    <string name="vpn_credentials_failed">Kan de inloggegevens van de dienst niet bijwerken. Controleer het profiel en probeer het opnieuw.</string>
+    <string name="vpn_credentials_saved">Inloggegevens van de dienst opgeslagen.</string>
+    <string name="vpn_profiles_import_failed">Deze configuratie kan niet worden geïmporteerd. Gebruik een WireGuard .conf-bestand van maximaal 1 MiB.</string>
+    <string name="vpn_profiles_remove_failed">Kan het opgeslagen profiel niet verwijderen.</string>
+    <string name="vpn_profiles_selection_failed">Kan het opgeslagen profiel niet selecteren.</string>
+    <string name="vpn_scope_failed">Kan het VPN-bereik niet opslaan.</string>
+    <string name="vpn_import_reason_storage">Het profiel kon niet veilig op dit apparaat worden opgeslagen.</string>
+    <string name="vpn_import_reason_engine">De VPN-engine kon niet op dit apparaat worden geladen.</string>
+    <string name="vpn_profiles_import_reason">Reden: %1$s</string>
+    <string name="vpn_import_reason_other">Er is iets onverwachts misgegaan bij het opslaan.</string>
+    <string name="vpn_profiles_importing">Configuratie importeren…</string>
+    <string name="vpn_profiles_storage_failed">Kan de versleutelde profielopslag niet openen.</string>
+    <string name="vpn_scope_needs_profile">Kies eerst een VPN-profiel. De VPN blijft uit tot er een is gekozen.</string>
+    <string name="vpn_scope_off_detail">VPN-beveiliging uit laten</string>
+    <string name="vpn_scope_http_detail">HTTP-afspelen beschermen; HTTPS ongewijzigd laten</string>
+    <string name="vpn_scope_app_detail">Al het verkeer van deze app, inclusief HTTPS</string>
+</resources>

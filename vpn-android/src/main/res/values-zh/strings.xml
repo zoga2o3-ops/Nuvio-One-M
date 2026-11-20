@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="vpn_connection_unavailable">未连接</string>
+    <string name="vpn_connected_app">已连接 · 整个应用</string>
+    <string name="vpn_connected_http">已连接 · 仅 HTTP 流</string>
+    <string name="vpn_connected_web">已连接 · HTTP + HTTPS 流</string>
+    <string name="vpn_connecting">正在连接…</string>
+    <string name="vpn_waiting_handshake">正在等待已验证的 VPN 连接</string>
+    <string name="vpn_connection_failed">无法验证 VPN 连接</string>
+    <string name="vpn_auth_rejected">OpenVPN 服务器拒绝了身份验证。请先检查配置文件中的服务凭据，然后再试播放。</string>
+    <string name="vpn_connection_error_detail">VPN 保护尚未验证。请先断开连接，然后再试。</string>
+    <string name="vpn_credentials_required">为此 OpenVPN 配置文件设置服务凭据。</string>
+    <string name="vpn_requires_app_scope">选择 HTTP、HTTP + HTTPS 或整个应用以启用自动保护。</string>
+    <string name="vpn_ready_web">为 HTTP 和 HTTPS 流自动连接，包括预加载。</string>
+    <string name="vpn_ready_http">为 HTTP 流自动连接。HTTPS 不使用此 VPN。</string>
+    <string name="vpn_ready_to_connect">授予 Android VPN 权限后，Nuvio 打开期间会自动启动整个应用保护。</string>
+    <string name="vpn_active_web_detail">HTTP 和 HTTPS 播放使用 VPN。应用的其他流量保持正常连接。</string>
+    <string name="vpn_active_http_detail">HTTP 播放使用 VPN。HTTPS 和应用的其他流量保持正常连接。</string>
+    <string name="vpn_active_app_detail">此应用的所有网络流量均使用 VPN。其他应用不受影响。</string>
+    <string name="vpn_verification_pending">VPN 连接尚未验证。请保持连接以重试，或断开连接。</string>
+    <string name="vpn_select_wireguard_profile">选择已保存的 VPN 配置文件以连接。</string>
+    <string name="vpn_egress_address">VPN IP：%1$s</string>
+    <string name="vpn_connection_traffic">已接收 %1$s · 已发送 %2$s</string>
+    <string name="vpn_profiles_unreadable">无法解锁已保存的配置文件</string>
+    <string name="vpn_profiles_selection_unavailable">所选配置文件不可用。已清除选择并将 VPN 范围设为关闭。</string>
+    <string name="vpn_profiles_imported">配置已导入。</string>
+    <string name="vpn_profiles_removed">已移除保存的配置文件。</string>
+    <string name="vpn_profiles_selection_saved">配置文件选择已保存。</string>
+    <string name="vpn_scope_saved">VPN 范围已保存。</string>
+    <string name="vpn_credentials_failed">无法更新服务凭据。请检查配置文件并重试。</string>
+    <string name="vpn_credentials_saved">服务凭据已保存。</string>
+    <string name="vpn_profiles_import_failed">无法导入此配置。请使用不超过 1 MiB 的 WireGuard .conf 文件。</string>
+    <string name="vpn_profiles_remove_failed">无法移除已保存的配置文件。</string>
+    <string name="vpn_profiles_selection_failed">无法选择已保存的配置文件。</string>
+    <string name="vpn_scope_failed">无法保存 VPN 范围。</string>
+    <string name="vpn_import_reason_storage">无法在此设备上安全存储配置文件。</string>
+    <string name="vpn_import_reason_engine">无法在此设备上加载 VPN 引擎。</string>
+    <string name="vpn_profiles_import_reason">原因：%1$s</string>
+    <string name="vpn_import_reason_other">保存时出现意外错误。</string>
+    <string name="vpn_profiles_importing">正在导入配置…</string>
+    <string name="vpn_profiles_storage_failed">无法打开加密的配置文件存储。</string>
+    <string name="vpn_scope_needs_profile">请先选择一个 VPN 配置文件。选择之前 VPN 将保持关闭。</string>
+    <string name="vpn_scope_off_detail">保持 VPN 保护关闭</string>
+    <string name="vpn_scope_http_detail">保护 HTTP 播放；HTTPS 保持不变</string>
+    <string name="vpn_scope_app_detail">此应用的所有流量，包括 HTTPS</string>
+</resources>

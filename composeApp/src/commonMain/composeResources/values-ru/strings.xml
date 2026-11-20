@@ -4008,4 +4008,27 @@
     <string name="live_tv_ui_smb_connection_failed">Не удалось подключиться.</string>
     <string name="live_tv_ui_smb_no_share">Запись на SMB включена, но ресурс не задан; «%1$s» сохраняется на этом устройстве</string>
     <string name="live_tv_ui_smb_upload_failed">Не удалось отправить на SMB; запись остаётся на этом устройстве</string>
+
+    <string name="vpn_status">Статус VPN</string>
+    <string name="vpn_not_connected">Не подключено</string>
+    <string name="vpn_off">VPN выключен</string>
+    <string name="vpn_wireguard_profile">Профиль WireGuard</string>
+    <string name="vpn_import_conf">Импортируйте файл .conf, чтобы начать</string>
+    <string name="vpn_choose_profile">Выберите профиль для воспроизведения</string>
+    <string name="vpn_selected">Выбрано</string>
+    <string name="vpn_remove">Удалить</string>
+    <string name="vpn_mode_off">Выключено</string>
+    <string name="vpn_mode_off_detail">Оставить защиту VPN выключенной</string>
+    <string name="vpn_mode_http">Только HTTP-потоки</string>
+    <string name="vpn_mode_http_detail">Защищать воспроизведение HTTP; HTTPS оставить без изменений</string>
+    <string name="vpn_mode_http_https">Потоки HTTP + HTTPS</string>
+    <string name="vpn_mode_http_https_detail">Защищать воспроизведение HTTP и HTTPS, включая предзагрузку</string>
+    <string name="vpn_mode_app">Всё приложение</string>
+    <string name="vpn_mode_app_detail">Весь трафик Nuvio; другие приложения не затрагиваются</string>
+    <string name="vpn_use_all_profiles">Использовать для всех профилей</string>
+    <string name="vpn_use_all_profiles_detail">Поделиться этой настройкой VPN со всеми профилями Nuvio</string>
+    <string name="vpn_profiles_encrypted">Профили шифруются на этом устройстве. Они не синхронизируются с другими устройствами; импортируйте конфигурацию заново на каждом устройстве. Системная резервная копия Android остаётся исключённой.</string>
+
+    <string name="compose_settings_page_vpn">VPN</string>
+    <string name="compose_settings_root_vpn_description">Защита WireGuard для потокового воспроизведения.</string>
 </resources>

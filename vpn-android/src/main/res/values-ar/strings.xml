@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="vpn_connection_unavailable">غير متصل</string>
+    <string name="vpn_connected_app">متصل · التطبيق بالكامل</string>
+    <string name="vpn_connected_http">متصل · تدفقات HTTP فقط</string>
+    <string name="vpn_connected_web">متصل · تدفقات HTTP + HTTPS</string>
+    <string name="vpn_connecting">جارٍ الاتصال…</string>
+    <string name="vpn_waiting_handshake">في انتظار اتصال VPN تم التحقق منه</string>
+    <string name="vpn_connection_failed">تعذّر التحقق من اتصال VPN</string>
+    <string name="vpn_auth_rejected">رفض خادم OpenVPN المصادقة. تحقق من بيانات اعتماد الخدمة الخاصة بالملف قبل إعادة محاولة التشغيل.</string>
+    <string name="vpn_connection_error_detail">لم يتم التحقق من حماية VPN. افصل الاتصال قبل المحاولة مرة أخرى.</string>
+    <string name="vpn_credentials_required">عيّن بيانات اعتماد الخدمة لملف OpenVPN هذا.</string>
+    <string name="vpn_requires_app_scope">اختر HTTP أو HTTP + HTTPS أو التطبيق بالكامل لتفعيل الحماية التلقائية.</string>
+    <string name="vpn_ready_web">يتصل تلقائيًا لتدفقات HTTP وHTTPS، بما في ذلك التحميلات المسبقة.</string>
+    <string name="vpn_ready_http">يتصل تلقائيًا لتدفقات HTTP. أما HTTPS فلا يستخدم VPN.</string>
+    <string name="vpn_ready_to_connect">تبدأ حماية التطبيق بالكامل تلقائيًا طالما أن Nuvio مفتوح، بعد منح إذن VPN في Android.</string>
+    <string name="vpn_active_web_detail">يستخدم تشغيل HTTP وHTTPS شبكة VPN. أما بقية بيانات التطبيق فتبقى على اتصالها الطبيعي.</string>
+    <string name="vpn_active_http_detail">يستخدم تشغيل HTTP شبكة VPN. يبقى HTTPS وبقية بيانات التطبيق على اتصالها الطبيعي.</string>
+    <string name="vpn_active_app_detail">تمر جميع بيانات شبكة هذا التطبيق عبر VPN. لا تتأثر التطبيقات الأخرى.</string>
+    <string name="vpn_verification_pending">لم يتم التحقق من اتصال VPN بعد. أبقِه متصلًا لإعادة المحاولة، أو افصل الاتصال.</string>
+    <string name="vpn_select_wireguard_profile">اختر ملف VPN محفوظًا للاتصال.</string>
+    <string name="vpn_egress_address">عنوان IP الخاص بـ VPN: %1$s</string>
+    <string name="vpn_connection_traffic">مستلَم %1$s · مرسَل %2$s</string>
+    <string name="vpn_profiles_unreadable">تعذّر إلغاء قفل الملف المحفوظ</string>
+    <string name="vpn_profiles_selection_unavailable">الملف المحدد غير متاح. أُلغي التحديد وضُبط نطاق VPN على إيقاف.</string>
+    <string name="vpn_profiles_imported">تم استيراد التكوين.</string>
+    <string name="vpn_profiles_removed">تمت إزالة الملف المحفوظ.</string>
+    <string name="vpn_profiles_selection_saved">تم حفظ اختيار الملف.</string>
+    <string name="vpn_scope_saved">تم حفظ نطاق VPN.</string>
+    <string name="vpn_credentials_failed">تعذّر تحديث بيانات اعتماد الخدمة. تحقق من الملف وحاول مرة أخرى.</string>
+    <string name="vpn_credentials_saved">تم حفظ بيانات اعتماد الخدمة.</string>
+    <string name="vpn_profiles_import_failed">تعذر استيراد هذا الإعداد. استخدم ملف WireGuard ‎.conf بحجم لا يتجاوز 1 ميغابايت.</string>
+    <string name="vpn_profiles_remove_failed">تعذّرت إزالة الملف المحفوظ.</string>
+    <string name="vpn_profiles_selection_failed">تعذّر اختيار الملف المحفوظ.</string>
+    <string name="vpn_scope_failed">تعذّر حفظ نطاق VPN.</string>
+    <string name="vpn_import_reason_storage">تعذّر تخزين الملف بأمان على هذا الجهاز.</string>
+    <string name="vpn_import_reason_engine">تعذّر تحميل محرك VPN على هذا الجهاز.</string>
+    <string name="vpn_profiles_import_reason">السبب: %1$s</string>
+    <string name="vpn_import_reason_other">حدث خطأ غير متوقع أثناء حفظه.</string>
+    <string name="vpn_profiles_importing">جارٍ استيراد التكوين…</string>
+    <string name="vpn_profiles_storage_failed">تعذّر فتح مخزن الملفات المشفّر.</string>
+    <string name="vpn_scope_needs_profile">اختر ملف VPN أولًا. سيبقى VPN متوقفًا حتى يتم اختيار ملف.</string>
+    <string name="vpn_scope_off_detail">إبقاء حماية VPN متوقفة</string>
+    <string name="vpn_scope_http_detail">حماية تشغيل HTTP مع إبقاء HTTPS دون تغيير</string>
+    <string name="vpn_scope_app_detail">جميع بيانات هذا التطبيق، بما في ذلك HTTPS</string>
+</resources>

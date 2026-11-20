@@ -4009,4 +4009,27 @@
     <string name="live_tv_ui_smb_connection_failed">Não foi possível ligar.</string>
     <string name="live_tv_ui_smb_no_share">A gravação SMB está ativa, mas não há partilha definida; &quot;%1$s&quot; está a ser guardado neste dispositivo</string>
     <string name="live_tv_ui_smb_upload_failed">Falha no envio para SMB; a gravação continua neste dispositivo</string>
+
+    <string name="vpn_status">Estado da VPN</string>
+    <string name="vpn_not_connected">Não ligado</string>
+    <string name="vpn_off">VPN desativada</string>
+    <string name="vpn_wireguard_profile">Perfil WireGuard</string>
+    <string name="vpn_import_conf">Importe um ficheiro .conf para começar</string>
+    <string name="vpn_choose_profile">Escolha o perfil usado para a reprodução</string>
+    <string name="vpn_selected">Selecionado</string>
+    <string name="vpn_remove">Remover</string>
+    <string name="vpn_mode_off">Desativada</string>
+    <string name="vpn_mode_off_detail">Manter a proteção VPN desativada</string>
+    <string name="vpn_mode_http">Apenas fluxos HTTP</string>
+    <string name="vpn_mode_http_detail">Proteger a reprodução HTTP; deixar HTTPS inalterado</string>
+    <string name="vpn_mode_http_https">Fluxos HTTP + HTTPS</string>
+    <string name="vpn_mode_http_https_detail">Proteger a reprodução HTTP e HTTPS, incluindo pré-carregamentos</string>
+    <string name="vpn_mode_app">Aplicação completa</string>
+    <string name="vpn_mode_app_detail">Todo o tráfego do Nuvio; as outras aplicações não são afetadas</string>
+    <string name="vpn_use_all_profiles">Utilizar para todos os perfis</string>
+    <string name="vpn_use_all_profiles_detail">Partilhar esta configuração de VPN com todos os perfis Nuvio</string>
+    <string name="vpn_profiles_encrypted">Os perfis são encriptados neste dispositivo. Não são sincronizados com outros dispositivos; importe novamente a configuração em cada dispositivo. A cópia de segurança do sistema Android continua excluída.</string>
+
+    <string name="compose_settings_page_vpn">VPN</string>
+    <string name="compose_settings_root_vpn_description">Proteção WireGuard para reprodução em streaming.</string>
 </resources>

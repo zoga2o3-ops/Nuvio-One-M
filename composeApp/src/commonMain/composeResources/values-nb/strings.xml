@@ -4003,4 +4003,27 @@ Du bruker denne funksjonen helt på eget ansvar. P2P kan deaktiveres når som he
     <string name="live_tv_ui_smb_connection_failed">Kunne ikke koble til.</string>
     <string name="live_tv_ui_smb_no_share">SMB-opptak er på, men ingen deling er angitt; «%1$s» lagres på denne enheten</string>
     <string name="live_tv_ui_smb_upload_failed">SMB-opplasting mislyktes; opptaket ligger fortsatt på denne enheten</string>
+
+    <string name="vpn_status">VPN-status</string>
+    <string name="vpn_not_connected">Ikke tilkoblet</string>
+    <string name="vpn_off">VPN av</string>
+    <string name="vpn_wireguard_profile">WireGuard-profil</string>
+    <string name="vpn_import_conf">Importer en .conf-fil for å komme i gang</string>
+    <string name="vpn_choose_profile">Velg profilen som brukes til avspilling</string>
+    <string name="vpn_selected">Valgt</string>
+    <string name="vpn_remove">Fjern</string>
+    <string name="vpn_mode_off">Av</string>
+    <string name="vpn_mode_off_detail">Hold VPN-beskyttelsen av</string>
+    <string name="vpn_mode_http">Bare HTTP-strømmer</string>
+    <string name="vpn_mode_http_detail">Beskytt HTTP-avspilling; la HTTPS være uendret</string>
+    <string name="vpn_mode_http_https">HTTP + HTTPS-strømmer</string>
+    <string name="vpn_mode_http_https_detail">Beskytt HTTP- og HTTPS-avspilling, inkludert forhåndslasting</string>
+    <string name="vpn_mode_app">Hele appen</string>
+    <string name="vpn_mode_app_detail">All trafikk fra Nuvio; andre apper påvirkes ikke</string>
+    <string name="vpn_use_all_profiles">Bruk for alle profiler</string>
+    <string name="vpn_use_all_profiles_detail">Del denne VPN-konfigurasjonen med alle Nuvio-profiler</string>
+    <string name="vpn_profiles_encrypted">Profilene krypteres på denne enheten. De synkroniseres ikke til andre enheter; importer konfigurasjonen på nytt på hver enhet. Android-systemets sikkerhetskopi forblir utelatt.</string>
+
+    <string name="compose_settings_page_vpn">VPN</string>
+    <string name="compose_settings_root_vpn_description">WireGuard-beskyttelse for strømmeavspilling.</string>
 </resources>

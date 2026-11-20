@@ -3995,4 +3995,27 @@
     <string name="live_tv_ui_smb_connection_failed">منسلک نہیں ہو سکا۔</string>
     <string name="live_tv_ui_smb_no_share">SMB ریکارڈنگ آن ہے، لیکن کوئی شیئر مقرر نہیں؛ &quot;%1$s&quot; اس ڈیوائس پر محفوظ کیا جا رہا ہے</string>
     <string name="live_tv_ui_smb_upload_failed">SMB اپ لوڈ ناکام ہو گیا؛ ریکارڈنگ اب بھی اس ڈیوائس پر ہے</string>
+
+    <string name="vpn_status">VPN کی حالت</string>
+    <string name="vpn_not_connected">منسلک نہیں</string>
+    <string name="vpn_off">VPN بند</string>
+    <string name="vpn_wireguard_profile">WireGuard پروفائل</string>
+    <string name="vpn_import_conf">شروع کرنے کے لیے .conf فائل درآمد کریں</string>
+    <string name="vpn_choose_profile">پلے بیک کے لیے استعمال ہونے والا پروفائل منتخب کریں</string>
+    <string name="vpn_selected">منتخب شدہ</string>
+    <string name="vpn_remove">ہٹائیں</string>
+    <string name="vpn_mode_off">بند</string>
+    <string name="vpn_mode_off_detail">VPN تحفظ بند رکھیں</string>
+    <string name="vpn_mode_http">صرف HTTP اسٹریمز</string>
+    <string name="vpn_mode_http_detail">HTTP پلے بیک محفوظ کریں؛ HTTPS کو تبدیل نہ کریں</string>
+    <string name="vpn_mode_http_https">HTTP + HTTPS اسٹریمز</string>
+    <string name="vpn_mode_http_https_detail">پیشگی لوڈنگ سمیت HTTP اور HTTPS پلے بیک محفوظ کریں</string>
+    <string name="vpn_mode_app">پوری ایپ</string>
+    <string name="vpn_mode_app_detail">Nuvio کی تمام ٹریفک؛ دیگر ایپس متاثر نہیں ہوں گی</string>
+    <string name="vpn_use_all_profiles">تمام پروفائلز کے لیے استعمال کریں</string>
+    <string name="vpn_use_all_profiles_detail">یہ VPN سیٹ اپ ہر Nuvio پروفائل کے ساتھ شیئر کریں</string>
+    <string name="vpn_profiles_encrypted">پروفائلز اس ڈیوائس پر انکرپٹ کیے گئے ہیں۔ وہ دیگر ڈیوائسز پر سنک نہیں ہوتے؛ ہر ڈیوائس پر کنفیگریشن دوبارہ درآمد کریں۔ Android سسٹم بیک اپ خارج ہی رہتا ہے۔</string>
+
+    <string name="compose_settings_page_vpn">VPN</string>
+    <string name="compose_settings_root_vpn_description">اسٹریمنگ پلے بیک کے لیے WireGuard تحفظ۔</string>
 </resources>

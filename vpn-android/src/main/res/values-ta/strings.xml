@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="vpn_connection_unavailable">இணைக்கப்படவில்லை</string>
+    <string name="vpn_connected_app">இணைக்கப்பட்டது · முழு ஆப்</string>
+    <string name="vpn_connected_http">இணைக்கப்பட்டது · HTTP ஸ்ட்ரீம்கள் மட்டும்</string>
+    <string name="vpn_connected_web">இணைக்கப்பட்டது · HTTP + HTTPS ஸ்ட்ரீம்கள்</string>
+    <string name="vpn_connecting">இணைக்கிறது…</string>
+    <string name="vpn_waiting_handshake">சரிபார்க்கப்பட்ட VPN இணைப்பிற்காகக் காத்திருக்கிறது</string>
+    <string name="vpn_connection_failed">VPN இணைப்பைச் சரிபார்க்க முடியவில்லை</string>
+    <string name="vpn_auth_rejected">OpenVPN சேவையகம் அங்கீகாரத்தை நிராகரித்தது. மீண்டும் பிளேபேக் செய்வதற்கு முன் சுயவிவரத்தின் சேவை உள்நுழைவுத் தகவல்களைச் சரிபார்க்கவும்.</string>
+    <string name="vpn_connection_error_detail">VPN பாதுகாப்பு சரிபார்க்கப்படவில்லை. மீண்டும் முயல்வதற்கு முன் இணைப்பைத் துண்டிக்கவும்.</string>
+    <string name="vpn_credentials_required">இந்த OpenVPN சுயவிவரத்திற்கான சேவை உள்நுழைவுத் தகவல்களை அமைக்கவும்.</string>
+    <string name="vpn_requires_app_scope">தானியங்கி பாதுகாப்பை இயக்க HTTP, HTTP + HTTPS அல்லது முழு ஆப் என்பதைத் தேர்ந்தெடுக்கவும்.</string>
+    <string name="vpn_ready_web">முன்கூட்டியே ஏற்றுதல் உட்பட HTTP மற்றும் HTTPS ஸ்ட்ரீம்களுக்குத் தானாக இணைக்கிறது.</string>
+    <string name="vpn_ready_http">HTTP ஸ்ட்ரீம்களுக்குத் தானாக இணைக்கிறது. HTTPS இந்த VPNஐப் பயன்படுத்தாது.</string>
+    <string name="vpn_ready_to_connect">Android VPN அனுமதி வழங்கப்பட்ட பிறகு, Nuvio திறந்திருக்கும் போது முழு ஆப் பாதுகாப்பு தானாகத் தொடங்குகிறது.</string>
+    <string name="vpn_active_web_detail">HTTP மற்றும் HTTPS பிளேபேக் VPNஐப் பயன்படுத்துகிறது. பிற ஆப் டிராஃபிக் அதன் இயல்பான இணைப்பையே பயன்படுத்துகிறது.</string>
+    <string name="vpn_active_http_detail">HTTP பிளேபேக் VPNஐப் பயன்படுத்துகிறது. HTTPS மற்றும் பிற ஆப் டிராஃபிக் இயல்பான இணைப்பையே பயன்படுத்துகின்றன.</string>
+    <string name="vpn_active_app_detail">இந்த ஆப்பின் அனைத்து நெட்வொர்க் டிராஃபிக்கும் VPNஐப் பயன்படுத்துகிறது. பிற ஆப்கள் பாதிக்கப்படாது.</string>
+    <string name="vpn_verification_pending">VPN இணைப்பு இன்னும் சரிபார்க்கப்படவில்லை. மீண்டும் முயல இதை இயக்கத்தில் வைத்திருங்கள் அல்லது இணைப்பைத் துண்டிக்கவும்.</string>
+    <string name="vpn_select_wireguard_profile">இணைக்க ஒரு சேமிக்கப்பட்ட VPN சுயவிவரத்தைத் தேர்ந்தெடுக்கவும்.</string>
+    <string name="vpn_egress_address">VPN IP: %1$s</string>
+    <string name="vpn_connection_traffic">பெறப்பட்டது %1$s · அனுப்பப்பட்டது %2$s</string>
+    <string name="vpn_profiles_unreadable">சேமிக்கப்பட்ட சுயவிவரத்தின் பூட்டைத் திறக்க முடியவில்லை</string>
+    <string name="vpn_profiles_selection_unavailable">தேர்ந்தெடுத்த சுயவிவரம் கிடைக்கவில்லை. தேர்வு அழிக்கப்பட்டு VPN வரம்பு முடக்கப்பட்டது.</string>
+    <string name="vpn_profiles_imported">கட்டமைப்பு இறக்குமதி செய்யப்பட்டது.</string>
+    <string name="vpn_profiles_removed">சேமிக்கப்பட்ட சுயவிவரம் அகற்றப்பட்டது.</string>
+    <string name="vpn_profiles_selection_saved">சுயவிவரத் தேர்வு சேமிக்கப்பட்டது.</string>
+    <string name="vpn_scope_saved">VPN வரம்பு சேமிக்கப்பட்டது.</string>
+    <string name="vpn_credentials_failed">சேவை உள்நுழைவுத் தகவல்களைப் புதுப்பிக்க முடியவில்லை. சுயவிவரத்தைச் சரிபார்த்து மீண்டும் முயலவும்.</string>
+    <string name="vpn_credentials_saved">சேவை உள்நுழைவுத் தகவல்கள் சேமிக்கப்பட்டன.</string>
+    <string name="vpn_profiles_import_failed">இந்த உள்ளமைவை இறக்குமதி செய்ய முடியவில்லை. 1 MiB வரை WireGuard .conf கோப்பைப் பயன்படுத்தவும்.</string>
+    <string name="vpn_profiles_remove_failed">சேமிக்கப்பட்ட சுயவிவரத்தை அகற்ற முடியவில்லை.</string>
+    <string name="vpn_profiles_selection_failed">சேமிக்கப்பட்ட சுயவிவரத்தைத் தேர்ந்தெடுக்க முடியவில்லை.</string>
+    <string name="vpn_scope_failed">VPN வரம்பைச் சேமிக்க முடியவில்லை.</string>
+    <string name="vpn_import_reason_storage">இந்தச் சாதனத்தில் சுயவிவரத்தைப் பாதுகாப்பாகச் சேமிக்க முடியவில்லை.</string>
+    <string name="vpn_import_reason_engine">இந்தச் சாதனத்தில் VPN இன்ஜினை ஏற்ற முடியவில்லை.</string>
+    <string name="vpn_profiles_import_reason">காரணம்: %1$s</string>
+    <string name="vpn_import_reason_other">சேமிக்கும்போது எதிர்பாராத பிழை ஏற்பட்டது.</string>
+    <string name="vpn_profiles_importing">கட்டமைப்பு இறக்குமதி செய்யப்படுகிறது…</string>
+    <string name="vpn_profiles_storage_failed">மறைகுறியாக்கப்பட்ட சுயவிவரச் சேமிப்பைத் திறக்க முடியவில்லை.</string>
+    <string name="vpn_scope_needs_profile">முதலில் VPN சுயவிவரத்தைத் தேர்ந்தெடுக்கவும். ஒன்று தேர்ந்தெடுக்கப்படும் வரை VPN முடக்கப்பட்டே இருக்கும்.</string>
+    <string name="vpn_scope_off_detail">VPN பாதுகாப்பை முடக்கப்பட்டே வைக்கவும்</string>
+    <string name="vpn_scope_http_detail">HTTP பிளேபேக்கைப் பாதுகாக்கவும்; HTTPS மாற்றமின்றி விடவும்</string>
+    <string name="vpn_scope_app_detail">HTTPS உட்பட இந்த ஆப்பின் அனைத்து டிராஃபிக்</string>
+</resources>

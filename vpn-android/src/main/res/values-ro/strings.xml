@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="vpn_connection_unavailable">Neconectat</string>
+    <string name="vpn_connected_app">Conectat · Întreaga aplicație</string>
+    <string name="vpn_connected_http">Conectat · Doar fluxuri HTTP</string>
+    <string name="vpn_connected_web">Conectat · Fluxuri HTTP + HTTPS</string>
+    <string name="vpn_connecting">Se conectează…</string>
+    <string name="vpn_waiting_handshake">Se așteaptă o conexiune VPN verificată</string>
+    <string name="vpn_connection_failed">Conexiunea VPN nu a putut fi verificată</string>
+    <string name="vpn_auth_rejected">Serverul OpenVPN a respins autentificarea. Verifică datele de autentificare ale serviciului din profil înainte de a reîncerca redarea.</string>
+    <string name="vpn_connection_error_detail">Protecția VPN nu este verificată. Deconectează-te înainte de a încerca din nou.</string>
+    <string name="vpn_credentials_required">Setează datele de autentificare ale serviciului pentru acest profil OpenVPN.</string>
+    <string name="vpn_requires_app_scope">Alege HTTP, HTTP + HTTPS sau Întreaga aplicație pentru a activa protecția automată.</string>
+    <string name="vpn_ready_web">Se conectează automat pentru fluxuri HTTP și HTTPS, inclusiv pentru preîncărcări.</string>
+    <string name="vpn_ready_http">Se conectează automat pentru fluxuri HTTP. HTTPS nu folosește acest VPN.</string>
+    <string name="vpn_ready_to_connect">Protecția întregii aplicații pornește automat cât timp Nuvio este deschis, după acordarea permisiunii VPN Android.</string>
+    <string name="vpn_active_web_detail">Redarea HTTP și HTTPS folosește VPN-ul. Restul traficului aplicației își păstrează conexiunea normală.</string>
+    <string name="vpn_active_http_detail">Redarea HTTP folosește VPN-ul. HTTPS și restul traficului aplicației își păstrează conexiunea normală.</string>
+    <string name="vpn_active_app_detail">Tot traficul de rețea al acestei aplicații folosește VPN-ul. Celelalte aplicații nu sunt afectate.</string>
+    <string name="vpn_verification_pending">Conexiunea VPN nu este încă verificată. Las-o activă pentru a reîncerca sau deconectează-te.</string>
+    <string name="vpn_select_wireguard_profile">Selectează un profil VPN salvat pentru a te conecta.</string>
+    <string name="vpn_egress_address">IP VPN: %1$s</string>
+    <string name="vpn_connection_traffic">Primit %1$s · Trimis %2$s</string>
+    <string name="vpn_profiles_unreadable">Profilul salvat nu poate fi deblocat</string>
+    <string name="vpn_profiles_selection_unavailable">Profilul selectat nu este disponibil. Selecția a fost ștearsă, iar acoperirea VPN a fost setată la Oprit.</string>
+    <string name="vpn_profiles_imported">Configurația a fost importată.</string>
+    <string name="vpn_profiles_removed">Profilul salvat a fost eliminat.</string>
+    <string name="vpn_profiles_selection_saved">Selecția profilului a fost salvată.</string>
+    <string name="vpn_scope_saved">Acoperirea VPN a fost salvată.</string>
+    <string name="vpn_credentials_failed">Datele de autentificare ale serviciului nu au putut fi actualizate. Verifică profilul și încearcă din nou.</string>
+    <string name="vpn_credentials_saved">Datele de autentificare ale serviciului au fost salvate.</string>
+    <string name="vpn_profiles_import_failed">Configurația nu a putut fi importată. Folosește un fișier WireGuard .conf de până la 1 MiB.</string>
+    <string name="vpn_profiles_remove_failed">Profilul salvat nu a putut fi eliminat.</string>
+    <string name="vpn_profiles_selection_failed">Profilul salvat nu a putut fi selectat.</string>
+    <string name="vpn_scope_failed">Acoperirea VPN nu a putut fi salvată.</string>
+    <string name="vpn_import_reason_storage">Profilul nu a putut fi stocat în siguranță pe acest dispozitiv.</string>
+    <string name="vpn_import_reason_engine">Motorul VPN nu a putut fi încărcat pe acest dispozitiv.</string>
+    <string name="vpn_profiles_import_reason">Motiv: %1$s</string>
+    <string name="vpn_import_reason_other">A apărut o eroare neașteptată la salvare.</string>
+    <string name="vpn_profiles_importing">Se importă configurația…</string>
+    <string name="vpn_profiles_storage_failed">Spațiul de stocare criptat al profilurilor nu a putut fi deschis.</string>
+    <string name="vpn_scope_needs_profile">Alege mai întâi un profil VPN. VPN-ul rămâne oprit până când este ales unul.</string>
+    <string name="vpn_scope_off_detail">Păstrează protecția VPN oprită</string>
+    <string name="vpn_scope_http_detail">Protejează redarea HTTP; lasă HTTPS neschimbat</string>
+    <string name="vpn_scope_app_detail">Tot traficul acestei aplicații, inclusiv HTTPS</string>
+</resources>

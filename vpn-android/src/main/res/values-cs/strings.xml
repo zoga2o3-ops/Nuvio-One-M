@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="vpn_connection_unavailable">Nepřipojeno</string>
+    <string name="vpn_connected_app">Připojeno · Celá aplikace</string>
+    <string name="vpn_connected_http">Připojeno · Pouze HTTP streamy</string>
+    <string name="vpn_connected_web">Připojeno · HTTP + HTTPS streamy</string>
+    <string name="vpn_connecting">Připojování…</string>
+    <string name="vpn_waiting_handshake">Čekání na ověřené připojení VPN</string>
+    <string name="vpn_connection_failed">Připojení VPN nelze ověřit</string>
+    <string name="vpn_auth_rejected">Server OpenVPN odmítl ověření. Před dalším pokusem o přehrávání zkontrolujte přihlašovací údaje služby v profilu.</string>
+    <string name="vpn_connection_error_detail">Ochrana VPN není ověřena. Před dalším pokusem se odpojte.</string>
+    <string name="vpn_credentials_required">Nastavte přihlašovací údaje služby pro tento profil OpenVPN.</string>
+    <string name="vpn_requires_app_scope">Chcete-li zapnout automatickou ochranu, zvolte HTTP, HTTP + HTTPS nebo Celá aplikace.</string>
+    <string name="vpn_ready_web">Automaticky se připojí pro HTTP a HTTPS streamy, včetně předběžného načítání.</string>
+    <string name="vpn_ready_http">Automaticky se připojí pro HTTP streamy. HTTPS tuto VPN nepoužívá.</string>
+    <string name="vpn_ready_to_connect">Ochrana celé aplikace se spustí automaticky, když je Nuvio otevřené, po udělení oprávnění VPN v Androidu.</string>
+    <string name="vpn_active_web_detail">Přehrávání přes HTTP a HTTPS používá VPN. Ostatní provoz aplikace si zachovává běžné připojení.</string>
+    <string name="vpn_active_http_detail">Přehrávání přes HTTP používá VPN. HTTPS a ostatní provoz aplikace si zachovávají běžné připojení.</string>
+    <string name="vpn_active_app_detail">Veškerý síťový provoz této aplikace používá VPN. Ostatní aplikace nejsou ovlivněny.</string>
+    <string name="vpn_verification_pending">Připojení VPN zatím není ověřeno. Ponechte ho zapnuté pro nový pokus, nebo se odpojte.</string>
+    <string name="vpn_select_wireguard_profile">Vyberte uložený profil VPN pro připojení.</string>
+    <string name="vpn_egress_address">IP adresa VPN: %1$s</string>
+    <string name="vpn_connection_traffic">Přijato %1$s · Odesláno %2$s</string>
+    <string name="vpn_profiles_unreadable">Uložený profil nelze odemknout</string>
+    <string name="vpn_profiles_selection_unavailable">Vybraný profil není dostupný. Výběr byl zrušen a rozsah VPN je vypnutý.</string>
+    <string name="vpn_profiles_imported">Konfigurace byla importována.</string>
+    <string name="vpn_profiles_removed">Uložený profil byl odebrán.</string>
+    <string name="vpn_profiles_selection_saved">Výběr profilu byl uložen.</string>
+    <string name="vpn_scope_saved">Rozsah VPN byl uložen.</string>
+    <string name="vpn_credentials_failed">Přihlašovací údaje služby nelze aktualizovat. Zkontrolujte profil a zkuste to znovu.</string>
+    <string name="vpn_credentials_saved">Přihlašovací údaje služby byly uloženy.</string>
+    <string name="vpn_profiles_import_failed">Tuto konfiguraci nelze importovat. Použijte soubor WireGuard .conf do velikosti 1 MiB.</string>
+    <string name="vpn_profiles_remove_failed">Uložený profil nelze odebrat.</string>
+    <string name="vpn_profiles_selection_failed">Uložený profil nelze vybrat.</string>
+    <string name="vpn_scope_failed">Rozsah VPN nelze uložit.</string>
+    <string name="vpn_import_reason_storage">Profil nebylo možné na tomto zařízení bezpečně uložit.</string>
+    <string name="vpn_import_reason_engine">VPN engine nebylo možné na tomto zařízení načíst.</string>
+    <string name="vpn_profiles_import_reason">Důvod: %1$s</string>
+    <string name="vpn_import_reason_other">Při ukládání došlo k neočekávané chybě.</string>
+    <string name="vpn_profiles_importing">Import konfigurace…</string>
+    <string name="vpn_profiles_storage_failed">Šifrované úložiště profilů nelze otevřít.</string>
+    <string name="vpn_scope_needs_profile">Nejprve vyberte profil VPN. VPN zůstane vypnuté, dokud nebude vybrán.</string>
+    <string name="vpn_scope_off_detail">Ponechat ochranu VPN vypnutou</string>
+    <string name="vpn_scope_http_detail">Chránit přehrávání HTTP; HTTPS ponechat beze změny</string>
+    <string name="vpn_scope_app_detail">Veškerý provoz této aplikace včetně HTTPS</string>
+</resources>

@@ -4057,4 +4057,27 @@
     <string name="live_tv_ui_smb_connection_failed">Không thể kết nối.</string>
     <string name="live_tv_ui_smb_no_share">Ghi SMB đang bật nhưng chưa đặt thư mục chia sẻ; &quot;%1$s&quot; đang được lưu vào thiết bị này</string>
     <string name="live_tv_ui_smb_upload_failed">Tải lên SMB thất bại; bản ghi vẫn còn trên thiết bị này</string>
+
+    <string name="vpn_status">Trạng thái VPN</string>
+    <string name="vpn_not_connected">Chưa kết nối</string>
+    <string name="vpn_off">VPN tắt</string>
+    <string name="vpn_wireguard_profile">Hồ sơ WireGuard</string>
+    <string name="vpn_import_conf">Nhập tệp .conf để bắt đầu</string>
+    <string name="vpn_choose_profile">Chọn hồ sơ dùng để phát</string>
+    <string name="vpn_selected">Đã chọn</string>
+    <string name="vpn_remove">Xóa</string>
+    <string name="vpn_mode_off">Tắt</string>
+    <string name="vpn_mode_off_detail">Giữ tắt bảo vệ VPN</string>
+    <string name="vpn_mode_http">Chỉ luồng HTTP</string>
+    <string name="vpn_mode_http_detail">Bảo vệ phát HTTP; giữ nguyên HTTPS</string>
+    <string name="vpn_mode_http_https">Luồng HTTP + HTTPS</string>
+    <string name="vpn_mode_http_https_detail">Bảo vệ phát HTTP và HTTPS, bao gồm tải trước</string>
+    <string name="vpn_mode_app">Toàn bộ ứng dụng</string>
+    <string name="vpn_mode_app_detail">Toàn bộ lưu lượng của Nuvio; các ứng dụng khác không bị ảnh hưởng</string>
+    <string name="vpn_use_all_profiles">Dùng cho tất cả hồ sơ</string>
+    <string name="vpn_use_all_profiles_detail">Chia sẻ thiết lập VPN này với mọi hồ sơ Nuvio</string>
+    <string name="vpn_profiles_encrypted">Hồ sơ được mã hóa trên thiết bị này. Chúng không được đồng bộ sang thiết bị khác; hãy nhập lại cấu hình trên từng thiết bị. Bản sao lưu hệ thống Android vẫn bị loại trừ.</string>
+
+    <string name="compose_settings_page_vpn">VPN</string>
+    <string name="compose_settings_root_vpn_description">Bảo vệ WireGuard cho phát trực tuyến.</string>
 </resources>

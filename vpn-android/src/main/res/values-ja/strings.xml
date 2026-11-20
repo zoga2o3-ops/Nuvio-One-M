@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="vpn_connection_unavailable">未接続</string>
+    <string name="vpn_connected_app">接続済み · アプリ全体</string>
+    <string name="vpn_connected_http">接続済み · HTTPストリームのみ</string>
+    <string name="vpn_connected_web">接続済み · HTTP + HTTPSストリーム</string>
+    <string name="vpn_connecting">接続中…</string>
+    <string name="vpn_waiting_handshake">確認済みのVPN接続を待機中</string>
+    <string name="vpn_connection_failed">VPN接続を確認できませんでした</string>
+    <string name="vpn_auth_rejected">OpenVPNサーバーが認証を拒否しました。再生を再試行する前に、プロファイルのサービスの認証情報を確認してください。</string>
+    <string name="vpn_connection_error_detail">VPN保護が確認されていません。再試行する前に切断してください。</string>
+    <string name="vpn_credentials_required">このOpenVPNプロファイルのサービスの認証情報を設定してください。</string>
+    <string name="vpn_requires_app_scope">自動保護を有効にするには、HTTP、HTTP + HTTPS、またはアプリ全体を選択してください。</string>
+    <string name="vpn_ready_web">プリロードを含むHTTPおよびHTTPSストリーム用に自動接続します。</string>
+    <string name="vpn_ready_http">HTTPストリーム用に自動接続します。HTTPSはこのVPNを使用しません。</string>
+    <string name="vpn_ready_to_connect">AndroidのVPN権限が許可されると、Nuvioを開いている間はアプリ全体の保護が自動的に開始されます。</string>
+    <string name="vpn_active_web_detail">HTTPおよびHTTPSの再生はVPNを使用します。アプリのその他の通信は通常の接続のままです。</string>
+    <string name="vpn_active_http_detail">HTTPの再生はVPNを使用します。HTTPSおよびアプリのその他の通信は通常の接続のままです。</string>
+    <string name="vpn_active_app_detail">このアプリのすべてのネットワーク通信がVPNを使用します。他のアプリには影響しません。</string>
+    <string name="vpn_verification_pending">VPN接続はまだ確認されていません。再試行するには接続したままにするか、切断してください。</string>
+    <string name="vpn_select_wireguard_profile">接続する保存済みのVPNプロファイルを選択してください。</string>
+    <string name="vpn_egress_address">VPN IP: %1$s</string>
+    <string name="vpn_connection_traffic">受信 %1$s · 送信 %2$s</string>
+    <string name="vpn_profiles_unreadable">保存済みプロファイルのロックを解除できません</string>
+    <string name="vpn_profiles_selection_unavailable">選択したプロファイルは利用できません。選択を解除し、VPN範囲をオフにしました。</string>
+    <string name="vpn_profiles_imported">構成をインポートしました。</string>
+    <string name="vpn_profiles_removed">保存済みプロファイルを削除しました。</string>
+    <string name="vpn_profiles_selection_saved">プロファイルの選択を保存しました。</string>
+    <string name="vpn_scope_saved">VPN範囲を保存しました。</string>
+    <string name="vpn_credentials_failed">サービスの認証情報を更新できませんでした。プロファイルを確認して、もう一度お試しください。</string>
+    <string name="vpn_credentials_saved">サービスの認証情報を保存しました。</string>
+    <string name="vpn_profiles_import_failed">この設定をインポートできませんでした。1 MiB 以下の WireGuard .conf ファイルを使用してください。</string>
+    <string name="vpn_profiles_remove_failed">保存済みプロファイルを削除できませんでした。</string>
+    <string name="vpn_profiles_selection_failed">保存済みプロファイルを選択できませんでした。</string>
+    <string name="vpn_scope_failed">VPN範囲を保存できませんでした。</string>
+    <string name="vpn_import_reason_storage">このデバイスにプロファイルを安全に保存できませんでした。</string>
+    <string name="vpn_import_reason_engine">このデバイスでVPNエンジンを読み込めませんでした。</string>
+    <string name="vpn_profiles_import_reason">理由: %1$s</string>
+    <string name="vpn_import_reason_other">保存中に予期しないエラーが発生しました。</string>
+    <string name="vpn_profiles_importing">構成をインポート中…</string>
+    <string name="vpn_profiles_storage_failed">暗号化されたプロファイルストレージを開けませんでした。</string>
+    <string name="vpn_scope_needs_profile">先にVPNプロファイルを選択してください。選択するまでVPNはオフのままです。</string>
+    <string name="vpn_scope_off_detail">VPN保護をオフのままにする</string>
+    <string name="vpn_scope_http_detail">HTTPの再生を保護し、HTTPSは変更しない</string>
+    <string name="vpn_scope_app_detail">HTTPSを含む、このアプリのすべての通信</string>
+</resources>

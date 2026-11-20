@@ -4091,4 +4091,27 @@
     <string name="live_tv_ui_smb_connection_failed">Неуспешно свързване.</string>
     <string name="live_tv_ui_smb_no_share">Записването в SMB е включено, но няма зададено споделяне; „%1$s“ се запазва на това устройство</string>
     <string name="live_tv_ui_smb_upload_failed">Качването в SMB не бе успешно; записът остава на това устройство</string>
+
+    <string name="vpn_status">Състояние на VPN</string>
+    <string name="vpn_not_connected">Няма връзка</string>
+    <string name="vpn_off">VPN изключен</string>
+    <string name="vpn_wireguard_profile">Профил WireGuard</string>
+    <string name="vpn_import_conf">Импортирайте .conf файл, за да започнете</string>
+    <string name="vpn_choose_profile">Изберете профила за възпроизвеждане</string>
+    <string name="vpn_selected">Избран</string>
+    <string name="vpn_remove">Премахни</string>
+    <string name="vpn_mode_off">Изключен</string>
+    <string name="vpn_mode_off_detail">Запази защитата с VPN изключена</string>
+    <string name="vpn_mode_http">Само HTTP потоци</string>
+    <string name="vpn_mode_http_detail">Защити HTTP възпроизвеждането; оставете HTTPS без промяна</string>
+    <string name="vpn_mode_http_https">HTTP + HTTPS потоци</string>
+    <string name="vpn_mode_http_https_detail">Защити HTTP и HTTPS възпроизвеждането, включително предварителните зареждания</string>
+    <string name="vpn_mode_app">Цялото приложение</string>
+    <string name="vpn_mode_app_detail">Целият трафик на Nuvio; другите приложения не са засегнати</string>
+    <string name="vpn_use_all_profiles">Използвай за всички профили</string>
+    <string name="vpn_use_all_profiles_detail">Сподели тази VPN настройка с всеки профил на Nuvio</string>
+    <string name="vpn_profiles_encrypted">Профилите са криптирани на това устройство. Не се синхронизират с други устройства; импортирайте конфигурацията отново на всяко устройство. Системният архив на Android остава изключен.</string>
+
+    <string name="compose_settings_page_vpn">VPN</string>
+    <string name="compose_settings_root_vpn_description">WireGuard защита за възпроизвеждане на видео.</string>
 </resources>

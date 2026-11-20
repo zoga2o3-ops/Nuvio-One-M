@@ -4003,4 +4003,27 @@
     <string name="live_tv_ui_smb_connection_failed">Připojení se nezdařilo.</string>
     <string name="live_tv_ui_smb_no_share">Nahrávání do SMB je zapnuté, ale není nastaveno sdílení; „%1$s“ se ukládá do tohoto zařízení</string>
     <string name="live_tv_ui_smb_upload_failed">Nahrání do SMB se nezdařilo; nahrávka zůstává v tomto zařízení</string>
+
+    <string name="vpn_status">Stav VPN</string>
+    <string name="vpn_not_connected">Nepřipojeno</string>
+    <string name="vpn_off">VPN vypnuto</string>
+    <string name="vpn_wireguard_profile">Profil WireGuard</string>
+    <string name="vpn_import_conf">Začněte importem souboru .conf</string>
+    <string name="vpn_choose_profile">Zvolte profil pro přehrávání</string>
+    <string name="vpn_selected">Vybráno</string>
+    <string name="vpn_remove">Odebrat</string>
+    <string name="vpn_mode_off">Vypnuto</string>
+    <string name="vpn_mode_off_detail">Ponechat ochranu VPN vypnutou</string>
+    <string name="vpn_mode_http">Pouze HTTP streamy</string>
+    <string name="vpn_mode_http_detail">Chránit přehrávání HTTP; HTTPS ponechat beze změny</string>
+    <string name="vpn_mode_http_https">HTTP + HTTPS streamy</string>
+    <string name="vpn_mode_http_https_detail">Chránit přehrávání HTTP i HTTPS včetně přednačítání</string>
+    <string name="vpn_mode_app">Celá aplikace</string>
+    <string name="vpn_mode_app_detail">Veškerý provoz Nuvio; ostatní aplikace nejsou ovlivněny</string>
+    <string name="vpn_use_all_profiles">Použít pro všechny profily</string>
+    <string name="vpn_use_all_profiles_detail">Sdílet toto nastavení VPN se všemi profily Nuvio</string>
+    <string name="vpn_profiles_encrypted">Profily jsou na tomto zařízení šifrované. Nesynchronizují se s jinými zařízeními; konfiguraci importujte znovu na každém zařízení. Systémová záloha Androidu zůstává vyloučena.</string>
+
+    <string name="compose_settings_page_vpn">VPN</string>
+    <string name="compose_settings_root_vpn_description">Ochrana WireGuard pro přehrávání streamů.</string>
 </resources>

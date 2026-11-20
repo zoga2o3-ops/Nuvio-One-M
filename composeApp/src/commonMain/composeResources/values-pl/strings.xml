@@ -5557,4 +5557,27 @@
     <string name="live_tv_ui_smb_connection_failed">Nie można się połączyć.</string>
     <string name="live_tv_ui_smb_no_share">Nagrywanie do SMB jest włączone, ale nie ustawiono udziału; „%1$s” zostanie zapisane na tym urządzeniu</string>
     <string name="live_tv_ui_smb_upload_failed">Przesyłanie do SMB nie powiodło się; nagranie nadal znajduje się na tym urządzeniu</string>
+
+    <string name="vpn_status">Stan VPN</string>
+    <string name="vpn_not_connected">Nie połączono</string>
+    <string name="vpn_off">VPN wyłączony</string>
+    <string name="vpn_wireguard_profile">Profil WireGuard</string>
+    <string name="vpn_import_conf">Zaimportuj plik .conf, aby rozpocząć</string>
+    <string name="vpn_choose_profile">Wybierz profil używany do odtwarzania</string>
+    <string name="vpn_selected">Wybrano</string>
+    <string name="vpn_remove">Usuń</string>
+    <string name="vpn_mode_off">Wyłączony</string>
+    <string name="vpn_mode_off_detail">Pozostaw ochronę VPN wyłączoną</string>
+    <string name="vpn_mode_http">Tylko strumienie HTTP</string>
+    <string name="vpn_mode_http_detail">Chroń odtwarzanie HTTP; pozostaw HTTPS bez zmian</string>
+    <string name="vpn_mode_http_https">Strumienie HTTP + HTTPS</string>
+    <string name="vpn_mode_http_https_detail">Chroń odtwarzanie HTTP i HTTPS, w tym wstępne ładowanie</string>
+    <string name="vpn_mode_app">Cała aplikacja</string>
+    <string name="vpn_mode_app_detail">Cały ruch Nuvio; inne aplikacje pozostają bez zmian</string>
+    <string name="vpn_use_all_profiles">Używaj dla wszystkich profili</string>
+    <string name="vpn_use_all_profiles_detail">Udostępnij tę konfigurację VPN wszystkim profilom Nuvio</string>
+    <string name="vpn_profiles_encrypted">Profile są szyfrowane na tym urządzeniu. Nie są synchronizowane z innymi urządzeniami; zaimportuj konfigurację ponownie na każdym urządzeniu. Kopia zapasowa systemu Android pozostaje wyłączona.</string>
+
+    <string name="compose_settings_page_vpn">VPN</string>
+    <string name="compose_settings_root_vpn_description">Ochrona WireGuard dla odtwarzania strumieniowego.</string>
 </resources>

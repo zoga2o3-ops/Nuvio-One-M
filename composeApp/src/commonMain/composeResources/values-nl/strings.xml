@@ -4040,4 +4040,27 @@
     <string name="live_tv_ui_smb_connection_failed">Kan niet verbinden.</string>
     <string name="live_tv_ui_smb_no_share">SMB-opnemen staat aan, maar er is geen share ingesteld; '%1$s' wordt op dit apparaat opgeslagen</string>
     <string name="live_tv_ui_smb_upload_failed">SMB-upload mislukt; de opname staat nog op dit apparaat</string>
+
+    <string name="vpn_status">VPN-status</string>
+    <string name="vpn_not_connected">Niet verbonden</string>
+    <string name="vpn_off">VPN uit</string>
+    <string name="vpn_wireguard_profile">WireGuard-profiel</string>
+    <string name="vpn_import_conf">Importeer een .conf-bestand om te beginnen</string>
+    <string name="vpn_choose_profile">Kies het profiel voor afspelen</string>
+    <string name="vpn_selected">Geselecteerd</string>
+    <string name="vpn_remove">Verwijderen</string>
+    <string name="vpn_mode_off">Uit</string>
+    <string name="vpn_mode_off_detail">Houd VPN-beveiliging uitgeschakeld</string>
+    <string name="vpn_mode_http">Alleen HTTP-streams</string>
+    <string name="vpn_mode_http_detail">Beveilig HTTP-afspelen; laat HTTPS ongewijzigd</string>
+    <string name="vpn_mode_http_https">HTTP- + HTTPS-streams</string>
+    <string name="vpn_mode_http_https_detail">Beveilig HTTP- en HTTPS-afspelen, inclusief voorladen</string>
+    <string name="vpn_mode_app">Volledige app</string>
+    <string name="vpn_mode_app_detail">Al het verkeer van Nuvio; andere apps worden niet beïnvloed</string>
+    <string name="vpn_use_all_profiles">Gebruiken voor alle profielen</string>
+    <string name="vpn_use_all_profiles_detail">Deel deze VPN-instelling met elk Nuvio-profiel</string>
+    <string name="vpn_profiles_encrypted">Profielen worden op dit apparaat versleuteld. Ze worden niet naar andere apparaten gesynchroniseerd; importeer de configuratie op elk apparaat opnieuw. De Android-systeemback-up blijft uitgesloten.</string>
+
+    <string name="compose_settings_page_vpn">VPN</string>
+    <string name="compose_settings_root_vpn_description">WireGuard-beveiliging voor streamingafspeling.</string>
 </resources>

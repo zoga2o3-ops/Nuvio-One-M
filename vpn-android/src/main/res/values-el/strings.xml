@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="vpn_connection_unavailable">Μη συνδεδεμένο</string>
+    <string name="vpn_connected_app">Συνδεδεμένο · Ολόκληρη η εφαρμογή</string>
+    <string name="vpn_connected_http">Συνδεδεμένο · Μόνο ροές HTTP</string>
+    <string name="vpn_connected_web">Συνδεδεμένο · Ροές HTTP + HTTPS</string>
+    <string name="vpn_connecting">Σύνδεση…</string>
+    <string name="vpn_waiting_handshake">Αναμονή για επαληθευμένη σύνδεση VPN</string>
+    <string name="vpn_connection_failed">Δεν ήταν δυνατή η επαλήθευση σύνδεσης VPN</string>
+    <string name="vpn_auth_rejected">Ο διακομιστής OpenVPN απέρριψε την αυθεντικοποίηση. Ελέγξτε τα διαπιστευτήρια υπηρεσίας του προφίλ πριν δοκιμάσετε ξανά την αναπαραγωγή.</string>
+    <string name="vpn_connection_error_detail">Η προστασία VPN δεν έχει επαληθευτεί. Αποσυνδεθείτε πριν δοκιμάσετε ξανά.</string>
+    <string name="vpn_credentials_required">Ορίστε τα διαπιστευτήρια υπηρεσίας για αυτό το προφίλ OpenVPN.</string>
+    <string name="vpn_requires_app_scope">Επιλέξτε HTTP, HTTP + HTTPS ή Ολόκληρη η εφαρμογή για να ενεργοποιήσετε την αυτόματη προστασία.</string>
+    <string name="vpn_ready_web">Συνδέεται αυτόματα για ροές HTTP και HTTPS, συμπεριλαμβανομένης της προφόρτωσης.</string>
+    <string name="vpn_ready_http">Συνδέεται αυτόματα για ροές HTTP. Το HTTPS δεν χρησιμοποιεί αυτό το VPN.</string>
+    <string name="vpn_ready_to_connect">Η προστασία ολόκληρης της εφαρμογής ξεκινά αυτόματα όσο το Nuvio είναι ανοιχτό, αφού παραχωρηθεί η άδεια VPN του Android.</string>
+    <string name="vpn_active_web_detail">Η αναπαραγωγή HTTP και HTTPS χρησιμοποιεί το VPN. Η υπόλοιπη κίνηση της εφαρμογής διατηρεί την κανονική σύνδεση.</string>
+    <string name="vpn_active_http_detail">Η αναπαραγωγή HTTP χρησιμοποιεί το VPN. Το HTTPS και η υπόλοιπη κίνηση της εφαρμογής διατηρούν την κανονική σύνδεση.</string>
+    <string name="vpn_active_app_detail">Όλη η κίνηση δικτύου από αυτήν την εφαρμογή χρησιμοποιεί το VPN. Οι άλλες εφαρμογές δεν επηρεάζονται.</string>
+    <string name="vpn_verification_pending">Η σύνδεση VPN δεν έχει επαληθευτεί ακόμη. Αφήστε την ενεργή για επανάληψη ή αποσυνδεθείτε.</string>
+    <string name="vpn_select_wireguard_profile">Επιλέξτε ένα αποθηκευμένο προφίλ VPN για σύνδεση.</string>
+    <string name="vpn_egress_address">Διεύθυνση IP VPN: %1$s</string>
+    <string name="vpn_connection_traffic">Ελήφθησαν %1$s · Εστάλησαν %2$s</string>
+    <string name="vpn_profiles_unreadable">Δεν είναι δυνατό το ξεκλείδωμα του αποθηκευμένου προφίλ</string>
+    <string name="vpn_profiles_selection_unavailable">Το επιλεγμένο προφίλ δεν είναι διαθέσιμο. Η επιλογή καθαρίστηκε και το εύρος VPN ορίστηκε σε Ανενεργό.</string>
+    <string name="vpn_profiles_imported">Η διαμόρφωση εισήχθη.</string>
+    <string name="vpn_profiles_removed">Το αποθηκευμένο προφίλ αφαιρέθηκε.</string>
+    <string name="vpn_profiles_selection_saved">Η επιλογή προφίλ αποθηκεύτηκε.</string>
+    <string name="vpn_scope_saved">Το εύρος VPN αποθηκεύτηκε.</string>
+    <string name="vpn_credentials_failed">Δεν ήταν δυνατή η ενημέρωση των διαπιστευτηρίων υπηρεσίας. Ελέγξτε το προφίλ και δοκιμάστε ξανά.</string>
+    <string name="vpn_credentials_saved">Τα διαπιστευτήρια υπηρεσίας αποθηκεύτηκαν.</string>
+    <string name="vpn_profiles_import_failed">Δεν ήταν δυνατή η εισαγωγή αυτής της διαμόρφωσης. Χρησιμοποιήστε αρχείο WireGuard .conf έως 1 MiB.</string>
+    <string name="vpn_profiles_remove_failed">Δεν ήταν δυνατή η αφαίρεση του αποθηκευμένου προφίλ.</string>
+    <string name="vpn_profiles_selection_failed">Δεν ήταν δυνατή η επιλογή του αποθηκευμένου προφίλ.</string>
+    <string name="vpn_scope_failed">Δεν ήταν δυνατή η αποθήκευση του εύρους VPN.</string>
+    <string name="vpn_import_reason_storage">Το προφίλ δεν ήταν δυνατό να αποθηκευτεί με ασφάλεια σε αυτήν τη συσκευή.</string>
+    <string name="vpn_import_reason_engine">Η μηχανή VPN δεν ήταν δυνατό να φορτωθεί σε αυτήν τη συσκευή.</string>
+    <string name="vpn_profiles_import_reason">Αιτία: %1$s</string>
+    <string name="vpn_import_reason_other">Παρουσιάστηκε απρόσμενο σφάλμα κατά την αποθήκευση.</string>
+    <string name="vpn_profiles_importing">Εισαγωγή διαμόρφωσης…</string>
+    <string name="vpn_profiles_storage_failed">Δεν ήταν δυνατό το άνοιγμα του κρυπτογραφημένου χώρου αποθήκευσης προφίλ.</string>
+    <string name="vpn_scope_needs_profile">Επιλέξτε πρώτα ένα προφίλ VPN. Το VPN παραμένει ανενεργό μέχρι να επιλεγεί ένα.</string>
+    <string name="vpn_scope_off_detail">Διατήρηση της προστασίας VPN ανενεργής</string>
+    <string name="vpn_scope_http_detail">Προστασία αναπαραγωγής HTTP· το HTTPS παραμένει ως έχει</string>
+    <string name="vpn_scope_app_detail">Όλη η κίνηση αυτής της εφαρμογής, συμπεριλαμβανομένου του HTTPS</string>
+</resources>

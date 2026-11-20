@@ -4054,4 +4054,27 @@
     <string name="live_tv_ui_smb_connection_failed">Nepodarilo sa pripojiť.</string>
     <string name="live_tv_ui_smb_no_share">Nahrávanie do SMB je zapnuté, ale nie je nastavené zdieľanie; „%1$s“ sa ukladá do tohto zariadenia</string>
     <string name="live_tv_ui_smb_upload_failed">Nahratie do SMB zlyhalo; nahrávka zostáva v tomto zariadení</string>
+
+    <string name="vpn_status">Stav VPN</string>
+    <string name="vpn_not_connected">Nepripojené</string>
+    <string name="vpn_off">VPN vypnuté</string>
+    <string name="vpn_wireguard_profile">Profil WireGuard</string>
+    <string name="vpn_import_conf">Začnite importom súboru .conf</string>
+    <string name="vpn_choose_profile">Vyberte profil na prehrávanie</string>
+    <string name="vpn_selected">Vybraté</string>
+    <string name="vpn_remove">Odstrániť</string>
+    <string name="vpn_mode_off">Vypnuté</string>
+    <string name="vpn_mode_off_detail">Ponechať ochranu VPN vypnutú</string>
+    <string name="vpn_mode_http">Iba HTTP streamy</string>
+    <string name="vpn_mode_http_detail">Chrániť prehrávanie HTTP; HTTPS ponechať nezmenené</string>
+    <string name="vpn_mode_http_https">HTTP + HTTPS streamy</string>
+    <string name="vpn_mode_http_https_detail">Chrániť prehrávanie HTTP a HTTPS vrátane prednačítania</string>
+    <string name="vpn_mode_app">Celá aplikácia</string>
+    <string name="vpn_mode_app_detail">Celá prevádzka Nuvio; ostatné aplikácie nie sú ovplyvnené</string>
+    <string name="vpn_use_all_profiles">Použiť pre všetky profily</string>
+    <string name="vpn_use_all_profiles_detail">Zdieľať toto nastavenie VPN so všetkými profilmi Nuvio</string>
+    <string name="vpn_profiles_encrypted">Profily sú v tomto zariadení šifrované. Nesynchronizujú sa s inými zariadeniami; konfiguráciu importujte znova v každom zariadení. Systémová záloha Androidu zostáva vylúčená.</string>
+
+    <string name="compose_settings_page_vpn">VPN</string>
+    <string name="compose_settings_root_vpn_description">Ochrana WireGuard pre streamované prehrávanie.</string>
 </resources>

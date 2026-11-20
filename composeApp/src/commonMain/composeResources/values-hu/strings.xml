@@ -4030,4 +4030,27 @@
     <string name="live_tv_ui_smb_connection_failed">Nem sikerült csatlakozni.</string>
     <string name="live_tv_ui_smb_no_share">Az SMB-felvétel be van kapcsolva, de nincs megosztás beállítva; a(z) „%1$s” mentése erre az eszközre történik</string>
     <string name="live_tv_ui_smb_upload_failed">Az SMB-feltöltés sikertelen; a felvétel továbbra is ezen az eszközön van</string>
+
+    <string name="vpn_status">VPN állapota</string>
+    <string name="vpn_not_connected">Nincs csatlakoztatva</string>
+    <string name="vpn_off">VPN kikapcsolva</string>
+    <string name="vpn_wireguard_profile">WireGuard-profil</string>
+    <string name="vpn_import_conf">Kezdéshez importálj egy .conf fájlt</string>
+    <string name="vpn_choose_profile">Válaszd ki a lejátszáshoz használt profilt</string>
+    <string name="vpn_selected">Kiválasztva</string>
+    <string name="vpn_remove">Eltávolítás</string>
+    <string name="vpn_mode_off">Kikapcsolva</string>
+    <string name="vpn_mode_off_detail">Tartsd kikapcsolva a VPN-védelmet</string>
+    <string name="vpn_mode_http">Csak HTTP-streamek</string>
+    <string name="vpn_mode_http_detail">HTTP-lejátszás védelme; a HTTPS maradjon változatlan</string>
+    <string name="vpn_mode_http_https">HTTP + HTTPS streamek</string>
+    <string name="vpn_mode_http_https_detail">HTTP és HTTPS lejátszás védelme, az előbetöltésekkel együtt</string>
+    <string name="vpn_mode_app">Teljes alkalmazás</string>
+    <string name="vpn_mode_app_detail">A Nuvio összes forgalma; a többi alkalmazást nem érinti</string>
+    <string name="vpn_use_all_profiles">Használat minden profilhoz</string>
+    <string name="vpn_use_all_profiles_detail">Oszd meg ezt a VPN-beállítást minden Nuvio-profillal</string>
+    <string name="vpn_profiles_encrypted">A profilok titkosítva vannak ezen az eszközön. Nem szinkronizálódnak más eszközökkel; importáld újra a konfigurációt minden eszközön. Az Android rendszermentése továbbra is ki van zárva.</string>
+
+    <string name="compose_settings_page_vpn">VPN</string>
+    <string name="compose_settings_root_vpn_description">WireGuard-védelem streamelt lejátszáshoz.</string>
 </resources>

@@ -4007,4 +4007,27 @@
     <string name="live_tv_ui_smb_connection_failed">இணைக்க முடியவில்லை.</string>
     <string name="live_tv_ui_smb_no_share">SMB பதிவு இயக்கப்பட்டுள்ளது, ஆனால் பங்கு எதுவும் அமைக்கப்படவில்லை; &quot;%1$s&quot; இந்தச் சாதனத்தில் சேமிக்கப்படுகிறது</string>
     <string name="live_tv_ui_smb_upload_failed">SMB பதிவேற்றம் தோல்வியடைந்தது; பதிவு இன்னும் இந்தச் சாதனத்தில் உள்ளது</string>
+
+    <string name="vpn_status">VPN நிலை</string>
+    <string name="vpn_not_connected">இணைக்கப்படவில்லை</string>
+    <string name="vpn_off">VPN அணைக்கப்பட்டது</string>
+    <string name="vpn_wireguard_profile">WireGuard சுயவிவரம்</string>
+    <string name="vpn_import_conf">தொடங்குவதற்கு .conf கோப்பை இறக்குமதி செய்யவும்</string>
+    <string name="vpn_choose_profile">பிளேபேக்கிற்குப் பயன்படுத்தும் சுயவிவரத்தைத் தேர்ந்தெடுக்கவும்</string>
+    <string name="vpn_selected">தேர்ந்தெடுக்கப்பட்டது</string>
+    <string name="vpn_remove">அகற்று</string>
+    <string name="vpn_mode_off">அணைக்கப்பட்டது</string>
+    <string name="vpn_mode_off_detail">VPN பாதுகாப்பை அணைத்தே வைக்கவும்</string>
+    <string name="vpn_mode_http">HTTP ஸ்ட்ரீம்கள் மட்டும்</string>
+    <string name="vpn_mode_http_detail">HTTP பிளேபேக்கைப் பாதுகாக்கவும்; HTTPS-ஐ மாற்றாமல் விடவும்</string>
+    <string name="vpn_mode_http_https">HTTP + HTTPS ஸ்ட்ரீம்கள்</string>
+    <string name="vpn_mode_http_https_detail">முன்கூட்டியே ஏற்றுதல் உட்பட HTTP மற்றும் HTTPS பிளேபேக்கைப் பாதுகாக்கவும்</string>
+    <string name="vpn_mode_app">முழு ஆப்</string>
+    <string name="vpn_mode_app_detail">Nuvio-வின் அனைத்து ட்ராஃபிக்; மற்ற ஆப்கள் பாதிக்கப்படாது</string>
+    <string name="vpn_use_all_profiles">அனைத்து சுயவிவரங்களுக்கும் பயன்படுத்து</string>
+    <string name="vpn_use_all_profiles_detail">இந்த VPN அமைப்பை ஒவ்வொரு Nuvio சுயவிவரத்துடனும் பகிரவும்</string>
+    <string name="vpn_profiles_encrypted">சுயவிவரங்கள் இந்தச் சாதனத்தில் மறையாக்கப்படுகின்றன. அவை மற்ற சாதனங்களுக்கு ஒத்திசைக்கப்படுவதில்லை; ஒவ்வொரு சாதனத்திலும் கட்டமைப்பை மீண்டும் இறக்குமதி செய்யவும். Android சிஸ்டம் காப்புப்பிரதி விலக்கப்பட்டே இருக்கும்.</string>
+
+    <string name="compose_settings_page_vpn">VPN</string>
+    <string name="compose_settings_root_vpn_description">ஸ்ட்ரீமிங் பிளேபேக்கிற்கான WireGuard பாதுகாப்பு.</string>
 </resources>

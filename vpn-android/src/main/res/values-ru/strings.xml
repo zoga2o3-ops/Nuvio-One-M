@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="vpn_connection_unavailable">Не подключено</string>
+    <string name="vpn_connected_app">Подключено · Всё приложение</string>
+    <string name="vpn_connected_http">Подключено · Только HTTP-потоки</string>
+    <string name="vpn_connected_web">Подключено · Потоки HTTP + HTTPS</string>
+    <string name="vpn_connecting">Подключение…</string>
+    <string name="vpn_waiting_handshake">Ожидание подтверждённого подключения VPN</string>
+    <string name="vpn_connection_failed">Не удалось проверить подключение VPN</string>
+    <string name="vpn_auth_rejected">Сервер OpenVPN отклонил аутентификацию. Проверьте учётные данные службы в профиле, прежде чем повторить воспроизведение.</string>
+    <string name="vpn_connection_error_detail">Защита VPN не проверена. Отключитесь, прежде чем повторить попытку.</string>
+    <string name="vpn_credentials_required">Укажите учётные данные службы для этого профиля OpenVPN.</string>
+    <string name="vpn_requires_app_scope">Выберите HTTP, HTTP + HTTPS или Всё приложение, чтобы включить автоматическую защиту.</string>
+    <string name="vpn_ready_web">Подключается автоматически для HTTP- и HTTPS-потоков, включая предварительную загрузку.</string>
+    <string name="vpn_ready_http">Подключается автоматически для HTTP-потоков. HTTPS не использует этот VPN.</string>
+    <string name="vpn_ready_to_connect">Защита всего приложения запускается автоматически, пока Nuvio открыт, после предоставления разрешения VPN в Android.</string>
+    <string name="vpn_active_web_detail">Воспроизведение по HTTP и HTTPS использует VPN. Остальной трафик приложения сохраняет обычное подключение.</string>
+    <string name="vpn_active_http_detail">Воспроизведение по HTTP использует VPN. HTTPS и остальной трафик приложения сохраняют обычное подключение.</string>
+    <string name="vpn_active_app_detail">Весь сетевой трафик этого приложения идёт через VPN. Другие приложения не затрагиваются.</string>
+    <string name="vpn_verification_pending">Подключение VPN ещё не проверено. Оставьте его включённым, чтобы повторить попытку, или отключитесь.</string>
+    <string name="vpn_select_wireguard_profile">Выберите сохранённый профиль VPN для подключения.</string>
+    <string name="vpn_egress_address">IP-адрес VPN: %1$s</string>
+    <string name="vpn_connection_traffic">Получено %1$s · Отправлено %2$s</string>
+    <string name="vpn_profiles_unreadable">Не удалось разблокировать сохранённый профиль</string>
+    <string name="vpn_profiles_selection_unavailable">Выбранный профиль недоступен. Выбор сброшен, область действия VPN установлена на «Выкл.».</string>
+    <string name="vpn_profiles_imported">Конфигурация импортирована.</string>
+    <string name="vpn_profiles_removed">Сохранённый профиль удалён.</string>
+    <string name="vpn_profiles_selection_saved">Выбор профиля сохранён.</string>
+    <string name="vpn_scope_saved">Область действия VPN сохранена.</string>
+    <string name="vpn_credentials_failed">Не удалось обновить учётные данные службы. Проверьте профиль и повторите попытку.</string>
+    <string name="vpn_credentials_saved">Учётные данные службы сохранены.</string>
+    <string name="vpn_profiles_import_failed">Не удалось импортировать эту конфигурацию. Используйте файл WireGuard .conf размером до 1 МиБ.</string>
+    <string name="vpn_profiles_remove_failed">Не удалось удалить сохранённый профиль.</string>
+    <string name="vpn_profiles_selection_failed">Не удалось выбрать сохранённый профиль.</string>
+    <string name="vpn_scope_failed">Не удалось сохранить область действия VPN.</string>
+    <string name="vpn_import_reason_storage">Не удалось безопасно сохранить профиль на этом устройстве.</string>
+    <string name="vpn_import_reason_engine">Не удалось загрузить VPN-движок на этом устройстве.</string>
+    <string name="vpn_profiles_import_reason">Причина: %1$s</string>
+    <string name="vpn_import_reason_other">При сохранении произошла непредвиденная ошибка.</string>
+    <string name="vpn_profiles_importing">Импорт конфигурации…</string>
+    <string name="vpn_profiles_storage_failed">Не удалось открыть зашифрованное хранилище профилей.</string>
+    <string name="vpn_scope_needs_profile">Сначала выберите профиль VPN. VPN остаётся выключенным, пока профиль не выбран.</string>
+    <string name="vpn_scope_off_detail">Оставить защиту VPN выключенной</string>
+    <string name="vpn_scope_http_detail">Защищать воспроизведение по HTTP; HTTPS оставить без изменений</string>
+    <string name="vpn_scope_app_detail">Весь трафик этого приложения, включая HTTPS</string>
+</resources>

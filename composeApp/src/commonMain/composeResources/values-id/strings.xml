@@ -3995,4 +3995,27 @@
     <string name="live_tv_ui_smb_connection_failed">Tidak dapat terhubung.</string>
     <string name="live_tv_ui_smb_no_share">Perekaman SMB aktif, tetapi berbagi belum diatur; &quot;%1$s&quot; disimpan ke perangkat ini</string>
     <string name="live_tv_ui_smb_upload_failed">Unggahan SMB gagal; rekaman masih ada di perangkat ini</string>
+
+    <string name="vpn_status">Status VPN</string>
+    <string name="vpn_not_connected">Tidak terhubung</string>
+    <string name="vpn_off">VPN nonaktif</string>
+    <string name="vpn_wireguard_profile">Profil WireGuard</string>
+    <string name="vpn_import_conf">Impor file .conf untuk memulai</string>
+    <string name="vpn_choose_profile">Pilih profil yang digunakan untuk pemutaran</string>
+    <string name="vpn_selected">Dipilih</string>
+    <string name="vpn_remove">Hapus</string>
+    <string name="vpn_mode_off">Nonaktif</string>
+    <string name="vpn_mode_off_detail">Biarkan perlindungan VPN nonaktif</string>
+    <string name="vpn_mode_http">Hanya streaming HTTP</string>
+    <string name="vpn_mode_http_detail">Lindungi pemutaran HTTP; biarkan HTTPS tidak berubah</string>
+    <string name="vpn_mode_http_https">Streaming HTTP + HTTPS</string>
+    <string name="vpn_mode_http_https_detail">Lindungi pemutaran HTTP dan HTTPS, termasuk pramuat</string>
+    <string name="vpn_mode_app">Seluruh aplikasi</string>
+    <string name="vpn_mode_app_detail">Semua lalu lintas Nuvio; aplikasi lain tidak terpengaruh</string>
+    <string name="vpn_use_all_profiles">Gunakan untuk semua profil</string>
+    <string name="vpn_use_all_profiles_detail">Bagikan pengaturan VPN ini ke semua profil Nuvio</string>
+    <string name="vpn_profiles_encrypted">Profil dienkripsi di perangkat ini. Profil tidak disinkronkan ke perangkat lain; impor ulang konfigurasi di setiap perangkat. Cadangan sistem Android tetap dikecualikan.</string>
+
+    <string name="compose_settings_page_vpn">VPN</string>
+    <string name="compose_settings_root_vpn_description">Perlindungan WireGuard untuk pemutaran streaming.</string>
 </resources>

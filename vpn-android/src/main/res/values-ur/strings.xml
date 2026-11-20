@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="vpn_connection_unavailable">منسلک نہیں</string>
+    <string name="vpn_connected_app">منسلک · پوری ایپ</string>
+    <string name="vpn_connected_http">منسلک · صرف HTTP اسٹریمز</string>
+    <string name="vpn_connected_web">منسلک · HTTP + HTTPS اسٹریمز</string>
+    <string name="vpn_connecting">منسلک ہو رہا ہے…</string>
+    <string name="vpn_waiting_handshake">تصدیق شدہ VPN کنکشن کا انتظار ہے</string>
+    <string name="vpn_connection_failed">VPN کنکشن کی تصدیق نہیں ہو سکی</string>
+    <string name="vpn_auth_rejected">OpenVPN سرور نے توثیق مسترد کر دی۔ پلے بیک دوبارہ آزمانے سے پہلے پروفائل کی سروس کی اسناد چیک کریں۔</string>
+    <string name="vpn_connection_error_detail">VPN تحفظ کی تصدیق نہیں ہوئی۔ دوبارہ کوشش کرنے سے پہلے منقطع کریں۔</string>
+    <string name="vpn_credentials_required">اس OpenVPN پروفائل کے لیے سروس کی اسناد مقرر کریں۔</string>
+    <string name="vpn_requires_app_scope">خودکار تحفظ فعال کرنے کے لیے HTTP، HTTP + HTTPS یا پوری ایپ منتخب کریں۔</string>
+    <string name="vpn_ready_web">پیشگی لوڈ سمیت HTTP اور HTTPS اسٹریمز کے لیے خودکار طور پر منسلک ہوتا ہے۔</string>
+    <string name="vpn_ready_http">HTTP اسٹریمز کے لیے خودکار طور پر منسلک ہوتا ہے۔ HTTPS اس VPN کا استعمال نہیں کرتا۔</string>
+    <string name="vpn_ready_to_connect">Android VPN اجازت دینے کے بعد، Nuvio کھلا رہنے کے دوران پوری ایپ کا تحفظ خودکار طور پر شروع ہوتا ہے۔</string>
+    <string name="vpn_active_web_detail">HTTP اور HTTPS پلے بیک VPN استعمال کرتے ہیں۔ ایپ کا دیگر ٹریفک اپنے معمول کے کنکشن پر رہتا ہے۔</string>
+    <string name="vpn_active_http_detail">HTTP پلے بیک VPN استعمال کرتا ہے۔ HTTPS اور ایپ کا دیگر ٹریفک اپنے معمول کے کنکشن پر رہتے ہیں۔</string>
+    <string name="vpn_active_app_detail">اس ایپ کا تمام نیٹ ورک ٹریفک VPN استعمال کرتا ہے۔ دیگر ایپس متاثر نہیں ہوتیں۔</string>
+    <string name="vpn_verification_pending">VPN کنکشن کی ابھی تصدیق نہیں ہوئی۔ دوبارہ کوشش کے لیے اسے آن رکھیں، یا منقطع کریں۔</string>
+    <string name="vpn_select_wireguard_profile">منسلک ہونے کے لیے محفوظ شدہ VPN پروفائل منتخب کریں۔</string>
+    <string name="vpn_egress_address">VPN کا IP: %1$s</string>
+    <string name="vpn_connection_traffic">موصول %1$s · ارسال شدہ %2$s</string>
+    <string name="vpn_profiles_unreadable">محفوظ شدہ پروفائل کھولی نہیں جا سکتی</string>
+    <string name="vpn_profiles_selection_unavailable">منتخب شدہ پروفائل دستیاب نہیں۔ انتخاب صاف کر دیا گیا اور VPN کا دائرہ بند کر دیا گیا۔</string>
+    <string name="vpn_profiles_imported">ترتیب درآمد کر دی گئی۔</string>
+    <string name="vpn_profiles_removed">محفوظ شدہ پروفائل ہٹا دی گئی۔</string>
+    <string name="vpn_profiles_selection_saved">پروفائل کا انتخاب محفوظ کر لیا گیا۔</string>
+    <string name="vpn_scope_saved">VPN کا دائرہ محفوظ کر لیا گیا۔</string>
+    <string name="vpn_credentials_failed">سروس کی اسناد اپ ڈیٹ نہیں ہو سکیں۔ پروفائل چیک کریں اور دوبارہ کوشش کریں۔</string>
+    <string name="vpn_credentials_saved">سروس کی اسناد محفوظ کر لی گئیں۔</string>
+    <string name="vpn_profiles_import_failed">یہ ترتیب درآمد نہیں ہو سکی۔ 1 MiB تک کی WireGuard .conf فائل استعمال کریں۔</string>
+    <string name="vpn_profiles_remove_failed">محفوظ شدہ پروفائل ہٹائی نہیں جا سکی۔</string>
+    <string name="vpn_profiles_selection_failed">محفوظ شدہ پروفائل منتخب نہیں ہو سکی۔</string>
+    <string name="vpn_scope_failed">VPN کا دائرہ محفوظ نہیں ہو سکا۔</string>
+    <string name="vpn_import_reason_storage">پروفائل کو اس ڈیوائس پر محفوظ انداز میں اسٹور نہیں کیا جا سکا۔</string>
+    <string name="vpn_import_reason_engine">اس ڈیوائس پر VPN انجن لوڈ نہیں ہو سکا۔</string>
+    <string name="vpn_profiles_import_reason">وجہ: %1$s</string>
+    <string name="vpn_import_reason_other">اسے محفوظ کرتے وقت کوئی غیر متوقع خرابی پیش آئی۔</string>
+    <string name="vpn_profiles_importing">ترتیب درآمد کی جا رہی ہے…</string>
+    <string name="vpn_profiles_storage_failed">خفیہ کردہ پروفائل اسٹوریج کھولی نہیں جا سکی۔</string>
+    <string name="vpn_scope_needs_profile">پہلے VPN پروفائل منتخب کریں۔ ایک منتخب ہونے تک VPN بند رہے گا۔</string>
+    <string name="vpn_scope_off_detail">VPN تحفظ بند رکھیں</string>
+    <string name="vpn_scope_http_detail">HTTP پلے بیک کی حفاظت کریں؛ HTTPS کو تبدیل نہ کریں</string>
+    <string name="vpn_scope_app_detail">HTTPS سمیت اس ایپ کا تمام ٹریفک</string>
+</resources>

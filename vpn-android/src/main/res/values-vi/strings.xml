@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="vpn_connection_unavailable">Chưa kết nối</string>
+    <string name="vpn_connected_app">Đã kết nối · Toàn bộ ứng dụng</string>
+    <string name="vpn_connected_http">Đã kết nối · Chỉ luồng HTTP</string>
+    <string name="vpn_connected_web">Đã kết nối · Luồng HTTP + HTTPS</string>
+    <string name="vpn_connecting">Đang kết nối…</string>
+    <string name="vpn_waiting_handshake">Đang chờ kết nối VPN đã xác minh</string>
+    <string name="vpn_connection_failed">Không thể xác minh kết nối VPN</string>
+    <string name="vpn_auth_rejected">Máy chủ OpenVPN đã từ chối xác thực. Kiểm tra thông tin đăng nhập của dịch vụ trong hồ sơ trước khi thử phát lại.</string>
+    <string name="vpn_connection_error_detail">Chưa xác minh bảo vệ VPN. Hãy ngắt kết nối trước khi thử lại.</string>
+    <string name="vpn_credentials_required">Đặt thông tin đăng nhập của dịch vụ cho hồ sơ OpenVPN này.</string>
+    <string name="vpn_requires_app_scope">Chọn HTTP, HTTP + HTTPS hoặc Toàn bộ ứng dụng để bật bảo vệ tự động.</string>
+    <string name="vpn_ready_web">Tự động kết nối cho luồng HTTP và HTTPS, bao gồm cả tải trước.</string>
+    <string name="vpn_ready_http">Tự động kết nối cho luồng HTTP. HTTPS không dùng VPN này.</string>
+    <string name="vpn_ready_to_connect">Bảo vệ toàn bộ ứng dụng tự động bắt đầu khi Nuvio đang mở, sau khi được cấp quyền VPN trên Android.</string>
+    <string name="vpn_active_web_detail">Phát lại HTTP và HTTPS dùng VPN. Lưu lượng khác của ứng dụng vẫn dùng kết nối thông thường.</string>
+    <string name="vpn_active_http_detail">Phát lại HTTP dùng VPN. HTTPS và lưu lượng khác của ứng dụng vẫn dùng kết nối thông thường.</string>
+    <string name="vpn_active_app_detail">Toàn bộ lưu lượng mạng của ứng dụng này dùng VPN. Các ứng dụng khác không bị ảnh hưởng.</string>
+    <string name="vpn_verification_pending">Kết nối VPN chưa được xác minh. Giữ kết nối để thử lại hoặc ngắt kết nối.</string>
+    <string name="vpn_select_wireguard_profile">Chọn hồ sơ VPN đã lưu để kết nối.</string>
+    <string name="vpn_egress_address">IP VPN: %1$s</string>
+    <string name="vpn_connection_traffic">Đã nhận %1$s · Đã gửi %2$s</string>
+    <string name="vpn_profiles_unreadable">Không thể mở khóa hồ sơ đã lưu</string>
+    <string name="vpn_profiles_selection_unavailable">Hồ sơ đã chọn không khả dụng. Đã xóa lựa chọn và đặt phạm vi VPN thành Tắt.</string>
+    <string name="vpn_profiles_imported">Đã nhập cấu hình.</string>
+    <string name="vpn_profiles_removed">Đã xóa hồ sơ đã lưu.</string>
+    <string name="vpn_profiles_selection_saved">Đã lưu lựa chọn hồ sơ.</string>
+    <string name="vpn_scope_saved">Đã lưu phạm vi VPN.</string>
+    <string name="vpn_credentials_failed">Không thể cập nhật thông tin đăng nhập của dịch vụ. Kiểm tra hồ sơ và thử lại.</string>
+    <string name="vpn_credentials_saved">Đã lưu thông tin đăng nhập của dịch vụ.</string>
+    <string name="vpn_profiles_import_failed">Không thể nhập cấu hình này. Hãy dùng tệp WireGuard .conf tối đa 1 MiB.</string>
+    <string name="vpn_profiles_remove_failed">Không thể xóa hồ sơ đã lưu.</string>
+    <string name="vpn_profiles_selection_failed">Không thể chọn hồ sơ đã lưu.</string>
+    <string name="vpn_scope_failed">Không thể lưu phạm vi VPN.</string>
+    <string name="vpn_import_reason_storage">Không thể lưu hồ sơ một cách an toàn trên thiết bị này.</string>
+    <string name="vpn_import_reason_engine">Không thể tải engine VPN trên thiết bị này.</string>
+    <string name="vpn_profiles_import_reason">Lý do: %1$s</string>
+    <string name="vpn_import_reason_other">Đã xảy ra lỗi không mong muốn khi lưu.</string>
+    <string name="vpn_profiles_importing">Đang nhập cấu hình…</string>
+    <string name="vpn_profiles_storage_failed">Không thể mở kho lưu trữ hồ sơ được mã hóa.</string>
+    <string name="vpn_scope_needs_profile">Chọn hồ sơ VPN trước. VPN sẽ tắt cho đến khi có hồ sơ được chọn.</string>
+    <string name="vpn_scope_off_detail">Giữ bảo vệ VPN tắt</string>
+    <string name="vpn_scope_http_detail">Bảo vệ phát lại HTTP; giữ nguyên HTTPS</string>
+    <string name="vpn_scope_app_detail">Toàn bộ lưu lượng của ứng dụng này, bao gồm HTTPS</string>
+</resources>

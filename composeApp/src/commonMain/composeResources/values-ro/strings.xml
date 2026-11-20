@@ -3995,4 +3995,27 @@
     <string name="live_tv_ui_smb_connection_failed">Conectarea a eșuat.</string>
     <string name="live_tv_ui_smb_no_share">Înregistrarea pe SMB este activă, dar nu este setat niciun partaj; „%1$s” este salvat pe acest dispozitiv</string>
     <string name="live_tv_ui_smb_upload_failed">Încărcarea pe SMB a eșuat; înregistrarea este încă pe acest dispozitiv</string>
+
+    <string name="vpn_status">Stare VPN</string>
+    <string name="vpn_not_connected">Neconectat</string>
+    <string name="vpn_off">VPN oprit</string>
+    <string name="vpn_wireguard_profile">Profil WireGuard</string>
+    <string name="vpn_import_conf">Importă un fișier .conf pentru a începe</string>
+    <string name="vpn_choose_profile">Alege profilul folosit pentru redare</string>
+    <string name="vpn_selected">Selectat</string>
+    <string name="vpn_remove">Elimină</string>
+    <string name="vpn_mode_off">Oprit</string>
+    <string name="vpn_mode_off_detail">Menține protecția VPN oprită</string>
+    <string name="vpn_mode_http">Doar fluxuri HTTP</string>
+    <string name="vpn_mode_http_detail">Protejează redarea HTTP; lasă HTTPS neschimbat</string>
+    <string name="vpn_mode_http_https">Fluxuri HTTP + HTTPS</string>
+    <string name="vpn_mode_http_https_detail">Protejează redarea HTTP și HTTPS, inclusiv preîncărcările</string>
+    <string name="vpn_mode_app">Întreaga aplicație</string>
+    <string name="vpn_mode_app_detail">Tot traficul din Nuvio; celelalte aplicații nu sunt afectate</string>
+    <string name="vpn_use_all_profiles">Folosește pentru toate profilurile</string>
+    <string name="vpn_use_all_profiles_detail">Partajează această configurație VPN cu toate profilurile Nuvio</string>
+    <string name="vpn_profiles_encrypted">Profilurile sunt criptate pe acest dispozitiv. Nu sunt sincronizate cu alte dispozitive; importă din nou configurația pe fiecare dispozitiv. Copia de siguranță Android rămâne exclusă.</string>
+
+    <string name="compose_settings_page_vpn">VPN</string>
+    <string name="compose_settings_root_vpn_description">Protecție WireGuard pentru redarea în streaming.</string>
 </resources>
