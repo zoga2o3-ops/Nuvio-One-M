@@ -28,6 +28,7 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Power
 import androidx.compose.material.icons.filled.QueuePlayNext
 import androidx.compose.material.icons.filled.RoundedCorner
+import androidx.compose.material.icons.filled.Security
 import androidx.compose.material.icons.filled.SmartDisplay
 import androidx.compose.material.icons.filled.Subtitles
 import androidx.compose.material.icons.filled.Sync
@@ -101,6 +102,11 @@ internal enum class SettingsPage(
     ),
     LiveTv(
         titleRes = Res.string.compose_settings_page_live_tv,
+        category = SettingsCategory.Watch,
+        parentPage = Root,
+    ),
+    Vpn(
+        titleRes = Res.string.compose_settings_page_vpn,
         category = SettingsCategory.Watch,
         parentPage = Root,
     ),
@@ -297,6 +303,7 @@ internal val SettingsPage.icon: ImageVector
         SettingsPage.Playback -> Icons.Rounded.PlayArrow
         SettingsPage.YouTube -> Icons.Rounded.PlayCircle
         SettingsPage.LiveTv -> Icons.Rounded.LiveTv
+        SettingsPage.Vpn -> Icons.Default.Security
         SettingsPage.Appearance -> Icons.Default.Palette
         SettingsPage.Layout -> Icons.Default.GridView
         SettingsPage.About -> Icons.Default.Info

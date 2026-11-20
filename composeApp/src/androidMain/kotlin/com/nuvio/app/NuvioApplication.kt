@@ -55,6 +55,10 @@ class NuvioApplication : Application(), SingletonImageLoader.Factory {
             com.nuvio.app.youtube.YouTubePlayerOverlay(videoId, position, duration, ended, playNext)
         }
         com.nuvio.app.features.youtube.YouTubeHost.settingsContent = { com.nuvio.app.youtube.YouTubeSettingsContent() }
+        com.nuvio.app.features.vpn.VpnHost.available = true
+        com.nuvio.app.features.vpn.VpnHost.settingsContent = {
+            com.nuvio.app.features.settings.VpnSettingsContent()
+        }
         com.nuvio.app.features.livetv.LiveTvHost.settingsContent = { com.nuvio.app.livetv.ui.LiveTvSettingsContent() }
         com.nuvio.app.features.livetv.LiveTvHost.channelPanel = { key, onDismiss -> com.nuvio.app.livetv.ui.LiveTvPlayerChannelsPanel(key, onDismiss) }
         com.nuvio.app.livetv.player.LiveTvPauseBuffer.install(this)

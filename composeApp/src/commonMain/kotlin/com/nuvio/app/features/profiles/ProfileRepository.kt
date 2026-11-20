@@ -19,6 +19,7 @@ import com.nuvio.app.features.home.HomeCatalogSettingsRepository
 import com.nuvio.app.features.home.HomeRepository
 import com.nuvio.app.core.ui.CardDepthStyleRepository
 import com.nuvio.app.core.ui.PosterCardStyleRepository
+import com.nuvio.app.core.vpn.VpnIntegration
 import com.nuvio.app.features.library.LibraryRepository
 import com.nuvio.app.features.library.LibraryDisplaySettingsRepository
 import com.nuvio.app.features.mdblist.MdbListSettingsRepository
@@ -155,6 +156,7 @@ object ProfileRepository {
             withContext(Dispatchers.IO) {
                 syncPinCache(profiles.sortedBy { it.profileIndex })
             }
+            VpnIntegration.setActiveProfile(activeProfileIndex)
             persist()
         } catch (e: CancellationException) {
             throw e
@@ -169,6 +171,7 @@ object ProfileRepository {
 
     fun selectProfile(profileIndex: Int) {
         activeProfileIndex = profileIndex
+        VpnIntegration.setActiveProfile(profileIndex)
         CustomPosterUrlRepository.onProfileChanged()
         val selectedProfile = _state.value.profiles.find { it.profileIndex == profileIndex }
         _state.value = _state.value.copy(
@@ -333,6 +336,7 @@ object ProfileRepository {
             if (_state.value.activeProfile != null) {
                 activeProfileIndex = _state.value.activeProfile!!.profileIndex
             }
+            withContext(Dispatchers.IO) { runCatching { VpnIntegration.removeProfile(profileIndex) } }
             persist()
             return
         }
@@ -354,6 +358,7 @@ object ProfileRepository {
                 log.w { "Profile $profileIndex was deleted, but local profile-lock cleanup could not be confirmed" }
             }
             pullProfiles()
+            withContext(Dispatchers.IO) { runCatching { VpnIntegration.removeProfile(profileIndex) } }
         } catch (e: CancellationException) {
             throw e
         } catch (e: Throwable) {
@@ -582,6 +587,7 @@ object ProfileRepository {
             rememberLastProfileEnabled = stored.rememberLastProfileEnabled,
         )
         _state.value.activeProfile?.let { activeProfileIndex = it.profileIndex }
+        VpnIntegration.setActiveProfile(activeProfileIndex)
         withContext(Dispatchers.IO) {
             syncPinCache(profiles)
         }
