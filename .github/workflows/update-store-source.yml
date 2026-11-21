@@ -1,9 +1,8 @@
 name: Update Sideload Source
 
 on:
-  release:
-    types:
-      - published
+  # Called by the release workflow after an IPA exists; a manual Android-only release
+  # has no IPA, so do not run on the release event.
   workflow_dispatch:
     inputs:
       tag:
