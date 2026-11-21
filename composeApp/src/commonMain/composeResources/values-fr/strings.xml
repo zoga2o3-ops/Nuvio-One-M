@@ -4090,6 +4090,21 @@
     <string name="live_tv_ui_smb_connection_failed">Connexion impossible.</string>
     <string name="live_tv_ui_smb_no_share">L'enregistrement SMB est activé, mais aucun partage n'est défini ; « %1$s » est enregistré sur cet appareil</string>
     <string name="live_tv_ui_smb_upload_failed">Échec de l'envoi SMB ; l'enregistrement reste sur cet appareil</string>
+<string name="live_tv_ui_combine">Combiner en un seul fichier</string>
+<string name="live_tv_ui_combine_title">Combiner l'enregistrement</string>
+<string name="live_tv_ui_combine_share">Enregistrer sur le partage SMB (Exports)</string>
+<string name="live_tv_ui_combine_device">Enregistrer à côté de l'enregistrement</string>
+<string name="live_tv_ui_combining">Combinaison de l'enregistrement</string>
+<string name="live_tv_ui_combine_done">Combiné dans %1$s</string>
+<string name="live_tv_ui_combine_failed">Impossible de combiner : %1$s</string>
+<string name="live_tv_ui_combine_busy">Un autre enregistrement est déjà en cours de combinaison.</string>
+<string name="live_tv_ui_combine_no_pieces">Cet enregistrement n'a aucun segment à combiner.</string>
+<string name="live_tv_ui_combine_separate">Cet enregistrement a une image et un son séparés. Exportez-le dans l'application de bureau.</string>
+<string name="live_tv_ui_combine_not_ts">Cet enregistrement n'est pas en MPEG-TS.</string>
+<string name="live_tv_ui_combine_stop_first">Arrêtez d'abord l'enregistrement.</string>
+<string name="live_tv_ui_combine_no_config">Configurez d'abord le partage SMB.</string>
+<string name="live_tv_ui_combine_smb_only">Les enregistrements SMB ne peuvent pour l'instant être combinés que vers le partage.</string>
+<string name="live_tv_ui_combine_working">Combinaison… %1$s sur %2$s</string>
 
     <string name="vpn_status">État du VPN</string>
     <string name="vpn_not_connected">Non connecté</string>

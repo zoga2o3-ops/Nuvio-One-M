@@ -4040,6 +4040,21 @@
     <string name="live_tv_ui_smb_connection_failed">Impossibile connettersi.</string>
     <string name="live_tv_ui_smb_no_share">La registrazione SMB è attiva, ma non è impostata alcuna condivisione; &quot;%1$s&quot; verrà salvato su questo dispositivo</string>
     <string name="live_tv_ui_smb_upload_failed">Caricamento SMB non riuscito; la registrazione è ancora su questo dispositivo</string>
+<string name="live_tv_ui_combine">Combina in un unico file</string>
+<string name="live_tv_ui_combine_title">Combina registrazione</string>
+<string name="live_tv_ui_combine_share">Salva sulla condivisione SMB (Exports)</string>
+<string name="live_tv_ui_combine_device">Salva accanto alla registrazione</string>
+<string name="live_tv_ui_combining">Combinazione della registrazione</string>
+<string name="live_tv_ui_combine_done">Combinato in %1$s</string>
+<string name="live_tv_ui_combine_failed">Impossibile combinare: %1$s</string>
+<string name="live_tv_ui_combine_busy">È già in corso la combinazione di un'altra registrazione.</string>
+<string name="live_tv_ui_combine_no_pieces">Questa registrazione non ha segmenti da combinare.</string>
+<string name="live_tv_ui_combine_separate">Questa registrazione ha immagine e audio separati. Esportala nell'app desktop.</string>
+<string name="live_tv_ui_combine_not_ts">Questa registrazione non è MPEG-TS.</string>
+<string name="live_tv_ui_combine_stop_first">Ferma prima la registrazione.</string>
+<string name="live_tv_ui_combine_no_config">Configura prima la condivisione SMB.</string>
+<string name="live_tv_ui_combine_smb_only">Per ora le registrazioni SMB possono essere combinate solo sulla condivisione.</string>
+<string name="live_tv_ui_combine_working">Combinazione… %1$s di %2$s</string>
 
     <string name="vpn_status">Stato VPN</string>
     <string name="vpn_not_connected">Non connesso</string>

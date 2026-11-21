@@ -4008,6 +4008,21 @@
     <string name="live_tv_ui_smb_connection_failed">Не удалось подключиться.</string>
     <string name="live_tv_ui_smb_no_share">Запись на SMB включена, но ресурс не задан; «%1$s» сохраняется на этом устройстве</string>
     <string name="live_tv_ui_smb_upload_failed">Не удалось отправить на SMB; запись остаётся на этом устройстве</string>
+<string name="live_tv_ui_combine">Объединить в один файл</string>
+<string name="live_tv_ui_combine_title">Объединить запись</string>
+<string name="live_tv_ui_combine_share">Сохранить на SMB-ресурс (Exports)</string>
+<string name="live_tv_ui_combine_device">Сохранить рядом с записью</string>
+<string name="live_tv_ui_combining">Объединение записи</string>
+<string name="live_tv_ui_combine_done">Объединено в %1$s</string>
+<string name="live_tv_ui_combine_failed">Не удалось объединить: %1$s</string>
+<string name="live_tv_ui_combine_busy">Уже выполняется объединение другой записи.</string>
+<string name="live_tv_ui_combine_no_pieces">В этой записи нет сегментов для объединения.</string>
+<string name="live_tv_ui_combine_separate">В этой записи раздельные видео и звук. Экспортируйте её в приложении для компьютера.</string>
+<string name="live_tv_ui_combine_not_ts">Эта запись не в формате MPEG-TS.</string>
+<string name="live_tv_ui_combine_stop_first">Сначала остановите запись.</string>
+<string name="live_tv_ui_combine_no_config">Сначала настройте SMB-ресурс.</string>
+<string name="live_tv_ui_combine_smb_only">Пока записи SMB можно объединять только обратно на ресурс.</string>
+<string name="live_tv_ui_combine_working">Объединение… %1$s из %2$s</string>
 
     <string name="vpn_status">Статус VPN</string>
     <string name="vpn_not_connected">Не подключено</string>

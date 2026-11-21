@@ -4026,6 +4026,21 @@
     <string name="live_tv_ui_smb_connection_failed">No se pudo conectar.</string>
     <string name="live_tv_ui_smb_no_share">La grabación SMB está activada, pero no hay un recurso compartido definido; se guardará «%1$s» en este dispositivo</string>
     <string name="live_tv_ui_smb_upload_failed">Error al subir a SMB; la grabación sigue en este dispositivo</string>
+<string name="live_tv_ui_combine">Combinar en un archivo</string>
+<string name="live_tv_ui_combine_title">Combinar grabación</string>
+<string name="live_tv_ui_combine_share">Guardar en el recurso SMB (Exports)</string>
+<string name="live_tv_ui_combine_device">Guardar junto a la grabación</string>
+<string name="live_tv_ui_combining">Combinando grabación</string>
+<string name="live_tv_ui_combine_done">Combinado en %1$s</string>
+<string name="live_tv_ui_combine_failed">No se pudo combinar: %1$s</string>
+<string name="live_tv_ui_combine_busy">Ya se está combinando otra grabación.</string>
+<string name="live_tv_ui_combine_no_pieces">Esta grabación no tiene segmentos para combinar.</string>
+<string name="live_tv_ui_combine_separate">Esta grabación tiene imagen y sonido separados. Expórtala en la app de escritorio.</string>
+<string name="live_tv_ui_combine_not_ts">Esta grabación no es MPEG-TS.</string>
+<string name="live_tv_ui_combine_stop_first">Detén la grabación primero.</string>
+<string name="live_tv_ui_combine_no_config">Configura primero el recurso SMB.</string>
+<string name="live_tv_ui_combine_smb_only">Por ahora, las grabaciones SMB solo se pueden combinar de vuelta al recurso.</string>
+<string name="live_tv_ui_combine_working">Combinando… %1$s de %2$s</string>
 
     <string name="vpn_status">Estado de la VPN</string>
     <string name="vpn_not_connected">No conectado</string>

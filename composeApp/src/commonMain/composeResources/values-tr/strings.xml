@@ -4014,6 +4014,21 @@ Bu özelliği tamamen kendi sorumluluğunuzda kullanırsınız. P2P istediğiniz
     <string name="live_tv_ui_smb_connection_failed">Bağlanılamadı.</string>
     <string name="live_tv_ui_smb_no_share">SMB kaydı açık ancak paylaşım ayarlanmamış; &quot;%1$s&quot; bu cihaza kaydediliyor</string>
     <string name="live_tv_ui_smb_upload_failed">SMB yüklemesi başarısız oldu; kayıt hâlâ bu cihazda</string>
+<string name="live_tv_ui_combine">Tek dosyada birleştir</string>
+<string name="live_tv_ui_combine_title">Kaydı birleştir</string>
+<string name="live_tv_ui_combine_share">SMB paylaşımına kaydet (Exports)</string>
+<string name="live_tv_ui_combine_device">Kaydın yanına kaydet</string>
+<string name="live_tv_ui_combining">Kayıt birleştiriliyor</string>
+<string name="live_tv_ui_combine_done">%1$s konumuna birleştirildi</string>
+<string name="live_tv_ui_combine_failed">Birleştirilemedi: %1$s</string>
+<string name="live_tv_ui_combine_busy">Başka bir kayıt zaten birleştiriliyor.</string>
+<string name="live_tv_ui_combine_no_pieces">Bu kayıtta birleştirilecek segment yok.</string>
+<string name="live_tv_ui_combine_separate">Bu kayıtta görüntü ve ses ayrı. Masaüstü uygulamasında dışa aktarın.</string>
+<string name="live_tv_ui_combine_not_ts">Bu kayıt MPEG-TS değil.</string>
+<string name="live_tv_ui_combine_stop_first">Önce kaydı durdurun.</string>
+<string name="live_tv_ui_combine_no_config">Önce SMB paylaşımını ayarlayın.</string>
+<string name="live_tv_ui_combine_smb_only">SMB kayıtları şimdilik yalnızca paylaşıma geri birleştirilebilir.</string>
+<string name="live_tv_ui_combine_working">Birleştiriliyor… %1$s / %2$s</string>
 
     <string name="vpn_status">VPN durumu</string>
     <string name="vpn_not_connected">Bağlı değil</string>

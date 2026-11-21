@@ -4040,6 +4040,21 @@
     <string name="live_tv_ui_smb_connection_failed">Kan niet verbinden.</string>
     <string name="live_tv_ui_smb_no_share">SMB-opnemen staat aan, maar er is geen share ingesteld; '%1$s' wordt op dit apparaat opgeslagen</string>
     <string name="live_tv_ui_smb_upload_failed">SMB-upload mislukt; de opname staat nog op dit apparaat</string>
+<string name="live_tv_ui_combine">Combineer tot één bestand</string>
+<string name="live_tv_ui_combine_title">Opname combineren</string>
+<string name="live_tv_ui_combine_share">Opslaan op SMB-share (Exports)</string>
+<string name="live_tv_ui_combine_device">Naast de opname opslaan</string>
+<string name="live_tv_ui_combining">Opname wordt gecombineerd</string>
+<string name="live_tv_ui_combine_done">Gecombineerd naar %1$s</string>
+<string name="live_tv_ui_combine_failed">Combineren mislukt: %1$s</string>
+<string name="live_tv_ui_combine_busy">Er wordt al een andere opname gecombineerd.</string>
+<string name="live_tv_ui_combine_no_pieces">Deze opname heeft geen segmenten om te combineren.</string>
+<string name="live_tv_ui_combine_separate">Deze opname heeft gescheiden beeld en geluid. Exporteer hem in de desktopapp.</string>
+<string name="live_tv_ui_combine_not_ts">Deze opname is geen MPEG-TS.</string>
+<string name="live_tv_ui_combine_stop_first">Stop eerst de opname.</string>
+<string name="live_tv_ui_combine_no_config">Stel eerst de SMB-share in.</string>
+<string name="live_tv_ui_combine_smb_only">SMB-opnamen kunnen voorlopig alleen terug naar de share worden gecombineerd.</string>
+<string name="live_tv_ui_combine_working">Combineren… %1$s van %2$s</string>
 
     <string name="vpn_status">VPN-status</string>
     <string name="vpn_not_connected">Niet verbonden</string>

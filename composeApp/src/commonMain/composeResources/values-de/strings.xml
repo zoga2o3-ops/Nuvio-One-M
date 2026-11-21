@@ -3997,6 +3997,21 @@
     <string name="live_tv_ui_smb_connection_failed">Verbindung fehlgeschlagen.</string>
     <string name="live_tv_ui_smb_no_share">SMB-Aufnahme ist aktiv, aber keine Freigabe festgelegt; „%1$s“ wird auf diesem Gerät gespeichert</string>
     <string name="live_tv_ui_smb_upload_failed">SMB-Upload fehlgeschlagen; die Aufnahme befindet sich weiterhin auf diesem Gerät</string>
+<string name="live_tv_ui_combine">Zu einer Datei zusammenführen</string>
+<string name="live_tv_ui_combine_title">Aufnahme zusammenführen</string>
+<string name="live_tv_ui_combine_share">Auf SMB-Freigabe speichern (Exports)</string>
+<string name="live_tv_ui_combine_device">Neben der Aufnahme speichern</string>
+<string name="live_tv_ui_combining">Aufnahme wird zusammengeführt</string>
+<string name="live_tv_ui_combine_done">Zusammengeführt in %1$s</string>
+<string name="live_tv_ui_combine_failed">Zusammenführen fehlgeschlagen: %1$s</string>
+<string name="live_tv_ui_combine_busy">Es wird bereits eine andere Aufnahme zusammengeführt.</string>
+<string name="live_tv_ui_combine_no_pieces">Diese Aufnahme hat keine Segmente zum Zusammenführen.</string>
+<string name="live_tv_ui_combine_separate">Diese Aufnahme hat getrenntes Bild und Ton. Exportieren Sie sie in der Desktop-App.</string>
+<string name="live_tv_ui_combine_not_ts">Diese Aufnahme ist kein MPEG-TS.</string>
+<string name="live_tv_ui_combine_stop_first">Stoppen Sie zuerst die Aufnahme.</string>
+<string name="live_tv_ui_combine_no_config">Richten Sie zuerst die SMB-Freigabe ein.</string>
+<string name="live_tv_ui_combine_smb_only">SMB-Aufnahmen können vorerst nur zurück auf die Freigabe zusammengeführt werden.</string>
+<string name="live_tv_ui_combine_working">Zusammenführen… %1$s von %2$s</string>
 
     <string name="vpn_status">VPN-Status</string>
     <string name="vpn_not_connected">Nicht verbunden</string>
