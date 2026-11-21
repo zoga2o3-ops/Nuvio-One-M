@@ -8,6 +8,7 @@ import java.util.Date
 import java.util.Locale
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.ensureActive
+import kotlinx.coroutines.isActive
 import nuvio.composeapp.generated.resources.Res
 import nuvio.composeapp.generated.resources.live_tv_ui_combine_failed
 import nuvio.composeapp.generated.resources.live_tv_ui_combine_no_config
@@ -101,27 +102,35 @@ internal object RecordingCombine {
 
             var done = 0L
             var lastReport = 0L
+            val coroutine = currentCoroutineContext()
             onProgress(0L, total)
-            for (piece in pieces) {
-                currentCoroutineContext().ensureActive()
-                val input = if (rec.smb) {
-                    SmbClient.openInputStream(config!!, "${rec.shareDir}/$piece")
-                        ?: error(getString(Res.string.live_tv_ui_combine_no_pieces))
-                } else {
-                    File(rec.dir, piece).inputStream()
+            fun report(fileDone: Long) {
+                done = fileDone
+                val now = System.currentTimeMillis()
+                if (now - lastReport >= 500L) {
+                    lastReport = now
+                    onProgress(done, total)
                 }
-                input.use { source ->
-                    val buffer = ByteArray(256 * 1024)
-                    while (true) {
-                        currentCoroutineContext().ensureActive()
-                        val read = source.read(buffer)
-                        if (read < 0) break
-                        output!!.write(buffer, 0, read)
-                        done += read
-                        val now = System.currentTimeMillis()
-                        if (now - lastReport >= 500L) {
-                            lastReport = now
-                            onProgress(done, total)
+            }
+            for (piece in pieces) {
+                coroutine.ensureActive()
+                if (rec.smb) {
+                    val base = done
+                    done += SmbClient.copyTo(
+                        config!!,
+                        "${rec.shareDir}/$piece",
+                        output!!,
+                        cancelled = { !coroutine.isActive },
+                    ) { fileDone -> report(base + fileDone) }
+                } else {
+                    File(rec.dir, piece).inputStream().use { source ->
+                        val buffer = ByteArray(256 * 1024)
+                        while (true) {
+                            coroutine.ensureActive()
+                            val read = source.read(buffer)
+                            if (read < 0) break
+                            output!!.write(buffer, 0, read)
+                            report(done + read)
                         }
                     }
                 }
