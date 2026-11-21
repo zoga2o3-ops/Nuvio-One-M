@@ -48,13 +48,18 @@ object DebugReportBuilder {
             appendLine("package=${context.packageName}")
             appendLine("debugBuild=${isDebuggable(context)}")
             appendLine("reportUpload=${if (DebugReportConfig.DISCORD_WEBHOOK.isBlank()) "not configured" else "configured"}")
-            appendLine(
-                "account=" + when (AuthRepository.state.value) {
-                    is AuthState.Authenticated -> "signed in"
-                    AuthState.Unauthenticated -> "signed out"
-                    AuthState.Loading -> "loading"
+            when (val auth = AuthRepository.state.value) {
+                is AuthState.Authenticated -> {
+                    appendLine("account=" + if (auth.isAnonymous) "local profile" else "signed in")
+                    if (!auth.isAnonymous) {
+                        // Stable, non-reversible: lets support find the sync row without the UUID
+                        // appearing in a public report.
+                        appendLine("accountSupportCode=${SupportCode.forUserId(auth.userId)}")
+                    }
                 }
-            )
+                AuthState.Unauthenticated -> appendLine("account=signed out")
+                AuthState.Loading -> appendLine("account=loading")
+            }
 
             section("LAST CRASH")
             appendLine(LastCrashStore.read(context) ?: "No uncaught Java crash was recorded.")
