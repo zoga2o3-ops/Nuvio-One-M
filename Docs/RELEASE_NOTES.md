@@ -1,5 +1,25 @@
 # Release notes
 
+## 1.1.0-beta1.2
+
+### Live TV recording
+
+- Recordings on the SMB share now appear on your phone, alongside the recordings made on the TV and Windows.
+- Both recording layouts are read, so existing TV and phone folders stay visible.
+- **Combine** joins a finished recording's HLS pieces into one MPEG-TS file without re-encoding, with a progress card.
+- The combined file goes to an `Exports` folder on the share by default. Recordings kept on the phone or a USB drive can also be saved next to the original.
+- A recording that is still being made on another device is marked as such and cannot be stopped or deleted from the phone.
+- Better compatibility with SMB servers that leave signing optional, and with info files saved with a byte-order mark.
+
+### Diagnostics
+
+- The **Send debug report** button in Settings → Advanced now includes a short account support code.
+- Support can match the code to your Nuvio account without the account ID appearing in the report.
+
+### Localization
+
+- Live TV, recording and Combine are localized into German, Spanish, French, Italian, Dutch, Polish, Portuguese, Russian and Turkish.
+
 ## 0.6.6-beta3
 
 - Stalker portal support for Live TV: add a portal address and MAC in Sources, and its channels, genres and guide load like any other source.
