@@ -18,6 +18,12 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import nuvio.composeapp.generated.resources.Res
+import nuvio.composeapp.generated.resources.live_tv_ui_combine_busy
+import nuvio.composeapp.generated.resources.live_tv_ui_combine_done
+import nuvio.composeapp.generated.resources.live_tv_ui_combine_failed
+import nuvio.composeapp.generated.resources.live_tv_ui_combine_no_config
+import nuvio.composeapp.generated.resources.live_tv_ui_combine_no_pieces
+import nuvio.composeapp.generated.resources.live_tv_ui_combine_stop_first
 import nuvio.composeapp.generated.resources.live_tv_ui_smb_no_share
 import nuvio.composeapp.generated.resources.live_tv_ui_smb_upload_failed
 import org.jetbrains.compose.resources.getString
@@ -100,8 +106,55 @@ class LiveTvRecorder(
         id = rec.id,
         dir = File(rec.dir),
         smb = if (rec.smb) SmbSettings.load(context) else null,
-        remoteDir = if (rec.smb) "recordings/${rec.id}/" else null,
+        remoteDir = if (rec.smb) rec.shareDir + "/" else null,
     )
+
+    /** Re-reads local folders and the share (Recordings tab opened). */
+    fun refresh() {
+        scope.launch {
+            load()
+            refreshRemote(force = true)
+        }
+    }
+
+    @Volatile private var remoteScanAt = 0L
+    private val remoteIds = HashSet<String>()
+
+    /**
+     * Recordings made on another device are complete folders on the share. Read every
+     * `info.json` (the phone's `recordings/` folder and the TV's root layout) and merge them
+     * in; a recording that also exists locally always wins.
+     */
+    private fun refreshRemote(force: Boolean = false) {
+        val config = SmbSettings.load(context) ?: return
+        val now = System.currentTimeMillis()
+        if (!force && now - remoteScanAt < 30_000) return
+        remoteScanAt = now
+        scope.launch {
+            val scanned = runCatching { readRemoteRecordings(config) }.getOrDefault(emptyList())
+            val local = _recordings.value.filter { it.id !in remoteIds }
+            remoteIds.clear()
+            remoteIds += scanned.map { it.id }
+            val localIds = local.mapTo(HashSet()) { it.id }
+            _recordings.value = (local + scanned.filter { it.id !in localIds })
+                .sortedByDescending { it.startedAtMs }
+        }
+    }
+
+    private fun readRemoteRecordings(config: SmbConfig): List<LiveTvRecording> =
+        listOf("", "recordings").flatMap { root ->
+            SmbClient.listDirs(config, root).mapNotNull { dir ->
+                // The path's last segment is the folder name; some servers return odd `name`s
+                // for a subfolder listing.
+                val id = dir.path.trimEnd('/').substringAfterLast('/')
+                if (id.isBlank() || id.startsWith(".") || id == "Exports") return@mapNotNull null
+                val remoteDir = if (root.isEmpty()) id else "$root/$id"
+                val info = SmbClient.readText(config, "$remoteDir/info.json") ?: return@mapNotNull null
+                val localDir = File(context.filesDir, "recordings_remote/$id").absolutePath
+                runCatching { LiveTvRecording.fromJson(JSONObject(info), localDir) }.getOrNull()
+                    ?.copy(id = id, smb = true, dir = localDir, smbDir = remoteDir)
+            }
+        }.distinctBy { it.id }
 
     /** Roughly how much room there is for the local copy of new recordings. */
     fun freeBytes(): Long = currentStorage().freeBytes
@@ -164,6 +217,7 @@ class LiveTvRecorder(
             seriesId = seriesId,
             fromCatchup = finite,
             smb = smb != null,
+            smbDir = if (smb != null) "recordings/$id" else null,
         )
         // Not enough room to start: make room (if allowed) or say so.
         if (!ensureSpace(dir, protect = id)) {
@@ -202,6 +256,12 @@ class LiveTvRecorder(
 
     /** Stops a recording now (what's recorded is kept). */
     fun stop(id: String) {
+        // A remote recording belongs to another device; don't fake-stop it here.
+        val remote = _recordings.value.firstOrNull { it.id == id }
+        if (remote != null && remote.smb && remote.isRecording && !jobs.containsKey(id)) {
+            LiveTvNotice.show("This recording is being made on another device; stop it there")
+            return
+        }
         stopRequested += id
         val job = jobs[id]
         job?.cancel()
@@ -245,6 +305,11 @@ class LiveTvRecorder(
 
     /** Deletes a recording (stopping it first if it's still going). */
     fun delete(id: String) {
+        val before = _recordings.value.firstOrNull { it.id == id }
+        if (before != null && before.smb && before.isRecording && !jobs.containsKey(id)) {
+            LiveTvNotice.show("This recording is being made on another device; stop it there first")
+            return
+        }
         stop(id)
         RecordingResume.clear(context, id)
         val rec = _recordings.value.firstOrNull { it.id == id }
@@ -255,7 +320,7 @@ class LiveTvRecorder(
                 if (r.smb) {
                     SmbSettings.load(context)?.let { config ->
                         runCatching {
-                            if (!SmbClient.deleteRecursively(config, "recordings/$id/")) {
+                            if (!SmbClient.deleteRecursively(config, r.shareDir)) {
                                 Log.w(TAG, "SMB folder for recording $id could not be removed")
                             }
                         }
@@ -632,6 +697,58 @@ class LiveTvRecorder(
         }
         val running = _recordings.value.filter { it.isRecording }
         _recordings.value = (out.filterNot { o -> running.any { it.id == o.id } } + running).sortedByDescending { it.startedAtMs }
+        refreshRemote()
+    }
+
+    /** A combine-to-one-file job in progress. */
+    data class CombineProgress(val title: String, val doneBytes: Long, val totalBytes: Long)
+
+    private val _combine = MutableStateFlow<CombineProgress?>(null)
+    val combineProgress: StateFlow<CombineProgress?> = _combine.asStateFlow()
+
+    /**
+     * Joins a finished recording's HLS segments into one `.ts`. [toShare] writes it to the
+     * share's `Exports` folder; otherwise it is written next to a local recording.
+     */
+    fun combine(id: String, toShare: Boolean) {
+        val rec = _recordings.value.firstOrNull { it.id == id } ?: return
+        if (_combine.value != null) {
+            LiveTvNotice.show(runBlocking { getString(Res.string.live_tv_ui_combine_busy) })
+            return
+        }
+        if (rec.isRecording) {
+            LiveTvNotice.show(runBlocking { getString(Res.string.live_tv_ui_combine_stop_first) })
+            return
+        }
+        if (rec.durationSec <= 0) {
+            LiveTvNotice.show(runBlocking { getString(Res.string.live_tv_ui_combine_no_pieces) })
+            return
+        }
+        if (toShare && SmbSettings.load(context) == null) {
+            LiveTvNotice.show(runBlocking { getString(Res.string.live_tv_ui_combine_no_config) })
+            return
+        }
+        scope.launch {
+            _combine.value = CombineProgress(rec.title, 0L, rec.sizeBytes)
+            val result = RecordingCombine.combine(context, rec, toShare) { done, total ->
+                _combine.value = CombineProgress(rec.title, done, total)
+            }
+            _combine.value = null
+            result.fold(
+                onSuccess = {
+                    LiveTvNotice.show(getString(Res.string.live_tv_ui_combine_done, it.destination))
+                },
+                onFailure = {
+                    if (it is kotlinx.coroutines.CancellationException) throw it
+                    LiveTvNotice.show(
+                        getString(
+                            Res.string.live_tv_ui_combine_failed,
+                            it.message ?: it.javaClass.simpleName
+                        )
+                    )
+                }
+            )
+        }
     }
 
     fun stopServiceIfIdle() {

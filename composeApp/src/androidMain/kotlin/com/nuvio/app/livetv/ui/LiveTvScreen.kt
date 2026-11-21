@@ -150,6 +150,9 @@ fun LiveTvScreen(modifier: Modifier, onPlay: (LiveTvPlayRequest) -> Unit) {
     var recordFor by remember { mutableStateOf<LiveChannel?>(null) }
     val recordings by vm.recordings.collectAsStateWithLifecycle()
     val schedules by vm.schedules.collectAsStateWithLifecycle()
+    val combining by vm.combineProgress.collectAsStateWithLifecycle()
+    // Opening the tab pulls in recordings made on other devices from the share.
+    LaunchedEffect(showRecordings) { if (showRecordings) vm.refreshRecordings() }
     val seriesRules by vm.seriesRules.collectAsStateWithLifecycle()
     // Messages from recordings (a drive that isn't plugged in, a recording that failed).
     val notice by com.nuvio.app.livetv.record.LiveTvNotice.current.collectAsStateWithLifecycle()
@@ -450,6 +453,9 @@ fun LiveTvScreen(modifier: Modifier, onPlay: (LiveTvPlayRequest) -> Unit) {
                             onStop = { vm.stopRecording(it.id) },
                             onDelete = { vm.deleteRecording(it.id) },
                             onCancelSchedule = { vm.cancelSchedule(it.id) },
+                            shareReady = vm.smbConfigured(),
+                            combining = combining,
+                            onCombine = { r, toShare -> vm.combineRecording(r.id, toShare) },
                             series = seriesRules,
                             onRemoveSeries = { vm.removeSeries(it.id) },
                             onKeepLast = { r, n -> vm.setKeepLast(r.id, n) },

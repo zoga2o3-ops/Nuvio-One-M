@@ -14,6 +14,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -32,6 +33,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.nuvio.app.livetv.model.LiveChannel
+import com.nuvio.app.livetv.record.LiveTvRecorder
 import com.nuvio.app.livetv.record.LiveTvRecording
 import com.nuvio.app.livetv.record.RecordingSchedule
 import com.nuvio.app.livetv.record.RecordingStatus
@@ -66,6 +68,9 @@ fun RecordingsList(
     onStop: (LiveTvRecording) -> Unit,
     onDelete: (LiveTvRecording) -> Unit,
     onCancelSchedule: (RecordingSchedule) -> Unit,
+    shareReady: Boolean = false,
+    combining: LiveTvRecorder.CombineProgress? = null,
+    onCombine: (LiveTvRecording, Boolean) -> Unit = { _, _ -> },
     series: List<com.nuvio.app.livetv.record.SeriesRule> = emptyList(),
     onRemoveSeries: (com.nuvio.app.livetv.record.SeriesRule) -> Unit = {},
     onKeepLast: (com.nuvio.app.livetv.record.SeriesRule, Int) -> Unit = { _, _ -> },
@@ -73,6 +78,7 @@ fun RecordingsList(
     watchedOf: (LiveTvRecording) -> Boolean = { false },
 ) {
     var confirmDelete by remember { mutableStateOf<LiveTvRecording?>(null) }
+    var combineFor by remember { mutableStateOf<LiveTvRecording?>(null) }
     val now = System.currentTimeMillis()
     val active = recordings.filter { it.isRecording }
     val saved = recordings.filter { !it.isRecording }
@@ -89,6 +95,30 @@ fun RecordingsList(
         contentPadding = PaddingValues(16.dp, 4.dp, 16.dp, 96.dp),
         verticalArrangement = Arrangement.spacedBy(10.dp),
     ) {
+        if (combining != null) {
+            item {
+                Column(
+                    Modifier.fillMaxWidth().clip(RoundedCornerShape(14.dp)).background(CardBg).padding(12.dp),
+                    verticalArrangement = Arrangement.spacedBy(6.dp),
+                ) {
+                    Text(stringResource(Res.string.live_tv_ui_combining), style = MaterialTheme.typography.titleSmall)
+                    Text(combining.title, style = MaterialTheme.typography.bodySmall, color = LocalContentColor.current.copy(alpha = 0.6f))
+                    LinearProgressIndicator(
+                        progress = { if (combining.totalBytes > 0) combining.doneBytes.toFloat() / combining.totalBytes else 0f },
+                        modifier = Modifier.fillMaxWidth(),
+                    )
+                    Text(
+                        stringResource(
+                            Res.string.live_tv_ui_combine_working,
+                            RecordingStorage.sizeLabel(combining.doneBytes),
+                            RecordingStorage.sizeLabel(combining.totalBytes),
+                        ),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = LocalContentColor.current.copy(alpha = 0.6f),
+                    )
+                }
+            }
+        }
         item {
             Text(
                 "Room left: ${RecordingStorage.sizeLabel(freeBytes)}",
@@ -157,6 +187,7 @@ fun RecordingsList(
                     r, detail,
                     primary = if (r.status == RecordingStatus.FAILED) null else stringResource(Res.string.action_play) to { onPlay(r) },
                     secondary = stringResource(Res.string.action_delete) to { confirmDelete = r },
+                    combine = if (r.status == RecordingStatus.FAILED) null else ({ combineFor = r }),
                     watched = watchedOf(r),
                 )
             }
@@ -169,6 +200,24 @@ fun RecordingsList(
             text = { Text(stringResource(Res.string.live_tv_ui_recording_will_be_removed, r.title)) },
             confirmButton = { TextButton(onClick = { onDelete(r); confirmDelete = null }) { Text(stringResource(Res.string.action_delete)) } },
             dismissButton = { TextButton(onClick = { confirmDelete = null }) { Text(stringResource(Res.string.action_cancel)) } },
+        )
+    }
+    combineFor?.let { r ->
+        AlertDialog(
+            onDismissRequest = { combineFor = null },
+            title = { Text(stringResource(Res.string.live_tv_ui_combine_title)) },
+            text = {
+                Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                    Text(r.title, style = MaterialTheme.typography.bodySmall, color = LocalContentColor.current.copy(alpha = 0.65f))
+                    if (shareReady) TextButton(onClick = { combineFor = null; onCombine(r, true) }) {
+                        Text(stringResource(Res.string.live_tv_ui_combine_share))
+                    }
+                    if (!r.smb) TextButton(onClick = { combineFor = null; onCombine(r, false) }) {
+                        Text(stringResource(Res.string.live_tv_ui_combine_device))
+                    }
+                }
+            },
+            confirmButton = { TextButton(onClick = { combineFor = null }) { Text(stringResource(Res.string.action_cancel)) } },
         )
     }
 }
@@ -184,6 +233,7 @@ private fun RecordingCard(
     detail: String,
     primary: Pair<String, () -> Unit>?,
     secondary: Pair<String, () -> Unit>,
+    combine: (() -> Unit)? = null,
     watched: Boolean = false,
 ) {
     Row(
@@ -204,6 +254,7 @@ private fun RecordingCard(
             Text(detail, style = MaterialTheme.typography.bodySmall, color = LocalContentColor.current.copy(alpha = 0.6f))
         }
         if (primary != null) TextButton(onClick = primary.second) { Text(primary.first) }
+        if (combine != null) TextButton(onClick = combine) { Text(stringResource(Res.string.live_tv_ui_combine)) }
         TextButton(onClick = secondary.second) { Text(secondary.first) }
     }
 }

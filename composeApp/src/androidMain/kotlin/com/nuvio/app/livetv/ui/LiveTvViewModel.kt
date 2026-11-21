@@ -245,6 +245,11 @@ class LiveTvViewModel(context: Context) : ViewModel() {
     fun cancelSchedule(id: String) = live.scheduler.cancel(id)
     fun stopRecording(id: String) = live.recorder.stop(id)
     fun deleteRecording(id: String) = live.recorder.delete(id)
+    fun refreshRecordings() = live.recorder.refresh()
+    fun combineRecording(id: String, toShare: Boolean) = live.recorder.combine(id, toShare)
+    fun smbConfigured(): Boolean =
+        com.nuvio.app.livetv.record.SmbSettings.load(appContext) != null
+    val combineProgress = live.recorder.combineProgress
 
     /** What the player needs to play [rec]: recordings are served to the player from this device. */
     fun playRequest(rec: com.nuvio.app.livetv.record.LiveTvRecording) = LiveTvPlayRequest(

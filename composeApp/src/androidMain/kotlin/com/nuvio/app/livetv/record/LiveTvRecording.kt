@@ -38,6 +38,12 @@ data class LiveTvRecording(
     val fromCatchup: Boolean = false,
     /** Mirrored to the configured SMB share; local media pieces may have been removed. */
     val smb: Boolean = false,
+    /**
+     * Folder on the share holding the media, relative to the configured recording folder
+     * (for example `recordings/abc` or `abc`). Null means the recording's [id]; older
+     * recordings predate this field.
+     */
+    val smbDir: String? = null,
 ) {
     val isRecording: Boolean get() = status == RecordingStatus.RECORDING
 
@@ -53,6 +59,7 @@ data class LiveTvRecording(
         put("seriesId", seriesId ?: "")
         put("fromCatchup", fromCatchup)
         put("smb", smb)
+        put("smbDir", smbDir ?: "")
     }
 
     companion object {
@@ -78,7 +85,12 @@ data class LiveTvRecording(
                 seriesId = o.optString("seriesId").ifBlank { null },
                 fromCatchup = o.optBoolean("fromCatchup", false),
                 smb = o.optBoolean("smb", false),
+                smbDir = o.optString("smbDir").ifBlank { null },
             )
         }.getOrNull()
     }
 }
+
+/** Folder on the share holding this recording's media (TV root layout or mobile `recordings/`). */
+internal val LiveTvRecording.shareDir: String
+    get() = (smbDir ?: if (smb) "recordings/$id" else id).trim('/')
