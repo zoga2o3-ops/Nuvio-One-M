@@ -38,10 +38,10 @@ class MusicPlaybackService : Service() {
     companion object {
         private const val CHANNEL_ID = "nuvio_music_playback"
         private const val NOTIFICATION_ID = 7301
-        private const val ACTION_TOGGLE = "com.nuvio.app.music.TOGGLE"
-        private const val ACTION_NEXT = "com.nuvio.app.music.NEXT"
-        private const val ACTION_PREVIOUS = "com.nuvio.app.music.PREVIOUS"
-        private const val ACTION_STOP = "com.nuvio.app.music.STOP"
+        internal const val ACTION_TOGGLE = "com.nuvio.app.music.TOGGLE"
+        internal const val ACTION_NEXT = "com.nuvio.app.music.NEXT"
+        internal const val ACTION_PREVIOUS = "com.nuvio.app.music.PREVIOUS"
+        internal const val ACTION_STOP = "com.nuvio.app.music.STOP"
 
         @Volatile
         var running = false
