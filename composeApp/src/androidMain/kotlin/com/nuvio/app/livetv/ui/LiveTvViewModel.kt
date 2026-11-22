@@ -286,6 +286,9 @@ class LiveTvViewModel(context: Context) : ViewModel() {
     /** Reads the days of listings for the channels being shown in the guide. */
     fun loadGuide(keys: List<String>) = repository.ensureFullRange(keys)
 
+    /** Past listings from the Xtream catch-up archive for the channels on screen. */
+    fun loadCatchupArchive(channels: List<LiveChannel>) = repository.loadXtreamArchive(channels)
+
     /**
      * The link that replays [program] from the start, or null when this channel or time has no archive.
      * Asks an Xtream server for its time zone first when it isn't known (its archive links use server time).

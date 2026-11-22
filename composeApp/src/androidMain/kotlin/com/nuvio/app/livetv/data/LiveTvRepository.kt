@@ -1230,7 +1230,7 @@ class LiveTvRepository(
         fullRangeJob = scope.launch(BackgroundWork.reads) {
             val settings = prefs.currentSettings()
             val now = System.currentTimeMillis()
-            val from = now - HOUR
+            val from = now - settings.epgPastHours.coerceAtLeast(1) * HOUR
             val to = now + settings.epgFutureDays.coerceAtLeast(1) * 24 * HOUR
             // A batch at a time, so the first channels fill in quickly and a group change
             // stops the rest.

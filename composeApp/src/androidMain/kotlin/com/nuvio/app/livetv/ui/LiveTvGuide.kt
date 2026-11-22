@@ -21,9 +21,13 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Replay
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -49,6 +53,7 @@ import coil3.compose.AsyncImage
 import com.nuvio.app.livetv.data.CatchupUrlBuilder
 import com.nuvio.app.livetv.model.EpgProgram
 import com.nuvio.app.livetv.model.LiveChannel
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -58,7 +63,8 @@ import org.jetbrains.compose.resources.stringResource
 
 private const val HOUR = 3_600_000L
 private const val HALF_HOUR = 1_800_000L
-private const val SPAN_HOURS = 24
+/** How far ahead the guide looks; the past side follows the "Past programmes" setting. */
+private const val FUTURE_HOURS = 24
 
 private val BlockBg = Color(0xFF212126)
 private val BlockPast = Color(0xFF18181B)
@@ -67,7 +73,8 @@ private val Accent = Color(0xFFE53935)
 
 /**
  * The guide: channels down the side, time across. Scroll along any row and they all move together;
- * the channel pictures stay put. Tap a programme for its details, or a channel's picture to watch.
+ * the channel pictures stay put. Tap a programme for its details and catch-up, or a channel's
+ * picture to watch.
  */
 @Composable
 fun LiveTvGuideGrid(
@@ -77,6 +84,10 @@ fun LiveTvGuideGrid(
     tablet: Boolean,
     /** A phone held sideways: enough room for the channel name, but not a tablet's full label. */
     wide: Boolean = false,
+    /** How many hours before now the guide can scroll back (the "Past programmes" setting). */
+    pastHours: Int = 24,
+    /** Called with the channels on screen so Xtream's catch-up archive can fill their past listings. */
+    onArchiveNeeded: (List<LiveChannel>) -> Unit = {},
     onPlay: (LiveChannel) -> Unit,
     onCatchup: (LiveChannel, EpgProgram) -> Unit,
     reminders: List<com.nuvio.app.livetv.model.Reminder> = emptyList(),
@@ -85,17 +96,24 @@ fun LiveTvGuideGrid(
     onRecord: (LiveChannel, EpgProgram, Boolean) -> Unit = { _, _, _ -> },
     onRecordSeries: (LiveChannel, EpgProgram) -> Unit = { _, _ -> },
 ) {
+    val past = pastHours.coerceAtLeast(1)
+    val spanHours = past + FUTURE_HOURS
     val hourWidth = if (tablet) 300.dp else 230.dp
     val labelWidth = if (tablet) 176.dp else if (wide) 140.dp else 84.dp
     val showName = tablet || wide
     val rowHeight = when (LiveTvDisplay.guideSize) { "COMPACT" -> 62.dp; "LARGE" -> 88.dp; "XLARGE" -> 104.dp; else -> 74.dp }
-    val totalWidth = hourWidth * SPAN_HOURS
-    // Fixed when the guide opens, an hour back from now on a half-hour mark.
-    val windowStart = remember { (System.currentTimeMillis() - HOUR) / HALF_HOUR * HALF_HOUR }
-    val windowEnd = windowStart + SPAN_HOURS * HOUR
+    val totalWidth = hourWidth * spanHours
+    // Fixed when the guide opens, on a half-hour mark. It opens with "now" near the left edge;
+    // the past programmes from the "Past programmes" setting are to the left.
+    val windowStart = remember(past) {
+        ((System.currentTimeMillis() - past * HOUR) / HALF_HOUR) * HALF_HOUR
+    }
+    val windowEnd = windowStart + spanHours * HOUR
     val scroll = rememberScrollState()
+    val listState = rememberLazyListState()
     val density = LocalDensity.current
     val timeFormat = remember { SimpleDateFormat(if (LiveTvDisplay.use24Hour) "HH:mm" else "h:mm a", Locale.getDefault()) }
+    val dayFormat = remember { SimpleDateFormat("EEE d", Locale.getDefault()) }
     var selected by remember { mutableStateOf<Pair<LiveChannel, EpgProgram>?>(null) }
 
     // Start with "now" near the left edge, once the row is wide enough to scroll.
@@ -105,24 +123,42 @@ fun LiveTvGuideGrid(
         scroll.scrollTo((x - with(density) { 24.dp.roundToPx() }).coerceAtLeast(0))
     }
 
+    // Ask for the Xtream catch-up archive for the channels on screen. XMLTV listings come from
+    // the guide DB; this fills in the past for providers whose guide file only goes back a day.
+    LaunchedEffect(channels) {
+        if (channels.isNotEmpty()) onArchiveNeeded(channels.take(12))
+    }
+    LaunchedEffect(channels, listState) {
+        snapshotFlow { listState.layoutInfo.visibleItemsInfo.map { it.index } }
+            .distinctUntilChanged()
+            .collect { indexes ->
+                val visible = indexes.mapNotNull { channels.getOrNull(it) }
+                if (visible.isNotEmpty()) onArchiveNeeded(visible)
+            }
+    }
+
     Column(Modifier.fillMaxWidth()) {
         Row(Modifier.fillMaxWidth().height(30.dp)) {
             Spacer(Modifier.width(labelWidth))
             Box(Modifier.weight(1f).horizontalScroll(scroll)) {
                 Box(Modifier.width(totalWidth).fillMaxHeight()) {
-                    for (i in 0 until SPAN_HOURS * 2) {
+                    for (i in 0 until spanHours * 2) {
+                        val slot = windowStart + i * HALF_HOUR
+                        val calendar = java.util.Calendar.getInstance().apply { timeInMillis = slot }
+                        val midnight = calendar.get(java.util.Calendar.HOUR_OF_DAY) == 0 &&
+                            calendar.get(java.util.Calendar.MINUTE) == 0
                         Text(
-                            timeFormat.format(Date(windowStart + i * HALF_HOUR)),
+                            if (midnight) dayFormat.format(Date(slot)) else timeFormat.format(Date(slot)),
                             modifier = Modifier.offset(x = hourWidth * (i / 2f)).width(hourWidth / 2).padding(start = 8.dp, top = 6.dp),
                             fontSize = 12.sp,
                             maxLines = 1,
-                            color = LocalContentColor.current.copy(alpha = 0.65f),
+                            color = if (midnight) Accent else LocalContentColor.current.copy(alpha = 0.65f),
                         )
                     }
                 }
             }
         }
-        LazyColumn(contentPadding = PaddingValues(bottom = 96.dp)) {
+        LazyColumn(state = listState, contentPadding = PaddingValues(bottom = 96.dp)) {
             items(channels, key = { it.key }) { channel ->
                 GuideRow(
                     channel = channel,
@@ -260,40 +296,67 @@ private fun GuideRow(
                     val from = maxOf(p.startMs, windowStart)
                     val to = minOf(p.stopMs, windowEnd)
                     val live = p.isLive(now)
+                    val aired = p.stopMs <= now
+                    val replayable = aired &&
+                        CatchupUrlBuilder.isAvailable(channel.catchup, p.startMs, now)
                     val blockStart = hourWidth * ((from - windowStart) / HOUR.toFloat())
                     val blockWidth = (hourWidth * ((to - from) / HOUR.toFloat()) - 3.dp).coerceAtLeast(4.dp)
                     // A programme that began off to the left keeps its title at the edge while you scroll.
                     val shift = with(density) {
                         (scroll.value - blockStart.roundToPx()).coerceIn(0, (blockWidth - 96.dp).roundToPx().coerceAtLeast(0)).toDp()
                     }
-                    Column(
+                    Box(
                         Modifier
                             .offset(x = blockStart)
                             .width(blockWidth)
                             .fillMaxHeight()
                             .padding(vertical = 3.dp)
                             .clip(RoundedCornerShape(8.dp))
-                            .background(if (live) BlockLive else if (p.stopMs <= now) BlockPast else BlockBg)
+                            .background(if (live) BlockLive else if (aired) BlockPast else BlockBg)
                             .then(if (live) Modifier.border(1.dp, Accent, RoundedCornerShape(8.dp)) else Modifier)
-                            .combinedClickable(onClick = onPlay, onLongClick = { onProgram(p) })
-                            .padding(vertical = 5.dp),
-                        verticalArrangement = androidx.compose.foundation.layout.Arrangement.Center,
+                            .combinedClickable(
+                                // A programme opens its details, where "From the start" and the
+                                // record/remind actions live. The channel picture plays live.
+                                onClick = { onProgram(p) },
+                                onLongClick = { onProgram(p) },
+                            ),
                     ) {
-                        Column(Modifier.padding(start = 8.dp + shift, end = 8.dp)) {
-                            Text(
-                                p.title, fontSize = 13.sp, maxLines = 1, overflow = TextOverflow.Ellipsis,
-                                color = LocalContentColor.current.copy(alpha = if (p.stopMs <= now) (if (canReplay) 0.8f else 0.5f) else 0.95f),
-                            )
-                            if (LiveTvDisplay.showTimes) Text(
-                                timeFormat.format(Date(p.startMs)) + " – " + timeFormat.format(Date(p.stopMs)), fontSize = 11.sp, maxLines = 1,
-                                color = LocalContentColor.current.copy(alpha = 0.5f),
-                            ) else Text(
-                                timeFormat.format(Date(p.startMs)), fontSize = 11.sp, maxLines = 1,
-                                color = LocalContentColor.current.copy(alpha = 0.5f),
-                            )
-                            if (LiveTvDisplay.showEpisodes && !p.episode.isNullOrBlank()) Text(
-                                p.episode!!, fontSize = 10.sp, maxLines = 1,
-                                color = LocalContentColor.current.copy(alpha = 0.45f),
+                        Column(
+                            Modifier.fillMaxSize().padding(vertical = 5.dp),
+                            verticalArrangement = androidx.compose.foundation.layout.Arrangement.Center,
+                        ) {
+                            Column(
+                                Modifier.padding(
+                                    start = 8.dp + shift,
+                                    end = if (replayable) 20.dp else 8.dp,
+                                )
+                            ) {
+                                Text(
+                                    p.title, fontSize = 13.sp, maxLines = 1, overflow = TextOverflow.Ellipsis,
+                                    color = LocalContentColor.current.copy(alpha = if (aired) (if (canReplay) 0.8f else 0.5f) else 0.95f),
+                                )
+                                if (LiveTvDisplay.showTimes) Text(
+                                    timeFormat.format(Date(p.startMs)) + " – " + timeFormat.format(Date(p.stopMs)), fontSize = 11.sp, maxLines = 1,
+                                    color = LocalContentColor.current.copy(alpha = 0.5f),
+                                ) else Text(
+                                    timeFormat.format(Date(p.startMs)), fontSize = 11.sp, maxLines = 1,
+                                    color = LocalContentColor.current.copy(alpha = 0.5f),
+                                )
+                                if (LiveTvDisplay.showEpisodes && !p.episode.isNullOrBlank()) Text(
+                                    p.episode!!, fontSize = 10.sp, maxLines = 1,
+                                    color = LocalContentColor.current.copy(alpha = 0.45f),
+                                )
+                            }
+                        }
+                        if (replayable) {
+                            Icon(
+                                Icons.Default.Replay,
+                                contentDescription = stringResource(Res.string.live_tv_ui_from_the_start),
+                                tint = Color.White.copy(alpha = 0.55f),
+                                modifier = Modifier
+                                    .align(Alignment.TopEnd)
+                                    .padding(top = 4.dp, end = 5.dp)
+                                    .size(12.dp),
                             )
                         }
                     }

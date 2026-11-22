@@ -485,6 +485,8 @@ fun LiveTvScreen(modifier: Modifier, onPlay: (LiveTvPlayRequest) -> Unit) {
                             now = now,
                             tablet = tablet,
                             wide = !compact,
+                            pastHours = settings.epgPastHours,
+                            onArchiveNeeded = { vm.loadCatchupArchive(it) },
                             reminders = user.reminders,
                             onRemind = { c, p, on -> askNotifications(); vm.setReminder(c, p, on) },
                             isRecordSet = { c, p -> vm.isScheduled(c.key, p) },
