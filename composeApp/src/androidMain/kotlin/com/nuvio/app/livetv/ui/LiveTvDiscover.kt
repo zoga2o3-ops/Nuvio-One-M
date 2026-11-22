@@ -78,7 +78,7 @@ private fun Tile(title: String, subtitle: String?, image: String?, compact: Bool
         Box(Modifier.size(width, height).clip(RoundedCornerShape(10.dp)).background(Color(0xFF26262B))) {
             if (!image.isNullOrBlank()) AsyncImage(image, null, Modifier.fillMaxWidth().padding(if (compact) 5.dp else 8.dp), contentScale = ContentScale.Fit)
         }
-        Text(title, Modifier.padding(top = 4.dp), maxLines = 1, overflow = TextOverflow.Ellipsis, style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onBackground, textAlign = TextAlign.Center)
+        Text(title, Modifier.padding(top = 4.dp), maxLines = 1, overflow = TextOverflow.Ellipsis, style = MaterialTheme.typography.labelMedium, color = Color.White.copy(alpha = 0.92f), textAlign = TextAlign.Center)
         if (subtitle != null) Text(subtitle, maxLines = 1, overflow = TextOverflow.Ellipsis, style = MaterialTheme.typography.labelSmall, color = Color.Gray, textAlign = TextAlign.Center)
     }
 }
