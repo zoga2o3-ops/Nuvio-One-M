@@ -4037,4 +4037,8 @@
     <string name="music_ui_up_next">Následuje</string>
     <string name="music_ui_switch_to_audio">Přepnout na zvuk</string>
     <string name="music_ui_close">Zavřít</string>
+
+    <string name="live_tv_ui_server_address">Adresa serveru</string>
+    <string name="live_tv_ui_use_https">Použít HTTPS</string>
+    <string name="live_tv_ui_use_https_description">Pro poskytovatele, kteří vám dají adresu https://.</string>
 </resources>

@@ -4065,4 +4065,8 @@
     <string name="music_ui_up_next">Sljedeće</string>
     <string name="music_ui_switch_to_audio">Prebaci na audio</string>
     <string name="music_ui_close">Zatvori</string>
+
+    <string name="live_tv_ui_server_address">Adresa poslužitelja</string>
+    <string name="live_tv_ui_use_https">Koristi HTTPS</string>
+    <string name="live_tv_ui_use_https_description">Za pružatelje koji vam daju adresu https://.</string>
 </resources>

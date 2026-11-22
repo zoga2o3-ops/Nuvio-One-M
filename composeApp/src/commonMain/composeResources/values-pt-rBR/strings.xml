@@ -4096,4 +4096,8 @@
     <string name="music_ui_up_next">A seguir</string>
     <string name="music_ui_switch_to_audio">Mudar para áudio</string>
     <string name="music_ui_close">Fechar</string>
+
+    <string name="live_tv_ui_server_address">Endereço do servidor</string>
+    <string name="live_tv_ui_use_https">Usar HTTPS</string>
+    <string name="live_tv_ui_use_https_description">Para provedores que fornecem um endereço https://.</string>
 </resources>

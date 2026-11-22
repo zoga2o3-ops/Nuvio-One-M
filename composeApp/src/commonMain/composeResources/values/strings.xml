@@ -3220,6 +3220,9 @@
 <string name="live_tv_ui_use_the_mac_address_your_provider_registered_for_you">Use the MAC address your provider registered for you.</string>
 <string name="live_tv_ui_playlist_link">Playlist link</string>
 <string name="live_tv_ui_server_like_http_host_port">Server, like http://host:port</string>
+<string name="live_tv_ui_server_address">Server address</string>
+<string name="live_tv_ui_use_https">Use HTTPS</string>
+<string name="live_tv_ui_use_https_description">For providers that give you an https:// address.</string>
 <string name="live_tv_ui_user_agent_leave_empty_for_the_default">User agent (leave empty for the default)</string>
 <string name="live_tv_ui_server_time_zone_optional_e_g_europe_london">Server time zone (optional, e.g. Europe/London)</string>
 <string name="live_tv_ui_live_tv_channels">Live TV channels</string>

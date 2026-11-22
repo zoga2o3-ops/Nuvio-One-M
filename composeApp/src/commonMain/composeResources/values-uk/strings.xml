@@ -2645,4 +2645,8 @@
     <string name="music_ui_close">Закрити</string>
 
     <string name="music_ui_back_resumes_the_song">Назад продовжує пісню</string>
+
+    <string name="live_tv_ui_server_address">Адреса сервера</string>
+    <string name="live_tv_ui_use_https">Використовувати HTTPS</string>
+    <string name="live_tv_ui_use_https_description">Для провайдерів, які надають адресу https://.</string>
 </resources>

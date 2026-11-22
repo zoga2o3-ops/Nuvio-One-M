@@ -4125,4 +4125,8 @@
     <string name="music_ui_up_next">Следва</string>
     <string name="music_ui_switch_to_audio">Превключване към аудио</string>
     <string name="music_ui_close">Затвори</string>
+
+    <string name="live_tv_ui_server_address">Адрес на сървъра</string>
+    <string name="live_tv_ui_use_https">Използване на HTTPS</string>
+    <string name="live_tv_ui_use_https_description">За доставчици, които предоставят адрес с https://.</string>
 </resources>

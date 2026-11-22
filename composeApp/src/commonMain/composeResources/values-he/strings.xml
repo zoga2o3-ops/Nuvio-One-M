@@ -4083,4 +4083,8 @@
     <string name="music_ui_up_next">הבא בתור</string>
     <string name="music_ui_switch_to_audio">מעבר לאודיו</string>
     <string name="music_ui_close">סגירה</string>
+
+    <string name="live_tv_ui_server_address">כתובת השרת</string>
+    <string name="live_tv_ui_use_https">השתמש ב-HTTPS</string>
+    <string name="live_tv_ui_use_https_description">עבור ספקים שנותנים כתובת https://.</string>
 </resources>

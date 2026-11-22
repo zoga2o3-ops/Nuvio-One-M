@@ -4089,4 +4089,8 @@
     <string name="music_ui_up_next">Hierna</string>
     <string name="music_ui_switch_to_audio">Overschakelen naar audio</string>
     <string name="music_ui_close">Sluiten</string>
+
+    <string name="live_tv_ui_server_address">Serveradres</string>
+    <string name="live_tv_ui_use_https">HTTPS gebruiken</string>
+    <string name="live_tv_ui_use_https_description">Voor providers die je een adres met https:// geven.</string>
 </resources>

@@ -4073,4 +4073,8 @@
     <string name="music_ui_up_next">次に再生</string>
     <string name="music_ui_switch_to_audio">音声に切り替え</string>
     <string name="music_ui_close">閉じる</string>
+
+    <string name="live_tv_ui_server_address">サーバーアドレス</string>
+    <string name="live_tv_ui_use_https">HTTPS を使用</string>
+    <string name="live_tv_ui_use_https_description">https:// のアドレスを提供するプロバイダー向けです。</string>
 </resources>

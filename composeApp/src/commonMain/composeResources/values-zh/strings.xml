@@ -2598,4 +2598,8 @@
     <string name="music_ui_close">关闭</string>
 
     <string name="music_ui_back_resumes_the_song">返回后继续播放歌曲</string>
+
+    <string name="live_tv_ui_server_address">服务器地址</string>
+    <string name="live_tv_ui_use_https">使用 HTTPS</string>
+    <string name="live_tv_ui_use_https_description">适用于提供 https:// 地址的服务商。</string>
 </resources>

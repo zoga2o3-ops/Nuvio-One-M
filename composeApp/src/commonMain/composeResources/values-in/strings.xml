@@ -4029,4 +4029,8 @@
     <string name="music_ui_up_next">Berikutnya</string>
     <string name="music_ui_switch_to_audio">Beralih ke audio</string>
     <string name="music_ui_close">Tutup</string>
+
+    <string name="live_tv_ui_server_address">Alamat server</string>
+    <string name="live_tv_ui_use_https">Gunakan HTTPS</string>
+    <string name="live_tv_ui_use_https_description">Untuk penyedia yang memberikan alamat https://.</string>
 </resources>

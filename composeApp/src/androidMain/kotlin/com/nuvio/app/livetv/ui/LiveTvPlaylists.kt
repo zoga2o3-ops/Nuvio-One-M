@@ -1,5 +1,6 @@
 package com.nuvio.app.livetv.ui
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -198,6 +199,8 @@ fun AddPlaylistDialog(
     var pass by remember { mutableStateOf("") }
     var portal by remember { mutableStateOf("") }
     var mac by remember { mutableStateOf("") }
+    var m3uHttps by remember { mutableStateOf(false) }
+    var xtreamHttps by remember { mutableStateOf(false) }
     val ready = when (mode) {
         1 -> server.isNotBlank()
         2 -> portal.isNotBlank() && com.nuvio.app.livetv.data.StalkerClient.isValidMac(mac)
@@ -229,13 +232,43 @@ fun AddPlaylistDialog(
                     Text(stringResource(Res.string.live_tv_ui_use_the_mac_address_your_provider_registered_for_you), style = MaterialTheme.typography.bodySmall, color = Color(0xFFB0B0B0))
                 } else if (!xtream) {
                     OutlinedTextField(
-                        url, { url = it }, label = { Text(stringResource(Res.string.live_tv_ui_playlist_link)) }, modifier = Modifier.fillMaxWidth(), colors = fieldColors(),
+                        url, { text ->
+                            url = text
+                            val typed = text.trimStart()
+                            when {
+                                typed.startsWith("https://", ignoreCase = true) -> m3uHttps = true
+                                typed.startsWith("http://", ignoreCase = true) -> m3uHttps = false
+                            }
+                        }, label = { Text(stringResource(Res.string.live_tv_ui_playlist_link)) }, modifier = Modifier.fillMaxWidth(), colors = fieldColors(),
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Uri), maxLines = 3,
+                        placeholder = { Text("host/playlist.m3u", color = Color(0xFF808080)) },
+                    )
+                    HttpsSwitch(
+                        checked = m3uHttps,
+                        onCheckedChange = {
+                            m3uHttps = it
+                            url = PlaylistSource.stripPlaylistAddressScheme(url)
+                        },
                     )
                 } else {
                     OutlinedTextField(
-                        server, { server = it }, singleLine = true, label = { Text(stringResource(Res.string.live_tv_ui_server_like_http_host_port)) }, modifier = Modifier.fillMaxWidth(), colors = fieldColors(),
+                        server, { text ->
+                            server = text
+                            val typed = text.trimStart()
+                            when {
+                                typed.startsWith("https://", ignoreCase = true) -> xtreamHttps = true
+                                typed.startsWith("http://", ignoreCase = true) -> xtreamHttps = false
+                            }
+                        }, singleLine = true, label = { Text(stringResource(Res.string.live_tv_ui_server_address)) }, modifier = Modifier.fillMaxWidth(), colors = fieldColors(),
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Uri),
+                        placeholder = { Text("host:port", color = Color(0xFF808080)) },
+                    )
+                    HttpsSwitch(
+                        checked = xtreamHttps,
+                        onCheckedChange = {
+                            xtreamHttps = it
+                            server = PlaylistSource.stripPlaylistAddressScheme(server)
+                        },
                     )
                     OutlinedTextField(user, { user = it }, singleLine = true, label = { Text(stringResource(Res.string.live_tv_username)) }, modifier = Modifier.fillMaxWidth(), colors = fieldColors())
                     OutlinedTextField(
@@ -250,9 +283,14 @@ fun AddPlaylistDialog(
                 enabled = ready,
                 onClick = {
                     when (mode) {
-                        1 -> onXtream(name, server, user, pass)
+                        1 -> onXtream(
+                            name,
+                            PlaylistSource.completePlaylistAddress(server, xtreamHttps),
+                            user,
+                            pass,
+                        )
                         2 -> onStalker(name, portal, mac)
-                        else -> onM3u(name, url)
+                        else -> onM3u(name, PlaylistSource.completePlaylistAddress(url, m3uHttps))
                     }
                 },
             ) { Text(stringResource(Res.string.youtube_settings_add)) }
@@ -270,6 +308,33 @@ internal fun fieldColors() = OutlinedTextFieldDefaults.colors(
     focusedLabelColor = Color.White,
 )
 
+@Composable
+private fun HttpsSwitch(
+    checked: Boolean,
+    onCheckedChange: (Boolean) -> Unit,
+) {
+    Row(
+        Modifier
+            .fillMaxWidth()
+            .clickable { onCheckedChange(!checked) }
+            .padding(vertical = 2.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Column(Modifier.weight(1f)) {
+            Text(
+                stringResource(Res.string.live_tv_ui_use_https),
+                style = MaterialTheme.typography.bodyMedium,
+            )
+            Text(
+                stringResource(Res.string.live_tv_ui_use_https_description),
+                style = MaterialTheme.typography.bodySmall,
+                color = Color(0xFFB0B0B0),
+            )
+        }
+        Switch(checked = checked, onCheckedChange = onCheckedChange)
+    }
+}
+
 /** One playlist's options: its name, user agent, what to import, stream format, logos and account details. */
 @Composable
 private fun PlaylistEditDialog(
@@ -280,6 +345,14 @@ private fun PlaylistEditDialog(
     onDismiss: () -> Unit,
 ) {
     var name by remember { mutableStateOf(playlist.name) }
+    var address by remember {
+        mutableStateOf(
+            if (playlist.isXtream) playlist.xtreamServer
+            else if (playlist.isStalker) ""
+            else playlist.url
+        )
+    }
+    var addressHttps by remember { mutableStateOf(address.startsWith("https://", ignoreCase = true)) }
     var agent by remember { mutableStateOf(playlist.userAgent) }
     var zone by remember { mutableStateOf(playlist.serverTimezone) }
     var live by remember { mutableStateOf(playlist.importLive) }
@@ -295,6 +368,39 @@ private fun PlaylistEditDialog(
         text = {
             Column(Modifier.verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 OutlinedTextField(value = name, onValueChange = { name = it }, singleLine = true, label = { Text(stringResource(Res.string.stream_info_name)) }, colors = fieldColors())
+                if (!playlist.isStalker) {
+                    OutlinedTextField(
+                        value = address,
+                        onValueChange = { text ->
+                            address = text
+                            val typed = text.trimStart()
+                            when {
+                                typed.startsWith("https://", ignoreCase = true) -> addressHttps = true
+                                typed.startsWith("http://", ignoreCase = true) -> addressHttps = false
+                            }
+                        },
+                        singleLine = playlist.isXtream,
+                        label = {
+                            Text(
+                                stringResource(
+                                    if (playlist.isXtream) Res.string.live_tv_ui_server_address
+                                    else Res.string.live_tv_ui_playlist_link
+                                )
+                            )
+                        },
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = fieldColors(),
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Uri),
+                        maxLines = if (playlist.isXtream) 1 else 2,
+                    )
+                    HttpsSwitch(
+                        checked = addressHttps,
+                        onCheckedChange = {
+                            addressHttps = it
+                            address = PlaylistSource.stripPlaylistAddressScheme(address)
+                        },
+                    )
+                }
                 OutlinedTextField(
                     value = agent, onValueChange = { agent = it }, singleLine = true,
                     label = { Text(stringResource(Res.string.live_tv_ui_user_agent_leave_empty_for_the_default)) }, colors = fieldColors())
@@ -353,17 +459,31 @@ private fun PlaylistEditDialog(
             }
         },
         confirmButton = {
-            TextButton(onClick = {
-                onSave(
-                    playlist.copy(
-                        name = name.trim().ifBlank { playlist.name }, userAgent = agent.trim(),
-                        serverTimezone = zone.trim(),
-                        importLive = live, importVod = vod, useEmbeddedEpg = embedded, streamFormat = format, logoSource = logos,
-                        stalkerPortal = if (playlist.isStalker) portal.trim().ifBlank { playlist.stalkerPortal } else playlist.stalkerPortal,
-                        stalkerMac = if (playlist.isStalker) mac.trim().ifBlank { playlist.stalkerMac } else playlist.stalkerMac,
+            TextButton(
+                enabled = playlist.isStalker || address.isNotBlank(),
+                onClick = {
+                    onSave(
+                        playlist.copy(
+                            name = name.trim().ifBlank { playlist.name },
+                            url = if (!playlist.isStalker && !playlist.isXtream) {
+                                PlaylistSource.completePlaylistAddress(address, addressHttps)
+                            } else {
+                                playlist.url
+                            },
+                            xtreamServer = if (playlist.isXtream) {
+                                PlaylistSource.completePlaylistAddress(address, addressHttps)
+                            } else {
+                                playlist.xtreamServer
+                            },
+                            userAgent = agent.trim(),
+                            serverTimezone = zone.trim(),
+                            importLive = live, importVod = vod, useEmbeddedEpg = embedded, streamFormat = format, logoSource = logos,
+                            stalkerPortal = if (playlist.isStalker) portal.trim().ifBlank { playlist.stalkerPortal } else playlist.stalkerPortal,
+                            stalkerMac = if (playlist.isStalker) mac.trim().ifBlank { playlist.stalkerMac } else playlist.stalkerMac,
+                        )
                     )
-                )
-            }) { Text(stringResource(Res.string.action_save)) }
+                },
+            ) { Text(stringResource(Res.string.action_save)) }
         },
         dismissButton = { TextButton(onClick = onDismiss) { Text(stringResource(Res.string.action_cancel)) } },
     )

@@ -4079,4 +4079,8 @@
     <string name="music_ui_up_next">التالي</string>
     <string name="music_ui_switch_to_audio">التبديل إلى الصوت</string>
     <string name="music_ui_close">إغلاق</string>
+
+    <string name="live_tv_ui_server_address">عنوان الخادم</string>
+    <string name="live_tv_ui_use_https">استخدام HTTPS</string>
+    <string name="live_tv_ui_use_https_description">لمزودي الخدمة الذين يقدمون عنوان https://.</string>
 </resources>

@@ -76,6 +76,24 @@ data class PlaylistSource(
             .replace(Regex("[\\u2010-\\u2015\\u2212\\uFE58\\uFE63\\uFF0D]"), "-")
             .replace(Regex("[\\u200B-\\u200D\\u2060\\uFEFF\\u00A0\\s]"), "")
 
+        private val addressScheme = Regex("^[A-Za-z][A-Za-z0-9+.-]*://")
+
+        /** Complete a typed or pasted address without changing its path, query or explicit scheme. */
+        fun completePlaylistAddress(value: String, useHttps: Boolean = false): String {
+            val scheme = if (useHttps) "https" else "http"
+            val address = value.trim()
+            return when {
+                address.isEmpty() -> ""
+                address.startsWith("//") -> "$scheme:$address"
+                addressScheme.containsMatchIn(address) -> address
+                else -> "$scheme://$address"
+            }
+        }
+
+        /** Drops a typed or pasted scheme so the HTTP/HTTPS switch can own it. */
+        fun stripPlaylistAddressScheme(value: String): String =
+            value.trimStart().replaceFirst(addressScheme, "")
+
         fun cleanXtreamServer(raw: String): String {
             // Whatever dash-like character the keyboard typed (some show as blank on screen)
             // becomes a plain hyphen. Any other odd non-ASCII character in the server name too.

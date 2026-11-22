@@ -4091,4 +4091,8 @@
     <string name="music_ui_up_next">Tiếp theo</string>
     <string name="music_ui_switch_to_audio">Chuyển sang âm thanh</string>
     <string name="music_ui_close">Đóng</string>
+
+    <string name="live_tv_ui_server_address">Địa chỉ máy chủ</string>
+    <string name="live_tv_ui_use_https">Dùng HTTPS</string>
+    <string name="live_tv_ui_use_https_description">Dành cho nhà cung cấp đưa cho bạn địa chỉ https://.</string>
 </resources>

@@ -4041,4 +4041,8 @@
     <string name="music_ui_up_next">அடுத்து</string>
     <string name="music_ui_switch_to_audio">ஒலிக்கு மாறு</string>
     <string name="music_ui_close">மூடு</string>
+
+    <string name="live_tv_ui_server_address">சேவையக முகவரி</string>
+    <string name="live_tv_ui_use_https">HTTPS பயன்படுத்து</string>
+    <string name="live_tv_ui_use_https_description">https:// முகவரி தரும் வழங்குநர்களுக்கு.</string>
 </resources>
