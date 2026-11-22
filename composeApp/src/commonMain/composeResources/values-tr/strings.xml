@@ -3760,7 +3760,7 @@ Bu özelliği tamamen kendi sorumluluğunuzda kullanırsınız. P2P istediğiniz
 <string name="music_ui_play_a_track_to_see_its_lyrics">Şarkı sözlerini görmek için bir parçayı çalın.</string>
 <string name="music_ui_this_music_video_couldn_t_be_played">Bu müzik videosu oynatılamadı.</string>
 <string name="music_ui_video_unavailable">Video kullanılamıyor</string>
-<string name="music_ui_music_stays_paused_back_returns_to_the_song">Müzik duraklatılmış halde kalır · Şarkıya geri döner</string>
+<string name="music_ui_back_resumes_the_song">Geri şarkıyı sürdürür</string>
 <string name="music_ui_couldn_t_read_that_folder">Bu klasör okunamadı.</string>
 <string name="music_ui_stream_music_from_your_own_server">Kendi sunucunuzdan müzik akışı yapın.</string>
 <string name="music_ui_url_trim_else_url_trim">)) url.trim() else url.trim() +</string>
@@ -4055,4 +4055,12 @@ Bu özelliği tamamen kendi sorumluluğunuzda kullanırsınız. P2P istediğiniz
 
     <string name="live_tv_ui_new_episodes_on_home">Ana sayfada yeni bölümler</string>
     <string name="live_tv_ui_new_episodes_on_home_description">Calendar programlarınızın yeni bölümlerini Continue Watching'in üzerinde göster.</string>
+
+    <string name="music_ui_previous_track">Önceki parça</string>
+    <string name="music_ui_next_track">Sonraki parça</string>
+    <string name="music_ui_shuffle">Karıştır</string>
+    <string name="music_ui_repeat">Tekrarla</string>
+    <string name="music_ui_up_next">Sırada</string>
+    <string name="music_ui_switch_to_audio">Sese geç</string>
+    <string name="music_ui_close">Kapat</string>
 </resources>

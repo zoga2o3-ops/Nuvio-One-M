@@ -3837,7 +3837,7 @@
 <string name="music_ui_when_a_youtube_track_starts_nuvio_looks_for_the_same_title">Keď sa spustí stopa YouTube, Nuvio hľadá rovnaký názov,</string>
 <string name="music_ui_this_music_video_couldn_t_be_played">Toto hudobné video sa nepodarilo prehrať.</string>
 <string name="music_ui_video_unavailable">Video je nedostupné</string>
-<string name="music_ui_music_stays_paused_back_returns_to_the_song">Hudba zostane pozastavená · Späť sa vráti k skladbe</string>
+<string name="music_ui_back_resumes_the_song">Späť pokračuje v prehrávaní</string>
 <string name="music_ui_couldn_t_read_that_folder">Tento priečinok sa nepodarilo prečítať.</string>
 <string name="music_ui_stream_music_from_your_own_server">Streamujte hudbu z vlastného servera.</string>
 <string name="music_ui_url_trim_else_url_trim">)) url.trim() inak url.trim() +</string>
@@ -4080,4 +4080,12 @@
 
     <string name="live_tv_ui_new_episodes_on_home">Nové epizódy na domovskej obrazovke</string>
     <string name="live_tv_ui_new_episodes_on_home_description">Zobrazovať nové epizódy relácií z Calendar nad Continue Watching.</string>
+
+    <string name="music_ui_previous_track">Predchádzajúca skladba</string>
+    <string name="music_ui_next_track">Ďalšia skladba</string>
+    <string name="music_ui_shuffle">Náhodne</string>
+    <string name="music_ui_repeat">Opakovať</string>
+    <string name="music_ui_up_next">Nasleduje</string>
+    <string name="music_ui_switch_to_audio">Prepnúť na zvuk</string>
+    <string name="music_ui_close">Zavrieť</string>
 </resources>

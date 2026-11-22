@@ -3844,7 +3844,7 @@
     <string name="live_tv_ui_leave_as_it_is">Lass es so wie es ist</string>
     <string name="music_ui_this_music_video_couldn_t_be_played">Dieses Musikvideo konnte nicht abgespielt werden.</string>
     <string name="music_ui_video_unavailable">Video nicht verfügbar</string>
-    <string name="music_ui_music_stays_paused_back_returns_to_the_song">Die Musik bleibt angehalten. · Zurück kehrt zum Lied zurück</string>
+    <string name="music_ui_back_resumes_the_song">Zurück spielt den Titel weiter</string>
     <string name="music_ui_couldn_t_read_that_folder">Der Ordner konnte nicht gelesen werden.</string>
     <string name="music_ui_stream_music_from_your_own_server">Streamen Sie Musik von Ihrem eigenen Server.</string>
     <string name="music_ui_url_trim_else_url_trim">)) url.trim() sonst url.trim() +</string>
@@ -4038,4 +4038,12 @@
 
     <string name="live_tv_ui_new_episodes_on_home">Neue Folgen auf der Startseite</string>
     <string name="live_tv_ui_new_episodes_on_home_description">Neue Folgen deiner Calendar-Sendungen über Continue Watching anzeigen.</string>
+
+    <string name="music_ui_previous_track">Vorheriger Titel</string>
+    <string name="music_ui_next_track">Nächster Titel</string>
+    <string name="music_ui_shuffle">Zufallswiedergabe</string>
+    <string name="music_ui_repeat">Wiederholen</string>
+    <string name="music_ui_up_next">Als Nächstes</string>
+    <string name="music_ui_switch_to_audio">Zu Audio wechseln</string>
+    <string name="music_ui_close">Schließen</string>
 </resources>

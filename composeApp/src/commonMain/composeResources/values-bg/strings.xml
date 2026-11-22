@@ -3866,7 +3866,7 @@
     <string name="music_ui_search_songs_albums_artists_and_playlists">Търсете песни, албуми, изпълнители и плейлисти</string>
     <string name="music_ui_this_music_video_couldn_t_be_played">Този музикален видеоклип не можа да бъде пуснат.</string>
     <string name="music_ui_video_unavailable">Видеото е недостъпно</string>
-    <string name="music_ui_music_stays_paused_back_returns_to_the_song">Музиката остава на пауза · Назад връща към песента</string>
+    <string name="music_ui_back_resumes_the_song">Назад продължава песента</string>
     <string name="music_ui_couldn_t_read_that_folder">Тази папка не можа да бъде прочетена.</string>
     <string name="music_ui_stream_music_from_your_own_server">Предавайте поточно музика от вашия собствен сървър.</string>
     <string name="music_ui_url_trim_else_url_trim">)) url.trim() else url.trim() +</string>
@@ -4117,4 +4117,12 @@
 
     <string name="live_tv_ui_new_episodes_on_home">Нови епизоди в начало</string>
     <string name="live_tv_ui_new_episodes_on_home_description">Показвай новите епизоди от предаванията в Calendar над Continue Watching.</string>
+
+    <string name="music_ui_previous_track">Предишна песен</string>
+    <string name="music_ui_next_track">Следваща песен</string>
+    <string name="music_ui_shuffle">Разбъркване</string>
+    <string name="music_ui_repeat">Повторение</string>
+    <string name="music_ui_up_next">Следва</string>
+    <string name="music_ui_switch_to_audio">Превключване към аудио</string>
+    <string name="music_ui_close">Затвори</string>
 </resources>

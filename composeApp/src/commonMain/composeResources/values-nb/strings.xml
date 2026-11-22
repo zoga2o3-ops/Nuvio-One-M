@@ -3801,7 +3801,7 @@ Du bruker denne funksjonen helt på eget ansvar. P2P kan deaktiveres når som he
 <string name="music_ui_khtml_like_gecko_chrome_140_0_0_0_safari_537_36">(KHTML, som Gecko) Chrome/140.0.0.0 Safari/537.36</string>
 <string name="music_ui_this_music_video_couldn_t_be_played">Denne musikkvideoen kunne ikke spilles av.</string>
 <string name="music_ui_video_unavailable">Video utilgjengelig</string>
-<string name="music_ui_music_stays_paused_back_returns_to_the_song">Musikken forblir pauset · Tilbake går tilbake til sangen</string>
+<string name="music_ui_back_resumes_the_song">Tilbake fortsetter sangen</string>
 <string name="music_ui_couldn_t_read_that_folder">Kunne ikke lese den mappen.</string>
 <string name="music_ui_stream_music_from_your_own_server">Stream musikk fra din egen server.</string>
 <string name="music_ui_url_trim_else_url_trim">)) url.trim() else url.trim() +</string>
@@ -4029,4 +4029,12 @@ Du bruker denne funksjonen helt på eget ansvar. P2P kan deaktiveres når som he
 
     <string name="live_tv_ui_new_episodes_on_home">Nye episoder på Hjem</string>
     <string name="live_tv_ui_new_episodes_on_home_description">Vis nye episoder av Calendar-programmene dine over Continue Watching.</string>
+
+    <string name="music_ui_previous_track">Forrige spor</string>
+    <string name="music_ui_next_track">Neste spor</string>
+    <string name="music_ui_shuffle">Tilfeldig</string>
+    <string name="music_ui_repeat">Gjenta</string>
+    <string name="music_ui_up_next">Neste i køen</string>
+    <string name="music_ui_switch_to_audio">Bytt til lyd</string>
+    <string name="music_ui_close">Lukk</string>
 </resources>

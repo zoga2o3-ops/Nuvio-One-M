@@ -3806,7 +3806,7 @@
     <string name="music_ui_khtml_like_gecko_chrome_140_0_0_0_safari_537_36">(KHTML, seperti Gecko) Chrome/140.0.0.0 Safari/537.36</string>
     <string name="music_ui_this_music_video_couldn_t_be_played">Video musik ini tidak dapat diputar.</string>
     <string name="music_ui_video_unavailable">Video tidak tersedia</string>
-    <string name="music_ui_music_stays_paused_back_returns_to_the_song">Musik tetap dijeda · Kembali kembali ke lagu</string>
+    <string name="music_ui_back_resumes_the_song">Kembali melanjutkan lagu</string>
     <string name="music_ui_couldn_t_read_that_folder">Tidak dapat membaca folder itu.</string>
     <string name="music_ui_stream_music_from_your_own_server">Streaming musik dari server Anda sendiri.</string>
     <string name="music_ui_url_trim_else_url_trim">)) url.trim() lain url.trim() +</string>
@@ -4021,4 +4021,12 @@
 
     <string name="live_tv_ui_new_episodes_on_home">Episode baru di Beranda</string>
     <string name="live_tv_ui_new_episodes_on_home_description">Tampilkan episode baru dari acara Calendar Anda di atas Continue Watching.</string>
+
+    <string name="music_ui_previous_track">Trek sebelumnya</string>
+    <string name="music_ui_next_track">Trek berikutnya</string>
+    <string name="music_ui_shuffle">Acak</string>
+    <string name="music_ui_repeat">Ulangi</string>
+    <string name="music_ui_up_next">Berikutnya</string>
+    <string name="music_ui_switch_to_audio">Beralih ke audio</string>
+    <string name="music_ui_close">Tutup</string>
 </resources>

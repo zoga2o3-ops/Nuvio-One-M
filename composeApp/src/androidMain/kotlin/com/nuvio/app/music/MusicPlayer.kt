@@ -315,10 +315,16 @@ object MusicPlayer {
         }
     }
 
-    /** Jumps to a track already in the queue. */
-    fun jumpTo(index: Int) {
+    /**
+     * Jumps to a track already in the queue, optionally starting at [startPositionMs].
+     * Used when a music video hands playback back to the audio player at the same moment.
+     */
+    fun jumpTo(index: Int, startPositionMs: Long = 0L) {
         val current = _state.value
         if (index !in current.queue.indices) return
+        val song = current.queue[index]
+        resumeVideoId = song.videoId
+        resumePositionMs = startPositionMs.coerceAtLeast(0L)
         _state.update { it.copy(index = index) }
         playCurrent()
     }
@@ -568,6 +574,14 @@ object MusicPlayer {
         val video = resolvedVideoSong ?: return current.positionMs
         val map = YtMusicRepository.versionTimeMap(song.videoId, video.videoId)
         return map?.map(current.positionMs) ?: current.positionMs
+    }
+
+    /** Maps a music video's playhead back onto the song's audio stream. */
+    fun audioPositionForVideo(videoId: String, videoPositionMs: Long): Long {
+        val audio = _state.value.song ?: return videoPositionMs.coerceAtLeast(0L)
+        val map = YtMusicRepository.versionTimeMap(videoId, audio.videoId)
+            ?: return videoPositionMs.coerceAtLeast(0L)
+        return map.map(videoPositionMs.coerceAtLeast(0L))
     }
 
     fun stop() {

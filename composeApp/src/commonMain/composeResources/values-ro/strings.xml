@@ -3793,7 +3793,7 @@
 <string name="music_ui_when_a_youtube_track_starts_nuvio_looks_for_the_same_title">Când începe o piesă YouTube, Nuvio caută același titlu,</string>
 <string name="music_ui_this_music_video_couldn_t_be_played">Acest videoclip muzical nu a putut fi redat.</string>
 <string name="music_ui_video_unavailable">Videoclipul nu este disponibil</string>
-<string name="music_ui_music_stays_paused_back_returns_to_the_song">Muzica rămâne întreruptă · Înapoi revine la melodie</string>
+<string name="music_ui_back_resumes_the_song">Înapoi reia piesa</string>
 <string name="music_ui_couldn_t_read_that_folder">Nu am putut citi acel folder.</string>
 <string name="music_ui_stream_music_from_your_own_server">Redați muzică în flux de pe propriul dvs. server.</string>
 <string name="music_ui_url_trim_else_url_trim">)) url.trim() else url.trim() +</string>
@@ -4021,4 +4021,12 @@
 
     <string name="live_tv_ui_new_episodes_on_home">Episoade noi pe Acasă</string>
     <string name="live_tv_ui_new_episodes_on_home_description">Afișează episoadele noi ale emisiunilor din Calendar deasupra Continue Watching.</string>
+
+    <string name="music_ui_previous_track">Piesa anterioară</string>
+    <string name="music_ui_next_track">Piesa următoare</string>
+    <string name="music_ui_shuffle">Aleatoriu</string>
+    <string name="music_ui_repeat">Repetă</string>
+    <string name="music_ui_up_next">Urmează</string>
+    <string name="music_ui_switch_to_audio">Comută pe audio</string>
+    <string name="music_ui_close">Închide</string>
 </resources>

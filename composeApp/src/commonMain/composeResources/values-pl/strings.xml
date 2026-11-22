@@ -3873,7 +3873,7 @@
 <string name="youtube_ui_unlike_comment">Inaczej niż komentarz</string>
 <string name="music_ui_this_music_video_couldn_t_be_played">Nie można odtworzyć tego teledysku.</string>
 <string name="music_ui_video_unavailable">Film niedostępny</string>
-<string name="music_ui_music_stays_paused_back_returns_to_the_song">Muzyka zostaje wstrzymana · Powrót powoduje powrót do utworu</string>
+<string name="music_ui_back_resumes_the_song">Wstecz wznawia utwór</string>
 <string name="music_ui_couldn_t_read_that_folder">Nie udało się odczytać tego folderu.</string>
 <string name="music_ui_stream_music_from_your_own_server">Przesyłaj strumieniowo muzykę z własnego serwera.</string>
 <string name="music_ui_url_trim_else_url_trim">)) url.trim() else url.trim() +</string>
@@ -5598,4 +5598,12 @@
 
     <string name="live_tv_ui_new_episodes_on_home">Nowe odcinki na ekranie głównym</string>
     <string name="live_tv_ui_new_episodes_on_home_description">Pokazuj nowe odcinki programów z Calendar nad Continue Watching.</string>
+
+    <string name="music_ui_previous_track">Poprzedni utwór</string>
+    <string name="music_ui_next_track">Następny utwór</string>
+    <string name="music_ui_shuffle">Losowo</string>
+    <string name="music_ui_repeat">Powtórz</string>
+    <string name="music_ui_up_next">Następne</string>
+    <string name="music_ui_switch_to_audio">Przełącz na audio</string>
+    <string name="music_ui_close">Zamknij</string>
 </resources>

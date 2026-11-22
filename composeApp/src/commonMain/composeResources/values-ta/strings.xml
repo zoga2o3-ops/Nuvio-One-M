@@ -3789,7 +3789,7 @@
     <string name="music_ui_when_a_youtube_track_starts_nuvio_looks_for_the_same_title">YouTube ட்ராக் தொடங்கும் போது, ​​Nuvio அதே தலைப்பைத் தேடுகிறது,</string>
     <string name="music_ui_this_music_video_couldn_t_be_played">இந்த இசை வீடியோவை இயக்க முடியவில்லை.</string>
     <string name="music_ui_video_unavailable">வீடியோ கிடைக்கவில்லை</string>
-    <string name="music_ui_music_stays_paused_back_returns_to_the_song">இசை இடைநிறுத்தப்படும் · மீண்டும் பாடலுக்குத் திரும்புகிறது</string>
+    <string name="music_ui_back_resumes_the_song">பின்செல் பாடலைத் தொடரும்</string>
     <string name="music_ui_couldn_t_read_that_folder">அந்தக் கோப்புறையைப் படிக்க முடியவில்லை.</string>
     <string name="music_ui_stream_music_from_your_own_server">உங்கள் சொந்த சர்வரிலிருந்து இசையை ஸ்ட்ரீம் செய்யுங்கள்.</string>
     <string name="music_ui_url_trim_else_url_trim">)) url.trim() else url.trim() +</string>
@@ -4033,4 +4033,12 @@
 
     <string name="live_tv_ui_new_episodes_on_home">முகப்பில் புதிய எபிசோடுகள்</string>
     <string name="live_tv_ui_new_episodes_on_home_description">Calendar நிகழ்ச்சிகளின் புதிய எபிசோடுகளை Continue Watching-க்கு மேலே காட்டவும்.</string>
+
+    <string name="music_ui_previous_track">முந்தைய பாடல்</string>
+    <string name="music_ui_next_track">அடுத்த பாடல்</string>
+    <string name="music_ui_shuffle">கலக்கவும்</string>
+    <string name="music_ui_repeat">மீண்டும் இயக்கு</string>
+    <string name="music_ui_up_next">அடுத்து</string>
+    <string name="music_ui_switch_to_audio">ஒலிக்கு மாறு</string>
+    <string name="music_ui_close">மூடு</string>
 </resources>

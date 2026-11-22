@@ -3838,6 +3838,13 @@
 <string name="music_ui_navidrome_playlist">Navidrome playlist</string>
 <string name="music_ui_this_collection_is_empty">This collection is empty.</string>
 <string name="music_ui_lyrics">Lyrics</string>
+<string name="music_ui_previous_track">Previous track</string>
+<string name="music_ui_next_track">Next track</string>
+<string name="music_ui_shuffle">Shuffle</string>
+<string name="music_ui_repeat">Repeat</string>
+<string name="music_ui_up_next">Up next</string>
+<string name="music_ui_switch_to_audio">Switch to audio</string>
+<string name="music_ui_close">Close</string>
 <string name="music_ui_info">Info</string>
 <string name="music_ui_now_playing_nuvio_one_music">NOW PLAYING · NUVIO ONE MUSIC</string>
 <string name="music_ui_retry_download">Retry download</string>
@@ -3907,7 +3914,7 @@
 <string name="music_ui_khtml_like_gecko_chrome_140_0_0_0_safari_537_36">(KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36</string>
 <string name="music_ui_this_music_video_couldn_t_be_played">This music video couldn't be played.</string>
 <string name="music_ui_video_unavailable">Video unavailable</string>
-<string name="music_ui_music_stays_paused_back_returns_to_the_song">Music stays paused · Back returns to the song</string>
+<string name="music_ui_back_resumes_the_song">Back resumes the song</string>
 <string name="music_ui_couldn_t_read_that_folder">Couldn't read that folder.</string>
 <string name="music_ui_stream_music_from_your_own_server">Stream music from your own server.</string>
 <string name="music_ui_url_trim_else_url_trim">)) url.trim() else url.trim() + </string>

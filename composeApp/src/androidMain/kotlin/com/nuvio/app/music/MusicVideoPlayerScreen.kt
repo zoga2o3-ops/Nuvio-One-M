@@ -7,6 +7,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -19,18 +20,29 @@ import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Forward10
+import androidx.compose.material.icons.filled.Headphones
+import androidx.compose.material.icons.filled.Lyrics
 import androidx.compose.material.icons.filled.Pause
 import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.filled.QueueMusic
+import androidx.compose.material.icons.filled.Repeat
+import androidx.compose.material.icons.filled.RepeatOne
 import androidx.compose.material.icons.filled.Replay10
+import androidx.compose.material.icons.filled.Shuffle
+import androidx.compose.material.icons.filled.SkipNext
+import androidx.compose.material.icons.filled.SkipPrevious
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -48,14 +60,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleEventObserver
-import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.media3.common.AudioAttributes
 import androidx.media3.common.C
 import androidx.media3.common.MediaItem
@@ -81,19 +95,27 @@ import org.jetbrains.compose.resources.getString
 /**
  * The full-screen YouTube music video for the current song. Music playback is paused before this
  * opens; the video brings its own audio. Leaving the screen releases the video player and returns
- * to Now Playing with the song exactly where it was.
+ * to Now Playing at the matching moment in the song.
+ *
+ * The control row matches the TV version: previous/next, seek, play/pause, shuffle, repeat,
+ * Up next and switch-to-audio. Lyrics open over the video without interrupting it.
  */
 @OptIn(UnstableApi::class)
 @Composable
 internal fun MusicVideoPlayerScreen(
     video: Song,
     startPositionMs: Long,
-    onClose: () -> Unit,
+    onClose: (videoPositionMs: Long) -> Unit,
+    onSkip: (direction: Int) -> Unit = {},
+    onSelectQueue: (index: Int) -> Unit = {},
     onEnded: () -> Unit = {}
 ) {
     val context = LocalContext.current
     val view = LocalView.current
     val lifecycleOwner = LocalLifecycleOwner.current
+    val musicState by MusicPlayer.state.collectAsState()
+    val lyricsViewModel: MusicLyricsViewModel = viewModel { MusicLyricsViewModel() }
+    val lyricsState by lyricsViewModel.state.collectAsState()
     var player by remember { mutableStateOf<ExoPlayer?>(null) }
     var loading by remember { mutableStateOf(true) }
     var error by remember { mutableStateOf<String?>(null) }
@@ -103,9 +125,17 @@ internal fun MusicVideoPlayerScreen(
     var durationMs by remember { mutableLongStateOf(0L) }
     var ended by remember(video.videoId) { mutableStateOf(false) }
     var advanceHandled by remember(video.videoId) { mutableStateOf(false) }
+    var showQueue by remember { mutableStateOf(false) }
+    var showLyrics by remember { mutableStateOf(false) }
     val playFocus = remember { FocusRequester() }
 
-    BackHandler(onBack = onClose)
+    BackHandler {
+        when {
+            showQueue -> showQueue = false
+            showLyrics -> showLyrics = false
+            else -> onClose(positionMs)
+        }
+    }
 
     DisposableEffect(Unit) {
         view.keepScreenOn = true
@@ -223,6 +253,11 @@ internal fun MusicVideoPlayerScreen(
         }
     }
 
+    // The lyrics are loaded lazily, only once the panel is opened.
+    LaunchedEffect(showLyrics, video.videoId) {
+        if (showLyrics) lyricsViewModel.load(video)
+    }
+
     LaunchedEffect(Unit) {
         withFrameNanos { }
         runCatching { playFocus.requestFocus() }
@@ -283,7 +318,7 @@ internal fun MusicVideoPlayerScreen(
             VideoCircleButton(
                 icon = Icons.AutoMirrored.Filled.ArrowBack,
                 label = stringResource(Res.string.music_ui_back_to_now_playing),
-                onClick = onClose
+                onClick = { onClose(positionMs) }
             )
             Column(Modifier.weight(1f)) {
                 Text(
@@ -349,97 +384,302 @@ internal fun MusicVideoPlayerScreen(
                 LibraryActionButton(
                     icon = Icons.AutoMirrored.Filled.ArrowBack,
                     label = stringResource(Res.string.music_ui_back_to_song),
-                    onClick = onClose
+                    onClick = { onClose(positionMs) }
                 )
             }
         }
 
-        Column(
+        BoxWithConstraints(
             Modifier
                 .align(Alignment.BottomCenter)
                 .fillMaxWidth()
-                .padding(horizontal = 56.dp, vertical = 30.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            val duration = durationMs.coerceAtLeast(1L)
-            Row(
-                Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text(
-                    text = formatMusicTime(positionMs),
-                    color = Color.White.copy(alpha = 0.62f),
-                    fontSize = 11.sp
-                )
-                Text(
-                    text = formatMusicTime(durationMs),
-                    color = Color.White.copy(alpha = 0.62f),
-                    fontSize = 11.sp
-                )
-            }
-            Spacer(Modifier.height(5.dp))
-            Box(
+            val compact = maxWidth < 600.dp
+            val horizontalPadding = if (compact) 18.dp else 56.dp
+            val buttonSize = if (compact) 46.dp else 50.dp
+            val buttonGap = if (compact) 8.dp else 14.dp
+            Column(
                 Modifier
                     .fillMaxWidth()
-                    .height(3.dp)
-                    .clip(RoundedCornerShape(3.dp))
-                    .background(Color.White.copy(alpha = 0.18f))
+                    .padding(
+                        horizontal = horizontalPadding,
+                        vertical = if (compact) 14.dp else 30.dp
+                    ),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                val duration = durationMs.coerceAtLeast(1L)
+                Row(
+                    Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        text = formatMusicTime(positionMs),
+                        color = Color.White.copy(alpha = 0.62f),
+                        fontSize = 11.sp
+                    )
+                    Text(
+                        text = formatMusicTime(durationMs),
+                        color = Color.White.copy(alpha = 0.62f),
+                        fontSize = 11.sp
+                    )
+                }
+                Spacer(Modifier.height(5.dp))
                 Box(
                     Modifier
-                        .fillMaxWidth((positionMs.toFloat() / duration).coerceIn(0f, 1f))
+                        .fillMaxWidth()
                         .height(3.dp)
-                        .background(MusicPalette.accent)
-                )
-            }
-            Spacer(Modifier.height(16.dp))
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(18.dp)
-            ) {
-                VideoCircleButton(
-                    icon = Icons.Default.Replay10,
-                    label = stringResource(Res.string.music_ui_back_10_seconds),
-                    onClick = {
-                        player?.let {
-                            it.seekTo((it.currentPosition - 10_000L).coerceAtLeast(0L))
-                        }
-                    }
-                )
-                VideoCircleButton(
-                    icon = if (isPlaying) Icons.Default.Pause else Icons.Default.PlayArrow,
-                    label = if (isPlaying) stringResource(Res.string.compose_action_pause) else stringResource(Res.string.action_play),
-                    modifier = Modifier.focusRequester(playFocus),
-                    onClick = {
-                        player?.let {
-                            when {
-                                it.playbackState == Player.STATE_ENDED -> {
-                                    it.seekTo(0L)
-                                    it.play()
-                                }
-                                it.isPlaying -> it.pause()
-                                else -> it.play()
+                        .clip(RoundedCornerShape(3.dp))
+                        .background(Color.White.copy(alpha = 0.18f))
+                ) {
+                    Box(
+                        Modifier
+                            .fillMaxWidth((positionMs.toFloat() / duration).coerceIn(0f, 1f))
+                            .height(3.dp)
+                            .background(MusicPalette.accent)
+                    )
+                }
+                Spacer(Modifier.height(if (compact) 12.dp else 16.dp))
+
+                val transportControls: @Composable () -> Unit = {
+                    VideoCircleButton(
+                        icon = Icons.Default.SkipPrevious,
+                        label = stringResource(Res.string.music_ui_previous_track),
+                        size = buttonSize,
+                        onClick = { onSkip(-1) }
+                    )
+                    VideoCircleButton(
+                        icon = Icons.Default.Replay10,
+                        label = stringResource(Res.string.music_ui_back_10_seconds),
+                        size = buttonSize,
+                        onClick = {
+                            player?.let {
+                                it.seekTo((it.currentPosition - 10_000L).coerceAtLeast(0L))
                             }
                         }
-                    }
-                )
-                VideoCircleButton(
-                    icon = Icons.Default.Forward10,
-                    label = stringResource(Res.string.music_ui_forward_10_seconds),
-                    onClick = {
-                        player?.let {
-                            val max = it.duration.takeIf { d -> d > 0L } ?: Long.MAX_VALUE
-                            it.seekTo((it.currentPosition + 10_000L).coerceAtMost(max))
+                    )
+                    VideoCircleButton(
+                        icon = if (isPlaying) Icons.Default.Pause else Icons.Default.PlayArrow,
+                        label = if (isPlaying) {
+                            stringResource(Res.string.compose_action_pause)
+                        } else {
+                            stringResource(Res.string.action_play)
+                        },
+                        modifier = Modifier.focusRequester(playFocus),
+                        size = buttonSize,
+                        onClick = {
+                            player?.let {
+                                when {
+                                    it.playbackState == Player.STATE_ENDED -> {
+                                        it.seekTo(0L)
+                                        it.play()
+                                    }
+                                    it.isPlaying -> it.pause()
+                                    else -> it.play()
+                                }
+                            }
                         }
+                    )
+                    VideoCircleButton(
+                        icon = Icons.Default.Forward10,
+                        label = stringResource(Res.string.music_ui_forward_10_seconds),
+                        size = buttonSize,
+                        onClick = {
+                            player?.let {
+                                val max = it.duration.takeIf { d -> d > 0L } ?: Long.MAX_VALUE
+                                it.seekTo((it.currentPosition + 10_000L).coerceAtMost(max))
+                            }
+                        }
+                    )
+                    VideoCircleButton(
+                        icon = Icons.Default.SkipNext,
+                        label = stringResource(Res.string.music_ui_next_track),
+                        size = buttonSize,
+                        onClick = { onSkip(1) }
+                    )
+                }
+
+                val modeControls: @Composable () -> Unit = {
+                    VideoCircleButton(
+                        icon = Icons.Default.Shuffle,
+                        label = if (musicState.shuffle) {
+                            stringResource(Res.string.music_ui_shuffle_on)
+                        } else {
+                            stringResource(Res.string.music_ui_shuffle)
+                        },
+                        size = buttonSize,
+                        active = musicState.shuffle,
+                        onClick = { MusicPlayer.setShuffle(!musicState.shuffle) }
+                    )
+                    VideoCircleButton(
+                        icon = if (musicState.repeatMode == RepeatMode.ONE) {
+                            Icons.Default.RepeatOne
+                        } else {
+                            Icons.Default.Repeat
+                        },
+                        label = when (musicState.repeatMode) {
+                            RepeatMode.OFF -> stringResource(Res.string.music_ui_repeat)
+                            RepeatMode.ALL -> stringResource(Res.string.music_ui_repeat_all)
+                            RepeatMode.ONE -> stringResource(Res.string.music_ui_repeat_one)
+                        },
+                        size = buttonSize,
+                        active = musicState.repeatMode != RepeatMode.OFF,
+                        onClick = { MusicPlayer.cycleRepeat() }
+                    )
+                    if (musicState.queue.isNotEmpty()) {
+                        VideoCircleButton(
+                            icon = Icons.Default.QueueMusic,
+                            label = stringResource(Res.string.music_ui_up_next),
+                            size = buttonSize,
+                            onClick = {
+                                showLyrics = false
+                                showQueue = true
+                            }
+                        )
                     }
+                    VideoCircleButton(
+                        icon = Icons.Default.Lyrics,
+                        label = stringResource(Res.string.music_ui_lyrics),
+                        size = buttonSize,
+                        active = showLyrics,
+                        onClick = {
+                            showQueue = false
+                            showLyrics = !showLyrics
+                        }
+                    )
+                    VideoCircleButton(
+                        icon = Icons.Default.Headphones,
+                        label = stringResource(Res.string.music_ui_switch_to_audio),
+                        size = buttonSize,
+                        onClick = { onClose(positionMs) }
+                    )
+                }
+
+                if (compact) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(buttonGap)
+                    ) {
+                        transportControls()
+                    }
+                    Spacer(Modifier.height(10.dp))
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(buttonGap)
+                    ) {
+                        modeControls()
+                    }
+                } else {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(buttonGap)
+                    ) {
+                        transportControls()
+                        modeControls()
+                    }
+                }
+                Spacer(Modifier.height(10.dp))
+                Text(
+                    text = stringResource(Res.string.music_ui_back_resumes_the_song),
+                    color = Color.White.copy(alpha = 0.34f),
+                    fontSize = 10.sp
                 )
             }
-            Spacer(Modifier.height(10.dp))
-            Text(
-                text = stringResource(Res.string.music_ui_music_stays_paused_back_returns_to_the_song),
-                color = Color.White.copy(alpha = 0.34f),
-                fontSize = 10.sp
-            )
+        }
+
+        if (showQueue) {
+            BoxWithConstraints(
+                Modifier
+                    .fillMaxSize()
+                    .background(MusicPalette.background)
+            ) {
+                val overlayHorizontal = if (maxWidth < 600.dp) 20.dp else 56.dp
+                val overlayVertical = if (maxWidth < 600.dp) 20.dp else 36.dp
+                Column(
+                    Modifier
+                        .fillMaxSize()
+                        .padding(horizontal = overlayHorizontal, vertical = overlayVertical)
+                ) {
+                    Row(
+                        Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = stringResource(Res.string.music_ui_up_next),
+                            color = Color.White,
+                            fontFamily = MusicDisplay,
+                            fontSize = 26.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                        VideoTextButton(
+                            label = stringResource(Res.string.music_ui_close),
+                            onClick = { showQueue = false }
+                        )
+                    }
+                    Spacer(Modifier.height(12.dp))
+                    LazyColumn(
+                        Modifier.fillMaxSize(),
+                        verticalArrangement = Arrangement.spacedBy(4.dp)
+                    ) {
+                        itemsIndexed(
+                            items = musicState.queue,
+                            key = { index, song -> "${song.videoId}#$index" }
+                        ) { index, song ->
+                            VideoQueueRow(
+                                index = index,
+                                title = song.title,
+                                durationText = song.durationText,
+                                current = index == musicState.index,
+                                onClick = {
+                                    onSelectQueue(index)
+                                    showQueue = false
+                                }
+                            )
+                        }
+                    }
+                }
+            }
+        }
+
+        if (showLyrics) {
+            BoxWithConstraints(
+                Modifier
+                    .fillMaxSize()
+                    .background(MusicPalette.background)
+            ) {
+                val overlayHorizontal = if (maxWidth < 600.dp) 20.dp else 56.dp
+                val overlayVertical = if (maxWidth < 600.dp) 20.dp else 36.dp
+                Column(
+                    Modifier
+                        .fillMaxSize()
+                        .padding(horizontal = overlayHorizontal, vertical = overlayVertical)
+                ) {
+                    Row(
+                        Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = stringResource(Res.string.music_ui_lyrics),
+                            color = Color.White,
+                            fontFamily = MusicDisplay,
+                            fontSize = 26.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                        VideoTextButton(
+                            label = stringResource(Res.string.music_ui_close),
+                            onClick = { showLyrics = false }
+                        )
+                    }
+                    Spacer(Modifier.height(12.dp))
+                    LyricsPanel(
+                        state = lyricsState,
+                        positionMs = positionMs,
+                        expanded = true,
+                        modifier = Modifier.weight(1f).fillMaxWidth()
+                    )
+                }
+            }
         }
     }
 }
@@ -449,19 +689,29 @@ private fun VideoCircleButton(
     icon: ImageVector,
     label: String,
     modifier: Modifier = Modifier,
+    size: Dp = 50.dp,
+    active: Boolean = false,
     onClick: () -> Unit
 ) {
     var focused by remember { mutableStateOf(false) }
     Box(
         modifier
-            .size(50.dp)
+            .size(size)
             .clip(CircleShape)
             .background(
-                if (focused) Color.White else Color.White.copy(alpha = 0.14f)
+                when {
+                    focused -> Color.White
+                    active -> MusicPalette.accent.copy(alpha = 0.24f)
+                    else -> Color.White.copy(alpha = 0.14f)
+                }
             )
             .border(
                 2.dp,
-                if (focused) Color.White else Color.White.copy(alpha = 0.22f),
+                when {
+                    focused -> Color.White
+                    active -> MusicPalette.accent.copy(alpha = 0.75f)
+                    else -> Color.White.copy(alpha = 0.22f)
+                },
                 CircleShape
             )
             .onFocusChanged { focused = it.isFocused }
@@ -471,8 +721,87 @@ private fun VideoCircleButton(
         Icon(
             icon,
             contentDescription = label,
-            tint = if (focused) MusicPalette.background else Color.White,
-            modifier = Modifier.size(23.dp)
+            tint = when {
+                focused -> MusicPalette.background
+                active -> MusicPalette.accent
+                else -> Color.White
+            },
+            modifier = Modifier.size(if (size < 48.dp) 21.dp else 23.dp)
         )
+    }
+}
+
+@Composable
+private fun VideoTextButton(
+    label: String,
+    onClick: () -> Unit
+) {
+    var focused by remember { mutableStateOf(false) }
+    Text(
+        text = label,
+        color = if (focused) MusicPalette.background else Color.White.copy(alpha = 0.78f),
+        fontSize = 13.sp,
+        fontWeight = FontWeight.SemiBold,
+        modifier = Modifier
+            .clip(RoundedCornerShape(10.dp))
+            .background(if (focused) Color.White else Color.White.copy(alpha = 0.10f))
+            .border(
+                1.dp,
+                if (focused) Color.White else Color.White.copy(alpha = 0.18f),
+                RoundedCornerShape(10.dp)
+            )
+            .onFocusChanged { focused = it.isFocused }
+            .clickable(onClick = onClick)
+            .padding(horizontal = 14.dp, vertical = 8.dp)
+    )
+}
+
+@Composable
+private fun VideoQueueRow(
+    index: Int,
+    title: String,
+    durationText: String?,
+    current: Boolean,
+    onClick: () -> Unit
+) {
+    var focused by remember { mutableStateOf(false) }
+    Row(
+        Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(10.dp))
+            .background(
+                when {
+                    focused -> Color.White.copy(alpha = 0.14f)
+                    current -> MusicPalette.accent.copy(alpha = 0.18f)
+                    else -> Color.Transparent
+                }
+            )
+            .onFocusChanged { focused = it.isFocused }
+            .clickable(onClick = onClick)
+            .padding(horizontal = 12.dp, vertical = 11.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            text = "${index + 1}",
+            color = Color.White.copy(alpha = 0.4f),
+            fontSize = 11.sp,
+            modifier = Modifier.width(30.dp)
+        )
+        Text(
+            text = title,
+            color = if (current) MusicPalette.accent else Color.White,
+            fontSize = 13.sp,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier.weight(1f)
+        )
+        durationText?.let {
+            Spacer(Modifier.width(10.dp))
+            Text(
+                text = it,
+                color = Color.White.copy(alpha = 0.45f),
+                fontSize = 11.sp
+            )
+        }
     }
 }

@@ -3825,7 +3825,7 @@
     <string name="music_ui_khtml_like_gecko_chrome_140_0_0_0_safari_537_36">(KHTML, como Gecko) Chrome/140.0.0.0 Safari/537.36</string>
     <string name="music_ui_this_music_video_couldn_t_be_played">Este vídeo musical no se pudo reproducir.</string>
     <string name="music_ui_video_unavailable">Vídeo no disponible</string>
-    <string name="music_ui_music_stays_paused_back_returns_to_the_song">La música permanece en pausa · Atrás regresa a la canción</string>
+    <string name="music_ui_back_resumes_the_song">Atrás reanuda la canción</string>
     <string name="music_ui_couldn_t_read_that_folder">No se pudo leer esa carpeta.</string>
     <string name="music_ui_stream_music_from_your_own_server">Transmite música desde tu propio servidor.</string>
     <string name="music_ui_url_trim_else_url_trim">)) url.trim() más url.trim() +</string>
@@ -4067,4 +4067,12 @@
 
     <string name="live_tv_ui_new_episodes_on_home">Nuevos episodios en Inicio</string>
     <string name="live_tv_ui_new_episodes_on_home_description">Mostrar los nuevos episodios de tus programas de Calendar encima de Continue Watching.</string>
+
+    <string name="music_ui_previous_track">Pista anterior</string>
+    <string name="music_ui_next_track">Pista siguiente</string>
+    <string name="music_ui_shuffle">Aleatorio</string>
+    <string name="music_ui_repeat">Repetir</string>
+    <string name="music_ui_up_next">A continuación</string>
+    <string name="music_ui_switch_to_audio">Cambiar a audio</string>
+    <string name="music_ui_close">Cerrar</string>
 </resources>

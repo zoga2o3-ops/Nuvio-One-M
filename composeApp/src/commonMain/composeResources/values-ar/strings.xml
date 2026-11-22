@@ -3798,7 +3798,7 @@
 <string name="music_ui_khtml_like_gecko_chrome_140_0_0_0_safari_537_36">(KHTML، مثل أبو بريص) Chrome/140.0.0.0 Safari/537.36</string>
 <string name="music_ui_this_music_video_couldn_t_be_played">لا يمكن تشغيل هذا الفيديو الموسيقي.</string>
 <string name="music_ui_video_unavailable">الفيديو غير متاح</string>
-<string name="music_ui_music_stays_paused_back_returns_to_the_song">تظل الموسيقى متوقفة مؤقتًا · تعود العودة إلى الأغنية</string>
+<string name="music_ui_back_resumes_the_song">الرجوع يستأنف الأغنية</string>
 <string name="music_ui_couldn_t_read_that_folder">لا يمكن قراءة هذا المجلد.</string>
 <string name="music_ui_stream_music_from_your_own_server">دفق الموسيقى من الخادم الخاص بك.</string>
 <string name="music_ui_url_trim_else_url_trim">)) url.trim() else url.trim() +</string>
@@ -4071,4 +4071,12 @@
 
     <string name="live_tv_ui_new_episodes_on_home">حلقات جديدة في الرئيسية</string>
     <string name="live_tv_ui_new_episodes_on_home_description">عرض الحلقات الجديدة من مسلسلات Calendar فوق Continue Watching.</string>
+
+    <string name="music_ui_previous_track">المقطع السابق</string>
+    <string name="music_ui_next_track">المقطع التالي</string>
+    <string name="music_ui_shuffle">تشغيل عشوائي</string>
+    <string name="music_ui_repeat">تكرار</string>
+    <string name="music_ui_up_next">التالي</string>
+    <string name="music_ui_switch_to_audio">التبديل إلى الصوت</string>
+    <string name="music_ui_close">إغلاق</string>
 </resources>

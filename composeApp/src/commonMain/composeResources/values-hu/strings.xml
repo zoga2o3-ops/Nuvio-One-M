@@ -3848,7 +3848,7 @@
 <string name="youtube_ui_unlike_comment">A megjegyzéssel ellentétben</string>
 <string name="music_ui_this_music_video_couldn_t_be_played">Ezt a zenei videót nem lehetett lejátszani.</string>
 <string name="music_ui_video_unavailable">A videó nem érhető el</string>
-<string name="music_ui_music_stays_paused_back_returns_to_the_song">A zene szünetel. · Visszatér a dalhoz</string>
+<string name="music_ui_back_resumes_the_song">A Vissza gombbal a szám folytatódik</string>
 <string name="music_ui_couldn_t_read_that_folder">Nem sikerült beolvasni a mappát.</string>
 <string name="music_ui_stream_music_from_your_own_server">Streamelj zenét saját szerveredről.</string>
 <string name="music_ui_url_trim_else_url_trim">)) url.trim() else url.trim() +</string>
@@ -4056,4 +4056,12 @@
 
     <string name="live_tv_ui_new_episodes_on_home">Új epizódok a főoldalon</string>
     <string name="live_tv_ui_new_episodes_on_home_description">A Calendar-műsorok új epizódjainak megjelenítése a Continue Watching felett.</string>
+
+    <string name="music_ui_previous_track">Előző szám</string>
+    <string name="music_ui_next_track">Következő szám</string>
+    <string name="music_ui_shuffle">Véletlen</string>
+    <string name="music_ui_repeat">Ismétlés</string>
+    <string name="music_ui_up_next">Következik</string>
+    <string name="music_ui_switch_to_audio">Váltás hangra</string>
+    <string name="music_ui_close">Bezárás</string>
 </resources>

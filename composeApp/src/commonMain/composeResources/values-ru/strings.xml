@@ -3800,7 +3800,7 @@
 <string name="music_ui_khtml_like_gecko_chrome_140_0_0_0_safari_537_36">(KHTML, например Gecko) Chrome/140.0.0.0 Safari/537.36</string>
 <string name="music_ui_this_music_video_couldn_t_be_played">Не удалось воспроизвести это музыкальное видео.</string>
 <string name="music_ui_video_unavailable">Видео недоступно</string>
-<string name="music_ui_music_stays_paused_back_returns_to_the_song">Музыка остается на паузе · Назад возвращается к песне</string>
+<string name="music_ui_back_resumes_the_song">Назад продолжает песню</string>
 <string name="music_ui_couldn_t_read_that_folder">Не удалось прочитать эту папку.</string>
 <string name="music_ui_stream_music_from_your_own_server">Потоковая передача музыки с вашего собственного сервера.</string>
 <string name="music_ui_url_trim_else_url_trim">)) url.trim() еще url.trim() +</string>
@@ -4049,4 +4049,12 @@
 
     <string name="live_tv_ui_new_episodes_on_home">Новые эпизоды на главной</string>
     <string name="live_tv_ui_new_episodes_on_home_description">Показывать новые эпизоды ваших передач из Calendar над Continue Watching.</string>
+
+    <string name="music_ui_previous_track">Предыдущий трек</string>
+    <string name="music_ui_next_track">Следующий трек</string>
+    <string name="music_ui_shuffle">Перемешать</string>
+    <string name="music_ui_repeat">Повтор</string>
+    <string name="music_ui_up_next">Далее</string>
+    <string name="music_ui_switch_to_audio">Переключить на аудио</string>
+    <string name="music_ui_close">Закрыть</string>
 </resources>

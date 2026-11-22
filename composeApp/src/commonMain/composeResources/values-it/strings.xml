@@ -3832,7 +3832,7 @@
 <string name="music_ui_when_a_youtube_track_starts_nuvio_looks_for_the_same_title">Quando inizia una traccia su YouTube, Nuvio cerca lo stesso titolo,</string>
 <string name="music_ui_this_music_video_couldn_t_be_played">Impossibile riprodurre questo video musicale.</string>
 <string name="music_ui_video_unavailable">Video non disponibile</string>
-<string name="music_ui_music_stays_paused_back_returns_to_the_song">La musica rimane in pausa · Indietro torna al brano</string>
+<string name="music_ui_back_resumes_the_song">Indietro riprende il brano</string>
 <string name="music_ui_couldn_t_read_that_folder">Impossibile leggere quella cartella.</string>
 <string name="music_ui_stream_music_from_your_own_server">Ascolta musica in streaming dal tuo server.</string>
 <string name="music_ui_url_trim_else_url_trim">)) url.trim() altrimenti url.trim() +</string>
@@ -4081,4 +4081,12 @@
 
     <string name="live_tv_ui_new_episodes_on_home">Nuovi episodi nella Home</string>
     <string name="live_tv_ui_new_episodes_on_home_description">Mostra i nuovi episodi dei tuoi programmi Calendar sopra Continue Watching.</string>
+
+    <string name="music_ui_previous_track">Brano precedente</string>
+    <string name="music_ui_next_track">Brano successivo</string>
+    <string name="music_ui_shuffle">Riproduzione casuale</string>
+    <string name="music_ui_repeat">Ripeti</string>
+    <string name="music_ui_up_next">In coda</string>
+    <string name="music_ui_switch_to_audio">Passa all'audio</string>
+    <string name="music_ui_close">Chiudi</string>
 </resources>

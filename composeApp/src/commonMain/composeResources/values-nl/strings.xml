@@ -3822,7 +3822,7 @@
 <string name="music_ui_khtml_like_gecko_chrome_140_0_0_0_safari_537_36">(KHTML, zoals Gecko) Chrome/140.0.0.0 Safari/537.36</string>
 <string name="music_ui_this_music_video_couldn_t_be_played">Deze muziekvideo kan niet worden afgespeeld.</string>
 <string name="music_ui_video_unavailable">Video niet beschikbaar</string>
-<string name="music_ui_music_stays_paused_back_returns_to_the_song">Muziek blijft gepauzeerd · Terug keert terug naar het nummer</string>
+<string name="music_ui_back_resumes_the_song">Terug hervat het nummer</string>
 <string name="music_ui_couldn_t_read_that_folder">Kan die map niet lezen.</string>
 <string name="music_ui_stream_music_from_your_own_server">Stream muziek vanaf uw eigen server.</string>
 <string name="music_ui_url_trim_else_url_trim">)) url.trim() anders url.trim() +</string>
@@ -4081,4 +4081,12 @@
 
     <string name="live_tv_ui_new_episodes_on_home">Nieuwe afleveringen op Start</string>
     <string name="live_tv_ui_new_episodes_on_home_description">Toon nieuwe afleveringen van je Calendar-programma's boven Continue Watching.</string>
+
+    <string name="music_ui_previous_track">Vorig nummer</string>
+    <string name="music_ui_next_track">Volgend nummer</string>
+    <string name="music_ui_shuffle">Shuffle</string>
+    <string name="music_ui_repeat">Herhalen</string>
+    <string name="music_ui_up_next">Hierna</string>
+    <string name="music_ui_switch_to_audio">Overschakelen naar audio</string>
+    <string name="music_ui_close">Sluiten</string>
 </resources>

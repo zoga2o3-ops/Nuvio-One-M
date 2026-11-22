@@ -3847,7 +3847,7 @@
 <string name="live_tv_ui_connected_last_synced_short">%1$s.  Zadnja sinkronizacija %2$s</string>
 <string name="music_ui_this_music_video_couldn_t_be_played">Nije moguće reproducirati ovaj glazbeni video.</string>
 <string name="music_ui_video_unavailable">Videozapis nije dostupan</string>
-<string name="music_ui_music_stays_paused_back_returns_to_the_song">Glazba ostaje pauzirana · Natrag vraća na pjesmu</string>
+<string name="music_ui_back_resumes_the_song">Natrag nastavlja pjesmu</string>
 <string name="music_ui_couldn_t_read_that_folder">Nije moguće pročitati tu mapu.</string>
 <string name="music_ui_stream_music_from_your_own_server">Prenesite glazbu s vlastitog poslužitelja.</string>
 <string name="music_ui_url_trim_else_url_trim">)) url.trim() else url.trim() +</string>
@@ -4057,4 +4057,12 @@
 
     <string name="live_tv_ui_new_episodes_on_home">Nove epizode na početnom zaslonu</string>
     <string name="live_tv_ui_new_episodes_on_home_description">Prikaži nove epizode emisija iz Calendar iznad Continue Watching.</string>
+
+    <string name="music_ui_previous_track">Prethodna pjesma</string>
+    <string name="music_ui_next_track">Sljedeća pjesma</string>
+    <string name="music_ui_shuffle">Nasumično</string>
+    <string name="music_ui_repeat">Ponovi</string>
+    <string name="music_ui_up_next">Sljedeće</string>
+    <string name="music_ui_switch_to_audio">Prebaci na audio</string>
+    <string name="music_ui_close">Zatvori</string>
 </resources>

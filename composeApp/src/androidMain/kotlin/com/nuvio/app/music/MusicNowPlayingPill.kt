@@ -20,6 +20,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Pause
 import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.filled.SkipNext
+import androidx.compose.material.icons.filled.SkipPrevious
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -45,6 +47,12 @@ import androidx.compose.ui.unit.sp
 import kotlin.math.abs
 import kotlin.math.roundToInt
 import kotlinx.coroutines.launch
+import nuvio.composeapp.generated.resources.Res
+import nuvio.composeapp.generated.resources.action_next
+import nuvio.composeapp.generated.resources.action_play
+import nuvio.composeapp.generated.resources.action_previous
+import nuvio.composeapp.generated.resources.compose_action_pause
+import org.jetbrains.compose.resources.stringResource
 
 /**
  * The small “what's playing” pill above the navigation bar. It stays out of the way of the
@@ -134,20 +142,54 @@ fun MusicNowPlayingPill(
                 overflow = TextOverflow.Ellipsis
             )
         }
-        Box(
-            Modifier
-                .size(38.dp)
-                .clip(CircleShape)
-                .background(Color.White)
-                .clickable { MusicPlayer.toggle() },
-            contentAlignment = Alignment.Center
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(2.dp)
         ) {
-            Icon(
-                imageVector = if (playback.isPlaying) Icons.Default.Pause else Icons.Default.PlayArrow,
-                contentDescription = if (playback.isPlaying) "Pause" else "Play",
-                tint = MusicPalette.background,
-                modifier = Modifier.size(19.dp)
+            PillTransportButton(
+                icon = Icons.Default.SkipPrevious,
+                label = stringResource(Res.string.action_previous),
+                onClick = { MusicPlayer.previous() }
+            )
+            PillTransportButton(
+                icon = if (playback.isPlaying) Icons.Default.Pause else Icons.Default.PlayArrow,
+                label = if (playback.isPlaying) {
+                    stringResource(Res.string.compose_action_pause)
+                } else {
+                    stringResource(Res.string.action_play)
+                },
+                primary = true,
+                onClick = { MusicPlayer.toggle() }
+            )
+            PillTransportButton(
+                icon = Icons.Default.SkipNext,
+                label = stringResource(Res.string.action_next),
+                onClick = { MusicPlayer.next() }
             )
         }
+    }
+}
+
+@Composable
+private fun PillTransportButton(
+    icon: androidx.compose.ui.graphics.vector.ImageVector,
+    label: String,
+    primary: Boolean = false,
+    onClick: () -> Unit
+) {
+    Box(
+        Modifier
+            .size(if (primary) 38.dp else 34.dp)
+            .clip(CircleShape)
+            .background(if (primary) Color.White else Color.White.copy(alpha = 0.10f))
+            .clickable(onClick = onClick),
+        contentAlignment = Alignment.Center
+    ) {
+        Icon(
+            imageVector = icon,
+            contentDescription = label,
+            tint = if (primary) MusicPalette.background else MusicPalette.text,
+            modifier = Modifier.size(if (primary) 19.dp else 18.dp)
+        )
     }
 }

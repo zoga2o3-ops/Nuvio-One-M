@@ -3817,7 +3817,7 @@
 <string name="music_ui_khtml_like_gecko_chrome_140_0_0_0_safari_537_36">(KHTML، جیسے Gecko) Chrome/140.0.0.0 Safari/537.36</string>
 <string name="music_ui_this_music_video_couldn_t_be_played">اس میوزک ویڈیو کو نہیں چلایا جا سکا۔</string>
 <string name="music_ui_video_unavailable">ویڈیو دستیاب نہیں ہے۔</string>
-<string name="music_ui_music_stays_paused_back_returns_to_the_song">موسیقی موقوف رہتی ہے · گانے پر واپس آجاتی ہے۔</string>
+<string name="music_ui_back_resumes_the_song">واپس جانے پر گانا جاری رہے گا</string>
 <string name="music_ui_couldn_t_read_that_folder">وہ فولڈر نہیں پڑھ سکا۔</string>
 <string name="music_ui_stream_music_from_your_own_server">اپنے سرور سے موسیقی کو اسٹریم کریں۔</string>
 <string name="music_ui_url_trim_else_url_trim">)) url.trim() اور url.trim() +</string>
@@ -4021,4 +4021,12 @@
 
     <string name="live_tv_ui_new_episodes_on_home">ہوم پر نئی اقساط</string>
     <string name="live_tv_ui_new_episodes_on_home_description">Calendar کے پروگراموں کی نئی اقساط Continue Watching کے اوپر دکھائیں۔</string>
+
+    <string name="music_ui_previous_track">پچھلا ٹریک</string>
+    <string name="music_ui_next_track">اگلا ٹریک</string>
+    <string name="music_ui_shuffle">شفل</string>
+    <string name="music_ui_repeat">دہرائیں</string>
+    <string name="music_ui_up_next">اگلا</string>
+    <string name="music_ui_switch_to_audio">آڈیو پر جائیں</string>
+    <string name="music_ui_close">بند کریں</string>
 </resources>

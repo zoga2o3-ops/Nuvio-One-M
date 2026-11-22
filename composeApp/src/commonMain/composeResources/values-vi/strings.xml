@@ -3839,7 +3839,7 @@
 <string name="music_ui_khtml_like_gecko_chrome_140_0_0_0_safari_537_36">(KHTML, như Gecko) Chrome/140.0.0.0 Safari/537.36</string>
 <string name="music_ui_this_music_video_couldn_t_be_played">Không thể phát video nhạc này.</string>
 <string name="music_ui_video_unavailable">Video không có sẵn</string>
-<string name="music_ui_music_stays_paused_back_returns_to_the_song">Nhạc vẫn bị tạm dừng · Quay lại bài hát</string>
+<string name="music_ui_back_resumes_the_song">Quay lại tiếp tục bài hát</string>
 <string name="music_ui_couldn_t_read_that_folder">Không thể đọc thư mục đó.</string>
 <string name="music_ui_stream_music_from_your_own_server">Truyền phát nhạc từ máy chủ của riêng bạn.</string>
 <string name="music_ui_url_trim_else_url_trim">)) url.trim() khác url.trim() +</string>
@@ -4083,4 +4083,12 @@
 
     <string name="live_tv_ui_new_episodes_on_home">Tập mới trên Trang chủ</string>
     <string name="live_tv_ui_new_episodes_on_home_description">Hiển thị các tập mới của chương trình Calendar phía trên Continue Watching.</string>
+
+    <string name="music_ui_previous_track">Bài trước</string>
+    <string name="music_ui_next_track">Bài tiếp theo</string>
+    <string name="music_ui_shuffle">Ngẫu nhiên</string>
+    <string name="music_ui_repeat">Lặp lại</string>
+    <string name="music_ui_up_next">Tiếp theo</string>
+    <string name="music_ui_switch_to_audio">Chuyển sang âm thanh</string>
+    <string name="music_ui_close">Đóng</string>
 </resources>

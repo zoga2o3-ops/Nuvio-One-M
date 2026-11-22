@@ -2588,4 +2588,14 @@
 
     <string name="live_tv_ui_new_episodes_on_home">首页上的新剧集</string>
     <string name="live_tv_ui_new_episodes_on_home_description">在 Continue Watching 上方显示 Calendar 节目的新剧集。</string>
+
+    <string name="music_ui_previous_track">上一首</string>
+    <string name="music_ui_next_track">下一首</string>
+    <string name="music_ui_shuffle">随机播放</string>
+    <string name="music_ui_repeat">循环播放</string>
+    <string name="music_ui_up_next">接下来播放</string>
+    <string name="music_ui_switch_to_audio">切换到音频</string>
+    <string name="music_ui_close">关闭</string>
+
+    <string name="music_ui_back_resumes_the_song">返回后继续播放歌曲</string>
 </resources>

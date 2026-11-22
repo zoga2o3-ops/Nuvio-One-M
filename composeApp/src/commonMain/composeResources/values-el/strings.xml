@@ -3862,7 +3862,7 @@
     <string name="music_ui_when_a_youtube_track_starts_nuvio_looks_for_the_same_title">Όταν ξεκινά ένα κομμάτι YouTube, το Nuvio αναζητά τον ίδιο τίτλο,</string>
     <string name="music_ui_this_music_video_couldn_t_be_played">Δεν ήταν δυνατή η αναπαραγωγή αυτού του μουσικού βίντεο.</string>
     <string name="music_ui_video_unavailable">Το βίντεο δεν είναι διαθέσιμο</string>
-    <string name="music_ui_music_stays_paused_back_returns_to_the_song">Η μουσική παραμένει σε παύση · Επιστρέφει στο τραγούδι</string>
+    <string name="music_ui_back_resumes_the_song">Η επιστροφή συνεχίζει το τραγούδι</string>
     <string name="music_ui_couldn_t_read_that_folder">Δεν ήταν δυνατή η ανάγνωση αυτού του φακέλου.</string>
     <string name="music_ui_stream_music_from_your_own_server">Μεταδώστε μουσική από τον δικό σας διακομιστή.</string>
     <string name="music_ui_url_trim_else_url_trim">)) url.trim() else url.trim() +</string>
@@ -4065,4 +4065,12 @@
 
     <string name="live_tv_ui_new_episodes_on_home">Νέα επεισόδια στην αρχική</string>
     <string name="live_tv_ui_new_episodes_on_home_description">Εμφάνιση νέων επεισοδίων από τις εκπομπές σου στο Calendar πάνω από το Continue Watching.</string>
+
+    <string name="music_ui_previous_track">Προηγούμενο κομμάτι</string>
+    <string name="music_ui_next_track">Επόμενο κομμάτι</string>
+    <string name="music_ui_shuffle">Τυχαία αναπαραγωγή</string>
+    <string name="music_ui_repeat">Επανάληψη</string>
+    <string name="music_ui_up_next">Επόμενα</string>
+    <string name="music_ui_switch_to_audio">Μετάβαση σε ήχο</string>
+    <string name="music_ui_close">Κλείσιμο</string>
 </resources>

@@ -2635,4 +2635,14 @@
 
     <string name="live_tv_ui_new_episodes_on_home">Нові епізоди на головній</string>
     <string name="live_tv_ui_new_episodes_on_home_description">Показувати нові епізоди ваших передач із Calendar над Continue Watching.</string>
+
+    <string name="music_ui_previous_track">Попередній трек</string>
+    <string name="music_ui_next_track">Наступний трек</string>
+    <string name="music_ui_shuffle">Перемішати</string>
+    <string name="music_ui_repeat">Повторити</string>
+    <string name="music_ui_up_next">Далі</string>
+    <string name="music_ui_switch_to_audio">Перейти на аудіо</string>
+    <string name="music_ui_close">Закрити</string>
+
+    <string name="music_ui_back_resumes_the_song">Назад продовжує пісню</string>
 </resources>

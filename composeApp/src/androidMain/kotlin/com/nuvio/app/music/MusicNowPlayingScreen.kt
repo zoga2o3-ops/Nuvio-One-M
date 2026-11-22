@@ -1023,7 +1023,7 @@ private fun NowInfoPanel(song: Song?, state: MusicPlayer.State, isLiked: Boolean
 }
 
 @Composable
-private fun LyricsPanel(
+internal fun LyricsPanel(
     state: MusicLyricsViewModel.State,
     positionMs: Long,
     expanded: Boolean,

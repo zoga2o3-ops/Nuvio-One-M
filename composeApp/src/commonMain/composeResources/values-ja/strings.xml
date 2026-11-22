@@ -3821,7 +3821,7 @@
 <string name="music_ui_when_a_youtube_track_starts_nuvio_looks_for_the_same_title">YouTube トラックが始まると、Nuvio は同じタイトルを探します。</string>
 <string name="music_ui_this_music_video_couldn_t_be_played"></string>
 <string name="music_ui_video_unavailable">ビデオが利用できません</string>
-<string name="music_ui_music_stays_paused_back_returns_to_the_song">音楽は一時停止したままになります · 曲に戻ります</string>
+<string name="music_ui_back_resumes_the_song">戻ると曲が再開します</string>
 <string name="music_ui_couldn_t_read_that_folder"></string>
 <string name="music_ui_stream_music_from_your_own_server"></string>
 <string name="music_ui_url_trim_else_url_trim"></string>
@@ -4065,4 +4065,12 @@
 
     <string name="live_tv_ui_new_episodes_on_home">ホームに新しいエピソード</string>
     <string name="live_tv_ui_new_episodes_on_home_description">Calendarの番組の新しいエピソードをContinue Watchingの上に表示します。</string>
+
+    <string name="music_ui_previous_track">前の曲</string>
+    <string name="music_ui_next_track">次の曲</string>
+    <string name="music_ui_shuffle">シャッフル</string>
+    <string name="music_ui_repeat">リピート</string>
+    <string name="music_ui_up_next">次に再生</string>
+    <string name="music_ui_switch_to_audio">音声に切り替え</string>
+    <string name="music_ui_close">閉じる</string>
 </resources>

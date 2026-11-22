@@ -202,6 +202,33 @@ fun MusicScreen() {
         }
     }
 
+    /**
+     * Leaves the video screen and returns to the audio player at the same moment, so switching
+     * between the video and audio versions does not restart the song.
+     */
+    fun closeVideo(videoPositionMs: Long) {
+        val request = musicVideo ?: return
+        val mapped = MusicPlayer.audioPositionForVideo(request.video.videoId, videoPositionMs)
+        musicVideo = null
+        showNowPlaying = true
+        MusicPlayer.jumpTo(MusicPlayer.state.value.index, mapped)
+    }
+
+    /** Picks a track from the video screen's Up next list and opens its video. */
+    fun selectVideoQueue(index: Int) {
+        val state = MusicPlayer.state.value
+        if (index !in state.queue.indices) return
+        val song = state.queue[index]
+        if (song.hasMusicVideo()) {
+            MusicPlayer.selectPaused(index)
+            showVideoFor(song, 0L)
+        } else {
+            MusicPlayer.jumpTo(index)
+            musicVideo = null
+            showNowPlaying = true
+        }
+    }
+
     // A TV treats a paused video surface as idle and starts its screensaver. Keep the window
     // awake while music is actually playing (or between tracks), while a party is waiting for
     // guests, and let it sleep again when playback stops or the Music section is left.
@@ -598,14 +625,13 @@ fun MusicScreen() {
     }
 
     musicVideo?.let { request ->
-        MusicOverlayDialog(onDismiss = { musicVideo = null }) {
+        MusicOverlayDialog(onDismiss = { closeVideo(0L) }) {
             MusicVideoPlayerScreen(
                 video = request.video,
                 startPositionMs = request.startPositionMs,
-                onClose = {
-                    musicVideo = null
-                    showNowPlaying = true
-                },
+                onClose = ::closeVideo,
+                onSkip = { skipVideo(it) },
+                onSelectQueue = ::selectVideoQueue,
                 onEnded = { skipVideo(direction = 1, auto = true) }
             )
         }
