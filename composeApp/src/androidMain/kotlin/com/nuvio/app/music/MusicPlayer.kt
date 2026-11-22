@@ -8,6 +8,7 @@ import android.os.SystemClock
 import android.view.KeyEvent
 import androidx.media3.common.AudioAttributes
 import androidx.media3.common.C
+import androidx.media3.common.ForwardingPlayer
 import androidx.media3.common.MediaItem
 import androidx.media3.common.MediaMetadata
 import androidx.media3.common.PlaybackException
@@ -197,7 +198,27 @@ object MusicPlayer {
             }
 
         player = exoPlayer
-        session = MediaSession.Builder(app, exoPlayer)
+        // The audio player holds one item at a time, so ExoPlayer reports Next/Previous as
+        // unavailable. The queue lives in MusicPlayer; advertise those commands to the system
+        // media controls so their next/previous buttons appear (the callback below handles them).
+        val sessionPlayer = object : ForwardingPlayer(exoPlayer) {
+            override fun getAvailableCommands(): Player.Commands =
+                super.getAvailableCommands().buildUpon()
+                    .addAll(
+                        Player.COMMAND_SEEK_TO_NEXT,
+                        Player.COMMAND_SEEK_TO_NEXT_MEDIA_ITEM,
+                        Player.COMMAND_SEEK_TO_PREVIOUS,
+                        Player.COMMAND_SEEK_TO_PREVIOUS_MEDIA_ITEM,
+                    )
+                    .build()
+
+            // The queue is ours, not the single-item ExoPlayer playlist, so the system media
+            // controls need these two answers from the same source.
+            override fun hasNextMediaItem(): Boolean = _state.value.queue.isNotEmpty()
+
+            override fun hasPreviousMediaItem(): Boolean = _state.value.queue.isNotEmpty()
+        }
+        session = MediaSession.Builder(app, sessionPlayer)
             .setCallback(mediaSessionCallback)
             .build()
         MusicEqualizer.attach(audioSessionId)
