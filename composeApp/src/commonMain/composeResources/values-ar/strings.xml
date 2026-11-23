@@ -3578,6 +3578,8 @@
 <string name="live_tv_ui_record_u2026">سجل\u2026</string>
 <string name="live_tv_ui_move_earlier_in_this_list">التحرك في وقت سابق في هذه القائمة</string>
 <string name="live_tv_ui_move_later_in_this_list">انتقل لاحقًا في هذه القائمة</string>
+<string name="live_tv_ui_move">نقل</string>
+<string name="live_tv_ui_hold_and_drag_to_reorder">اضغط مطولاً واسحب لإعادة الترتيب</string>
 <string name="live_tv_ui_add_to_my_group_u2026">أضف إلى مجموعتي\u2026</string>
 <string name="live_tv_ui_copy_to_another_group_u2026">نسخ إلى مجموعة أخرى\u2026</string>
 <string name="live_tv_ui_nothing_in_this_category">لا شيء في هذه الفئة.</string>

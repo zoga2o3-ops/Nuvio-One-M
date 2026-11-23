@@ -3581,6 +3581,8 @@
 <string name="live_tv_ui_record_u2026">Rekord\u2026</string>
 <string name="live_tv_ui_move_earlier_in_this_list">Przejdź wcześniej na tej liście</string>
 <string name="live_tv_ui_move_later_in_this_list">Przejdź dalej na tej liście</string>
+<string name="live_tv_ui_move">Przenieś</string>
+<string name="live_tv_ui_hold_and_drag_to_reorder">Przytrzymaj i przeciągnij, aby zmienić kolejność</string>
 <string name="live_tv_ui_add_to_my_group_u2026">Dodaj do mojej grupy\u2026</string>
 <string name="live_tv_ui_copy_to_another_group_u2026">Skopiuj do innej grupy\u2026</string>
 <string name="live_tv_ui_remove_from_this_group">Usuń z tej grupy</string>

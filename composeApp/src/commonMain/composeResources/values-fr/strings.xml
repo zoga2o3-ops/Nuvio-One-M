@@ -3621,6 +3621,8 @@
     <string name="live_tv_ui_record_u2026">Enregistrer\u2026</string>
     <string name="live_tv_ui_move_earlier_in_this_list">Déplacer plus tôt dans cette liste</string>
     <string name="live_tv_ui_move_later_in_this_list">Déplacer plus tard dans cette liste</string>
+<string name="live_tv_ui_move">Déplacer</string>
+<string name="live_tv_ui_hold_and_drag_to_reorder">Maintenez et faites glisser pour réorganiser</string>
     <string name="live_tv_ui_add_to_my_group_u2026">Ajouter à mon groupe\u2026</string>
     <string name="live_tv_ui_copy_to_another_group_u2026">Copier vers un autre groupe\u2026</string>
     <string name="live_tv_ui_no_channel_found_for_this_game_yet">Aucune chaîne trouvée pour ce jeu pour l'instant.</string>

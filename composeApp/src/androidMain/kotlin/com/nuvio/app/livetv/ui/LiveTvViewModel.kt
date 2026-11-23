@@ -148,17 +148,19 @@ class LiveTvViewModel(context: Context) : ViewModel() {
 
     fun updatePlaylist(p: PlaylistSource) { viewModelScope.launch { repository.updatePlaylist(p); if (p.isXtream) live.onDemand.refreshNow(p.id) } }
 
-    /** Moves [key] within [groupId] (a playlist group or one of your own), given the order now shown. */
-    fun moveChannel(groupId: String, key: String, delta: Int, current: List<String>) {
-        viewModelScope.launch {
-            val list = current.toMutableList()
-            val i = list.indexOf(key)
-            if (i < 0) return@launch
-            list.removeAt(i)
-            list.add((i + delta).coerceIn(0, list.size), key)
-            if (groupId.startsWith(com.nuvio.app.livetv.model.ChannelGroup.CUSTOM_PREFIX)) prefs.setCustomGroupOrder(groupId, list)
-            else prefs.setChannelOrder(groupId, list)
-        }
+    /** Saves a new order for Favorites after a drag. */
+    fun saveFavoritesOrder(keys: List<String>) {
+        viewModelScope.launch { prefs.setFavoritesOrder(keys) }
+    }
+
+    /** Saves a new order for a playlist group after a drag. */
+    fun saveChannelOrder(groupId: String, keys: List<String>) {
+        viewModelScope.launch { prefs.setChannelOrder(groupId, keys) }
+    }
+
+    /** Saves a new order for one of your own groups after a drag. */
+    fun saveCustomGroupOrder(groupId: String, keys: List<String>) {
+        viewModelScope.launch { prefs.setCustomGroupOrder(groupId, keys) }
     }
 
     fun resetOrder() { viewModelScope.launch { prefs.resetChannelOrder() } }

@@ -3552,6 +3552,8 @@ Bu özelliği tamamen kendi sorumluluğunuzda kullanırsınız. P2P istediğiniz
 <string name="live_tv_ui_record_u2026">Kaydet\u2026</string>
 <string name="live_tv_ui_move_earlier_in_this_list">Bu listede daha öne git</string>
 <string name="live_tv_ui_move_later_in_this_list">Bu listede daha sonra taşı</string>
+<string name="live_tv_ui_move">Taşı</string>
+<string name="live_tv_ui_hold_and_drag_to_reorder">Yeniden sıralamak için basılı tutup sürükleyin</string>
 <string name="live_tv_ui_add_to_my_group_u2026">Grubuma ekle\u2026</string>
 <string name="live_tv_ui_copy_to_another_group_u2026">Başka bir gruba kopyalayın\u2026</string>
 <string name="live_tv_ui_delete_this_group">Bu grubu sil</string>

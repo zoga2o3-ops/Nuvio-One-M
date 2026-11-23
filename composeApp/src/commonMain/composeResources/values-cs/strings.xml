@@ -3520,6 +3520,8 @@
 <string name="live_tv_ui_record_u2026">Záznam\u2026</string>
 <string name="live_tv_ui_move_earlier_in_this_list">Přesuňte se dříve v tomto seznamu</string>
 <string name="live_tv_ui_move_later_in_this_list">Přesunout později v tomto seznamu</string>
+<string name="live_tv_ui_move">Přesunout</string>
+<string name="live_tv_ui_hold_and_drag_to_reorder">Podržte a přetáhněte pro změnu pořadí</string>
 <string name="live_tv_ui_add_to_my_group_u2026">Přidat do mé skupiny\u2026</string>
 <string name="live_tv_ui_copy_to_another_group_u2026">Zkopírovat do jiné skupiny\u2026</string>
 <string name="live_tv_ui_remove_from_this_group">Odebrat z této skupiny</string>

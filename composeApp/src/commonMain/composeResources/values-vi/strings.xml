@@ -3571,6 +3571,8 @@
 <string name="live_tv_ui_record_u2026">Ghi\u2026</string>
 <string name="live_tv_ui_move_earlier_in_this_list">Di chuyển sớm hơn trong danh sách này</string>
 <string name="live_tv_ui_move_later_in_this_list">Di chuyển sau trong danh sách này</string>
+<string name="live_tv_ui_move">Di chuyển</string>
+<string name="live_tv_ui_hold_and_drag_to_reorder">Giữ và kéo để sắp xếp lại</string>
 <string name="live_tv_ui_add_to_my_group_u2026">Thêm vào nhóm của tôi\u2026</string>
 <string name="live_tv_ui_copy_to_another_group_u2026">Sao chép sang nhóm khác\u2026</string>
 <string name="live_tv_ui_no_channel_found_for_this_game_yet">Chưa tìm thấy kênh nào cho trò chơi này.</string>

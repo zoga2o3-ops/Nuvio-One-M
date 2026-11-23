@@ -92,7 +92,7 @@ internal fun ChannelActionsDialog(
     onShape: (PictureShape) -> Unit,
     onRemind: (() -> Unit)?,
     onRecord: (() -> Unit)? = null,
-    onMove: ((Int) -> Unit)? = null,
+    onMove: (() -> Unit)? = null,
     onAddToGroup: (() -> Unit)? = null,
     onCopyToGroup: (() -> Unit)? = null,
     onRemoveFromGroup: (() -> Unit)? = null,
@@ -131,8 +131,7 @@ internal fun ChannelActionsDialog(
                 ActionRow(if (favorite) stringResource(Res.string.live_tv_ui_remove_from_favorites) else stringResource(Res.string.live_tv_ui_add_to_favorites)) { onFavorite(); onDismiss() }
                 if (onRecord != null) ActionRow(stringResource(Res.string.live_tv_ui_record_u2026)) { onRecord(); onDismiss() }
                 if (onMove != null) {
-                    ActionRow(stringResource(Res.string.live_tv_ui_move_earlier_in_this_list)) { onMove(-1) }
-                    ActionRow(stringResource(Res.string.live_tv_ui_move_later_in_this_list)) { onMove(1) }
+                    ActionRow(stringResource(Res.string.live_tv_ui_move)) { onMove(); onDismiss() }
                 }
                 if (onAddToGroup != null) ActionRow(stringResource(Res.string.live_tv_ui_add_to_my_group_u2026)) { onAddToGroup(); onDismiss() }
                 if (onCopyToGroup != null) ActionRow(stringResource(Res.string.live_tv_ui_copy_to_another_group_u2026)) { onCopyToGroup(); onDismiss() }

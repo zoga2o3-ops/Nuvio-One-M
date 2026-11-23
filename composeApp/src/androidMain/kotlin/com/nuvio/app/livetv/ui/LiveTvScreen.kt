@@ -26,7 +26,9 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items as gridItems
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -64,10 +66,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -76,6 +81,10 @@ import coil3.compose.AsyncImage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import sh.calvin.reorderable.ReorderableCollectionItemScope
+import sh.calvin.reorderable.ReorderableItem
+import sh.calvin.reorderable.rememberReorderableLazyGridState
+import sh.calvin.reorderable.rememberReorderableLazyListState
 import com.nuvio.app.features.livetv.LiveTvPlayRequest
 import com.nuvio.app.livetv.model.ChannelGroup
 import com.nuvio.app.livetv.model.EpgProgram
@@ -148,6 +157,42 @@ fun LiveTvScreen(modifier: Modifier, onPlay: (LiveTvPlayRequest) -> Unit) {
     var sportsMode by rememberSaveable { mutableStateOf("games") }
     var sportsSport by rememberSaveable { mutableStateOf<Sport?>(null) }
     var recordFor by remember { mutableStateOf<LiveChannel?>(null) }
+    // Drag-to-reorder: enter from a channel's Move action, drag the tiles, then tap Done.
+    var movingChannels by remember { mutableStateOf<List<LiveChannel>?>(null) }
+    var movingGroup by remember { mutableStateOf<String?>(null) }
+    var movingKey by remember { mutableStateOf<String?>(null) }
+    val channelsListState = rememberLazyListState()
+    val channelsGridState = rememberLazyGridState()
+    fun persistMove() {
+        val list = movingChannels ?: return
+        val g = movingGroup ?: return
+        val keys = list.map { it.key }
+        when {
+            g == ChannelGroup.FAVORITES -> vm.saveFavoritesOrder(keys)
+            g.startsWith(ChannelGroup.CUSTOM_PREFIX) -> vm.saveCustomGroupOrder(g, keys)
+            else -> vm.saveChannelOrder(g, keys)
+        }
+    }
+    fun finishMove() {
+        persistMove()
+        movingChannels = null
+        movingGroup = null
+        movingKey = null
+    }
+    fun dragMove(fromKey: Any?, toKey: Any?) {
+        val list = movingChannels ?: return
+        val fromIndex = list.indexOfFirst { it.key == fromKey }
+        val toIndex = list.indexOfFirst { it.key == toKey }
+        if (fromIndex < 0 || toIndex < 0 || fromIndex == toIndex) return
+        movingChannels = list.toMutableList().apply { add(toIndex, removeAt(fromIndex)) }
+    }
+    val haptics = LocalHapticFeedback.current
+    val listReorder = rememberReorderableLazyListState(channelsListState) { from, to -> dragMove(from.key, to.key) }
+    val gridReorder = rememberReorderableLazyGridState(channelsGridState) { from, to -> dragMove(from.key, to.key) }
+    // Leaving the channel list, changing group or searching ends the move.
+    LaunchedEffect(group, query, sourceFilter, showGuide, showRecordings, showOnDemand, showSports, showCalendar) {
+        if (movingChannels != null) finishMove()
+    }
     val recordings by vm.recordings.collectAsStateWithLifecycle()
     val schedules by vm.schedules.collectAsStateWithLifecycle()
     val combining by vm.combineProgress.collectAsStateWithLifecycle()
@@ -294,7 +339,13 @@ fun LiveTvScreen(modifier: Modifier, onPlay: (LiveTvPlayRequest) -> Unit) {
         }
     }
     val nowNext: @Composable () -> Unit = {
-        heroChannel?.let { c ->
+        val moving = movingChannels
+        if (moving != null) {
+            MoveHeader(
+                name = moving.firstOrNull { it.key == movingKey }?.name,
+                onDone = { finishMove() },
+            )
+        } else heroChannel?.let { c ->
             Column {
                 NowNextHero(
                     channel = c,
@@ -509,47 +560,122 @@ fun LiveTvScreen(modifier: Modifier, onPlay: (LiveTvPlayRequest) -> Unit) {
                     } else if (settings.channelGrid) {
                         LazyVerticalGrid(
                             columns = GridCells.Adaptive(minSize = if (tablet) 150.dp else 112.dp),
-                            contentPadding = PaddingValues(16.dp, 4.dp, 16.dp, 96.dp),
+                            state = channelsGridState,
+                            contentPadding = PaddingValues(16.dp, 4.dp, 16.dp, if (movingChannels != null) 160.dp else 96.dp),
                             horizontalArrangement = Arrangement.spacedBy(10.dp),
                             verticalArrangement = Arrangement.spacedBy(10.dp),
                         ) {
                             item(key = "now-next", span = { GridItemSpan(maxLineSpan) }) { nowNext() }
-                            gridItems(shown, key = { it.key }) { c ->
-                                ChannelTile(c, programs[c.key], now, c.key in favorites, { actionChannel = c }, settings, user.channelQuality[c.key]?.takeIf { settings.showQualityBadges }) {
-                                    vm.recordWatched(c.key); playLive(onPlay, c.toRequest(programs[c.key], now))
+                            val moving = movingChannels
+                            if (moving != null) {
+                                gridItems(moving, key = { it.key }) { c ->
+                                    ReorderableItem(gridReorder, key = c.key) { isDragging ->
+                                        MoveChannelGridItem(
+                                            channel = c,
+                                            favorite = c.key in favorites,
+                                            selected = c.key == movingKey,
+                                            dragging = isDragging,
+                                            programs = programs[c.key],
+                                            now = now,
+                                            settings = settings,
+                                            quality = user.channelQuality[c.key]?.takeIf { settings.showQualityBadges },
+                                            dragScope = this,
+                                            onDragStarted = { haptics.performHapticFeedback(HapticFeedbackType.LongPress) },
+                                            onDragStopped = {
+                                                persistMove()
+                                                haptics.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                                            },
+                                        )
+                                    }
+                                }
+                            } else {
+                                gridItems(shown, key = { it.key }) { c ->
+                                    ChannelTile(c, programs[c.key], now, c.key in favorites, { actionChannel = c }, settings, user.channelQuality[c.key]?.takeIf { settings.showQualityBadges }) {
+                                        vm.recordWatched(c.key); playLive(onPlay, c.toRequest(programs[c.key], now))
+                                    }
                                 }
                             }
                         }
                     } else if (tablet) {
                         LazyVerticalGrid(
                             columns = GridCells.Adaptive(minSize = 340.dp),
-                            contentPadding = PaddingValues(16.dp, 4.dp, 16.dp, 96.dp),
+                            state = channelsGridState,
+                            contentPadding = PaddingValues(16.dp, 4.dp, 16.dp, if (movingChannels != null) 160.dp else 96.dp),
                             horizontalArrangement = Arrangement.spacedBy(10.dp),
                             verticalArrangement = Arrangement.spacedBy(10.dp),
                         ) {
                             item(key = "now-next", span = { GridItemSpan(maxLineSpan) }) { nowNext() }
-                            gridItems(shown, key = { it.key }) { c ->
-                                ChannelRow(c, programs[c.key], now, c.key in favorites, vm::toggleFavorite, { actionChannel = c }, settings, user.channelQuality[c.key]?.takeIf { settings.showQualityBadges }) {
-                                    vm.recordWatched(c.key); playLive(onPlay, c.toRequest(programs[c.key], now))
+                            val moving = movingChannels
+                            if (moving != null) {
+                                gridItems(moving, key = { it.key }) { c ->
+                                    ReorderableItem(gridReorder, key = c.key) { isDragging ->
+                                        MoveChannelRowItem(
+                                            channel = c,
+                                            favorite = c.key in favorites,
+                                            selected = c.key == movingKey,
+                                            dragging = isDragging,
+                                            programs = programs[c.key],
+                                            now = now,
+                                            settings = settings,
+                                            quality = user.channelQuality[c.key]?.takeIf { settings.showQualityBadges },
+                                            dragScope = this,
+                                            onDragStarted = { haptics.performHapticFeedback(HapticFeedbackType.LongPress) },
+                                            onDragStopped = {
+                                                persistMove()
+                                                haptics.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                                            },
+                                        )
+                                    }
+                                }
+                            } else {
+                                gridItems(shown, key = { it.key }) { c ->
+                                    ChannelRow(c, programs[c.key], now, c.key in favorites, vm::toggleFavorite, { actionChannel = c }, settings, user.channelQuality[c.key]?.takeIf { settings.showQualityBadges }) {
+                                        vm.recordWatched(c.key); playLive(onPlay, c.toRequest(programs[c.key], now))
+                                    }
                                 }
                             }
                         }
                     } else {
                         LazyColumn(
-                            contentPadding = PaddingValues(16.dp, 4.dp, 16.dp, 96.dp),
+                            state = channelsListState,
+                            contentPadding = PaddingValues(16.dp, 4.dp, 16.dp, if (movingChannels != null) 160.dp else 96.dp),
                             verticalArrangement = Arrangement.spacedBy(10.dp),
                         ) {
                             item(key = "now-next") { nowNext() }
-                            items(shown, key = { it.key }) { c ->
-                                ChannelRow(c, programs[c.key], now, c.key in favorites, vm::toggleFavorite, { actionChannel = c }, settings, user.channelQuality[c.key]?.takeIf { settings.showQualityBadges }) {
-                                    vm.recordWatched(c.key); playLive(onPlay, c.toRequest(programs[c.key], now))
+                            val moving = movingChannels
+                            if (moving != null) {
+                                items(moving, key = { it.key }) { c ->
+                                    ReorderableItem(listReorder, key = c.key) { isDragging ->
+                                        MoveChannelRowItem(
+                                            channel = c,
+                                            favorite = c.key in favorites,
+                                            selected = c.key == movingKey,
+                                            dragging = isDragging,
+                                            programs = programs[c.key],
+                                            now = now,
+                                            settings = settings,
+                                            quality = user.channelQuality[c.key]?.takeIf { settings.showQualityBadges },
+                                            dragScope = this,
+                                            onDragStarted = { haptics.performHapticFeedback(HapticFeedbackType.LongPress) },
+                                            onDragStopped = {
+                                                persistMove()
+                                                haptics.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                                            },
+                                        )
+                                    }
+                                }
+                            } else {
+                                items(shown, key = { it.key }) { c ->
+                                    ChannelRow(c, programs[c.key], now, c.key in favorites, vm::toggleFavorite, { actionChannel = c }, settings, user.channelQuality[c.key]?.takeIf { settings.showQualityBadges }) {
+                                        vm.recordWatched(c.key); playLive(onPlay, c.toRequest(programs[c.key], now))
+                                    }
                                 }
                             }
                         }
                     }
                 }
             }
-            if (playlists.isNotEmpty() && multiviewChannels.isEmpty() &&
+            if (playlists.isNotEmpty() && multiviewChannels.isEmpty() && movingChannels == null &&
                 !showGuide && !showRecordings && !showOnDemand && !showSports && !showCalendar
             ) {
                 SmallFloatingActionButton(
@@ -562,6 +688,14 @@ fun LiveTvScreen(modifier: Modifier, onPlay: (LiveTvPlayRequest) -> Unit) {
                         contentDescription = stringResource(Res.string.live_tv_ui_multiview),
                         tint = Color.White,
                     )
+                }
+            }
+            if (movingChannels != null) {
+                Button(
+                    onClick = { finishMove() },
+                    modifier = Modifier.align(Alignment.BottomCenter).padding(bottom = 96.dp),
+                ) {
+                    Text(stringResource(Res.string.action_done))
                 }
             }
         }
@@ -605,8 +739,8 @@ fun LiveTvScreen(modifier: Modifier, onPlay: (LiveTvPlayRequest) -> Unit) {
                 { askNotifications(); vm.setReminder(c, next, true) }
             },
             onRecord = { recordFor = c },
-            onMove = if (group != ChannelGroup.ALL && group != ChannelGroup.FAVORITES && group != ChannelGroup.RECENT && query.isBlank()) { delta ->
-                vm.moveChannel(group, c.key, delta, shown.map { it.key })
+            onMove = if (group != ChannelGroup.ALL && group != ChannelGroup.RECENT && query.isBlank() && sourceFilter == null) {
+                { movingChannels = shown; movingGroup = group; movingKey = c.key }
             } else null,
             onAddToGroup = { pickGroupFor = c },
             onCopyToGroup = { copyGroupFor = c },
@@ -965,6 +1099,128 @@ private fun EmptyState(onAdd: () -> Unit) {
                 style = MaterialTheme.typography.bodyMedium,
             )
             Button(onClick = onAdd) { Text(stringResource(Res.string.live_tv_ui_add_a_playlist)) }
+        }
+    }
+}
+
+/** The header shown while a channel list is in drag-to-reorder mode. */
+@Composable
+private fun MoveHeader(name: String?, onDone: () -> Unit) {
+    Column(
+        Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 8.dp)
+            .clip(RoundedCornerShape(16.dp))
+            .background(CardBg)
+            .padding(14.dp),
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Column(Modifier.weight(1f)) {
+                Text(stringResource(Res.string.live_tv_ui_move), style = MaterialTheme.typography.titleMedium, color = Accent)
+                if (!name.isNullOrBlank()) {
+                    Text(name, style = MaterialTheme.typography.titleLarge, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                }
+            }
+            TextButton(onClick = onDone) { Text(stringResource(Res.string.action_done)) }
+        }
+        Spacer(Modifier.height(4.dp))
+        Text(
+            stringResource(Res.string.live_tv_ui_hold_and_drag_to_reorder),
+            style = MaterialTheme.typography.bodySmall,
+            color = LocalContentColor.current.copy(alpha = 0.65f),
+        )
+    }
+}
+
+/** A small grip badge on the channel you picked up. */
+@Composable
+private fun MoveGrip(modifier: Modifier = Modifier) {
+    Box(
+        modifier
+            .clip(RoundedCornerShape(6.dp))
+            .background(Color(0xE6000000))
+            .padding(horizontal = 6.dp, vertical = 3.dp),
+    ) {
+        Text("\u2261", color = Color.White, style = MaterialTheme.typography.labelMedium)
+    }
+}
+
+/** One channel while its list is being rearranged by dragging. */
+@Composable
+private fun MoveChannelGridItem(
+    channel: LiveChannel,
+    favorite: Boolean,
+    selected: Boolean,
+    dragging: Boolean,
+    programs: List<EpgProgram>?,
+    now: Long,
+    settings: com.nuvio.app.livetv.model.LiveTvSettings,
+    quality: String?,
+    dragScope: ReorderableCollectionItemScope,
+    onDragStarted: () -> Unit,
+    onDragStopped: () -> Unit,
+) {
+    Box(
+        Modifier
+            .fillMaxWidth()
+            .graphicsLayer {
+                val scale = if (dragging) 1.04f else 1f
+                scaleX = scale
+                scaleY = scale
+            }
+            .then(if (selected) Modifier.border(2.dp, Accent, RoundedCornerShape(16.dp)).padding(2.dp) else Modifier),
+    ) {
+        ChannelTile(channel, programs, now, favorite, {}, settings, quality) {}
+        if (selected) {
+            // The overlay is the drag handle, so the tile's own tap gesture can't swallow the press.
+            Box(
+                Modifier
+                    .matchParentSize()
+                    .then(with(dragScope) {
+                        Modifier.longPressDraggableHandle(onDragStarted = { onDragStarted() }, onDragStopped = onDragStopped)
+                    }),
+            )
+            MoveGrip(Modifier.align(Alignment.TopEnd).padding(6.dp))
+        }
+    }
+}
+
+/** A wide channel row while its list is being rearranged by dragging. */
+@Composable
+private fun MoveChannelRowItem(
+    channel: LiveChannel,
+    favorite: Boolean,
+    selected: Boolean,
+    dragging: Boolean,
+    programs: List<EpgProgram>?,
+    now: Long,
+    settings: com.nuvio.app.livetv.model.LiveTvSettings,
+    quality: String?,
+    dragScope: ReorderableCollectionItemScope,
+    onDragStarted: () -> Unit,
+    onDragStopped: () -> Unit,
+) {
+    Box(
+        Modifier
+            .fillMaxWidth()
+            .graphicsLayer {
+                val scale = if (dragging) 1.02f else 1f
+                scaleX = scale
+                scaleY = scale
+            }
+            .then(if (selected) Modifier.border(2.dp, Accent, RoundedCornerShape(16.dp)).padding(2.dp) else Modifier),
+    ) {
+        ChannelRow(channel, programs, now, favorite, { _ -> }, {}, settings, quality) {}
+        if (selected) {
+            // The overlay is the drag handle, so the row's own tap gesture can't swallow the press.
+            Box(
+                Modifier
+                    .matchParentSize()
+                    .then(with(dragScope) {
+                        Modifier.longPressDraggableHandle(onDragStarted = { onDragStarted() }, onDragStopped = onDragStopped)
+                    }),
+            )
+            MoveGrip(Modifier.align(Alignment.CenterEnd).padding(end = 10.dp))
         }
     }
 }

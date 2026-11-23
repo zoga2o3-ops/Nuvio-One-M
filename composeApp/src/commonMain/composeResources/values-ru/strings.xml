@@ -3544,6 +3544,8 @@
 <string name="live_tv_ui_record_u2026">Запись\u2026</string>
 <string name="live_tv_ui_move_earlier_in_this_list">Переместиться раньше в этом списке</string>
 <string name="live_tv_ui_move_later_in_this_list">Переместить позже в этом списке</string>
+<string name="live_tv_ui_move">Переместить</string>
+<string name="live_tv_ui_hold_and_drag_to_reorder">Удерживайте и перетащите, чтобы изменить порядок</string>
 <string name="live_tv_ui_add_to_my_group_u2026">Добавить в мою группу\u2026</string>
 <string name="live_tv_ui_copy_to_another_group_u2026">Копировать в другую группу\u2026</string>
 <string name="live_tv_ui_g_title_if_settings_showgroupcounts_locked">) + g.title + if (settings.showGroupCounts &amp;&amp; !locked)</string>

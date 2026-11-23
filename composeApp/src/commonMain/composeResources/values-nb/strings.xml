@@ -3533,6 +3533,8 @@ Du bruker denne funksjonen helt på eget ansvar. P2P kan deaktiveres når som he
 <string name="live_tv_ui_record_u2026">Ta opp\u2026</string>
 <string name="live_tv_ui_move_earlier_in_this_list">Flytt tidligere i denne listen</string>
 <string name="live_tv_ui_move_later_in_this_list">Flytt senere i denne listen</string>
+<string name="live_tv_ui_move">Flytt</string>
+<string name="live_tv_ui_hold_and_drag_to_reorder">Hold og dra for å endre rekkefølge</string>
 <string name="live_tv_ui_add_to_my_group_u2026">Legg til i gruppen min\u2026</string>
 <string name="live_tv_ui_copy_to_another_group_u2026">Kopiér til en annen gruppe\u2026</string>
 <string name="live_tv_ui_no_channel_found_for_this_game_yet">Ingen kanal funnet for dette spillet ennå.</string>

@@ -3569,6 +3569,8 @@
 <string name="live_tv_ui_record_u2026">Záznam\u2026</string>
 <string name="live_tv_ui_move_earlier_in_this_list">Posunúť sa v tomto zozname skôr</string>
 <string name="live_tv_ui_move_later_in_this_list">Presuňte sa neskôr v tomto zozname</string>
+<string name="live_tv_ui_move">Presunúť</string>
+<string name="live_tv_ui_hold_and_drag_to_reorder">Podržte a potiahnite na zmenu poradia</string>
 <string name="live_tv_ui_add_to_my_group_u2026">Pridať do mojej skupiny\u2026</string>
 <string name="live_tv_ui_copy_to_another_group_u2026">Kopírovať do inej skupiny\u2026</string>
 <string name="live_tv_ui_nothing_in_this_category">Nič v tejto kategórii.</string>

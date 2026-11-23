@@ -3587,6 +3587,8 @@
 <string name="live_tv_ui_record_u2026">הקלט\u2026</string>
 <string name="live_tv_ui_move_earlier_in_this_list">העבר מוקדם יותר ברשימה זו</string>
 <string name="live_tv_ui_move_later_in_this_list">העבר מאוחר יותר ברשימה זו</string>
+<string name="live_tv_ui_move">הזז</string>
+<string name="live_tv_ui_hold_and_drag_to_reorder">החזק וגרור כדי לשנות סדר</string>
 <string name="live_tv_ui_add_to_my_group_u2026">הוסף לקבוצה שלי\u2026</string>
 <string name="live_tv_ui_copy_to_another_group_u2026">העתק לקבוצה אחרת\u2026</string>
 <string name="live_tv_ui_nothing_in_this_category">שום דבר בקטגוריה הזו.</string>
