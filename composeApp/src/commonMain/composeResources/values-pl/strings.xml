@@ -3394,6 +3394,7 @@
 <string name="music_ui_playlist">Lista odtwarzania</string>
 <string name="music_ui_radio">Radio</string>
 <string name="music_ui_music_video">Teledysk</string>
+<string name="music_video_minimize">Minimalizuj</string>
 <string name="music_ui_lyric_sweep">przemiatanie liryczne</string>
 <string name="music_ui_start_party">Rozpocznij imprezę</string>
 <string name="music_ui_qr">QR</string>

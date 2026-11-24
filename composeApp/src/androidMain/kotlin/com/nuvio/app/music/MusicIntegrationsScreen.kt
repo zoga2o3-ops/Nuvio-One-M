@@ -94,6 +94,10 @@ internal fun MusicIntegrationsScreen(
     var importError by remember { mutableStateOf<String?>(null) }
     val spotifyWeb by MusicSpotifyWebSession.state.collectAsState()
     val webSync by MusicSpotifyWebSync.state.collectAsState()
+    val gemini by MusicGeminiController.state.collectAsState()
+    var geminiKey by remember { mutableStateOf("") }
+    var geminiReplacing by remember { mutableStateOf(false) }
+    var geminiModel by remember(gemini.model) { mutableStateOf(gemini.model) }
     var spotifyMessage by remember { mutableStateOf<String?>(null) }
     val spotifyLogin = androidx.activity.compose.rememberLauncherForActivityResult(
         androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult()
@@ -109,6 +113,7 @@ internal fun MusicIntegrationsScreen(
         MusicScrobbler.init(context)
         MusicAddonRegistry.init(context)
         MusicSpotifyWebSession.init(context)
+        MusicGeminiController.init(context)
         withFrameNanos { }
         runCatching { closeFocus.requestFocus() }
     }
@@ -378,6 +383,178 @@ internal fun MusicIntegrationsScreen(
                         Spacer(Modifier.height(8.dp))
                         Text(text = it, color = MusicPalette.accentTeal, fontSize = 11.sp)
                     }
+                }
+
+                IntegrationCard(
+                    icon = Icons.Default.MusicNote,
+                    tint = MusicPalette.accentTeal,
+                    title = "Gemini",
+                    subtitle = "Your own API key. Gemini only suggests titles; playback still uses your sources."
+                ) {
+                    if (gemini.configured && !geminiReplacing) {
+                        Text(
+                            text = "Key saved. It is never shown again.",
+                            color = MusicPalette.textSecondary,
+                            fontSize = 12.sp
+                        )
+                        Spacer(Modifier.height(10.dp))
+                        Row(horizontalArrangement = Arrangement.spacedBy(9.dp)) {
+                            IntegrationPill(
+                                icon = Icons.Default.Cloud,
+                                label = "Replace key",
+                                onClick = { geminiReplacing = true }
+                            )
+                            IntegrationPill(
+                                icon = Icons.Default.Favorite,
+                                label = "Remove key",
+                                onClick = {
+                                    MusicGeminiController.removeKey(context)
+                                    geminiKey = ""
+                                    geminiReplacing = false
+                                }
+                            )
+                            IntegrationPill(
+                                icon = Icons.Default.MusicNote,
+                                label = if (gemini.enabled) "Suggestions on" else "Suggestions off",
+                                primary = gemini.enabled,
+                                onClick = {
+                                    MusicGeminiController.setEnabled(context, !gemini.enabled)
+                                }
+                            )
+                        }
+                    } else {
+                        IntegrationField(
+                            label = "Gemini API key",
+                            value = geminiKey,
+                            placeholder = "AIza...",
+                            onValueChange = { geminiKey = it },
+                            password = true
+                        )
+                        Spacer(Modifier.height(9.dp))
+                        Row(horizontalArrangement = Arrangement.spacedBy(9.dp)) {
+                            IntegrationPill(
+                                icon = Icons.Default.Cloud,
+                                label = "Save key",
+                                primary = true,
+                                enabled = geminiKey.isNotBlank(),
+                                onClick = {
+                                    MusicGeminiController.saveKey(context, geminiKey)
+                                    geminiKey = ""
+                                    geminiReplacing = false
+                                }
+                            )
+                            if (gemini.configured) {
+                                IntegrationPill(
+                                    icon = Icons.Default.Favorite,
+                                    label = "Cancel",
+                                    onClick = {
+                                        geminiKey = ""
+                                        geminiReplacing = false
+                                    }
+                                )
+                            }
+                        }
+                        if (!gemini.configured) {
+                            Spacer(Modifier.height(8.dp))
+                            Text(
+                                text = "The key is stored encrypted for this profile and carried through credential sync.",
+                                color = MusicPalette.textMuted,
+                                fontSize = 10.sp,
+                                lineHeight = 14.sp
+                            )
+                        }
+                    }
+
+                    Spacer(Modifier.height(14.dp))
+                    IntegrationField(
+                        label = "Model",
+                        value = geminiModel,
+                        placeholder = GeminiSettings.DEFAULT_MODEL,
+                        onValueChange = { geminiModel = it }
+                    )
+                    if (geminiModel.trim() != gemini.model) {
+                        Spacer(Modifier.height(8.dp))
+                        IntegrationPill(
+                            icon = Icons.Default.Cloud,
+                            label = "Use this model",
+                            onClick = { MusicGeminiController.setModel(geminiModel.trim()) }
+                        )
+                    }
+
+                    Spacer(Modifier.height(14.dp))
+                    Text(
+                        text = "WHAT GEMINI CAN USE",
+                        color = MusicPalette.textMuted,
+                        fontSize = 10.sp,
+                        fontWeight = FontWeight.Bold,
+                        letterSpacing = 1.sp
+                    )
+                    Spacer(Modifier.height(7.dp))
+                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        IntegrationPill(
+                            icon = Icons.Default.MusicNote,
+                            label = "Top artists",
+                            primary = gemini.shareTopArtists,
+                            onClick = {
+                                MusicGeminiController.setShareTopArtists(!gemini.shareTopArtists)
+                            }
+                        )
+                        IntegrationPill(
+                            icon = Icons.Default.MusicNote,
+                            label = "Liked",
+                            primary = gemini.shareLiked,
+                            onClick = { MusicGeminiController.setShareLiked(!gemini.shareLiked) }
+                        )
+                        IntegrationPill(
+                            icon = Icons.Default.MusicNote,
+                            label = "Recents",
+                            primary = gemini.shareRecents,
+                            onClick = {
+                                MusicGeminiController.setShareRecents(!gemini.shareRecents)
+                            }
+                        )
+                        IntegrationPill(
+                            icon = Icons.Default.MusicNote,
+                            label = "Playlists",
+                            primary = gemini.sharePlaylists,
+                            onClick = {
+                                MusicGeminiController.setSharePlaylists(!gemini.sharePlaylists)
+                            }
+                        )
+                    }
+
+                    Spacer(Modifier.height(14.dp))
+                    Row(horizontalArrangement = Arrangement.spacedBy(9.dp)) {
+                        IntegrationPill(
+                            icon = Icons.Default.MusicNote,
+                            label = if (gemini.generating) "Generating…" else "Generate suggestions",
+                            primary = true,
+                            enabled = gemini.configured && !gemini.generating,
+                            onClick = { MusicGeminiController.generate(context) }
+                        )
+                        if (gemini.tracks.isNotEmpty() || gemini.albums.isNotEmpty()) {
+                            IntegrationPill(
+                                icon = Icons.Default.Favorite,
+                                label = "Clear suggestions",
+                                onClick = { MusicGeminiController.clearSuggestions(context) }
+                            )
+                        }
+                    }
+                    gemini.error?.let {
+                        Spacer(Modifier.height(8.dp))
+                        Text(it, color = MusicPalette.error, fontSize = 11.sp)
+                    }
+                    gemini.notice?.let {
+                        Spacer(Modifier.height(8.dp))
+                        Text(it, color = MusicPalette.accentTeal, fontSize = 11.sp)
+                    }
+                    Spacer(Modifier.height(9.dp))
+                    Text(
+                        text = "Gemini only proposes titles. Every suggestion is checked against YouTube Music, and playback still uses your add-ons first.",
+                        color = MusicPalette.textMuted,
+                        fontSize = 10.sp,
+                        lineHeight = 14.sp
+                    )
                 }
 
                 IntegrationCard(

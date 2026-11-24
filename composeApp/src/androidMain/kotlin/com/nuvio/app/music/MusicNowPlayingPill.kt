@@ -64,7 +64,10 @@ fun MusicNowPlayingPill(
     onOpen: () -> Unit
 ) {
     val playback by MusicPlayer.state.collectAsState()
-    val song = playback.song ?: return
+    val video by MusicVideoHost.state.collectAsState()
+    val videoActive = video.active && video.video != null
+    val song = (if (videoActive) video.video else playback.song) ?: return
+    val playing = if (videoActive) video.isPlaying else playback.isPlaying
     val shape = RoundedCornerShape(50)
     val offsetX = remember { Animatable(0f) }
     val scope = rememberCoroutineScope()
@@ -101,7 +104,7 @@ fun MusicNowPlayingPill(
                                     if (offsetX.value < 0) -widthPx.toFloat() else widthPx.toFloat(),
                                     tween(180)
                                 )
-                                MusicPlayer.stop()
+                                if (videoActive) MusicVideoHost.close() else MusicPlayer.stop()
                             }
                         } else {
                             scope.launch { offsetX.animateTo(0f, spring()) }
@@ -113,7 +116,7 @@ fun MusicNowPlayingPill(
                     }
                 )
             }
-            .clickable(onClick = onOpen)
+            .clickable(onClick = { if (videoActive) MusicVideoHost.open() else onOpen() })
             .padding(start = 8.dp, end = 12.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(10.dp)
@@ -149,22 +152,22 @@ fun MusicNowPlayingPill(
             PillTransportButton(
                 icon = Icons.Default.SkipPrevious,
                 label = stringResource(Res.string.action_previous),
-                onClick = { MusicPlayer.previous() }
+                onClick = { if (videoActive) MusicVideoHost.previous() else MusicPlayer.previous() }
             )
             PillTransportButton(
-                icon = if (playback.isPlaying) Icons.Default.Pause else Icons.Default.PlayArrow,
-                label = if (playback.isPlaying) {
+                icon = if (playing) Icons.Default.Pause else Icons.Default.PlayArrow,
+                label = if (playing) {
                     stringResource(Res.string.compose_action_pause)
                 } else {
                     stringResource(Res.string.action_play)
                 },
                 primary = true,
-                onClick = { MusicPlayer.toggle() }
+                onClick = { if (videoActive) MusicVideoHost.togglePlay() else MusicPlayer.toggle() }
             )
             PillTransportButton(
                 icon = Icons.Default.SkipNext,
                 label = stringResource(Res.string.action_next),
-                onClick = { MusicPlayer.next() }
+                onClick = { if (videoActive) MusicVideoHost.next() else MusicPlayer.next() }
             )
         }
     }

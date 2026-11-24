@@ -3345,6 +3345,7 @@
 <string name="music_ui_playlist">Lejátszási lista elemre</string>
 <string name="music_ui_radio">Rádió</string>
 <string name="music_ui_music_video">Zenei videó</string>
+<string name="music_video_minimize">Kicsinyítés</string>
 <string name="music_ui_lyric_sweep">dalszöveg-söprés</string>
 <string name="music_ui_start_party">Indítsa el a bulit</string>
 <string name="music_ui_qr">QR</string>

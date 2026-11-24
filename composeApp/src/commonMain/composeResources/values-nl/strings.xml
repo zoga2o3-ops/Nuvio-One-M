@@ -3379,6 +3379,7 @@
 <string name="music_ui_playlist">Afspeellijst</string>
 <string name="music_ui_radio">Radio</string>
 <string name="music_ui_music_video">Muziekvideo</string>
+<string name="music_video_minimize">Minimaliseren</string>
 <string name="music_ui_lyric_sweep">lyrische sweep</string>
 <string name="music_ui_start_party">Begin feest</string>
 <string name="music_ui_qr">QR</string>

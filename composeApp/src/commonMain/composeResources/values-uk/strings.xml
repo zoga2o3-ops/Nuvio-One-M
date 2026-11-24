@@ -2651,4 +2651,5 @@
     <string name="live_tv_ui_use_https_description">Для провайдерів, які надають адресу https://.</string>
 <string name="live_tv_ui_move">Перемістити</string>
 <string name="live_tv_ui_hold_and_drag_to_reorder">Утримуйте й перетягніть, щоб змінити порядок</string>
+<string name="music_video_minimize">Згорнути</string>
 </resources>

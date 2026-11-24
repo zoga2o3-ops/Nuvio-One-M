@@ -111,11 +111,13 @@ internal fun MusicSettingsScreen(onClose: () -> Unit) {
     val downloadQuality by MusicSettings.downloadQuality.collectAsState()
     val wifiOnlyDownloads by MusicSettings.wifiOnlyDownloads.collectAsState()
     val playback by MusicPlayer.state.collectAsState()
+    val homeRows by MusicHomeRows.config.collectAsState()
     val firstFocus = remember { FocusRequester() }
     val windowInfo = LocalWindowInfo.current
 
     LaunchedEffect(Unit) {
         MusicSettings.init(context)
+        MusicHomeRows.init(context)
     }
     LaunchedEffect(windowInfo) {
         snapshotFlow { windowInfo.isWindowFocused }.collect { focused ->
@@ -285,6 +287,32 @@ internal fun MusicSettingsScreen(onClose: () -> Unit) {
                     )
                 }
 
+                item(key = "home-rows-label") { SettingsSection("H O M E   R O W S") }
+                item(key = "pin-library") {
+                    SettingsSelector(
+                        title = "Pin your playlists",
+                        detail = "Keep your own playlists at the top of the Music Home.",
+                        options = listOf(stringResource(Res.string.compose_action_off), stringResource(Res.string.compose_action_on)),
+                        selectedIndex = if (homeRows.pinLibrary) 1 else 0,
+                        onSelect = { MusicHomeRows.setPinLibrary(it == 1) }
+                    )
+                }
+                homeRows.order.forEachIndexed { index, row ->
+                    item(key = "home-row-${row.id}") {
+                        HomeRowSetting(
+                            label = row.label,
+                            hidden = row in homeRows.hidden,
+                            canMoveUp = index > 0,
+                            canMoveDown = index < homeRows.order.lastIndex,
+                            onMove = { MusicHomeRows.move(row, it) },
+                            onToggle = { MusicHomeRows.toggleHidden(row) }
+                        )
+                    }
+                }
+                item(key = "home-rows-reset") {
+                    HomeRowReset(onClick = { MusicHomeRows.reset() })
+                }
+
                 item(key = "timer-label") { SettingsSection(stringResource(Res.string.music_settings_section_timer)) }
                 val timerOptions = listOf<Int?>(null, 15, 30, 45, 60, 90)
                 val remaining = playback.sleepTimerRemainingMs
@@ -307,6 +335,87 @@ internal fun MusicSettingsScreen(onClose: () -> Unit) {
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun HomeRowSetting(
+    label: String,
+    hidden: Boolean,
+    canMoveUp: Boolean,
+    canMoveDown: Boolean,
+    onMove: (Int) -> Unit,
+    onToggle: () -> Unit
+) {
+    Row(
+        Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(12.dp))
+            .background(MusicPalette.surfaceRaised)
+            .border(1.dp, MusicPalette.border, RoundedCornerShape(12.dp))
+            .padding(horizontal = 14.dp, vertical = 8.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(7.dp)
+    ) {
+        Text(
+            text = label,
+            color = if (hidden) MusicPalette.textMuted else MusicPalette.text,
+            fontSize = 13.sp,
+            fontWeight = FontWeight.SemiBold,
+            modifier = Modifier.weight(1f)
+        )
+        SmallSettingAction("\u2191", enabled = canMoveUp) { onMove(-1) }
+        SmallSettingAction("\u2193", enabled = canMoveDown) { onMove(1) }
+        SmallSettingAction(if (hidden) "Show" else "Hide") { onToggle() }
+    }
+}
+
+@Composable
+private fun HomeRowReset(onClick: () -> Unit) {
+    Row(
+        Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(12.dp))
+            .clickable(onClick = onClick)
+            .padding(horizontal = 14.dp, vertical = 12.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            text = "Reset all Home rows",
+            color = MusicPalette.accent,
+            fontSize = 13.sp,
+            fontWeight = FontWeight.SemiBold
+        )
+    }
+}
+
+@Composable
+private fun SmallSettingAction(
+    label: String,
+    enabled: Boolean = true,
+    onClick: () -> Unit
+) {
+    var focused by remember { mutableStateOf(false) }
+    Box(
+        Modifier
+            .clip(RoundedCornerShape(50))
+            .background(if (focused && enabled) MusicPalette.text else MusicPalette.surface)
+            .border(1.dp, if (focused && enabled) MusicPalette.text else MusicPalette.border, RoundedCornerShape(50))
+            .onFocusChanged { focused = it.isFocused }
+            .clickable(enabled = enabled, onClick = onClick)
+            .padding(horizontal = 11.dp, vertical = 6.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = label,
+            color = when {
+                !enabled -> MusicPalette.textMuted
+                focused -> MusicPalette.background
+                else -> MusicPalette.text
+            },
+            fontSize = 11.sp,
+            fontWeight = FontWeight.SemiBold
+        )
     }
 }
 

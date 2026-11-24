@@ -151,19 +151,24 @@ object ProviderCredentialSync {
     }
 
     private fun observeCredentialSnapshots() = combine(
-        ProfileRepository.state,
-        DebridSettingsRepository.uiState,
-        TmdbSettingsRepository.uiState,
-        MdbListSettingsRepository.uiState,
-        PlayerSettingsRepository.uiState,
-    ) { _, debrid, tmdb, mdbList, player ->
-        buildSnapshot(
-            profileId = ProfileRepository.activeProfileId,
-            debrid = debrid,
-            tmdb = tmdb,
-            mdbList = mdbList,
-            player = player,
-        )
+        combine(
+            ProfileRepository.state,
+            DebridSettingsRepository.uiState,
+            TmdbSettingsRepository.uiState,
+            MdbListSettingsRepository.uiState,
+            PlayerSettingsRepository.uiState,
+        ) { _, debrid, tmdb, mdbList, player ->
+            buildSnapshot(
+                profileId = ProfileRepository.activeProfileId,
+                debrid = debrid,
+                tmdb = tmdb,
+                mdbList = mdbList,
+                player = player,
+            )
+        },
+        ProviderCredentialExternal.revision,
+    ) { snapshot, _ ->
+        snapshot.withGeminiKey(ProviderCredentialExternal.geminiKey(snapshot.profileId))
     }
 
     private fun currentSnapshot(profileId: Int): ProviderCredentialSnapshot {
@@ -174,7 +179,7 @@ object ProviderCredentialSync {
             tmdb = TmdbSettingsRepository.snapshot(),
             mdbList = MdbListSettingsRepository.snapshot(),
             player = PlayerSettingsRepository.uiState.value,
-        )
+        ).withGeminiKey(ProviderCredentialExternal.geminiKey(profileId))
         check(ProfileRepository.activeProfileId == profileId)
         return snapshot
     }
@@ -241,6 +246,9 @@ object ProviderCredentialSync {
                 credential.provider == ProviderCredentialIds.INTRODB -> {
                     PlayerSettingsRepository.setIntroDbApiKey(credential.value)
                 }
+                credential.provider == ProviderCredentialIds.GEMINI -> {
+                    ProviderCredentialExternal.writeGeminiKey(snapshot.profileId, credential.value)
+                }
             }
         }
     }
@@ -301,3 +309,13 @@ object ProviderCredentialSync {
         PlayerSettingsRepository.ensureLoaded()
     }
 }
+
+private fun ProviderCredentialSnapshot.withGeminiKey(key: String): ProviderCredentialSnapshot =
+    copy(
+        values = values.filterNot { it.provider == ProviderCredentialIds.GEMINI } +
+            ProviderCredentialValue(
+                provider = ProviderCredentialIds.GEMINI,
+                field = PROVIDER_API_KEY_FIELD,
+                value = key.trim(),
+            ),
+    )

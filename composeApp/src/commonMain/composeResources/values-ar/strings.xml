@@ -3355,6 +3355,7 @@
 <string name="music_ui_playlist">قائمة التشغيل</string>
 <string name="music_ui_radio">راديو</string>
 <string name="music_ui_music_video">فيديو موسيقي</string>
+<string name="music_video_minimize">تصغير</string>
 <string name="music_ui_lyric_sweep">اكتساح غنائي</string>
 <string name="music_ui_start_party">ابدأ الحفلة</string>
 <string name="music_ui_qr">ريال قطري</string>

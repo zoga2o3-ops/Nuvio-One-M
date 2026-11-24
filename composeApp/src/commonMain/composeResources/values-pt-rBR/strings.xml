@@ -3401,6 +3401,7 @@
 <string name="music_ui_playlist">Lista de reprodução</string>
 <string name="music_ui_radio">Rádio</string>
 <string name="music_ui_music_video">Vídeo musical</string>
+<string name="music_video_minimize">Minimizar</string>
 <string name="music_ui_lyric_sweep">varredura de letras</string>
 <string name="music_ui_start_party">Começar a festa</string>
 <string name="music_ui_qr">QR</string>

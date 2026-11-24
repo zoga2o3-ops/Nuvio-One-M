@@ -3345,6 +3345,7 @@
 <string name="music_ui_playlist">Плейлист</string>
 <string name="music_ui_radio">Радио</string>
 <string name="music_ui_music_video">Музыкальное видео</string>
+<string name="music_video_minimize">Свернуть</string>
 <string name="music_ui_lyric_sweep">лирический размах</string>
 <string name="music_ui_start_party">Начать вечеринку</string>
 <string name="music_ui_qr">QR-код</string>

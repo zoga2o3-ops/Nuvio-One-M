@@ -3310,6 +3310,7 @@
     <string name="music_ui_playlist">பிளேலிஸ்ட்</string>
     <string name="music_ui_radio">வானொலி</string>
     <string name="music_ui_music_video">இசை வீடியோ</string>
+<string name="music_video_minimize">சிறிதாக்கு</string>
     <string name="music_ui_lyric_sweep">lyric-sweep</string>
     <string name="music_ui_start_party">பார்ட்டியைத் தொடங்கு</string>
     <string name="music_ui_qr">QR</string>

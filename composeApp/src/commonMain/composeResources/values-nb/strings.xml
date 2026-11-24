@@ -3346,6 +3346,7 @@ Du bruker denne funksjonen helt på eget ansvar. P2P kan deaktiveres når som he
 <string name="music_ui_playlist">Spilleliste</string>
 <string name="music_ui_radio">Radio</string>
 <string name="music_ui_music_video">Musikkvideo</string>
+<string name="music_video_minimize">Minimer</string>
 <string name="music_ui_lyric_sweep">lyric-sweep</string>
 <string name="music_ui_start_party">Start festen</string>
 <string name="music_ui_qr">QR</string>

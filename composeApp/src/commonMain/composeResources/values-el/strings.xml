@@ -3383,6 +3383,7 @@
     <string name="music_ui_playlist">Λίστα αναπαραγωγής</string>
     <string name="music_ui_radio">Ραδιόφωνο</string>
     <string name="music_ui_music_video">Μουσικό βίντεο</string>
+<string name="music_video_minimize">Ελαχιστοποίηση</string>
     <string name="music_ui_lyric_sweep">λυρική-σκούπα</string>
     <string name="music_ui_start_party">Ξεκινήστε το πάρτι</string>
     <string name="music_ui_qr">QR</string>

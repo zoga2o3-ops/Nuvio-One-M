@@ -3354,6 +3354,7 @@
 <string name="music_ui_playlist">プレイリスト</string>
 <string name="music_ui_radio">無線</string>
 <string name="music_ui_music_video">ミュージックビデオ</string>
+<string name="music_video_minimize">最小化</string>
 <string name="music_ui_lyric_sweep">リリックスイープ</string>
 <string name="music_ui_start_party">スタートパーティー</string>
 <string name="music_ui_qr">QR</string>

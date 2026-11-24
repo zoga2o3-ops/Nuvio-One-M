@@ -1,7 +1,12 @@
 package com.nuvio.app.music
 
 import android.graphics.Color as AndroidColor
+import android.content.Context
+import android.view.LayoutInflater
 import androidx.activity.compose.BackHandler
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -26,10 +31,13 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Forward10
+import androidx.compose.material.icons.filled.Fullscreen
 import androidx.compose.material.icons.filled.Headphones
 import androidx.compose.material.icons.filled.Lyrics
 import androidx.compose.material.icons.filled.Pause
+import androidx.compose.material.icons.filled.PictureInPictureAlt
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.QueueMusic
 import androidx.compose.material.icons.filled.Repeat
@@ -58,6 +66,8 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.input.pointer.PointerEventPass
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.text.font.FontWeight
@@ -82,6 +92,7 @@ import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.exoplayer.trackselection.DefaultTrackSelector
 import androidx.media3.ui.AspectRatioFrameLayout
 import androidx.media3.ui.PlayerView
+import com.nuvio.app.R
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import com.nuvio.app.music.engine.data.model.Song
@@ -105,10 +116,15 @@ import org.jetbrains.compose.resources.getString
 internal fun MusicVideoPlayerScreen(
     video: Song,
     startPositionMs: Long,
+    minimized: Boolean = false,
+    onMinimize: (videoPositionMs: Long) -> Unit = {},
+    onExpand: (videoPositionMs: Long) -> Unit = {},
     onClose: (videoPositionMs: Long) -> Unit,
     onSkip: (direction: Int) -> Unit = {},
     onSelectQueue: (index: Int) -> Unit = {},
-    onEnded: () -> Unit = {}
+    onEnded: () -> Unit = {},
+    pipGestureModifier: Modifier = Modifier,
+    modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
     val view = LocalView.current
@@ -127,9 +143,48 @@ internal fun MusicVideoPlayerScreen(
     var advanceHandled by remember(video.videoId) { mutableStateOf(false) }
     var showQueue by remember { mutableStateOf(false) }
     var showLyrics by remember { mutableStateOf(false) }
+    var controlsVisible by remember { mutableStateOf(true) }
+    var controlsTick by remember { mutableStateOf(0) }
     val playFocus = remember { FocusRequester() }
 
-    BackHandler {
+    LaunchedEffect(video.videoId, minimized, isPlaying) {
+        MusicVideoHost.publish(
+            MusicVideoHost.State(
+                active = true,
+                minimized = minimized,
+                video = video,
+                isPlaying = isPlaying,
+                positionMs = positionMs,
+                durationMs = durationMs,
+            )
+        )
+    }
+
+    DisposableEffect(player, minimized) {
+        MusicVideoHost.onTogglePlay = {
+            player?.let {
+                when {
+                    it.playbackState == Player.STATE_ENDED -> {
+                        it.seekTo(0L)
+                        it.play()
+                    }
+                    it.isPlaying -> it.pause()
+                    else -> it.play()
+                }
+            }
+        }
+        MusicVideoHost.onNext = { onSkip(1) }
+        MusicVideoHost.onPrevious = { onSkip(-1) }
+        MusicVideoHost.onOpen = {
+            if (minimized) onExpand(player?.currentPosition ?: positionMs)
+        }
+        MusicVideoHost.onClose = {
+            onClose(player?.currentPosition ?: positionMs)
+        }
+        onDispose { }
+    }
+
+    BackHandler(enabled = !minimized) {
         when {
             showQueue -> showQueue = false
             showLyrics -> showLyrics = false
@@ -259,8 +314,52 @@ internal fun MusicVideoPlayerScreen(
     }
 
     LaunchedEffect(Unit) {
+        if (minimized) return@LaunchedEffect
         withFrameNanos { }
         runCatching { playFocus.requestFocus() }
+    }
+
+    // Controls fade away while the video plays; any touch brings them back.
+    LaunchedEffect(controlsVisible, controlsTick, isPlaying, loading, error, showQueue, showLyrics, minimized) {
+        if (minimized || !controlsVisible || showQueue || showLyrics || loading || error != null ||
+            !isPlaying
+        ) {
+            return@LaunchedEffect
+        }
+        delay(3_000L)
+        controlsVisible = false
+    }
+
+    LaunchedEffect(minimized) {
+        if (!minimized) controlsVisible = true
+    }
+
+    if (minimized) {
+        MiniVideoPlayerSurface(
+            modifier = modifier,
+            player = player,
+            title = video.title,
+            artist = video.artist,
+            loading = loading,
+            error = error,
+            isPlaying = isPlaying,
+            onTogglePlay = {
+                player?.let {
+                    when {
+                        it.playbackState == Player.STATE_ENDED -> {
+                            it.seekTo(0L)
+                            it.play()
+                        }
+                        it.isPlaying -> it.pause()
+                        else -> it.play()
+                    }
+                }
+            },
+            onExpand = { onExpand(positionMs) },
+            onClose = { onClose(positionMs) },
+            pipGestureModifier = pipGestureModifier,
+        )
+        return
     }
 
     Box(
@@ -268,18 +367,19 @@ internal fun MusicVideoPlayerScreen(
             .fillMaxSize()
             .background(Color.Black)
             .windowInsetsPadding(WindowInsets.safeDrawing)
+            .pointerInput(Unit) {
+                awaitPointerEventScope {
+                    while (true) {
+                        awaitPointerEvent(PointerEventPass.Initial)
+                        controlsVisible = true
+                        controlsTick++
+                    }
+                }
+            }
     ) {
         player?.let { exo ->
             AndroidView(
-                factory = { ctx ->
-                    PlayerView(ctx).apply {
-                        useController = false
-                        resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FIT
-                        setShutterBackgroundColor(AndroidColor.TRANSPARENT)
-                        setShowBuffering(PlayerView.SHOW_BUFFERING_NEVER)
-                        this.player = exo
-                    }
-                },
+                factory = { ctx -> musicVideoPlayerView(ctx, exo) },
                 update = { it.player = exo },
                 modifier = Modifier.fillMaxSize()
             )
@@ -308,6 +408,7 @@ internal fun MusicVideoPlayerScreen(
                 )
         )
 
+        AnimatedVisibility(visible = controlsVisible, enter = fadeIn(), exit = fadeOut()) {
         Row(
             Modifier
                 .fillMaxWidth()
@@ -347,6 +448,12 @@ internal fun MusicVideoPlayerScreen(
                     overflow = TextOverflow.Ellipsis
                 )
             }
+            VideoCircleButton(
+                icon = Icons.Default.PictureInPictureAlt,
+                label = stringResource(Res.string.music_video_minimize),
+                onClick = { onMinimize(positionMs) }
+            )
+        }
         }
 
         if (loading) {
@@ -389,9 +496,14 @@ internal fun MusicVideoPlayerScreen(
             }
         }
 
+        AnimatedVisibility(
+            visible = controlsVisible,
+            enter = fadeIn(),
+            exit = fadeOut(),
+            modifier = Modifier.align(Alignment.BottomCenter)
+        ) {
         BoxWithConstraints(
             Modifier
-                .align(Alignment.BottomCenter)
                 .fillMaxWidth()
         ) {
             val compact = maxWidth < 600.dp
@@ -585,6 +697,7 @@ internal fun MusicVideoPlayerScreen(
                 )
             }
         }
+        }
 
         if (showQueue) {
             BoxWithConstraints(
@@ -681,6 +794,165 @@ internal fun MusicVideoPlayerScreen(
                 }
             }
         }
+    }
+}
+
+@androidx.annotation.OptIn(UnstableApi::class)
+private fun musicVideoPlayerView(context: Context, player: ExoPlayer): PlayerView =
+    (LayoutInflater.from(context).inflate(R.layout.view_music_video_player, null) as PlayerView).apply {
+        setShutterBackgroundColor(AndroidColor.TRANSPARENT)
+        this.player = player
+    }
+
+@Composable
+private fun MiniVideoPlayerSurface(
+    modifier: Modifier,
+    player: ExoPlayer?,
+    title: String,
+    artist: String,
+    loading: Boolean,
+    error: String?,
+    isPlaying: Boolean,
+    onTogglePlay: () -> Unit,
+    onExpand: () -> Unit,
+    onClose: () -> Unit,
+    pipGestureModifier: Modifier = Modifier,
+) {
+    Box(modifier.background(Color.Black)) {
+        player?.let { exo ->
+            AndroidView(
+                factory = { ctx -> musicVideoPlayerView(ctx, exo) },
+                update = { it.player = exo },
+                modifier = Modifier.fillMaxSize()
+            )
+        }
+
+        // The whole mini surface is the move/resize gesture area; the buttons above it keep
+        // their own taps.
+        Box(Modifier.matchParentSize().then(pipGestureModifier))
+
+        Row(
+            Modifier
+                .align(Alignment.TopStart)
+                .fillMaxWidth()
+                .background(
+                    Brush.verticalGradient(
+                        listOf(Color.Black.copy(alpha = 0.72f), Color.Transparent)
+                    )
+                )
+                .padding(horizontal = 9.dp, vertical = 6.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Column(Modifier.weight(1f)) {
+                Text(
+                    text = title,
+                    color = Color.White,
+                    fontSize = 10.sp,
+                    fontWeight = FontWeight.Bold,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+                Text(
+                    text = artist,
+                    color = Color.White.copy(alpha = 0.6f),
+                    fontSize = 8.sp,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
+            Text(
+                text = "\u2261",
+                color = Color.White.copy(alpha = 0.7f),
+                fontSize = 14.sp,
+                modifier = Modifier.padding(start = 6.dp)
+            )
+        }
+
+        if (loading) {
+            CircularProgressIndicator(
+                color = MusicPalette.accent,
+                strokeWidth = 2.dp,
+                modifier = Modifier.align(Alignment.Center).size(22.dp)
+            )
+        }
+
+        error?.let {
+            Text(
+                text = stringResource(Res.string.music_ui_this_music_video_couldn_t_be_played),
+                color = Color.White,
+                fontSize = 10.sp,
+                modifier = Modifier
+                    .align(Alignment.Center)
+                    .background(Color.Black.copy(alpha = 0.72f))
+                    .padding(horizontal = 10.dp, vertical = 6.dp)
+            )
+        }
+
+        Row(
+            Modifier
+                .align(Alignment.BottomCenter)
+                .fillMaxWidth()
+                .background(
+                    Brush.verticalGradient(
+                        listOf(Color.Transparent, Color.Black.copy(alpha = 0.78f))
+                    )
+                )
+                .padding(vertical = 6.dp),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            MiniVideoButton(
+                icon = if (isPlaying) Icons.Default.Pause else Icons.Default.PlayArrow,
+                label = if (isPlaying) stringResource(Res.string.compose_action_pause)
+                else stringResource(Res.string.action_play),
+                onClick = onTogglePlay
+            )
+            Spacer(Modifier.width(6.dp))
+            MiniVideoButton(
+                icon = Icons.Default.Fullscreen,
+                label = stringResource(Res.string.action_expand),
+                onClick = onExpand
+            )
+            Spacer(Modifier.width(6.dp))
+            MiniVideoButton(
+                icon = Icons.Default.Close,
+                label = stringResource(Res.string.music_ui_close),
+                onClick = onClose
+            )
+        }
+
+        Text(
+            text = "\u25E2",
+            color = Color.White.copy(alpha = 0.55f),
+            fontSize = 13.sp,
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .padding(4.dp)
+        )
+    }
+}
+
+@Composable
+private fun MiniVideoButton(
+    icon: ImageVector,
+    label: String,
+    onClick: () -> Unit
+) {
+    Box(
+        Modifier
+            .size(38.dp)
+            .clip(CircleShape)
+            .background(Color.White.copy(alpha = 0.18f))
+            .border(1.dp, Color.White.copy(alpha = 0.26f), CircleShape)
+            .clickable(onClick = onClick),
+        contentAlignment = Alignment.Center
+    ) {
+        Icon(
+            icon,
+            contentDescription = label,
+            tint = Color.White,
+            modifier = Modifier.size(18.dp)
+        )
     }
 }
 

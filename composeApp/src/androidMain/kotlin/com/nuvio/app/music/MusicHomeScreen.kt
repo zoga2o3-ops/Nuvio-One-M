@@ -49,32 +49,50 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import com.nuvio.app.music.engine.data.model.HomeShelf
 import com.nuvio.app.music.engine.data.model.ShelfItem
+import com.nuvio.app.music.engine.data.model.ShelfLayout
+import com.nuvio.app.music.engine.data.model.Song
 import nuvio.composeapp.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
 internal fun MusicHomeScreen(
     state: MusicHomeState,
+    recentSongs: List<Song> = emptyList(),
+    localPlaylists: List<StoredPlaylist> = emptyList(),
+    gemini: MusicGeminiUiState = MusicGeminiUiState(),
+    homeRows: MusicHomeRowConfig = MusicHomeRowConfig(),
     onShelfItemClick: (HomeShelf, Int) -> Unit,
     onPlayShelfItem: (HomeShelf, Int) -> Unit,
+    onPlayCurated: (List<Song>, Int) -> Unit = { _, _ -> },
+    onOpenLocalPlaylist: (StoredPlaylist) -> Unit = {},
+    onOpenGeminiAlbum: (GeminiAlbum) -> Unit = {},
     onHeroDetails: (ShelfItem) -> Unit,
     onLoadMore: () -> Unit,
     onRetry: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val hasPersonal = recentSongs.isNotEmpty() || localPlaylists.isNotEmpty() ||
+        (gemini.enabled && (gemini.tracks.isNotEmpty() || gemini.albums.isNotEmpty()))
     when {
-        state.loading && state.shelves.isEmpty() -> MusicLoading(modifier.fillMaxSize())
-        state.error != null && state.shelves.isEmpty() ->
+        state.loading && state.shelves.isEmpty() && !hasPersonal -> MusicLoading(modifier.fillMaxSize())
+        state.error != null && state.shelves.isEmpty() && !hasPersonal ->
             MusicErrorState(state.error, onRetry, modifier)
-        state.shelves.isEmpty() -> MusicEmptyState(
+        state.shelves.isEmpty() && !hasPersonal -> MusicEmptyState(
             title = stringResource(Res.string.music_ui_no_music_yet),
             message = stringResource(Res.string.music_ui_the_music_service_didn_t_send_anything_back_check_the_connec),
             modifier = modifier
         )
         else -> MusicHomeFeed(
             state = state,
+            recentSongs = recentSongs,
+            localPlaylists = localPlaylists,
+            gemini = gemini,
+            homeRows = homeRows,
             onShelfItemClick = onShelfItemClick,
             onPlayShelfItem = onPlayShelfItem,
+            onPlayCurated = onPlayCurated,
+            onOpenLocalPlaylist = onOpenLocalPlaylist,
+            onOpenGeminiAlbum = onOpenGeminiAlbum,
             onHeroDetails = onHeroDetails,
             onLoadMore = onLoadMore,
             modifier = modifier
@@ -85,8 +103,15 @@ internal fun MusicHomeScreen(
 @Composable
 private fun MusicHomeFeed(
     state: MusicHomeState,
+    recentSongs: List<Song>,
+    localPlaylists: List<StoredPlaylist>,
+    gemini: MusicGeminiUiState,
+    homeRows: MusicHomeRowConfig,
     onShelfItemClick: (HomeShelf, Int) -> Unit,
     onPlayShelfItem: (HomeShelf, Int) -> Unit,
+    onPlayCurated: (List<Song>, Int) -> Unit,
+    onOpenLocalPlaylist: (StoredPlaylist) -> Unit,
+    onOpenGeminiAlbum: (GeminiAlbum) -> Unit,
     onHeroDetails: (ShelfItem) -> Unit,
     onLoadMore: () -> Unit,
     modifier: Modifier = Modifier
@@ -128,6 +153,109 @@ private fun MusicHomeFeed(
                         if (heroItem.videoId != null) onPlayShelfItem(heroShelf, 0)
                         else onShelfItemClick(heroShelf, 0)
                     }
+                )
+            }
+        }
+        homeRows.visibleRows().forEach { row ->
+            when (row) {
+                MusicHomeRow.RECENTS -> if (recentSongs.isNotEmpty()) {
+            item(key = "personal-recents") {
+                MusicShelfRow(
+                    shelf = HomeShelf(
+                        title = "Jump back in",
+                        items = recentSongs.map {
+                            ShelfItem(
+                                title = it.title,
+                                subtitle = it.artist,
+                                thumbnailUrl = it.thumbnailUrl,
+                                videoId = it.videoId,
+                                browseId = null,
+                                isVideo = it.isVideo
+                            )
+                        },
+                        layout = ShelfLayout.LIST
+                    ),
+                    compact = compact,
+                    onItemClick = { _, index -> onPlayCurated(recentSongs, index) }
+                )
+            }
+        }
+                MusicHomeRow.PLAYLISTS -> if (localPlaylists.isNotEmpty()) {
+            item(key = "personal-playlists") {
+                MusicShelfRow(
+                    shelf = HomeShelf(
+                        title = "Your playlists",
+                        items = localPlaylists.map { playlist ->
+                            ShelfItem(
+                                title = playlist.name,
+                                subtitle = "${playlist.songs.size} tracks",
+                                thumbnailUrl = playlist.songs.firstOrNull()?.thumbnailUrl,
+                                videoId = null,
+                                browseId = playlist.id
+                            )
+                        }
+                    ),
+                    compact = compact,
+                    onItemClick = { _, index ->
+                        localPlaylists.getOrNull(index)?.let(onOpenLocalPlaylist)
+                    }
+                )
+            }
+        }
+                MusicHomeRow.GEMINI_TRACKS -> if (gemini.enabled && gemini.tracks.isNotEmpty()) {
+            item(key = "gemini-tracks") {
+                MusicShelfRow(
+                    shelf = HomeShelf(
+                        title = "Gemini picks",
+                        subtitle = "Checked against YouTube Music",
+                        items = gemini.tracks.map {
+                            ShelfItem(
+                                title = it.title,
+                                subtitle = it.artist,
+                                thumbnailUrl = it.thumbnailUrl,
+                                videoId = it.videoId,
+                                browseId = null,
+                                isVideo = it.isVideo
+                            )
+                        },
+                        layout = ShelfLayout.LIST
+                    ),
+                    compact = compact,
+                    onItemClick = { _, index -> onPlayCurated(gemini.tracks, index) }
+                )
+            }
+        }
+                MusicHomeRow.GEMINI_ALBUMS -> if (gemini.enabled && gemini.albums.isNotEmpty()) {
+            item(key = "gemini-albums") {
+                MusicShelfRow(
+                    shelf = HomeShelf(
+                        title = "Albums for you",
+                        items = gemini.albums.map { album ->
+                            ShelfItem(
+                                title = album.name,
+                                subtitle = album.artist,
+                                thumbnailUrl = album.artworkUrl,
+                                videoId = null,
+                                browseId = album.id
+                            )
+                        }
+                    ),
+                    compact = compact,
+                    onItemClick = { _, index ->
+                        gemini.albums.getOrNull(index)?.let(onOpenGeminiAlbum)
+                    }
+                )
+            }
+        }
+            }
+        }
+        if (gemini.generating) {
+            item(key = "gemini-building") {
+                Text(
+                    text = "Gemini is putting suggestions together…",
+                    color = MusicPalette.textMuted,
+                    fontSize = 11.sp,
+                    modifier = Modifier.padding(horizontal = 26.dp)
                 )
             }
         }

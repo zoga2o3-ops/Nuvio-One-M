@@ -3360,6 +3360,7 @@
 <string name="music_ui_playlist">Danh sách phát</string>
 <string name="music_ui_radio">Radio</string>
 <string name="music_ui_music_video">Video ca nhạc</string>
+<string name="music_video_minimize">Thu nhỏ</string>
 <string name="music_ui_lyric_sweep">quét lời bài hát</string>
 <string name="music_ui_start_party">Bắt đầu bữa tiệc</string>
 <string name="music_ui_qr">QR</string>

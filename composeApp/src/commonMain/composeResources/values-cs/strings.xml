@@ -3285,6 +3285,7 @@
 <string name="music_ui_playlist">Seznam skladeb</string>
 <string name="music_ui_radio">Rádio</string>
 <string name="music_ui_music_video">Hudební video</string>
+<string name="music_video_minimize">Minimalizovat</string>
 <string name="music_ui_lyric_sweep">lyric-sweep</string>
 <string name="music_ui_start_party">Zahájit párty</string>
 <string name="music_ui_qr">QR</string>

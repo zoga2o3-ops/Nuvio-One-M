@@ -3317,6 +3317,7 @@ Bu özelliği tamamen kendi sorumluluğunuzda kullanırsınız. P2P istediğiniz
 <string name="music_ui_playlist">Çalma listesi</string>
 <string name="music_ui_radio">Radyo</string>
 <string name="music_ui_music_video">Müzik videosu</string>
+<string name="music_video_minimize">Küçült</string>
 <string name="music_ui_lyric_sweep">şarkı sözü taraması</string>
 <string name="music_ui_start_party">Partiyi başlat</string>
 <string name="music_ui_qr">QR</string>
