@@ -4026,6 +4026,11 @@
 <string name="live_tv_ui_group_tags_selected">%1$d tags selected</string>
 <string name="live_tv_ui_group_tags_scan">Quét thẻ</string>
 <string name="live_tv_ui_group_tags_scanning">Đang quét…</string>
+<string name="live_tv_ui_group_tags_scan_countries">Quét quốc gia</string>
+<string name="live_tv_ui_group_tags_scan_countries_again">Quét lại quốc gia</string>
+<string name="live_tv_ui_group_tags_countries_only">Chỉ quốc gia</string>
+<string name="live_tv_ui_group_tags_countries_only_desc">Liệt kê thẻ quốc gia từ tên nhóm thay vì mọi từ. Tắt để quét tất cả thẻ.</string>
+<string name="live_tv_ui_group_tags_empty_countries">Không tìm thấy thẻ quốc gia nào trong tên nhóm của bạn. Tắt Chỉ quốc gia để quét tất cả thẻ.</string>
 <string name="live_tv_ui_group_tags_scan_again">Quét lại</string>
 <string name="live_tv_ui_group_tags_no_channels">Trước tiên, hãy tải danh sách phát của bạn.</string>
 <string name="live_tv_ui_group_tags_empty">Không tìm thấy thẻ hữu ích nào.</string>

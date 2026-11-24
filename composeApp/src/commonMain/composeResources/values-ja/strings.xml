@@ -4008,6 +4008,11 @@
 <string name="live_tv_ui_group_tags_selected">%1$d 件選択</string>
 <string name="live_tv_ui_group_tags_scan">タグをスキャンする</string>
 <string name="live_tv_ui_group_tags_scanning">スキャン中</string>
+<string name="live_tv_ui_group_tags_scan_countries">国をスキャン</string>
+<string name="live_tv_ui_group_tags_scan_countries_again">国をもう一度スキャン</string>
+<string name="live_tv_ui_group_tags_countries_only">国のみ</string>
+<string name="live_tv_ui_group_tags_countries_only_desc">すべての単語ではなく、グループ名から国のタグを一覧表示します。オフにするとすべてのタグをスキャンします。</string>
+<string name="live_tv_ui_group_tags_empty_countries">グループ名に国のタグが見つかりません。すべてのタグをスキャンするには「国のみ」をオフにしてください。</string>
 <string name="live_tv_ui_group_tags_scan_again">もう一度スキャン</string>
 <string name="live_tv_ui_group_tags_no_channels">最初にプレイリストを読み込んでください。</string>
 <string name="live_tv_ui_group_tags_empty">有用なタグが見つかりません。</string>

@@ -3976,6 +3976,11 @@ Du bruker denne funksjonen helt på eget ansvar. P2P kan deaktiveres når som he
 <string name="live_tv_ui_group_tags_selected">%1$d valgt</string>
 <string name="live_tv_ui_group_tags_scan">Skann tagger</string>
 <string name="live_tv_ui_group_tags_scanning">Skanner&amp;#160;…</string>
+<string name="live_tv_ui_group_tags_scan_countries">Skann land</string>
+<string name="live_tv_ui_group_tags_scan_countries_again">Skann land på nytt</string>
+<string name="live_tv_ui_group_tags_countries_only">Bare land</string>
+<string name="live_tv_ui_group_tags_countries_only_desc">Viser landstagger fra gruppenavn i stedet for alle ord. Slå av for å skanne alle tagger.</string>
+<string name="live_tv_ui_group_tags_empty_countries">Fant ingen landstagger i gruppenavnene dine. Slå av Bare land for å skanne alle tagger.</string>
 <string name="live_tv_ui_group_tags_scan_again">Skann på nytt</string>
 <string name="live_tv_ui_group_tags_no_channels">Last inn spillelistene dine først.</string>
 <string name="live_tv_ui_group_tags_empty">Ingen nyttige stikkord funnet.</string>

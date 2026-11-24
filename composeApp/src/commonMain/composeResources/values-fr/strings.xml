@@ -4076,6 +4076,11 @@
     <string name="live_tv_ui_group_tags_selected">%1$d tags selected</string>
     <string name="live_tv_ui_group_tags_scan">Scanner les étiquettes</string>
     <string name="live_tv_ui_group_tags_scanning">Numérisation...</string>
+    <string name="live_tv_ui_group_tags_scan_countries">Analyser les pays</string>
+    <string name="live_tv_ui_group_tags_scan_countries_again">Analyser à nouveau les pays</string>
+    <string name="live_tv_ui_group_tags_countries_only">Pays uniquement</string>
+    <string name="live_tv_ui_group_tags_countries_only_desc">Affiche les tags de pays à partir des noms de groupes au lieu de chaque mot. Désactivez pour analyser tous les tags.</string>
+    <string name="live_tv_ui_group_tags_empty_countries">Aucun tag de pays trouvé dans les noms de vos groupes. Désactivez Pays uniquement pour analyser tous les tags.</string>
     <string name="live_tv_ui_group_tags_scan_again">Analyser à nouveau le site Web</string>
     <string name="live_tv_ui_group_tags_no_channels">Chargez d'abord vos playlists.</string>
     <string name="live_tv_ui_group_tags_empty">Aucun tag utile trouvé.</string>

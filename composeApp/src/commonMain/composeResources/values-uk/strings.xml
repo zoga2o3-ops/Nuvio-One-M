@@ -2651,7 +2651,12 @@
     <string name="live_tv_ui_use_https_description">Для провайдерів, які надають адресу https://.</string>
 <string name="live_tv_ui_move">Перемістити</string>
 <string name="live_tv_ui_hold_and_drag_to_reorder">Утримуйте й перетягніть, щоб змінити порядок</string>
-<string name="live_tv_ui_show_or_hide_groups">Показати або приховати групи</string>
+<string name="live_tv_ui_group_tags_scan_countries">Сканувати країни</string>
+    <string name="live_tv_ui_group_tags_scan_countries_again">Сканувати країни знову</string>
+    <string name="live_tv_ui_group_tags_countries_only">Лише країни</string>
+    <string name="live_tv_ui_group_tags_countries_only_desc">Показувати теги країн з назв груп, а не кожне слово. Вимкніть, щоб сканувати всі теги.</string>
+    <string name="live_tv_ui_group_tags_empty_countries">У назвах груп не знайдено тегів країн. Вимкніть «Лише країни», щоб сканувати всі теги.</string>
+    <string name="live_tv_ui_show_or_hide_groups">Показати або приховати групи</string>
     <string name="live_tv_ui_show_or_hide_groups_description">Оберіть, які групи показувати у списку каналів і в меню груп.</string>
     <string name="live_tv_ui_hide_all_groups">Приховати всі</string>
     <string name="live_tv_ui_show_all_groups">Показати всі</string>

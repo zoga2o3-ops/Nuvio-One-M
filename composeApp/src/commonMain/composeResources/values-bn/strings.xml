@@ -4009,6 +4009,11 @@
 <string name="live_tv_ui_group_tags_selected">%1$dটি ট্যাগ বেছে নেওয়া হয়েছে</string>
 <string name="live_tv_ui_group_tags_scan">ট্যাগ স্ক্যান করুন</string>
 <string name="live_tv_ui_group_tags_scanning">স্ক্যান করা হচ্ছে...</string>
+<string name="live_tv_ui_group_tags_scan_countries">দেশ স্ক্যান করুন</string>
+<string name="live_tv_ui_group_tags_scan_countries_again">আবার দেশ স্ক্যান করুন</string>
+<string name="live_tv_ui_group_tags_countries_only">শুধু দেশ</string>
+<string name="live_tv_ui_group_tags_countries_only_desc">প্রতিটি শব্দের বদলে গ্রুপের নাম থেকে দেশের ট্যাগ দেখায়। সব ট্যাগ স্ক্যান করতে বন্ধ করুন।</string>
+<string name="live_tv_ui_group_tags_empty_countries">আপনার গ্রুপের নামে কোনো দেশের ট্যাগ পাওয়া যায়নি। সব ট্যাগ স্ক্যান করতে শুধু দেশ বন্ধ করুন।</string>
 <string name="live_tv_ui_group_tags_scan_again">আবার স্ক্যান করুন</string>
 <string name="live_tv_ui_group_tags_no_channels">প্রথমে আপনার প্লেলিস্ট লোড করুন।</string>
 <string name="live_tv_ui_group_tags_empty">কোনও কার্যকর ট্যাগ পাওয়া যায়নি।</string>

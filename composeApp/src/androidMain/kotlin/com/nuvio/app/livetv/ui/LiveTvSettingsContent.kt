@@ -521,10 +521,12 @@ fun LiveTvSettingsContent() {
             selected = user.groupTagFilters,
             scanning = scanningTags,
             channelCount = allChannels.size,
-            onScan = {
+            onScan = { countriesOnly ->
                 scope.launch {
                     scanningTags = true
-                    groupTags = withContext(Dispatchers.Default) { LiveTvGroupTags.scan(allChannels) }
+                    groupTags = withContext(Dispatchers.Default) {
+                        LiveTvGroupTags.scan(allChannels, countriesOnly = countriesOnly)
+                    }
                     scanningTags = false
                 }
             },
@@ -1039,11 +1041,12 @@ private fun GroupTagsDialog(
     selected: Set<String>,
     scanning: Boolean,
     channelCount: Int,
-    onScan: () -> Unit,
+    onScan: (Boolean) -> Unit,
     onToggle: (String, Boolean) -> Unit,
     onClear: () -> Unit,
     onDismiss: () -> Unit,
 ) {
+    var countriesOnly by remember { mutableStateOf(true) }
     AlertDialog(
         onDismissRequest = onDismiss,
         title = { Text(stringResource(Res.string.live_tv_ui_filter_by_group_tag)) },
@@ -1054,11 +1057,36 @@ private fun GroupTagsDialog(
                     style = MaterialTheme.typography.bodySmall,
                     color = LocalContentColor.current.copy(alpha = 0.7f),
                 )
-                TextButton(onClick = onScan, enabled = !scanning && channelCount > 0) {
+                Row(
+                    Modifier.fillMaxWidth().padding(vertical = 4.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Column(Modifier.weight(1f)) {
+                        Text(
+                            stringResource(Res.string.live_tv_ui_group_tags_countries_only),
+                            style = MaterialTheme.typography.bodyLarge,
+                        )
+                        Text(
+                            stringResource(Res.string.live_tv_ui_group_tags_countries_only_desc),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = LocalContentColor.current.copy(alpha = 0.7f),
+                        )
+                    }
+                    Switch(
+                        checked = countriesOnly,
+                        onCheckedChange = {
+                            countriesOnly = it
+                            onScan(it)
+                        },
+                    )
+                }
+                TextButton(onClick = { onScan(countriesOnly) }, enabled = !scanning && channelCount > 0) {
                     Text(
                         when {
                             scanning -> stringResource(Res.string.live_tv_ui_group_tags_scanning)
+                            tags.isEmpty() && countriesOnly -> stringResource(Res.string.live_tv_ui_group_tags_scan_countries)
                             tags.isEmpty() -> stringResource(Res.string.live_tv_ui_group_tags_scan)
+                            countriesOnly -> stringResource(Res.string.live_tv_ui_group_tags_scan_countries_again)
                             else -> stringResource(Res.string.live_tv_ui_group_tags_scan_again)
                         },
                     )
@@ -1091,7 +1119,10 @@ private fun GroupTagsDialog(
                     }
                 } else if (!scanning) {
                     Text(
-                        stringResource(Res.string.live_tv_ui_group_tags_empty),
+                        stringResource(
+                            if (countriesOnly) Res.string.live_tv_ui_group_tags_empty_countries
+                            else Res.string.live_tv_ui_group_tags_empty,
+                        ),
                         style = MaterialTheme.typography.bodySmall,
                         color = LocalContentColor.current.copy(alpha = 0.7f),
                     )

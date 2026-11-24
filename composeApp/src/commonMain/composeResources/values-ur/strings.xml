@@ -3968,6 +3968,11 @@
 <string name="live_tv_ui_group_tags_selected">%1$d ٹیگز منتخب کیے گئے</string>
 <string name="live_tv_ui_group_tags_scan">ٹیگز اسکین کریں</string>
 <string name="live_tv_ui_group_tags_scanning">سکین کر رہا ہے</string>
+<string name="live_tv_ui_group_tags_scan_countries">ممالک اسکین کریں</string>
+<string name="live_tv_ui_group_tags_scan_countries_again">ممالک دوبارہ اسکین کریں</string>
+<string name="live_tv_ui_group_tags_countries_only">صرف ممالک</string>
+<string name="live_tv_ui_group_tags_countries_only_desc">ہر لفظ کے بجائے گروپ کے ناموں سے ملک کے ٹیگز دکھائیں۔ تمام ٹیگز اسکین کرنے کے لیے بند کریں۔</string>
+<string name="live_tv_ui_group_tags_empty_countries">آپ کے گروپ کے ناموں میں ملک کے ٹیگز نہیں ملے۔ تمام ٹیگز اسکین کرنے کے لیے صرف ممالک بند کریں۔</string>
 <string name="live_tv_ui_group_tags_scan_again">دوبارہ اسکین کریں</string>
 <string name="live_tv_ui_group_tags_no_channels">پہلے اپنی پلے لسٹس لوڈ کریں۔</string>
 <string name="live_tv_ui_group_tags_empty">کوئی مفید ٹیگز نہیں ملے۔</string>

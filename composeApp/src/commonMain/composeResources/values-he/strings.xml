@@ -4018,6 +4018,11 @@
 <string name="live_tv_ui_group_tags_selected">נבחרו %1$d תגיות</string>
 <string name="live_tv_ui_group_tags_scan">סריקת תגים</string>
 <string name="live_tv_ui_group_tags_scanning">בהליכי סריקה…</string>
+<string name="live_tv_ui_group_tags_scan_countries">סריקת מדינות</string>
+<string name="live_tv_ui_group_tags_scan_countries_again">סריקה חוזרת של מדינות</string>
+<string name="live_tv_ui_group_tags_countries_only">מדינות בלבד</string>
+<string name="live_tv_ui_group_tags_countries_only_desc">מציג תגיות של מדינות משמות הקבוצות במקום כל מילה. כבו כדי לסרוק את כל התגיות.</string>
+<string name="live_tv_ui_group_tags_empty_countries">לא נמצאו תגיות של מדינות בשמות הקבוצות שלכם. כבו את „מדינות בלבד“ כדי לסרוק את כל התגיות.</string>
 <string name="live_tv_ui_group_tags_scan_again">סריקה חוזרת</string>
 <string name="live_tv_ui_group_tags_no_channels">יש לטעון תחילה את רשימות ההשמעה שלכם.</string>
 <string name="live_tv_ui_group_tags_empty">לא נמצאו תגיות שימושיות.</string>

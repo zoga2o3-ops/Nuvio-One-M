@@ -4077,6 +4077,11 @@
     <string name="live_tv_ui_group_tags_selected">Избрани са %1$d етикета</string>
     <string name="live_tv_ui_group_tags_scan">Сканиране на етикети</string>
     <string name="live_tv_ui_group_tags_scanning">Сканиране...</string>
+    <string name="live_tv_ui_group_tags_scan_countries">Сканиране на държави</string>
+    <string name="live_tv_ui_group_tags_scan_countries_again">Сканиране на държави отново</string>
+    <string name="live_tv_ui_group_tags_countries_only">Само държави</string>
+    <string name="live_tv_ui_group_tags_countries_only_desc">Показва етикети на държави от имената на групите вместо всяка дума. Изключете, за да сканирате всички етикети.</string>
+    <string name="live_tv_ui_group_tags_empty_countries">Няма намерени етикети на държави в имената на групите. Изключете „Само държави“, за да сканирате всички етикети.</string>
     <string name="live_tv_ui_group_tags_scan_again">Сканиране отново</string>
     <string name="live_tv_ui_group_tags_no_channels">Първо заредете плейлистите си.</string>
     <string name="live_tv_ui_group_tags_empty">Не са намерени полезни етикети.</string>

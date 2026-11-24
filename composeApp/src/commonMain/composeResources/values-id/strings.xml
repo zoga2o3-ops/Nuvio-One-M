@@ -3981,6 +3981,11 @@
     <string name="live_tv_ui_group_tags_selected">%1$d tags selected</string>
     <string name="live_tv_ui_group_tags_scan">Pindai tag</string>
     <string name="live_tv_ui_group_tags_scanning">Memindai…</string>
+    <string name="live_tv_ui_group_tags_scan_countries">Pindai negara</string>
+    <string name="live_tv_ui_group_tags_scan_countries_again">Pindai negara lagi</string>
+    <string name="live_tv_ui_group_tags_countries_only">Hanya negara</string>
+    <string name="live_tv_ui_group_tags_countries_only_desc">Menampilkan tag negara dari nama grup, bukan setiap kata. Matikan untuk memindai semua tag.</string>
+    <string name="live_tv_ui_group_tags_empty_countries">Tidak ada tag negara yang ditemukan di nama grup Anda. Matikan Hanya negara untuk memindai semua tag.</string>
     <string name="live_tv_ui_group_tags_scan_again">Pindai lagi</string>
     <string name="live_tv_ui_group_tags_no_channels">Muat daftar putar Anda terlebih dahulu.</string>
     <string name="live_tv_ui_group_tags_empty">Tidak ada tag yang berguna ditemukan.</string>

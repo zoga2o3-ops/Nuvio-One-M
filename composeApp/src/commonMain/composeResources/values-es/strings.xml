@@ -4012,6 +4012,11 @@
     <string name="live_tv_ui_group_tags_selected">%1$d tags selected</string>
     <string name="live_tv_ui_group_tags_scan">Escanear etiquetas</string>
     <string name="live_tv_ui_group_tags_scanning">Analizando…</string>
+    <string name="live_tv_ui_group_tags_scan_countries">Escanear países</string>
+    <string name="live_tv_ui_group_tags_scan_countries_again">Escanear países de nuevo</string>
+    <string name="live_tv_ui_group_tags_countries_only">Solo países</string>
+    <string name="live_tv_ui_group_tags_countries_only_desc">Muestra las etiquetas de países de los nombres de grupos en lugar de cada palabra. Desactívalo para escanear todas las etiquetas.</string>
+    <string name="live_tv_ui_group_tags_empty_countries">No se han encontrado etiquetas de países en los nombres de tus grupos. Desactiva Solo países para escanear todas las etiquetas.</string>
     <string name="live_tv_ui_group_tags_scan_again">Escanear de nuevo</string>
     <string name="live_tv_ui_group_tags_no_channels">Carga primero tus listas de reproducción.</string>
     <string name="live_tv_ui_group_tags_empty">No se han encontrado etiquetas útiles.</string>

@@ -3968,6 +3968,11 @@
 <string name="live_tv_ui_group_tags_selected">%1$d etichete selectate</string>
 <string name="live_tv_ui_group_tags_scan">Scanați etichetele</string>
 <string name="live_tv_ui_group_tags_scanning">Se scanează...</string>
+<string name="live_tv_ui_group_tags_scan_countries">Scanează țările</string>
+<string name="live_tv_ui_group_tags_scan_countries_again">Scanează din nou țările</string>
+<string name="live_tv_ui_group_tags_countries_only">Doar țările</string>
+<string name="live_tv_ui_group_tags_countries_only_desc">Afișează etichetele țărilor din numele grupurilor în loc de fiecare cuvânt. Dezactivează pentru a scana toate etichetele.</string>
+<string name="live_tv_ui_group_tags_empty_countries">Nu s-au găsit etichete de țări în numele grupurilor tale. Dezactivează Doar țările pentru a scana toate etichetele.</string>
 <string name="live_tv_ui_group_tags_scan_again">Scanează din nou</string>
 <string name="live_tv_ui_group_tags_no_channels">Încărcați mai întâi listele de redare.</string>
 <string name="live_tv_ui_group_tags_empty">Nu s-au găsit etichete utile.</string>

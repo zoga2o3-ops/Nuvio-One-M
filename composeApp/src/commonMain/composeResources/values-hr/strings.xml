@@ -3996,6 +3996,11 @@
 <string name="live_tv_ui_group_tags_selected">%1$d tags selected</string>
 <string name="live_tv_ui_group_tags_scan">Skeniraj oznake</string>
 <string name="live_tv_ui_group_tags_scanning">Pretraživanje...</string>
+<string name="live_tv_ui_group_tags_scan_countries">Skeniraj države</string>
+<string name="live_tv_ui_group_tags_scan_countries_again">Ponovno skeniraj države</string>
+<string name="live_tv_ui_group_tags_countries_only">Samo države</string>
+<string name="live_tv_ui_group_tags_countries_only_desc">Prikazuje oznake država iz naziva grupa umjesto svake riječi. Isključite za skeniranje svih oznaka.</string>
+<string name="live_tv_ui_group_tags_empty_countries">U nazivima vaših grupa nisu pronađene oznake država. Isključite Samo države za skeniranje svih oznaka.</string>
 <string name="live_tv_ui_group_tags_scan_again">Ponovno skenirajte</string>
 <string name="live_tv_ui_group_tags_no_channels">Prvo učitajte svoje popise za reprodukciju.</string>
 <string name="live_tv_ui_group_tags_empty">Nisu pronađene korisne oznake.</string>

@@ -4000,6 +4000,11 @@
 <string name="live_tv_ui_group_tags_selected">Počet vybraných značiek: %1$d</string>
 <string name="live_tv_ui_group_tags_scan">Naskenovať štítky</string>
 <string name="live_tv_ui_group_tags_scanning">Skenovanie...</string>
+<string name="live_tv_ui_group_tags_scan_countries">Skenovať krajiny</string>
+<string name="live_tv_ui_group_tags_scan_countries_again">Znova skenovať krajiny</string>
+<string name="live_tv_ui_group_tags_countries_only">Iba krajiny</string>
+<string name="live_tv_ui_group_tags_countries_only_desc">Vypíše značky krajín z názvov skupín namiesto každého slova. Vypnutím naskenujete všetky značky.</string>
+<string name="live_tv_ui_group_tags_empty_countries">V názvoch vašich skupín sa nenašli žiadne značky krajín. Vypnite Iba krajiny a naskenujte všetky značky.</string>
 <string name="live_tv_ui_group_tags_scan_again">Skenovať znova</string>
 <string name="live_tv_ui_group_tags_no_channels">Najskôr načítajte svoje zoznamy skladieb.</string>
 <string name="live_tv_ui_group_tags_empty">Nenašli sa žiadne užitočné značky.</string>

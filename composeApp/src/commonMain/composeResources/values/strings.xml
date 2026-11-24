@@ -4092,7 +4092,12 @@
 <string name="live_tv_ui_group_tags_selected">Tags selected: %1$d</string>
 <string name="live_tv_ui_group_tags_scan">Scan tags</string>
 <string name="live_tv_ui_group_tags_scanning">Scanning…</string>
-<string name="live_tv_ui_group_tags_scan_again">Scan again</string>
+<string name="live_tv_ui_group_tags_scan_countries">Scan countries</string>
+    <string name="live_tv_ui_group_tags_scan_countries_again">Scan countries again</string>
+    <string name="live_tv_ui_group_tags_countries_only">Countries only</string>
+    <string name="live_tv_ui_group_tags_countries_only_desc">List country tags from group names instead of every word. Turn off to scan all tags.</string>
+    <string name="live_tv_ui_group_tags_empty_countries">No country tags found in your group names. Turn off Countries only to scan every tag.</string>
+    <string name="live_tv_ui_group_tags_scan_again">Scan again</string>
 <string name="live_tv_ui_group_tags_no_channels">Load your playlists first.</string>
 <string name="live_tv_ui_group_tags_empty">No useful tags found.</string>
 <string name="live_tv_ui_group_tags_hint">Tags match whole words or segments. Favorites and custom groups stay visible.</string>

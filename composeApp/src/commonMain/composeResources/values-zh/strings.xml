@@ -2604,7 +2604,12 @@
     <string name="live_tv_ui_use_https_description">适用于提供 https:// 地址的服务商。</string>
 <string name="live_tv_ui_move">移动</string>
 <string name="live_tv_ui_hold_and_drag_to_reorder">长按并拖动以重新排序</string>
-<string name="live_tv_ui_show_or_hide_groups">显示或隐藏分组</string>
+<string name="live_tv_ui_group_tags_scan_countries">扫描国家</string>
+    <string name="live_tv_ui_group_tags_scan_countries_again">再次扫描国家</string>
+    <string name="live_tv_ui_group_tags_countries_only">仅国家</string>
+    <string name="live_tv_ui_group_tags_countries_only_desc">根据分组名称列出国家标签，而不是每个词。关闭可扫描所有标签。</string>
+    <string name="live_tv_ui_group_tags_empty_countries">分组名称中未找到国家标签。关闭“仅国家”可扫描所有标签。</string>
+    <string name="live_tv_ui_show_or_hide_groups">显示或隐藏分组</string>
     <string name="live_tv_ui_show_or_hide_groups_description">选择在频道列表和分组菜单中显示哪些分组。</string>
     <string name="live_tv_ui_hide_all_groups">全部隐藏</string>
     <string name="live_tv_ui_show_all_groups">全部显示</string>

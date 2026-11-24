@@ -3975,6 +3975,11 @@
 <string name="live_tv_ui_group_tags_selected">Выбрано %1$d</string>
 <string name="live_tv_ui_group_tags_scan">Сканировать метки</string>
 <string name="live_tv_ui_group_tags_scanning">Сканирование</string>
+<string name="live_tv_ui_group_tags_scan_countries">Сканировать страны</string>
+<string name="live_tv_ui_group_tags_scan_countries_again">Повторно сканировать страны</string>
+<string name="live_tv_ui_group_tags_countries_only">Только страны</string>
+<string name="live_tv_ui_group_tags_countries_only_desc">Показывает метки стран из названий групп вместо каждого слова. Выключите, чтобы сканировать все метки.</string>
+<string name="live_tv_ui_group_tags_empty_countries">В названиях ваших групп не найдено меток стран. Выключите «Только страны», чтобы сканировать все метки.</string>
 <string name="live_tv_ui_group_tags_scan_again">Повторить поиск</string>
 <string name="live_tv_ui_group_tags_no_channels">Сначала загрузите свои плейлисты.</string>
 <string name="live_tv_ui_group_tags_empty">Полезные теги не найдены.</string>

@@ -3983,6 +3983,11 @@
     <string name="live_tv_ui_group_tags_selected">%1$d ausgewählt</string>
     <string name="live_tv_ui_group_tags_scan">Tags scannen</string>
     <string name="live_tv_ui_group_tags_scanning">Scannen im Vorgang...</string>
+    <string name="live_tv_ui_group_tags_scan_countries">Länder scannen</string>
+    <string name="live_tv_ui_group_tags_scan_countries_again">Länder erneut scannen</string>
+    <string name="live_tv_ui_group_tags_countries_only">Nur Länder</string>
+    <string name="live_tv_ui_group_tags_countries_only_desc">Zeigt Tags für Länder aus Gruppennamen statt aller Wörter an. Ausschalten, um alle Tags zu scannen.</string>
+    <string name="live_tv_ui_group_tags_empty_countries">In Ihren Gruppennamen wurden keine Tags für Länder gefunden. Deaktivieren Sie „Nur Länder“, um alle Tags zu scannen.</string>
     <string name="live_tv_ui_group_tags_scan_again">Nochmals scannen</string>
     <string name="live_tv_ui_group_tags_no_channels">Laden Sie zuerst Ihre Wiedergabelisten.</string>
     <string name="live_tv_ui_group_tags_empty">Keine nützlichen Tags gefunden.</string>

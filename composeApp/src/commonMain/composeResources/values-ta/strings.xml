@@ -3976,6 +3976,11 @@
     <string name="live_tv_ui_group_tags_selected">%1$d குறிச்சொற்கள் தேர்ந்தெடுக்கப்பட்டன</string>
     <string name="live_tv_ui_group_tags_scan">டேக்குகளை ஸ்கேன் செய்யவும்</string>
     <string name="live_tv_ui_group_tags_scanning">வருடுகிறது...</string>
+    <string name="live_tv_ui_group_tags_scan_countries">நாடுகளை ஸ்கேன் செய்யவும்</string>
+    <string name="live_tv_ui_group_tags_scan_countries_again">நாடுகளை மீண்டும் ஸ்கேன் செய்யவும்</string>
+    <string name="live_tv_ui_group_tags_countries_only">நாடுகள் மட்டும்</string>
+    <string name="live_tv_ui_group_tags_countries_only_desc">ஒவ்வொரு சொல்லுக்கு பதிலாக குழுப் பெயர்களிலிருந்து நாட்டுக் குறிச்சொற்களைப் பட்டியலிடும். அனைத்துக் குறிச்சொற்களையும் ஸ்கேன் செய்ய முடக்கவும்.</string>
+    <string name="live_tv_ui_group_tags_empty_countries">உங்கள் குழுப் பெயர்களில் நாட்டுக் குறிச்சொற்கள் எதுவும் இல்லை. அனைத்துக் குறிச்சொற்களையும் ஸ்கேன் செய்ய நாடுகள் மட்டும் முடக்கவும்.</string>
     <string name="live_tv_ui_group_tags_scan_again">மீண்டும் ஸ்கேன் செய்யவும்</string>
     <string name="live_tv_ui_group_tags_no_channels">முதலில் உங்கள் பிளேலிஸ்ட்களை ஏற்றவும்.</string>
     <string name="live_tv_ui_group_tags_empty">பயனுள்ள குறிச்சொற்கள் எதுவும் கிடைக்கவில்லை.</string>

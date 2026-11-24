@@ -4025,6 +4025,11 @@
     <string name="live_tv_ui_group_tags_selected">%1$d επιλεγμένες ετικέτες</string>
     <string name="live_tv_ui_group_tags_scan">Σάρωση ετικετών</string>
     <string name="live_tv_ui_group_tags_scanning">Σάρωση</string>
+    <string name="live_tv_ui_group_tags_scan_countries">Σάρωση χωρών</string>
+    <string name="live_tv_ui_group_tags_scan_countries_again">Σάρωση χωρών ξανά</string>
+    <string name="live_tv_ui_group_tags_countries_only">Μόνο χώρες</string>
+    <string name="live_tv_ui_group_tags_countries_only_desc">Εμφανίζει ετικέτες χωρών από τα ονόματα ομάδων αντί για κάθε λέξη. Απενεργοποιήστε για σάρωση όλων των ετικετών.</string>
+    <string name="live_tv_ui_group_tags_empty_countries">Δεν βρέθηκαν ετικέτες χωρών στα ονόματα των ομάδων σας. Απενεργοποιήστε το «Μόνο χώρες» για σάρωση όλων των ετικετών.</string>
     <string name="live_tv_ui_group_tags_scan_again">Σαρώστε ξανά</string>
     <string name="live_tv_ui_group_tags_no_channels">Φορτώστε πρώτα τις λίστες αναπαραγωγής σας.</string>
     <string name="live_tv_ui_group_tags_empty">Δεν βρέθηκαν χρήσιμες ετικέτες.</string>

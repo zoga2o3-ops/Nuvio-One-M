@@ -3995,6 +3995,11 @@
     <string name="live_tv_ui_group_tags_selected">%1$d tags selected</string>
     <string name="live_tv_ui_group_tags_scan">Digitalizar etiquetas</string>
     <string name="live_tv_ui_group_tags_scanning">Escaneando...</string>
+    <string name="live_tv_ui_group_tags_scan_countries">Escanear países</string>
+    <string name="live_tv_ui_group_tags_scan_countries_again">Escanear países de novo</string>
+    <string name="live_tv_ui_group_tags_countries_only">Somente países</string>
+    <string name="live_tv_ui_group_tags_countries_only_desc">Lista etiquetas de países a partir dos nomes dos grupos em vez de cada palavra. Desative para escanear todas as etiquetas.</string>
+    <string name="live_tv_ui_group_tags_empty_countries">Nenhuma etiqueta de país encontrada nos nomes dos seus grupos. Desative Somente países para escanear todas as etiquetas.</string>
     <string name="live_tv_ui_group_tags_scan_again">Scanear de novo</string>
     <string name="live_tv_ui_group_tags_no_channels">Carregue primeiro as suas listas de reprodução.</string>
     <string name="live_tv_ui_group_tags_empty">Não foram encontradas etiquetas úteis.</string>

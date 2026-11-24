@@ -4007,6 +4007,11 @@
 <string name="live_tv_ui_group_tags_selected">%1$d tags selected</string>
 <string name="live_tv_ui_group_tags_scan">Scansiona i tag</string>
 <string name="live_tv_ui_group_tags_scanning">Scansione...</string>
+<string name="live_tv_ui_group_tags_scan_countries">Scansiona paesi</string>
+<string name="live_tv_ui_group_tags_scan_countries_again">Scansiona di nuovo i paesi</string>
+<string name="live_tv_ui_group_tags_countries_only">Solo paesi</string>
+<string name="live_tv_ui_group_tags_countries_only_desc">Elenca i tag dei paesi dai nomi dei gruppi invece di ogni parola. Disattiva per scansionare tutti i tag.</string>
+<string name="live_tv_ui_group_tags_empty_countries">Nei nomi dei gruppi non sono stati trovati tag di paesi. Disattiva Solo paesi per scansionare tutti i tag.</string>
 <string name="live_tv_ui_group_tags_scan_again">Nuova scansione</string>
 <string name="live_tv_ui_group_tags_no_channels">Carica prima le tue playlist.</string>
 <string name="live_tv_ui_group_tags_empty">Nessun tag utile trovato.</string>
