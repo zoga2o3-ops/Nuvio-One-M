@@ -9,6 +9,7 @@ import com.nuvio.app.music.engine.data.sources.TrackMatcher
 import java.util.Locale
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import nuvio.composeapp.generated.resources.*
 
 data class GeminiAlbum(
     val id: String,
@@ -40,9 +41,7 @@ internal object MusicGeminiRepository {
         runCatching {
             val taste = tasteSummary(settings)
             if (taste.isBlank()) {
-                throw IllegalStateException(
-                    "Listen to or like a few tracks first, so Gemini has something to work from."
-                )
+                throw MusicTextException(MusicText.Localized(Res.string.music_gemini_error_need_listening))
             }
             val prompt = buildPrompt(taste)
             val suggestions = MusicGeminiClient.generate(apiKey, settings.model, prompt).getOrThrow()

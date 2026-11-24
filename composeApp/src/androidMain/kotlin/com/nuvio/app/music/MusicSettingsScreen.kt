@@ -59,7 +59,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
-import nuvio.composeapp.generated.resources.Res
+import nuvio.composeapp.generated.resources.*
 import nuvio.composeapp.generated.resources.compose_action_off
 import nuvio.composeapp.generated.resources.compose_action_on
 import nuvio.composeapp.generated.resources.music_settings_audio_quality
@@ -287,11 +287,11 @@ internal fun MusicSettingsScreen(onClose: () -> Unit) {
                     )
                 }
 
-                item(key = "home-rows-label") { SettingsSection("H O M E   R O W S") }
+                item(key = "home-rows-label") { SettingsSection(stringResource(Res.string.music_settings_section_home_rows)) }
                 item(key = "pin-library") {
                     SettingsSelector(
-                        title = "Pin your playlists",
-                        detail = "Keep your own playlists at the top of the Music Home.",
+                        title = stringResource(Res.string.music_settings_pin_playlists),
+                        detail = stringResource(Res.string.music_settings_pin_playlists_detail),
                         options = listOf(stringResource(Res.string.compose_action_off), stringResource(Res.string.compose_action_on)),
                         selectedIndex = if (homeRows.pinLibrary) 1 else 0,
                         onSelect = { MusicHomeRows.setPinLibrary(it == 1) }
@@ -300,7 +300,7 @@ internal fun MusicSettingsScreen(onClose: () -> Unit) {
                 homeRows.order.forEachIndexed { index, row ->
                     item(key = "home-row-${row.id}") {
                         HomeRowSetting(
-                            label = row.label,
+                            label = stringResource(row.labelRes),
                             hidden = row in homeRows.hidden,
                             canMoveUp = index > 0,
                             canMoveDown = index < homeRows.order.lastIndex,
@@ -366,7 +366,10 @@ private fun HomeRowSetting(
         )
         SmallSettingAction("\u2191", enabled = canMoveUp) { onMove(-1) }
         SmallSettingAction("\u2193", enabled = canMoveDown) { onMove(1) }
-        SmallSettingAction(if (hidden) "Show" else "Hide") { onToggle() }
+        SmallSettingAction(
+            if (hidden) stringResource(Res.string.music_settings_home_row_show)
+            else stringResource(Res.string.music_settings_home_row_hide)
+        ) { onToggle() }
     }
 }
 
@@ -381,7 +384,7 @@ private fun HomeRowReset(onClick: () -> Unit) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            text = "Reset all Home rows",
+            text = stringResource(Res.string.music_settings_home_rows_reset),
             color = MusicPalette.accent,
             fontSize = 13.sp,
             fontWeight = FontWeight.SemiBold

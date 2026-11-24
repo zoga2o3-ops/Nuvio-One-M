@@ -131,6 +131,15 @@ private fun MusicHomeFeed(
     val heroItem = heroShelf?.items?.firstOrNull()
     val compact = LocalConfiguration.current.screenWidthDp < 600
     val short = LocalConfiguration.current.screenHeightDp < 560
+    val jumpBackTitle = stringResource(Res.string.music_ui_jump_back_in)
+    val yourPlaylistsTitle = stringResource(Res.string.music_home_your_playlists)
+    val playlistTrackLabels = localPlaylists.map {
+        stringResource(Res.string.music_home_playlist_tracks, it.songs.size)
+    }
+    val geminiPicksTitle = stringResource(Res.string.music_home_gemini_picks)
+    val geminiCheckedNote = stringResource(Res.string.music_home_checked_youtube_music)
+    val albumsForYouTitle = stringResource(Res.string.music_home_albums_for_you)
+    val geminiBuildingText = stringResource(Res.string.music_home_gemini_building)
 
     LazyColumn(
         state = listState,
@@ -162,7 +171,7 @@ private fun MusicHomeFeed(
             item(key = "personal-recents") {
                 MusicShelfRow(
                     shelf = HomeShelf(
-                        title = "Jump back in",
+                        title = jumpBackTitle,
                         items = recentSongs.map {
                             ShelfItem(
                                 title = it.title,
@@ -184,11 +193,11 @@ private fun MusicHomeFeed(
             item(key = "personal-playlists") {
                 MusicShelfRow(
                     shelf = HomeShelf(
-                        title = "Your playlists",
-                        items = localPlaylists.map { playlist ->
+                        title = yourPlaylistsTitle,
+                        items = localPlaylists.mapIndexed { index, playlist ->
                             ShelfItem(
                                 title = playlist.name,
-                                subtitle = "${playlist.songs.size} tracks",
+                                subtitle = playlistTrackLabels[index],
                                 thumbnailUrl = playlist.songs.firstOrNull()?.thumbnailUrl,
                                 videoId = null,
                                 browseId = playlist.id
@@ -206,8 +215,8 @@ private fun MusicHomeFeed(
             item(key = "gemini-tracks") {
                 MusicShelfRow(
                     shelf = HomeShelf(
-                        title = "Gemini picks",
-                        subtitle = "Checked against YouTube Music",
+                        title = geminiPicksTitle,
+                        subtitle = geminiCheckedNote,
                         items = gemini.tracks.map {
                             ShelfItem(
                                 title = it.title,
@@ -229,7 +238,7 @@ private fun MusicHomeFeed(
             item(key = "gemini-albums") {
                 MusicShelfRow(
                     shelf = HomeShelf(
-                        title = "Albums for you",
+                        title = albumsForYouTitle,
                         items = gemini.albums.map { album ->
                             ShelfItem(
                                 title = album.name,
@@ -252,7 +261,7 @@ private fun MusicHomeFeed(
         if (gemini.generating) {
             item(key = "gemini-building") {
                 Text(
-                    text = "Gemini is putting suggestions together…",
+                    text = geminiBuildingText,
                     color = MusicPalette.textMuted,
                     fontSize = 11.sp,
                     modifier = Modifier.padding(horizontal = 26.dp)

@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import nuvio.composeapp.generated.resources.*
 
 data class MusicGeminiUiState(
     val profileId: Int = -1,
@@ -25,8 +26,8 @@ data class MusicGeminiUiState(
     val shareRecents: Boolean = true,
     val sharePlaylists: Boolean = true,
     val generating: Boolean = false,
-    val error: String? = null,
-    val notice: String? = null,
+    val error: MusicText? = null,
+    val notice: MusicText? = null,
     val tracks: List<Song> = emptyList(),
     val albums: List<GeminiAlbum> = emptyList(),
     val lastGeneratedAtMs: Long = 0L,
@@ -82,11 +83,17 @@ internal object MusicGeminiController {
     fun saveKey(context: Context, key: String) {
         val profileId = currentProfileId() ?: return
         if (key.isBlank()) {
-            _state.value = _state.value.copy(error = "Paste a Gemini API key first.")
+            _state.value = _state.value.copy(
+                error = MusicText.Localized(Res.string.music_gemini_error_paste_key)
+            )
             return
         }
         GeminiKeyStore.write(profileId, key)
-        _state.value = _state.value.copy(configured = true, error = null, notice = "Gemini key saved.")
+        _state.value = _state.value.copy(
+            configured = true,
+            error = null,
+            notice = MusicText.Localized(Res.string.music_gemini_notice_key_saved),
+        )
     }
 
     fun removeKey(context: Context) {
@@ -98,7 +105,7 @@ internal object MusicGeminiController {
             tracks = emptyList(),
             albums = emptyList(),
             error = null,
-            notice = "Gemini key removed.",
+            notice = MusicText.Localized(Res.string.music_gemini_notice_key_removed),
         )
     }
 
@@ -141,7 +148,9 @@ internal object MusicGeminiController {
         val profileId = currentProfileId() ?: return
         val key = GeminiKeyStore.read(profileId)
         if (key.isNullOrBlank()) {
-            _state.value = _state.value.copy(error = "Add a Gemini API key first.")
+            _state.value = _state.value.copy(
+                error = MusicText.Localized(Res.string.music_gemini_error_add_key)
+            )
             return
         }
         val settings = MusicGeminiSettings.load(profileId)
@@ -162,18 +171,19 @@ internal object MusicGeminiController {
                         lastGeneratedAtMs = System.currentTimeMillis(),
                         notice = when {
                             picks.tracks.isEmpty() && picks.albums.isEmpty() ->
-                                "Gemini didn't return anything playable this time."
-                            picks.unmatched > 0 ->
-                                "${picks.tracks.size + picks.albums.size} suggestions ready; " +
-                                    "${picks.unmatched} couldn't be found."
-                            else -> "Gemini suggestions updated."
+                                MusicText.Localized(Res.string.music_gemini_notice_nothing_playable)
+                            picks.unmatched > 0 -> MusicText.Localized(
+                                Res.string.music_gemini_notice_partial,
+                                listOf(picks.tracks.size + picks.albums.size, picks.unmatched),
+                            )
+                            else -> MusicText.Localized(Res.string.music_gemini_notice_updated)
                         },
                     )
                 },
                 onFailure = { error ->
                     _state.value = _state.value.copy(
                         generating = false,
-                        error = error.message ?: "Couldn't get Gemini suggestions.",
+                        error = error.musicText(Res.string.music_gemini_error_failed),
                     )
                 },
             )
@@ -186,7 +196,7 @@ internal object MusicGeminiController {
         _state.value = _state.value.copy(
             tracks = emptyList(),
             albums = emptyList(),
-            notice = "Suggestions cleared.",
+            notice = MusicText.Localized(Res.string.music_gemini_notice_cleared),
         )
     }
 

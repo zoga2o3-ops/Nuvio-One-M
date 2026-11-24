@@ -24,13 +24,14 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeoutOrNull
+import nuvio.composeapp.generated.resources.*
 import org.json.JSONObject
 
 data class SpotifyWebSyncState(
     val busy: Boolean = false,
-    val progress: String? = null,
-    val result: String? = null,
-    val error: String? = null
+    val progress: MusicText? = null,
+    val result: MusicText? = null,
+    val error: MusicText? = null
 )
 
 /**
@@ -95,11 +96,16 @@ object MusicSpotifyWebSync {
     fun sync(context: Context) {
         if (_state.value.busy) return
         val app = context.applicationContext
-        _state.value = SpotifyWebSyncState(busy = true, progress = "Reading your Spotify library…")
+        _state.value = SpotifyWebSyncState(
+            busy = true,
+            progress = MusicText.Localized(Res.string.music_spotify_reading_library),
+        )
         scope.launch {
             val cookie = MusicSpotifyWebSession.cookie(app)
             if (cookie.isBlank()) {
-                _state.value = SpotifyWebSyncState(error = "Link Spotify first.")
+                _state.value = SpotifyWebSyncState(
+                    error = MusicText.Localized(Res.string.music_spotify_link_first),
+                )
                 return@launch
             }
             val result = runCatching {
@@ -184,7 +190,10 @@ object MusicSpotifyWebSync {
                         entry.name.ifBlank { "Spotify playlist" }
                     }
                     _state.value = _state.value.copy(
-                        progress = "$name (${index + 1} of ${account.library.size})…"
+                        progress = MusicText.Localized(
+                            Res.string.music_spotify_progress_item,
+                            listOf(name, index + 1, account.library.size),
+                        )
                     )
 
                     // Earlier builds put Spotify Liked Songs in a local playlist. Move those
@@ -369,7 +378,10 @@ object MusicSpotifyWebSync {
                                 .apply()
                         }
                         _state.value = _state.value.copy(
-                            progress = "$name: ${handled.coerceAtMost(playlist.tracks.size)} of ${playlist.tracks.size}…"
+                            progress = MusicText.Localized(
+                                Res.string.music_spotify_progress_tracks,
+                                listOf(name, handled.coerceAtMost(playlist.tracks.size), playlist.tracks.size),
+                            )
                         )
                         // Back off smoothly when YouTube pushes back, and recover slowly
                         // once it is answering normally again.
@@ -415,14 +427,16 @@ object MusicSpotifyWebSync {
                 onSuccess = { totals ->
                     _state.value = SpotifyWebSyncState(
                         busy = false,
-                        result = "Added ${totals.liked} liked songs and ${totals.added} playlist " +
-                            "tracks from ${totals.playlists} Spotify playlists."
+                        result = MusicText.Localized(
+                            Res.string.music_spotify_result,
+                            listOf(totals.liked, totals.added, totals.playlists),
+                        ),
                     )
                 },
                 onFailure = { error ->
                     _state.value = SpotifyWebSyncState(
                         busy = false,
-                        error = error.message ?: "The Spotify library couldn't be synced."
+                        error = error.musicText(Res.string.music_spotify_failed),
                     )
                 }
             )
@@ -465,12 +479,15 @@ object MusicSpotifyWebSync {
                 paceMs = (paceMs * 2).coerceAtMost(MAX_PACE_MS)
                 if (attempt == 0) {
                     _state.value = _state.value.copy(
-                        progress = "YouTube Music is busy; waiting 20 seconds…"
+                        progress = MusicText.Localized(
+                            Res.string.music_spotify_busy_waiting,
+                            listOf((RATE_LIMIT_WAIT_MS / 1000).toInt()),
+                        )
                     )
                     delay(RATE_LIMIT_WAIT_MS)
                     return@repeat
                 }
-                throw IllegalStateException("YouTube Music is temporarily limiting requests. Wait a few minutes, then sync again. The tracks already added are safe.")
+                throw MusicTextException(MusicText.Localized(Res.string.music_spotify_rate_limited))
             }
             // A timeout or a transient network error is not a definitive "not on YouTube
             // Music", so do not put it in the miss cache.

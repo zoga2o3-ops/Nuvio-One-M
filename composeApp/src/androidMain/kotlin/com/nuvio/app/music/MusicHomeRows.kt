@@ -6,13 +6,15 @@ import com.nuvio.app.features.profiles.ProfileRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import nuvio.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.StringResource
 
 /** The personal rows the mobile Music Home can show above the service feed. */
-enum class MusicHomeRow(val label: String, val id: String) {
-    RECENTS("Recently played", "recents"),
-    PLAYLISTS("Your playlists", "playlists"),
-    GEMINI_TRACKS("Gemini picks", "gemini_tracks"),
-    GEMINI_ALBUMS("Albums for you", "gemini_albums");
+enum class MusicHomeRow(val labelRes: StringResource, val id: String) {
+    RECENTS(Res.string.music_home_row_recents, "recents"),
+    PLAYLISTS(Res.string.music_home_your_playlists, "playlists"),
+    GEMINI_TRACKS(Res.string.music_home_gemini_picks, "gemini_tracks"),
+    GEMINI_ALBUMS(Res.string.music_home_albums_for_you, "gemini_albums");
 
     companion object {
         fun fromId(id: String): MusicHomeRow? = entries.firstOrNull { it.id == id }

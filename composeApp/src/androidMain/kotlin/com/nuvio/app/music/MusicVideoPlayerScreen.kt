@@ -423,7 +423,7 @@ internal fun MusicVideoPlayerScreen(
             )
             Column(Modifier.weight(1f)) {
                 Text(
-                    text = "MUSIC VIDEO",
+                    text = stringResource(Res.string.music_video_label),
                     color = MusicPalette.accentTeal,
                     fontSize = 10.sp,
                     letterSpacing = 2.sp,

@@ -1,7 +1,7 @@
 package com.nuvio.app.music
 
-import java.io.IOException
 import java.util.concurrent.TimeUnit
+import nuvio.composeapp.generated.resources.*
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -33,7 +33,7 @@ internal object MusicGeminiClient {
 
     fun generate(apiKey: String, model: String, prompt: String): Result<List<GeminiSuggestion>> = runCatching {
         val key = apiKey.trim()
-        if (key.isBlank()) throw IOException("Add a Gemini API key first.")
+        if (key.isBlank()) throw MusicTextException(MusicText.Localized(Res.string.music_gemini_error_add_key))
         val modelId = model.trim().ifBlank { GeminiSettings.DEFAULT_MODEL }
         val body = JSONObject().apply {
             put(
@@ -59,9 +59,9 @@ internal object MusicGeminiClient {
             .build()
         http.newCall(request).execute().use { response ->
             val raw = response.body?.string().orEmpty()
-            if (!response.isSuccessful) throw IOException(friendlyError(response.code, raw))
+            if (!response.isSuccessful) throw MusicTextException(friendlyError(response.code, raw))
             val root = runCatching { JSONObject(raw) }.getOrElse {
-                throw IOException("Gemini answered, but not with a usable response.")
+                throw MusicTextException(MusicText.Localized(Res.string.music_gemini_error_unusable_response))
             }
             val text = root.optJSONArray("candidates")
                 ?.optJSONObject(0)
@@ -75,7 +75,7 @@ internal object MusicGeminiClient {
                 ?.removeSuffix("```")
                 ?.trim()
                 ?.takeIf { it.isNotEmpty() }
-                ?: throw IOException("Gemini returned no suggestions.")
+                ?: throw MusicTextException(MusicText.Localized(Res.string.music_gemini_error_no_suggestions))
             parseSuggestions(text)
         }
     }
@@ -86,9 +86,10 @@ internal object MusicGeminiClient {
      */
     internal fun parseSuggestions(text: String): List<GeminiSuggestion> {
         val payload = runCatching { JSONObject(text) }.getOrElse {
-            throw IOException("Gemini's suggestions weren't in the expected format.")
+            throw MusicTextException(MusicText.Localized(Res.string.music_gemini_error_format))
         }
-        val items = payload.optJSONArray("items") ?: throw IOException("Gemini returned no suggestions.")
+        val items = payload.optJSONArray("items")
+            ?: throw MusicTextException(MusicText.Localized(Res.string.music_gemini_error_no_suggestions))
         return buildList {
             for (index in 0 until items.length()) {
                 val item = items.optJSONObject(index) ?: continue
@@ -110,21 +111,22 @@ internal object MusicGeminiClient {
         }.distinctBy { "${it.type}|${it.title.lowercase()}|${it.artist.lowercase()}" }
     }
 
-    private fun friendlyError(code: Int, raw: String): String {
+    private fun friendlyError(code: Int, raw: String): MusicText {
         val detail = runCatching {
             JSONObject(raw).optJSONObject("error")?.optString("message").orEmpty()
         }.getOrDefault("")
         return when (code) {
             400 -> if (detail.contains("API key", ignoreCase = true)) {
-                "Gemini rejected the API key. Check it and try again."
+                MusicText.Localized(Res.string.music_gemini_error_rejected_key)
             } else {
-                "Gemini couldn't understand the request. Check the model name."
+                MusicText.Localized(Res.string.music_gemini_error_bad_request)
             }
-            401, 403 -> "Gemini rejected this API key, or it isn't allowed to use the Generative Language API."
-            404 -> "That Gemini model isn't available for this key."
-            429 -> "Gemini's quota for this key is used up. Try again later."
-            in 500..599 -> "Gemini is having trouble right now. Try again shortly."
-            else -> detail.takeIf { it.isNotBlank() } ?: "Gemini returned HTTP $code."
+            401, 403 -> MusicText.Localized(Res.string.music_gemini_error_forbidden)
+            404 -> MusicText.Localized(Res.string.music_gemini_error_model_missing)
+            429 -> MusicText.Localized(Res.string.music_gemini_error_quota)
+            in 500..599 -> MusicText.Localized(Res.string.music_gemini_error_unavailable)
+            else -> detail.takeIf { it.isNotBlank() }?.let { MusicText.Raw(it) }
+                ?: MusicText.Localized(Res.string.music_gemini_error_http, listOf(code))
         }
     }
 }

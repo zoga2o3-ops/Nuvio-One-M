@@ -1,4 +1,4 @@
-package com.nuvio.app.music
+﻿package com.nuvio.app.music
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
@@ -369,15 +369,15 @@ internal fun MusicIntegrationsScreen(
                     }
                     webSync.progress?.let {
                         Spacer(Modifier.height(8.dp))
-                        Text(text = it, color = MusicPalette.textSecondary, fontSize = 11.sp)
+                        Text(text = it.resolve(), color = MusicPalette.textSecondary, fontSize = 11.sp)
                     }
                     webSync.result?.let {
                         Spacer(Modifier.height(8.dp))
-                        Text(text = it, color = MusicPalette.accentTeal, fontSize = 11.sp)
+                        Text(text = it.resolve(), color = MusicPalette.accentTeal, fontSize = 11.sp)
                     }
                     webSync.error?.let {
                         Spacer(Modifier.height(8.dp))
-                        Text(text = it, color = MusicPalette.error, fontSize = 11.sp)
+                        Text(text = it.resolve(), color = MusicPalette.error, fontSize = 11.sp)
                     }
                     spotifyMessage?.let {
                         Spacer(Modifier.height(8.dp))
@@ -389,11 +389,11 @@ internal fun MusicIntegrationsScreen(
                     icon = Icons.Default.MusicNote,
                     tint = MusicPalette.accentTeal,
                     title = "Gemini",
-                    subtitle = "Your own API key. Gemini only suggests titles; playback still uses your sources."
+                    subtitle = stringResource(Res.string.music_gemini_subtitle)
                 ) {
                     if (gemini.configured && !geminiReplacing) {
                         Text(
-                            text = "Key saved. It is never shown again.",
+                            text = stringResource(Res.string.music_gemini_key_saved_hidden),
                             color = MusicPalette.textSecondary,
                             fontSize = 12.sp
                         )
@@ -401,12 +401,12 @@ internal fun MusicIntegrationsScreen(
                         Row(horizontalArrangement = Arrangement.spacedBy(9.dp)) {
                             IntegrationPill(
                                 icon = Icons.Default.Cloud,
-                                label = "Replace key",
+                                label = stringResource(Res.string.music_gemini_replace_key),
                                 onClick = { geminiReplacing = true }
                             )
                             IntegrationPill(
                                 icon = Icons.Default.Favorite,
-                                label = "Remove key",
+                                label = stringResource(Res.string.music_gemini_remove_key),
                                 onClick = {
                                     MusicGeminiController.removeKey(context)
                                     geminiKey = ""
@@ -415,7 +415,11 @@ internal fun MusicIntegrationsScreen(
                             )
                             IntegrationPill(
                                 icon = Icons.Default.MusicNote,
-                                label = if (gemini.enabled) "Suggestions on" else "Suggestions off",
+                                label = if (gemini.enabled) {
+                                    stringResource(Res.string.music_gemini_suggestions_on)
+                                } else {
+                                    stringResource(Res.string.music_gemini_suggestions_off)
+                                },
                                 primary = gemini.enabled,
                                 onClick = {
                                     MusicGeminiController.setEnabled(context, !gemini.enabled)
@@ -424,7 +428,7 @@ internal fun MusicIntegrationsScreen(
                         }
                     } else {
                         IntegrationField(
-                            label = "Gemini API key",
+                            label = stringResource(Res.string.music_gemini_api_key_label),
                             value = geminiKey,
                             placeholder = "AIza...",
                             onValueChange = { geminiKey = it },
@@ -434,7 +438,7 @@ internal fun MusicIntegrationsScreen(
                         Row(horizontalArrangement = Arrangement.spacedBy(9.dp)) {
                             IntegrationPill(
                                 icon = Icons.Default.Cloud,
-                                label = "Save key",
+                                label = stringResource(Res.string.music_gemini_save_key),
                                 primary = true,
                                 enabled = geminiKey.isNotBlank(),
                                 onClick = {
@@ -446,7 +450,7 @@ internal fun MusicIntegrationsScreen(
                             if (gemini.configured) {
                                 IntegrationPill(
                                     icon = Icons.Default.Favorite,
-                                    label = "Cancel",
+                                    label = stringResource(Res.string.action_cancel),
                                     onClick = {
                                         geminiKey = ""
                                         geminiReplacing = false
@@ -457,7 +461,7 @@ internal fun MusicIntegrationsScreen(
                         if (!gemini.configured) {
                             Spacer(Modifier.height(8.dp))
                             Text(
-                                text = "The key is stored encrypted for this profile and carried through credential sync.",
+                                text = stringResource(Res.string.music_gemini_key_storage_note),
                                 color = MusicPalette.textMuted,
                                 fontSize = 10.sp,
                                 lineHeight = 14.sp
@@ -467,7 +471,7 @@ internal fun MusicIntegrationsScreen(
 
                     Spacer(Modifier.height(14.dp))
                     IntegrationField(
-                        label = "Model",
+                        label = stringResource(Res.string.music_gemini_model),
                         value = geminiModel,
                         placeholder = GeminiSettings.DEFAULT_MODEL,
                         onValueChange = { geminiModel = it }
@@ -476,14 +480,14 @@ internal fun MusicIntegrationsScreen(
                         Spacer(Modifier.height(8.dp))
                         IntegrationPill(
                             icon = Icons.Default.Cloud,
-                            label = "Use this model",
+                            label = stringResource(Res.string.music_gemini_use_model),
                             onClick = { MusicGeminiController.setModel(geminiModel.trim()) }
                         )
                     }
 
                     Spacer(Modifier.height(14.dp))
                     Text(
-                        text = "WHAT GEMINI CAN USE",
+                        text = stringResource(Res.string.music_gemini_share_heading),
                         color = MusicPalette.textMuted,
                         fontSize = 10.sp,
                         fontWeight = FontWeight.Bold,
@@ -493,7 +497,7 @@ internal fun MusicIntegrationsScreen(
                     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                         IntegrationPill(
                             icon = Icons.Default.MusicNote,
-                            label = "Top artists",
+                            label = stringResource(Res.string.music_gemini_share_top_artists),
                             primary = gemini.shareTopArtists,
                             onClick = {
                                 MusicGeminiController.setShareTopArtists(!gemini.shareTopArtists)
@@ -501,13 +505,13 @@ internal fun MusicIntegrationsScreen(
                         )
                         IntegrationPill(
                             icon = Icons.Default.MusicNote,
-                            label = "Liked",
+                            label = stringResource(Res.string.music_gemini_share_liked),
                             primary = gemini.shareLiked,
                             onClick = { MusicGeminiController.setShareLiked(!gemini.shareLiked) }
                         )
                         IntegrationPill(
                             icon = Icons.Default.MusicNote,
-                            label = "Recents",
+                            label = stringResource(Res.string.music_gemini_share_recents),
                             primary = gemini.shareRecents,
                             onClick = {
                                 MusicGeminiController.setShareRecents(!gemini.shareRecents)
@@ -515,7 +519,7 @@ internal fun MusicIntegrationsScreen(
                         )
                         IntegrationPill(
                             icon = Icons.Default.MusicNote,
-                            label = "Playlists",
+                            label = stringResource(Res.string.music_gemini_share_playlists),
                             primary = gemini.sharePlaylists,
                             onClick = {
                                 MusicGeminiController.setSharePlaylists(!gemini.sharePlaylists)
@@ -527,7 +531,11 @@ internal fun MusicIntegrationsScreen(
                     Row(horizontalArrangement = Arrangement.spacedBy(9.dp)) {
                         IntegrationPill(
                             icon = Icons.Default.MusicNote,
-                            label = if (gemini.generating) "Generating…" else "Generate suggestions",
+                            label = if (gemini.generating) {
+                                stringResource(Res.string.music_gemini_generating)
+                            } else {
+                                stringResource(Res.string.music_gemini_generate)
+                            },
                             primary = true,
                             enabled = gemini.configured && !gemini.generating,
                             onClick = { MusicGeminiController.generate(context) }
@@ -535,22 +543,22 @@ internal fun MusicIntegrationsScreen(
                         if (gemini.tracks.isNotEmpty() || gemini.albums.isNotEmpty()) {
                             IntegrationPill(
                                 icon = Icons.Default.Favorite,
-                                label = "Clear suggestions",
+                                label = stringResource(Res.string.music_gemini_clear_suggestions),
                                 onClick = { MusicGeminiController.clearSuggestions(context) }
                             )
                         }
                     }
                     gemini.error?.let {
                         Spacer(Modifier.height(8.dp))
-                        Text(it, color = MusicPalette.error, fontSize = 11.sp)
+                        Text(it.resolve(), color = MusicPalette.error, fontSize = 11.sp)
                     }
                     gemini.notice?.let {
                         Spacer(Modifier.height(8.dp))
-                        Text(it, color = MusicPalette.accentTeal, fontSize = 11.sp)
+                        Text(it.resolve(), color = MusicPalette.accentTeal, fontSize = 11.sp)
                     }
                     Spacer(Modifier.height(9.dp))
                     Text(
-                        text = "Gemini only proposes titles. Every suggestion is checked against YouTube Music, and playback still uses your add-ons first.",
+                        text = stringResource(Res.string.music_gemini_footer),
                         color = MusicPalette.textMuted,
                         fontSize = 10.sp,
                         lineHeight = 14.sp
