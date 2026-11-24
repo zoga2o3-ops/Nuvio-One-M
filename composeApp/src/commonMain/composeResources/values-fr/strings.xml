@@ -2760,6 +2760,11 @@
     <string name="live_tv_settings_section_reload">RECHARGEMENT MANUEL</string>
     <string name="live_tv_settings_reload_description">Les chaînes et le guide TV sont enregistrés sur votre appareil et réutilisés lorsque vous ouvrez l'application. Rechargez-les ici pour récupérer les dernières nouveautés de vos fournisseurs.</string>
     <string name="live_tv_settings_reload_channels">Recharger les chaînes</string>
+    <string name="live_tv_ui_show_or_hide_groups">Afficher ou masquer les groupes</string>
+    <string name="live_tv_ui_show_or_hide_groups_description">Choisissez les groupes affichés dans la liste des chaînes et le menu des groupes.</string>
+    <string name="live_tv_ui_hide_all_groups">Tout masquer</string>
+    <string name="live_tv_ui_show_all_groups">Tout afficher</string>
+    <string name="live_tv_ui_group_channel_count">%1$d chaînes</string>
     <string name="live_tv_settings_reload_epg">Recharger l'EPG</string>
     <string name="live_tv_settings_reload_channels_loading">Chargement des chaînes…</string>
     <string name="live_tv_settings_reload_channels_status">%1$d chaînes chargées.</string>

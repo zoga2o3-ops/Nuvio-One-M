@@ -2703,6 +2703,11 @@
     <string name="live_tv_settings_section_reload">РЪЧНО ПРЕЗАРЕЖДАНЕ</string>
     <string name="live_tv_settings_reload_description">Каналите и телевизионният справочник се записват на вашето устройство и се използват повторно, когато отворите приложението. Презаредете ги тук, за да получите най-новото от вашите доставчици.</string>
     <string name="live_tv_settings_reload_channels">Презаредете каналите</string>
+    <string name="live_tv_ui_show_or_hide_groups">Показване или скриване на групи</string>
+    <string name="live_tv_ui_show_or_hide_groups_description">Изберете кои групи да се показват в списъка с канали и в менюто за групи.</string>
+    <string name="live_tv_ui_hide_all_groups">Скриване на всички</string>
+    <string name="live_tv_ui_show_all_groups">Показване на всички</string>
+    <string name="live_tv_ui_group_channel_count">%1$d канала</string>
     <string name="live_tv_settings_reload_epg">Презаредете EPG</string>
     <string name="live_tv_settings_reload_channels_loading">Каналите се зареждат...</string>
     <string name="live_tv_settings_reload_channels_status">%1$d заредени канали.</string>

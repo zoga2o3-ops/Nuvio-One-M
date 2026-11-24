@@ -2463,6 +2463,11 @@
 <string name="live_tv_settings_section_reload">РУЧНАЯ ПЕРЕЗАГРУЗКА</string>
 <string name="live_tv_settings_reload_description">Каналы и телегид сохраняются на вашем устройстве и используются повторно при открытии приложения. Перезагрузите их здесь, чтобы получить последние новости от ваших провайдеров.</string>
 <string name="live_tv_settings_reload_channels">Перезагрузить каналы</string>
+<string name="live_tv_ui_show_or_hide_groups">Показать или скрыть группы</string>
+<string name="live_tv_ui_show_or_hide_groups_description">Выберите, какие группы показывать в списке каналов и в меню групп.</string>
+<string name="live_tv_ui_hide_all_groups">Скрыть все</string>
+<string name="live_tv_ui_show_all_groups">Показать все</string>
+<string name="live_tv_ui_group_channel_count">%1$d каналов</string>
 <string name="live_tv_settings_reload_epg">Перезагрузить EPG</string>
 <string name="live_tv_settings_reload_channels_loading">Загрузка каналов…</string>
 <string name="live_tv_settings_reload_channels_status">Загружено %1$d каналов.</string>

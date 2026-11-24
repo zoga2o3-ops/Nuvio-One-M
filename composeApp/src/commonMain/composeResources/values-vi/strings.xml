@@ -2710,6 +2710,11 @@
 <string name="live_tv_settings_section_reload">TẢI LẠI THỦ CÔNG</string>
 <string name="live_tv_settings_reload_description">Các kênh và hướng dẫn TV được lưu trên thiết bị của bạn và được sử dụng lại khi bạn mở ứng dụng. Tải lại chúng ở đây để lấy thông tin mới nhất từ ​​nhà cung cấp của bạn.</string>
 <string name="live_tv_settings_reload_channels">Tải lại kênh</string>
+<string name="live_tv_ui_show_or_hide_groups">Hiện hoặc ẩn nhóm</string>
+<string name="live_tv_ui_show_or_hide_groups_description">Chọn nhóm nào sẽ hiển thị trong danh sách kênh và menu nhóm.</string>
+<string name="live_tv_ui_hide_all_groups">Ẩn tất cả</string>
+<string name="live_tv_ui_show_all_groups">Hiện tất cả</string>
+<string name="live_tv_ui_group_channel_count">%1$d kênh</string>
 <string name="live_tv_settings_reload_epg">Tải lại EPG</string>
 <string name="live_tv_settings_reload_channels_loading">Đang tải kênh…</string>
 <string name="live_tv_settings_reload_channels_status">%1$d kênh được tải.</string>

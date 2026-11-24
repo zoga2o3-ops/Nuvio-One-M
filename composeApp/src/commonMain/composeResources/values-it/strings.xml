@@ -2691,6 +2691,11 @@
 <string name="live_tv_settings_section_reload">RICARICA MANUALE</string>
 <string name="live_tv_settings_reload_description">I canali e la guida TV vengono salvati sul tuo dispositivo e riutilizzati quando apri l'app. Ricaricali qui per recuperare le ultime novità dai tuoi fornitori.</string>
 <string name="live_tv_settings_reload_channels">Ricarica i canali</string>
+<string name="live_tv_ui_show_or_hide_groups">Mostra o nascondi gruppi</string>
+<string name="live_tv_ui_show_or_hide_groups_description">Scegli quali gruppi mostrare nell\'elenco dei canali e nel menu dei gruppi.</string>
+<string name="live_tv_ui_hide_all_groups">Nascondi tutti</string>
+<string name="live_tv_ui_show_all_groups">Mostra tutti</string>
+<string name="live_tv_ui_group_channel_count">%1$d canali</string>
 <string name="live_tv_settings_reload_epg">Ricarica l'EPG</string>
 <string name="live_tv_settings_reload_channels_loading">Caricamento canali…</string>
 <string name="live_tv_settings_reload_channels_status">%1$d canali caricati.</string>

@@ -2296,6 +2296,11 @@
 <string name="live_tv_settings_section_reload">REÎNCĂRCARE MANUALĂ</string>
 <string name="live_tv_settings_reload_description">Canalele și ghidul TV sunt salvate pe dispozitiv și reutilizate când deschideți aplicația. Reîncărcați-le aici pentru a obține cele mai recente de la furnizorii dvs.</string>
 <string name="live_tv_settings_reload_channels">Reîncărcați canalele</string>
+<string name="live_tv_ui_show_or_hide_groups">Afișează sau ascunde grupurile</string>
+<string name="live_tv_ui_show_or_hide_groups_description">Alege ce grupuri apar în lista de canale și în meniul grupurilor.</string>
+<string name="live_tv_ui_hide_all_groups">Ascunde tot</string>
+<string name="live_tv_ui_show_all_groups">Afișează tot</string>
+<string name="live_tv_ui_group_channel_count">%1$d canale</string>
 <string name="live_tv_settings_reload_epg">Reîncărcați EPG</string>
 <string name="live_tv_settings_reload_channels_loading">Se încarcă canalele...</string>
 <string name="live_tv_settings_reload_channels_status">%1$d canale încărcate.</string>

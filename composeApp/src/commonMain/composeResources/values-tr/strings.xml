@@ -2667,6 +2667,11 @@ Bu özelliği tamamen kendi sorumluluğunuzda kullanırsınız. P2P istediğiniz
 <string name="live_tv_settings_section_reload">MANUEL YENİDEN YÜKLEME</string>
 <string name="live_tv_settings_reload_description">Kanallar ve TV rehberi cihazınıza kaydedilir ve uygulamayı açtığınızda yeniden kullanılır. Sağlayıcılarınızdan en son haberleri almak için bunları buraya yeniden yükleyin.</string>
 <string name="live_tv_settings_reload_channels">Kanalları yeniden yükle</string>
+<string name="live_tv_ui_show_or_hide_groups">Grupları göster veya gizle</string>
+<string name="live_tv_ui_show_or_hide_groups_description">Kanal listesinde ve grup menüsünde hangi grupların görüneceğini seçin.</string>
+<string name="live_tv_ui_hide_all_groups">Tümünü gizle</string>
+<string name="live_tv_ui_show_all_groups">Tümünü göster</string>
+<string name="live_tv_ui_group_channel_count">%1$d kanal</string>
 <string name="live_tv_settings_reload_epg">EPG'yi yeniden yükle</string>
 <string name="live_tv_settings_reload_channels_loading">Kanallar yükleniyor…</string>
 <string name="live_tv_settings_reload_channels_status">%1$d kanallar yüklendi.</string>

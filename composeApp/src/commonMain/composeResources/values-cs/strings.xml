@@ -2477,6 +2477,11 @@
 <string name="live_tv_settings_section_reload">RUČNÍ ZNOVU NAČÍST</string>
 <string name="live_tv_settings_reload_description">Kanály a TV průvodce jsou uloženy ve vašem zařízení a znovu použity, když otevřete aplikaci. Znovu je načtěte zde, abyste získali nejnovější informace od svých poskytovatelů.</string>
 <string name="live_tv_settings_reload_channels">Znovu načíst kanály</string>
+<string name="live_tv_ui_show_or_hide_groups">Zobrazit nebo skrýt skupiny</string>
+<string name="live_tv_ui_show_or_hide_groups_description">Vyberte, které skupiny se zobrazí v seznamu kanálů a v nabídce skupin.</string>
+<string name="live_tv_ui_hide_all_groups">Skrýt vše</string>
+<string name="live_tv_ui_show_all_groups">Zobrazit vše</string>
+<string name="live_tv_ui_group_channel_count">%1$d kanálů</string>
 <string name="live_tv_settings_reload_epg">Znovu načíst EPG</string>
 <string name="live_tv_settings_reload_channels_loading">Načítání kanálů…</string>
 <string name="live_tv_settings_reload_channels_status">Načteno %1$d kanálů.</string>

@@ -2693,6 +2693,11 @@
 <string name="live_tv_settings_section_reload">ম্যানুয়াল পুনরায় লোড</string>
 <string name="live_tv_settings_reload_description">চ্যানেল এবং টিভি গাইড আপনার ডিভাইসে সংরক্ষিত হয় এবং আপনি যখন অ্যাপ খুলবেন তখন পুনরায় ব্যবহার করা হয়। আপনার প্রদানকারীদের থেকে সর্বশেষ আনতে সেগুলিকে এখানে পুনরায় লোড করুন৷</string>
 <string name="live_tv_settings_reload_channels">চ্যানেলগুলি পুনরায় লোড করুন</string>
+<string name="live_tv_ui_show_or_hide_groups">গ্রুপ দেখান বা লুকান</string>
+<string name="live_tv_ui_show_or_hide_groups_description">চ্যানেল তালিকা ও গ্রুপ মেনুতে কোন গ্রুপগুলো দেখাবে তা বেছে নিন।</string>
+<string name="live_tv_ui_hide_all_groups">সব লুকান</string>
+<string name="live_tv_ui_show_all_groups">সব দেখান</string>
+<string name="live_tv_ui_group_channel_count">%1$d টি চ্যানেল</string>
 <string name="live_tv_settings_reload_epg">EPG পুনরায় লোড করুন</string>
 <string name="live_tv_settings_reload_channels_loading">চ্যানেল লোড হচ্ছে...</string>
 <string name="live_tv_settings_reload_channels_status">%1$d চ্যানেল লোড হয়েছে৷</string>

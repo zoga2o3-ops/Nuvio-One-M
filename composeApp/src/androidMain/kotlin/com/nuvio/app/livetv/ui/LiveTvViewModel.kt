@@ -90,6 +90,10 @@ class LiveTvViewModel(context: Context) : ViewModel() {
         viewModelScope.launch { prefs.setGroupHidden(id, hidden) }
     }
 
+    fun updateGroupVisibility(show: Set<String>, hide: Set<String>) {
+        viewModelScope.launch { prefs.updateHiddenGroups(show, hide) }
+    }
+
     fun renameGroup(id: String, name: String?) {
         viewModelScope.launch { prefs.setGroupName(id, name) }
     }

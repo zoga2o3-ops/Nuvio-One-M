@@ -1768,6 +1768,11 @@
     <string name="live_tv_settings_section_reload">MANUELLES NACHLADEN</string>
     <string name="live_tv_settings_reload_description">Sender und TV-Guide werden auf Ihrem Gerät gespeichert und beim Öffnen der App wiederverwendet. Laden Sie sie hier erneut, um die neuesten Informationen von Ihren Anbietern abzurufen.</string>
     <string name="live_tv_settings_reload_channels">Kanäle neu laden</string>
+    <string name="live_tv_ui_show_or_hide_groups">Gruppen anzeigen oder ausblenden</string>
+    <string name="live_tv_ui_show_or_hide_groups_description">Wähle aus, welche Gruppen in der Kanalliste und im Gruppenmenü angezeigt werden.</string>
+    <string name="live_tv_ui_hide_all_groups">Alle ausblenden</string>
+    <string name="live_tv_ui_show_all_groups">Alle anzeigen</string>
+    <string name="live_tv_ui_group_channel_count">%1$d Kanäle</string>
     <string name="live_tv_settings_reload_epg">EPG neu laden</string>
     <string name="live_tv_settings_reload_channels_loading">Kanäle werden geladen…</string>
     <string name="live_tv_settings_reload_channels_status">%1$d Sender geladen.</string>

@@ -1028,6 +1028,11 @@
 <string name="live_tv_settings_section_reload">ATUALIZAÇÃO MANUAL</string>
 <string name="live_tv_settings_reload_description">Os canais e o guia de TV são salvos no dispositivo e reutilizados quando você abre o app. Atualize-os aqui para buscar os dados mais recentes dos provedores.</string>
 <string name="live_tv_settings_reload_channels">Atualizar canais</string>
+<string name="live_tv_ui_show_or_hide_groups">Mostrar ou ocultar grupos</string>
+<string name="live_tv_ui_show_or_hide_groups_description">Escolha quais grupos aparecem na lista de canais e no menu de grupos.</string>
+<string name="live_tv_ui_hide_all_groups">Ocultar todos</string>
+<string name="live_tv_ui_show_all_groups">Mostrar todos</string>
+<string name="live_tv_ui_group_channel_count">%1$d canais</string>
 <string name="live_tv_settings_reload_epg">Atualizar EPG</string>
 <string name="live_tv_settings_reload_channels_loading">Carregando canais…</string>
 <string name="live_tv_settings_reload_channels_status">%1$d canais carregados.</string>

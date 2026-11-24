@@ -2517,6 +2517,11 @@ Du bruker denne funksjonen helt på eget ansvar. P2P kan deaktiveres når som he
 <string name="live_tv_settings_section_reload">MANUELL LASTING</string>
 <string name="live_tv_settings_reload_description">Kanaler og TV-guiden lagres på enheten din og gjenbrukes når du åpner appen. Last dem på nytt her for å hente siste nytt fra leverandørene dine.</string>
 <string name="live_tv_settings_reload_channels">Last inn kanaler på nytt</string>
+<string name="live_tv_ui_show_or_hide_groups">Vis eller skjul grupper</string>
+<string name="live_tv_ui_show_or_hide_groups_description">Velg hvilke grupper som vises i kanallisten og gruppemenyen.</string>
+<string name="live_tv_ui_hide_all_groups">Skjul alle</string>
+<string name="live_tv_ui_show_all_groups">Vis alle</string>
+<string name="live_tv_ui_group_channel_count">%1$d kanaler</string>
 <string name="live_tv_settings_reload_epg">Last inn EPG på nytt</string>
 <string name="live_tv_settings_reload_channels_loading">Laster inn kanaler …</string>
 <string name="live_tv_settings_reload_channels_status">%1$d kanaler lastet.</string>

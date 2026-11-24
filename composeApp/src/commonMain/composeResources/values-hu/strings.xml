@@ -2613,6 +2613,11 @@
 <string name="live_tv_settings_section_reload">KÉZI ÚJRATÖLTÉS</string>
 <string name="live_tv_settings_reload_description">A csatornák és a tévéműsorok mentésre kerülnek az eszközre, és az alkalmazás megnyitásakor újra felhasználhatók. Töltse be újra őket ide, hogy lekérje a szolgáltatók legfrissebb adatait.</string>
 <string name="live_tv_settings_reload_channels">Csatornák újratöltése</string>
+<string name="live_tv_ui_show_or_hide_groups">Csoportok megjelenítése vagy elrejtése</string>
+<string name="live_tv_ui_show_or_hide_groups_description">Válaszd ki, mely csoportok jelenjenek meg a csatornalistában és a csoportmenüben.</string>
+<string name="live_tv_ui_hide_all_groups">Összes elrejtése</string>
+<string name="live_tv_ui_show_all_groups">Összes megjelenítése</string>
+<string name="live_tv_ui_group_channel_count">%1$d csatorna</string>
 <string name="live_tv_settings_reload_epg">Töltse be újra az EPG-t</string>
 <string name="live_tv_settings_reload_channels_loading">Csatornák betöltése…</string>
 <string name="live_tv_settings_reload_channels_status">%1$d csatorna betöltve.</string>

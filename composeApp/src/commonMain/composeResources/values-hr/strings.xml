@@ -2617,6 +2617,11 @@
 <string name="live_tv_settings_section_reload">RUČNO PONOVO</string>
 <string name="live_tv_settings_reload_description">Kanali i TV vodič spremaju se na vaš uređaj i ponovno se koriste kada otvorite aplikaciju. Ponovno ih učitajte ovdje kako biste dohvatili najnovije informacije od svojih pružatelja usluga.</string>
 <string name="live_tv_settings_reload_channels">Ponovno učitaj kanale</string>
+<string name="live_tv_ui_show_or_hide_groups">Prikaži ili sakrij skupine</string>
+<string name="live_tv_ui_show_or_hide_groups_description">Odaberite koje će se skupine prikazivati na popisu kanala i u izborniku skupina.</string>
+<string name="live_tv_ui_hide_all_groups">Sakrij sve</string>
+<string name="live_tv_ui_show_all_groups">Prikaži sve</string>
+<string name="live_tv_ui_group_channel_count">%1$d kanala</string>
 <string name="live_tv_settings_reload_epg">Ponovno učitaj EPG</string>
 <string name="live_tv_settings_reload_channels_loading">Učitavanje kanala...</string>
 <string name="live_tv_settings_reload_channels_status">%1$d kanala učitano.</string>

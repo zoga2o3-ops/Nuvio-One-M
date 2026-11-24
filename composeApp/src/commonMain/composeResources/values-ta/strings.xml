@@ -1037,6 +1037,11 @@
     <string name="live_tv_settings_section_reload">கைமுறையாக மீண்டும் ஏற்றுதல்</string>
     <string name="live_tv_settings_reload_description">சேனல்களும் டிவி வழிகாட்டியும் உங்கள் சாதனத்தில் சேமிக்கப்பட்டு, ஆப்ஸைத் திறக்கும்போது மீண்டும் பயன்படுத்தப்படும். உங்கள் வழங்குநர்களிடமிருந்து சமீபத்தியவற்றைப் பெற, அவற்றை இங்கே மீண்டும் ஏற்றவும்.</string>
     <string name="live_tv_settings_reload_channels">சேனல்களை மீண்டும் ஏற்றவும்</string>
+    <string name="live_tv_ui_show_or_hide_groups">குழுக்களைக் காட்டு அல்லது மறை</string>
+    <string name="live_tv_ui_show_or_hide_groups_description">சேனல் பட்டியலிலும் குழு மெனுவிலும் எந்தக் குழுக்கள் தோன்ற வேண்டும் என்பதைத் தேர்ந்தெடுக்கவும்.</string>
+    <string name="live_tv_ui_hide_all_groups">அனைத்தையும் மறை</string>
+    <string name="live_tv_ui_show_all_groups">அனைத்தையும் காட்டு</string>
+    <string name="live_tv_ui_group_channel_count">%1$d சேனல்கள்</string>
     <string name="live_tv_settings_reload_epg">EPG ஐ மீண்டும் ஏற்றவும்</string>
     <string name="live_tv_settings_reload_channels_loading">சேனல்களை ஏற்றுகிறது…</string>
     <string name="live_tv_settings_reload_channels_status">%1$d சேனல்கள் ஏற்றப்பட்டன.</string>

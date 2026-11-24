@@ -2708,6 +2708,11 @@
 <string name="live_tv_settings_section_reload">RĘCZNE PRZEŁADOWANIE</string>
 <string name="live_tv_settings_reload_description">Kanały i przewodnik telewizyjny są zapisywane na Twoim urządzeniu i wykorzystywane ponownie po otwarciu aplikacji. Załaduj je tutaj ponownie, aby pobrać najnowsze informacje od swoich dostawców.</string>
 <string name="live_tv_settings_reload_channels">Załaduj ponownie kanały</string>
+<string name="live_tv_ui_show_or_hide_groups">Pokaż lub ukryj grupy</string>
+<string name="live_tv_ui_show_or_hide_groups_description">Wybierz, które grupy mają być widoczne na liście kanałów i w menu grup.</string>
+<string name="live_tv_ui_hide_all_groups">Ukryj wszystkie</string>
+<string name="live_tv_ui_show_all_groups">Pokaż wszystkie</string>
+<string name="live_tv_ui_group_channel_count">%1$d kanałów</string>
 <string name="live_tv_settings_reload_epg">Załaduj ponownie EPG</string>
 <string name="live_tv_settings_reload_channels_loading">Ładowanie kanałów…</string>
 <string name="live_tv_settings_reload_channels_status">Załadowano %1$d kanałów.</string>

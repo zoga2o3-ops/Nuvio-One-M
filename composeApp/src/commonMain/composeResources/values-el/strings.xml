@@ -2709,6 +2709,11 @@
     <string name="live_tv_settings_section_reload">ΕΓΧΕΙΡΙΔΙΟ ΕΠΑΝΑΦΟΡΤΩΣΗ</string>
     <string name="live_tv_settings_reload_description">Τα κανάλια και ο οδηγός τηλεόρασης αποθηκεύονται στη συσκευή σας και χρησιμοποιούνται ξανά όταν ανοίγετε την εφαρμογή. Φορτώστε τα ξανά εδώ για να λάβετε τα πιο πρόσφατα από τους παρόχους σας.</string>
     <string name="live_tv_settings_reload_channels">Επαναφόρτωση καναλιών</string>
+    <string name="live_tv_ui_show_or_hide_groups">Εμφάνιση ή απόκρυψη ομάδων</string>
+    <string name="live_tv_ui_show_or_hide_groups_description">Επιλέξτε ποιες ομάδες θα εμφανίζονται στη λίστα καναλιών και στο μενού ομάδων.</string>
+    <string name="live_tv_ui_hide_all_groups">Απόκρυψη όλων</string>
+    <string name="live_tv_ui_show_all_groups">Εμφάνιση όλων</string>
+    <string name="live_tv_ui_group_channel_count">%1$d κανάλια</string>
     <string name="live_tv_settings_reload_epg">Επαναφόρτωση EPG</string>
     <string name="live_tv_settings_reload_channels_loading">Φόρτωση καναλιών…</string>
     <string name="live_tv_settings_reload_channels_status">Φορτώθηκαν %1$d κανάλια.</string>

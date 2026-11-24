@@ -2681,6 +2681,11 @@
 <string name="live_tv_settings_section_reload">إعادة التحميل اليدوي</string>
 <string name="live_tv_settings_reload_description">يتم حفظ القنوات ودليل التلفزيون على جهازك وإعادة استخدامها عند فتح التطبيق. قم بإعادة تحميلها هنا لجلب الأحدث من مقدمي الخدمة لديك.</string>
 <string name="live_tv_settings_reload_channels">إعادة تحميل القنوات</string>
+<string name="live_tv_ui_show_or_hide_groups">إظهار المجموعات أو إخفاؤها</string>
+<string name="live_tv_ui_show_or_hide_groups_description">اختر المجموعات التي تظهر في قائمة القنوات وقائمة المجموعات.</string>
+<string name="live_tv_ui_hide_all_groups">إخفاء الكل</string>
+<string name="live_tv_ui_show_all_groups">إظهار الكل</string>
+<string name="live_tv_ui_group_channel_count">%1$d قناة</string>
 <string name="live_tv_settings_reload_epg">إعادة تحميل دليل البرامج الإلكتروني</string>
 <string name="live_tv_settings_reload_channels_loading">جارٍ تحميل القنوات…</string>
 <string name="live_tv_settings_reload_channels_status">%1$d تم تحميل القنوات.</string>

@@ -1896,6 +1896,11 @@
     <string name="live_tv_settings_section_reload">MUAT ULANG MANUAL</string>
     <string name="live_tv_settings_reload_description">Channel dan panduan TV disimpan di perangkat Anda dan dipakai lagi saat aplikasi dibuka. Muat ulang di sini untuk mengambil data terbaru dari penyedia Anda.</string>
     <string name="live_tv_settings_reload_channels">Muat ulang channel</string>
+    <string name="live_tv_ui_show_or_hide_groups">Tampilkan atau sembunyikan grup</string>
+    <string name="live_tv_ui_show_or_hide_groups_description">Pilih grup yang ditampilkan di daftar saluran dan menu grup.</string>
+    <string name="live_tv_ui_hide_all_groups">Sembunyikan semua</string>
+    <string name="live_tv_ui_show_all_groups">Tampilkan semua</string>
+    <string name="live_tv_ui_group_channel_count">%1$d saluran</string>
     <string name="live_tv_settings_reload_epg">Muat ulang EPG</string>
     <string name="live_tv_settings_reload_channels_loading">Memuat channel…</string>
     <string name="live_tv_settings_reload_channels_status">%1$d channel dimuat.</string>

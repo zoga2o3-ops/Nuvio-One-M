@@ -2514,6 +2514,11 @@
 <string name="live_tv_settings_section_reload">دستی دوبارہ لوڈ کریں۔</string>
 <string name="live_tv_settings_reload_description">چینلز اور TV گائیڈ آپ کے آلے پر محفوظ کیے جاتے ہیں اور جب آپ ایپ کھولتے ہیں تو دوبارہ استعمال کیا جاتا ہے۔ اپنے فراہم کنندگان سے تازہ ترین حاصل کرنے کے لیے انہیں یہاں دوبارہ لوڈ کریں۔</string>
 <string name="live_tv_settings_reload_channels">چینلز کو دوبارہ لوڈ کریں۔</string>
+<string name="live_tv_ui_show_or_hide_groups">گروپس دکھائیں یا چھپائیں</string>
+<string name="live_tv_ui_show_or_hide_groups_description">منتخب کریں کہ چینل کی فہرست اور گروپ مینو میں کون سے گروپس نظر آئیں۔</string>
+<string name="live_tv_ui_hide_all_groups">سب چھپائیں</string>
+<string name="live_tv_ui_show_all_groups">سب دکھائیں</string>
+<string name="live_tv_ui_group_channel_count">%1$d چینلز</string>
 <string name="live_tv_settings_reload_epg">EPG دوبارہ لوڈ کریں۔</string>
 <string name="live_tv_settings_reload_channels_loading">چینلز لوڈ ہو رہے ہیں…</string>
 <string name="live_tv_settings_reload_channels_status">%1$d چینلز لوڈ ہوئے۔</string>

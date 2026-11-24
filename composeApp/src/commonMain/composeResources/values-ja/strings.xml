@@ -2692,6 +2692,11 @@
 <string name="live_tv_settings_section_reload">手動リロード</string>
 <string name="live_tv_settings_reload_description">チャンネルと TV ガイドはデバイスに保存され、アプリを開いたときに再利用されます。ここでそれらをリロードして、プロバイダーから最新のものを取得します。</string>
 <string name="live_tv_settings_reload_channels">チャンネルをリロードする</string>
+<string name="live_tv_ui_show_or_hide_groups">グループの表示/非表示</string>
+<string name="live_tv_ui_show_or_hide_groups_description">チャンネル一覧とグループメニューに表示するグループを選択します。</string>
+<string name="live_tv_ui_hide_all_groups">すべて非表示</string>
+<string name="live_tv_ui_show_all_groups">すべて表示</string>
+<string name="live_tv_ui_group_channel_count">%1$d チャンネル</string>
 <string name="live_tv_settings_reload_epg">EPG をリロードする</string>
 <string name="live_tv_settings_reload_channels_loading">チャンネルを読み込み中…</string>
 <string name="live_tv_settings_reload_channels_status">%1$d チャンネルがロードされました。</string>

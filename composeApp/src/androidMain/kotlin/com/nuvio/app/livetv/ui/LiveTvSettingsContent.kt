@@ -73,6 +73,7 @@ fun LiveTvSettingsContent() {
     var showAddPlaylist by remember { mutableStateOf(false) }
     var showAddEpg by remember { mutableStateOf(false) }
     var showGroupTags by remember { mutableStateOf(false) }
+    var showGroupVisibility by remember { mutableStateOf(false) }
     var groupTags by remember { mutableStateOf<List<LiveTvGroupTags.Tag>>(emptyList()) }
     var scanningTags by remember { mutableStateOf(false) }
     val notifications = rememberLiveTvNotificationPermission()
@@ -139,6 +140,10 @@ fun LiveTvSettingsContent() {
                     stringResource(Res.string.live_tv_ui_group_tags_selected, user.groupTagFilters.size)
                 },
             ) { showGroupTags = true }
+            ActionLine(
+                title = stringResource(Res.string.live_tv_ui_show_or_hide_groups),
+                detail = stringResource(Res.string.live_tv_ui_show_or_hide_groups_description),
+            ) { showGroupVisibility = true }
             var editNames by remember { mutableStateOf(false) }
             ActionLine(stringResource(Res.string.live_tv_ui_clean_up_channel_names), if (settings.nameRemovals.isBlank()) stringResource(Res.string.live_tv_ui_remove_tags_hint) else stringResource(Res.string.live_tv_ui_removing, settings.nameRemovals)) { editNames = true }
             SwitchRow(stringResource(Res.string.live_tv_ui_also_clean_group_names), "Take the same words off group names too.", settings.cleanGroupNames) { v -> change { it.copy(cleanGroupNames = v) } }
@@ -526,6 +531,22 @@ fun LiveTvSettingsContent() {
             onToggle = { tag, enabled -> sources.setGroupTagFilter(tag, enabled) },
             onClear = { sources.clearGroupTagFilters() },
             onDismiss = { showGroupTags = false },
+        )
+    }
+    if (showGroupVisibility) {
+        val groupIds = remember(allChannels) { allChannels.map { it.groupId }.distinct() }
+        val groupTitles = remember(allChannels, user.groupNames) {
+            allChannels.distinctBy { it.groupId }.map { it.groupId to (user.groupNames[it.groupId] ?: it.group) }
+        }
+        val groupCounts = remember(allChannels) { allChannels.groupingBy { it.groupId }.eachCount() }
+        GroupVisibilityDialog(
+            groups = groupTitles,
+            counts = groupCounts,
+            hidden = user.hiddenGroups,
+            onToggle = { id, shown -> sources.setGroupHidden(id, !shown) },
+            onHideAll = { sources.updateGroupVisibility(show = emptySet(), hide = groupIds.toSet()) },
+            onShowAll = { sources.updateGroupVisibility(show = groupIds.toSet(), hide = emptySet()) },
+            onDismiss = { showGroupVisibility = false },
         )
     }
     if (editHomeRowTitle) {
@@ -954,6 +975,62 @@ private fun DriveSyncSection(live: LiveTv) {
             dismissButton = { TextButton(onClick = { askRestore = null }) { Text(stringResource(Res.string.action_cancel)) } },
         )
     }
+}
+
+@Composable
+private fun GroupVisibilityDialog(
+    groups: List<Pair<String, String>>,
+    counts: Map<String, Int>,
+    hidden: Set<String>,
+    onToggle: (String, Boolean) -> Unit,
+    onHideAll: () -> Unit,
+    onShowAll: () -> Unit,
+    onDismiss: () -> Unit,
+) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text(stringResource(Res.string.live_tv_ui_show_or_hide_groups)) },
+        text = {
+            Column {
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    TextButton(onClick = onHideAll, enabled = groups.any { it.first !in hidden }) {
+                        Text(stringResource(Res.string.live_tv_ui_hide_all_groups))
+                    }
+                    TextButton(onClick = onShowAll, enabled = hidden.isNotEmpty()) {
+                        Text(stringResource(Res.string.live_tv_ui_show_all_groups))
+                    }
+                }
+                if (groups.isEmpty()) {
+                    Text(
+                        stringResource(Res.string.live_tv_ui_group_tags_no_channels),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = LocalContentColor.current.copy(alpha = 0.7f),
+                    )
+                } else {
+                    LazyColumn(Modifier.fillMaxWidth().heightIn(max = 360.dp)) {
+                        items(groups, key = { it.first }) { (id, title) ->
+                            Row(
+                                modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
+                                verticalAlignment = Alignment.CenterVertically,
+                            ) {
+                                Column(Modifier.weight(1f)) {
+                                    Text(title, style = MaterialTheme.typography.bodyLarge)
+                                    Text(
+                                        stringResource(Res.string.live_tv_ui_group_channel_count, counts[id] ?: 0),
+                                        style = MaterialTheme.typography.bodySmall,
+                                        color = LocalContentColor.current.copy(alpha = 0.7f),
+                                    )
+                                }
+                                val shown = id !in hidden
+                                Switch(checked = shown, onCheckedChange = { onToggle(id, it) })
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        confirmButton = { TextButton(onClick = onDismiss) { Text(stringResource(Res.string.action_done)) } },
+    )
 }
 
 @Composable

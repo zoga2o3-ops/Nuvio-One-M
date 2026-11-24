@@ -2650,6 +2650,11 @@
 <string name="live_tv_settings_section_reload">טעינה ידנית מחדש</string>
 <string name="live_tv_settings_reload_description">ערוצים ומדריך הטלוויזיה נשמרים במכשיר שלך ועושים שימוש חוזר בעת פתיחת האפליקציה. טען אותם מחדש כאן כדי להביא את העדכונים האחרונים מהספקים שלך.</string>
 <string name="live_tv_settings_reload_channels">טען מחדש ערוצים</string>
+<string name="live_tv_ui_show_or_hide_groups">הצג או הסתר קבוצות</string>
+<string name="live_tv_ui_show_or_hide_groups_description">בחר אילו קבוצות יופיעו ברשימת הערוצים ובתפריט הקבוצות.</string>
+<string name="live_tv_ui_hide_all_groups">הסתר הכול</string>
+<string name="live_tv_ui_show_all_groups">הצג הכול</string>
+<string name="live_tv_ui_group_channel_count">%1$d ערוצים</string>
 <string name="live_tv_settings_reload_epg">טען מחדש את ה-EPG</string>
 <string name="live_tv_settings_reload_channels_loading">טוען ערוצים...</string>
 <string name="live_tv_settings_reload_channels_status">%1$d ערוצים נטענו.</string>

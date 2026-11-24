@@ -2295,6 +2295,11 @@
     <string name="live_tv_settings_section_reload">RECARGA MANUAL</string>
     <string name="live_tv_settings_reload_description">Os canais e o guia de TV são guardados no seu dispositivo e reutilizados quando abre a aplicação. Recarregue-os aqui para obter as novidades dos seus fornecedores.</string>
     <string name="live_tv_settings_reload_channels">Recarregar canais</string>
+    <string name="live_tv_ui_show_or_hide_groups">Mostrar ou ocultar grupos</string>
+    <string name="live_tv_ui_show_or_hide_groups_description">Escolha quais grupos aparecem na lista de canais e no menu de grupos.</string>
+    <string name="live_tv_ui_hide_all_groups">Ocultar todos</string>
+    <string name="live_tv_ui_show_all_groups">Mostrar todos</string>
+    <string name="live_tv_ui_group_channel_count">%1$d canais</string>
     <string name="live_tv_settings_reload_epg">Recarregar EPG</string>
     <string name="live_tv_settings_reload_channels_loading">Canais de carregamento…</string>
     <string name="live_tv_settings_reload_channels_status">%1$d canais carregados.</string>

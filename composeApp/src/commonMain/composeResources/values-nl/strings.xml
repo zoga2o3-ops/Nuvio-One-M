@@ -2693,6 +2693,11 @@
 <string name="live_tv_settings_section_reload">HANDMATIG HERLADEN</string>
 <string name="live_tv_settings_reload_description">Kanalen en de tv-gids worden op uw apparaat opgeslagen en hergebruikt wanneer u de app opent. Laad ze hier opnieuw om het laatste nieuws van uw providers op te halen.</string>
 <string name="live_tv_settings_reload_channels">Kanalen opnieuw laden</string>
+<string name="live_tv_ui_show_or_hide_groups">Groepen tonen of verbergen</string>
+<string name="live_tv_ui_show_or_hide_groups_description">Kies welke groepen in de zenderlijst en het groepenmenu worden getoond.</string>
+<string name="live_tv_ui_hide_all_groups">Alles verbergen</string>
+<string name="live_tv_ui_show_all_groups">Alles tonen</string>
+<string name="live_tv_ui_group_channel_count">%1$d zenders</string>
 <string name="live_tv_settings_reload_epg">EPG opnieuw laden</string>
 <string name="live_tv_settings_reload_channels_loading">Kanalen laden…</string>
 <string name="live_tv_settings_reload_channels_status">%1$d zenders geladen.</string>

@@ -1058,6 +1058,11 @@
 <string name="live_tv_settings_section_reload">MANUAL RELOAD</string>
 <string name="live_tv_settings_reload_description">Channels and the TV guide are saved on your device and reused when you open the app. Reload them here to fetch the latest from your providers.</string>
 <string name="live_tv_settings_reload_channels">Reload channels</string>
+    <string name="live_tv_ui_show_or_hide_groups">Show or hide groups</string>
+    <string name="live_tv_ui_show_or_hide_groups_description">Choose which groups appear in the channel list and the group menu.</string>
+    <string name="live_tv_ui_hide_all_groups">Hide all</string>
+    <string name="live_tv_ui_show_all_groups">Show all</string>
+    <string name="live_tv_ui_group_channel_count">%1$d channels</string>
 <string name="live_tv_settings_reload_epg">Reload EPG</string>
 <string name="live_tv_settings_reload_channels_loading">Loading channels…</string>
 <string name="live_tv_settings_reload_channels_status">%1$d channels loaded.</string>
