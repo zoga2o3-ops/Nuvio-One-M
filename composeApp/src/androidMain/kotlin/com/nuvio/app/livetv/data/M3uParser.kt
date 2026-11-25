@@ -104,8 +104,15 @@ object M3uParser {
                                     runCatching { java.net.URLDecoder.decode(part.substringAfter('=', ""), "UTF-8") }.getOrDefault(part.substringAfter('=', ""))
                             }
                         }
-                        val entry = buildEntry(info, pendingGroup, line, pendingHeaders.toMap(), headerCatchup).copy(drm = drmFrom(pendingProps))
-                    if (keepUrl(entry.url)) entries.add(entry)
+                        // Skip entries the caller doesn't need before building all their metadata.
+                        // Large m3u_plus files can contain 100,000+ VOD entries alongside channels.
+                        val pipe = line.indexOf('|')
+                        val streamUrl = (if (pipe > 0) line.substring(0, pipe) else line).trim()
+                        if (keepUrl(streamUrl)) {
+                            val entry = buildEntry(info, pendingGroup, line, pendingHeaders.toMap(), headerCatchup)
+                                .copy(drm = drmFrom(pendingProps))
+                            entries.add(entry)
+                        }
                     }
                     pendingInfo = null
                     pendingGroup = null

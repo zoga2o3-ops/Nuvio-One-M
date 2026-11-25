@@ -1,4 +1,10 @@
 <resources>
+    <string name="live_tv_addon_channels">Tilleggskanaler</string>
+    <string name="live_tv_addon_channels_hint">Velg installerte direktesendte TV-kataloger som skal vises i programoversikten.</string>
+    <string name="live_tv_addon_channels_none">Ingen installerte tillegg tilbyr en direktesendt TV-katalog.</string>
+    <string name="live_tv_addon_channels_refresh">Oppdater</string>
+    <string name="live_tv_addon_stream_error">Kanalen fra tillegget kunne ikke lastes inn. Prøv å oppdatere katalogen.</string>
+    <string name="live_tv_addon_catalog_error">Katalogen kunne ikke lastes inn. Trykk på Oppdater for å prøve igjen.</string>
     <string name="about_licenses_attributions_subtitle">Datakilder, anerkjennelser og plattformlisenser</string>
 <string name="about_supporters_contributors_subtitle">Åpen anerkjennelse og bidragsytere</string>
 <string name="action_back">Tilbake</string>
@@ -4116,4 +4122,15 @@ Du bruker denne funksjonen helt på eget ansvar. P2P kan deaktiveres når som he
     <string name="live_tv_ui_server_address">Serveradresse</string>
     <string name="live_tv_ui_use_https">Bruk HTTPS</string>
     <string name="live_tv_ui_use_https_description">For leverandører som gir deg en adresse med https://.</string>
+    <string name="music_home_quick_picks">Hurtigvalg</string>
+    <string name="music_home_daily_mixes">Daglige mikser</string>
+    <string name="music_home_daily_mix_number">Daglig miks %1$d</string>
+    <string name="music_home_on_repeat">På repetisjon</string>
+    <string name="music_home_because_you_listened">Fordi du lyttet til</string>
+    <string name="music_home_because_you_listened_to">Fordi du lyttet til %1$s</string>
+    <string name="music_home_forgotten_favorites">Glemte favoritter</string>
+    <string name="music_discover_weekly">Ukens oppdagelser</string>
+    <string name="music_discover_release_radar">Nye utgivelser</string>
+    <string name="music_discover_fans_also_like">Fans liker også</string>
+    <string name="music_discover_refreshing">Oppdaterer anbefalinger…</string>
 </resources>

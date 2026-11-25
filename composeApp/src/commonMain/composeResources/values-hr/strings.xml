@@ -1,4 +1,10 @@
 <resources>
+    <string name="live_tv_addon_channels">Kanali dodataka</string>
+    <string name="live_tv_addon_channels_hint">Odaberite instalirane kataloge TV-a uživo za prikaz u vodiču.</string>
+    <string name="live_tv_addon_channels_none">Nijedan instalirani dodatak ne nudi katalog TV-a uživo.</string>
+    <string name="live_tv_addon_channels_refresh">Osvježi</string>
+    <string name="live_tv_addon_stream_error">Nije moguće učitati kanal iz dodatka. Pokušajte osvježiti katalog.</string>
+    <string name="live_tv_addon_catalog_error">Katalog nije moguće učitati. Dodirnite Osvježi za ponovni pokušaj.</string>
     <string name="theme_gold">Zlatna</string>
 <string name="theme_jade">Žad</string>
 <string name="theme_rose_gold">Ružičasto zlato</string>
@@ -4144,4 +4150,15 @@
     <string name="live_tv_ui_server_address">Adresa poslužitelja</string>
     <string name="live_tv_ui_use_https">Koristi HTTPS</string>
     <string name="live_tv_ui_use_https_description">Za pružatelje koji vam daju adresu https://.</string>
+    <string name="music_home_quick_picks">Brzi odabir</string>
+    <string name="music_home_daily_mixes">Dnevni miksevi</string>
+    <string name="music_home_daily_mix_number">Dnevni miks %1$d</string>
+    <string name="music_home_on_repeat">Na ponavljanju</string>
+    <string name="music_home_because_you_listened">Zato što ste slušali</string>
+    <string name="music_home_because_you_listened_to">Zato što ste slušali %1$s</string>
+    <string name="music_home_forgotten_favorites">Zaboravljeni favoriti</string>
+    <string name="music_discover_weekly">Tjedno otkriće</string>
+    <string name="music_discover_release_radar">Nova izdanja</string>
+    <string name="music_discover_fans_also_like">Obožavatelji vole i</string>
+    <string name="music_discover_refreshing">Osvježavanje preporuka…</string>
 </resources>

@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="live_tv_addon_channels">قنوات الإضافات</string>
+    <string name="live_tv_addon_channels_hint">اختر كتالوجات البث التلفزيوني المباشر المثبّتة لعرضها في الدليل.</string>
+    <string name="live_tv_addon_channels_none">لا توفّر الإضافات المثبّتة كتالوج بث تلفزيوني مباشر.</string>
+    <string name="live_tv_addon_channels_refresh">تحديث</string>
+    <string name="live_tv_addon_stream_error">تعذّر تحميل هذه القناة من الإضافة. حاول تحديث الكتالوج.</string>
+    <string name="live_tv_addon_catalog_error">تعذّر تحميل الكتالوج. اضغط على تحديث للمحاولة مرة أخرى.</string>
     <string name="theme_gold">ذهبي</string>
 <string name="theme_jade">يشمي</string>
 <string name="theme_rose_gold">ذهبي وردي</string>
@@ -4158,4 +4164,15 @@
     <string name="live_tv_ui_server_address">عنوان الخادم</string>
     <string name="live_tv_ui_use_https">استخدام HTTPS</string>
     <string name="live_tv_ui_use_https_description">لمزودي الخدمة الذين يقدمون عنوان https://.</string>
+    <string name="music_home_quick_picks">اختيارات سريعة</string>
+    <string name="music_home_daily_mixes">مزيجات يومية</string>
+    <string name="music_home_daily_mix_number">المزيج اليومي %1$d</string>
+    <string name="music_home_on_repeat">على التكرار</string>
+    <string name="music_home_because_you_listened">لأنك استمعت</string>
+    <string name="music_home_because_you_listened_to">لأنك استمعت إلى %1$s</string>
+    <string name="music_home_forgotten_favorites">المفضلات المنسية</string>
+    <string name="music_discover_weekly">اكتشاف الأسبوع</string>
+    <string name="music_discover_release_radar">أحدث الإصدارات</string>
+    <string name="music_discover_fans_also_like">يستمع المعجبون أيضًا إلى</string>
+    <string name="music_discover_refreshing">جارٍ تحديث التوصيات…</string>
 </resources>

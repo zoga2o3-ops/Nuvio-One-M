@@ -25,11 +25,12 @@ import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.GridView
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -114,10 +115,11 @@ internal fun LiveTvMultiviewPicker(
                         stringResource(Res.string.live_tv_ui_multiview),
                         style = MaterialTheme.typography.headlineSmall,
                         fontWeight = FontWeight.Bold,
+                        color = Color(0xFFF5F5F7),
                         modifier = Modifier.weight(1f).padding(start = 10.dp),
                     )
                     IconButton(onClick = onDismiss) {
-                        Icon(Icons.Default.Close, contentDescription = stringResource(Res.string.action_cancel))
+                        Icon(Icons.Default.Close, contentDescription = stringResource(Res.string.action_cancel), tint = Color.White)
                     }
                 }
                 Text(
@@ -126,14 +128,23 @@ internal fun LiveTvMultiviewPicker(
                         else Res.string.live_tv_ui_multiview_pick
                     ),
                     style = MaterialTheme.typography.bodyMedium,
-                    color = LocalContentColor.current.copy(alpha = 0.7f),
+                    color = Color(0xFFB8B8C0),
                     modifier = Modifier.padding(top = 4.dp, bottom = 12.dp),
                 )
                 OutlinedTextField(
                     value = query,
                     onValueChange = { query = it },
                     singleLine = true,
-                    placeholder = { Text(stringResource(Res.string.compose_nav_search)) },
+                    placeholder = { Text(stringResource(Res.string.compose_nav_search), color = Color(0xFFB8B8C0)) },
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedTextColor = Color(0xFFF5F5F7),
+                        unfocusedTextColor = Color(0xFFF5F5F7),
+                        focusedPlaceholderColor = Color(0xFFB8B8C0),
+                        unfocusedPlaceholderColor = Color(0xFFB8B8C0),
+                        focusedBorderColor = Color(0xFFE53935),
+                        unfocusedBorderColor = Color(0xFF77777F),
+                        cursorColor = Color(0xFFE53935),
+                    ),
                     modifier = Modifier.fillMaxWidth(),
                 )
                 LazyColumn(
@@ -167,11 +178,11 @@ internal fun LiveTvMultiviewPicker(
                                 },
                             )
                             Column(Modifier.weight(1f)) {
-                                Text(channel.name, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                                Text(channel.name, color = Color(0xFFF5F5F7), maxLines = 1, overflow = TextOverflow.Ellipsis)
                                 Text(
                                     channel.group,
                                     style = MaterialTheme.typography.bodySmall,
-                                    color = LocalContentColor.current.copy(alpha = 0.55f),
+                                    color = Color(0xFFB8B8C0),
                                     maxLines = 1,
                                     overflow = TextOverflow.Ellipsis,
                                 )
@@ -184,10 +195,16 @@ internal fun LiveTvMultiviewPicker(
                     horizontalArrangement = Arrangement.End,
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    TextButton(onClick = onDismiss) { Text(stringResource(Res.string.action_cancel)) }
+                    TextButton(onClick = onDismiss, colors = ButtonDefaults.textButtonColors(contentColor = Color.White)) {
+                        Text(stringResource(Res.string.action_cancel))
+                    }
                     TextButton(
                         onClick = { if (picked.isNotEmpty()) onStart(picked) },
                         enabled = picked.isNotEmpty(),
+                        colors = ButtonDefaults.textButtonColors(
+                            contentColor = Color.White,
+                            disabledContentColor = Color(0xFF77777F),
+                        ),
                     ) {
                         Icon(Icons.Default.Check, contentDescription = null, modifier = Modifier.size(18.dp))
                         Text(

@@ -42,9 +42,10 @@ internal actual object ExternalPlayerPlatform {
             // Required when launching from application context (fire-and-forget path)
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         }
+        val chooser = Intent.createChooser(intent, null).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 
         return try {
-            context.startActivity(intent)
+            context.startActivity(chooser)
             ExternalPlayerOpenResult.Opened
         } catch (_: ActivityNotFoundException) {
             ExternalPlayerOpenResult.NoPlayerAvailable
@@ -61,7 +62,9 @@ internal actual object ExternalPlayerPlatform {
         val uri = request.sourceUrl.toExternalPlaybackUri(context)
             ?: return ExternalPlayerIntentResult.Failed
         val intent = buildExternalPlayerIntent(context, request, uri)
-        return ExternalPlayerIntentResult.Success(intent)
+        // Always show Android's app picker so users can choose VLC, Web Video Caster, Castify, etc.
+        // instead of silently launching a remembered default (or appearing to have no player).
+        return ExternalPlayerIntentResult.Success(Intent.createChooser(intent, null))
     }
 
     private fun buildExternalPlayerIntent(

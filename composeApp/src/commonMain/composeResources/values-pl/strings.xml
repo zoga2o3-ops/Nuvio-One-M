@@ -1,4 +1,10 @@
 <resources>
+    <string name="live_tv_addon_channels">Kanały z dodatków</string>
+    <string name="live_tv_addon_channels_hint">Wybierz zainstalowane katalogi telewizji na żywo do wyświetlenia w przewodniku.</string>
+    <string name="live_tv_addon_channels_none">Żaden zainstalowany dodatek nie udostępnia katalogu telewizji na żywo.</string>
+    <string name="live_tv_addon_channels_refresh">Odśwież</string>
+    <string name="live_tv_addon_stream_error">Nie udało się wczytać kanału z dodatku. Spróbuj odświeżyć katalog.</string>
+    <string name="live_tv_addon_catalog_error">Nie udało się wczytać katalogu. Dotknij Odśwież, aby spróbować ponownie.</string>
     <string name="about_licenses_attributions_subtitle">Źródła danych, podziękowania i licencje platformy</string>
 <string name="about_supporters_contributors_subtitle">Osoby wspierające i współtworzące projekt</string>
 <string name="action_back">Wstecz</string>
@@ -5685,4 +5691,15 @@
     <string name="live_tv_ui_server_address">Adres serwera</string>
     <string name="live_tv_ui_use_https">Użyj HTTPS</string>
     <string name="live_tv_ui_use_https_description">Dla dostawców, którzy podają adres https://.</string>
+    <string name="music_home_quick_picks">Szybkie propozycje</string>
+    <string name="music_home_daily_mixes">Codzienne miksy</string>
+    <string name="music_home_daily_mix_number">Codzienny miks %1$d</string>
+    <string name="music_home_on_repeat">W kółko</string>
+    <string name="music_home_because_you_listened">Ponieważ słuchasz</string>
+    <string name="music_home_because_you_listened_to">Ponieważ słuchasz %1$s</string>
+    <string name="music_home_forgotten_favorites">Zapomniane ulubione</string>
+    <string name="music_discover_weekly">Odkrycia tygodnia</string>
+    <string name="music_discover_release_radar">Nowe wydania</string>
+    <string name="music_discover_fans_also_like">Fani lubią też</string>
+    <string name="music_discover_refreshing">Odświeżanie rekomendacji…</string>
 </resources>

@@ -380,7 +380,8 @@ internal fun MainAppContent(
     val downloadedProviderLabel = stringResource(Res.string.provider_downloaded)
     val externalPlayerNotConfiguredText = stringResource(Res.string.external_player_not_configured)
     val externalPlayerUnavailableText = stringResource(Res.string.external_player_unavailable)
-    val externalPlayerFailedText = stringResource(Res.string.external_player_failed)
+        val externalPlayerFailedText = stringResource(Res.string.external_player_failed)
+        val liveTvAddonStreamErrorText = stringResource(Res.string.live_tv_addon_stream_error)
     val failedOpenBrowserText = stringResource(Res.string.settings_trakt_failed_open_browser)
     val cloudLibraryPlayFailedText = stringResource(Res.string.cloud_library_play_failed)
     val cloudLibraryPlayDisabledText = stringResource(Res.string.cloud_library_play_disabled)
@@ -996,23 +997,52 @@ internal fun MainAppContent(
         }
 
         fun openLiveTvChannel(request: com.nuvio.app.features.livetv.LiveTvPlayRequest) {
-            val playerLaunch = PlayerLaunch(
-                profileId = activePlaybackProfileId,
-                title = request.title,
-                sourceUrl = request.url,
-                sourceHeaders = request.headers,
-                poster = request.poster,
-                streamTitle = request.title,
-                streamSubtitle = request.subtitle,
-                providerName = "Live TV",
-                contentType = if (request.catchup) "livetv-catchup" else "livetv",
-                videoId = request.channelKey,
-                parentMetaId = "livetv:" + request.channelKey,
-                parentMetaType = if (request.catchup) "livetv-catchup" else "livetv",
-                initialPositionMs = request.startPositionMs ?: 0L,
-            )
-            val launchId = PlayerLaunchStore.put(playerLaunch)
-            navController.navigate(PlayerRoute(launchId = launchId, title = playerLaunch.title))
+            coroutineScope.launch {
+                val playableRequest = if (
+                    request.addonManifestUrl != null && request.addonChannelId != null
+                ) {
+                    runCatching {
+                        val url = com.nuvio.app.features.addons.buildAddonResourceUrl(
+                            manifestUrl = request.addonManifestUrl,
+                            resource = "stream",
+                            type = "tv",
+                            id = request.addonChannelId,
+                        )
+                        val payload = com.nuvio.app.features.addons.fetchAddonResponseText(url, forceRefresh = true)
+                        val stream = com.nuvio.app.features.streams.StreamParser.parse(
+                            payload = payload,
+                            addonName = request.addonName.orEmpty(),
+                            addonId = request.addonId.orEmpty(),
+                            addonLogo = request.addonLogo,
+                        ).firstOrNull { it.playableDirectUrl?.startsWith("http", ignoreCase = true) == true }
+                            ?: error("The add-on did not return a playable Live TV stream.")
+                        request.copy(
+                            url = stream.playableDirectUrl!!,
+                            headers = stream.behaviorHints.proxyHeaders?.request.orEmpty(),
+                        )
+                    }.getOrElse {
+                        NuvioToastController.show(liveTvAddonStreamErrorText)
+                        return@launch
+                    }
+                } else request
+                val playerLaunch = PlayerLaunch(
+                    profileId = activePlaybackProfileId,
+                    title = playableRequest.title,
+                    sourceUrl = playableRequest.url,
+                    sourceHeaders = playableRequest.headers,
+                    poster = playableRequest.poster,
+                    streamTitle = playableRequest.title,
+                    streamSubtitle = playableRequest.subtitle,
+                    providerName = "Live TV",
+                    contentType = if (playableRequest.catchup) "livetv-catchup" else "livetv",
+                    videoId = playableRequest.channelKey,
+                    parentMetaId = "livetv:" + playableRequest.channelKey,
+                    parentMetaType = if (playableRequest.catchup) "livetv-catchup" else "livetv",
+                    initialPositionMs = playableRequest.startPositionMs ?: 0L,
+                )
+                val launchId = PlayerLaunchStore.put(playerLaunch)
+                navController.navigate(PlayerRoute(launchId = launchId, title = playerLaunch.title))
+            }
         }
 
         fun openYouTubeVideo(request: com.nuvio.app.features.youtube.YouTubePlayRequest) {

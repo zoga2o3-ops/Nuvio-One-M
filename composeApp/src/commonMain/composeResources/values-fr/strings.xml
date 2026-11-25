@@ -1,4 +1,10 @@
 <resources>
+    <string name="live_tv_addon_channels">Chaînes des extensions</string>
+    <string name="live_tv_addon_channels_hint">Choisissez les catalogues TV en direct installés à afficher dans le guide.</string>
+    <string name="live_tv_addon_channels_none">Aucune extension installée ne fournit de catalogue TV en direct.</string>
+    <string name="live_tv_addon_channels_refresh">Actualiser</string>
+    <string name="live_tv_addon_stream_error">Impossible de charger cette chaîne de l’extension. Essayez d’actualiser le catalogue.</string>
+    <string name="live_tv_addon_catalog_error">Impossible de charger le catalogue. Appuyez sur Actualiser pour réessayer.</string>
     <string name="theme_gold">Or</string>
     <string name="theme_jade">Jade</string>
     <string name="theme_rose_gold">Or rose</string>
@@ -4218,4 +4224,15 @@
     <string name="live_tv_ui_server_address">Adresse du serveur</string>
     <string name="live_tv_ui_use_https">Utiliser HTTPS</string>
     <string name="live_tv_ui_use_https_description">Pour les fournisseurs qui vous donnent une adresse https://.</string>
+    <string name="music_home_quick_picks">Sélection rapide</string>
+    <string name="music_home_daily_mixes">Mix quotidiens</string>
+    <string name="music_home_daily_mix_number">Mix quotidien %1$d</string>
+    <string name="music_home_on_repeat">En boucle</string>
+    <string name="music_home_because_you_listened">Parce que vous avez écouté</string>
+    <string name="music_home_because_you_listened_to">Parce que vous avez écouté %1$s</string>
+    <string name="music_home_forgotten_favorites">Favoris oubliés</string>
+    <string name="music_discover_weekly">Découvertes de la semaine</string>
+    <string name="music_discover_release_radar">Nouveautés</string>
+    <string name="music_discover_fans_also_like">Les fans aiment aussi</string>
+    <string name="music_discover_refreshing">Actualisation des recommandations…</string>
 </resources>

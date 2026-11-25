@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="live_tv_addon_channels">অ্যাড-অন চ্যানেল</string>
+    <string name="live_tv_addon_channels_hint">গাইডে দেখানোর জন্য ইনস্টল করা লাইভ টিভি ক্যাটালগ বেছে নিন।</string>
+    <string name="live_tv_addon_channels_none">কোনো ইনস্টল করা অ্যাড-অনে লাইভ টিভি ক্যাটালগ নেই।</string>
+    <string name="live_tv_addon_channels_refresh">রিফ্রেশ</string>
+    <string name="live_tv_addon_stream_error">এই অ্যাড-অন চ্যানেলটি লোড করা যায়নি। ক্যাটালগ রিফ্রেশ করে দেখুন।</string>
+    <string name="live_tv_addon_catalog_error">ক্যাটালগটি লোড করা যায়নি। আবার চেষ্টা করতে রিফ্রেশ চাপুন।</string>
     <string name="theme_gold">গোল্ড</string>
 <string name="theme_jade">জেড</string>
 <string name="theme_rose_gold">রোজ গোল্ড</string>
@@ -4153,4 +4159,15 @@
     <string name="live_tv_ui_server_address">সার্ভার ঠিকানা</string>
     <string name="live_tv_ui_use_https">HTTPS ব্যবহার করুন</string>
     <string name="live_tv_ui_use_https_description">যেসব প্রোভাইডার https:// ঠিকানা দেয় তাদের জন্য।</string>
+    <string name="music_home_quick_picks">দ্রুত বাছাই</string>
+    <string name="music_home_daily_mixes">দৈনিক মিক্স</string>
+    <string name="music_home_daily_mix_number">দৈনিক মিক্স %1$d</string>
+    <string name="music_home_on_repeat">বারবার শোনা</string>
+    <string name="music_home_because_you_listened">আপনি শুনেছেন বলে</string>
+    <string name="music_home_because_you_listened_to">আপনি %1$s শুনেছেন বলে</string>
+    <string name="music_home_forgotten_favorites">ভুলে যাওয়া প্রিয় গান</string>
+    <string name="music_discover_weekly">সাপ্তাহিক আবিষ্কার</string>
+    <string name="music_discover_release_radar">নতুন প্রকাশনা</string>
+    <string name="music_discover_fans_also_like">ভক্তরা আরও পছন্দ করেন</string>
+    <string name="music_discover_refreshing">সুপারিশ আপডেট হচ্ছে…</string>
 </resources>

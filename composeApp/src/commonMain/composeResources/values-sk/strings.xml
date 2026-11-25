@@ -1,5 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
+    <string name="live_tv_addon_channels">Kanály doplnkov</string>
+    <string name="live_tv_addon_channels_hint">Vyberte nainštalované katalógy živej televízie, ktoré sa majú zobraziť v sprievodcovi.</string>
+    <string name="live_tv_addon_channels_none">Žiadny nainštalovaný doplnok neposkytuje katalóg živej televízie.</string>
+    <string name="live_tv_addon_channels_refresh">Obnoviť</string>
+    <string name="live_tv_addon_stream_error">Kanál doplnku sa nepodarilo načítať. Skúste obnoviť katalóg.</string>
+    <string name="live_tv_addon_catalog_error">Katalóg sa nepodarilo načítať. Skúste znova stlačením tlačidla Obnoviť.</string>
     <string name="about_licenses_attributions_subtitle">Zdroje dát, poďakovania a Android licencie</string>
 <string name="about_supporters_contributors_subtitle">Verejné uznanie a kredity projektu</string>
 <string name="action_back">Späť</string>
@@ -4167,4 +4173,15 @@
     <string name="live_tv_ui_server_address">Adresa servera</string>
     <string name="live_tv_ui_use_https">Použiť HTTPS</string>
     <string name="live_tv_ui_use_https_description">Pre poskytovateľov, ktorí vám dajú adresu https://.</string>
+    <string name="music_home_quick_picks">Rýchly výber</string>
+    <string name="music_home_daily_mixes">Denné mixy</string>
+    <string name="music_home_daily_mix_number">Denný mix %1$d</string>
+    <string name="music_home_on_repeat">Opakované prehrávanie</string>
+    <string name="music_home_because_you_listened">Pretože ste počúvali</string>
+    <string name="music_home_because_you_listened_to">Pretože ste počúvali %1$s</string>
+    <string name="music_home_forgotten_favorites">Zabudnuté obľúbené</string>
+    <string name="music_discover_weekly">Objav týždňa</string>
+    <string name="music_discover_release_radar">Nové vydania</string>
+    <string name="music_discover_fans_also_like">Fanúšikovia majú radi aj</string>
+    <string name="music_discover_refreshing">Obnovujú sa odporúčania…</string>
 </resources>

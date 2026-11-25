@@ -1,4 +1,10 @@
 <resources>
+    <string name="live_tv_addon_channels">ערוצים מתוספים</string>
+    <string name="live_tv_addon_channels_hint">בחרו קטלוגי טלוויזיה בשידור חי מותקנים להצגה במדריך.</string>
+    <string name="live_tv_addon_channels_none">אף תוסף מותקן אינו מספק קטלוג טלוויזיה בשידור חי.</string>
+    <string name="live_tv_addon_channels_refresh">רענון</string>
+    <string name="live_tv_addon_stream_error">לא ניתן לטעון את הערוץ מהתוסף. נסו לרענן את הקטלוג.</string>
+    <string name="live_tv_addon_catalog_error">לא ניתן לטעון את הקטלוג. לחצו על רענון כדי לנסות שוב.</string>
     <string name="theme_gold">זהב</string>
 <string name="theme_jade">ירקן</string>
 <string name="theme_rose_gold">זהב ורוד</string>
@@ -4162,4 +4168,15 @@
     <string name="live_tv_ui_server_address">כתובת השרת</string>
     <string name="live_tv_ui_use_https">השתמש ב-HTTPS</string>
     <string name="live_tv_ui_use_https_description">עבור ספקים שנותנים כתובת https://.</string>
+    <string name="music_home_quick_picks">בחירות מהירות</string>
+    <string name="music_home_daily_mixes">מיקסים יומיים</string>
+    <string name="music_home_daily_mix_number">מיקס יומי %1$d</string>
+    <string name="music_home_on_repeat">בהשמעה חוזרת</string>
+    <string name="music_home_because_you_listened">כי האזנת</string>
+    <string name="music_home_because_you_listened_to">כי האזנת ל־%1$s</string>
+    <string name="music_home_forgotten_favorites">מועדפים שנשכחו</string>
+    <string name="music_discover_weekly">תגלית השבוע</string>
+    <string name="music_discover_release_radar">מהדורות חדשות</string>
+    <string name="music_discover_fans_also_like">המעריצים אוהבים גם</string>
+    <string name="music_discover_refreshing">ההמלצות מתעדכנות…</string>
 </resources>

@@ -832,7 +832,6 @@ private fun MobileSettingsScreen(
                     onTmdbClick = { onPageChange(SettingsPage.TmdbEnrichment) },
                     onMdbListClick = { onPageChange(SettingsPage.MdbListRatings) },
                     onOmdbClick = { onPageChange(SettingsPage.Omdb) },
-                    onLiveTvClick = { onPageChange(SettingsPage.LiveTv) },
                     onDiscordClick = { onPageChange(SettingsPage.DiscordRpc) },
                 )
                 SettingsPage.Debrid -> debridSettingsContent(
@@ -1283,7 +1282,6 @@ private fun TabletSettingsScreen(
                         onTmdbClick = { onPageChange(SettingsPage.TmdbEnrichment) },
                         onMdbListClick = { onPageChange(SettingsPage.MdbListRatings) },
                         onOmdbClick = { onPageChange(SettingsPage.Omdb) },
-                        onLiveTvClick = { onPageChange(SettingsPage.LiveTv) },
                         onDiscordClick = { onPageChange(SettingsPage.DiscordRpc) },
                     )
                     SettingsPage.Debrid -> debridSettingsContent(

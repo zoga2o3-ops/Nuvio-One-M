@@ -4,6 +4,9 @@
 -keepattributes SourceFile,LineNumberTable
 -renamesourcefileattribute SourceFile
 
+# JNI entrypoints in the native USB Audio Class driver use the class and method names.
+-keep class com.decent.usbaudio.UsbAudioStream { *; }
+
 # Preserve Kotlin metadata/signatures needed by reflection/generics-heavy libraries.
 -keepattributes *Annotation*
 -keepattributes Signature

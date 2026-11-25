@@ -41,6 +41,8 @@ include(":androidApp")
 include(":baselineprofile")
 include(":vpn-core")
 include(":vpn-android")
+// LastWave's open-source USB audio driver is built in-tree for native USB output.
+include(":audio:decent-usb-audio-driver")
 
 // SmartTube's YouTube engine (MediaServiceCore, MIT). See mediaservicecore/LICENSE-*.
 include(":mediaservicecore:mediaserviceinterfaces")

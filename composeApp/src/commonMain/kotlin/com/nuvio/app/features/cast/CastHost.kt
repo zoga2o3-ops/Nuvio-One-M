@@ -12,6 +12,8 @@ data class CastLoad(
     val positionMs: Long,
     /** A live channel: no length, no seeking. */
     val live: Boolean,
+    /** Original file name, used when a phone-side relay URL no longer has a media extension. */
+    val filename: String? = null,
 )
 
 /** What's on the Cast device right now. */
@@ -33,8 +35,8 @@ data class CastUi(
 )
 
 /**
- * Casting lives in Android-only code (Google Cast). The Android app fills these in at start-up; on
- * other platforms they stay empty and the player shows no Cast button.
+ * Casting lives in Android-only code (Google Cast and DLNA/UPnP). The Android app fills these in at
+ * start-up; on other platforms they stay empty and the player shows no Cast button.
  */
 object CastHost {
     /** Opens the device picker (or, while casting, the disconnect dialog). Null when Cast isn't available. */

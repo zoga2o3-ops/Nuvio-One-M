@@ -15,6 +15,12 @@ data class LiveTvPlayRequest(
     val catchup: Boolean = false,
     /** Start this far in (a buffer being rewound), in milliseconds. */
     val startPositionMs: Long? = null,
+    /** Add-on-backed Live TV channels resolve a fresh stream when opened. */
+    val addonManifestUrl: String? = null,
+    val addonId: String? = null,
+    val addonChannelId: String? = null,
+    val addonName: String? = null,
+    val addonLogo: String? = null,
 )
 
 /**

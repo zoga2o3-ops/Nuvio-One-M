@@ -125,17 +125,17 @@ fun SportsPage(
             ev.sides.any { follows.followsTeam(ev.leagueId, it.team.id) } ||
             follows.words.any { it.isNotBlank() && ev.title.contains(it, ignoreCase = true) }
 
-    val liveFavourites = remember(shown, follows) {
-        shown.filter { it.state == GameState.LIVE && isFavourite(it) }.sortedBy { it.startMs }
+    val liveEvents = remember(shown, follows) {
+        shown.filter { it.state == GameState.LIVE }
+            .sortedWith(compareByDescending<SportsEvent> { isFavourite(it) }.thenBy { it.startMs })
     }
-    val liveFavouriteIds = remember(liveFavourites) { liveFavourites.mapTo(HashSet()) { it.id } }
-    val groups = remember(shown, liveFavouriteIds) {
-        shown.filterNot { it.id in liveFavouriteIds }
+    val groups = remember(shown) {
+        shown.filterNot { it.state == GameState.LIVE }
             .groupBy { it.leagueId }
             .toList()
             .sortedBy { (id, _) -> SportsCatalog.all.indexOfFirst { it.id == id }.let { if (it < 0) Int.MAX_VALUE else it } }
             .map { (id, list) ->
-                id to list.sortedWith(compareBy<SportsEvent> { if (it.state == GameState.LIVE) 0 else 1 }.thenBy { it.startMs })
+                id to list.sortedWith(compareBy<SportsEvent> { if (it.state == GameState.PRE) 0 else 1 }.thenBy { it.startMs })
             }
     }
     val clock = remember(use24Hour) { SimpleDateFormat(if (use24Hour) "HH:mm" else "h:mm a", Locale.getDefault()) }
@@ -195,7 +195,7 @@ fun SportsPage(
             SportsVideoWindow(c, onFullScreen = { windowChannel = null; onWatch(c) }, onClose = { windowChannel = null })
         }
         if (mode == "games") Box(Modifier.weight(1f).fillMaxWidth()) {
-            if (groups.isEmpty() && liveFavourites.isEmpty()) {
+            if (groups.isEmpty() && liveEvents.isEmpty()) {
                 Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                     if (loading) CircularProgressIndicator()
                     else Text(stringResource(Res.string.live_tv_ui_no_games_found_for_this_day), color = LocalContentColor.current.copy(alpha = 0.6f))
@@ -205,21 +205,21 @@ fun SportsPage(
                     contentPadding = PaddingValues(16.dp, 4.dp, 16.dp, 96.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
-                    if (liveFavourites.isNotEmpty()) {
-                        item(key = "h-my-live") {
+                    if (liveEvents.isNotEmpty()) {
+                        item(key = "h-live") {
                             Text(
-                                stringResource(Res.string.live_tv_ui_my_live_games),
+                                stringResource(Res.string.live_tv_epg_on_now),
                                 style = MaterialTheme.typography.titleSmall,
                                 color = MaterialTheme.colorScheme.primary,
                                 modifier = Modifier.padding(top = 10.dp),
                             )
                         }
-                        item(key = "my-live-row") {
+                        item(key = "live-row") {
                             LazyRow(
                                 contentPadding = PaddingValues(vertical = 2.dp),
                                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                             ) {
-                                items(liveFavourites, key = { it.id }) { ev ->
+                                items(liveEvents, key = { it.id }) { ev ->
                                     LiveGameCard(
                                         ev = ev,
                                         sport = SportsCatalog.league(ev.leagueId)?.sport,

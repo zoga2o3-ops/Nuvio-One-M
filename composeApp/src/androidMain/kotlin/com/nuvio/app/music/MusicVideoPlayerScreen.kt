@@ -2,6 +2,7 @@ package com.nuvio.app.music
 
 import android.graphics.Color as AndroidColor
 import android.content.Context
+import android.os.SystemClock
 import android.view.LayoutInflater
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
@@ -33,12 +34,12 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Forward10
-import androidx.compose.material.icons.filled.Fullscreen
 import androidx.compose.material.icons.filled.Headphones
 import androidx.compose.material.icons.filled.Lyrics
 import androidx.compose.material.icons.filled.Pause
-import androidx.compose.material.icons.filled.PictureInPictureAlt
+import androidx.compose.material.icons.filled.Fullscreen
 import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.filled.PictureInPictureAlt
 import androidx.compose.material.icons.filled.QueueMusic
 import androidx.compose.material.icons.filled.Repeat
 import androidx.compose.material.icons.filled.RepeatOne
@@ -76,9 +77,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleEventObserver
-import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.media3.common.AudioAttributes
 import androidx.media3.common.C
@@ -91,8 +89,10 @@ import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.exoplayer.trackselection.DefaultTrackSelector
 import androidx.media3.ui.AspectRatioFrameLayout
+import com.nuvio.app.music.engine.data.model.durationMillis
 import androidx.media3.ui.PlayerView
 import com.nuvio.app.R
+import com.nuvio.app.core.ui.LocalNuvioBottomNavigationOverlayPadding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import com.nuvio.app.music.engine.data.model.Song
@@ -128,7 +128,6 @@ internal fun MusicVideoPlayerScreen(
 ) {
     val context = LocalContext.current
     val view = LocalView.current
-    val lifecycleOwner = LocalLifecycleOwner.current
     val musicState by MusicPlayer.state.collectAsState()
     val lyricsViewModel: MusicLyricsViewModel = viewModel { MusicLyricsViewModel() }
     val lyricsState by lyricsViewModel.state.collectAsState()
@@ -141,11 +140,15 @@ internal fun MusicVideoPlayerScreen(
     var durationMs by remember { mutableLongStateOf(0L) }
     var ended by remember(video.videoId) { mutableStateOf(false) }
     var advanceHandled by remember(video.videoId) { mutableStateOf(false) }
+    var listenedMs by remember(video.videoId) { mutableLongStateOf(0L) }
+    var lastListenTickMs by remember(video.videoId) { mutableLongStateOf(0L) }
+    var listenRecorded by remember(video.videoId) { mutableStateOf(false) }
     var showQueue by remember { mutableStateOf(false) }
     var showLyrics by remember { mutableStateOf(false) }
     var controlsVisible by remember { mutableStateOf(true) }
     var controlsTick by remember { mutableStateOf(0) }
     val playFocus = remember { FocusRequester() }
+    val controlsBottomClearance = maxOf(LocalNuvioBottomNavigationOverlayPadding.current, 56.dp) + 12.dp
 
     LaunchedEffect(video.videoId, minimized, isPlaying) {
         MusicVideoHost.publish(
@@ -199,14 +202,6 @@ internal fun MusicVideoPlayerScreen(
             player?.release()
             player = null
         }
-    }
-
-    DisposableEffect(lifecycleOwner, player) {
-        val observer = LifecycleEventObserver { _, event ->
-            if (event == Lifecycle.Event.ON_STOP) player?.pause()
-        }
-        lifecycleOwner.lifecycle.addObserver(observer)
-        onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
     }
 
     LaunchedEffect(video.videoId) {
@@ -280,10 +275,26 @@ internal fun MusicVideoPlayerScreen(
 
     LaunchedEffect(player) {
         while (true) {
+            val now = SystemClock.elapsedRealtime()
             player?.let {
                 positionMs = it.currentPosition.coerceAtLeast(0L)
                 durationMs = it.duration.coerceAtLeast(0L)
                 isPlaying = it.isPlaying
+                if (it.isPlaying) {
+                    if (lastListenTickMs > 0L) {
+                        listenedMs += (now - lastListenTickMs).coerceIn(0L, 2_000L)
+                    }
+                    lastListenTickMs = now
+                    val duration = it.duration.takeIf { value -> value > 0L } ?: video.durationMillis()
+                    val threshold = if (duration > 0L) minOf(30_000L, duration / 2) else 30_000L
+                    if (!listenRecorded && listenedMs >= threshold) {
+                        listenRecorded = true
+                        MusicListeningStore.record(video)
+                        MusicPlayer.markListened(video.videoId)
+                    }
+                } else {
+                    lastListenTickMs = 0L
+                }
             }
             delay(250L)
         }
@@ -363,7 +374,7 @@ internal fun MusicVideoPlayerScreen(
     }
 
     Box(
-        Modifier
+        modifier
             .fillMaxSize()
             .background(Color.Black)
             .windowInsetsPadding(WindowInsets.safeDrawing)
@@ -500,7 +511,7 @@ internal fun MusicVideoPlayerScreen(
             visible = controlsVisible,
             enter = fadeIn(),
             exit = fadeOut(),
-            modifier = Modifier.align(Alignment.BottomCenter)
+            modifier = Modifier.align(Alignment.BottomCenter).padding(bottom = controlsBottomClearance)
         ) {
         BoxWithConstraints(
             Modifier
@@ -826,48 +837,22 @@ private fun MiniVideoPlayerSurface(
                 modifier = Modifier.fillMaxSize()
             )
         }
-
-        // The whole mini surface is the move/resize gesture area; the buttons above it keep
-        // their own taps.
         Box(Modifier.matchParentSize().then(pipGestureModifier))
-
         Row(
             Modifier
                 .align(Alignment.TopStart)
                 .fillMaxWidth()
-                .background(
-                    Brush.verticalGradient(
-                        listOf(Color.Black.copy(alpha = 0.72f), Color.Transparent)
-                    )
-                )
+                .background(Brush.verticalGradient(listOf(Color.Black.copy(alpha = 0.76f), Color.Transparent)))
                 .padding(horizontal = 9.dp, vertical = 6.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Column(Modifier.weight(1f)) {
-                Text(
-                    text = title,
-                    color = Color.White,
-                    fontSize = 10.sp,
-                    fontWeight = FontWeight.Bold,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
-                Text(
-                    text = artist,
-                    color = Color.White.copy(alpha = 0.6f),
-                    fontSize = 8.sp,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
+                Text(title, color = Color.White, fontSize = 10.sp, fontWeight = FontWeight.Bold,
+                    maxLines = 1, overflow = TextOverflow.Ellipsis)
+                Text(artist, color = Color.White.copy(alpha = 0.7f), fontSize = 8.sp,
+                    maxLines = 1, overflow = TextOverflow.Ellipsis)
             }
-            Text(
-                text = "\u2261",
-                color = Color.White.copy(alpha = 0.7f),
-                fontSize = 14.sp,
-                modifier = Modifier.padding(start = 6.dp)
-            )
         }
-
         if (loading) {
             CircularProgressIndicator(
                 color = MusicPalette.accent,
@@ -875,29 +860,22 @@ private fun MiniVideoPlayerSurface(
                 modifier = Modifier.align(Alignment.Center).size(22.dp)
             )
         }
-
         error?.let {
             Text(
                 text = stringResource(Res.string.music_ui_this_music_video_couldn_t_be_played),
                 color = Color.White,
                 fontSize = 10.sp,
-                modifier = Modifier
-                    .align(Alignment.Center)
+                modifier = Modifier.align(Alignment.Center)
                     .background(Color.Black.copy(alpha = 0.72f))
                     .padding(horizontal = 10.dp, vertical = 6.dp)
             )
         }
-
         Row(
             Modifier
                 .align(Alignment.BottomCenter)
                 .fillMaxWidth()
-                .background(
-                    Brush.verticalGradient(
-                        listOf(Color.Transparent, Color.Black.copy(alpha = 0.78f))
-                    )
-                )
-                .padding(vertical = 6.dp),
+                .background(Brush.verticalGradient(listOf(Color.Transparent, Color.Black.copy(alpha = 0.82f))))
+                .padding(bottom = 8.dp, top = 5.dp),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -920,14 +898,11 @@ private fun MiniVideoPlayerSurface(
                 onClick = onClose
             )
         }
-
         Text(
-            text = "\u25E2",
-            color = Color.White.copy(alpha = 0.55f),
-            fontSize = 13.sp,
-            modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .padding(4.dp)
+            text = "◢",
+            color = Color.White.copy(alpha = 0.58f),
+            fontSize = 12.sp,
+            modifier = Modifier.align(Alignment.BottomEnd).padding(4.dp)
         )
     }
 }
@@ -936,23 +911,16 @@ private fun MiniVideoPlayerSurface(
 private fun MiniVideoButton(
     icon: ImageVector,
     label: String,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     Box(
-        Modifier
-            .size(38.dp)
-            .clip(CircleShape)
-            .background(Color.White.copy(alpha = 0.18f))
-            .border(1.dp, Color.White.copy(alpha = 0.26f), CircleShape)
+        Modifier.size(36.dp).clip(CircleShape)
+            .background(Color.Black.copy(alpha = 0.4f))
+            .border(1.dp, Color.White.copy(alpha = 0.25f), CircleShape)
             .clickable(onClick = onClick),
         contentAlignment = Alignment.Center
     ) {
-        Icon(
-            icon,
-            contentDescription = label,
-            tint = Color.White,
-            modifier = Modifier.size(18.dp)
-        )
+        Icon(icon, contentDescription = label, tint = Color.White, modifier = Modifier.size(18.dp))
     }
 }
 

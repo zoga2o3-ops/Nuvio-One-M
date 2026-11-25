@@ -144,6 +144,17 @@ class LiveTvRepository(
         scope.launch { refreshInternal(forcePlaylists = force, forceEpg = force) }
     }
 
+    /** Re-fetch selected installed add-on catalogs and merge them into the in-memory guide list. */
+    fun refreshAddonChannels(force: Boolean = true) {
+        AddonChannelRepository.invalidate()
+        scope.launch {
+            mutex.withLock {
+                loadAddonChannels(force)
+                buildPrograms(prefs.currentSettings(), collectEpgTargets())
+            }
+        }
+    }
+
     /** After a restore from Google Drive: rebuild from the new sources, downloading what's missing. */
     /** After another TV's setup was applied: [changedPlaylists] get downloaded again straight away. */
     fun reloadAfterSync(changedPlaylists: Set<String> = emptySet()) {
@@ -619,6 +630,7 @@ class LiveTvRepository(
             buildChannels()
             saveChannels() // so the next start uses it straight away
         }
+        loadAddonChannels(force = false)
 
         val epgTargets = collectEpgTargets()
         // Files saved by earlier versions, unzipped: zipped once (see download()).
@@ -691,6 +703,7 @@ class LiveTvRepository(
         } else {
             LIVE_REPORT.add("Saved channel list used: ${_channels.value.size} channels in ${System.currentTimeMillis() - t0} ms")
         }
+        loadAddonChannels(force = false)
         loadGroupOrder()
         val targets = collectEpgTargets()
         val settings = prefs.currentSettings()
@@ -708,6 +721,25 @@ class LiveTvRepository(
             LIVE_REPORT.add("Stored guide used: ${_programs.value.size} channels with listings in ${System.currentTimeMillis() - t0} ms")
         }
         _status.value = LiveTvStatus(loading = false, loadedOnce = true)
+    }
+
+    private suspend fun loadAddonChannels(force: Boolean) {
+        val sources = prefs.currentAddonChannelSources()
+        val imported = AddonChannelRepository.load(sources, force)
+        _channels.value = _channels.value.filter { it.addon == null } + imported.channels
+        if (imported.counts.isNotEmpty() || imported.errors.isNotEmpty()) {
+            prefs.updateAddonChannelSources { current ->
+                current.map { source ->
+                    source.copy(
+                        channelCount = imported.counts[source.id] ?: if (source.enabled) source.channelCount else 0,
+                        lastError = imported.errors[source.id],
+                        lastUpdatedMs = if (source.id in imported.counts && source.id !in imported.errors) System.currentTimeMillis() else source.lastUpdatedMs,
+                    )
+                }
+            }
+        }
+        Log.i(TAG, "Add-on catalogs selected=${sources.count { it.enabled }}, imported=${imported.channels.size}, errors=${imported.errors.size}")
+        LIVE_REPORT.add("Add-on Live TV catalogs: ${imported.channels.size} channels")
     }
 
     /** Which parts of a saved copy's fingerprint differ (for the start-up report). */
@@ -1670,15 +1702,15 @@ class LiveTvRepository(
             val file = playlistFile(pl.id)
             if (!file.exists()) continue
             setStatus(loading = true, message = getString(Res.string.live_tv_ui_status_reading_channels_from, pl.name) + (if (playlists.size > 1) getString(Res.string.live_tv_ui_status_step, plIndex + 1, playlists.size) else "") + "…")
-            val parsed = runCatching { openMaybeGzip(file).bufferedReader().use { M3uParser.parse(it) } }
+            val parsed = runCatching {
+                openMaybeGzip(file).bufferedReader().use { reader ->
+                    M3uParser.parse(reader) { url -> !isVodEntry(url) }
+                }
+            }
                 .onFailure { Log.w(TAG, "Parse ${pl.name} failed", it) }
                 .getOrNull() ?: continue
             embeddedEpgUrls[pl.id] = parsed.epgUrls
             for (e in parsed.entries) {
-                // Many providers' M3U links ("m3u_plus") also list every movie and episode,
-                // often 100,000+ entries. Those aren't TV channels, and loading them all into the
-                // guide used enough memory to crash Live TV on some devices.
-                if (isVodEntry(e.url)) continue
                 val groupTitle = e.group?.ifBlank { null } ?: "Uncategorized"
                 val baseKey = "${pl.id}|${e.tvgId ?: ""}|${e.name}"
                 var key = baseKey

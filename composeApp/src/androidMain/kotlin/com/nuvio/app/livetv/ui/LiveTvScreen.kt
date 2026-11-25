@@ -107,6 +107,8 @@ fun LiveTvScreen(modifier: Modifier, onPlay: (LiveTvPlayRequest) -> Unit) {
     val allChannels by vm.channels.collectAsStateWithLifecycle()
     val user by vm.user.collectAsStateWithLifecycle()
     val playlists by vm.playlists.collectAsStateWithLifecycle()
+    val addonChannelSources by vm.addonChannelSources.collectAsStateWithLifecycle()
+    val hasChannelSources = playlists.isNotEmpty() || addonChannelSources.any { it.enabled }
     val epgs by vm.epgSources.collectAsStateWithLifecycle()
     val status by vm.status.collectAsStateWithLifecycle()
     val programs by vm.programs.collectAsStateWithLifecycle()
@@ -427,7 +429,7 @@ fun LiveTvScreen(modifier: Modifier, onPlay: (LiveTvPlayRequest) -> Unit) {
             Column(Modifier.fillMaxSize().padding(top = if (topRail) 72.dp else 0.dp)) {
                 val lastChannel = remember(allChannels, user.lastChannelKey) { allChannels.firstOrNull { it.key == user.lastChannelKey } }
                 val mainTabs: @Composable () -> Unit = {
-                    if (playlists.isNotEmpty()) {
+                    if (hasChannelSources) {
                         Row(
                             Modifier.horizontalScroll(androidx.compose.foundation.rememberScrollState()),
                             horizontalArrangement = Arrangement.spacedBy(3.dp),
@@ -455,7 +457,7 @@ fun LiveTvScreen(modifier: Modifier, onPlay: (LiveTvPlayRequest) -> Unit) {
                         { SportsDaySwitcher(day = sportsDay, onDay = { sportsDay = it }, repo = vm.sports) }
                     } else null,
                 )
-                if (playlists.isEmpty()) {
+                if (!hasChannelSources) {
                     EmptyState(onAdd = { showAdd = true })
                 } else {
                     StatusLine(status)
@@ -675,7 +677,7 @@ fun LiveTvScreen(modifier: Modifier, onPlay: (LiveTvPlayRequest) -> Unit) {
                     }
                 }
             }
-            if (playlists.isNotEmpty() && multiviewChannels.isEmpty() && movingChannels == null &&
+            if (hasChannelSources && multiviewChannels.isEmpty() && movingChannels == null &&
                 !showGuide && !showRecordings && !showOnDemand && !showSports && !showCalendar
             ) {
                 SmallFloatingActionButton(

@@ -13,6 +13,7 @@ import androidx.datastore.preferences.core.stringSetPreferencesKey
 import androidx.datastore.preferences.preferencesDataStoreFile
 import com.nuvio.app.features.profiles.MAX_PROFILES
 import com.nuvio.app.livetv.model.ChannelSort
+import com.nuvio.app.livetv.model.AddonChannelSource
 import com.nuvio.app.livetv.model.matchFrameRate
 import com.nuvio.app.livetv.model.CustomGroup
 import com.nuvio.app.livetv.model.EpgSource
@@ -63,6 +64,7 @@ class LiveTvPreferences(
 
     private object Keys {
         val playlists = stringPreferencesKey("playlists")
+        val addonChannels = stringPreferencesKey("addon_channels")
         val epgs = stringPreferencesKey("epg_sources")
 
         val showInSidebar = booleanPreferencesKey("show_in_sidebar")
@@ -325,6 +327,10 @@ class LiveTvPreferences(
         .map { decodePlaylists(it[Keys.playlists]) }
         .distinctUntilChanged()
 
+    val addonChannelSources: Flow<List<AddonChannelSource>> = store.data
+        .map { decodeAddonChannels(it[Keys.addonChannels]) }
+        .distinctUntilChanged()
+
     val epgSources: Flow<List<EpgSource>> = store.data
         .map { decodeEpgs(it[Keys.epgs]) }
         .distinctUntilChanged()
@@ -533,6 +539,7 @@ class LiveTvPreferences(
     }.distinctUntilChanged()
 
     suspend fun currentPlaylists(): List<PlaylistSource> = playlists.first()
+    suspend fun currentAddonChannelSources(): List<AddonChannelSource> = addonChannelSources.first()
     suspend fun currentEpgSources(): List<EpgSource> = epgSources.first()
     suspend fun currentSettings(): LiveTvSettings = settings.first()
 
@@ -547,6 +554,10 @@ class LiveTvPreferences(
             p[Keys.playlists] = encodePlaylists(after)
         }
         noteRemovedSources(removed)
+    }
+
+    suspend fun updateAddonChannelSources(transform: (List<AddonChannelSource>) -> List<AddonChannelSource>) {
+        store.edit { p -> p[Keys.addonChannels] = encodeAddonChannels(transform(decodeAddonChannels(p[Keys.addonChannels]))) }
     }
 
     suspend fun updateEpgSources(transform: (List<EpgSource>) -> List<EpgSource>) {
@@ -1491,6 +1502,46 @@ class LiveTvPreferences(
         }
         return arr.toString()
     }
+
+    private fun decodeAddonChannels(raw: String?): List<AddonChannelSource> {
+        if (raw.isNullOrBlank()) return emptyList()
+        return runCatching {
+            val arr = JSONArray(raw)
+            (0 until arr.length()).map { i ->
+                val o = arr.getJSONObject(i)
+                AddonChannelSource(
+                    id = o.optString("id"),
+                    manifestUrl = o.optString("manifestUrl"),
+                    addonName = o.optString("addonName"),
+                    addonLogo = o.optString("addonLogo").ifBlank { null },
+                    catalogId = o.optString("catalogId"),
+                    catalogName = o.optString("catalogName"),
+                    enabled = o.optBoolean("enabled", true),
+                    lastUpdatedMs = o.optLong("lastUpdatedMs"),
+                    lastError = o.optString("lastError").ifBlank { null },
+                    channelCount = o.optInt("channelCount"),
+                )
+            }
+        }.getOrDefault(emptyList())
+    }
+
+    private fun encodeAddonChannels(list: List<AddonChannelSource>): String = JSONArray().apply {
+        list.forEach { source ->
+            put(
+                JSONObject()
+                    .put("id", source.id)
+                    .put("manifestUrl", source.manifestUrl)
+                    .put("addonName", source.addonName)
+                    .put("addonLogo", source.addonLogo ?: "")
+                    .put("catalogId", source.catalogId)
+                    .put("catalogName", source.catalogName)
+                    .put("enabled", source.enabled)
+                    .put("lastUpdatedMs", source.lastUpdatedMs)
+                    .put("lastError", source.lastError ?: "")
+                    .put("channelCount", source.channelCount)
+            )
+        }
+    }.toString()
 
     private fun decodeEpgs(raw: String?): List<EpgSource> {
         if (raw.isNullOrBlank()) return emptyList()

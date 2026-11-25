@@ -110,6 +110,7 @@ internal fun MusicSettingsScreen(onClose: () -> Unit) {
     val equalizerAvailable by MusicEqualizer.available.collectAsState()
     val downloadQuality by MusicSettings.downloadQuality.collectAsState()
     val wifiOnlyDownloads by MusicSettings.wifiOnlyDownloads.collectAsState()
+    val bitPerfectUsb by MusicSettings.bitPerfectUsb.collectAsState()
     val playback by MusicPlayer.state.collectAsState()
     val homeRows by MusicHomeRows.config.collectAsState()
     val firstFocus = remember { FocusRequester() }
@@ -197,6 +198,15 @@ internal fun MusicSettingsScreen(onClose: () -> Unit) {
                         selectedIndex = MusicAudioQuality.entries.indexOf(audioQuality),
                         onSelect = { MusicPlayer.setAudioQuality(MusicAudioQuality.entries[it]) },
                         modifier = Modifier.focusRequester(firstFocus)
+                    )
+                }
+                item(key = "bit-perfect-usb") {
+                    SettingsSelector(
+                        title = stringResource(Res.string.music_settings_bit_perfect_usb),
+                        detail = stringResource(Res.string.music_settings_bit_perfect_usb_detail),
+                        options = listOf(stringResource(Res.string.compose_action_off), stringResource(Res.string.compose_action_on)),
+                        selectedIndex = if (bitPerfectUsb) 1 else 0,
+                        onSelect = { MusicPlayer.setBitPerfectUsbEnabled(it == 1) },
                     )
                 }
                 item(key = "autoplay") {
@@ -306,6 +316,18 @@ internal fun MusicSettingsScreen(onClose: () -> Unit) {
                             canMoveDown = index < homeRows.order.lastIndex,
                             onMove = { MusicHomeRows.move(row, it) },
                             onToggle = { MusicHomeRows.toggleHidden(row) }
+                        )
+                    }
+                }
+                homeRows.orderedServiceShelves().forEachIndexed { index, row ->
+                    item(key = "home-service-row-${row.id}") {
+                        HomeRowSetting(
+                            label = row.title,
+                            hidden = row.id in homeRows.hiddenServiceShelves,
+                            canMoveUp = index > 0,
+                            canMoveDown = index < homeRows.orderedServiceShelves().lastIndex,
+                            onMove = { MusicHomeRows.moveServiceShelf(row.id, it) },
+                            onToggle = { MusicHomeRows.toggleHiddenServiceShelf(row.id) }
                         )
                     }
                 }

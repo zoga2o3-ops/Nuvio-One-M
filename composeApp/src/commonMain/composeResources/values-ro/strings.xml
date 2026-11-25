@@ -1,4 +1,10 @@
 <resources>
+    <string name="live_tv_addon_channels">Canale din extensii</string>
+    <string name="live_tv_addon_channels_hint">Alege cataloagele TV live instalate care să apară în ghid.</string>
+    <string name="live_tv_addon_channels_none">Nicio extensie instalată nu oferă un catalog TV live.</string>
+    <string name="live_tv_addon_channels_refresh">Reîmprospătează</string>
+    <string name="live_tv_addon_stream_error">Canalul extensiei nu a putut fi încărcat. Încercați să reîmprospătați catalogul.</string>
+    <string name="live_tv_addon_catalog_error">Catalogul nu a putut fi încărcat. Atingeți Reîmprospătează pentru a încerca din nou.</string>
     <string name="about_licenses_attributions_subtitle">Surse de date, mulțumiri și licențe de platformă</string>
 <string name="about_supporters_contributors_subtitle">Recunoaștere publică și credite proiect</string>
 <string name="action_back">Înapoi</string>
@@ -4108,4 +4114,15 @@
     <string name="live_tv_ui_server_address">Adresa serverului</string>
     <string name="live_tv_ui_use_https">Folosește HTTPS</string>
     <string name="live_tv_ui_use_https_description">Pentru furnizorii care vă oferă o adresă https://.</string>
+    <string name="music_home_quick_picks">Selecții rapide</string>
+    <string name="music_home_daily_mixes">Mixuri zilnice</string>
+    <string name="music_home_daily_mix_number">Mix zilnic %1$d</string>
+    <string name="music_home_on_repeat">În buclă</string>
+    <string name="music_home_because_you_listened">Pentru că ai ascultat</string>
+    <string name="music_home_because_you_listened_to">Pentru că ai ascultat %1$s</string>
+    <string name="music_home_forgotten_favorites">Favorite uitate</string>
+    <string name="music_discover_weekly">Descoperiri săptămânale</string>
+    <string name="music_discover_release_radar">Lansări noi</string>
+    <string name="music_discover_fans_also_like">Fanilor le mai place și</string>
+    <string name="music_discover_refreshing">Se actualizează recomandările…</string>
 </resources>

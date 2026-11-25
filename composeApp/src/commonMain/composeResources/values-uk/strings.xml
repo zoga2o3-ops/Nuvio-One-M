@@ -1,4 +1,10 @@
 <resources>
+    <string name="live_tv_addon_channels">Канали доповнень</string>
+    <string name="live_tv_addon_channels_hint">Виберіть установлені каталоги телебачення наживо для показу в програмі передач.</string>
+    <string name="live_tv_addon_channels_none">Жодне встановлене доповнення не надає каталог телебачення наживо.</string>
+    <string name="live_tv_addon_channels_refresh">Оновити</string>
+    <string name="live_tv_addon_stream_error">Не вдалося завантажити канал доповнення. Спробуйте оновити каталог.</string>
+    <string name="live_tv_addon_catalog_error">Не вдалося завантажити каталог. Натисніть «Оновити», щоб спробувати ще раз.</string>
     <string name="theme_gold">Золото</string>
     <string name="theme_jade">Нефрит</string>
     <string name="theme_rose_gold">Рожеве золото</string>
@@ -2724,4 +2730,16 @@
 <string name="music_spotify_failed">Не вдалося синхронізувати бібліотеку Spotify.</string>
 <string name="music_spotify_busy_waiting">YouTube Music зайнятий; очікування %1$d с…</string>
 <string name="music_spotify_rate_limited">YouTube Music тимчасово обмежує запити. Зачекай кілька хвилин і синхронізуй знову. Уже додані треки в безпеці.</string>
+    <string name="live_tv_epg_on_now">Зараз в ефірі</string>
+    <string name="music_home_quick_picks">Швидкий вибір</string>
+    <string name="music_home_daily_mixes">Щоденні мікси</string>
+    <string name="music_home_daily_mix_number">Щоденний мікс %1$d</string>
+    <string name="music_home_on_repeat">На повторі</string>
+    <string name="music_home_because_you_listened">Тому що ви слухали</string>
+    <string name="music_home_because_you_listened_to">Тому що ви слухали %1$s</string>
+    <string name="music_home_forgotten_favorites">Забуті улюблені</string>
+    <string name="music_discover_weekly">Відкриття тижня</string>
+    <string name="music_discover_release_radar">Нові релізи</string>
+    <string name="music_discover_fans_also_like">Шанувальникам також подобається</string>
+    <string name="music_discover_refreshing">Оновлення рекомендацій…</string>
 </resources>

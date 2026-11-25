@@ -1,4 +1,10 @@
 <resources>
+    <string name="live_tv_addon_channels">Canais de complementos</string>
+    <string name="live_tv_addon_channels_hint">Escolha catálogos de TV ao vivo instalados para exibir no guia.</string>
+    <string name="live_tv_addon_channels_none">Nenhum complemento instalado oferece um catálogo de TV ao vivo.</string>
+    <string name="live_tv_addon_channels_refresh">Atualizar</string>
+    <string name="live_tv_addon_stream_error">Não foi possível carregar este canal do complemento. Tente atualizar o catálogo.</string>
+    <string name="live_tv_addon_catalog_error">Não foi possível carregar o catálogo. Toque em Atualizar para tentar novamente.</string>
     <string name="theme_gold">Dourado</string>
 <string name="theme_jade">Jade</string>
 <string name="theme_rose_gold">Ouro rosa</string>
@@ -4175,4 +4181,15 @@
     <string name="live_tv_ui_server_address">Endereço do servidor</string>
     <string name="live_tv_ui_use_https">Usar HTTPS</string>
     <string name="live_tv_ui_use_https_description">Para provedores que fornecem um endereço https://.</string>
+    <string name="music_home_quick_picks">Escolhas rápidas</string>
+    <string name="music_home_daily_mixes">Mixes diários</string>
+    <string name="music_home_daily_mix_number">Mix diário %1$d</string>
+    <string name="music_home_on_repeat">Em repetição</string>
+    <string name="music_home_because_you_listened">Porque você ouviu</string>
+    <string name="music_home_because_you_listened_to">Porque você ouviu %1$s</string>
+    <string name="music_home_forgotten_favorites">Favoritas esquecidas</string>
+    <string name="music_discover_weekly">Descobertas da semana</string>
+    <string name="music_discover_release_radar">Novos lançamentos</string>
+    <string name="music_discover_fans_also_like">Fãs também curtem</string>
+    <string name="music_discover_refreshing">Atualizando recomendações…</string>
 </resources>

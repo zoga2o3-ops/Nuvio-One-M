@@ -25,11 +25,13 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.ThumbUp
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -104,7 +106,7 @@ fun YouTubePlayerPanel(videoId: String, onDismiss: () -> Unit) {
         ) {
             CompositionLocalProvider(LocalContentColor provides Color.White) {
                 Column(Modifier.fillMaxSize().then(if (wide) Modifier.statusBarsPadding() else Modifier).navigationBarsPadding()) {
-                    Header(state.info, mode) {
+                    Header(videoId, state.info, mode) {
                         when (mode) {
                             PanelMode.MAIN -> onDismiss()
                             PanelMode.REPLIES -> { vm.clearReplies(); mode = PanelMode.COMMENTS }
@@ -133,7 +135,9 @@ fun YouTubePlayerPanel(videoId: String, onDismiss: () -> Unit) {
 }
 
 @Composable
-private fun Header(info: YtVideoInfo?, mode: PanelMode, onBack: () -> Unit) {
+private fun Header(videoId: String, info: YtVideoInfo?, mode: PanelMode, onBack: () -> Unit) {
+    val context = LocalContext.current
+    val shareLabel = stringResource(Res.string.music_ui_share)
     Row(
         Modifier.fillMaxWidth().padding(16.dp, 16.dp, 16.dp, 8.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -160,6 +164,19 @@ private fun Header(info: YtVideoInfo?, mode: PanelMode, onBack: () -> Unit) {
                     maxLines = 1, overflow = TextOverflow.Ellipsis, style = MaterialTheme.typography.bodySmall,
                     color = Color(0xFFB0B0B0),
                 )
+            }
+        }
+        if (mode == PanelMode.MAIN) {
+            IconButton(
+                onClick = {
+                    com.nuvio.app.sharePlainText(
+                        context = context,
+                        chooserTitle = shareLabel,
+                        text = "https://www.youtube.com/watch?v=$videoId",
+                    )
+                },
+            ) {
+                Icon(Icons.Filled.Share, contentDescription = shareLabel)
             }
         }
     }

@@ -1,4 +1,10 @@
 <resources>
+    <string name="live_tv_addon_channels">Kanály doplňků</string>
+    <string name="live_tv_addon_channels_hint">Vyberte nainstalované katalogy živého vysílání, které se mají zobrazit v průvodci.</string>
+    <string name="live_tv_addon_channels_none">Žádný nainstalovaný doplněk neposkytuje katalog živého vysílání.</string>
+    <string name="live_tv_addon_channels_refresh">Obnovit</string>
+    <string name="live_tv_addon_stream_error">Kanál doplňku se nepodařilo načíst. Zkuste obnovit katalog.</string>
+    <string name="live_tv_addon_catalog_error">Katalog se nepodařilo načíst. Zkuste to znovu tlačítkem Obnovit.</string>
     <string name="about_licenses_attributions_subtitle">Zdroje dat, poděkování a licence platformy</string>
 <string name="about_supporters_contributors_subtitle">Otevřené uznání a kredity projektu</string>
 <string name="action_back">Zpět</string>
@@ -4116,4 +4122,15 @@
     <string name="live_tv_ui_server_address">Adresa serveru</string>
     <string name="live_tv_ui_use_https">Použít HTTPS</string>
     <string name="live_tv_ui_use_https_description">Pro poskytovatele, kteří vám dají adresu https://.</string>
+    <string name="music_home_quick_picks">Rychlý výběr</string>
+    <string name="music_home_daily_mixes">Denní mixy</string>
+    <string name="music_home_daily_mix_number">Denní mix %1$d</string>
+    <string name="music_home_on_repeat">Opakované přehrávání</string>
+    <string name="music_home_because_you_listened">Protože jste poslouchali</string>
+    <string name="music_home_because_you_listened_to">Protože jste poslouchali %1$s</string>
+    <string name="music_home_forgotten_favorites">Zapomenuté oblíbené</string>
+    <string name="music_discover_weekly">Objev týdne</string>
+    <string name="music_discover_release_radar">Nová vydání</string>
+    <string name="music_discover_fans_also_like">Fanoušci mají rádi také</string>
+    <string name="music_discover_refreshing">Aktualizují se doporučení…</string>
 </resources>

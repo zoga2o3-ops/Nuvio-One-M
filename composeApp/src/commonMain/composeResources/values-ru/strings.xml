@@ -1,4 +1,10 @@
 <resources>
+    <string name="live_tv_addon_channels">Каналы дополнений</string>
+    <string name="live_tv_addon_channels_hint">Выберите установленные каталоги ТВ, которые нужно показывать в программе передач.</string>
+    <string name="live_tv_addon_channels_none">Ни одно установленное дополнение не предоставляет каталог ТВ.</string>
+    <string name="live_tv_addon_channels_refresh">Обновить</string>
+    <string name="live_tv_addon_stream_error">Не удалось загрузить канал дополнения. Попробуйте обновить каталог.</string>
+    <string name="live_tv_addon_catalog_error">Не удалось загрузить каталог. Нажмите «Обновить», чтобы попробовать снова.</string>
     <string name="theme_gold">Золото</string>
 <string name="theme_jade">Джейд</string>
 <string name="theme_rose_gold">Розовое золото</string>
@@ -4136,4 +4142,15 @@
     <string name="live_tv_ui_server_address">Адрес сервера</string>
     <string name="live_tv_ui_use_https">Использовать HTTPS</string>
     <string name="live_tv_ui_use_https_description">Для провайдеров, которые предоставляют адрес https://.</string>
+    <string name="music_home_quick_picks">Быстрый выбор</string>
+    <string name="music_home_daily_mixes">Ежедневные миксы</string>
+    <string name="music_home_daily_mix_number">Ежедневный микс %1$d</string>
+    <string name="music_home_on_repeat">На повторе</string>
+    <string name="music_home_because_you_listened">Потому что вы слушали</string>
+    <string name="music_home_because_you_listened_to">Потому что вы слушали %1$s</string>
+    <string name="music_home_forgotten_favorites">Забытые любимые</string>
+    <string name="music_discover_weekly">Открытие недели</string>
+    <string name="music_discover_release_radar">Новые релизы</string>
+    <string name="music_discover_fans_also_like">Поклонникам также нравится</string>
+    <string name="music_discover_refreshing">Обновление рекомендаций…</string>
 </resources>

@@ -1,4 +1,10 @@
 <resources>
+    <string name="live_tv_addon_channels">Eklenti kanalları</string>
+    <string name="live_tv_addon_channels_hint">Rehberde göstermek için yüklü Canlı TV kataloglarını seçin.</string>
+    <string name="live_tv_addon_channels_none">Yüklü eklentilerden hiçbiri Canlı TV kataloğu sunmuyor.</string>
+    <string name="live_tv_addon_channels_refresh">Yenile</string>
+    <string name="live_tv_addon_stream_error">Bu eklenti kanalı yüklenemedi. Kataloğu yenileyip tekrar deneyin.</string>
+    <string name="live_tv_addon_catalog_error">Katalog yüklenemedi. Yeniden denemek için Yenile'ye dokunun.</string>
     <string name="about_licenses_attributions_subtitle">Veri kaynakları, teşekkürler ve platform lisansları</string>
 <string name="about_supporters_contributors_subtitle">Açık teşekkürler ve proje katkıları</string>
 <string name="action_back">Geri</string>
@@ -4142,4 +4148,15 @@ Bu özelliği tamamen kendi sorumluluğunuzda kullanırsınız. P2P istediğiniz
     <string name="live_tv_ui_server_address">Sunucu adresi</string>
     <string name="live_tv_ui_use_https">HTTPS kullan</string>
     <string name="live_tv_ui_use_https_description">https:// adresi veren sağlayıcılar için.</string>
+    <string name="music_home_quick_picks">Hızlı seçimler</string>
+    <string name="music_home_daily_mixes">Günlük miksler</string>
+    <string name="music_home_daily_mix_number">Günlük miks %1$d</string>
+    <string name="music_home_on_repeat">Tekrarda</string>
+    <string name="music_home_because_you_listened">Dinlediğin için</string>
+    <string name="music_home_because_you_listened_to">%1$s dinlediğin için</string>
+    <string name="music_home_forgotten_favorites">Unutulan favoriler</string>
+    <string name="music_discover_weekly">Haftanın keşfi</string>
+    <string name="music_discover_release_radar">Yeni çıkanlar</string>
+    <string name="music_discover_fans_also_like">Hayranlar bunları da seviyor</string>
+    <string name="music_discover_refreshing">Öneriler yenileniyor…</string>
 </resources>

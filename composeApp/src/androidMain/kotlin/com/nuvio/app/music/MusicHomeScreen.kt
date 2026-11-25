@@ -17,7 +17,6 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -60,6 +59,8 @@ internal fun MusicHomeScreen(
     recentSongs: List<Song> = emptyList(),
     localPlaylists: List<StoredPlaylist> = emptyList(),
     gemini: MusicGeminiUiState = MusicGeminiUiState(),
+    curation: MusicCuration = MusicCuration(),
+    curationLoading: Boolean = false,
     homeRows: MusicHomeRowConfig = MusicHomeRowConfig(),
     onShelfItemClick: (HomeShelf, Int) -> Unit,
     onPlayShelfItem: (HomeShelf, Int) -> Unit,
@@ -71,7 +72,7 @@ internal fun MusicHomeScreen(
     onRetry: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val hasPersonal = recentSongs.isNotEmpty() || localPlaylists.isNotEmpty() ||
+    val hasPersonal = recentSongs.isNotEmpty() || localPlaylists.isNotEmpty() || !curation.isEmpty || curationLoading ||
         (gemini.enabled && (gemini.tracks.isNotEmpty() || gemini.albums.isNotEmpty()))
     when {
         state.loading && state.shelves.isEmpty() && !hasPersonal -> MusicLoading(modifier.fillMaxSize())
@@ -87,6 +88,8 @@ internal fun MusicHomeScreen(
             recentSongs = recentSongs,
             localPlaylists = localPlaylists,
             gemini = gemini,
+            curation = curation,
+            curationLoading = curationLoading,
             homeRows = homeRows,
             onShelfItemClick = onShelfItemClick,
             onPlayShelfItem = onPlayShelfItem,
@@ -106,6 +109,8 @@ private fun MusicHomeFeed(
     recentSongs: List<Song>,
     localPlaylists: List<StoredPlaylist>,
     gemini: MusicGeminiUiState,
+    curation: MusicCuration,
+    curationLoading: Boolean,
     homeRows: MusicHomeRowConfig,
     onShelfItemClick: (HomeShelf, Int) -> Unit,
     onPlayShelfItem: (HomeShelf, Int) -> Unit,
@@ -127,7 +132,9 @@ private fun MusicHomeFeed(
         if (nearEnd) onLoadMore()
     }
 
-    val heroShelf = state.shelves.firstOrNull { it.items.isNotEmpty() }
+    val serviceShelfById = state.shelves.associateBy(::serviceHomeRowId)
+    val visibleServiceShelves = homeRows.visibleServiceShelves()
+    val heroShelf = visibleServiceShelves.firstNotNullOfOrNull { serviceShelfById[it.id] }
     val heroItem = heroShelf?.items?.firstOrNull()
     val compact = LocalConfiguration.current.screenWidthDp < 600
     val short = LocalConfiguration.current.screenHeightDp < 560
@@ -140,6 +147,17 @@ private fun MusicHomeFeed(
     val geminiCheckedNote = stringResource(Res.string.music_home_checked_youtube_music)
     val albumsForYouTitle = stringResource(Res.string.music_home_albums_for_you)
     val geminiBuildingText = stringResource(Res.string.music_home_gemini_building)
+    val curationBuildingText = stringResource(Res.string.music_discover_refreshing)
+    val quickPicksTitle = stringResource(Res.string.music_home_quick_picks)
+    val onRepeatTitle = stringResource(Res.string.music_home_on_repeat)
+    val musicVideosTitle = stringResource(Res.string.music_ui_music_video)
+    val forgottenTitle = stringResource(Res.string.music_home_forgotten_favorites)
+    val dailyMixTitles = curation.dailyMixes.mapIndexed { index, _ ->
+        stringResource(Res.string.music_home_daily_mix_number, index + 1)
+    }
+    val becauseTitles = curation.because.map { feed ->
+        stringResource(Res.string.music_home_because_you_listened_to, feed.title)
+    }
 
     LazyColumn(
         state = listState,
@@ -254,8 +272,62 @@ private fun MusicHomeFeed(
                         gemini.albums.getOrNull(index)?.let(onOpenGeminiAlbum)
                     }
                 )
-            }
-        }
+                    }
+                }
+                MusicHomeRow.QUICK_PICKS -> if (curation.quickPicks.isNotEmpty()) {
+                    item(key = "curated-quick-picks") {
+                        MusicShelfRow(
+                            shelf = curatedSongShelf(quickPicksTitle, curation.quickPicks),
+                            compact = compact,
+                            onItemClick = { _, index -> onPlayCurated(curation.quickPicks, index) }
+                        )
+                    }
+                }
+                MusicHomeRow.DAILY_MIXES -> curation.dailyMixes.forEachIndexed { index, mix ->
+                    item(key = "curated-daily-mix-${mix.id}") {
+                        MusicShelfRow(
+                            shelf = curatedSongShelf(dailyMixTitles[index], mix.tracks, mix.artists.joinToString(" · ")),
+                            compact = compact,
+                            onItemClick = { _, trackIndex -> onPlayCurated(mix.tracks, trackIndex) }
+                        )
+                    }
+                }
+                MusicHomeRow.MUSIC_VIDEOS -> if (curation.musicVideos.isNotEmpty()) {
+                    item(key = "curated-music-videos") {
+                        MusicShelfRow(
+                            shelf = curatedSongShelf(musicVideosTitle, curation.musicVideos),
+                            compact = compact,
+                            onItemClick = { _, index -> onPlayCurated(curation.musicVideos, index) }
+                        )
+                    }
+                }
+                MusicHomeRow.ON_REPEAT -> if (curation.onRepeat.isNotEmpty()) {
+                    item(key = "curated-on-repeat") {
+                        MusicShelfRow(
+                            shelf = curatedSongShelf(onRepeatTitle, curation.onRepeat),
+                            compact = compact,
+                            onItemClick = { _, index -> onPlayCurated(curation.onRepeat, index) }
+                        )
+                    }
+                }
+                MusicHomeRow.BECAUSE -> curation.because.forEachIndexed { index, feed ->
+                    item(key = "curated-because-$index") {
+                        MusicShelfRow(
+                            shelf = curatedSongShelf(becauseTitles[index], feed.tracks),
+                            compact = compact,
+                            onItemClick = { _, trackIndex -> onPlayCurated(feed.tracks, trackIndex) }
+                        )
+                    }
+                }
+                MusicHomeRow.FORGOTTEN -> if (curation.forgotten.isNotEmpty()) {
+                    item(key = "curated-forgotten") {
+                        MusicShelfRow(
+                            shelf = curatedSongShelf(forgottenTitle, curation.forgotten),
+                            compact = compact,
+                            onItemClick = { _, index -> onPlayCurated(curation.forgotten, index) }
+                        )
+                    }
+                }
             }
         }
         if (gemini.generating) {
@@ -268,15 +340,15 @@ private fun MusicHomeFeed(
                 )
             }
         }
-        itemsIndexed(
-            items = state.shelves,
-            key = { index, shelf -> "${shelf.title}#$index" }
-        ) { _, shelf ->
-            MusicShelfRow(
-                shelf = shelf,
-                compact = compact,
-                onItemClick = { _, index -> onShelfItemClick(shelf, index) }
-            )
+        visibleServiceShelves.forEach { row ->
+            val shelf = serviceShelfById[row.id] ?: return@forEach
+            item(key = "service-home-${row.id}") {
+                MusicShelfRow(
+                    shelf = shelf,
+                    compact = compact,
+                    onItemClick = { _, index -> onShelfItemClick(shelf, index) }
+                )
+            }
         }
         if (state.loadingMore) {
             item(key = "loading-more") {
@@ -289,8 +361,33 @@ private fun MusicHomeFeed(
                 }
             }
         }
+        if (curationLoading) {
+            item(key = "curation-building") {
+                Text(
+                    text = curationBuildingText,
+                    color = MusicPalette.textMuted,
+                    fontSize = 11.sp,
+                    modifier = Modifier.padding(horizontal = 26.dp)
+                )
+            }
+        }
     }
 }
+
+private fun curatedSongShelf(title: String, songs: List<Song>, subtitle: String = "") = HomeShelf(
+    title = title,
+    subtitle = subtitle,
+    items = songs.map {
+        ShelfItem(
+            title = it.title,
+            subtitle = it.artist,
+            thumbnailUrl = it.thumbnailUrl,
+            videoId = it.videoId,
+            browseId = null,
+            isVideo = it.isVideo
+        )
+    }
+)
 
 @Composable
 private fun MusicHero(

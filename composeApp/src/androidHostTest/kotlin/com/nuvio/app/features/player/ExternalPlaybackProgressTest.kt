@@ -84,7 +84,9 @@ class ExternalPlaybackProgressTest {
     fun androidStillSendsResumePositionAndRecordsCompatiblePlayerResults() = runBlocking {
         val request = ExternalPlayerPlaybackRequest(sourceUrl = source, title = "Movie", resumePositionMs = 125_000L)
         val built = assertIs<ExternalPlayerIntentResult.Success>(ExternalPlayerPlatform.buildIntent(request, "android_system"))
-        val intent = assertIs<Intent>(built.intent)
+        val chooser = assertIs<Intent>(built.intent)
+        assertEquals(Intent.ACTION_CHOOSER, chooser.action)
+        val intent = assertIs<Intent>(chooser.getParcelableExtra<Intent>(Intent.EXTRA_INTENT))
         assertEquals(125_000, intent.getIntExtra("position", 0))
         assertEquals(125_000, intent.getIntExtra("startfrom", 0))
         assertTrue(intent.getBooleanExtra("return_result", false))

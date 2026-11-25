@@ -505,12 +505,18 @@ internal fun PlayerScreenRuntime.RenderPlayerRuntimeUi(
             val castUi by com.nuvio.app.features.cast.CastHost.ui.collectAsStateWithLifecycle()
             val casting = castUi != null
             val castLive = (contentType ?: parentMetaType)?.startsWith("livetv", ignoreCase = true) == true
-            androidx.compose.runtime.LaunchedEffect(casting, activeSourceUrl) {
+            val castSourceUrl = p2pResolvedSourceUrl ?: activeSourceUrl
+            val castSourceReady = activeTorrentInfoHash == null || p2pResolvedSourceUrl != null
+            androidx.compose.runtime.LaunchedEffect(casting, castSourceUrl, castSourceReady) {
                 if (casting) {
+                    // P2P URLs are phone-local. Wait until the engine has opened its HTTP stream;
+                    // CastController then relays it over Wi-Fi instead of receiving torrent://.
+                    if (!castSourceReady) return@LaunchedEffect
                     val sent = com.nuvio.app.features.cast.CastHost.load?.invoke(
                         com.nuvio.app.features.cast.CastLoad(
-                            url = activeSourceUrl, headers = activeSourceHeaders, title = title, subtitle = activeStreamTitle,
+                            url = castSourceUrl, headers = activeSourceHeaders, title = title, subtitle = activeStreamTitle,
                             poster = poster, positionMs = playbackSnapshot.positionMs, live = castLive,
+                            filename = activeSourceFilename,
                         )
                     ) == true
                     if (!sent) com.nuvio.app.features.cast.CastHost.stop?.invoke()
@@ -814,7 +820,9 @@ private fun PlayerScreenRuntime.RenderPlayerControls(
                     PlayerStreamsRepository.pauseSearchForPlayback()
                     openExternal(
                         ExternalPlayerPlaybackRequest(
-                            sourceUrl = activeSourceUrl,
+                            // Hand the external app the playable URL, not the torrent:// sentinel;
+                            // P2P streams expose their phone-local HTTP URL once ready.
+                            sourceUrl = p2pResolvedSourceUrl ?: activePlaybackSourceUrl ?: activeSourceUrl,
                             title = title,
                             streamTitle = activeStreamTitle,
                             sourceHeaders = activeSourceHeaders,

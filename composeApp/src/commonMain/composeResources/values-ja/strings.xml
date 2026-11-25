@@ -1,4 +1,10 @@
 <resources>
+    <string name="live_tv_addon_channels">アドオンチャンネル</string>
+    <string name="live_tv_addon_channels_hint">ガイドに表示するインストール済みのライブTVカタログを選択します。</string>
+    <string name="live_tv_addon_channels_none">ライブTVカタログを提供するインストール済みアドオンはありません。</string>
+    <string name="live_tv_addon_channels_refresh">更新</string>
+    <string name="live_tv_addon_stream_error">このアドオンチャンネルを読み込めませんでした。カタログを更新して再試行してください。</string>
+    <string name="live_tv_addon_catalog_error">カタログを読み込めませんでした。「更新」をタップして再試行してください。</string>
     <string name="theme_gold">ゴールド</string>
 <string name="theme_jade">ジェイド</string>
 <string name="theme_rose_gold">ローズゴールド</string>
@@ -4152,4 +4158,15 @@
     <string name="live_tv_ui_server_address">サーバーアドレス</string>
     <string name="live_tv_ui_use_https">HTTPS を使用</string>
     <string name="live_tv_ui_use_https_description">https:// のアドレスを提供するプロバイダー向けです。</string>
+    <string name="music_home_quick_picks">クイックピック</string>
+    <string name="music_home_daily_mixes">デイリーミックス</string>
+    <string name="music_home_daily_mix_number">デイリーミックス %1$d</string>
+    <string name="music_home_on_repeat">リピート中</string>
+    <string name="music_home_because_you_listened">再生した曲から</string>
+    <string name="music_home_because_you_listened_to">%1$sを再生したあなたへ</string>
+    <string name="music_home_forgotten_favorites">忘れられたお気に入り</string>
+    <string name="music_discover_weekly">今週のおすすめ</string>
+    <string name="music_discover_release_radar">新着リリース</string>
+    <string name="music_discover_fans_also_like">ファンに人気のアーティスト</string>
+    <string name="music_discover_refreshing">おすすめを更新中…</string>
 </resources>

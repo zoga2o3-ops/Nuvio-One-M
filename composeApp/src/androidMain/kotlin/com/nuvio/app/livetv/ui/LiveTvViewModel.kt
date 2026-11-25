@@ -13,6 +13,8 @@ import com.nuvio.app.livetv.model.LiveTvSettings
 import com.nuvio.app.livetv.model.LiveUserState
 import com.nuvio.app.livetv.player.PictureShape
 import com.nuvio.app.livetv.model.PlaylistSource
+import com.nuvio.app.livetv.model.AddonChannelSource
+import com.nuvio.app.features.addons.AddonRepository
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -39,6 +41,8 @@ class LiveTvViewModel(context: Context) : ViewModel() {
     val guideGeneration = repository.guideGeneration
     val user: StateFlow<LiveUserState> = prefs.userState.stateIn(viewModelScope, SharingStarted.Eagerly, LiveUserState())
     val playlists: StateFlow<List<PlaylistSource>> = prefs.playlists.stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
+    val addonChannelSources: StateFlow<List<AddonChannelSource>> = prefs.addonChannelSources.stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
+    val installedAddons = AddonRepository.uiState
 
     val epgSources: StateFlow<List<EpgSource>> = prefs.epgSources.stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
 
@@ -49,6 +53,35 @@ class LiveTvViewModel(context: Context) : ViewModel() {
     fun recordWatched(key: String) {
         viewModelScope.launch { prefs.recordWatched(key) }
     }
+
+    fun setAddonCatalogEnabled(addon: com.nuvio.app.features.addons.ManagedAddon, catalog: com.nuvio.app.features.addons.AddonCatalog, enabled: Boolean) {
+        val manifest = addon.manifest ?: return
+        val sourceId = "${addon.manifestUrl}#${catalog.id}"
+        viewModelScope.launch {
+            prefs.updateAddonChannelSources { current ->
+                val existing = current.firstOrNull { it.id == sourceId }
+                val source = (existing ?: AddonChannelSource(
+                    id = sourceId,
+                    manifestUrl = addon.manifestUrl,
+                    addonName = addon.displayTitle,
+                    addonLogo = manifest.logoUrl,
+                    catalogId = catalog.id,
+                    catalogName = catalog.name,
+                )).copy(
+                    addonName = addon.displayTitle,
+                    addonLogo = manifest.logoUrl,
+                    catalogName = catalog.name,
+                    enabled = enabled,
+                    channelCount = if (enabled) existing?.channelCount ?: 0 else 0,
+                    lastError = null,
+                )
+                if (existing == null) current + source else current.map { if (it.id == sourceId) source else it }
+            }
+            repository.refreshAddonChannels(force = true)
+        }
+    }
+
+    fun refreshAddonChannels() = repository.refreshAddonChannels(force = true)
 
     private val appContext = context.applicationContext
 

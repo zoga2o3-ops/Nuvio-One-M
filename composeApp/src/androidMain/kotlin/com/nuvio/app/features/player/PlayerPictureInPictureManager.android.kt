@@ -54,6 +54,22 @@ internal object PlayerPictureInPictureManager {
         }
     }
 
+    fun enterPictureInPicture(
+        activity: Activity,
+        isPlaying: Boolean,
+        videoSize: IntSize,
+    ): Boolean {
+        sessionState = SessionState(
+            isActive = true,
+            isPlaying = isPlaying,
+            videoSize = videoSize,
+        )
+        applyPictureInPictureParams(activity)
+        if (!activity.canUsePictureInPicture()) return false
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && activity.isInPictureInPictureMode) return false
+        return runCatching { activity.enterPictureInPictureMode(buildParams()) }.getOrDefault(false)
+    }
+
     fun onUserLeaveHint(activity: Activity): Boolean {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O || Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             return false

@@ -13,6 +13,7 @@ import androidx.media3.common.MediaItem
 import androidx.media3.common.MediaMetadata
 import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player
+import androidx.media3.common.Tracks
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.datasource.DataSource
 import androidx.media3.datasource.DefaultDataSource
@@ -28,6 +29,8 @@ import com.nuvio.app.music.engine.data.model.artworkAt
 import com.nuvio.app.music.engine.data.model.durationMillis
 import com.nuvio.app.music.engine.data.YtMusicRepository
 import com.nuvio.app.features.player.PlayerPlaybackNetworking
+import com.nuvio.app.music.audio.MusicAudioRenderersFactory
+import com.nuvio.app.music.audio.MusicBitPerfectUsb
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -65,6 +68,11 @@ object MusicPlayer {
         val isBuffering: Boolean = false,
         /** Where the current stream came from: YouTube, an addon name, WebDAV, Navidrome; null on this device. */
         val playbackSource: String? = null,
+        /** Selected encoded audio track details reported by Media3; null until track selection completes. */
+        val audioCodec: String? = null,
+        val audioSampleRateHz: Int? = null,
+        val audioChannelCount: Int? = null,
+        val audioBitrate: Int? = null,
         val positionMs: Long = 0L,
         val durationMs: Long = 0L,
         val repeatMode: RepeatMode = RepeatMode.OFF,
@@ -90,6 +98,8 @@ object MusicPlayer {
     private var session: MediaSession? = null
     private var trackSelector: DefaultTrackSelector? = null
     private var audioSessionId: Int = C.AUDIO_SESSION_ID_UNSET
+    /** Third-party/local renditions keep their source quality; the YouTube cap is not applied. */
+    private var activeSourceBypassesQualityCeiling = false
     private var resolutionJob: Job? = null
     private var prefetchJob: Job? = null
     private var videoJob: Job? = null
@@ -106,6 +116,10 @@ object MusicPlayer {
     /** Playhead to restore when the persisted queue is started again. */
     private var resumeVideoId: String? = null
     private var resumePositionMs: Long = 0L
+    private var listenVideoId: String? = null
+    private var listenPlayedMs: Long = 0L
+    private var listenRecorded = false
+    private var lastListenTickMs: Long = 0L
 
     /** Headers for the track currently being resolved, read when each data source is opened. */
     @Volatile
@@ -119,6 +133,11 @@ object MusicPlayer {
         fastProgress = enabled
     }
 
+    /** Refreshes the selected stream format shown by the Signal path sheet. */
+    fun refreshSignalPath() {
+        player?.currentTracks?.let(::updateSignalPath)
+    }
+
     /** Safe to call from the service and from the screens; only builds the player once. */
     @Synchronized
     fun init(context: Context) {
@@ -126,8 +145,10 @@ object MusicPlayer {
         val app = context.applicationContext
         appContext = app
         MusicLibrary.init(app)
+        MusicListeningStore.init(app)
         MusicStreamResolver.init(app)
         MusicSettings.init(app)
+        MusicBitPerfectUsb.init(app)
         MusicDownloads.init(app)
         MusicWebDav.init(app)
         MusicScrobbler.init(app)
@@ -172,6 +193,7 @@ object MusicPlayer {
         }
 
         val exoPlayer = ExoPlayer.Builder(app)
+            .setRenderersFactory(MusicAudioRenderersFactory(app, MusicBitPerfectUsb.audioOutput()))
             .setTrackSelector(selector)
             .setMediaSourceFactory(
                 DefaultMediaSourceFactory(
@@ -480,6 +502,19 @@ object MusicPlayer {
         applyAudioQuality(quality)
     }
 
+    fun setBitPerfectUsbEnabled(enabled: Boolean) {
+        if (!enabled) {
+            MusicSettings.setBitPerfectUsb(false)
+            MusicBitPerfectUsb.setEnabled(false)
+            if (_state.value.song != null) playCurrent()
+            return
+        }
+        MusicBitPerfectUsb.setEnabled(true) { granted, _ ->
+            MusicSettings.setBitPerfectUsb(granted)
+            if (granted && _state.value.song != null) playCurrent()
+        }
+    }
+
     fun setAutoplay(enabled: Boolean) {
         MusicSettings.setAutoplay(enabled)
     }
@@ -487,6 +522,7 @@ object MusicPlayer {
     fun setSkipSilence(enabled: Boolean) {
         MusicSettings.setSkipSilence(enabled)
         player?.setSkipSilenceEnabled(enabled)
+        if (MusicSettings.bitPerfectUsb.value && _state.value.song != null) playCurrent()
     }
 
     fun setPlaybackSpeed(speed: Float) {
@@ -505,6 +541,7 @@ object MusicPlayer {
     fun setEqualizerPreset(preset: MusicEqualizerPreset) {
         MusicSettings.setEqualizerPreset(preset)
         MusicEqualizer.apply(preset)
+        if (MusicSettings.bitPerfectUsb.value && _state.value.song != null) playCurrent()
     }
 
     /** [minutes] null or zero clears the timer; otherwise playback pauses when it expires. */
@@ -629,6 +666,7 @@ object MusicPlayer {
         tickerJob = null
         sleepTimerEndsAt = null
         MusicEqualizer.release()
+        MusicBitPerfectUsb.release()
         runCatching { session?.release() }
         session = null
         runCatching { player?.release() }
@@ -643,6 +681,10 @@ object MusicPlayer {
     private fun playCurrent() {
         val song = _state.value.queue.getOrNull(_state.value.index) ?: return
         val p = player ?: return
+        activeSourceBypassesQualityCeiling = false
+        MusicBitPerfectUsb.setSourceLossless(false)
+        applyAudioQuality(MusicSettings.audioQuality.value)
+        resetListenTracking()
         videoJob?.cancel()
         resolvedVideoSong = null
         videoPreparedFor = null
@@ -662,6 +704,10 @@ object MusicPlayer {
                     isBuffering = true,
                     isPlaying = false,
                     playbackSource = sourceLabel(song),
+                    audioCodec = null,
+                    audioSampleRateHz = null,
+                    audioChannelCount = null,
+                    audioBitrate = null,
                     positionMs = 0L,
                     durationMs = song.durationMillis(),
                     error = null,
@@ -674,6 +720,9 @@ object MusicPlayer {
             // Local files skip YouTube lookup entirely.
             val localUri = song.localUri
             if (!localUri.isNullOrBlank()) {
+                activeSourceBypassesQualityCeiling = true
+                MusicBitPerfectUsb.setSourceLossless(isLosslessLocalTrack(song))
+                applyAudioQuality(MusicSettings.audioQuality.value)
                 currentHeaders = MusicWebDav.headersFor(localUri)
                 appContext?.let { MusicPlaybackService.start(it) }
                 p.setMediaItem(song.toMediaItem(localUri))
@@ -689,6 +738,9 @@ object MusicPlayer {
             // A completed download is a cache-backed copy, so this also works with no network.
             val downloaded = MusicDownloads.downloadedMediaItem(song)
             if (downloaded != null) {
+                activeSourceBypassesQualityCeiling = true
+                MusicBitPerfectUsb.setSourceLossless(isLosslessLocalTrack(song))
+                applyAudioQuality(MusicSettings.audioQuality.value)
                 currentHeaders = emptyMap()
                 appContext?.let { MusicPlaybackService.start(it) }
                 p.setMediaItem(downloaded)
@@ -704,6 +756,10 @@ object MusicPlayer {
             val result = resolveTrackStream(song)
             result.fold(
                 onSuccess = { stream ->
+                    MusicBitPerfectUsb.setSourceLossless(stream.isLosslessAudio())
+                    activeSourceBypassesQualityCeiling = stream.sourceName != null ||
+                        MusicAddonRegistry.isAddonTrack(song.videoId) || stream.isLosslessAudio()
+                    applyAudioQuality(MusicSettings.audioQuality.value)
                     currentHeaders = stream.headers
                     appContext?.let { MusicPlaybackService.start(it) }
                     p.setMediaItem(song.toMediaItem(stream.url, stream.mimeType))
@@ -782,12 +838,33 @@ object MusicPlayer {
 
     private fun applyAudioQuality(quality: MusicAudioQuality) {
         val selector = trackSelector ?: return
+        val bitrateCeiling = if (activeSourceBypassesQualityCeiling) Int.MAX_VALUE else quality.maxKbps * 1000
         selector.setParameters(
             selector.buildUponParameters()
                 .setTrackTypeDisabled(C.TRACK_TYPE_VIDEO, true)
-                .setMaxAudioBitrate(quality.maxKbps * 1000)
+                .setMaxAudioBitrate(bitrateCeiling)
                 .build()
         )
+    }
+
+    private fun ResolvedMusicStream.isLosslessAudio(): Boolean = when (
+        mimeType?.substringBefore(';')?.trim()?.lowercase()
+    ) {
+        "audio/flac", "audio/x-flac", "audio/wav", "audio/x-wav", "audio/alac", "audio/aiff" -> true
+        else -> false
+    }
+
+    private fun isLosslessLocalTrack(song: Song): Boolean {
+        val uriMime = song.localUri?.let { rawUri ->
+            runCatching { appContext?.contentResolver?.getType(Uri.parse(rawUri)) }.getOrNull()
+        }
+        val mime = uriMime?.substringBefore(';')?.trim()?.lowercase()
+        if (mime in setOf("audio/flac", "audio/x-flac", "audio/wav", "audio/x-wav", "audio/alac", "audio/aiff")) {
+            return true
+        }
+        val path = song.localPath ?: song.localUri.orEmpty()
+        return path.substringBefore('?').substringAfterLast('.', "").lowercase() in
+            setOf("flac", "wav", "aiff", "aif", "alac")
     }
 
     /** Ramps the new track up when a fade transition is selected; otherwise leaves it at full. */
@@ -872,6 +949,10 @@ object MusicPlayer {
     }
 
     private val playerListener = object : Player.Listener {
+        override fun onTracksChanged(tracks: Tracks) {
+            updateSignalPath(tracks)
+        }
+
         override fun onPlaybackStateChanged(playbackState: Int) {
             when (playbackState) {
                 Player.STATE_BUFFERING -> _state.update { it.copy(isBuffering = true) }
@@ -1002,6 +1083,7 @@ object MusicPlayer {
             var lastPersistMs = 0L
             while (isActive) {
                 val p = player
+                trackListening()
                 if (p != null && p.isPlaying) {
                     _state.update {
                         it.copy(
@@ -1038,5 +1120,71 @@ object MusicPlayer {
                 delay(if (fastProgress) 200L else 500L)
             }
         }
+    }
+
+    private fun updateSignalPath(tracks: Tracks) {
+        val format = tracks.groups
+            .asSequence()
+            .filter { it.type == C.TRACK_TYPE_AUDIO && it.isSelected }
+            .flatMap { group ->
+                (0 until group.length).asSequence()
+                    .filter(group::isTrackSelected)
+                    .map(group::getTrackFormat)
+            }
+            .firstOrNull()
+        _state.update {
+            it.copy(
+                audioCodec = format?.codecs?.substringBefore(',')?.takeIf(String::isNotBlank)
+                    ?: format?.sampleMimeType?.substringAfter('/')?.takeIf(String::isNotBlank),
+                audioSampleRateHz = format?.sampleRate?.takeIf { rate -> rate > 0 },
+                audioChannelCount = format?.channelCount?.takeIf { channels -> channels > 0 },
+                audioBitrate = format?.bitrate?.takeIf { bitrate -> bitrate > 0 },
+            )
+        }
+    }
+
+    private fun resetListenTracking() {
+        listenVideoId = null
+        listenPlayedMs = 0L
+        listenRecorded = false
+        lastListenTickMs = 0L
+    }
+
+    /** Count only time the track is actually playing; a pause cannot qualify it. */
+    private fun trackListening() {
+        val p = player ?: return
+        val song = _state.value.song ?: return
+        if (!p.isPlaying) {
+            lastListenTickMs = 0L
+            return
+        }
+        val now = SystemClock.elapsedRealtime()
+        if (listenVideoId != song.videoId) {
+            listenVideoId = song.videoId
+            listenPlayedMs = 0L
+            listenRecorded = false
+            lastListenTickMs = now
+            return
+        }
+        if (lastListenTickMs > 0L) {
+            listenPlayedMs += (now - lastListenTickMs).coerceIn(0L, 2_000L)
+        }
+        lastListenTickMs = now
+        if (listenRecorded) return
+        val duration = p.duration.takeIf { it > 0L } ?: song.durationMillis()
+        val threshold = if (duration > 0L) minOf(30_000L, duration / 2) else 30_000L
+        if (listenPlayedMs >= threshold) {
+            listenRecorded = true
+            MusicListeningStore.record(song)
+        }
+    }
+
+    /** The video player counted this queue item, so resuming its audio copy must not count twice. */
+    fun markListened(videoId: String) {
+        if (videoId.isBlank()) return
+        listenVideoId = videoId
+        listenPlayedMs = 0L
+        listenRecorded = true
+        lastListenTickMs = 0L
     }
 }

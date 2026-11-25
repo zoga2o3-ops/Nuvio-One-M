@@ -18,6 +18,9 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -38,7 +41,9 @@ data class MusicHomeState(
     val loadingMore: Boolean = false,
     val continuation: String? = null,
     /** True when these shelves came from the signed-in YouTube Music account. */
-    val account: Boolean = false
+    val account: Boolean = false,
+    val curation: MusicCuration = MusicCuration(),
+    val curationLoading: Boolean = false
 )
 
 data class MusicSearchState(
@@ -129,11 +134,61 @@ class MusicViewModel(
     private var exploreJob: Job? = null
     private var moodJob: Job? = null
     private var accountJob: Job? = null
+    private var curationJob: Job? = null
 
     init {
+        MusicLibrary.init(context)
+        MusicListeningStore.init(context)
         MusicAccountRepository.init(context)
         MusicAddonRegistry.init(context)
+        viewModelScope.launch {
+            combine(
+                MusicLibrary.liked,
+                MusicLibrary.playlists,
+                MusicListeningStore.revision,
+            ) { liked, playlists, revision ->
+                listOf(liked.hashCode(), playlists.hashCode(), revision.hashCode())
+            }
+                .distinctUntilChanged()
+                .debounce(250L)
+                .collect { loadCuration() }
+        }
         loadHome()
+    }
+
+    /** Shows the last good set immediately and only refreshes after its cache goes stale. */
+    private fun loadCuration() {
+        MusicCurator.loadCached(context)?.let { cached ->
+            _state.update { it.copy(home = it.home.copy(curation = cached)) }
+        }
+        curationJob?.cancel()
+        curationJob = viewModelScope.launch {
+            val liked = MusicLibrary.liked.value
+            val recents = MusicLibrary.recents.value
+            val playlists = MusicLibrary.playlists.value
+            val fingerprint = withContext(Dispatchers.Default) {
+                MusicCurator.fingerprint(liked, recents, playlists)
+            }
+            val cached = MusicCurator.loadCached(context)
+            if (cached != null && !MusicCurator.isStale(cached, fingerprint)) {
+                _state.update {
+                    it.copy(home = it.home.copy(curation = cached, curationLoading = false))
+                }
+                return@launch
+            }
+            _state.update { it.copy(home = it.home.copy(curationLoading = true)) }
+            val built = withContext(Dispatchers.IO) {
+                runCatching { MusicCurator.build(liked, recents, playlists) }.getOrNull()
+            }
+            if (built != null && (!built.isEmpty || cached == null)) {
+                MusicCurator.save(context, built)
+                _state.update {
+                    it.copy(home = it.home.copy(curation = built, curationLoading = false))
+                }
+            } else {
+                _state.update { it.copy(home = it.home.copy(curationLoading = false)) }
+            }
+        }
     }
 
     // ---- tabs ----

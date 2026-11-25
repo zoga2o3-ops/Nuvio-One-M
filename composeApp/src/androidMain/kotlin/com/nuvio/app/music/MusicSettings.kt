@@ -59,6 +59,7 @@ object MusicSettings {
     private const val KEY_DOWNLOAD_QUALITY = "download_quality"
     private const val KEY_WIFI_ONLY_DOWNLOADS = "wifi_only_downloads"
     private const val KEY_PREFER_ADDON_SOURCES = "prefer_addon_sources"
+    private const val KEY_BIT_PERFECT_USB = "bit_perfect_usb"
 
     private var prefs: SharedPreferences? = null
 
@@ -91,6 +92,9 @@ object MusicSettings {
     private val _preferAddonSources = MutableStateFlow(true)
     val preferAddonSources: StateFlow<Boolean> = _preferAddonSources.asStateFlow()
 
+    private val _bitPerfectUsb = MutableStateFlow(false)
+    val bitPerfectUsb: StateFlow<Boolean> = _bitPerfectUsb.asStateFlow()
+
     @Synchronized
     fun init(context: Context) {
         if (prefs != null) return
@@ -112,6 +116,7 @@ object MusicSettings {
         }.getOrDefault(MusicAudioQuality.HIGH)
         _wifiOnlyDownloads.value = store.getBoolean(KEY_WIFI_ONLY_DOWNLOADS, true)
         _preferAddonSources.value = store.getBoolean(KEY_PREFER_ADDON_SOURCES, true)
+        _bitPerfectUsb.value = store.getBoolean(KEY_BIT_PERFECT_USB, false)
     }
 
     fun setAudioQuality(value: MusicAudioQuality) {
@@ -159,6 +164,11 @@ object MusicSettings {
     fun setPreferAddonSources(value: Boolean) {
         _preferAddonSources.value = value
         edit { putBoolean(KEY_PREFER_ADDON_SOURCES, value) }
+    }
+
+    fun setBitPerfectUsb(value: Boolean) {
+        _bitPerfectUsb.value = value
+        edit { putBoolean(KEY_BIT_PERFECT_USB, value) }
     }
 
     private inline fun edit(block: SharedPreferences.Editor.() -> Unit) {

@@ -1,4 +1,10 @@
 <resources>
+    <string name="live_tv_addon_channels">Add-on-Kanäle</string>
+    <string name="live_tv_addon_channels_hint">Wähle installierte Live-TV-Kataloge aus, die im Programmführer angezeigt werden sollen.</string>
+    <string name="live_tv_addon_channels_none">Keine installierten Add-ons bieten einen Live-TV-Katalog.</string>
+    <string name="live_tv_addon_channels_refresh">Aktualisieren</string>
+    <string name="live_tv_addon_stream_error">Dieser Add-on-Kanal konnte nicht geladen werden. Aktualisiere den Katalog und versuche es erneut.</string>
+    <string name="live_tv_addon_catalog_error">Der Katalog konnte nicht geladen werden. Tippe auf „Aktualisieren“, um es erneut zu versuchen.</string>
     <string name="about_supporters_contributors_subtitle">Anerkennung und Projekt-Credits öffnen</string>
     <string name="action_back">Zurück</string>
     <string name="action_cancel">Abbrechen</string>
@@ -4125,4 +4131,15 @@
     <string name="live_tv_ui_server_address">Serveradresse</string>
     <string name="live_tv_ui_use_https">HTTPS verwenden</string>
     <string name="live_tv_ui_use_https_description">Für Anbieter, die Ihnen eine Adresse mit https:// geben.</string>
+    <string name="music_home_quick_picks">Schnellauswahl</string>
+    <string name="music_home_daily_mixes">Tägliche Mixe</string>
+    <string name="music_home_daily_mix_number">Täglicher Mix %1$d</string>
+    <string name="music_home_on_repeat">Auf Wiederholung</string>
+    <string name="music_home_because_you_listened">Weil du %1$s gehört hast</string>
+    <string name="music_home_because_you_listened_to">Weil du %1$s gehört hast</string>
+    <string name="music_home_forgotten_favorites">Vergessene Favoriten</string>
+    <string name="music_discover_weekly">Entdeckungen der Woche</string>
+    <string name="music_discover_release_radar">Neue Veröffentlichungen</string>
+    <string name="music_discover_fans_also_like">Fans hören auch</string>
+    <string name="music_discover_refreshing">Empfehlungen werden aktualisiert…</string>
 </resources>

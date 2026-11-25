@@ -1,4 +1,10 @@
 <resources>
+    <string name="live_tv_addon_channels">Kiegészítőcsatornák</string>
+    <string name="live_tv_addon_channels_hint">Válaszd ki az útmutatóban megjelenítendő telepített élő TV-katalógusokat.</string>
+    <string name="live_tv_addon_channels_none">Egy telepített kiegészítő sem biztosít élő TV-katalógust.</string>
+    <string name="live_tv_addon_channels_refresh">Frissítés</string>
+    <string name="live_tv_addon_stream_error">A kiegészítő csatornája nem tölthető be. Próbáld meg frissíteni a katalógust.</string>
+    <string name="live_tv_addon_catalog_error">A katalógus nem tölthető be. Koppints a Frissítés gombra az újrapróbálkozáshoz.</string>
     <string name="about_licenses_attributions_subtitle">Adatforrások, köszönetnyilvánítások és platform licencek</string>
 <string name="about_supporters_contributors_subtitle">Támogatók elismerése és a projekt készítői</string>
 <string name="action_back">Vissza</string>
@@ -4143,4 +4149,15 @@
     <string name="live_tv_ui_server_address">Szerver címe</string>
     <string name="live_tv_ui_use_https">HTTPS használata</string>
     <string name="live_tv_ui_use_https_description">Olyan szolgáltatókhoz, amelyek https:// címet adnak.</string>
+    <string name="music_home_quick_picks">Gyors válogatás</string>
+    <string name="music_home_daily_mixes">Napi mixek</string>
+    <string name="music_home_daily_mix_number">Napi mix %1$d</string>
+    <string name="music_home_on_repeat">Ismétlésen</string>
+    <string name="music_home_because_you_listened">Mert ezt hallgattad</string>
+    <string name="music_home_because_you_listened_to">Mert ezt hallgattad: %1$s</string>
+    <string name="music_home_forgotten_favorites">Elfeledett kedvencek</string>
+    <string name="music_discover_weekly">Heti felfedezés</string>
+    <string name="music_discover_release_radar">Új megjelenések</string>
+    <string name="music_discover_fans_also_like">A rajongók ezt is kedvelik</string>
+    <string name="music_discover_refreshing">Ajánlások frissítése…</string>
 </resources>

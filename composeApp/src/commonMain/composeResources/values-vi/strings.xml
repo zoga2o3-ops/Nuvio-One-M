@@ -1,4 +1,10 @@
 <resources>
+    <string name="live_tv_addon_channels">Kênh tiện ích bổ sung</string>
+    <string name="live_tv_addon_channels_hint">Chọn danh mục TV trực tiếp đã cài đặt để hiển thị trong hướng dẫn.</string>
+    <string name="live_tv_addon_channels_none">Không có tiện ích bổ sung đã cài đặt nào cung cấp danh mục TV trực tiếp.</string>
+    <string name="live_tv_addon_channels_refresh">Làm mới</string>
+    <string name="live_tv_addon_stream_error">Không thể tải kênh tiện ích bổ sung này. Hãy thử làm mới danh mục.</string>
+    <string name="live_tv_addon_catalog_error">Không thể tải danh mục. Nhấn Làm mới để thử lại.</string>
     <string name="theme_gold">Vàng</string>
 <string name="theme_jade">Ngọc bích</string>
 <string name="theme_rose_gold">Vàng Hồng</string>
@@ -4170,4 +4176,15 @@
     <string name="live_tv_ui_server_address">Địa chỉ máy chủ</string>
     <string name="live_tv_ui_use_https">Dùng HTTPS</string>
     <string name="live_tv_ui_use_https_description">Dành cho nhà cung cấp đưa cho bạn địa chỉ https://.</string>
+    <string name="music_home_quick_picks">Lựa chọn nhanh</string>
+    <string name="music_home_daily_mixes">Bản phối hằng ngày</string>
+    <string name="music_home_daily_mix_number">Bản phối hằng ngày %1$d</string>
+    <string name="music_home_on_repeat">Phát lặp lại</string>
+    <string name="music_home_because_you_listened">Vì bạn đã nghe</string>
+    <string name="music_home_because_you_listened_to">Vì bạn đã nghe %1$s</string>
+    <string name="music_home_forgotten_favorites">Bài yêu thích bị lãng quên</string>
+    <string name="music_discover_weekly">Khám phá hằng tuần</string>
+    <string name="music_discover_release_radar">Bản phát hành mới</string>
+    <string name="music_discover_fans_also_like">Người hâm mộ cũng thích</string>
+    <string name="music_discover_refreshing">Đang làm mới đề xuất…</string>
 </resources>

@@ -1,6 +1,7 @@
 package com.nuvio.app.cast
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.app.Application
 import android.net.Uri
 import android.os.Bundle
@@ -33,6 +34,7 @@ object CastController {
     private var activity: Activity? = null
 
     fun install(app: Application) {
+        DlnaCastController.install(app)
         app.registerActivityLifecycleCallbacks(object : Application.ActivityLifecycleCallbacks {
             override fun onActivityResumed(a: Activity) { activity = a }
             override fun onActivityPaused(a: Activity) { if (activity === a) activity = null }
@@ -42,26 +44,26 @@ object CastController {
             override fun onActivitySaveInstanceState(a: Activity, b: Bundle) {}
             override fun onActivityDestroyed(a: Activity) {}
         })
+        // Keep device discovery available even when Google Play services (and Cast) aren't installed.
+        CastHost.chooser = { showCombinedChooser(app) }
+        CastHost.load = { req ->
+            if (DlnaCastController.isActive()) {
+                val url = castUrlFor(req)
+                DlnaCastController.load(req, url, mimeFor(req.url, req.live, req.filename))
+            } else {
+                context?.let { send(it, req) } ?: false
+            }
+        }
+        CastHost.stop = {
+            if (DlnaCastController.isActive()) DlnaCastController.stop()
+            else context?.sessionManager?.endCurrentSession(true)
+        }
         // Needs Google Play services: without them there is simply no Cast button.
         runCatching {
             CastContext.getSharedInstance(app, Executors.newSingleThreadExecutor()).addOnSuccessListener { ctx ->
                 context = ctx
                 ctx.sessionManager.addSessionManagerListener(sessions, CastSession::class.java)
-                CastHost.chooser = { showDialog(ctx) }
-                CastHost.load = { req -> send(ctx, req) }
-                CastHost.togglePlayback = { client(ctx)?.togglePlayback() }
-                CastHost.seekTo = { ms -> client(ctx)?.seek(MediaSeekOptions.Builder().setPosition(ms.coerceAtLeast(0L)).build()) }
-                CastHost.stop = { ctx.sessionManager.endCurrentSession(true) }
-                CastHost.selectAudio = { id ->
-                    val rmc = client(ctx)
-                    val tracks = rmc?.mediaInfo?.mediaTracks.orEmpty()
-                    // The other kinds of track (video, captions) stay as they are; only the sound changes.
-                    val current = rmc?.mediaStatus?.activeTrackIds?.toList().orEmpty()
-                    val keep = current.filter { a -> tracks.none { it.id == a && it.type == com.google.android.gms.cast.MediaTrack.TYPE_AUDIO } }
-                    rmc?.setActiveMediaTracks((keep + id).toLongArray())
-                }
-                CastHost.setVolume = { v -> runCatching { ctx.sessionManager.currentCastSession?.volume = v.toDouble().coerceIn(0.0, 1.0) } }
-                CastHost.setMuted = { m -> runCatching { ctx.sessionManager.currentCastSession?.isMute = m } }
+                bindGoogleControls(ctx)
                 CastHost.noteAudio = { codec -> audioNote(codec) }
                 ctx.sessionManager.currentCastSession?.let { attach(it) }
             }.addOnFailureListener { Log.w(TAG, "Cast isn't available: ${it.message}") }
@@ -69,6 +71,24 @@ object CastController {
     }
 
     private fun client(ctx: CastContext): RemoteMediaClient? = ctx.sessionManager.currentCastSession?.remoteMediaClient
+
+    private fun bindGoogleControls(ctx: CastContext) {
+        CastHost.togglePlayback = { client(ctx)?.togglePlayback() }
+        CastHost.seekTo = { ms -> client(ctx)?.seek(MediaSeekOptions.Builder().setPosition(ms.coerceAtLeast(0L)).build()) }
+        CastHost.stop = {
+            if (DlnaCastController.isActive()) DlnaCastController.stop()
+            else ctx.sessionManager.endCurrentSession(true)
+        }
+        CastHost.selectAudio = { id ->
+            val rmc = client(ctx)
+            val tracks = rmc?.mediaInfo?.mediaTracks.orEmpty()
+            val current = rmc?.mediaStatus?.activeTrackIds?.toList().orEmpty()
+            val keep = current.filter { activeId -> tracks.none { it.id == activeId && it.type == com.google.android.gms.cast.MediaTrack.TYPE_AUDIO } }
+            rmc?.setActiveMediaTracks((keep + id).toLongArray())
+        }
+        CastHost.setVolume = { v -> runCatching { ctx.sessionManager.currentCastSession?.volume = v.toDouble().coerceIn(0.0, 1.0) } }
+        CastHost.setMuted = { m -> runCatching { ctx.sessionManager.currentCastSession?.isMute = m } }
+    }
 
     private fun showDialog(ctx: CastContext) {
         val a = activity
@@ -82,6 +102,50 @@ object CastController {
         }
     }
 
+    private fun showCombinedChooser(app: Application) {
+        val a = activity ?: return
+        val dialog = AlertDialog.Builder(a)
+            .setTitle("Searching for TVs…")
+            .setMessage("Looking for Samsung, LG, and other DLNA TVs on your Wi-Fi.")
+            .setNegativeButton("Cancel", null)
+            .setNeutralButton("Google Cast") { _, _ ->
+                if (DlnaCastController.isActive()) DlnaCastController.stop()
+                val ctx = context
+                if (ctx != null) {
+                    bindGoogleControls(ctx)
+                    showDialog(ctx)
+                } else Toast.makeText(a, "Google Cast isn't available on this device.", Toast.LENGTH_LONG).show()
+            }
+            .create()
+        dialog.show()
+        DlnaCastController.discover { devices ->
+            a.runOnUiThread {
+                if (!dialog.isShowing) return@runOnUiThread
+                dialog.dismiss()
+                val names = devices.map { it.name }.toTypedArray()
+                AlertDialog.Builder(a)
+                    .setTitle(if (devices.isEmpty()) "No DLNA TVs found" else "Choose a TV")
+                    .setMessage(if (devices.isEmpty()) "Check that the TV and phone are on the same Wi-Fi network." else null)
+                    .setItems(names) { _, index ->
+                        context?.sessionManager?.currentCastSession?.let { context?.sessionManager?.endCurrentSession(true) }
+                        DlnaCastController.select(devices[index])
+                    }
+                    .setNegativeButton("Close", null)
+                    .setNeutralButton("Google Cast") { _, _ ->
+                        if (DlnaCastController.isActive()) DlnaCastController.stop()
+                        val ctx = context
+                        if (ctx != null) {
+                            bindGoogleControls(ctx)
+                            showDialog(ctx)
+                        }
+                        else Toast.makeText(a, "Google Cast isn't available on this device.", Toast.LENGTH_LONG).show()
+                    }
+                    .setPositiveButton("Rescan") { _, _ -> showCombinedChooser(app) }
+                    .show()
+            }
+        }
+    }
+
     /** Links only this phone can open can't be cast. */
     private fun castable(url: String): Boolean {
         val u = Uri.parse(url)
@@ -91,10 +155,14 @@ object CastController {
         return host != "localhost" && !host.startsWith("127.") && host != "0.0.0.0" && host != "::1" && host != "10.0.2.2"
     }
 
-    private fun mimeFor(url: String, live: Boolean): String {
-        val path = Uri.parse(url).path?.lowercase().orEmpty()
+    private fun mimeFor(url: String, live: Boolean, filename: String?): String {
+        val urlPath = Uri.parse(url).path.orEmpty().lowercase()
+        val filenamePath = filename.orEmpty().substringBefore('?').lowercase()
+        val path = if (listOf(".m3u8", ".mpd", ".mp4", ".m4v", ".mkv", ".webm", ".ts")
+                .any(urlPath::endsWith)) urlPath else filenamePath
         return when {
-            path.endsWith(".m3u8") || "m3u8" in url.lowercase() -> "application/x-mpegURL"
+            path.endsWith(".m3u8") || "m3u8" in url.lowercase() ||
+                (live && (path.endsWith(".ts") || path.matches(Regex(""".*/live/[^/]+/[^/]+/\d+""")))) -> "application/x-mpegURL"
             path.endsWith(".mpd") -> "application/dash+xml"
             path.endsWith(".mp4") || path.endsWith(".m4v") -> "video/mp4"
             path.endsWith(".mkv") -> "video/x-matroska"
@@ -112,21 +180,33 @@ object CastController {
      */
     private fun castUrlFor(req: CastLoad): String {
         // A Stalker portal's channel: the Cast device is given the portal's own (temporary) stream link.
-        if (com.nuvio.app.livetv.data.StalkerLinks.isStalker(req.url)) return com.nuvio.app.livetv.data.StalkerLinks.resolveOffMain(req.url)
-        com.nuvio.app.youtube.YouTubeMpdServer.castUrlFor(req.url)?.let { return it }
+        var sourceUrl = if (com.nuvio.app.livetv.data.StalkerLinks.isStalker(req.url)) {
+            com.nuvio.app.livetv.data.StalkerLinks.resolveOffMain(req.url)
+        } else {
+            req.url
+        }
+        com.nuvio.app.youtube.YouTubeMpdServer.castUrlFor(sourceUrl)?.let { return it }
         // YouTube's picture and sound come from a manifest only this phone holds: share it on the Wi-Fi, for this cast only.
-        Regex("""/yt/([^./]+)\.mpd""").find(req.url)?.groupValues?.get(1)?.let { id ->
+        Regex("""/yt/([^./]+)\.mpd""").find(sourceUrl)?.groupValues?.get(1)?.let { id ->
             com.nuvio.app.youtube.YouTubeMpdServer.manifestBytes(id)?.let { mpd ->
                 CastRelay.share(id, mpd, req.headers["User-Agent"])?.let { return it }
             }
         }
         if (req.live) {
-            val u = Uri.parse(req.url)
+            val u = Uri.parse(sourceUrl)
             val path = u.path.orEmpty()
-            if (path.endsWith(".ts", ignoreCase = true)) return u.buildUpon().path(path.dropLast(3) + ".m3u8").build().toString()
-            if (path.matches(Regex(""".*/live/[^/]+/[^/]+/\d+"""))) return u.buildUpon().path("$path.m3u8").build().toString()
+            if (path.endsWith(".ts", ignoreCase = true)) sourceUrl = u.buildUpon().path(path.dropLast(3) + ".m3u8").build().toString()
+            else if (path.matches(Regex(""".*/live/[^/]+/[^/]+/\d+"""))) sourceUrl = u.buildUpon().path("$path.m3u8").build().toString()
         }
-        return req.url
+        val uri = Uri.parse(sourceUrl)
+        val host = uri.host?.lowercase().orEmpty()
+        val phoneLocal = host == "localhost" || host == "::1" || host.startsWith("127.") || host == "10.0.2.2"
+        // Cast receivers cannot reach loopback/P2P URLs, and they cannot attach the phone's
+        // provider headers. Relay those requests over the same Wi-Fi instead.
+        if (phoneLocal || req.headers.isNotEmpty()) {
+            return CastRelay.shareHttp(sourceUrl, req.headers) ?: sourceUrl
+        }
+        return sourceUrl
     }
 
     private fun send(ctx: CastContext, req: CastLoad): Boolean {
@@ -134,12 +214,12 @@ object CastController {
         val a = activity
         if (rmc == null) return false
         val castUrl = castUrlFor(req)
-        Log.i(TAG, "Sending: live=${req.live} from=${req.url.substringBefore('?').takeLast(40)} to=${castUrl.substringBefore('?').takeLast(40)} mime=${mimeFor(castUrl, req.live)}")
+        Log.i(TAG, "Sending: live=${req.live} from=${req.url.substringBefore('?').takeLast(40)} to=${castUrl.substringBefore('?').takeLast(40)} mime=${mimeFor(req.url, req.live, req.filename)}")
         if (!castable(castUrl)) {
             a?.runOnUiThread { Toast.makeText(a, "This one only plays on the phone, so it can't be cast.", Toast.LENGTH_LONG).show() }
             return false
         }
-        if (req.headers.isNotEmpty()) Log.i(TAG, "Not sent to the Cast device: ${req.headers.keys}")
+        if (req.headers.isNotEmpty()) Log.i(TAG, "Provider headers relayed from phone: ${req.headers.keys}")
         val meta = MediaMetadata(MediaMetadata.MEDIA_TYPE_MOVIE).apply {
             putString(MediaMetadata.KEY_TITLE, req.title)
             req.subtitle?.let { putString(MediaMetadata.KEY_SUBTITLE, it) }
@@ -147,7 +227,7 @@ object CastController {
         }
         val info = MediaInfo.Builder(castUrl)
             .setStreamType(if (req.live) MediaInfo.STREAM_TYPE_LIVE else MediaInfo.STREAM_TYPE_BUFFERED)
-            .setContentType(mimeFor(castUrl, req.live))
+            .setContentType(mimeFor(req.url, req.live, req.filename))
             .setMetadata(meta)
             .build()
         rmc.load(
@@ -212,7 +292,9 @@ object CastController {
     private val sessions = object : SessionManagerListener<CastSession> {
         override fun onSessionStarted(session: CastSession, sessionId: String) = attach(session)
         override fun onSessionResumed(session: CastSession, wasSuspended: Boolean) = attach(session)
-        override fun onSessionEnded(session: CastSession, error: Int) { CastHost.ui.value = null; CastRelay.stop() }
+        override fun onSessionEnded(session: CastSession, error: Int) {
+            if (!DlnaCastController.isActive()) { CastHost.ui.value = null; CastRelay.stop() }
+        }
         override fun onSessionStarting(session: CastSession) {}
         override fun onSessionStartFailed(session: CastSession, error: Int) {}
         override fun onSessionEnding(session: CastSession) {

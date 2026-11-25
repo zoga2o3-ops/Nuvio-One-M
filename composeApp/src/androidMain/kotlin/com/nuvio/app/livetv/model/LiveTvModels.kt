@@ -165,7 +165,32 @@ data class LiveChannel(
     val headers: Map<String, String> = emptyMap(),
     val catchup: CatchupInfo? = null,
     /** Protected (DRM) stream details from the playlist, e.g. MPEG-DASH with a license. */
-    val drm: DrmInfo? = null
+    val drm: DrmInfo? = null,
+    /** Stream details for channels imported from an installed add-on; resolved when opened. */
+    val addon: AddonChannelRef? = null,
+)
+
+/** One installed add-on's Live TV catalog, selected for inclusion in the guide. */
+data class AddonChannelSource(
+    val id: String,
+    val manifestUrl: String,
+    val addonName: String,
+    val addonLogo: String? = null,
+    val catalogId: String,
+    val catalogName: String,
+    val enabled: Boolean = true,
+    val lastUpdatedMs: Long = 0,
+    val lastError: String? = null,
+    val channelCount: Int = 0,
+)
+
+/** Where an add-on-backed channel gets its short-lived playback stream. */
+data class AddonChannelRef(
+    val manifestUrl: String,
+    val addonName: String,
+    val addonLogo: String? = null,
+    val channelId: String,
+    val channelType: String = "tv",
 )
 
 /**

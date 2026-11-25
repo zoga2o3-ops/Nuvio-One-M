@@ -1,4 +1,10 @@
 <resources>
+    <string name="live_tv_addon_channels">Canais de complementos</string>
+    <string name="live_tv_addon_channels_hint">Escolha catálogos de TV ao vivo instalados para mostrar no guia.</string>
+    <string name="live_tv_addon_channels_none">Nenhum complemento instalado oferece um catálogo de TV ao vivo.</string>
+    <string name="live_tv_addon_channels_refresh">Atualizar</string>
+    <string name="live_tv_addon_stream_error">Não foi possível carregar este canal do complemento. Tente atualizar o catálogo.</string>
+    <string name="live_tv_addon_catalog_error">Não foi possível carregar o catálogo. Toque em Atualizar para tentar novamente.</string>
     <string name="about_licenses_attributions_subtitle">Fontes de dados, agradecimentos e licenças da plataforma</string>
     <string name="about_supporters_contributors_subtitle">Reconhecimento público e créditos do projeto</string>
     <string name="action_back">Voltar</string>
@@ -4137,4 +4143,15 @@
     <string name="live_tv_ui_server_address">Endereço do servidor</string>
     <string name="live_tv_ui_use_https">Usar HTTPS</string>
     <string name="live_tv_ui_use_https_description">Para fornecedores que lhe dão um endereço https://.</string>
+    <string name="music_home_quick_picks">Escolhas rápidas</string>
+    <string name="music_home_daily_mixes">Misturas diárias</string>
+    <string name="music_home_daily_mix_number">Mistura diária %1$d</string>
+    <string name="music_home_on_repeat">Em repetição</string>
+    <string name="music_home_because_you_listened">Porque ouviu</string>
+    <string name="music_home_because_you_listened_to">Porque ouviu %1$s</string>
+    <string name="music_home_forgotten_favorites">Favoritas esquecidas</string>
+    <string name="music_discover_weekly">Descobertas da semana</string>
+    <string name="music_discover_release_radar">Novos lançamentos</string>
+    <string name="music_discover_fans_also_like">Os fãs também gostam de</string>
+    <string name="music_discover_refreshing">A atualizar recomendações…</string>
 </resources>

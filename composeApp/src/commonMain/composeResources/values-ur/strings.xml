@@ -1,4 +1,10 @@
 <resources>
+    <string name="live_tv_addon_channels">ایڈ آن چینلز</string>
+    <string name="live_tv_addon_channels_hint">گائیڈ میں دکھانے کے لیے انسٹال شدہ لائیو ٹی وی کیٹلاگ منتخب کریں۔</string>
+    <string name="live_tv_addon_channels_none">کوئی انسٹال شدہ ایڈ آن لائیو ٹی وی کیٹلاگ فراہم نہیں کرتا۔</string>
+    <string name="live_tv_addon_channels_refresh">ریفریش</string>
+    <string name="live_tv_addon_stream_error">یہ ایڈ آن چینل لوڈ نہیں ہو سکا۔ کیٹلاگ ریفریش کر کے دوبارہ کوشش کریں۔</string>
+    <string name="live_tv_addon_catalog_error">کیٹلاگ لوڈ نہیں ہو سکا۔ دوبارہ کوشش کے لیے ریفریش دبائیں۔</string>
     <string name="theme_gold">سنہری</string>
 <string name="theme_jade">جیڈ</string>
 <string name="theme_rose_gold">روز گولڈ</string>
@@ -4108,4 +4114,15 @@
     <string name="live_tv_ui_server_address">سرور ایڈریس</string>
     <string name="live_tv_ui_use_https">HTTPS استعمال کریں</string>
     <string name="live_tv_ui_use_https_description">ان فراہم کنندگان کے لیے جو آپ کو https:// ایڈریس دیتے ہیں۔</string>
+    <string name="music_home_quick_picks">فوری انتخاب</string>
+    <string name="music_home_daily_mixes">روزانہ مکس</string>
+    <string name="music_home_daily_mix_number">روزانہ مکس %1$d</string>
+    <string name="music_home_on_repeat">بار بار چل رہا ہے</string>
+    <string name="music_home_because_you_listened">کیونکہ آپ نے سنا</string>
+    <string name="music_home_because_you_listened_to">کیونکہ آپ نے %1$s سنا</string>
+    <string name="music_home_forgotten_favorites">بھولی ہوئی پسندیدہ موسیقی</string>
+    <string name="music_discover_weekly">ہفتہ وار دریافت</string>
+    <string name="music_discover_release_radar">نئی ریلیز</string>
+    <string name="music_discover_fans_also_like">مداح یہ بھی پسند کرتے ہیں</string>
+    <string name="music_discover_refreshing">تجاویز تازہ کی جا رہی ہیں…</string>
 </resources>

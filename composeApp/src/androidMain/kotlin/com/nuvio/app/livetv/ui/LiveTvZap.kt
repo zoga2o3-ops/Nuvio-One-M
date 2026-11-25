@@ -32,6 +32,11 @@ fun liveTvRequest(channel: LiveChannel, programs: List<EpgProgram>?, now: Long):
         channelKey = channel.key,
         headers = channel.headers,
         subtitle = programs?.firstOrNull { it.isLive(now) }?.displayTitle(),
+        addonManifestUrl = channel.addon?.manifestUrl,
+        addonId = channel.addon?.let { com.nuvio.app.features.addons.AddonRepository.uiState.value.addons.firstOrNull { addon -> addon.manifestUrl == it.manifestUrl }?.manifest?.id },
+        addonChannelId = channel.addon?.channelId,
+        addonName = channel.addon?.addonName,
+        addonLogo = channel.addon?.addonLogo,
     )
 }
 

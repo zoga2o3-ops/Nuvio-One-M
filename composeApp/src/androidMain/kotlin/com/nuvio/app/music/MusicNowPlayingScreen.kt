@@ -2,7 +2,11 @@ package com.nuvio.app.music
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.RepeatMode as AnimationRepeatMode
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
@@ -31,6 +35,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -46,18 +51,20 @@ import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.icons.filled.DownloadDone
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
-import androidx.compose.material.icons.filled.Fullscreen
-import androidx.compose.material.icons.filled.FullscreenExit
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.Lyrics
 import androidx.compose.material.icons.filled.Pause
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.PlaylistAdd
 import androidx.compose.material.icons.filled.PlaylistPlay
+import androidx.compose.material.icons.filled.QueueMusic
 import androidx.compose.material.icons.filled.Radio
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Repeat
 import androidx.compose.material.icons.filled.RepeatOne
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.Shuffle
 import androidx.compose.material.icons.filled.SkipNext
 import androidx.compose.material.icons.filled.SkipPrevious
@@ -65,6 +72,7 @@ import androidx.compose.material.icons.filled.Videocam
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -82,6 +90,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.focus.focusRequester
@@ -107,10 +116,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import com.nuvio.app.music.engine.data.model.Song
+import com.nuvio.app.music.audio.MusicBitPerfectUsb
+import com.nuvio.app.sharePlainText
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import nuvio.composeapp.generated.resources.Res
@@ -135,6 +148,7 @@ internal fun MusicNowPlayingScreen(
     onOpenArtist: (browseId: String?, name: String, thumbnailUrl: String?) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val context = androidx.compose.ui.platform.LocalContext.current
     val state by MusicPlayer.state.collectAsState()
     val liked by MusicLibrary.liked.collectAsState()
     val playlists by MusicLibrary.playlists.collectAsState()
@@ -143,6 +157,9 @@ internal fun MusicNowPlayingScreen(
     val lyricsViewModel: MusicLyricsViewModel = viewModel { MusicLyricsViewModel() }
     val lyricsState by lyricsViewModel.state.collectAsState()
     val song = state.song
+    var displayArtworkUrl by remember(song?.videoId, song?.thumbnailUrl) {
+        mutableStateOf(song?.thumbnailUrl)
+    }
     val albumId = song?.albumId?.takeIf { it.isNotBlank() }
     val artistId = song?.artistId?.takeIf { it.isNotBlank() }
         ?: song?.artists?.firstOrNull { !it.browseId.isNullOrBlank() }?.browseId
@@ -183,12 +200,20 @@ internal fun MusicNowPlayingScreen(
     val playFocus = remember { FocusRequester() }
     val firstPickerFocus = remember { FocusRequester() }
     val windowInfo = LocalWindowInfo.current
-    val colors = musicAuroraColors(song?.thumbnailUrl ?: song?.title)
+    val colors = musicAuroraColors(displayArtworkUrl ?: song?.title)
+    val shareLabel = stringResource(Res.string.music_ui_share)
     val playInteraction = remember { MutableInteractionSource() }
     val playFocused by playInteraction.collectIsFocusedAsState()
     var showPlaylistPicker by remember { mutableStateOf(false) }
     var lyricsExpanded by remember { mutableStateOf(false) }
+    var activePanel by remember { mutableStateOf<NowPlayingTab?>(null) }
     var nowTab by remember { mutableStateOf(NowPlayingTab.LYRICS) }
+    var showSignalPath by remember { mutableStateOf(false) }
+
+    LaunchedEffect(song?.videoId, song?.title, song?.artist) {
+        displayArtworkUrl = song?.thumbnailUrl
+        if (song != null) displayArtworkUrl = MusicArtworkResolver.resolve(context, song)
+    }
 
     DisposableEffect(Unit) {
         MusicPlayer.setFastProgress(true)
@@ -197,6 +222,7 @@ internal fun MusicNowPlayingScreen(
 
     LaunchedEffect(song?.videoId) {
         lyricsExpanded = false
+        activePanel = null
         nowTab = NowPlayingTab.LYRICS
         lyricsViewModel.load(song)
         MusicPlayer.prepareVideoForCurrentTrack()
@@ -209,7 +235,7 @@ internal fun MusicNowPlayingScreen(
         }
     }
 
-    BackHandler(enabled = !showPlaylistPicker && !lyricsExpanded) {
+    BackHandler(enabled = !showPlaylistPicker && activePanel == null) {
         onClose()
     }
 
@@ -217,8 +243,8 @@ internal fun MusicNowPlayingScreen(
         showPlaylistPicker = false
     }
 
-    BackHandler(enabled = lyricsExpanded && !showPlaylistPicker) {
-        lyricsExpanded = false
+    BackHandler(enabled = activePanel != null && !showPlaylistPicker) {
+        activePanel = null
     }
 
     LaunchedEffect(windowInfo) {
@@ -237,9 +263,30 @@ internal fun MusicNowPlayingScreen(
         val touchUi = true
         val compact = touchUi && pageWidth < 720.dp
         val short = touchUi && pageHeight < 560.dp
+        val artworkMotion by rememberInfiniteTransition(label = "now-playing-artwork").animateFloat(
+            initialValue = 1.025f,
+            targetValue = if (state.isPlaying) 1.075f else 1.025f,
+            animationSpec = infiniteRepeatable(
+                animation = tween(durationMillis = 18_000, easing = LinearEasing),
+                repeatMode = AnimationRepeatMode.Reverse
+            ),
+            label = "artwork-motion"
+        )
         MusicAuroraBackground(
             seed = song?.thumbnailUrl ?: song?.title,
             modifier = Modifier.fillMaxSize()
+        )
+        MusicArtwork(
+            url = displayArtworkUrl,
+            modifier = Modifier.fillMaxSize().graphicsLayer {
+                val scale = if (state.isPlaying) artworkMotion else 1.025f
+                scaleX = scale
+                scaleY = scale
+            },
+            cornerRadius = 0.dp,
+            iconSize = 96.dp,
+            artworkPx = 1600,
+            preferHighResolutionVideoThumbnail = true,
         )
         Box(
             Modifier
@@ -247,8 +294,10 @@ internal fun MusicNowPlayingScreen(
                 .background(
                     Brush.verticalGradient(
                         listOf(
-                            Color(0x5508070B),
-                            Color(0xCC08070B),
+                            Color(0x8808070B),
+                            Color(0x1108070B),
+                            Color(0x7708070B),
+                            Color(0xF208070B),
                             MusicPalette.background
                         )
                     )
@@ -314,16 +363,25 @@ internal fun MusicNowPlayingScreen(
                     )
                     Spacer(Modifier.width(8.dp))
                 }
-                NowHeaderButton(
-                    icon = if (lyricsExpanded) Icons.Default.FullscreenExit else Icons.Default.Fullscreen,
-                    label = if (lyricsExpanded) stringResource(Res.string.music_ui_exit_canvas) else stringResource(Res.string.music_ui_canvas_lyrics),
-                    active = lyricsExpanded,
-                    onClick = {
-                        lyricsExpanded = !lyricsExpanded
-                        if (lyricsExpanded) nowTab = NowPlayingTab.LYRICS
-                    }
-                )
-                Spacer(Modifier.width(8.dp))
+                if (song != null) {
+                    NowHeaderButton(
+                        icon = Icons.Default.Share,
+                        label = shareLabel,
+                        onClick = {
+                            val publicId = song.videoId.takeIf { it.matches(Regex("[A-Za-z0-9_-]{11}")) }
+                            val trackText = buildString {
+                                append(song.title)
+                                if (song.artist.isNotBlank()) append(" — ${song.artist}")
+                                publicId?.let { append("\nhttps://music.youtube.com/watch?v=$it") }
+                            }
+                            sharePlainText(
+                                context = context,
+                                chooserTitle = shareLabel,
+                                text = trackText,
+                            )
+                        },
+                    )
+                }
                 NowHeaderButton(
                     icon = Icons.Default.Settings,
                     label = stringResource(Res.string.music_settings_title),
@@ -333,7 +391,187 @@ internal fun MusicNowPlayingScreen(
 
             Spacer(Modifier.height(10.dp))
 
-            if (lyricsExpanded) {
+            if (touchUi) {
+                Column(
+                    Modifier.weight(1f).fillMaxWidth(),
+                    verticalArrangement = Arrangement.Bottom
+                ) {
+                    Spacer(Modifier.weight(1f))
+                    Column(Modifier.fillMaxWidth()) {
+                        Text(
+                            text = state.playbackSource?.let { source ->
+                                stringResource(Res.string.music_ui_playing_from_source, source.uppercase())
+                            } ?: if (song?.localUri != null) {
+                                stringResource(Res.string.music_ui_playing_from_device)
+                            } else {
+                                stringResource(Res.string.music_ui_playing_from_nuvio)
+                            },
+                            color = MusicPalette.accentTeal,
+                            fontSize = 10.sp,
+                            letterSpacing = 1.8.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                        Spacer(Modifier.height(5.dp))
+                        Text(
+                            text = song?.title ?: stringResource(Res.string.music_ui_nothing_playing),
+                            color = Color.White,
+                            fontFamily = MusicDisplay,
+                            fontSize = if (compact) 29.sp else 38.sp,
+                            lineHeight = if (compact) 34.sp else 43.sp,
+                            fontWeight = FontWeight.Bold,
+                            maxLines = 2,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                        Text(
+                            text = song?.artist.orEmpty(),
+                            color = Color.White.copy(alpha = 0.78f),
+                            fontSize = 15.sp,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                            modifier = if (openArtist != null) Modifier.clickable(onClick = openArtist) else Modifier
+                        )
+                        if (!song?.albumName.isNullOrBlank()) {
+                            Text(
+                                text = song?.albumName.orEmpty(),
+                                color = Color.White.copy(alpha = 0.58f),
+                                fontSize = 12.sp,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis,
+                                modifier = if (openAlbum != null) Modifier.clickable(onClick = openAlbum) else Modifier
+                            )
+                        }
+
+                        Spacer(Modifier.height(15.dp))
+                        Row(
+                            Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()),
+                            horizontalArrangement = Arrangement.spacedBy(3.dp, Alignment.CenterHorizontally),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            PlayerIconButton(
+                                icon = Icons.Default.Lyrics,
+                                label = stringResource(NowPlayingTab.LYRICS.labelRes),
+                                active = activePanel == NowPlayingTab.LYRICS,
+                            ) { activePanel = NowPlayingTab.LYRICS }
+                            PlayerIconButton(
+                                icon = Icons.Default.QueueMusic,
+                                label = stringResource(NowPlayingTab.QUEUE.labelRes),
+                                active = activePanel == NowPlayingTab.QUEUE,
+                            ) { activePanel = NowPlayingTab.QUEUE }
+                            PlayerIconButton(
+                                icon = Icons.Default.Info,
+                                label = stringResource(NowPlayingTab.INFO.labelRes),
+                                active = activePanel == NowPlayingTab.INFO,
+                            ) { activePanel = NowPlayingTab.INFO }
+                            PlayerIconButton(
+                                icon = if (isLiked) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+                                label = if (isLiked) stringResource(Res.string.youtube_ui_liked) else stringResource(Res.string.music_ui_like),
+                                active = isLiked,
+                                onClick = {
+                                    song?.let {
+                                        val likedNow = MusicLibrary.toggleLike(it)
+                                        when {
+                                            it.videoId.startsWith("navidrome:") -> scope.launch(Dispatchers.IO) {
+                                                MusicNavidrome.setStarred(it, likedNow)
+                                            }
+                                            it.localUri.isNullOrBlank() -> MusicAccountRepository.syncLike(it, likedNow)
+                                        }
+                                    }
+                                }
+                            )
+                            PlayerIconButton(
+                                icon = Icons.Default.PlaylistAdd,
+                                label = stringResource(Res.string.music_ui_playlist),
+                                onClick = { if (song != null) showPlaylistPicker = true }
+                            )
+                            if (song?.localUri == null) {
+                                PlayerIconButton(
+                                    icon = Icons.Default.Radio,
+                                    label = stringResource(Res.string.music_ui_radio),
+                                    onClick = { song?.let { MusicPlayer.startRadio(it) } }
+                                )
+                            }
+                            if (state.videoAvailable && state.videoSong != null && song?.localUri == null) {
+                                PlayerIconButton(
+                                    icon = Icons.Default.Videocam,
+                                    label = stringResource(Res.string.music_ui_music_video),
+                                    onClick = {
+                                        state.videoSong?.let { video ->
+                                            MusicPlayer.pause()
+                                            onOpenMusicVideo(video, MusicPlayer.videoStartPositionMs())
+                                        }
+                                    }
+                                )
+                            }
+                        }
+
+                        Spacer(Modifier.height(10.dp))
+                        val duration = state.durationMs.coerceAtLeast(1L)
+                        NowSeekBar(
+                            progress = (state.positionMs.toFloat() / duration).coerceIn(0f, 1f),
+                            onSeekFraction = { fraction -> MusicPlayer.seekTo((fraction * duration).toLong()) },
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                        Row(
+                            Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Text(formatMusicTime(state.positionMs), color = Color.White.copy(alpha = 0.65f), fontSize = 10.sp)
+                            Text(formatMusicTime(state.durationMs), color = Color.White.copy(alpha = 0.65f), fontSize = 10.sp)
+                        }
+                        Spacer(Modifier.height(5.dp))
+                        SignalPathButton(state = state, onClick = { showSignalPath = true })
+                        Spacer(Modifier.height(6.dp))
+                        Row(
+                            Modifier.fillMaxWidth(),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            TransportButton(
+                                icon = Icons.Default.Shuffle,
+                                label = if (state.shuffle) stringResource(Res.string.music_ui_shuffle_on) else stringResource(Res.string.random_episode_title),
+                                active = state.shuffle
+                            ) { MusicPlayer.setShuffle(!state.shuffle) }
+                            TransportButton(Icons.Default.SkipPrevious, stringResource(Res.string.action_previous)) {
+                                MusicPlayer.previous()
+                            }
+                            Box(
+                                Modifier
+                                    .size(64.dp)
+                                    .clip(CircleShape)
+                                    .background(Color.White)
+                                    .focusRequester(playFocus)
+                                    .clickable(
+                                        interactionSource = playInteraction,
+                                        indication = null
+                                    ) { MusicPlayer.toggle() },
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Icon(
+                                    if (state.isPlaying) Icons.Default.Pause else Icons.Default.PlayArrow,
+                                    contentDescription = if (state.isPlaying) stringResource(Res.string.compose_action_pause) else stringResource(Res.string.action_play),
+                                    tint = Color(0xFF111116),
+                                    modifier = Modifier.size(32.dp)
+                                )
+                            }
+                            TransportButton(Icons.Default.SkipNext, stringResource(Res.string.action_next)) {
+                                MusicPlayer.next()
+                            }
+                            TransportButton(
+                                icon = if (state.repeatMode == RepeatMode.ONE) Icons.Default.RepeatOne else Icons.Default.Repeat,
+                                label = when (state.repeatMode) {
+                                    RepeatMode.OFF -> stringResource(Res.string.music_ui_repeat)
+                                    RepeatMode.ALL -> stringResource(Res.string.music_ui_repeat_all)
+                                    RepeatMode.ONE -> stringResource(Res.string.music_ui_repeat_one)
+                                },
+                                active = state.repeatMode != RepeatMode.OFF
+                            ) { MusicPlayer.cycleRepeat() }
+                        }
+                        state.error?.let { error ->
+                            Text(error, color = MusicPalette.error, fontSize = 12.sp)
+                        }
+                    }
+                }
+            } else if (lyricsExpanded) {
                 LyricsPanel(
                     state = lyricsState,
                     positionMs = state.positionMs,
@@ -652,7 +890,7 @@ internal fun MusicNowPlayingScreen(
                                     spinning = state.isPlaying
                                 )
                                 MusicArtwork(
-                                    url = song?.thumbnailUrl,
+                                    url = displayArtworkUrl,
                                     modifier = Modifier
                                         .size(artSize)
                                         .then(
@@ -696,7 +934,7 @@ internal fun MusicNowPlayingScreen(
                                     spinning = state.isPlaying
                                 )
                                 MusicArtwork(
-                                    url = song?.thumbnailUrl,
+                                    url = displayArtworkUrl,
                                     modifier = Modifier
                                         .size(300.dp)
                                         .then(
@@ -729,6 +967,73 @@ internal fun MusicNowPlayingScreen(
             }
         }
 
+        activePanel?.let { panel ->
+            Box(
+                Modifier
+                    .fillMaxSize()
+                    .background(Color.Black.copy(alpha = 0.62f))
+                    .clickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = null
+                    ) { activePanel = null },
+                contentAlignment = Alignment.BottomCenter
+            ) {
+                Column(
+                    Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight(0.82f)
+                        .clip(RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp))
+                        .background(Color(0xFF17161D))
+                        .clickable(
+                            interactionSource = remember { MutableInteractionSource() },
+                            indication = null
+                        ) { }
+                        .windowInsetsPadding(WindowInsets.safeDrawing)
+                        .padding(horizontal = 22.dp, vertical = 15.dp)
+                ) {
+                    Row(
+                        Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Column(Modifier.weight(1f)) {
+                            Text(
+                                text = stringResource(panel.labelRes),
+                                color = Color.White,
+                                fontFamily = MusicDisplay,
+                                fontSize = 22.sp,
+                                fontWeight = FontWeight.Bold
+                            )
+                            Text(
+                                text = listOfNotNull(song?.title, song?.artist).joinToString(" · "),
+                                color = Color.White.copy(alpha = 0.58f),
+                                fontSize = 11.sp,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis
+                            )
+                        }
+                        NowHeaderButton(
+                            icon = Icons.Default.Close,
+                            label = stringResource(Res.string.action_close),
+                            onClick = { activePanel = null }
+                        )
+                    }
+                    Spacer(Modifier.height(12.dp))
+                    Box(Modifier.weight(1f).fillMaxWidth()) {
+                        when (panel) {
+                            NowPlayingTab.LYRICS -> LyricsPanel(
+                                state = lyricsState,
+                                positionMs = state.positionMs,
+                                expanded = true,
+                                modifier = Modifier.fillMaxSize()
+                            )
+                            NowPlayingTab.QUEUE -> QueuePanel(state = state, playFocus = playFocus)
+                            NowPlayingTab.INFO -> NowInfoPanel(song = song, state = state, isLiked = isLiked)
+                        }
+                    }
+                }
+            }
+        }
+
         if (showPlaylistPicker) {
             PlaylistPickerOverlay(
                 playlists = playlists,
@@ -745,7 +1050,162 @@ internal fun MusicNowPlayingScreen(
                 }
             )
         }
+        if (showSignalPath) {
+            SignalPathDialog(
+                state = state,
+                onCheckPath = MusicPlayer::refreshSignalPath,
+                onDismiss = { showSignalPath = false },
+            )
+        }
     }
+}
+
+@Composable
+private fun SignalPathButton(state: MusicPlayer.State, onClick: () -> Unit) {
+    val codec = state.audioCodec?.uppercase()
+    val sampleRate = state.audioSampleRateHz?.let(::formatSignalSampleRate)
+    val summary = listOfNotNull(codec, sampleRate).joinToString(" · ")
+    Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+        Row(
+            Modifier
+                .clip(CircleShape)
+                .background(Color.Black.copy(alpha = 0.34f))
+                .border(1.dp, Color.White.copy(alpha = 0.16f), CircleShape)
+                .clickable(onClick = onClick)
+                .padding(horizontal = 13.dp, vertical = 7.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(6.dp),
+        ) {
+            Icon(Icons.Default.Info, contentDescription = null, modifier = Modifier.size(13.dp), tint = Color.White.copy(alpha = 0.8f))
+            Text(
+                text = summary.ifBlank { stringResource(Res.string.music_signal_path_title) },
+                color = Color.White.copy(alpha = 0.9f),
+                fontSize = 11.sp,
+                fontWeight = FontWeight.SemiBold,
+            )
+            Text("›", color = Color.White.copy(alpha = 0.74f), fontSize = 17.sp, lineHeight = 16.sp)
+        }
+    }
+}
+
+@Composable
+private fun SignalPathDialog(
+    state: MusicPlayer.State,
+    onCheckPath: () -> Unit,
+    onDismiss: () -> Unit,
+) {
+    val equalizerPreset by MusicSettings.equalizerPreset.collectAsState()
+    val equalizerAvailable by MusicEqualizer.available.collectAsState()
+    val usbOutput by MusicBitPerfectUsb.state.collectAsState()
+    val channelCount = state.audioChannelCount?.let { channels ->
+        when (channels) {
+            1 -> stringResource(Res.string.music_signal_path_channels_mono)
+            2 -> stringResource(Res.string.music_signal_path_channels_stereo)
+            else -> stringResource(Res.string.music_signal_path_channels, channels)
+        }
+    }
+    val streamFormat = listOfNotNull(
+        state.audioCodec?.uppercase(),
+        state.audioSampleRateHz?.let(::formatSignalSampleRate),
+        channelCount,
+        state.audioBitrate?.let { "${it / 1000} kbps" },
+    ).joinToString(" · ")
+    val equalizerText = when {
+        usbOutput.active -> stringResource(Res.string.music_signal_path_equalizer_bypassed_usb)
+        equalizerPreset == MusicEqualizerPreset.OFF -> stringResource(Res.string.music_signal_path_equalizer_off)
+        equalizerAvailable -> stringResource(Res.string.music_signal_path_equalizer_on, stringResource(equalizerPreset.labelRes))
+        else -> stringResource(Res.string.music_signal_path_equalizer_unavailable, stringResource(equalizerPreset.labelRes))
+    }
+
+    Dialog(
+        onDismissRequest = onDismiss,
+        properties = DialogProperties(usePlatformDefaultWidth = false),
+    ) {
+        Box(
+            Modifier.fillMaxSize().background(Color.Black.copy(alpha = 0.68f)),
+            contentAlignment = Alignment.BottomCenter,
+        ) {
+            Column(
+                Modifier
+                    .fillMaxWidth()
+                    .widthIn(max = 560.dp)
+                    .heightIn(max = 760.dp)
+                    .clip(RoundedCornerShape(topStart = 26.dp, topEnd = 26.dp))
+                    .background(Color(0xFF211F22))
+                    .verticalScroll(rememberScrollState())
+                    .padding(horizontal = 20.dp, vertical = 17.dp),
+            ) {
+                Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                    Column(Modifier.weight(1f)) {
+                        Text(
+                            stringResource(Res.string.music_signal_path_title),
+                            color = Color.White,
+                            fontFamily = MusicDisplay,
+                            fontSize = 22.sp,
+                            fontWeight = FontWeight.Bold,
+                        )
+                        Text(
+                            stringResource(Res.string.music_signal_path_subtitle),
+                            color = Color.White.copy(alpha = 0.64f),
+                            fontSize = 11.sp,
+                        )
+                    }
+                    TextButton(onClick = onCheckPath) {
+                        Text(stringResource(Res.string.music_signal_path_refresh), fontSize = 10.sp, fontWeight = FontWeight.Bold)
+                    }
+                    NowHeaderButton(
+                        icon = Icons.Default.Close,
+                        label = stringResource(Res.string.music_signal_path_close),
+                        onClick = onDismiss,
+                    )
+                }
+                Spacer(Modifier.height(18.dp))
+                SignalPathSection(
+                    title = stringResource(Res.string.music_signal_path_source),
+                    value = state.playbackSource?.uppercase() ?: stringResource(Res.string.music_ui_playing_from_nuvio),
+                    detail = streamFormat.ifBlank { stringResource(Res.string.music_signal_path_waiting) },
+                )
+                SignalPathSection(
+                    title = stringResource(Res.string.music_signal_path_dsp),
+                    value = equalizerText,
+                    detail = stringResource(Res.string.music_signal_path_dsp_detail),
+                )
+                SignalPathSection(
+                    title = stringResource(Res.string.music_signal_path_output),
+                    value = when {
+                        usbOutput.bitPerfect -> stringResource(Res.string.music_signal_path_usb_bitperfect)
+                        usbOutput.active -> stringResource(Res.string.music_signal_path_usb_direct_not_bitperfect)
+                        usbOutput.enabled && !usbOutput.message.isNullOrBlank() -> usbOutput.message.orEmpty()
+                        else -> stringResource(Res.string.music_signal_path_system_output)
+                    },
+                    detail = if (usbOutput.active) {
+                        stringResource(Res.string.music_signal_path_usb_detail)
+                    } else if (usbOutput.enabled && !usbOutput.message.isNullOrBlank()) {
+                        usbOutput.deviceName?.let { "USB DAC · $it" } ?: stringResource(Res.string.music_signal_path_system_output_detail)
+                    } else {
+                        stringResource(Res.string.music_signal_path_system_output_detail)
+                    },
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun SignalPathSection(title: String, value: String, detail: String) {
+    Column(Modifier.fillMaxWidth().padding(bottom = 17.dp)) {
+        Text(title, color = Color.White, fontSize = 15.sp, fontWeight = FontWeight.Bold)
+        Spacer(Modifier.height(5.dp))
+        Text(value, color = Color.White.copy(alpha = 0.91f), fontSize = 13.sp, fontWeight = FontWeight.SemiBold)
+        Spacer(Modifier.height(3.dp))
+        Text(detail, color = Color.White.copy(alpha = 0.62f), fontSize = 11.sp, lineHeight = 15.sp)
+    }
+}
+
+private fun formatSignalSampleRate(sampleRateHz: Int): String {
+    val khz = sampleRateHz / 1000f
+    val text = if (sampleRateHz % 1000 == 0) (sampleRateHz / 1000).toString() else "%.1f".format(khz)
+    return "$text kHz"
 }
 
 @Composable
@@ -760,7 +1220,7 @@ private fun NowHeaderButton(
     var focused by remember { mutableStateOf(false) }
     Box(
         modifier
-            .size(34.dp)
+            .size(40.dp)
             .clip(CircleShape)
             .background(
                 when {
@@ -811,7 +1271,7 @@ private fun NowHeaderButton(
                 active -> MusicPalette.background
                 else -> Color.White.copy(alpha = 0.82f)
             },
-            modifier = Modifier.size(18.dp)
+            modifier = Modifier.size(22.dp)
         )
     }
 }
@@ -861,6 +1321,38 @@ private fun NowPlayingTabButton(
                 .width(24.dp)
                 .height(2.dp)
                 .background(if (selected) MusicPalette.accent else Color.Transparent)
+        )
+    }
+}
+
+@Composable
+private fun PlayerIconButton(
+    icon: ImageVector,
+    label: String,
+    active: Boolean = false,
+    onClick: () -> Unit
+) {
+    var focused by remember { mutableStateOf(false) }
+    Column(
+        Modifier
+            .size(48.dp)
+            .clip(CircleShape)
+            .background(
+                when {
+                    focused -> Color.White
+                    active -> Color.White.copy(alpha = 0.22f)
+                    else -> Color.Transparent
+                }
+            )
+            .onFocusChanged { focused = it.isFocused }
+            .clickable(onClick = onClick),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Icon(
+            imageVector = icon,
+            contentDescription = label,
+            tint = if (focused) MusicPalette.background else Color.White,
+            modifier = Modifier.fillMaxSize().padding(12.dp)
         )
     }
 }
@@ -991,7 +1483,7 @@ private fun NowInfoPanel(song: Song?, state: MusicPlayer.State, isLiked: Boolean
     )
     Column(
         Modifier.fillMaxSize().padding(top = 2.dp),
-        verticalArrangement = Arrangement.spacedBy(3.dp)
+        verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         fields.chunked(2).forEach { pair ->
             Row(
@@ -1002,16 +1494,16 @@ private fun NowInfoPanel(song: Song?, state: MusicPlayer.State, isLiked: Boolean
                     Column(Modifier.weight(1f)) {
                         Text(
                             text = label.uppercase(),
-                            color = Color.White.copy(alpha = 0.38f),
-                            fontSize = 8.sp,
-                            letterSpacing = 1.2.sp,
+                            color = Color.White.copy(alpha = 0.52f),
+                            fontSize = 10.sp,
+                            letterSpacing = 1.1.sp,
                             fontWeight = FontWeight.Bold
                         )
-                        Spacer(Modifier.height(2.dp))
+                        Spacer(Modifier.height(4.dp))
                         Text(
                             text = value,
-                            color = Color.White.copy(alpha = 0.82f),
-                            fontSize = 11.sp,
+                            color = Color.White.copy(alpha = 0.92f),
+                            fontSize = 14.sp,
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis
                         )

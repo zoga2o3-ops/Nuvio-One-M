@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="live_tv_addon_channels">Κανάλια πρόσθετων</string>
+    <string name="live_tv_addon_channels_hint">Επιλέξτε εγκατεστημένους καταλόγους ζωντανής τηλεόρασης για εμφάνιση στον οδηγό.</string>
+    <string name="live_tv_addon_channels_none">Κανένα εγκατεστημένο πρόσθετο δεν παρέχει κατάλογο ζωντανής τηλεόρασης.</string>
+    <string name="live_tv_addon_channels_refresh">Ανανέωση</string>
+    <string name="live_tv_addon_stream_error">Δεν ήταν δυνατή η φόρτωση αυτού του καναλιού. Δοκιμάστε να ανανεώσετε τον κατάλογο.</string>
+    <string name="live_tv_addon_catalog_error">Δεν ήταν δυνατή η φόρτωση του καταλόγου. Πατήστε «Ανανέωση» για να δοκιμάσετε ξανά.</string>
     <string name="about_supporters_contributors_subtitle">Δημόσια αναγνώριση και συντελεστές του έργου</string>
     <string name="action_back">Πίσω</string>
     <string name="action_cancel">Άκυρο</string>
@@ -4152,4 +4158,15 @@
     <string name="live_tv_ui_server_address">Διεύθυνση διακομιστή</string>
     <string name="live_tv_ui_use_https">Χρήση HTTPS</string>
     <string name="live_tv_ui_use_https_description">Για παρόχους που σας δίνουν διεύθυνση https://.</string>
+    <string name="music_home_quick_picks">Γρήγορες επιλογές</string>
+    <string name="music_home_daily_mixes">Καθημερινές μίξεις</string>
+    <string name="music_home_daily_mix_number">Καθημερινή μίξη %1$d</string>
+    <string name="music_home_on_repeat">Σε επανάληψη</string>
+    <string name="music_home_because_you_listened">Επειδή άκουσες</string>
+    <string name="music_home_because_you_listened_to">Επειδή άκουσες το %1$s</string>
+    <string name="music_home_forgotten_favorites">Ξεχασμένα αγαπημένα</string>
+    <string name="music_discover_weekly">Εβδομαδιαίες ανακαλύψεις</string>
+    <string name="music_discover_release_radar">Νέες κυκλοφορίες</string>
+    <string name="music_discover_fans_also_like">Οι θαυμαστές ακούν επίσης</string>
+    <string name="music_discover_refreshing">Ενημέρωση προτάσεων…</string>
 </resources>

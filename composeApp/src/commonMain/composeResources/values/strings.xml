@@ -1,4 +1,10 @@
 <resources>
+    <string name="live_tv_addon_channels">Add-on channels</string>
+    <string name="live_tv_addon_channels_hint">Choose installed Live TV catalogs to show in the guide.</string>
+    <string name="live_tv_addon_channels_none">No installed add-ons provide a Live TV catalog.</string>
+    <string name="live_tv_addon_channels_refresh">Refresh</string>
+    <string name="live_tv_addon_stream_error">Couldn't load this add-on channel. Try refreshing the catalog.</string>
+    <string name="live_tv_addon_catalog_error">The catalog couldn't be loaded. Tap Refresh to try again.</string>
     <string name="theme_gold">Gold</string>
 <string name="theme_jade">Jade</string>
 <string name="theme_rose_gold">Rose Gold</string>
@@ -3920,6 +3926,30 @@
 <string name="music_ui_close">Close</string>
 <string name="music_ui_info">Info</string>
 <string name="music_ui_now_playing_nuvio_one_music">NOW PLAYING · NUVIO ONE MUSIC</string>
+<string name="music_signal_path_title">Signal path</string>
+<string name="music_settings_bit_perfect_usb">Bit-perfect USB output</string>
+<string name="music_settings_bit_perfect_usb_detail">Send supported PCM lossless tracks directly to a USB DAC. Requires USB permission and a compatible DAC; unsupported tracks use Android output.</string>
+<string name="music_signal_path_subtitle">Stream format and playback processing</string>
+<string name="music_signal_path_source">Source stream</string>
+<string name="music_signal_path_dsp">Audio processing</string>
+<string name="music_signal_path_output">System output</string>
+<string name="music_signal_path_dsp_detail">Media3 decodes the stream; the Android equalizer is used when available.</string>
+<string name="music_signal_path_waiting">Audio format appears when playback is ready</string>
+<string name="music_signal_path_format_unknown">Format not reported</string>
+<string name="music_signal_path_equalizer_on">Android equalizer · %1$s</string>
+<string name="music_signal_path_equalizer_unavailable">Equalizer unavailable · %1$s selected</string>
+<string name="music_signal_path_equalizer_off">Equalizer off</string>
+<string name="music_signal_path_system_output">Android / Media3 audio output</string>
+<string name="music_signal_path_usb_bitperfect">Direct USB · bit-perfect</string>
+<string name="music_signal_path_usb_direct_not_bitperfect">Direct USB PCM · not bit-perfect</string>
+<string name="music_signal_path_usb_detail">Lossless PCM is sent through the native USB driver, outside Android's audio mixer. Bit-perfect status also requires unchanged volume and a supported source format.</string>
+<string name="music_signal_path_equalizer_bypassed_usb">Bypassed for direct USB output</string>
+<string name="music_signal_path_system_output_detail">Android manages the active device and may resample audio. This player does not expose the hardware output rate or bit-perfect status.</string>
+<string name="music_signal_path_channels_mono">Mono</string>
+<string name="music_signal_path_channels_stereo">Stereo</string>
+<string name="music_signal_path_channels">%1$d channels</string>
+<string name="music_signal_path_refresh">Check path</string>
+<string name="music_signal_path_close">Close signal path</string>
 <string name="music_ui_retry_download">Retry download</string>
 <string name="music_ui_exit_canvas">Exit canvas</string>
 <string name="music_ui_canvas_lyrics">Canvas lyrics</string>
@@ -4181,4 +4211,15 @@
             <item quantity="one">%d title</item>
             <item quantity="other">%d titles</item>
         </plurals>
+    <string name="music_home_quick_picks">Quick picks</string>
+    <string name="music_home_daily_mixes">Daily mixes</string>
+    <string name="music_home_daily_mix_number">Daily Mix %1$d</string>
+    <string name="music_home_on_repeat">On repeat</string>
+    <string name="music_home_because_you_listened">Because you listened</string>
+    <string name="music_home_because_you_listened_to">Because you listened to %1$s</string>
+    <string name="music_home_forgotten_favorites">Forgotten favorites</string>
+    <string name="music_discover_weekly">Discover Weekly</string>
+    <string name="music_discover_release_radar">Release Radar</string>
+    <string name="music_discover_fans_also_like">Fans also like</string>
+    <string name="music_discover_refreshing">Refreshing recommendations…</string>
 </resources>

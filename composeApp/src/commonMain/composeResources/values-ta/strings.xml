@@ -1,4 +1,10 @@
 <resources>
+    <string name="live_tv_addon_channels">சேர்க்கை சேனல்கள்</string>
+    <string name="live_tv_addon_channels_hint">வழிகாட்டியில் காட்ட, நிறுவப்பட்ட நேரலை டிவி பட்டியல்களைத் தேர்ந்தெடுக்கவும்.</string>
+    <string name="live_tv_addon_channels_none">நேரலை டிவி பட்டியலை வழங்கும் நிறுவப்பட்ட சேர்க்கை எதுவும் இல்லை.</string>
+    <string name="live_tv_addon_channels_refresh">புதுப்பி</string>
+    <string name="live_tv_addon_stream_error">இந்தச் சேர்க்கை சேனலை ஏற்ற முடியவில்லை. பட்டியலைப் புதுப்பித்துப் பார்க்கவும்.</string>
+    <string name="live_tv_addon_catalog_error">பட்டியலை ஏற்ற முடியவில்லை. மீண்டும் முயற்சிக்க புதுப்பி என்பதைத் தட்டவும்.</string>
     <string name="theme_gold">தங்கம்</string>
     <string name="theme_jade">ஜேடு</string>
     <string name="theme_rose_gold">ரோஸ் கோல்ட்</string>
@@ -4120,4 +4126,15 @@
     <string name="live_tv_ui_server_address">சேவையக முகவரி</string>
     <string name="live_tv_ui_use_https">HTTPS பயன்படுத்து</string>
     <string name="live_tv_ui_use_https_description">https:// முகவரி தரும் வழங்குநர்களுக்கு.</string>
+    <string name="music_home_quick_picks">விரைவுத் தேர்வுகள்</string>
+    <string name="music_home_daily_mixes">தினசரி மிக்ஸ்கள்</string>
+    <string name="music_home_daily_mix_number">தினசரி மிக்ஸ் %1$d</string>
+    <string name="music_home_on_repeat">மீண்டும் மீண்டும்</string>
+    <string name="music_home_because_you_listened">நீங்கள் கேட்டதால்</string>
+    <string name="music_home_because_you_listened_to">நீங்கள் %1$s கேட்டதால்</string>
+    <string name="music_home_forgotten_favorites">மறந்துபோன விருப்பங்கள்</string>
+    <string name="music_discover_weekly">வாரத்தின் கண்டுபிடிப்பு</string>
+    <string name="music_discover_release_radar">புதிய வெளியீடுகள்</string>
+    <string name="music_discover_fans_also_like">ரசிகர்களும் விரும்புவது</string>
+    <string name="music_discover_refreshing">பரிந்துரைகள் புதுப்பிக்கப்படுகின்றன…</string>
 </resources>

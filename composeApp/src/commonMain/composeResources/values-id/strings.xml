@@ -1,4 +1,10 @@
 <resources>
+    <string name="live_tv_addon_channels">Saluran add-on</string>
+    <string name="live_tv_addon_channels_hint">Pilih katalog TV Langsung yang terpasang untuk ditampilkan di panduan.</string>
+    <string name="live_tv_addon_channels_none">Tidak ada add-on terpasang yang menyediakan katalog TV Langsung.</string>
+    <string name="live_tv_addon_channels_refresh">Muat ulang</string>
+    <string name="live_tv_addon_stream_error">Saluran add-on ini tidak dapat dimuat. Coba muat ulang katalognya.</string>
+    <string name="live_tv_addon_catalog_error">Katalog tidak dapat dimuat. Ketuk Muat ulang untuk mencoba lagi.</string>
     <string name="about_licenses_attributions_subtitle">Sumber data, pengakuan, dan lisensi platform</string>
     <string name="about_supporters_contributors_subtitle">Apresiasi terbuka dan kredit proyek</string>
     <string name="action_back">Kembali</string>
@@ -4108,4 +4114,15 @@
     <string name="live_tv_ui_server_address">Alamat server</string>
     <string name="live_tv_ui_use_https">Gunakan HTTPS</string>
     <string name="live_tv_ui_use_https_description">Untuk penyedia yang memberikan alamat https://.</string>
+    <string name="music_home_quick_picks">Pilihan cepat</string>
+    <string name="music_home_daily_mixes">Mix harian</string>
+    <string name="music_home_daily_mix_number">Mix harian %1$d</string>
+    <string name="music_home_on_repeat">Diputar berulang</string>
+    <string name="music_home_because_you_listened">Karena Anda mendengarkan</string>
+    <string name="music_home_because_you_listened_to">Karena Anda mendengarkan %1$s</string>
+    <string name="music_home_forgotten_favorites">Favorit yang terlupakan</string>
+    <string name="music_discover_weekly">Temuan mingguan</string>
+    <string name="music_discover_release_radar">Rilisan terbaru</string>
+    <string name="music_discover_fans_also_like">Penggemar juga menyukai</string>
+    <string name="music_discover_refreshing">Memperbarui rekomendasi…</string>
 </resources>

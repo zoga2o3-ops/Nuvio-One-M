@@ -7,11 +7,11 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTransformGestures
 import androidx.compose.foundation.horizontalScroll
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
@@ -19,8 +19,8 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -48,9 +48,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.unit.IntOffset
-import kotlin.math.roundToInt
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
@@ -60,6 +57,7 @@ import androidx.compose.ui.input.key.KeyEventType
 import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.input.key.type
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
@@ -69,6 +67,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Density
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
@@ -103,6 +102,7 @@ import nuvio.composeapp.generated.resources.music_tab_local
 import nuvio.composeapp.generated.resources.music_tab_party
 import org.jetbrains.compose.resources.stringResource
 import nuvio.composeapp.generated.resources.*
+import kotlin.math.roundToInt
 
 /** One density scale for the whole Music section. */
 private const val MUSIC_UI_SCALE = 0.88f
@@ -157,7 +157,10 @@ fun MusicScreen() {
     var miniVideoOffset by remember { mutableStateOf<Offset?>(null) }
     var miniVideoWidthDp by remember { mutableStateOf(220f) }
     LaunchedEffect(musicVideo) {
-        if (musicVideo == null) MusicVideoHost.clear()
+        if (musicVideo == null) {
+            musicVideoMinimized = false
+            MusicVideoHost.clear()
+        }
     }
     var showSettings by remember { mutableStateOf(false) }
     var showDownloads by remember { mutableStateOf(false) }
@@ -179,11 +182,10 @@ fun MusicScreen() {
     fun showVideoFor(song: Song, startPositionMs: Long, keepMini: Boolean = false) {
         if (!song.hasMusicVideo()) {
             musicVideo = null
-            musicVideoMinimized = false
-            if (!keepMini) showNowPlaying = true
+            showNowPlaying = true
             return
         }
-        if (!keepMini) MusicPlayer.pause()
+        MusicPlayer.pause()
         musicVideo = MusicVideoRequest(song, startPositionMs)
         musicVideoMinimized = keepMini
         musicVideoMiniPositionMs = startPositionMs
@@ -197,7 +199,6 @@ fun MusicScreen() {
     fun skipVideo(direction: Int, auto: Boolean = false) {
         val state = MusicPlayer.state.value
         if (state.queue.isEmpty() || state.index !in state.queue.indices) return
-        val keepMini = musicVideoMinimized
         val target = when {
             direction > 0 && state.index < state.queue.lastIndex -> state.index + 1
             direction < 0 && state.index > 0 -> state.index - 1
@@ -209,20 +210,18 @@ fun MusicScreen() {
             if (auto && direction > 0) {
                 MusicPlayer.next(auto = true)
                 musicVideo = null
-                musicVideoMinimized = false
-                if (!keepMini) showNowPlaying = true
+                showNowPlaying = true
             }
             return
         }
         val next = state.queue[target]
         if (next.hasMusicVideo()) {
             MusicPlayer.selectPaused(target)
-            showVideoFor(next, 0L, keepMini = keepMini)
+            showVideoFor(next, 0L, keepMini = musicVideoMinimized)
         } else {
             MusicPlayer.jumpTo(target)
             musicVideo = null
-            musicVideoMinimized = false
-            if (!keepMini) showNowPlaying = true
+            showNowPlaying = true
         }
     }
 
@@ -234,13 +233,10 @@ fun MusicScreen() {
         val request = musicVideo ?: return
         val mapped = MusicPlayer.audioPositionForVideo(request.video.videoId, videoPositionMs)
         musicVideo = null
-        musicVideoMinimized = false
-        musicVideoMiniPositionMs = 0L
         showNowPlaying = true
         MusicPlayer.jumpTo(MusicPlayer.state.value.index, mapped)
     }
 
-    /** Shrinks the video into the in-app mini player without leaving the Music section. */
     fun minimizeVideo(videoPositionMs: Long) {
         if (musicVideo == null) return
         musicVideoMiniPositionMs = videoPositionMs
@@ -248,11 +244,9 @@ fun MusicScreen() {
         showNowPlaying = false
     }
 
-    /** Brings the mini player back to full screen at the position it reached. */
     fun expandVideo(videoPositionMs: Long) {
-        val request = musicVideo ?: return
+        if (musicVideo == null) return
         musicVideoMiniPositionMs = videoPositionMs
-        musicVideo = request.copy(startPositionMs = videoPositionMs)
         musicVideoMinimized = false
     }
 
@@ -267,7 +261,6 @@ fun MusicScreen() {
         } else {
             MusicPlayer.jumpTo(index)
             musicVideo = null
-            musicVideoMinimized = false
             showNowPlaying = true
         }
     }
@@ -305,6 +298,15 @@ fun MusicScreen() {
 
     LaunchedEffect(profileState.activeProfile?.profileIndex) {
         MusicHomeRows.useProfile(com.nuvio.app.features.profiles.ProfileRepository.activeProfileId)
+        if (state.home.shelves.isNotEmpty()) {
+            MusicHomeRows.syncServiceShelves(state.home.shelves)
+        }
+    }
+
+    LaunchedEffect(state.home.shelves) {
+        if (state.home.shelves.isNotEmpty()) {
+            MusicHomeRows.syncServiceShelves(state.home.shelves)
+        }
     }
 
     LaunchedEffect(account.checked, account.signedIn, account.accountName, account.accounts) {
@@ -365,7 +367,7 @@ fun MusicScreen() {
         state.explore.selected != null || openPlaylistId != null ||
         showSettings || showDownloads || showParty || showWebDav ||
         showIntegrations || showSources || showNavidrome || showAccount ||
-        (musicVideo != null && !musicVideoMinimized)
+        musicVideo != null && !musicVideoMinimized
 
     // Re-anchor focus to the selected top tab whenever the tab changes or an overlay closes.
     // Without this, tapping a tab (which does not move focus) or closing Integrations leaves
@@ -407,9 +409,12 @@ fun MusicScreen() {
         val maxWidthPx = with(density) { maxWidth.toPx() }
         val maxHeightPx = with(density) { maxHeight.toPx() }
         val edgePx = with(density) { 14.dp.toPx() }
+        val miniBottomClearancePx = with(density) {
+            (maxOf(LocalNuvioBottomNavigationOverlayPadding.current, 120.dp) + 8.dp).toPx()
+        }
         val maxMiniWidthPx = minOf(
             maxWidthPx - 2 * edgePx,
-            (maxHeightPx - 2 * edgePx) * 16f / 9f,
+            (maxHeightPx - miniBottomClearancePx - 2 * edgePx) * 16f / 9f,
         ).coerceAtLeast(with(density) { 160.dp.toPx() })
         val maxMiniWidthDp = with(density) { maxMiniWidthPx.toDp().value }
         val miniWidthPx = with(density) { miniVideoWidthDp.dp.toPx() }
@@ -417,11 +422,11 @@ fun MusicScreen() {
         val defaultMiniX = (maxWidthPx - miniWidthPx - edgePx).coerceAtLeast(0f)
         val defaultMiniY = with(density) { 120.dp.toPx() }
         val miniPos = miniVideoOffset ?: Offset(defaultMiniX, defaultMiniY)
-        LaunchedEffect(maxWidthPx, maxHeightPx, miniVideoWidthDp) {
+        LaunchedEffect(maxWidthPx, maxHeightPx, miniBottomClearancePx, miniVideoWidthDp) {
             miniVideoOffset = (miniVideoOffset ?: Offset(defaultMiniX, defaultMiniY)).let {
                 Offset(
                     it.x.coerceIn(0f, (maxWidthPx - miniWidthPx).coerceAtLeast(0f)),
-                    it.y.coerceIn(0f, (maxHeightPx - miniHeightPx).coerceAtLeast(0f)),
+                    it.y.coerceIn(0f, (maxHeightPx - miniHeightPx - miniBottomClearancePx).coerceAtLeast(0f)),
                 )
             }
         }
@@ -546,6 +551,8 @@ fun MusicScreen() {
                         recentSongs = recents.map { it.toSong() },
                         localPlaylists = playlists,
                         gemini = gemini,
+                        curation = state.home.curation,
+                        curationLoading = state.home.curationLoading,
                         homeRows = homeRows,
                         onShelfItemClick = ::openShelfItem,
                         onPlayShelfItem = { shelf, index ->
@@ -579,6 +586,8 @@ fun MusicScreen() {
                     )
                     state.tab == MusicTab.EXPLORE -> MusicExploreScreen(
                         state = state.explore,
+                        curation = state.home.curation,
+                        curationLoading = state.home.curationLoading,
                         onMoodClick = viewModel::openMood,
                         onMoodBack = viewModel::closeMood,
                         onShelfItemClick = ::openShelfItem,
@@ -586,7 +595,26 @@ fun MusicScreen() {
                             viewModel.playShelfItem(shelf, index)
                             showNowPlaying = true
                         },
-                        onRetry = viewModel::loadExplore
+                        onRetry = viewModel::loadExplore,
+                        onPlayCurated = { songs, index -> play(songs, index) },
+                        onOpenRelease = { release ->
+                            viewModel.openDetail(
+                                browseId = release.browseId,
+                                title = release.title,
+                                subtitle = release.artist,
+                                thumbnailUrl = release.thumbnailUrl,
+                                type = BrowseType.ALBUM
+                            )
+                        },
+                        onOpenArtist = { artist ->
+                            viewModel.openDetail(
+                                browseId = artist.browseId,
+                                title = artist.name,
+                                subtitle = artistLabel,
+                                thumbnailUrl = artist.thumbnailUrl,
+                                type = BrowseType.ARTIST
+                            )
+                        }
                     )
                     state.tab == MusicTab.LIBRARY && openPlaylist != null ->
                         MusicLocalPlaylistScreen(
@@ -670,20 +698,20 @@ fun MusicScreen() {
                 }
             }
         }
-        musicVideo?.takeIf { musicVideoMinimized }?.let { request ->
+        musicVideo?.let { request ->
             MusicVideoPlayerScreen(
                 video = request.video,
                 startPositionMs = musicVideoMiniPositionMs,
-                minimized = true,
-                onExpand = { expandVideo(it) },
+                minimized = musicVideoMinimized,
+                onMinimize = ::minimizeVideo,
+                onExpand = ::expandVideo,
                 onClose = ::closeVideo,
                 onSkip = { skipVideo(it) },
                 onSelectQueue = ::selectVideoQueue,
                 onEnded = { skipVideo(direction = 1, auto = true) },
-                pipGestureModifier = Modifier.pointerInput(maxWidthPx, maxHeightPx, maxMiniWidthDp) {
+                pipGestureModifier = Modifier.pointerInput(maxWidthPx, maxHeightPx, maxMiniWidthDp, miniBottomClearancePx) {
                     detectTransformGestures { _, pan, zoom, _ ->
-                        val newWidthDp = (miniVideoWidthDp * zoom)
-                            .coerceIn(160f, maxMiniWidthDp)
+                        val newWidthDp = (miniVideoWidthDp * zoom).coerceIn(160f, maxMiniWidthDp)
                         miniVideoWidthDp = newWidthDp
                         val newWidthPx = with(density) { newWidthDp.dp.toPx() }
                         val newHeightPx = newWidthPx * 9f / 16f
@@ -692,27 +720,24 @@ fun MusicScreen() {
                             with(density) { 120.dp.toPx() }
                         )
                         miniVideoOffset = Offset(
-                            (base.x + pan.x).coerceIn(
-                                0f,
-                                (maxWidthPx - newWidthPx).coerceAtLeast(0f)
-                            ),
+                            (base.x + pan.x).coerceIn(0f, (maxWidthPx - newWidthPx).coerceAtLeast(0f)),
                             (base.y + pan.y).coerceIn(
                                 0f,
-                                (maxHeightPx - newHeightPx).coerceAtLeast(0f)
+                                (maxHeightPx - newHeightPx - miniBottomClearancePx).coerceAtLeast(0f)
                             ),
                         )
                     }
                 },
-                modifier = Modifier
-                    .offset { IntOffset(miniPos.x.roundToInt(), miniPos.y.roundToInt()) }
-                    .width(miniVideoWidthDp.dp)
-                    .aspectRatio(16f / 9f)
-                    .clip(RoundedCornerShape(14.dp))
-                    .border(
-                        1.5.dp,
-                        MusicPalette.accent.copy(alpha = 0.8f),
-                        RoundedCornerShape(14.dp)
-                    )
+                modifier = if (musicVideoMinimized) {
+                    Modifier
+                        .offset { IntOffset(miniPos.x.roundToInt(), miniPos.y.roundToInt()) }
+                        .width(miniVideoWidthDp.dp)
+                        .aspectRatio(16f / 9f)
+                        .clip(RoundedCornerShape(14.dp))
+                        .border(1.5.dp, MusicPalette.accent.copy(alpha = 0.8f), RoundedCornerShape(14.dp))
+                } else {
+                    Modifier.fillMaxSize()
+                }
             )
         }
         }
@@ -754,20 +779,6 @@ fun MusicScreen() {
                         viewModel.openArtistByQuery(name, thumbnailUrl)
                     }
                 }
-            )
-        }
-    }
-
-    musicVideo?.takeIf { !musicVideoMinimized }?.let { request ->
-        MusicOverlayDialog(onDismiss = { closeVideo(0L) }) {
-            MusicVideoPlayerScreen(
-                video = request.video,
-                startPositionMs = request.startPositionMs,
-                onMinimize = { minimizeVideo(it) },
-                onClose = ::closeVideo,
-                onSkip = { skipVideo(it) },
-                onSelectQueue = ::selectVideoQueue,
-                onEnded = { skipVideo(direction = 1, auto = true) }
             )
         }
     }

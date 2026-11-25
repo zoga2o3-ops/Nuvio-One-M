@@ -47,31 +47,47 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import com.nuvio.app.music.engine.data.model.HomeShelf
 import com.nuvio.app.music.engine.data.model.MoodGenre
+import com.nuvio.app.music.engine.data.model.ShelfItem
+import com.nuvio.app.music.engine.data.model.Song
 import nuvio.composeapp.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
 internal fun MusicExploreScreen(
     state: MusicExploreState,
+    curation: MusicCuration = MusicCuration(),
+    curationLoading: Boolean = false,
     onMoodClick: (MoodGenre) -> Unit,
     onMoodBack: () -> Unit,
     onShelfItemClick: (HomeShelf, Int) -> Unit,
     onPlayShelfItem: (HomeShelf, Int) -> Unit,
     onRetry: () -> Unit,
+    onPlayCurated: (List<Song>, Int) -> Unit = { _, _ -> },
+    onOpenRelease: (MusicRelease) -> Unit = {},
+    onOpenArtist: (MusicRelatedArtist) -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     val selected = state.selected
     if (selected == null) {
         when {
-            state.loading && state.sections.isEmpty() -> MusicLoading(modifier.fillMaxSize())
-            state.error != null && state.sections.isEmpty() ->
+            state.loading && state.sections.isEmpty() && curation.isEmpty -> MusicLoading(modifier.fillMaxSize())
+            state.error != null && state.sections.isEmpty() && curation.isEmpty ->
                 MusicErrorState(state.error, onRetry, modifier)
-            state.sections.isEmpty() -> MusicEmptyState(
+            state.sections.isEmpty() && curation.isEmpty -> MusicEmptyState(
                 title = stringResource(Res.string.music_ui_nothing_to_explore),
                 message = stringResource(Res.string.music_ui_the_music_service_didn_t_send_any_moods_or_genres),
                 modifier = modifier
             )
-            else -> MoodList(state, onMoodClick, modifier)
+            else -> MoodList(
+                state = state,
+                curation = curation,
+                curationLoading = curationLoading,
+                onMoodClick = onMoodClick,
+                onPlayCurated = onPlayCurated,
+                onOpenRelease = onOpenRelease,
+                onOpenArtist = onOpenArtist,
+                modifier = modifier
+            )
         }
     } else {
         MoodDetail(
@@ -88,13 +104,19 @@ internal fun MusicExploreScreen(
 @Composable
 private fun MoodList(
     state: MusicExploreState,
+    curation: MusicCuration,
+    curationLoading: Boolean,
     onMoodClick: (MoodGenre) -> Unit,
+    onPlayCurated: (List<Song>, Int) -> Unit,
+    onOpenRelease: (MusicRelease) -> Unit,
+    onOpenArtist: (MusicRelatedArtist) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val firstMoodFocus = remember { FocusRequester() }
     val screenWidth = LocalConfiguration.current.screenWidthDp
     val columns = if (screenWidth < 600) 2 else 3
     val gridPadding = if (screenWidth < 600) 16.dp else 26.dp
+    val artistLabel = stringResource(Res.string.music_ui_artist)
     LazyColumn(
         modifier = modifier.fillMaxSize(),
         contentPadding = PaddingValues(top = 22.dp, bottom = 24.dp),
@@ -102,6 +124,68 @@ private fun MoodList(
     ) {
         item(key = "explore-header") {
             ExploreHeader()
+        }
+        curation.discoverWeekly?.let { weekly ->
+            item(key = "curated-discover-weekly") {
+                val title = stringResource(Res.string.music_discover_weekly)
+                MusicShelfRow(
+                    shelf = curatedSongShelf(title, weekly.tracks, weekly.artists.joinToString(" · ")),
+                    compact = screenWidth < 600,
+                    onItemClick = { _, index -> onPlayCurated(weekly.tracks, index) }
+                )
+            }
+        }
+        if (curation.releaseRadar.isNotEmpty()) {
+            item(key = "curated-release-radar") {
+                val title = stringResource(Res.string.music_discover_release_radar)
+                MusicShelfRow(
+                    shelf = HomeShelf(
+                        title = title,
+                        items = curation.releaseRadar.map { release ->
+                            ShelfItem(
+                                title = release.title,
+                                subtitle = listOfNotNull(release.artist, release.year?.toString()).joinToString(" · "),
+                                thumbnailUrl = release.thumbnailUrl,
+                                videoId = release.videoId,
+                                browseId = release.browseId,
+                            )
+                        }
+                    ),
+                    compact = screenWidth < 600,
+                    onItemClick = { _, index -> curation.releaseRadar.getOrNull(index)?.let(onOpenRelease) }
+                )
+            }
+        }
+        if (curation.fansAlsoLike.isNotEmpty()) {
+            item(key = "curated-fans-also-like") {
+                val title = stringResource(Res.string.music_discover_fans_also_like)
+                MusicShelfRow(
+                    shelf = HomeShelf(
+                        title = title,
+                        items = curation.fansAlsoLike.map { artist ->
+                            ShelfItem(
+                                title = artist.name,
+                                subtitle = artistLabel,
+                                thumbnailUrl = artist.thumbnailUrl,
+                                videoId = null,
+                                browseId = artist.browseId,
+                            )
+                        }
+                    ),
+                    compact = screenWidth < 600,
+                    onItemClick = { _, index -> curation.fansAlsoLike.getOrNull(index)?.let(onOpenArtist) }
+                )
+            }
+        }
+        if (curationLoading) {
+            item(key = "curated-discover-loading") {
+                Text(
+                    text = stringResource(Res.string.music_discover_refreshing),
+                    color = MusicPalette.textMuted,
+                    fontSize = 11.sp,
+                    modifier = Modifier.padding(horizontal = 26.dp)
+                )
+            }
         }
         itemsIndexed(
             items = state.sections,
@@ -146,6 +230,21 @@ private fun MoodList(
         }
     }
 }
+
+private fun curatedSongShelf(title: String, songs: List<Song>, subtitle: String = "") = HomeShelf(
+    title = title,
+    subtitle = subtitle,
+    items = songs.map {
+        ShelfItem(
+            title = it.title,
+            subtitle = it.artist,
+            thumbnailUrl = it.thumbnailUrl,
+            videoId = it.videoId,
+            browseId = null,
+            isVideo = it.isVideo
+        )
+    }
+)
 
 @Composable
 private fun ExploreHeader() {

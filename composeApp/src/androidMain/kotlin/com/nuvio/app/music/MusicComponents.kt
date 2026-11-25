@@ -43,6 +43,7 @@ import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -250,13 +251,18 @@ internal fun MusicArtwork(
     modifier: Modifier = Modifier,
     cornerRadius: Dp = 10.dp,
     iconSize: Dp = 30.dp,
-    artworkPx: Int = 480
+    artworkPx: Int = 480,
+    preferHighResolutionVideoThumbnail: Boolean = false,
 ) {
     val shape = RoundedCornerShape(cornerRadius)
     val (first, second) = musicAuroraColors(url)
-    // YouTube serves every size from the same image URL. Ask for a sharp source instead of
-    // the 60-120px shelf hint, otherwise the hero and Now Playing upscale a thumbnail.
-    val imageUrl = url?.artworkAt(artworkPx)
+    // Request large Google-hosted artwork and, for the full-screen player, try larger YouTube
+    // video-thumbnail variants before falling back to the original image.
+    val imageUrls = remember(url, artworkPx, preferHighResolutionVideoThumbnail) {
+        artworkCandidates(url, artworkPx, preferHighResolutionVideoThumbnail)
+    }
+    var imageCandidateIndex by remember(url, artworkPx, preferHighResolutionVideoThumbnail) { mutableIntStateOf(0) }
+    val imageUrl = imageUrls.getOrNull(imageCandidateIndex)
     Box(
         modifier
             .clip(shape)
@@ -284,10 +290,32 @@ internal fun MusicArtwork(
                 model = imageUrl,
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier.fillMaxSize(),
+                onError = {
+                    if (imageCandidateIndex < imageUrls.lastIndex) imageCandidateIndex++
+                },
             )
         }
     }
+}
+
+private fun artworkCandidates(url: String?, px: Int, preferHighResolutionVideoThumbnail: Boolean): List<String> {
+    val sized = url?.artworkAt(px) ?: return emptyList()
+    if (!preferHighResolutionVideoThumbnail) return listOf(sized)
+
+    val match = Regex("""^(https?://i\.ytimg\.com/vi(?:_webp)?/[^/?]+/)([^/?]+)(\?.*)?$""", RegexOption.IGNORE_CASE)
+        .matchEntire(url.orEmpty()) ?: return listOf(sized)
+    val prefix = match.groupValues[1]
+    val sourceFile = match.groupValues[2]
+    val query = match.groupValues[3]
+    val extension = sourceFile.substringAfterLast('.', "jpg")
+    val sourceName = sourceFile.substringBeforeLast('.', sourceFile)
+    if (sourceName !in setOf("default", "mqdefault", "hqdefault", "sddefault", "maxresdefault")) return listOf(sized)
+
+    return listOf("maxresdefault", "sddefault")
+        .map { "$prefix$it.$extension$query" }
+        .plus(sized)
+        .distinct()
 }
 
 @Composable

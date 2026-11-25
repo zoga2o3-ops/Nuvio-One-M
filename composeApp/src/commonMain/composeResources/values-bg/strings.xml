@@ -1,4 +1,10 @@
 <resources>
+    <string name="live_tv_addon_channels">Канали от добавки</string>
+    <string name="live_tv_addon_channels_hint">Изберете инсталирани каталози за телевизия на живо, които да се показват в справочника.</string>
+    <string name="live_tv_addon_channels_none">Няма инсталирани добавки с каталог за телевизия на живо.</string>
+    <string name="live_tv_addon_channels_refresh">Обнови</string>
+    <string name="live_tv_addon_stream_error">Каналът от добавката не може да се зареди. Опитайте да обновите каталога.</string>
+    <string name="live_tv_addon_catalog_error">Каталогът не може да се зареди. Натиснете „Обнови“, за да опитате отново.</string>
     <string name="theme_gold">Злато</string>
     <string name="theme_jade">Нефрит</string>
     <string name="theme_rose_gold">Розово злато</string>
@@ -4204,4 +4210,15 @@
     <string name="live_tv_ui_server_address">Адрес на сървъра</string>
     <string name="live_tv_ui_use_https">Използване на HTTPS</string>
     <string name="live_tv_ui_use_https_description">За доставчици, които предоставят адрес с https://.</string>
+    <string name="music_home_quick_picks">Бързи предложения</string>
+    <string name="music_home_daily_mixes">Ежедневни миксове</string>
+    <string name="music_home_daily_mix_number">Ежедневен микс %1$d</string>
+    <string name="music_home_on_repeat">На повторение</string>
+    <string name="music_home_because_you_listened">Защото слушахте</string>
+    <string name="music_home_because_you_listened_to">Защото слушахте %1$s</string>
+    <string name="music_home_forgotten_favorites">Забравени любими</string>
+    <string name="music_discover_weekly">Открития за седмицата</string>
+    <string name="music_discover_release_radar">Нови издания</string>
+    <string name="music_discover_fans_also_like">Феновете харесват и</string>
+    <string name="music_discover_refreshing">Обновяване на препоръките…</string>
 </resources>

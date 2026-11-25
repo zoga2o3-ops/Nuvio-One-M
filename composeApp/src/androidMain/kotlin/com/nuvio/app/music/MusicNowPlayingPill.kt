@@ -65,6 +65,9 @@ fun MusicNowPlayingPill(
 ) {
     val playback by MusicPlayer.state.collectAsState()
     val video by MusicVideoHost.state.collectAsState()
+    // Full-screen video has its own controls. Once minimized in the Music screen, show the
+    // regular now-playing pill and route its transport buttons to the video player.
+    if (video.active && !video.minimized) return
     val videoActive = video.active && video.video != null
     val song = (if (videoActive) video.video else playback.song) ?: return
     val playing = if (videoActive) video.isPlaying else playback.isPlaying

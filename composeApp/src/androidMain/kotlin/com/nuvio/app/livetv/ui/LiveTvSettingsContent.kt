@@ -15,6 +15,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
@@ -63,12 +64,15 @@ fun LiveTvSettingsContent() {
     // The same sources the Live TV page uses, so playlists and guides can be managed here too.
     val sources: LiveTvViewModel = viewModel { LiveTvViewModel(context) }
     val playlists by sources.playlists.collectAsStateWithLifecycle()
+    val addonChannelSources by sources.addonChannelSources.collectAsStateWithLifecycle()
+    val installedAddons by sources.installedAddons.collectAsStateWithLifecycle()
     val epgs by sources.epgSources.collectAsStateWithLifecycle()
     val playlistAccounts by sources.accounts.collectAsStateWithLifecycle()
     val sourceStatus by sources.status.collectAsStateWithLifecycle()
     val user by sources.user.collectAsStateWithLifecycle()
     val allChannels by sources.allChannels.collectAsStateWithLifecycle()
     var showPlaylists by remember { mutableStateOf(false) }
+    var showAddonChannels by remember { mutableStateOf(false) }
     var showPlaylistVisibility by remember { mutableStateOf(false) }
     var showAddPlaylist by remember { mutableStateOf(false) }
     var showAddEpg by remember { mutableStateOf(false) }
@@ -110,6 +114,10 @@ fun LiveTvSettingsContent() {
                 title = stringResource(Res.string.live_tv_ui_update_all),
                 detail = stringResource(Res.string.live_tv_settings_update_all_description),
             ) { sources.refresh() }
+            ActionLine(
+                title = stringResource(Res.string.live_tv_addon_channels),
+                detail = stringResource(Res.string.live_tv_addon_channels_hint),
+            ) { showAddonChannels = true }
 
             }
             SettingsBlock(stringResource(Res.string.live_tv_section_channels), isTablet) {
@@ -491,6 +499,15 @@ fun LiveTvSettingsContent() {
             onEpgEnabled = sources::setEpgEnabled,
             accounts = playlistAccounts,
             onEdit = sources::updatePlaylist,
+        )
+    }
+    if (showAddonChannels) {
+        AddonChannelsDialog(
+            addons = installedAddons.addons.filter { it.enabled && it.manifest != null },
+            selected = addonChannelSources,
+            onToggle = sources::setAddonCatalogEnabled,
+            onRefresh = sources::refreshAddonChannels,
+            onDismiss = { showAddonChannels = false },
         )
     }
     if (showPlaylistVisibility) {
@@ -1137,5 +1154,67 @@ private fun GroupTagsDialog(
                 Text(stringResource(Res.string.live_tv_ui_group_tags_clear))
             }
         },
+    )
+}
+
+@Composable
+private fun AddonChannelsDialog(
+    addons: List<com.nuvio.app.features.addons.ManagedAddon>,
+    selected: List<com.nuvio.app.livetv.model.AddonChannelSource>,
+    onToggle: (com.nuvio.app.features.addons.ManagedAddon, com.nuvio.app.features.addons.AddonCatalog, Boolean) -> Unit,
+    onRefresh: () -> Unit,
+    onDismiss: () -> Unit,
+) {
+    val options = addons.flatMap { addon ->
+        addon.manifest?.catalogs.orEmpty()
+            .filter { it.type.equals("tv", ignoreCase = true) }
+            .map { addon to it }
+    }
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text(stringResource(Res.string.live_tv_addon_channels)) },
+        text = {
+            if (options.isEmpty()) {
+                Text(stringResource(Res.string.live_tv_addon_channels_none))
+            } else {
+                LazyColumn(Modifier.fillMaxWidth().heightIn(max = 420.dp)) {
+                    items(options, key = { (addon, catalog) -> "${addon.manifestUrl}#${catalog.id}" }) { (addon, catalog) ->
+                        val source = selected.firstOrNull { it.manifestUrl == addon.manifestUrl && it.catalogId == catalog.id }
+                        val checked = source?.enabled == true
+                        Row(
+                            Modifier.fillMaxWidth().clickable { onToggle(addon, catalog, !checked) }.padding(vertical = 8.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            Column(Modifier.weight(1f)) {
+                                Text(catalog.name, style = MaterialTheme.typography.bodyLarge)
+                                Text(
+                                    addon.displayTitle,
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = LocalContentColor.current.copy(alpha = 0.7f),
+                                )
+                                if (source?.lastError != null) {
+                                    Text(
+                                        stringResource(Res.string.live_tv_addon_catalog_error),
+                                        style = MaterialTheme.typography.bodySmall,
+                                        color = MaterialTheme.colorScheme.error,
+                                    )
+                                } else if (source != null) {
+                                    Text(
+                                        stringResource(Res.string.live_tv_ui_group_channel_count, source.channelCount),
+                                        style = MaterialTheme.typography.bodySmall,
+                                        color = LocalContentColor.current.copy(alpha = 0.7f),
+                                    )
+                                }
+                            }
+                            Checkbox(checked = checked, onCheckedChange = { onToggle(addon, catalog, it) })
+                        }
+                    }
+                }
+            }
+        },
+        confirmButton = {
+            TextButton(onClick = onRefresh) { Text(stringResource(Res.string.live_tv_addon_channels_refresh)) }
+        },
+        dismissButton = { TextButton(onClick = onDismiss) { Text(stringResource(Res.string.action_done)) } },
     )
 }

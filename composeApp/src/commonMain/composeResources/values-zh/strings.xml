@@ -1,4 +1,11 @@
 <resources>
+    <string name="live_tv_addon_channels">插件频道</string>
+    <string name="live_tv_addon_channels_hint">选择要在节目指南中显示的已安装直播电视目录。</string>
+    <string name="live_tv_addon_channels_none">没有已安装的插件提供直播电视目录。</string>
+    <string name="live_tv_addon_channels_refresh">刷新</string>
+    <string name="live_tv_addon_stream_error">无法加载此插件频道。请尝试刷新目录。</string>
+    <string name="live_tv_addon_catalog_error">无法加载目录。请点按“刷新”重试。</string>
+    <string name="live_tv_epg_on_now">正在播出</string>
     <string name="theme_gold">金色</string>
     <string name="theme_jade">玉色</string>
     <string name="theme_rose_gold">玫瑰金</string>
@@ -2677,4 +2684,15 @@
 <string name="music_spotify_failed">无法同步 Spotify 资料库。</string>
 <string name="music_spotify_busy_waiting">YouTube Music 正忙；等待 %1$d 秒…</string>
 <string name="music_spotify_rate_limited">YouTube Music 暂时限制了请求。请等待几分钟后再同步。已添加的曲目不会受影响。</string>
+    <string name="music_home_quick_picks">快速精选</string>
+    <string name="music_home_daily_mixes">每日混音</string>
+    <string name="music_home_daily_mix_number">每日混音 %1$d</string>
+    <string name="music_home_on_repeat">单曲循环</string>
+    <string name="music_home_because_you_listened">因为你听过</string>
+    <string name="music_home_because_you_listened_to">因为你听过《%1$s》</string>
+    <string name="music_home_forgotten_favorites">被遗忘的收藏</string>
+    <string name="music_discover_weekly">每周发现</string>
+    <string name="music_discover_release_radar">最新发行</string>
+    <string name="music_discover_fans_also_like">粉丝也喜欢</string>
+    <string name="music_discover_refreshing">正在刷新推荐…</string>
 </resources>
