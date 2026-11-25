@@ -38,6 +38,10 @@
 -keep class com.nuvio.app.features.player.PlayerScreenKt { *; }
 -keep class com.nuvio.app.features.player.PlayerScreenKt$* { *; }
 
+# R8 can produce verifier-invalid bytecode for Compose's Android text canvas
+# saveLayer override (Canvas is passed where Paint is expected).
+-keep class androidx.compose.ui.text.android.TextAndroidCanvas { *; }
+
 # QuickJS plugin runtime is dynamic; keep runtime and app plugin classes.
 -keep class com.dokar.quickjs.** { *; }
 -keep class com.nuvio.app.features.plugins.** { *; }
