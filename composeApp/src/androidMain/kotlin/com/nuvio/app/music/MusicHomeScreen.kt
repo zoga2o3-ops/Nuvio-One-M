@@ -133,9 +133,16 @@ private fun MusicHomeFeed(
     }
 
     val serviceShelfById = state.shelves.associateBy(::serviceHomeRowId)
-    val visibleServiceShelves = homeRows.visibleServiceShelves()
-    val heroShelf = visibleServiceShelves.firstNotNullOfOrNull { serviceShelfById[it.id] }
-    val heroItem = heroShelf?.items?.firstOrNull()
+    val pinnedServiceShelves = homeRows.pinnedServiceShelves()
+    val pinnedServiceIds = pinnedServiceShelves.mapTo(HashSet()) { it.id }
+    val pinLocalPlaylists = homeRows.pinLibrary &&
+        MusicHomeRow.PLAYLISTS in homeRows.visibleRows() && localPlaylists.isNotEmpty()
+    val orderedHomeRows = homeRows.visibleSettingsRows().filterNot { row ->
+        when (row) {
+            is MusicHomeSettingsRow.Personal -> pinLocalPlaylists && row.row == MusicHomeRow.PLAYLISTS
+            is MusicHomeSettingsRow.Service -> row.shelf.id in pinnedServiceIds
+        }
+    }
     val compact = LocalConfiguration.current.screenWidthDp < 600
     val short = LocalConfiguration.current.screenHeightDp < 560
     val jumpBackTitle = stringResource(Res.string.music_ui_jump_back_in)
@@ -168,23 +175,30 @@ private fun MusicHomeFeed(
         ),
         verticalArrangement = Arrangement.spacedBy(if (compact || short) 14.dp else 18.dp)
     ) {
-        if (heroShelf != null && heroItem != null) {
-            item(key = "hero") {
-                MusicHero(
-                    shelf = heroShelf,
-                    item = heroItem,
+        if (pinLocalPlaylists) {
+            item(key = "pinned-personal-playlists") {
+                MusicPlaylistHomeRow(
+                    localPlaylists = localPlaylists,
+                    title = yourPlaylistsTitle,
+                    trackLabels = playlistTrackLabels,
                     compact = compact,
-                    short = short,
-                    onClick = { onHeroDetails(heroItem) },
-                    onPlay = {
-                        if (heroItem.videoId != null) onPlayShelfItem(heroShelf, 0)
-                        else onShelfItemClick(heroShelf, 0)
-                    }
+                    onOpenPlaylist = onOpenLocalPlaylist,
                 )
             }
         }
-        homeRows.visibleRows().forEach { row ->
-            when (row) {
+        pinnedServiceShelves.forEach { row ->
+            val shelf = serviceShelfById[row.id] ?: return@forEach
+            item(key = "pinned-service-home-${row.id}") {
+                MusicShelfRow(
+                    shelf = shelf,
+                    compact = compact,
+                    onItemClick = { _, index -> onShelfItemClick(shelf, index) }
+                )
+            }
+        }
+        orderedHomeRows.forEach { entry ->
+            when (entry) {
+                is MusicHomeSettingsRow.Personal -> when (entry.row) {
                 MusicHomeRow.RECENTS -> if (recentSongs.isNotEmpty()) {
             item(key = "personal-recents") {
                 MusicShelfRow(
@@ -206,26 +220,15 @@ private fun MusicHomeFeed(
                     onItemClick = { _, index -> onPlayCurated(recentSongs, index) }
                 )
             }
-        }
+                }
                 MusicHomeRow.PLAYLISTS -> if (localPlaylists.isNotEmpty()) {
             item(key = "personal-playlists") {
-                MusicShelfRow(
-                    shelf = HomeShelf(
-                        title = yourPlaylistsTitle,
-                        items = localPlaylists.mapIndexed { index, playlist ->
-                            ShelfItem(
-                                title = playlist.name,
-                                subtitle = playlistTrackLabels[index],
-                                thumbnailUrl = playlist.songs.firstOrNull()?.thumbnailUrl,
-                                videoId = null,
-                                browseId = playlist.id
-                            )
-                        }
-                    ),
+                MusicPlaylistHomeRow(
+                    localPlaylists = localPlaylists,
+                    title = yourPlaylistsTitle,
+                    trackLabels = playlistTrackLabels,
                     compact = compact,
-                    onItemClick = { _, index ->
-                        localPlaylists.getOrNull(index)?.let(onOpenLocalPlaylist)
-                    }
+                    onOpenPlaylist = onOpenLocalPlaylist,
                 )
             }
         }
@@ -328,6 +331,17 @@ private fun MusicHomeFeed(
                         )
                     }
                 }
+                }
+                is MusicHomeSettingsRow.Service -> {
+                    val shelf = serviceShelfById[entry.shelf.id] ?: return@forEach
+                    item(key = "service-home-${entry.shelf.id}") {
+                        MusicShelfRow(
+                            shelf = shelf,
+                            compact = compact,
+                            onItemClick = { _, index -> onShelfItemClick(shelf, index) },
+                        )
+                    }
+                }
             }
         }
         if (gemini.generating) {
@@ -337,16 +351,6 @@ private fun MusicHomeFeed(
                     color = MusicPalette.textMuted,
                     fontSize = 11.sp,
                     modifier = Modifier.padding(horizontal = 26.dp)
-                )
-            }
-        }
-        visibleServiceShelves.forEach { row ->
-            val shelf = serviceShelfById[row.id] ?: return@forEach
-            item(key = "service-home-${row.id}") {
-                MusicShelfRow(
-                    shelf = shelf,
-                    compact = compact,
-                    onItemClick = { _, index -> onShelfItemClick(shelf, index) }
                 )
             }
         }
@@ -372,6 +376,32 @@ private fun MusicHomeFeed(
             }
         }
     }
+}
+
+@Composable
+private fun MusicPlaylistHomeRow(
+    localPlaylists: List<StoredPlaylist>,
+    title: String,
+    trackLabels: List<String>,
+    compact: Boolean,
+    onOpenPlaylist: (StoredPlaylist) -> Unit,
+) {
+    MusicShelfRow(
+        shelf = HomeShelf(
+            title = title,
+            items = localPlaylists.mapIndexed { index, playlist ->
+                ShelfItem(
+                    title = playlist.name,
+                    subtitle = trackLabels[index],
+                    thumbnailUrl = playlist.songs.firstOrNull()?.thumbnailUrl,
+                    videoId = null,
+                    browseId = playlist.id
+                )
+            }
+        ),
+        compact = compact,
+        onItemClick = { _, index -> localPlaylists.getOrNull(index)?.let(onOpenPlaylist) }
+    )
 }
 
 private fun curatedSongShelf(title: String, songs: List<Song>, subtitle: String = "") = HomeShelf(

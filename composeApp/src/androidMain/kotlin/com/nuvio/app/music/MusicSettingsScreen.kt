@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -307,28 +308,28 @@ internal fun MusicSettingsScreen(onClose: () -> Unit) {
                         onSelect = { MusicHomeRows.setPinLibrary(it == 1) }
                     )
                 }
-                homeRows.order.forEachIndexed { index, row ->
+                val settingsRows = homeRows.orderedSettingsRows()
+                settingsRows.forEachIndexed { index, row ->
                     item(key = "home-row-${row.id}") {
-                        HomeRowSetting(
-                            label = stringResource(row.labelRes),
-                            hidden = row in homeRows.hidden,
-                            canMoveUp = index > 0,
-                            canMoveDown = index < homeRows.order.lastIndex,
-                            onMove = { MusicHomeRows.move(row, it) },
-                            onToggle = { MusicHomeRows.toggleHidden(row) }
-                        )
-                    }
-                }
-                homeRows.orderedServiceShelves().forEachIndexed { index, row ->
-                    item(key = "home-service-row-${row.id}") {
-                        HomeRowSetting(
-                            label = row.title,
-                            hidden = row.id in homeRows.hiddenServiceShelves,
-                            canMoveUp = index > 0,
-                            canMoveDown = index < homeRows.orderedServiceShelves().lastIndex,
-                            onMove = { MusicHomeRows.moveServiceShelf(row.id, it) },
-                            onToggle = { MusicHomeRows.toggleHiddenServiceShelf(row.id) }
-                        )
+                        when (row) {
+                            is MusicHomeSettingsRow.Personal -> HomeRowSetting(
+                                label = stringResource(row.row.labelRes),
+                                hidden = row.row in homeRows.hidden,
+                                canMoveUp = index > 0,
+                                canMoveDown = index < settingsRows.lastIndex,
+                                onMove = { MusicHomeRows.moveSettingsRow(row.id, it) },
+                                onToggle = { MusicHomeRows.toggleHidden(row.row) },
+                            )
+
+                            is MusicHomeSettingsRow.Service -> HomeRowSetting(
+                                label = row.shelf.title,
+                                hidden = row.shelf.id in homeRows.hiddenServiceShelves,
+                                canMoveUp = index > 0,
+                                canMoveDown = index < settingsRows.lastIndex,
+                                onMove = { MusicHomeRows.moveSettingsRow(row.id, it) },
+                                onToggle = { MusicHomeRows.toggleHiddenServiceShelf(row.shelf.id) },
+                            )
+                        }
                     }
                 }
                 item(key = "home-rows-reset") {
@@ -375,15 +376,17 @@ private fun HomeRowSetting(
             .clip(RoundedCornerShape(12.dp))
             .background(MusicPalette.surfaceRaised)
             .border(1.dp, MusicPalette.border, RoundedCornerShape(12.dp))
-            .padding(horizontal = 14.dp, vertical = 8.dp),
+            .padding(horizontal = 14.dp, vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(7.dp)
     ) {
         Text(
             text = label,
             color = if (hidden) MusicPalette.textMuted else MusicPalette.text,
-            fontSize = 13.sp,
+            fontSize = 16.sp,
             fontWeight = FontWeight.SemiBold,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
             modifier = Modifier.weight(1f)
         )
         SmallSettingAction("\u2191", enabled = canMoveUp) { onMove(-1) }
@@ -428,6 +431,7 @@ private fun SmallSettingAction(
             .border(1.dp, if (focused && enabled) MusicPalette.text else MusicPalette.border, RoundedCornerShape(50))
             .onFocusChanged { focused = it.isFocused }
             .clickable(enabled = enabled, onClick = onClick)
+            .defaultMinSize(minWidth = 40.dp, minHeight = 40.dp)
             .padding(horizontal = 11.dp, vertical = 6.dp),
         contentAlignment = Alignment.Center
     ) {
@@ -438,7 +442,7 @@ private fun SmallSettingAction(
                 focused -> MusicPalette.background
                 else -> MusicPalette.text
             },
-            fontSize = 11.sp,
+            fontSize = 13.sp,
             fontWeight = FontWeight.SemiBold
         )
     }

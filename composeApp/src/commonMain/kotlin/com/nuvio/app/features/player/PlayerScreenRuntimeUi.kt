@@ -722,12 +722,13 @@ private fun PlayerScreenRuntime.RenderPlayerControls(
                     controlsActivityTick += 1
                 }
             } else null,
-            onSubtitleClick = if (!isLiveTvPlayback) {
-                {
-                    refreshTracks()
-                    showSubtitleModal = true
-                }
-            } else null,
+            // Live TV uses the same subtitle menu for its CEA-608/708 captions. Hiding
+            // this action left the CC control without a path to turn captions off or
+            // choose a track, even though the Live TV player already exposes them.
+            onSubtitleClick = {
+                refreshTracks()
+                showSubtitleModal = true
+            },
             onAudioClick = {
                 refreshTracks()
                 showAudioModal = true
