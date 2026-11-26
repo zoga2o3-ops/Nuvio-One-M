@@ -3,6 +3,7 @@ package com.nuvio.app.cast
 import android.app.Application
 import android.net.wifi.WifiManager
 import android.util.Log
+import android.util.Xml
 import com.nuvio.app.features.cast.CastHost
 import com.nuvio.app.features.cast.CastLoad
 import com.nuvio.app.features.cast.CastUi
@@ -17,7 +18,7 @@ import java.net.InetAddress
 import java.net.URI
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
-import javax.xml.parsers.DocumentBuilderFactory
+import org.xmlpull.v1.XmlPullParser
 
 /** Basic UPnP AVTransport controller for smart TVs that expose a DLNA MediaRenderer. */
 internal object DlnaCastController {
@@ -111,33 +112,74 @@ internal object DlnaCastController {
         http.newCall(request).execute().use { response ->
             if (!response.isSuccessful) return null
             val xml = response.body?.string() ?: return null
-            val factory = DocumentBuilderFactory.newInstance().apply {
-                isNamespaceAware = true
-                setFeature("http://apache.org/xml/features/disallow-doctype-decl", true)
-                setFeature("http://xml.org/sax/features/external-general-entities", false)
-                setFeature("http://xml.org/sax/features/external-parameter-entities", false)
-                isXIncludeAware = false
-                isExpandEntityReferences = false
-            }
-            val document = factory.newDocumentBuilder().parse(xml.byteInputStream())
-            fun Element.children(tag: String): List<Element> {
-                val list = getElementsByTagNameNS("*", tag)
-                return (0 until list.length).mapNotNull { list.item(it) as? Element }
-            }
-            val root = document.documentElement
-            val urlBase = root.children("URLBase").firstOrNull()?.textContent?.trim()?.takeIf { it.isNotEmpty() } ?: location
-            val device = root.children("device").firstOrNull() ?: return null
-            val name = device.children("friendlyName").firstOrNull()?.textContent?.trim()?.takeIf { it.isNotEmpty() } ?: "DLNA TV"
-            val services = device.children("service")
-            val av = services.firstOrNull { it.children("serviceType").firstOrNull()?.textContent?.contains("AVTransport") == true } ?: return null
-            val avType = av.children("serviceType").first().textContent.trim()
-            val avControl = av.children("controlURL").firstOrNull()?.textContent?.trim() ?: return null
-            val rc = services.firstOrNull { it.children("serviceType").firstOrNull()?.textContent?.contains("RenderingControl") == true }
-            val rcType = rc?.children("serviceType")?.firstOrNull()?.textContent?.trim() ?: RENDERING_CONTROL
-            val rcControl = rc?.children("controlURL")?.firstOrNull()?.textContent?.trim()?.let { resolveUrl(urlBase, it) }
-            Renderer(name, location, resolveUrl(urlBase, avControl), rcControl, avType.ifBlank { AV_TRANSPORT })
+            parseRendererDescription(xml, location)
         }
     }.onFailure { Log.w(TAG, "Couldn't read DLNA device description: ${it.message}") }.getOrNull()
+
+    private fun parseRendererDescription(xml: String, location: String): Renderer? {
+        val parser = Xml.newPullParser().apply {
+            setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, true)
+            setFeature(XmlPullParser.FEATURE_PROCESS_DOCDECL, false)
+            setInput(xml.reader())
+        }
+        var rootDepth = -1
+        var deviceDepth = -1
+        var serviceDepth = -1
+        var urlBase: String? = null
+        var name: String? = null
+        var currentServiceType: String? = null
+        var currentControlUrl: String? = null
+        var avTransportType: String? = null
+        var avTransportUrl: String? = null
+        var renderingControlUrl: String? = null
+
+        while (parser.eventType != XmlPullParser.END_DOCUMENT) {
+            when (parser.eventType) {
+                XmlPullParser.START_TAG -> when {
+                    parser.name == "root" -> rootDepth = parser.depth
+                    parser.name == "URLBase" && deviceDepth < 0 && parser.depth == rootDepth + 1 ->
+                        urlBase = parser.nextText().trim().takeIf { it.isNotEmpty() }
+                    parser.name == "device" && deviceDepth < 0 -> deviceDepth = parser.depth
+                    parser.name == "friendlyName" && deviceDepth >= 0 && parser.depth == deviceDepth + 1 ->
+                        name = parser.nextText().trim().takeIf { it.isNotEmpty() }
+                    parser.name == "service" && deviceDepth >= 0 && parser.depth == deviceDepth + 2 -> {
+                        serviceDepth = parser.depth
+                        currentServiceType = null
+                        currentControlUrl = null
+                    }
+                    serviceDepth >= 0 && parser.depth == serviceDepth + 1 && parser.name == "serviceType" ->
+                        currentServiceType = parser.nextText().trim()
+                    serviceDepth >= 0 && parser.depth == serviceDepth + 1 && parser.name == "controlURL" ->
+                        currentControlUrl = parser.nextText().trim().takeIf { it.isNotEmpty() }
+                }
+                XmlPullParser.END_TAG -> if (parser.name == "service" && parser.depth == serviceDepth) {
+                    when {
+                        currentServiceType?.contains("AVTransport") == true && avTransportType == null -> {
+                            avTransportType = currentServiceType
+                            avTransportUrl = currentControlUrl
+                        }
+                        currentServiceType?.contains("RenderingControl") == true && renderingControlUrl == null -> {
+                            renderingControlUrl = currentControlUrl
+                        }
+                    }
+                    serviceDepth = -1
+                }
+            }
+            parser.next()
+        }
+
+        val transportType = avTransportType ?: return null
+        val transportUrl = avTransportUrl ?: return null
+        val base = urlBase ?: location
+        val resolvedRenderingControlUrl = renderingControlUrl?.let { resolveUrl(base, it) }
+        return Renderer(
+            name = name ?: "DLNA TV",
+            location = location,
+            avTransportUrl = resolveUrl(base, transportUrl),
+            renderingControlUrl = resolvedRenderingControlUrl,
+            avTransportType = transportType.ifBlank { AV_TRANSPORT },
+        )
+    }
 
     private fun resolveUrl(base: String, path: String): String = runCatching { URI(base).resolve(path).toString() }.getOrDefault(path)
 
@@ -291,14 +333,18 @@ internal object DlnaCastController {
     }
 
     private fun xmlValue(xml: String, tag: String): String? = runCatching {
-        val factory = DocumentBuilderFactory.newInstance().apply {
-            isNamespaceAware = true
-            setFeature("http://apache.org/xml/features/disallow-doctype-decl", true)
-            setFeature("http://xml.org/sax/features/external-general-entities", false)
-            setFeature("http://xml.org/sax/features/external-parameter-entities", false)
+        val parser = Xml.newPullParser().apply {
+            setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, true)
+            setFeature(XmlPullParser.FEATURE_PROCESS_DOCDECL, false)
+            setInput(xml.reader())
         }
-        val nodes = factory.newDocumentBuilder().parse(xml.byteInputStream()).getElementsByTagNameNS("*", tag)
-        nodes.item(0)?.textContent?.trim()
+        while (parser.eventType != XmlPullParser.END_DOCUMENT) {
+            if (parser.eventType == XmlPullParser.START_TAG && parser.name == tag) {
+                return@runCatching parser.nextText().trim()
+            }
+            parser.next()
+        }
+        null
     }.getOrNull()
 
     private fun publishMessage(message: String?) {

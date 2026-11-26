@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -28,6 +29,8 @@ import androidx.compose.material.icons.filled.Album
 import androidx.compose.material.icons.filled.Cloud
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.MusicNote
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -55,6 +58,8 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.material3.Icon
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Text
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -97,7 +102,7 @@ internal fun MusicIntegrationsScreen(
     val gemini by MusicGeminiController.state.collectAsState()
     var geminiKey by remember { mutableStateOf("") }
     var geminiReplacing by remember { mutableStateOf(false) }
-    var geminiModel by remember(gemini.model) { mutableStateOf(gemini.model) }
+    var geminiModelMenuOpen by remember { mutableStateOf(false) }
     var spotifyMessage by remember { mutableStateOf<String?>(null) }
     val spotifyLogin = androidx.activity.compose.rememberLauncherForActivityResult(
         androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult()
@@ -116,6 +121,10 @@ internal fun MusicIntegrationsScreen(
         MusicGeminiController.init(context)
         withFrameNanos { }
         runCatching { closeFocus.requestFocus() }
+    }
+
+    LaunchedEffect(gemini.profileId, gemini.configured) {
+        if (gemini.configured) MusicGeminiController.refreshModels()
     }
 
     BackHandler(onBack = onClose)
@@ -470,19 +479,87 @@ internal fun MusicIntegrationsScreen(
                     }
 
                     Spacer(Modifier.height(14.dp))
-                    IntegrationField(
-                        label = stringResource(Res.string.music_gemini_model),
-                        value = geminiModel,
-                        placeholder = GeminiSettings.DEFAULT_MODEL,
-                        onValueChange = { geminiModel = it }
+                    Text(
+                        text = stringResource(Res.string.music_gemini_model),
+                        color = MusicPalette.textSecondary,
+                        fontSize = 12.sp,
                     )
-                    if (geminiModel.trim() != gemini.model) {
-                        Spacer(Modifier.height(8.dp))
+                    Spacer(Modifier.height(6.dp))
+                    Row(
+                        Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Box(Modifier.weight(1f)) {
+                            Row(
+                                Modifier
+                                    .fillMaxWidth()
+                                    .clip(RoundedCornerShape(12.dp))
+                                    .background(MusicPalette.surfaceRaised)
+                                    .border(1.dp, MusicPalette.border, RoundedCornerShape(12.dp))
+                                    .clickable(enabled = gemini.availableModels.isNotEmpty()) {
+                                        geminiModelMenuOpen = true
+                                    }
+                                    .padding(horizontal = 14.dp, vertical = 12.dp),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                            ) {
+                                Column(Modifier.weight(1f)) {
+                                    Text(
+                                        text = gemini.availableModels.firstOrNull { it.id == gemini.model }
+                                            ?.displayName ?: gemini.model,
+                                        color = MusicPalette.text,
+                                        fontSize = 13.sp,
+                                        fontWeight = FontWeight.SemiBold,
+                                    )
+                                    Text(
+                                        text = gemini.model,
+                                        color = MusicPalette.textMuted,
+                                        fontSize = 10.sp,
+                                    )
+                                }
+                                if (gemini.loadingModels) {
+                                    Text("Loading…", color = MusicPalette.textMuted, fontSize = 11.sp)
+                                } else {
+                                    Icon(
+                                        Icons.Default.KeyboardArrowDown,
+                                        contentDescription = "Choose Gemini model",
+                                        tint = MusicPalette.textSecondary,
+                                        modifier = Modifier.size(20.dp),
+                                    )
+                                }
+                            }
+                            DropdownMenu(
+                                expanded = geminiModelMenuOpen,
+                                onDismissRequest = { geminiModelMenuOpen = false },
+                                modifier = Modifier.widthIn(min = 260.dp, max = 420.dp),
+                            ) {
+                                gemini.availableModels.forEach { model ->
+                                    DropdownMenuItem(
+                                        text = {
+                                            Column {
+                                                Text(model.displayName)
+                                                Text(model.id, fontSize = 10.sp, color = MusicPalette.textMuted)
+                                            }
+                                        },
+                                        onClick = {
+                                            MusicGeminiController.setModel(model.id)
+                                            geminiModelMenuOpen = false
+                                        },
+                                    )
+                                }
+                            }
+                        }
                         IntegrationPill(
-                            icon = Icons.Default.Cloud,
-                            label = stringResource(Res.string.music_gemini_use_model),
-                            onClick = { MusicGeminiController.setModel(geminiModel.trim()) }
+                            icon = Icons.Default.Refresh,
+                            label = if (gemini.loadingModels) "Loading" else "Refresh",
+                            enabled = gemini.configured && !gemini.loadingModels,
+                            onClick = { MusicGeminiController.refreshModels() },
                         )
+                    }
+                    gemini.modelLoadError?.let {
+                        Spacer(Modifier.height(6.dp))
+                        Text(it, color = MusicPalette.textMuted, fontSize = 11.sp)
                     }
 
                     Spacer(Modifier.height(14.dp))

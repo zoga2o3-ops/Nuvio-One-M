@@ -21,6 +21,9 @@ data class MusicGeminiUiState(
     val configured: Boolean = false,
     val enabled: Boolean = true,
     val model: String = GeminiSettings.DEFAULT_MODEL,
+    val availableModels: List<GeminiAvailableModel> = emptyList(),
+    val loadingModels: Boolean = false,
+    val modelLoadError: String? = null,
     val shareTopArtists: Boolean = true,
     val shareLiked: Boolean = true,
     val shareRecents: Boolean = true,
@@ -45,6 +48,7 @@ internal object MusicGeminiController {
 
     private var initialized = false
     private var generateJob: Job? = null
+    private var modelsJob: Job? = null
 
     @Synchronized
     fun init(context: Context) {
@@ -63,6 +67,10 @@ internal object MusicGeminiController {
 
     private fun load(context: Context, profileId: Int) {
         if (profileId <= 0) return
+        if (_state.value.profileId != profileId) {
+            modelsJob?.cancel()
+            modelsJob = null
+        }
         val settings = MusicGeminiSettings.load(profileId)
         val cached = MusicGeminiCache.load(context, profileId)
         _state.value = MusicGeminiUiState(
@@ -70,6 +78,7 @@ internal object MusicGeminiController {
             configured = GeminiKeyStore.read(profileId) != null,
             enabled = settings.enabled,
             model = settings.model,
+            availableModels = if (_state.value.profileId == profileId) _state.value.availableModels else emptyList(),
             shareTopArtists = settings.shareTopArtists,
             shareLiked = settings.shareLiked,
             shareRecents = settings.shareRecents,
@@ -93,15 +102,25 @@ internal object MusicGeminiController {
             configured = true,
             error = null,
             notice = MusicText.Localized(Res.string.music_gemini_notice_key_saved),
+            availableModels = emptyList(),
+            modelLoadError = null,
+            loadingModels = false,
         )
+        modelsJob?.cancel()
+        refreshModels()
     }
 
     fun removeKey(context: Context) {
         val profileId = currentProfileId() ?: return
+        modelsJob?.cancel()
+        modelsJob = null
         GeminiKeyStore.write(profileId, null)
         MusicGeminiCache.clear(context, profileId)
         _state.value = _state.value.copy(
             configured = false,
+            availableModels = emptyList(),
+            loadingModels = false,
+            modelLoadError = null,
             tracks = emptyList(),
             albums = emptyList(),
             error = null,
@@ -124,6 +143,42 @@ internal object MusicGeminiController {
         val profileId = currentProfileId() ?: return
         MusicGeminiSettings.update(profileId) { it.copy(model = model) }
         _state.value = _state.value.copy(model = model)
+    }
+
+    fun refreshModels() {
+        val profileId = currentProfileId() ?: return
+        val key = GeminiKeyStore.read(profileId)
+        if (key.isNullOrBlank()) {
+            _state.value = _state.value.copy(
+                availableModels = emptyList(),
+                modelLoadError = "Save a Gemini API key to load available models.",
+            )
+            return
+        }
+        if (_state.value.loadingModels || modelsJob?.isActive == true) return
+        modelsJob?.cancel()
+        _state.value = _state.value.copy(loadingModels = true, modelLoadError = null)
+        modelsJob = scope.launch {
+            val result = withContext(Dispatchers.IO) { MusicGeminiClient.listModels(key) }
+            result.fold(
+                onSuccess = { models ->
+                    _state.value = _state.value.copy(
+                        loadingModels = false,
+                        availableModels = models,
+                        modelLoadError = if (models.isEmpty()) {
+                            "No models supporting generateContent were found for this key."
+                        } else null,
+                    )
+                },
+                onFailure = { error ->
+                    _state.value = _state.value.copy(
+                        loadingModels = false,
+                        modelLoadError = error.message?.takeIf { it.isNotBlank() }
+                            ?: "Couldn't load Gemini models. Try again.",
+                    )
+                },
+            )
+        }
     }
 
     fun setShareTopArtists(value: Boolean) = updateShare { it.copy(shareTopArtists = value) }
